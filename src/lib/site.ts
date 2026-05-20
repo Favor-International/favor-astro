@@ -121,10 +121,10 @@ export const MEGA_NAV: MegaMenu[] = [
     ],
     featured: {
       image: '/images/gift-bishoftu-tot.jpg',
-      eyebrow: 'GIFT Cohort 14',
-      title: '92 pastors graduated',
-      body: 'The largest GIFT Leadership Institute class since the institute opened.',
-      ctaLabel: 'Read the cohort report',
+      eyebrow: 'The flagship program',
+      title: 'GIFT Leadership Institute',
+      body: 'A two-year residential training program for the next generation of indigenous African pastors. Bishoftu, Ethiopia.',
+      ctaLabel: 'Read about GIFT',
       ctaHref: '/impact/evangelism-discipleship/',
     },
   },
@@ -144,8 +144,8 @@ export const MEGA_NAV: MegaMenu[] = [
     featured: {
       image: '/images/pillar-community.jpg',
       eyebrow: 'Indigenous-led',
-      title: 'Fourteen nations. One Kingdom outcome.',
-      body: 'Prayer-birthed. Indigenous-led. Partner-powered.',
+      title: 'Prayer-birthed. Indigenous-led.',
+      body: 'A 20-year story across East Africa, told by the pastors and field leaders who are living it.',
       ctaLabel: 'Read our story',
       ctaHref: '/about/our-story/',
     },
@@ -199,11 +199,12 @@ export const PARTNER_TIERS = [
   { amount: 1200, label: 'Founders’ Circle', featured: true },
 ] as const;
 
-// Pulled from the FY2025 highlights on the current favorintl.org homepage.
-// Verify against the FY2025 audited annual report before launch.
+// Only verified, audit-grade figures. Source: ECFA member profile (FY2024) and
+// the publicly filed Form 990. Do not add unverified counts here without a
+// sourced citation — the brand book is explicit: no made-up numbers.
 export const IMPACT_STATS = [
-  { value: '195,773', label: 'Came to Christ in FY2025', source: 'Per current favorintl.org homepage; pending FY2025 audit.' },
-  { value: '119,182', label: 'Discipled in FY2025', source: 'Per current favorintl.org homepage; pending FY2025 audit.' },
-  { value: '14', label: 'Nations served', source: 'As of 2026' },
-  { value: 'ECFA', label: 'Accredited member', source: 'Since 2017' },
+  { value: '$8.36M', label: 'FY2024 total revenue', source: 'ECFA member profile (audited).' },
+  { value: '89%', label: 'Program expense ratio', source: 'FY2024 audited financials.' },
+  { value: '2019', label: 'ECFA-accredited since', source: 'Accredited September 30, 2019.' },
+  { value: '4★', label: 'Charity Navigator rating', source: 'Highest rating tier.' },
 ];

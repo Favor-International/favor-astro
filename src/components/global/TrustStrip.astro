@@ -1,11 +1,12 @@
 ---
 export interface Props { variant?: 'dark' | 'light'; }
 const { variant = 'light' } = Astro.props as Props;
+// Verified credibility signals only. Source: ECFA FY2024 audited financials.
 const items = [
-  { value: '14', label: 'Nations served' },
-  { value: 'ECFA', label: 'Accredited 501(c)(3)' },
-  { value: '195,773', label: 'Came to Christ, FY2025' },
-  { value: '$0.92', label: 'Of every dollar to the field' },
+  { value: '2002', label: 'On the field since' },
+  { value: '2019', label: 'ECFA-accredited since' },
+  { value: '89%', label: 'Program expense ratio, FY2024' },
+  { value: '4★', label: 'Charity Navigator rating' },
 ];
 ---
 <aside class:list={['trust-strip', `trust-strip--${variant}`]} aria-label="Trust signals">
