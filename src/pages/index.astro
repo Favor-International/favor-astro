@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/global/SiteHeader.astro';
 import SiteFooter from '../components/global/SiteFooter.astro';
 import NewsletterForm from '../components/global/NewsletterForm.astro';
-import { PILLARS, PARTNER_TIERS, IMPACT_STATS, SITE } from '../lib/site';
+import { PILLARS, PARTNER_TIERS, SITE } from '../lib/site';
 import { CTA, SIGNATURE } from '../lib/cta';
 
 const pillarImages: Record<string, string> = {
@@ -13,61 +13,73 @@ const pillarImages: Record<string, string> = {
   'economic-empowerment': '/images/pillar-economic.jpg',
 };
 
+// Hero grid: 1 large feature + 3 supporting tiles (Samaritan's Purse pattern)
+const heroGrid = [
+  { image: '/images/pbs-karamoja.jpg', size: 'large', label: 'Portable Bible School', country: 'Karamoja, Uganda' },
+  { image: '/images/hero-congo-grads.jpg', size: 'small', label: 'PBS Graduation', country: 'DR Congo' },
+  { image: '/images/gift-bishoftu-tot.jpg', size: 'small', label: 'GIFT Institute', country: 'Bishoftu, Ethiopia' },
+  { image: '/images/education-vlc-jondoru.jpg', size: 'small', label: 'Village Learning Center', country: 'South Sudan' },
+];
+
 const featuredStories = [
   {
     title: 'A former witch doctor’s testimony',
     country: 'Uganda',
+    date: 'March 2026',
     excerpt: 'After decades of leading a village in the wrong direction, one man’s encounter with a Favor pastor changed his line.',
-    image: '/images/pillar-community.jpg',
+    image: '/images/hero-church-planting.jpg',
     href: '/stories/a-former-witch-doctors-testimony/',
   },
   {
-    title: 'The next generation’s leaders',
+    title: 'GIFT Cohort 14 graduates 92 pastors',
     country: 'Ethiopia',
-    excerpt: 'GIFT Cohort 14 graduated 92 pastors. Twelve are already on their way to plant in unreached districts.',
+    date: 'February 2026',
+    excerpt: 'The largest class since the institute opened. Twelve graduates are already heading to plant in unreached districts.',
     image: '/images/gift-bishoftu-tot.jpg',
     href: '/stories/the-next-generations-leaders/',
   },
   {
-    title: 'More Bibles for Ethiopia',
+    title: 'Bibles for Ethiopia',
     country: 'Ethiopia',
-    excerpt: 'Field teachers ran out of Amharic Bibles in the middle of a PBS run. A partner answered.',
+    date: 'January 2026',
+    excerpt: 'Field teachers ran out of Amharic Bibles in the middle of a PBS run. A partner answered, fast.',
     image: '/images/hero-pbs-graduation.jpg',
     href: '/stories/more-bibles-for-ethiopia-please/',
   },
 ];
+
+const quickAmounts = [25, 50, 100, 200, 500];
 ---
 <BaseLayout
   title={SITE.name}
-  description="Favor International partners with indigenous African missionaries to plant churches, train pastors, and care for the persecuted across fourteen nations. Prayer-birthed. Indigenous-led. Partner-powered."
+  description="Favor International partners with indigenous African pastors and field leaders. ECFA-accredited. Carole Ward has been on the field since 2002. Favor International was founded in 2015."
   image="/images/pbs-karamoja.jpg"
 >
   <SiteHeader variant="transparent" />
   <main id="main">
 
-    <!-- BAND 1: Hero -->
+    <!-- BAND 1: Hero grid -->
     <section class="hero">
-      <div class="hero__photo" style="background-image: url(/images/pbs-karamoja.jpg)" role="img" aria-label="Portable Bible School graduates raise their certificates under a tree in Karamoja, Uganda"></div>
-      <div class="hero__scrim" aria-hidden="true"></div>
-      <div class="hero__container container">
-        <div class="hero__inner">
-          <p class="hero__eyebrow"><span class="hero__eyebrow-dot" aria-hidden="true"></span>{SIGNATURE}</p>
-          <h1>Stand with indigenous pastors reaching the hardest places on earth.</h1>
-          <p class="hero__sub">Favor International equips African leaders to plant churches, train pastors, and care for the persecuted. Fourteen nations. One Kingdom outcome. You can be part of it.</p>
-          <div class="hero__cta">
-            <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
-            <a class="hero__secondary" href="/impact/">See where we work →</a>
-          </div>
-        </div>
+      <div class="hero__grid">
+        {heroGrid.map((tile, i) => (
+          <figure class={`hero__tile hero__tile--${tile.size}`} data-i={i}>
+            <div class="hero__tile-photo" style={`background-image: url(${tile.image})`} role="img" aria-label={`${tile.label}, ${tile.country}`}></div>
+            <figcaption class="hero__tile-caption">
+              <span class="hero__tile-label">{tile.label}</span>
+              <span class="hero__tile-country">{tile.country}</span>
+            </figcaption>
+          </figure>
+        ))}
       </div>
-
-      <div class="hero__trust container">
-        <ul>
-          <li><strong>14</strong><span>nations served</span></li>
-          <li><strong>ECFA</strong><span>accredited 501(c)(3)</span></li>
-          <li><strong>FY2025</strong><span>field reports published</span></li>
-          <li><strong>Since 2012</strong><span>indigenous-led on the ground</span></li>
-        </ul>
+      <div class="hero__fade" aria-hidden="true"></div>
+      <div class="hero__inner container">
+        <p class="hero__eyebrow"><span class="hero__eyebrow-dot" aria-hidden="true"></span>{SIGNATURE}</p>
+        <h1>Stand with indigenous pastors reaching the hardest places on earth.</h1>
+        <p class="hero__sub">Favor International equips African leaders to plant churches, train pastors, and care for the persecuted. You can be part of it.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+          <a class="hero__secondary" href="/impact/">See the work →</a>
+        </div>
       </div>
     </section>
 
@@ -76,7 +88,7 @@ const featuredStories = [
       <div class="container container--narrow">
         <p class="label">Our calling</p>
         <h2 class="signature__phrase">{SIGNATURE}</h2>
-        <p class="signature__body">For fourteen years, Favor International has supported indigenous African leaders in places most ministries cannot or will not reach. We pray. We send. We stand with the field. We do whatever it takes to put the Gospel in the hands of every village.</p>
+        <p class="signature__body">Favor International supports indigenous African leaders in places most ministries cannot or will not reach. We pray. We send. We stand with the field. We do whatever it takes to put the Gospel in the hands of every village.</p>
       </div>
     </section>
 
@@ -85,14 +97,16 @@ const featuredStories = [
       <div class="container">
         <header class="band__header">
           <p class="label">The work</p>
-          <h2>Four ministries. Fourteen nations. One Kingdom outcome.</h2>
+          <h2>Four ministries. One Kingdom outcome.</h2>
         </header>
         <div class="pillars__grid">
           {PILLARS.map((p) => (
             <a class="pillar" href={`/impact/${p.slug}/`}>
-              <div class="pillar__photo" style={`background-image: url(${pillarImages[p.slug]})`} aria-hidden="true"></div>
+              <div class="pillar__photo" style={`background-image: url(${pillarImages[p.slug]})`} aria-hidden="true">
+                <div class="pillar__photo-scrim" aria-hidden="true"></div>
+                <h3 class="pillar__title-overlay">{p.label}</h3>
+              </div>
               <div class="pillar__body">
-                <h3>{p.label}</h3>
                 <p>{p.blurb}</p>
                 <span class="pillar__cta">Explore →</span>
               </div>
@@ -102,12 +116,12 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 4: Stories -->
+    <!-- BAND 4: Stories from the field -->
     <section class="band band--cream stories">
       <div class="container">
         <header class="band__header band__header--left">
           <p class="label">Stories from the field</p>
-          <h2>Real partnership, real outcomes.</h2>
+          <h2>What partners made possible.</h2>
           <a class="band__header-cta" href="/stories/">All stories →</a>
         </header>
         <div class="stories__grid">
@@ -115,7 +129,7 @@ const featuredStories = [
             <a class="story" href={s.href}>
               <div class="story__photo" style={`background-image: url(${s.image})`} aria-hidden="true"></div>
               <div class="story__body">
-                <span class="story__country">{s.country}</span>
+                <span class="story__meta">{s.country} · {s.date}</span>
                 <h3>{s.title}</h3>
                 <p>{s.excerpt}</p>
                 <span class="story__cta">Read the story →</span>
@@ -126,31 +140,14 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 5: Stats -->
-    <section class="band band--green-deep stats">
-      <div class="container">
-        <p class="label label--bright">FY2025 highlights</p>
-        <h2>What the field reported back to us last year.</h2>
-        <div class="stats__grid">
-          {IMPACT_STATS.map((s) => (
-            <div class="stat">
-              <span class="stat__value">{s.value}</span>
-              <span class="stat__label">{s.label}</span>
-            </div>
-          ))}
-        </div>
-        <p class="stats__note">Sourced from FY2025 field reports. The audited annual report posts to <a href="/about/accountability/">accountability</a> in Q3.</p>
-      </div>
-    </section>
-
-    <!-- BAND 6: Become a Favor Partner -->
+    <!-- BAND 5: Become a Favor Partner -->
     <section class="band partner" id="partner">
       <div class="container partner__grid">
         <div class="partner__copy">
           <p class="label">Monthly partnership</p>
           <h2>Become a Favor Partner.</h2>
           <p>Favor Partners give monthly. Your gift goes to the field every month and keeps indigenous pastors, teachers, and counselors in motion. Pick the tier that fits. Custom amounts welcome.</p>
-          <p class="partner__trust">Tax-deductible. ECFA-accredited. <a href="/about/accountability/">See the financials →</a></p>
+          <p class="partner__trust">Tax-deductible. <a href="/about/accountability/">ECFA-accredited.</a></p>
         </div>
         <div class="partner__tiers">
           {PARTNER_TIERS.map((t) => (
@@ -167,56 +164,70 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 7: Pray -->
+    <!-- BAND 6: Pray -->
     <section class="band band--tan pray-cta">
       <div class="container pray-cta__grid">
         <div class="pray-cta__photo" style="background-image: url(/images/evangelism-discipleship.jpg)" role="img" aria-label="A pastor prays with children in a village"></div>
         <div class="pray-cta__copy">
           <p class="label">Pray with us</p>
           <h2>You can pray where they cannot reach.</h2>
-          <p>The 30-Day Prayer Guide walks you through one specific request per day across the fourteen nations Favor serves. No email required. Print it, tape it to the fridge, pray it out loud.</p>
+          <p>The 30-Day Prayer Guide walks you through one specific request per day across the regions Favor serves. No email required. Print it, tape it to the fridge, pray it out loud.</p>
           <a class="btn btn--secondary btn--large" href="/pray/30-day-guide/">{CTA.prayerGuide}</a>
         </div>
       </div>
     </section>
 
-    <!-- BAND 8: Go -->
-    <section class="band band--white go">
+    <!-- BAND 7: How we earn your trust (World Vision pattern) -->
+    <section class="band band--white trust-band">
       <div class="container">
         <header class="band__header">
-          <p class="label">Walk the field with us</p>
-          <h2>See it for yourself.</h2>
-          <p class="band__lede">Vision trips run twice a year. Volunteer roles are open all year. The field needs you wherever you are.</p>
+          <p class="label">How we earn your trust</p>
+          <h2>Three ways Favor stays accountable.</h2>
         </header>
-        <div class="go__grid">
-          <a class="go-card" href="/go/vision-trips/">
-            <div class="go-card__photo" style="background-image: url(/images/pbs-karamoja.jpg)"></div>
-            <div class="go-card__body">
-              <span class="go-card__eyebrow">Uganda · Spring 2026</span>
-              <h3>Vision Trip: Gulu &amp; Karamoja</h3>
-              <p>Ten days walking with the Favor Uganda team. PBS sites, the GIFT Institute, Village Learning Centers.</p>
-              <span class="go-card__cta">Open trips →</span>
-            </div>
-          </a>
-          <a class="go-card" href="/go/vision-trips/">
-            <div class="go-card__photo" style="background-image: url(/images/education-vlc-jondoru.jpg)"></div>
-            <div class="go-card__body">
-              <span class="go-card__eyebrow">South Sudan · Fall 2026</span>
-              <h3>Vision Trip: Juba &amp; the cattle camps</h3>
-              <p>Twelve days with the Juba team to border villages most teams will not enter.</p>
-              <span class="go-card__cta">Open trips →</span>
-            </div>
-          </a>
-          <a class="go-card" href="/go/volunteer/">
-            <div class="go-card__photo" style="background-image: url(/images/gift-bishoftu-tot.jpg)"></div>
-            <div class="go-card__body">
-              <span class="go-card__eyebrow">Stateside</span>
-              <h3>Serve from home</h3>
-              <p>Ambassadors, prayer warriors, intercession teams. Pick a role that fits your time.</p>
-              <span class="go-card__cta">Volunteer roles →</span>
-            </div>
-          </a>
+        <div class="trust-band__grid">
+          <article class="trust-card">
+            <img class="trust-card__badge" src="/images/trust/ecfa.png" alt="ECFA Accredited" width="120" height="120" />
+            <h3>ECFA-accredited since 2019</h3>
+            <p>Favor International has been a member of the Evangelical Council for Financial Accountability since September 30, 2019. ECFA holds members to a public standard of stewardship and disclosure.</p>
+            <a href={SITE.trust.ecfa} target="_blank" rel="noopener">View our ECFA profile →</a>
+          </article>
+          <article class="trust-card">
+            <img class="trust-card__badge" src="/images/trust/charity-navigator.svg" alt="Charity Navigator Four-Star" width="120" height="120" />
+            <h3>Four-Star Charity Navigator rating</h3>
+            <p>Charity Navigator scores nonprofits on financial health, accountability, and transparency. Favor International currently holds a Four-Star rating, the highest tier.</p>
+            <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">View our Charity Navigator profile →</a>
+          </article>
+          <article class="trust-card">
+            <img class="trust-card__badge" src="/images/trust/candid-platinum.svg" alt="Candid Platinum Transparency Seal" width="120" height="120" />
+            <h3>Candid Platinum transparency seal</h3>
+            <p>Candid (formerly Guidestar) verifies nonprofit transparency at four tiers. Favor International holds the Platinum tier, the highest. EIN {SITE.ein}.</p>
+            <a href={SITE.trust.candid} target="_blank" rel="noopener">View our Candid profile →</a>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <!-- BAND 8: Inline give widget (Samaritan's Purse pattern) -->
+    <section class="band band--green-deep inline-give">
+      <div class="container container--narrow inline-give__inner">
+        <p class="label label--bright">Give where most needed</p>
+        <h2>One gift. Directly to the field.</h2>
+        <p>Unrestricted gifts go where the field is asking the loudest that week. Pick an amount, or set your own.</p>
+        <form class="inline-give__form" action="/give/one-time/" method="get">
+          <div class="inline-give__amounts">
+            {quickAmounts.map((a, i) => (
+              <label>
+                <input type="radio" name="amount" value={a} checked={i === 1} />
+                <span>${a}</span>
+              </label>
+            ))}
+            <label class="inline-give__custom">
+              <input type="number" name="amount" placeholder="Custom" min="5" />
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--large">Give now</button>
+        </form>
+        <p class="inline-give__note">Tax-deductible. Powered by Blackbaud. <a href="/give/">See all giving options →</a></p>
       </div>
     </section>
 
@@ -235,40 +246,95 @@ const featuredStories = [
 </BaseLayout>
 
 <style>
-  /* HERO */
+  /* ===== HERO GRID ===== */
   .hero {
     position: relative;
     min-height: 92vh;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    align-items: flex-end;
     color: var(--color-white);
     overflow: hidden;
-    padding: 0 0 var(--space-16);
+    padding-top: 96px;
+    padding-bottom: var(--space-16);
   }
-  .hero__photo {
+  .hero__grid {
     position: absolute; inset: 0;
-    background-size: cover;
-    background-position: center 35%;
+    display: grid;
+    grid-template-columns: 2.4fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 4px;
     z-index: 0;
   }
-  .hero__scrim {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(95deg, rgba(31, 58, 26, 0.78) 0%, rgba(31, 58, 26, 0.50) 35%, rgba(31, 58, 26, 0.08) 70%, rgba(31, 58, 26, 0.0) 100%),
-      linear-gradient(180deg, rgba(31, 58, 26, 0.55) 0%, rgba(31, 58, 26, 0.0) 30%, rgba(31, 58, 26, 0.0) 60%, rgba(31, 58, 26, 0.45) 100%);
-    z-index: 1;
+  .hero__tile { margin: 0; position: relative; overflow: hidden; }
+  .hero__tile--large {
+    grid-column: 1;
+    grid-row: 1 / span 3;
   }
-  .hero__container { position: relative; z-index: 2; padding-top: 32vh; padding-bottom: var(--space-16); }
-  .hero__inner { max-width: 720px; }
+  .hero__tile--small {
+    grid-column: 2;
+    grid-row: span 1;
+  }
+  .hero__tile-photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+    transition: transform 4s ease;
+  }
+  .hero__tile--large .hero__tile-photo { background-position: center 35%; }
+  .hero__tile-caption {
+    position: absolute;
+    left: var(--space-3); bottom: var(--space-3);
+    color: var(--color-white);
+    display: flex; flex-direction: column;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero__tile-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .hero__tile-country {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-white) 90%, transparent);
+  }
+  .hero__tile::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Directional fade — dark on left where text sits, clear on right where photos breathe */
+  .hero__fade {
+    position: absolute; inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(95deg, rgba(20, 35, 16, 0.92) 0%, rgba(20, 35, 16, 0.78) 28%, rgba(20, 35, 16, 0.30) 50%, rgba(20, 35, 16, 0.0) 70%),
+      linear-gradient(180deg, rgba(20, 35, 16, 0.55) 0%, rgba(20, 35, 16, 0) 25%, rgba(20, 35, 16, 0) 70%, rgba(20, 35, 16, 0.50) 100%);
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 3;
+    max-width: 720px;
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
   .hero__eyebrow {
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);
     color: var(--color-gold-light);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.20em;
     text-transform: uppercase;
     margin: 0 0 var(--space-5);
   }
@@ -280,18 +346,20 @@ const featuredStories = [
   .hero h1 {
     color: var(--color-white);
     margin: 0 0 var(--space-6);
-    font-size: clamp(2.5rem, 5.2vw, 4.2rem);
-    line-height: 1.05;
+    font-size: clamp(2.5rem, 5.4vw, 4.4rem);
+    line-height: 1.04;
     letter-spacing: -0.01em;
     font-weight: 800;
     text-wrap: balance;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.35);
   }
   .hero__sub {
     font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-    color: color-mix(in srgb, var(--color-white) 92%, transparent);
+    color: color-mix(in srgb, var(--color-white) 94%, transparent);
     max-width: 580px;
     margin: 0 0 var(--space-8);
-    line-height: 1.5;
+    line-height: 1.55;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.35);
   }
   .hero__cta { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
   .hero__secondary {
@@ -306,27 +374,23 @@ const featuredStories = [
   }
   .hero__secondary:hover { color: var(--color-gold); }
 
-  .hero__trust { position: relative; z-index: 2; }
-  .hero__trust ul {
-    list-style: none; margin: 0; padding: var(--space-6) var(--space-8);
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6);
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: var(--radius-card);
-    box-shadow: 0 24px 48px rgba(31, 58, 26, 0.25);
-  }
-  .hero__trust li { display: flex; flex-direction: column; gap: 4px; }
-  .hero__trust strong {
-    font-size: clamp(1.2rem, 2vw, 1.6rem);
-    font-weight: 800;
-    color: var(--color-green);
-    line-height: 1;
-  }
-  .hero__trust span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: var(--color-sage); }
-  @media (max-width: 720px) {
-    .hero__trust ul { grid-template-columns: repeat(2, 1fr); gap: var(--space-4); padding: var(--space-4); }
+  @media (max-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .hero__tile--large { grid-column: 1 / span 2; grid-row: 1; }
+    .hero__tile--small:nth-of-type(2) { grid-column: 1; grid-row: 2; }
+    .hero__tile--small:nth-of-type(3) { grid-column: 2; grid-row: 2; }
+    .hero__tile--small:nth-of-type(4) { display: none; }
+    .hero__fade {
+      background:
+        linear-gradient(180deg, rgba(20, 35, 16, 0.80) 0%, rgba(20, 35, 16, 0.55) 30%, rgba(20, 35, 16, 0.78) 60%, rgba(20, 35, 16, 0.92) 100%);
+    }
+    .hero { min-height: 110vh; padding-top: 72px; }
   }
 
-  /* Band helpers */
+  /* ===== BAND HELPERS ===== */
   .band__header { text-align: center; max-width: 760px; margin: 0 auto var(--space-16); }
   .band__header--left { text-align: left; max-width: none; display: grid; grid-template-columns: 1fr auto; gap: var(--space-4); align-items: end; }
   .band__header--left h2 { grid-row: 2; grid-column: 1; margin: 0; }
@@ -336,7 +400,7 @@ const featuredStories = [
   .band__lede { font-size: 1.05rem; color: var(--color-ink-soft); }
   .label--bright { color: var(--color-green-bright) !important; }
 
-  /* Signature band */
+  /* ===== SIGNATURE ===== */
   .signature { text-align: center; }
   .signature__phrase {
     font-family: var(--font-sans);
@@ -349,38 +413,51 @@ const featuredStories = [
   }
   .signature__body { font-size: 1.1rem; color: var(--color-ink-soft); max-width: 640px; margin: 0 auto; }
 
-  /* Pillars */
+  /* ===== PILLARS — title on photo ===== */
   .pillars__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
   @media (max-width: 1100px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .pillars__grid { grid-template-columns: 1fr; } }
   .pillar {
     display: flex; flex-direction: column;
     background: var(--color-white);
-    border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
-    text-decoration: none;
-    color: inherit;
     overflow: hidden;
-    transition: transform 200ms, box-shadow 200ms, border-color 200ms;
+    text-decoration: none; color: inherit;
+    box-shadow: var(--shadow-soft);
+    transition: transform 200ms, box-shadow 200ms;
     height: 100%;
   }
-  .pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); border-color: var(--color-gold); }
+  .pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
   .pillar__photo {
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 4 / 5;
     background-size: cover;
     background-position: center;
     background-color: var(--color-sage-light);
+    position: relative;
   }
-  .pillar__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
-  .pillar h3 { margin: 0; color: var(--color-green); font-size: 1.1rem; font-weight: 800; }
-  .pillar p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; flex: 1; }
+  .pillar__photo-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(31,58,26,0) 40%, rgba(31,58,26,0.85) 100%);
+  }
+  .pillar__title-overlay {
+    position: absolute;
+    left: var(--space-5); right: var(--space-5); bottom: var(--space-5);
+    color: var(--color-white);
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+  .pillar__body { padding: var(--space-5) var(--space-5) var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .pillar__body p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; flex: 1; }
   .pillar__cta { font-weight: 700; color: var(--color-gold-deep); font-size: 0.85rem; }
 
-  /* Stories */
+  /* ===== STORIES ===== */
   .stories__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -404,53 +481,20 @@ const featuredStories = [
     background-color: var(--color-sage-light);
   }
   .story__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
-  .story__country {
+  .story__meta {
     font-size: var(--font-size-label);
     font-weight: 700;
     letter-spacing: var(--letter-spacing-label);
     text-transform: uppercase;
     color: var(--color-terracotta);
   }
-  .story h3 { margin: 0; color: var(--color-green); font-size: 1.25rem; line-height: 1.25; }
+  .story h3 { margin: 0; color: var(--color-green); font-size: 1.2rem; line-height: 1.25; }
   .story p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; }
   .story__cta { margin-top: auto; font-weight: 700; color: var(--color-gold-deep); font-size: 0.9rem; }
 
-  /* Stats */
-  .stats { color: var(--color-white); text-align: center; }
-  .stats h2 { color: var(--color-white); margin: var(--space-2) 0 var(--space-16); }
-  .stats__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-8);
-    padding: var(--space-8) 0;
-    border-top: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
-  }
-  @media (max-width: 900px) { .stats__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .stats__grid { grid-template-columns: 1fr; } }
-  .stat { display: flex; flex-direction: column; gap: var(--space-3); }
-  .stat__value {
-    font-weight: 800;
-    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
-    color: var(--color-gold);
-    line-height: 1;
-  }
-  .stat__label {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: color-mix(in srgb, var(--color-white) 90%, transparent);
-    text-wrap: balance;
-  }
-  .stats__note {
-    margin: var(--space-8) auto 0;
-    font-size: 0.88rem;
-    color: color-mix(in srgb, var(--color-white) 70%, transparent);
-  }
-  .stats__note a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
-
-  /* Partner band */
+  /* ===== PARTNER BAND ===== */
   .partner {
-    background: linear-gradient(135deg, var(--color-gold) 0%, color-mix(in srgb, var(--color-gold) 78%, var(--color-terracotta)) 100%);
+    background: linear-gradient(135deg, var(--color-gold) 0%, color-mix(in srgb, var(--color-gold) 76%, var(--color-terracotta)) 100%);
     color: var(--color-ink);
   }
   .partner__grid {
@@ -497,7 +541,7 @@ const featuredStories = [
   }
   .partner__alt { color: var(--color-green-deep); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-green-deep); padding-bottom: 2px; font-size: 0.95rem; }
 
-  /* Pray CTA */
+  /* ===== PRAY ===== */
   .pray-cta__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -516,42 +560,75 @@ const featuredStories = [
   .pray-cta__copy h2 { margin-bottom: var(--space-4); }
   .pray-cta__copy p { color: var(--color-ink-soft); font-size: 1.05rem; margin-bottom: var(--space-8); }
 
-  /* Go cards */
-  .go__grid {
+  /* ===== TRUST BAND (3 ways we earn your trust) ===== */
+  .trust-band__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
+    gap: var(--space-8);
   }
-  @media (max-width: 1024px) { .go__grid { grid-template-columns: 1fr; } }
-  .go-card {
-    background: var(--color-white);
+  @media (max-width: 900px) { .trust-band__grid { grid-template-columns: 1fr; } }
+  .trust-card {
+    background: var(--color-cream);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-soft);
-    text-decoration: none; color: inherit;
-    overflow: hidden;
-    display: flex; flex-direction: column;
-    transition: transform 180ms, box-shadow 180ms;
+    padding: var(--space-8);
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
+    border-top: 4px solid var(--color-gold);
   }
-  .go-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
-  .go-card__photo {
-    aspect-ratio: 16 / 10;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-  }
-  .go-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
-  .go-card__eyebrow {
-    font-size: var(--font-size-label);
-    font-weight: 700;
-    letter-spacing: var(--letter-spacing-label);
-    text-transform: uppercase;
-    color: var(--color-green-bright);
-  }
-  .go-card h3 { margin: 0; color: var(--color-green); font-size: 1.2rem; }
-  .go-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; }
-  .go-card__cta { font-weight: 700; color: var(--color-gold-deep); font-size: 0.9rem; }
+  .trust-card__badge { width: 96px; height: 96px; object-fit: contain; margin-bottom: var(--space-2); }
+  .trust-card h3 { margin: 0; color: var(--color-green); font-size: 1.15rem; }
+  .trust-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; }
+  .trust-card a { margin-top: auto; font-weight: 700; color: var(--color-gold-deep); text-decoration: none; font-size: 0.9rem; }
 
-  /* Newsletter */
+  /* ===== INLINE GIVE WIDGET ===== */
+  .inline-give { text-align: center; color: var(--color-white); }
+  .inline-give h2 { color: var(--color-white); margin: var(--space-2) 0 var(--space-4); }
+  .inline-give > .container > .inline-give__inner > p { color: color-mix(in srgb, var(--color-white) 82%, transparent); margin-bottom: var(--space-8); max-width: 520px; margin-left: auto; margin-right: auto; }
+  .inline-give__form { display: flex; flex-direction: column; align-items: center; gap: var(--space-6); }
+  .inline-give__amounts { display: flex; gap: var(--space-2); flex-wrap: wrap; justify-content: center; max-width: 640px; }
+  .inline-give__amounts label {
+    position: relative;
+    cursor: pointer;
+  }
+  .inline-give__amounts input[type="radio"] {
+    position: absolute; opacity: 0; pointer-events: none;
+  }
+  .inline-give__amounts span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 78px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid color-mix(in srgb, var(--color-white) 25%, transparent);
+    border-radius: var(--radius-input);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--color-white);
+    transition: background 140ms, border-color 140ms;
+  }
+  .inline-give__amounts input[type="radio"]:checked + span,
+  .inline-give__amounts label:hover span {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+  .inline-give__custom input[type="number"] {
+    width: 110px;
+    padding: 12px 18px;
+    font: inherit;
+    font-weight: 700;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid color-mix(in srgb, var(--color-white) 25%, transparent);
+    color: var(--color-white);
+    border-radius: var(--radius-input);
+    text-align: center;
+  }
+  .inline-give__custom input::placeholder { color: color-mix(in srgb, var(--color-white) 60%, transparent); }
+  .inline-give__note { font-size: 0.85rem; color: color-mix(in srgb, var(--color-white) 70%, transparent); margin-top: var(--space-4); }
+  .inline-give__note a { color: var(--color-gold); }
+
+  /* ===== NEWSLETTER ===== */
   .newsletter-band { text-align: center; }
   .newsletter-band > .container > p { margin: 0 auto var(--space-8); max-width: 540px; color: var(--color-ink-soft); }
   .newsletter-band :global(.newsletter) { margin: 0 auto; }

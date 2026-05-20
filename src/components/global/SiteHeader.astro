@@ -179,6 +179,17 @@ function isCurrent(href: string) {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // When any mega panel opens AND the header is transparent (at top),
+    // force the header to its opaque state for the duration of the open.
+    const setMenuOpenState = () => {
+      const anyOpen = !!document.querySelector<HTMLElement>('[data-mega-item].is-open');
+      header.classList.toggle('is-menu-open', anyOpen);
+    };
+    // Observe class changes on each mega item
+    document.querySelectorAll<HTMLElement>('[data-mega-item]').forEach((it) => {
+      new MutationObserver(setMenuOpenState).observe(it, { attributes: true, attributeFilter: ['class'] });
+    });
   }
 </script>
 
@@ -197,11 +208,18 @@ function isCurrent(href: string) {
     background: transparent;
     border-bottom-color: transparent;
   }
-  .site-header--transparent.is-scrolled {
+  .site-header--transparent.is-scrolled,
+  .site-header--transparent.is-menu-open {
     position: fixed;
     background: var(--color-white);
     border-bottom-color: var(--color-border);
   }
+  .site-header--transparent.is-menu-open { position: absolute; }
+  .site-header--transparent.is-menu-open .site-header__wordmark-top { color: var(--color-green); }
+  .site-header--transparent.is-menu-open .site-header__wordmark-bottom { color: var(--color-sage); }
+  .site-header--transparent.is-menu-open .mega-item__trigger { color: var(--color-green); }
+  .site-header--transparent.is-menu-open .mega-item__caret { color: var(--color-sage); }
+  .site-header--transparent.is-menu-open .site-header__partner { color: var(--color-green); border-color: var(--color-green); }
 
   .site-header__bar { padding: 0; }
   .site-header__inner {
