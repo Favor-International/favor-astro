@@ -1,0 +1,20 @@
+{
+  "classifiedAt": "2026-05-19T17:45:37.115Z",
+  "counts": {
+    "field-photo": 421,
+    "team-photo": 21,
+    "headshot": 8,
+    "logo": 1,
+    "stock": 2,
+    "irrelevant": 8
+  },
+  "notes": [
+    "Heuristic classifier: source page + dimensions + filename.",
+    "Field-photo default for /what-we-do, /testimonies-updates, /current-projects, and home.",
+    "Headshot for /about/directors and founder page.",
+    "Team-photo for other /about pages (likely group / team photos).",
+    "Logo for SVGs and any file/alt containing logo terms.",
+    "Irrelevant for < 64px and known UI chrome filenames.",
+    "No vision-model classification applied; review _unsorted_after_review if any remain."
+  ]
+}

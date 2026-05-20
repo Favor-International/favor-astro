@@ -1,0 +1,45 @@
+---
+export interface Props { title: string; country: string; outcome: string; image: string; href: string; }
+const { title, country, outcome, image, href } = Astro.props as Props;
+---
+<a class="story-card" href={href}>
+  <div class="story-card__photo" style={`background-image: url(${image})`} role="img" aria-label={title}></div>
+  <div class="story-card__body">
+    <span class="story-card__country">{country}</span>
+    <h3>{title}</h3>
+    <p>{outcome}</p>
+    <span class="story-card__cta">Read the story →</span>
+  </div>
+</a>
+<style>
+  .story-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
+    height: 100%;
+  }
+  .story-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .story-card__photo {
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .story-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .story-card__country {
+    font-size: var(--font-size-label);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+  }
+  .story-card h3 { font-size: 1.2rem; margin: 0; color: var(--color-green); }
+  .story-card p { font-size: 0.95rem; color: var(--color-ink-soft); margin: 0; }
+  .story-card__cta { margin-top: auto; font-weight: 700; color: var(--color-gold); font-size: 0.9rem; }
+</style>

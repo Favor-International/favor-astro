@@ -1,0 +1,485 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/global/SiteHeader.astro';
+import SiteFooter from '../components/global/SiteFooter.astro';
+import TrustStrip from '../components/global/TrustStrip.astro';
+import NewsletterForm from '../components/global/NewsletterForm.astro';
+import PillarCard from '../components/band/PillarCard.astro';
+import StatTile from '../components/band/StatTile.astro';
+import StoryCard from '../components/story/StoryCard.astro';
+import { PILLARS, PARTNER_TIERS, IMPACT_STATS, SITE } from '../lib/site';
+import { CTA, TAGLINE, SIGNATURE } from '../lib/cta';
+
+const pillarImages: Record<string, string> = {
+  'evangelism-discipleship': '/images/evangelism-discipleship.jpg',
+  'education': '/images/pillar-education.jpg',
+  'community-development': '/images/pillar-community.jpg',
+  'economic-empowerment': '/images/pillar-economic.jpg',
+};
+
+const featuredStories = [
+  {
+    title: 'From spear-masters to the Holy Spirit',
+    country: 'South Sudan',
+    outcome: 'A Taposa warrior cohort lays down their weapons after PBS training.',
+    image: '/images/pillar-community.jpg',
+    href: '/stories/from-spear-masters-to-holy-spirit/',
+  },
+  {
+    title: 'The next generation’s leaders',
+    country: 'Uganda',
+    outcome: 'A GIFT Institute graduate plants a church in his home village.',
+    image: '/images/gift-bishoftu-tot.jpg',
+    href: '/stories/the-next-generations-leaders/',
+  },
+  {
+    title: 'Bibles for Ethiopia',
+    country: 'Ethiopia',
+    outcome: 'Field teachers run out of Bibles — and a partner gives more.',
+    image: '/images/hero-pbs-graduation.jpg',
+    href: '/stories/more-bibles-for-ethiopia-please/',
+  },
+];
+---
+<BaseLayout
+  title={SITE.name}
+  description="Send a pastor where others will not go. Favor International partners with indigenous African missionaries to plant churches, train leaders, and care for the persecuted across 14 nations."
+  image="/images/hero-pbs-graduation.jpg"
+>
+  <SiteHeader variant="transparent" />
+  <main id="main">
+
+    <!-- Band 1: Hero -->
+    <section class="hero">
+      <div class="hero__photo" style="background-image: url(/images/hero-pbs-graduation.jpg)" role="img" aria-label="Portable Bible School graduates in South Sudan"></div>
+      <div class="hero__scrim"></div>
+      <div class="container hero__inner">
+        <p class="hero__signature">{SIGNATURE}</p>
+        <h1>You can send a pastor where others will not go.</h1>
+        <p class="hero__sub">For $50 a month, you keep an indigenous missionary on the trail — equipped, fed, and reaching villages no other ministry will reach.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+          <a class="hero__secondary" href="/impact/">{CTA.seeField} →</a>
+        </div>
+      </div>
+      <div class="container hero__trust">
+        <TrustStrip variant="light" />
+      </div>
+    </section>
+
+    <!-- Band 2: Signature phrase -->
+    <section class="band band--white signature-band">
+      <div class="container container--narrow">
+        <p class="label">Where we work</p>
+        <h2 class="signature-band__phrase">{SIGNATURE}</h2>
+        <p class="signature-band__body">Favor International serves and trains indigenous leaders in fourteen East African nations. Areas that are hard to reach by air, harder by road, and impossible to reach without the local church. We pray, live sacrificially, and do whatever it takes to put the Gospel in the hands of every village.</p>
+      </div>
+    </section>
+
+    <!-- Band 3: The four ministry pillars -->
+    <section class="band band--sage">
+      <div class="container">
+        <header class="band__header">
+          <p class="label">The work</p>
+          <h2>Four ministries. One Kingdom outcome.</h2>
+          <p class="band__lede">Every Favor program flows from one conviction: transformed hearts transform nations. These are the four ways your partnership reaches the field.</p>
+        </header>
+        <div class="grid grid-4">
+          {PILLARS.map((p) => (
+            <PillarCard
+              slug={p.slug}
+              label={p.label}
+              blurb={p.blurb}
+              image={pillarImages[p.slug]}
+              programs={p.programs}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Band 4: Real transformation stories -->
+    <section class="band band--white">
+      <div class="container">
+        <header class="band__header">
+          <p class="label">Stories from the field</p>
+          <h2>Real names. Real places. Real outcomes.</h2>
+        </header>
+        <div class="grid grid-3">
+          {featuredStories.map((s) => (
+            <StoryCard
+              title={s.title}
+              country={s.country}
+              outcome={s.outcome}
+              image={s.image}
+              href={s.href}
+            />
+          ))}
+        </div>
+        <p class="band__cta-row">
+          <a class="btn btn--secondary" href="/stories/">See all stories</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Band 5: Impact numbers -->
+    <section class="band band--green-deep stats-band">
+      <div class="container">
+        <header class="band__header band__header--inverse">
+          <p class="label label--inverse">FY2025 field report</p>
+          <h2>Your partnership, in numbers.</h2>
+        </header>
+        <div class="grid grid-4 stats-band__grid">
+          {IMPACT_STATS.map((s) => (
+            <StatTile value={s.value} label={s.label} source={s.source} />
+          ))}
+        </div>
+        <p class="stats-band__source">Source: Favor International FY2025 field reports. <a href="/about/accountability/">See ECFA + 990s →</a></p>
+      </div>
+    </section>
+
+    <!-- Band 6: Become a Favor Partner (PRIMARY CONVERSION) -->
+    <section class="band partner-band" id="partner">
+      <div class="container partner-band__grid">
+        <div class="partner-band__copy">
+          <p class="label">Monthly partnership</p>
+          <h2>Become a Favor Partner.</h2>
+          <p>One monthly gift. Real, recurring impact. Favor Partners keep field workers on the trail, Bibles in villages, and pastors in training. Pick a tier, or choose your own amount.</p>
+          <p class="partner-band__trust">Your gift is tax-deductible. Favor International is <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a>.</p>
+        </div>
+        <div class="partner-band__tiles">
+          {PARTNER_TIERS.map((t) => (
+            <a
+              href={`/give/partner-monthly/?amount=${t.amount}`}
+              class:list={['tier', t.featured && 'tier--featured']}
+            >
+              <span class="tier__amount">${t.amount}<span class="tier__period">/mo</span></span>
+              <span class="tier__label">{t.label}</span>
+              <span class="tier__tagline">{t.tagline}</span>
+            </a>
+          ))}
+        </div>
+        <div class="partner-band__cta">
+          <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+          <a class="partner-band__alt" href="/give/">Or give a one-time gift →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Band 7: Pray with us -->
+    <section class="band band--tan pray-band">
+      <div class="container pray-band__grid">
+        <div class="pray-band__copy">
+          <p class="label">Pray with us</p>
+          <h2>You can pray where they cannot reach.</h2>
+          <p>Get the 30-Day Prayer Guide. One focus per day across the fourteen nations Favor serves. Specific villages, specific pastors, specific battles. No email required to download.</p>
+          <a class="btn btn--secondary btn--large" href="/pray/30-day-guide/">{CTA.prayerGuide}</a>
+        </div>
+        <div class="pray-band__photo" style="background-image: url(/images/evangelism-discipleship.jpg)" role="img" aria-label="A Favor pastor prays with children in a village"></div>
+      </div>
+    </section>
+
+    <!-- Band 8: Go (vision trips) -->
+    <section class="band band--white">
+      <div class="container">
+        <header class="band__header">
+          <p class="label">Go with us</p>
+          <h2>See it for yourself.</h2>
+          <p class="band__lede">Walk a village with a Favor field leader. Visit a Portable Bible School. Sit at the table with the people you’ve been praying for.</p>
+        </header>
+        <div class="grid grid-3">
+          <a class="trip-card" href="/go/vision-trips/">
+            <div class="trip-card__photo" style="background-image: url(/images/pbs-karamoja.jpg)"></div>
+            <div class="trip-card__body">
+              <span class="label">Uganda · Spring 2026</span>
+              <h3>Vision Trip: Gulu and Karamoja</h3>
+              <p>10 days with the Favor Uganda team. Visit PBS sites, the GIFT Institute, and Village Learning Centers.</p>
+            </div>
+          </a>
+          <a class="trip-card" href="/go/vision-trips/">
+            <div class="trip-card__photo" style="background-image: url(/images/education-vlc-jondoru.jpg)"></div>
+            <div class="trip-card__body">
+              <span class="label">South Sudan · Fall 2026</span>
+              <h3>Vision Trip: Juba and the cattle camps</h3>
+              <p>Travel with our Juba team to the unreached border villages.</p>
+            </div>
+          </a>
+          <a class="trip-card" href="/go/volunteer/">
+            <div class="trip-card__photo" style="background-image: url(/images/gift-bishoftu-tot.jpg)"></div>
+            <div class="trip-card__body">
+              <span class="label">Stateside</span>
+              <h3>Serve from home</h3>
+              <p>Ambassadors, prayer warriors, intercession teams. The field needs you wherever you are.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Band 9: Field updates / blog teaser -->
+    <section class="band band--cream">
+      <div class="container">
+        <header class="band__header">
+          <p class="label">From the field</p>
+          <h2>What just happened.</h2>
+        </header>
+        <div class="grid grid-3">
+          <a class="update-card" href="/impact/field-updates/">
+            <p class="label">South Sudan · this week</p>
+            <h3>Rumbek crusade: 1,400 first-time decisions.</h3>
+            <p>A three-day open-air gathering in Lakes State. The field team is following up with discipleship plans for every village.</p>
+          </a>
+          <a class="update-card" href="/impact/field-updates/">
+            <p class="label">Uganda · last week</p>
+            <h3>GIFT cohort 14 graduates 92 pastors.</h3>
+            <p>The largest graduating class since the institute opened. Twelve graduates are already heading to plant in unreached districts.</p>
+          </a>
+          <a class="update-card" href="/impact/field-updates/">
+            <p class="label">Chad · ongoing</p>
+            <h3>Ten days in Chad: opening a closed door.</h3>
+            <p>A Favor team is on the ground in a region long closed to the Gospel. Pray specifically and frequently.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Band 10: Newsletter -->
+    <section class="band band--sage newsletter-band">
+      <div class="container container--narrow">
+        <p class="label">Get the field report</p>
+        <h2>One email. Real news from the field.</h2>
+        <p>Once a month. Honest reporting on what your partnership made possible, what didn’t work, and what the field is asking for next.</p>
+        <NewsletterForm />
+      </div>
+    </section>
+
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: var(--color-white);
+    overflow: hidden;
+    padding-bottom: var(--space-12);
+  }
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(31, 58, 26, 0.85) 0%, rgba(31, 58, 26, 0.55) 40%, rgba(31, 58, 26, 0.0) 70%),
+      linear-gradient(180deg, rgba(31, 58, 26, 0.4) 0%, rgba(31, 58, 26, 0.0) 25%, rgba(31, 58, 26, 0.0) 65%, rgba(31, 58, 26, 0.65) 100%);
+    z-index: 1;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    padding-top: 25vh;
+    max-width: 880px;
+  }
+  .hero__signature {
+    font-style: italic;
+    color: var(--color-gold-light);
+    font-size: 1rem;
+    margin: 0 0 var(--space-3);
+    letter-spacing: 0.04em;
+  }
+  .hero h1 {
+    color: var(--color-white);
+    margin: 0 0 var(--space-5);
+    text-wrap: balance;
+  }
+  .hero__sub {
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    max-width: 640px;
+    margin: 0 0 var(--space-8);
+    color: color-mix(in srgb, var(--color-white) 92%, transparent);
+  }
+  .hero__cta { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
+  .hero__secondary {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 4px;
+  }
+  .hero__secondary:hover { color: var(--color-gold); }
+  .hero__trust {
+    position: relative;
+    z-index: 2;
+    margin-top: var(--space-12);
+  }
+
+  /* Common band helpers */
+  .band__header { max-width: 760px; margin: 0 auto var(--space-12); text-align: center; }
+  .band__header h2 { text-wrap: balance; }
+  .band__lede { font-size: 1.1rem; color: var(--color-ink-soft); }
+  .band__header--inverse h2, .band__header--inverse { color: var(--color-white); }
+  .label--inverse { color: var(--color-gold) !important; }
+  .band__cta-row { display: flex; justify-content: center; margin-top: var(--space-12); }
+
+  /* Signature band */
+  .signature-band { text-align: center; }
+  .signature-band__phrase {
+    font-style: italic;
+    color: var(--color-green);
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-6);
+  }
+  .signature-band__body {
+    font-size: 1.15rem;
+    color: var(--color-ink-soft);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Stats band */
+  .stats-band__grid { padding: var(--space-12) 0; }
+  .stats-band__source {
+    text-align: center;
+    margin: var(--space-8) 0 0;
+    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+    font-size: 0.9rem;
+  }
+  .stats-band__source a { color: var(--color-gold); }
+
+  /* Partner band */
+  .partner-band {
+    background: var(--color-gold);
+    color: var(--color-ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .partner-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-gold) 0%, color-mix(in srgb, var(--color-gold) 80%, var(--color-terracotta)) 100%);
+    z-index: 0;
+  }
+  .partner-band__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+  .partner-band__copy h2 { color: var(--color-ink); }
+  .partner-band__copy .label { color: var(--color-green); }
+  .partner-band__copy a { color: var(--color-green); }
+  .partner-band__trust { font-size: 0.9rem; color: color-mix(in srgb, var(--color-ink) 75%, transparent); margin-top: var(--space-4); }
+  .partner-band__tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .tier {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    background: var(--color-white);
+    color: var(--color-ink);
+    border-radius: var(--radius-card);
+    padding: var(--space-6);
+    text-decoration: none;
+    transition: transform 160ms, box-shadow 160ms;
+    border: 2px solid transparent;
+  }
+  .tier:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-green); }
+  .tier__amount { font-weight: 800; font-size: 1.7rem; color: var(--color-green); display: flex; align-items: baseline; gap: 2px; }
+  .tier__period { font-size: 0.85rem; font-weight: 600; color: var(--color-sage); }
+  .tier__label { font-weight: 700; letter-spacing: 0.04em; color: var(--color-green-deep); text-transform: uppercase; font-size: 0.85rem; }
+  .tier__tagline { font-size: 0.85rem; color: var(--color-ink-soft); margin-top: var(--space-1); }
+  .tier--featured { background: var(--color-green); color: var(--color-white); border-color: var(--color-green-deep); }
+  .tier--featured .tier__amount, .tier--featured .tier__label { color: var(--color-gold); }
+  .tier--featured .tier__period, .tier--featured .tier__tagline { color: color-mix(in srgb, var(--color-white) 80%, transparent); }
+  .partner-band__cta {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+  }
+  .partner-band__alt { color: var(--color-green-deep); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-green-deep); padding-bottom: 2px; }
+  @media (max-width: 1024px) {
+    .partner-band__grid { grid-template-columns: 1fr; }
+    .partner-band__tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 540px) {
+    .partner-band__tiles { grid-template-columns: 1fr; }
+  }
+
+  /* Pray band */
+  .pray-band__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+  .pray-band__photo {
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    min-height: 320px;
+  }
+  @media (max-width: 900px) {
+    .pray-band__grid { grid-template-columns: 1fr; }
+  }
+
+  /* Trip cards */
+  .trip-card {
+    display: flex; flex-direction: column;
+    background: var(--color-white); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft); overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
+  }
+  .trip-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .trip-card__photo { aspect-ratio: 4 / 3; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
+  .trip-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); }
+  .trip-card h3 { margin: 0; font-size: 1.15rem; color: var(--color-green); }
+  .trip-card p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
+
+  /* Update cards */
+  .update-card {
+    display: block;
+    padding: var(--space-8);
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 160ms, transform 160ms;
+  }
+  .update-card:hover { border-color: var(--color-gold); transform: translateY(-2px); }
+  .update-card h3 { font-size: 1.15rem; margin: 0 0 var(--space-3); color: var(--color-green); }
+  .update-card p { margin: 0; font-size: 0.95rem; color: var(--color-ink-soft); }
+
+  /* Newsletter band */
+  .newsletter-band { text-align: center; }
+  .newsletter-band h2 { margin-bottom: var(--space-3); }
+  .newsletter-band > .container > p { margin: 0 auto var(--space-8); max-width: 540px; color: var(--color-ink-soft); }
+  .newsletter-band :global(.newsletter) { margin: 0 auto; }
+</style>

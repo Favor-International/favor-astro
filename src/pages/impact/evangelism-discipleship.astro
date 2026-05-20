@@ -1,0 +1,69 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import ProofBlock from '../../components/band/ProofBlock.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const programs = [
+  { name: 'Portable Bible Schools (PBS)', desc: 'Three- to six-month church-based training in places no seminary can reach. Cohorts move from village to village. 1,200+ pastors trained across 14 nations.' },
+  { name: 'GIFT Leadership Institute', desc: 'Two-year residential training for the next generation of indigenous leaders. Bishoftu, Ethiopia campus. 92 graduates in Cohort 14.' },
+  { name: 'House of Prayer', desc: 'Continuous intercession from the field. Trains local prayer warriors and connects them to a global prayer network.' },
+  { name: 'Favor FM (Christian Radio)', desc: 'Two FM stations covering northern Uganda and South Sudan. Discipleship content in local languages, on-demand pastoral care by call-in.' },
+];
+---
+<PageLayout
+  title="Evangelism + Discipleship"
+  description="Portable Bible Schools, GIFT Leadership Institute, House of Prayer, and Favor FM — the four programs by which Favor International equips indigenous pastors to evangelize and disciple across East Africa."
+>
+  <PageHero
+    label="Pillar 1 of 4"
+    title="Evangelism + Discipleship."
+    promise="Indigenous pastors and teachers reaching villages and tribes others will not. PBS, GIFT, House of Prayer, Favor FM."
+    image="/images/evangelism-discipleship.jpg"
+    imageAlt="Pastor laying hands on a child in a village"
+    ctaLabel="Fund a pastor"
+    ctaHref="/give/specific-project/gift-dormitory/"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">The four programs</p>
+      <h2>How indigenous pastors get equipped.</h2>
+      <ul class="program-list">
+        {programs.map((p) => (
+          <li>
+            <h3>{p.name}</h3>
+            <p>{p.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <ProofBlock
+        name="Pastor Daniel Kidia"
+        place="Northern Uganda"
+        outcome="PBS graduate. 14 miles a week to teach Saturday Bible school. Plants a new house church every six months."
+        quote="The training did not just give me information. It gave me the courage to walk into the cattle camp."
+        image="/images/gift-bishoftu-tot.jpg"
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Send a pastor where others will not go."
+    body="Fund a PBS cohort, sponsor a GIFT student, or become a Favor Partner to keep all four programs going."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .program-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
+  .program-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
+  .program-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
+  .program-list p { margin: 0; color: var(--color-ink-soft); }
+</style>

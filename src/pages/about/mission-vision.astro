@@ -1,0 +1,43 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+---
+<PageLayout
+  title="Mission and Vision"
+  description="The mission, vision, and founding conviction of Favor International."
+>
+  <PageHero
+    label="Mission and Vision"
+    title="Transformed hearts transform nations."
+    promise="Favor International exists to put the Gospel in the hands of every village, tribe, and nation in Africa."
+    image="/images/evangelism-discipleship.jpg"
+    imageAlt="A village gathering"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">Our mission</p>
+      <h2>Train and equip indigenous leaders. Reach the villages no one else will go to.</h2>
+      <p>Favor International serves and trains national leaders in East African war zones and unreached regions to sustainably change their communities with the power of the Gospel. Currently working in fourteen nations across northern Uganda, South Sudan, Chad, Ethiopia, DRC, Kenya, Sudan, Burundi, and others.</p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <p class="label">Our vision</p>
+      <h2>Whole villages and nations transformed by the Gospel.</h2>
+      <p>We see whole communities transformed by the Gospel being applied to every part of life — from health to education to economic empowerment, all rooted in transformation of the heart. Transformed national leaders fit Biblical solutions to local needs and see life-changing results for whole villages and regions.</p>
+      <p>Our international partnerships serve, train, and empower nationals to impact their local communities in the context of God-sustained movements. We pray, live sacrificially, and do whatever it takes to align our lives with God's purposes and methods for particular people groups in particular lands and contexts.</p>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Stand with us."
+    body="Becoming a Favor Partner is the simplest way to put this mission into motion every month."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    variant="gold"
+  />
+</PageLayout>

@@ -1,0 +1,73 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const countries = [
+  { name: 'Uganda', focus: 'PBS, GIFT Institute, VLCs, Favor FM' },
+  { name: 'South Sudan', focus: 'Church planting, trauma counseling, schools' },
+  { name: 'Chad', focus: 'Field teams, pastor training' },
+  { name: 'Ethiopia', focus: 'GIFT Institute campus (Bishoftu), Bible printing' },
+  { name: 'Democratic Republic of Congo', focus: 'Eastern province church planting' },
+  { name: 'Kenya', focus: 'Logistics hub, partner network' },
+  { name: 'Sudan', focus: 'Refugee discipleship, Arabic Bible distribution' },
+  { name: 'Burundi', focus: 'Leadership training cohorts' },
+  { name: 'Rwanda', focus: 'Vision trip routes, partner church visits' },
+  { name: 'Tanzania', focus: 'Border-region outreach' },
+  { name: 'Eritrea', focus: 'Underground church support' },
+  { name: 'Somalia (border regions)', focus: 'Outreach via Kenya and Ethiopia partners' },
+  { name: 'Central African Republic', focus: 'Pastor support, occasional visits' },
+  { name: 'Mozambique', focus: 'Partnership exploration' },
+];
+---
+<PageLayout
+  title="Where We Work"
+  description="The fourteen East African nations Favor International serves, the field programs in each, and how we got to each one."
+>
+  <PageHero
+    label="Where we work"
+    title="Fourteen nations. One Kingdom outcome."
+    promise="Each country is led by indigenous leaders. US staff coordinate; the field directs."
+    image="/images/pillar-community.jpg"
+    imageAlt="Field outreach"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">The fourteen</p>
+        <h2>Where Favor Partners are funding work today.</h2>
+      </header>
+      <ul class="country-list">
+        {countries.map((c) => (
+          <li>
+            <strong>{c.name}</strong>
+            <span>{c.focus}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Pray for a specific country."
+    body="The 30-day prayer guide walks you through each nation, one day at a time."
+    ctaLabel="Get the 30-Day Guide"
+    ctaHref="/pray/30-day-guide/"
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .country-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
+  .country-list li {
+    display: flex; flex-direction: column; gap: var(--space-1);
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-cream);
+    border-left: 4px solid var(--color-gold);
+    border-radius: var(--radius-input);
+  }
+  .country-list strong { color: var(--color-green); font-size: 1.05rem; }
+  .country-list span { color: var(--color-ink-soft); font-size: 0.9rem; }
+</style>

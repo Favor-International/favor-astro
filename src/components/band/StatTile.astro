@@ -1,0 +1,26 @@
+---
+export interface Props { value: string; label: string; source?: string; }
+const { value, label, source } = Astro.props as Props;
+---
+<div class="stat-tile">
+  <span class="stat-tile__value">{value}</span>
+  <span class="stat-tile__label">{label}</span>
+  {source && <span class="stat-tile__source">{source}</span>}
+</div>
+<style>
+  .stat-tile { display: flex; flex-direction: column; gap: var(--space-2); text-align: center; }
+  .stat-tile__value {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: var(--font-size-stat);
+    color: var(--color-gold);
+    line-height: 0.95;
+  }
+  .stat-tile__label {
+    font-weight: 600;
+    color: var(--color-white);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+  .stat-tile__source { font-size: 0.75rem; color: color-mix(in srgb, var(--color-white) 65%, transparent); }
+</style>

@@ -1,0 +1,68 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import ProofBlock from '../../components/band/ProofBlock.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const programs = [
+  { name: 'Trauma Counseling', desc: 'Christ-centered counseling for survivors of conflict, trafficking, and abandonment. Trained Ugandan and South Sudanese counselors lead.' },
+  { name: 'Medical Services', desc: 'Three field clinics in northern Uganda and South Sudan. Maternal care, malaria, and basic surgical referral.' },
+  { name: 'Church Planting + Construction', desc: 'Indigenous church planters supported by the team. Where a congregation outgrows the meeting place, we build with them, not for them.' },
+];
+---
+<PageLayout
+  title="Community Development"
+  description="Trauma counseling, medical services, and church planting — Favor International's community development pillar."
+>
+  <PageHero
+    label="Pillar 3 of 4"
+    title="Community Development."
+    promise="Trauma counseling, medical services, and church planting in places no other ministry will go."
+    image="/images/pillar-community.jpg"
+    imageAlt="Community development outreach"
+    ctaLabel="Fund a clinic"
+    ctaHref="/give/specific-project/"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">The three programs</p>
+      <h2>Bringing healing to the whole person.</h2>
+      <ul class="program-list">
+        {programs.map((p) => (
+          <li>
+            <h3>{p.name}</h3>
+            <p>{p.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <ProofBlock
+        name="A former warrior"
+        place="Lakes State, South Sudan"
+        outcome="Trauma-counseling cohort graduate. Now leads a peace-and-reconciliation team in his cattle camp."
+        quote="The spear used to be how I survived. Now I survive because I laid it down at the foot of the cross."
+        image="/images/pillar-community.jpg"
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    heading="$200 a month funds a counseling case."
+    body="Trauma counseling, medical follow-up, and church-family integration for one survivor."
+    ctaLabel="Become a Heal-tier Partner"
+    ctaHref="/give/partner-monthly/?amount=200"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .program-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
+  .program-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
+  .program-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
+  .program-list p { margin: 0; color: var(--color-ink-soft); }
+</style>

@@ -1,0 +1,110 @@
+---
+import { PRIMARY_NAV } from '../../lib/site';
+import { CTA } from '../../lib/cta';
+export interface Props { variant?: 'transparent' | 'opaque'; }
+const { variant = 'opaque' } = Astro.props as Props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class:list={['site-header', `site-header--${variant}`]}>
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href="/" aria-label="Favor International home">
+      <span class="brand-mark">Favor International</span>
+    </a>
+    <nav class="site-header__nav" aria-label="Primary">
+      <ul>
+        {PRIMARY_NAV.map((item) => {
+          const isCurrent = path === item.href.replace(/\/$/, '') || (item.href !== '/' && path.startsWith(item.href.replace(/\/$/, '')));
+          return (
+            <li>
+              <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>{item.label}</a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      <a class="site-header__partner" href="/partner/">Partner</a>
+      <a class="btn btn--primary site-header__give" href="/give/">{CTA.giveNow}</a>
+    </div>
+  </div>
+</header>
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    border-bottom: 1px solid transparent;
+    transition: background 200ms, border-color 200ms, box-shadow 200ms;
+    background: var(--color-white);
+    border-bottom-color: var(--color-border);
+  }
+  .site-header--transparent {
+    background: transparent;
+    border-bottom-color: transparent;
+    position: absolute;
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+  .site-header__brand {
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: var(--color-green);
+  }
+  .site-header--transparent .site-header__brand { color: var(--color-white); }
+  .brand-mark { white-space: nowrap; }
+
+  .site-header__nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-header__nav a {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-green);
+    padding: var(--space-2) 0;
+    border-bottom: 2px solid transparent;
+  }
+  .site-header__nav a[aria-current="page"] { border-bottom-color: var(--color-gold); }
+  .site-header__nav a:hover { color: var(--color-gold); }
+  .site-header--transparent .site-header__nav a { color: var(--color-white); }
+
+  .site-header__actions { display: flex; align-items: center; gap: var(--space-3); }
+  .site-header__partner {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-green);
+    border: 2px solid var(--color-green);
+    border-radius: var(--radius-input);
+    padding: 10px 18px;
+  }
+  .site-header__partner:hover { background: var(--color-green); color: var(--color-white); }
+  .site-header--transparent .site-header__partner { color: var(--color-white); border-color: var(--color-white); }
+  .site-header--transparent .site-header__partner:hover { background: var(--color-white); color: var(--color-green); }
+  .site-header__give { padding: 10px 20px; font-size: 0.85rem; }
+
+  @media (max-width: 900px) {
+    .site-header__nav { display: none; }
+  }
+  @media (max-width: 600px) {
+    .site-header__partner { display: none; }
+  }
+</style>

@@ -1,0 +1,49 @@
+{
+  "body": {
+    "fontFamily": "Montserrat",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "color": "rgb(33, 34, 34)",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "lineHeight": "22.8571px",
+    "letterSpacing": "normal"
+  },
+  "h1": {
+    "fontFamily": "Montserrat",
+    "fontSize": "58px",
+    "fontWeight": "800",
+    "color": "rgb(33, 34, 34)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "lineHeight": "75.4px",
+    "letterSpacing": "normal"
+  },
+  "h2": {
+    "fontFamily": "Montserrat",
+    "fontSize": "36px",
+    "fontWeight": "400",
+    "color": "rgb(226, 104, 38)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "lineHeight": "54px",
+    "letterSpacing": "normal"
+  },
+  "hero": {
+    "fontFamily": "Montserrat",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "color": "rgb(33, 34, 34)",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "lineHeight": "22.8571px",
+    "letterSpacing": "normal"
+  },
+  "button": {
+    "fontFamily": "Montserrat",
+    "fontSize": "13px",
+    "fontWeight": "700",
+    "color": "rgb(255, 255, 255)",
+    "backgroundColor": "rgb(243, 113, 33)",
+    "lineHeight": "18.5714px",
+    "letterSpacing": "normal"
+  },
+  "title": "Destiny Rescue",
+  "h1Text": "You can rescue a child from sexual exploitation."
+}

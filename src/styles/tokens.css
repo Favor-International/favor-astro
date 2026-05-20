@@ -1,0 +1,64 @@
+:root {
+  /* Colors from brand-book.md */
+  --color-gold: #e1a730;
+  --color-gold-light: #e0c081;
+  --color-terracotta: #a36d4c;
+  --color-tan: #ba9a86;
+  --color-green: #2b4d24;
+  --color-green-deep: #1f3a1a;
+  --color-sage: #8b957b;
+  --color-sage-light: #c5ccc2;
+  --color-white: #ffffff;
+  --color-cream: #faf7f1;
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #3a3a3a;
+  --color-border: #e5e0d6;
+
+  /* Type */
+  --font-sans: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+  --font-size-label: 12px;
+  --font-size-h1: clamp(2.5rem, 5vw, 4.5rem);
+  --font-size-h2: clamp(1.875rem, 3vw, 2.5rem);
+  --font-size-h3: 1.5rem;
+  --font-size-stat: clamp(3rem, 7vw, 5.5rem);
+  --line-height-base: 1.6;
+  --line-height-tight: 1.15;
+  --letter-spacing-label: 0.12em;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Section padding */
+  --band-py-desktop: 96px;
+  --band-py-tablet: 64px;
+  --band-py-mobile: 48px;
+
+  /* Radius */
+  --radius-card: 8px;
+  --radius-input: 4px;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-soft: 0 1px 3px rgba(43, 77, 36, 0.08);
+  --shadow-card: 0 4px 16px rgba(43, 77, 36, 0.10);
+
+  /* Layout */
+  --content-max: 1200px;
+  --content-narrow: 960px;
+  --prose-max: 720px;
+
+  /* Effects */
+  --scrim-green: linear-gradient(90deg, rgba(43, 77, 36, 0.7) 0%, rgba(43, 77, 36, 0.4) 40%, rgba(43, 77, 36, 0) 70%);
+  --scrim-green-bottom: linear-gradient(180deg, rgba(43, 77, 36, 0) 30%, rgba(43, 77, 36, 0.85) 100%);
+}

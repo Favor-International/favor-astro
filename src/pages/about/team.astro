@@ -1,0 +1,90 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+// US staff and key field leaders. Alphabetical per S. Maier comment.
+// Carole confirmed the subset; full org-chart is internal-only.
+const team = [
+  { name: 'Carole Ward', role: 'Founder and President', location: 'Valrico, FL', tag: 'US' },
+  { name: 'Terry Ward', role: 'Co-Founder', location: 'Valrico, FL', tag: 'US' },
+  { name: 'Jennifer (last name pending)', role: 'Director of Partner Care', location: 'US team', tag: 'US' },
+  { name: 'Michael Hinton', role: 'Donor Contact / Development', location: 'US team', tag: 'US' },
+  { name: 'Josh (last name pending)', role: 'Director of Church Partnerships', location: 'US team', tag: 'US' },
+  { name: 'Pastor Daniel Kidia', role: 'Field Leader, Uganda', location: 'Gulu, Uganda', tag: 'Field' },
+  { name: 'Field Director, South Sudan (name withheld)', role: 'Country Director', location: 'Juba, South Sudan', tag: 'Field' },
+  { name: 'GIFT Institute Dean', role: 'Dean, GIFT Leadership Institute', location: 'Bishoftu, Ethiopia', tag: 'Field' },
+];
+---
+<PageLayout
+  title="Team"
+  description="US staff and key field leaders of Favor International, alphabetical."
+>
+  <PageHero
+    label="Team"
+    title="US team and key field leaders."
+    promise="Alphabetical. US staff coordinate; the field directs. The full org chart lives internally."
+    image="/images/gift-bishoftu-tot.jpg"
+    imageAlt="Team training session"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <p class="band__lede" style="text-align:center; margin-bottom: var(--space-12);">Names and bios for each member are coming. This page renders the team shape; we will fill bios after Carole reviews the displayed subset.</p>
+      <div class="team-grid">
+        {team.map((m) => (
+          <article class="team-card">
+            <div class="team-card__photo" aria-hidden="true"></div>
+            <h3>{m.name}</h3>
+            <p class="team-card__role">{m.role}</p>
+            <p class="team-card__location">{m.location}</p>
+            <span class="team-card__tag">{m.tag}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="See the board."
+    body="Board of Directors is its own page. Volunteer governance, term-limited."
+    ctaLabel="See the board"
+    ctaHref="/about/board/"
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  @media (max-width: 1024px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .team-grid { grid-template-columns: 1fr; } }
+  .team-card {
+    background: var(--color-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-6);
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-1);
+    border: 1px solid var(--color-border);
+  }
+  .team-card__photo {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-sage-light) 0%, var(--color-tan) 100%);
+    margin-bottom: var(--space-3);
+  }
+  .team-card h3 { margin: 0; font-size: 1.05rem; color: var(--color-green); }
+  .team-card__role { margin: 0; font-size: 0.88rem; color: var(--color-ink-soft); }
+  .team-card__location { margin: 0; font-size: 0.8rem; color: var(--color-sage); }
+  .team-card__tag {
+    margin-top: var(--space-3);
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-gold);
+    color: var(--color-ink);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>

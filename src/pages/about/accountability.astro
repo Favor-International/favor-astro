@@ -1,0 +1,62 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { SITE } from '../../lib/site';
+---
+<PageLayout
+  title="Accountability and Financials"
+  description="ECFA accreditation, 990s, audited financials, and the public profiles of Favor International."
+>
+  <PageHero
+    label="Accountability"
+    title="ECFA-accredited. Publicly profiled. Audited every year."
+    promise="The receipts. We publish them so you don't have to ask."
+    image="/images/partner-with-us.jpg"
+    imageAlt="Accountability"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">The five public records</p>
+      <h2>Everything you need for due diligence.</h2>
+      <ul class="receipts">
+        <li><a href={SITE.trust.ecfa} target="_blank" rel="noopener"><strong>ECFA Member Profile</strong></a><span>Current and continuous. Member ID 50004.</span></li>
+        <li><a href={SITE.trust.candid} target="_blank" rel="noopener"><strong>Candid (Guidestar) Profile</strong></a><span>Platinum transparency rating.</span></li>
+        <li><a href={SITE.trust.charityNavigator} target="_blank" rel="noopener"><strong>Charity Navigator Profile</strong></a><span>Public financial scoring.</span></li>
+        <li><strong>IRS Form 990</strong><span>Most recent three years on Candid. EIN {SITE.ein}.</span></li>
+        <li><strong>Audited Financial Statements</strong><span>FY2022, FY2023, FY2024 available on request. FY2025 audit in Q3.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <p class="label">Stewardship principles</p>
+      <h2>What we promise.</h2>
+      <ul class="promises">
+        <li>92 cents of every dollar goes to the field. The other 8 cents covers US operations, audit, and donor care.</li>
+        <li>Restricted gifts honor the restriction. We will refund a restricted gift before we redirect one.</li>
+        <li>Field-level reporting on every project. We tell you what worked and what didn't.</li>
+        <li>No anonymous outcomes. Every story we publish has a real name, real place, and real outcome.</li>
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Need the audited 990s?"
+    body={`Email ${SITE.emailGeneral}. We will send the packet within one business day.`}
+    ctaLabel="Request the financial packet"
+    ctaHref={`mailto:${SITE.emailGeneral}?subject=Financial packet request`}
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .receipts, .promises { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
+  .receipts li { display: flex; gap: var(--space-6); padding: var(--space-4) var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); align-items: baseline; }
+  .receipts li > a, .receipts li > strong { color: var(--color-green); font-weight: 700; }
+  .receipts span { color: var(--color-ink-soft); font-size: 0.92rem; }
+  .promises li { padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-input); border: 1px solid var(--color-border); }
+  @media (max-width: 700px) { .receipts li { flex-direction: column; gap: var(--space-1); } }
+</style>

@@ -1,0 +1,97 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import PillarCard from '../../components/band/PillarCard.astro';
+import StatTile from '../../components/band/StatTile.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { PILLARS, IMPACT_STATS } from '../../lib/site';
+
+const pillarImages: Record<string, string> = {
+  'evangelism-discipleship': '/images/evangelism-discipleship.jpg',
+  'education': '/images/pillar-education.jpg',
+  'community-development': '/images/pillar-community.jpg',
+  'economic-empowerment': '/images/pillar-economic.jpg',
+};
+---
+<PageLayout
+  title="Impact"
+  description="Four ministry pillars. Fourteen nations. One Kingdom outcome. Field reports, impact numbers, and the stories behind them."
+  image="/images/hero-pbs-graduation.jpg"
+>
+  <PageHero
+    label="Impact"
+    title="Four ministries. Fourteen nations. One Kingdom outcome."
+    promise="Every Favor program flows from one conviction: transformed hearts transform nations."
+    image="/images/hero-pbs-graduation.jpg"
+    imageAlt="PBS graduates with certificates"
+  />
+
+  <section class="band band--green-deep">
+    <div class="container">
+      <header class="band__header band__header--inverse">
+        <p class="label label--inverse">FY2025 field report</p>
+        <h2>The numbers behind the work.</h2>
+      </header>
+      <div class="grid grid-4">
+        {IMPACT_STATS.map((s) => <StatTile value={s.value} label={s.label} source={s.source} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">The pillars</p>
+        <h2>How the work breaks down.</h2>
+      </header>
+      <div class="grid grid-4">
+        {PILLARS.map((p) => (
+          <PillarCard
+            slug={p.slug}
+            label={p.label}
+            blurb={p.blurb}
+            image={pillarImages[p.slug]}
+            programs={p.programs}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Deeper</p>
+        <h2>Reports, stories, and the field record.</h2>
+      </header>
+      <div class="grid grid-3">
+        <a class="impact-link" href="/impact/field-updates/"><h3>Field updates</h3><p>Weekly reports from each country team.</p></a>
+        <a class="impact-link" href="/impact/impact-reports/"><h3>Impact reports</h3><p>Quarterly and annual PDFs with audited numbers.</p></a>
+        <a class="impact-link" href="/stories/"><h3>Stories of transformation</h3><p>Real names, real places, real outcomes.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Want the field report in your inbox?"
+    body="One email a month. The team's honest take on what worked and what didn't."
+    ctaLabel="Send Me the Field Report"
+    ctaHref="/newsletter/"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .impact-link {
+    display: block;
+    padding: var(--space-8);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    text-decoration: none; color: inherit;
+    transition: border-color 160ms, transform 160ms;
+  }
+  .impact-link:hover { border-color: var(--color-gold); transform: translateY(-2px); }
+  .impact-link h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
+  .impact-link p { margin: 0; color: var(--color-ink-soft); }
+</style>

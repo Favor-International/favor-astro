@@ -1,0 +1,92 @@
+---
+export interface Props {
+  label?: string;
+  title: string;
+  promise: string;
+  image: string;
+  imageAlt: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  variant?: 'full-bleed' | 'split';
+}
+const {
+  label, title, promise, image, imageAlt,
+  ctaLabel, ctaHref, secondaryLabel, secondaryHref,
+  variant = 'full-bleed',
+} = Astro.props as Props;
+---
+{variant === 'full-bleed' ? (
+  <section class="page-hero page-hero--full">
+    <div class="page-hero__photo" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
+    <div class="page-hero__scrim"></div>
+    <div class="container page-hero__inner">
+      {label && <p class="label label--inverse">{label}</p>}
+      <h1>{title}</h1>
+      <p class="page-hero__promise">{promise}</p>
+      {(ctaLabel || secondaryLabel) && (
+        <div class="page-hero__cta">
+          {ctaLabel && ctaHref && <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>}
+          {secondaryLabel && secondaryHref && <a class="page-hero__secondary" href={secondaryHref}>{secondaryLabel} →</a>}
+        </div>
+      )}
+    </div>
+  </section>
+) : (
+  <section class="page-hero page-hero--split">
+    <div class="container page-hero__split-grid">
+      <div>
+        {label && <p class="label">{label}</p>}
+        <h1>{title}</h1>
+        <p class="page-hero__promise">{promise}</p>
+        {(ctaLabel || secondaryLabel) && (
+          <div class="page-hero__cta">
+            {ctaLabel && ctaHref && <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>}
+            {secondaryLabel && secondaryHref && <a class="page-hero__secondary page-hero__secondary--dark" href={secondaryHref}>{secondaryLabel} →</a>}
+          </div>
+        )}
+      </div>
+      <div class="page-hero__split-photo" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
+    </div>
+  </section>
+)}
+
+<style>
+  .page-hero--full {
+    position: relative;
+    min-height: 65vh;
+    display: flex;
+    align-items: flex-end;
+    color: var(--color-white);
+    overflow: hidden;
+    padding: var(--space-24) 0 var(--space-16);
+  }
+  .page-hero__photo { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+  .page-hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(90deg, rgba(31, 58, 26, 0.88) 0%, rgba(31, 58, 26, 0.55) 45%, rgba(31, 58, 26, 0.15) 80%);
+  }
+  .page-hero__inner { position: relative; z-index: 2; max-width: 760px; }
+  .page-hero--full h1 { color: var(--color-white); margin: 0 0 var(--space-5); text-wrap: balance; }
+  .page-hero__promise { font-size: clamp(1rem, 1.4vw, 1.2rem); color: color-mix(in srgb, var(--color-white) 92%, transparent); max-width: 600px; margin: 0 0 var(--space-6); }
+  .page-hero__cta { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
+  .page-hero__secondary {
+    color: var(--color-white); text-decoration: none; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; font-size: 0.85rem; border-bottom: 2px solid var(--color-gold); padding-bottom: 4px;
+  }
+  .page-hero__secondary--dark { color: var(--color-green); }
+  .page-hero__secondary:hover { color: var(--color-gold); }
+
+  .page-hero--split { padding: var(--space-20) 0; background: var(--color-cream); }
+  .page-hero__split-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); align-items: center;
+  }
+  .page-hero__split-photo {
+    aspect-ratio: 4 / 3; background-size: cover; background-position: center;
+    border-radius: var(--radius-card); box-shadow: var(--shadow-card); min-height: 320px;
+  }
+  @media (max-width: 900px) {
+    .page-hero__split-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,167 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import { PARTNER_TIERS, SITE } from '../../lib/site';
+
+const tiles = [
+  { slug: 'partner-monthly', label: 'Become a Favor Partner', desc: 'Monthly partnership. The lead path. Pick a tier.', featured: true },
+  { slug: 'one-time', label: 'Give Once', desc: 'Any amount, any time. Direct to Blackbaud.' },
+  { slug: 'specific-project', label: 'Specific Project', desc: 'Choose a current project to fund directly.' },
+  { slug: 'foundation', label: 'Foundation Giving', desc: 'Grants and DAFs. We will send the package.' },
+  { slug: 'church-partnership', label: 'Church Partnership', desc: 'Mobilize your church around an indigenous team.' },
+  { slug: 'international', label: 'International Giving', desc: 'UK, Canada, EU. Tax-receipt routes available.' },
+  { slug: 'legacy', label: 'Legacy Giving', desc: 'Wills, estates, charitable trusts.' },
+  { slug: 'non-cash', label: 'Stocks, Crypto, Non-Cash', desc: 'DAFpay, TrustBridge, equities.' },
+];
+
+const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
+---
+<PageLayout
+  title="Give"
+  description="Every giving pathway powered by Blackbaud. ECFA-accredited. Tax-deductible. Choose how you stand with Favor International — monthly partnership, one-time, foundation, DAF, or international."
+  image="/images/partner-with-us.jpg"
+>
+  <PageHero
+    label="Give"
+    title="One gift. Real, recurring impact."
+    promise="Every giving pathway powered by Blackbaud. ECFA-accredited. Tax-deductible. Pick your path."
+    image="/images/partner-with-us.jpg"
+    imageAlt="A Favor Partner gathering"
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    secondaryLabel="Give a one-time gift"
+    secondaryHref="/give/one-time/"
+  />
+
+  <section class="band band--cream">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Pick your path</p>
+        <h2>Eight ways to stand with Favor.</h2>
+      </header>
+      <div class="give-grid">
+        {tiles.map((t) => (
+          <a class:list={['give-tile', t.featured && 'give-tile--featured']} href={`/give/${t.slug}/`}>
+            <h3>{t.label}</h3>
+            <p>{t.desc}</p>
+            <span class="give-tile__cta">{t.featured ? 'Start your partnership →' : 'Learn the details →'}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">Featured tiers</p>
+      <h2>Favor Partner monthly amounts.</h2>
+      <p>Custom amounts welcome. These are the suggested tiers from the v2.1 partnership model.</p>
+      <ul class="tier-list">
+        {PARTNER_TIERS.map((t) => (
+          <li class:list={[t.featured && 'tier-list--featured']}>
+            <span class="tier-list__amount">${t.amount}<span class="tier-list__period">/mo</span></span>
+            <span class="tier-list__label">{t.label}</span>
+            <span class="tier-list__tagline">{t.tagline}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="band__cta-row">
+        <a class="btn btn--primary btn--large" href="/give/partner-monthly/">Become a Favor Partner</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--sage">
+    <div class="container container--narrow">
+      <p class="label">Other ways to give</p>
+      <h2>Stocks, crypto, non-cash, employer match.</h2>
+      <p>If a non-cash gift fits your situation better, we have a route. Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will send the right form.</p>
+      <ul class="other-ways">
+        {otherWays.map((w) => <li>{w}</li>)}
+      </ul>
+      <p class="band__cta-row">
+        <a class="btn btn--secondary" href="/give/non-cash/">Non-cash giving details</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--green-deep">
+    <div class="container container--narrow trust-band">
+      <p class="trust-band__line">All giving pathways powered by Blackbaud · ECFA-accredited · Tax-deductible</p>
+      <div class="trust-band__links">
+        <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA profile →</a>
+        <a href="/about/accountability/">990s and financials →</a>
+        <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">Charity Navigator →</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .give-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+  @media (max-width: 1100px) { .give-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .give-grid { grid-template-columns: 1fr; } }
+  .give-tile {
+    display: flex; flex-direction: column; gap: var(--space-3);
+    padding: var(--space-6);
+    background: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 160ms, transform 160ms, box-shadow 160ms;
+  }
+  .give-tile:hover { border-color: var(--color-gold); transform: translateY(-3px); box-shadow: var(--shadow-card); }
+  .give-tile h3 { margin: 0; font-size: 1.1rem; color: var(--color-green); }
+  .give-tile p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
+  .give-tile__cta { margin-top: auto; font-weight: 700; color: var(--color-gold); font-size: 0.85rem; }
+  .give-tile--featured { background: var(--color-gold); border-color: var(--color-gold); grid-column: span 2; }
+  .give-tile--featured h3 { color: var(--color-ink); font-size: 1.4rem; }
+  .give-tile--featured p { color: color-mix(in srgb, var(--color-ink) 78%, transparent); }
+  .give-tile--featured .give-tile__cta { color: var(--color-green-deep); }
+  @media (max-width: 540px) {
+    .give-tile--featured { grid-column: span 1; }
+  }
+
+  .tier-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
+  .tier-list li {
+    display: grid;
+    grid-template-columns: 120px 140px 1fr;
+    gap: var(--space-6);
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-cream);
+    border-radius: var(--radius-input);
+    border-left: 4px solid var(--color-gold);
+  }
+  .tier-list--featured { background: var(--color-green) !important; color: var(--color-white); }
+  .tier-list--featured .tier-list__amount { color: var(--color-gold); }
+  .tier-list--featured .tier-list__label, .tier-list--featured .tier-list__tagline { color: var(--color-white); }
+  .tier-list__amount { font-weight: 800; font-size: 1.4rem; color: var(--color-green); }
+  .tier-list__period { font-size: 0.85rem; color: var(--color-sage); font-weight: 600; }
+  .tier-list__label { font-weight: 700; letter-spacing: 0.04em; color: var(--color-green-deep); text-transform: uppercase; font-size: 0.85rem; }
+  .tier-list__tagline { color: var(--color-ink-soft); font-size: 0.92rem; }
+  @media (max-width: 720px) {
+    .tier-list li { grid-template-columns: 1fr; gap: var(--space-1); }
+  }
+
+  .other-ways { display: flex; gap: var(--space-3); flex-wrap: wrap; padding: 0; margin: var(--space-6) 0; list-style: none; }
+  .other-ways li {
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-white);
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-green);
+  }
+
+  .trust-band { text-align: center; color: var(--color-white); }
+  .trust-band__line { font-size: 1.05rem; margin: 0 0 var(--space-4); }
+  .trust-band__links { display: flex; gap: var(--space-6); justify-content: center; flex-wrap: wrap; }
+  .trust-band__links a { color: var(--color-gold); font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+  .trust-band__links a:hover { text-decoration: underline; }
+</style>

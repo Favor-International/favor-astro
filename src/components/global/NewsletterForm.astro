@@ -1,0 +1,42 @@
+---
+export interface Props { compact?: boolean; }
+const { compact = false } = Astro.props as Props;
+---
+<form class="newsletter" action="/newsletter/subscribe" method="post" data-compact={compact}>
+  <label for="newsletter-email" class="sr-only">Your email address</label>
+  <input
+    id="newsletter-email"
+    type="email"
+    name="email"
+    required
+    autocomplete="email"
+    placeholder="you@example.com"
+  />
+  <button type="submit" class="btn btn--primary">Send Me the Field Report</button>
+  <p class="newsletter__privacy">No spam. Unsubscribe anytime. We never sell your address.</p>
+</form>
+<style>
+  .newsletter {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-3);
+    max-width: 560px;
+  }
+  .newsletter input {
+    font: inherit;
+    padding: 14px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-input);
+    background: var(--color-white);
+    color: var(--color-ink);
+  }
+  .newsletter input:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; }
+  .newsletter__privacy {
+    grid-column: 1 / -1;
+    font-size: 0.8rem;
+    margin: 0;
+    color: var(--color-sage);
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  @media (max-width: 540px) { .newsletter { grid-template-columns: 1fr; } }
+</style>

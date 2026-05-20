@@ -1,0 +1,73 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+// Board of Directors — placeholder subset. Real names load from CMS or Directors.csv in Phase 3.
+const board = [
+  { name: 'Alexander Kramer', role: 'Board Chair', location: 'Florida' },
+  { name: 'Board Member 2 (name pending)', role: 'Treasurer', location: 'TBD' },
+  { name: 'Board Member 3 (name pending)', role: 'Secretary', location: 'TBD' },
+  { name: 'Board Member 4 (name pending)', role: 'Board Member', location: 'TBD' },
+  { name: 'Board Member 5 (name pending)', role: 'Board Member', location: 'TBD' },
+];
+---
+<PageLayout
+  title="Board of Directors"
+  description="The board of Favor International. Volunteer governance, term-limited, separate from paid staff."
+>
+  <PageHero
+    label="Governance"
+    title="Board of Directors."
+    promise="Volunteer governance. Term-limited. Separate from paid staff per ECFA best practice."
+    image="/images/partner-with-us.jpg"
+    imageAlt="Board meeting"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <p class="band__lede" style="text-align:center; margin-bottom: var(--space-12);">Per Stephanie Maier's note on the v2.1 sitemap, the Board is its own page, distinct from staff. Carole and the executive team have selected the subset that appears here.</p>
+      <div class="board-grid">
+        {board.map((m) => (
+          <article class="board-card">
+            <div class="board-card__photo" aria-hidden="true"></div>
+            <h3>{m.name}</h3>
+            <p>{m.role}</p>
+            <p class="board-card__location">{m.location}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="See the team."
+    body="US staff and key field leaders live on a separate page."
+    ctaLabel="See the team"
+    ctaHref="/about/team/"
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .board-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
+  @media (max-width: 900px) { .board-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .board-grid { grid-template-columns: 1fr; } }
+  .board-card {
+    background: var(--color-cream);
+    border-radius: var(--radius-card);
+    padding: var(--space-8) var(--space-6);
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-2);
+    border-top: 4px solid var(--color-green);
+  }
+  .board-card__photo {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-sage-light) 0%, var(--color-tan) 100%);
+    margin-bottom: var(--space-3);
+  }
+  .board-card h3 { margin: 0; color: var(--color-green); font-size: 1.1rem; }
+  .board-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.9rem; }
+  .board-card__location { color: var(--color-sage) !important; font-size: 0.85rem !important; }
+</style>

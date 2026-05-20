@@ -1,0 +1,25 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/band/PageHero.astro';
+import NewsletterForm from '../components/global/NewsletterForm.astro';
+---
+<PageLayout
+  title="Newsletter"
+  description="One email a month. Real news from the field. Honest reporting on what your partnership made possible."
+>
+  <PageHero
+    label="Newsletter"
+    title="One email a month. Real news from the field."
+    promise="Honest reporting. One specific story. One impact number. One thing the field needs next."
+    image="/images/gift-bishoftu-tot.jpg"
+    imageAlt="Field team gathering"
+    variant="split"
+  />
+  <section class="band band--white">
+    <div class="container container--narrow" style="text-align:center;">
+      <h2>Subscribe.</h2>
+      <p>No spam. We never sell your address. Unsubscribe any time.</p>
+      <div style="margin: var(--space-6) auto 0; max-width: 540px;"><NewsletterForm /></div>
+    </div>
+  </section>
+</PageLayout>

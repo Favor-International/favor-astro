@@ -1,0 +1,92 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import ProofBlock from '../../components/band/ProofBlock.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const trips = [
+  { dest: 'Uganda — Gulu and Karamoja', dates: 'Spring 2026', length: '10 days', leader: 'Pastor Daniel and the Favor Uganda team', cost: '~$3,400 + airfare' },
+  { dest: 'South Sudan — Juba and Lakes State', dates: 'Fall 2026', length: '12 days', leader: 'Juba field office leadership', cost: '~$4,200 + airfare' },
+  { dest: 'Ethiopia — Addis and Bishoftu', dates: 'Winter 2027', length: '9 days', leader: 'GIFT Institute team', cost: '~$3,100 + airfare' },
+];
+---
+<PageLayout
+  title="Vision Trips"
+  description="Walk a village with a Favor field leader. 7–14 day vision trips to Uganda, South Sudan, and Ethiopia."
+  image="/images/pbs-karamoja.jpg"
+>
+  <PageHero
+    label="Vision trips"
+    title="Walk a village with a Favor field leader."
+    promise="7–14 day trips. Small teams. Real ministry, not voluntourism. You will come home different."
+    image="/images/pbs-karamoja.jpg"
+    imageAlt="Vision trip group on the trail"
+    ctaLabel="Apply for a trip"
+    ctaHref="/about/contact/?topic=vision-trip"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Open trips</p>
+        <h2>The 2026–27 calendar.</h2>
+      </header>
+      <ul class="trip-list">
+        {trips.map((t) => (
+          <li>
+            <div>
+              <h3>{t.dest}</h3>
+              <p>Led by {t.leader}.</p>
+            </div>
+            <dl>
+              <dt>Window</dt><dd>{t.dates}</dd>
+              <dt>Length</dt><dd>{t.length}</dd>
+              <dt>Cost</dt><dd>{t.cost}</dd>
+            </dl>
+            <a class="btn btn--secondary" href="/about/contact/?topic=vision-trip">Inquire about this trip</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <ProofBlock
+        name="Jennifer M."
+        place="Tampa, FL"
+        outcome="Returned from her first vision trip and brought 4 new Favor Partners home with her."
+        quote="I thought I was going to give. I came back having received more than I deposited."
+        image="/images/partner-with-us.jpg"
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Apply for a vision trip."
+    body="Application closes 60 days before each trip. We will call you back within a week."
+    ctaLabel="Apply"
+    ctaHref="/about/contact/?topic=vision-trip"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .trip-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-6); }
+  .trip-list li {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr auto;
+    gap: var(--space-8);
+    align-items: center;
+    padding: var(--space-6);
+    background: var(--color-cream);
+    border-left: 4px solid var(--color-gold);
+    border-radius: var(--radius-input);
+  }
+  @media (max-width: 900px) { .trip-list li { grid-template-columns: 1fr; } }
+  .trip-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.2rem; }
+  .trip-list p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 4px var(--space-3); margin: 0; font-size: 0.9rem; }
+  dt { font-weight: 700; color: var(--color-sage); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em; align-self: center; }
+  dd { margin: 0; color: var(--color-ink-soft); }
+</style>

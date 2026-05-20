@@ -1,0 +1,145 @@
+---
+import { SITE } from '../../lib/site';
+---
+<footer class="site-footer">
+  <div class="container site-footer__top">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">{SITE.name}</p>
+      <p class="site-footer__signature">{SITE.signature}</p>
+      <address>
+        <p>{SITE.mailing}</p>
+        <p><a href={`tel:${SITE.phoneTel}`}>{SITE.phone}</a></p>
+        <p><a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a></p>
+        <p><a href={`mailto:${SITE.emailPrayer}`}>{SITE.emailPrayer}</a></p>
+      </address>
+    </div>
+
+    <nav class="site-footer__col" aria-label="About">
+      <p class="site-footer__col-title">About</p>
+      <ul>
+        <li><a href="/about/">Mission</a></li>
+        <li><a href="/about/our-story/">Our Story</a></li>
+        <li><a href="/about/where-we-work/">Where We Work</a></li>
+        <li><a href="/about/team/">Team</a></li>
+        <li><a href="/about/board/">Board</a></li>
+        <li><a href="/about/accountability/">Accountability</a></li>
+        <li><a href="/about/statement-of-faith/">Statement of Faith</a></li>
+        <li><a href="/about/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Engage">
+      <p class="site-footer__col-title">Engage</p>
+      <ul>
+        <li><a href="/pray/">Pray</a></li>
+        <li><a href="/pray/30-day-guide/">30-Day Prayer Guide</a></li>
+        <li><a href="/give/">Give</a></li>
+        <li><a href="/give/partner-monthly/">Favor Partner</a></li>
+        <li><a href="/go/vision-trips/">Vision Trips</a></li>
+        <li><a href="/go/volunteer/">Volunteer</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Impact">
+      <p class="site-footer__col-title">Impact</p>
+      <ul>
+        <li><a href="/impact/evangelism-discipleship/">Evangelism + Discipleship</a></li>
+        <li><a href="/impact/education/">Education</a></li>
+        <li><a href="/impact/community-development/">Community Development</a></li>
+        <li><a href="/impact/economic-empowerment/">Economic Empowerment</a></li>
+        <li><a href="/stories/">Stories</a></li>
+        <li><a href="/impact/impact-reports/">Impact Reports</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-footer__col site-footer__trust">
+      <p class="site-footer__col-title">Trust</p>
+      <ul class="site-footer__trust-list">
+        <li><a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA accredited</a></li>
+        <li><a href={SITE.trust.candid} target="_blank" rel="noopener">Candid Platinum</a></li>
+        <li><a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">Charity Navigator</a></li>
+        <li>501(c)(3) · EIN {SITE.ein}</li>
+      </ul>
+      <ul class="site-footer__social" aria-label="Social">
+        <li><a href={SITE.social.facebook} target="_blank" rel="noopener" aria-label="Facebook">FB</a></li>
+        <li><a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram">IG</a></li>
+        <li><a href={SITE.social.youtube} target="_blank" rel="noopener" aria-label="YouTube">YT</a></li>
+        <li><a href={SITE.social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">IN</a></li>
+        <li><a href={SITE.social.twitter} target="_blank" rel="noopener" aria-label="X">X</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>{SITE.tagline}</p>
+    <p>&copy; {new Date().getFullYear()} {SITE.name}. All rights reserved. · <a href="/legal/privacy/">Privacy</a> · <a href="/legal/terms/">Terms</a></p>
+  </div>
+</footer>
+<style>
+  .site-footer {
+    background: var(--color-green-deep);
+    color: var(--color-white);
+    padding: var(--space-16) 0 var(--space-6);
+  }
+  .site-footer a { color: var(--color-white); text-decoration: none; }
+  .site-footer a:hover { color: var(--color-gold); text-decoration: underline; }
+
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1.1fr;
+    gap: var(--space-12);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
+  }
+  @media (max-width: 1100px) {
+    .site-footer__top { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .site-footer__top { grid-template-columns: 1fr; gap: var(--space-8); }
+  }
+
+  .site-footer__name { font-size: 1.15rem; font-weight: 800; margin: 0 0 var(--space-2); }
+  .site-footer__signature { font-style: italic; color: var(--color-gold-light); margin: 0 0 var(--space-4); }
+  address { font-style: normal; font-size: 0.9rem; line-height: 1.7; color: color-mix(in srgb, var(--color-white) 80%, transparent); }
+  address p { margin: 0; }
+
+  .site-footer__col-title {
+    font-size: var(--font-size-label);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0 0 var(--space-4);
+  }
+  .site-footer__col ul { list-style: none; padding: 0; margin: 0; }
+  .site-footer__col li { margin-bottom: var(--space-2); font-size: 0.92rem; }
+
+  .site-footer__trust-list { margin-bottom: var(--space-6) !important; }
+
+  .site-footer__social { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .site-footer__social li { margin: 0; }
+  .site-footer__social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid color-mix(in srgb, var(--color-white) 35%, transparent);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  .site-footer__social a:hover { background: var(--color-gold); color: var(--color-ink); border-color: var(--color-gold); }
+
+  .site-footer__bottom {
+    padding-top: var(--space-6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: 0.85rem;
+    color: color-mix(in srgb, var(--color-white) 72%, transparent);
+  }
+  .site-footer__bottom p { margin: 0; }
+</style>

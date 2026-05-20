@@ -1,0 +1,51 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { SITE } from '../../lib/site';
+---
+<PageLayout
+  title="International Giving"
+  description="UK, Canada, EU, and Australia partners can give to Favor International with tax-receipt routes via TrustBridge Global."
+>
+  <PageHero
+    label="International giving"
+    title="UK · Canada · EU · Australia."
+    promise="Tax-receipt routes through TrustBridge Global. We are an approved international beneficiary."
+    image="/images/hero-pbs-graduation.jpg"
+    imageAlt="PBS graduation"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">Country routes</p>
+      <h2>How to give from outside the United States.</h2>
+      <table class="intl-table">
+        <thead><tr><th>Country</th><th>Tax-receipt route</th><th>How to give</th></tr></thead>
+        <tbody>
+          <tr><td>United Kingdom</td><td>Gift Aid eligible via TrustBridge UK</td><td><a href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com →</a></td></tr>
+          <tr><td>Canada</td><td>CRA-receipt via TrustBridge Canada</td><td><a href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com →</a></td></tr>
+          <tr><td>European Union</td><td>TGE network via TrustBridge</td><td><a href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com →</a></td></tr>
+          <tr><td>Australia</td><td>DGR via partner foundation</td><td><a href={`mailto:${SITE.emailGeneral}?subject=Australia giving`}>Email the team</a></td></tr>
+        </tbody>
+      </table>
+      <p>If your country isn't listed, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will help you find a tax-efficient route.</p>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="One step closer to the field."
+    body="Pick your country route, follow the link, and your gift will reach the field within 30 days."
+    ctaLabel="Go to TrustBridge"
+    ctaHref="https://trustbridgeglobal.com"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .intl-table { width: 100%; border-collapse: collapse; margin: var(--space-8) 0; }
+  .intl-table th, .intl-table td { text-align: left; padding: var(--space-4); border-bottom: 1px solid var(--color-border); }
+  .intl-table th { background: var(--color-cream); font-weight: 700; color: var(--color-green); letter-spacing: 0.04em; font-size: 0.85rem; text-transform: uppercase; }
+  .intl-table td a { color: var(--color-gold); font-weight: 700; }
+</style>

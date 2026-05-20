@@ -1,0 +1,62 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const roles = [
+  { title: 'Ambassador', commitment: '~3 hr/mo', desc: 'Refer Favor to your network. We give you the assets, you tell the story.' },
+  { title: 'Prayer warrior', commitment: 'Daily, your pace', desc: 'Receive a weekly specific prayer brief from a field team. Stand in the gap.' },
+  { title: 'Intercession team', commitment: 'Monthly + during trips', desc: 'Live-link prayer support during vision trips and crusades.' },
+  { title: 'Stage Sunday host', commitment: 'One Sunday', desc: 'Bring a Favor field leader to your church for a stage Sunday.' },
+];
+---
+<PageLayout
+  title="Serve from Home"
+  description="Volunteer with Favor International from the United States. Ambassador, prayer, intercession, and church-host roles."
+>
+  <PageHero
+    label="Volunteer"
+    title="Serve from home."
+    promise="You don't have to fly to be useful. Pick a role that fits your time."
+    image="/images/gift-bishoftu-tot.jpg"
+    imageAlt="Volunteer team gathering"
+    ctaLabel="Sign up"
+    ctaHref="/about/contact/?topic=volunteer"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">Four roles</p>
+      <h2>Pick one that fits your time.</h2>
+      <ul class="role-list">
+        {roles.map((r) => (
+          <li>
+            <div>
+              <h3>{r.title}</h3>
+              <p>{r.desc}</p>
+            </div>
+            <span class="commitment">{r.commitment}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Sign up for a role."
+    body="One short form. We will follow up within a few days."
+    ctaLabel="Sign up"
+    ctaHref="/about/contact/?topic=volunteer"
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .role-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
+  .role-list li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
+  .role-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
+  .role-list p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
+  .commitment { font-weight: 700; color: var(--color-gold); font-size: 0.85rem; white-space: nowrap; padding: var(--space-2) var(--space-4); background: var(--color-white); border-radius: var(--radius-pill); }
+  @media (max-width: 600px) { .role-list li { flex-direction: column; align-items: flex-start; } }
+</style>

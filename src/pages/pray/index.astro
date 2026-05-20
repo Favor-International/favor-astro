@@ -1,0 +1,78 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import ProofBlock from '../../components/band/ProofBlock.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { CTA } from '../../lib/cta';
+
+const focuses = [
+  { country: 'Uganda', ask: 'Pray for the PBS graduates traveling to plant in Karamoja.' },
+  { country: 'South Sudan', ask: 'Pray for the Juba team as they enter cattle-camp regions long closed to the Gospel.' },
+  { country: 'Chad', ask: 'Pray for protection and open doors. Pray specifically and frequently.' },
+  { country: 'Ethiopia', ask: 'Pray for the Bibles being printed in Amharic. Pray for the hands they will reach.' },
+  { country: 'Democratic Republic of Congo', ask: 'Pray for the church planting cohort working through trauma in eastern provinces.' },
+  { country: 'Kenya', ask: 'Pray for partners and ambassadors who refer Favor to their networks.' },
+];
+---
+<PageLayout
+  title="Pray With Us"
+  description="Pray where they cannot reach. Specific villages, specific pastors, specific battles. Get the 30-day prayer guide and stand in the gap with Favor International."
+  image="/images/evangelism-discipleship.jpg"
+>
+  <PageHero
+    label="Pray"
+    title="You can pray where they cannot reach."
+    promise="Prayer is the first work of every Favor village. You can be part of it. Specific villages, specific pastors, specific battles."
+    image="/images/evangelism-discipleship.jpg"
+    imageAlt="A Favor pastor laying hands on children in a village"
+    ctaLabel={CTA.prayerGuide}
+    ctaHref="/pray/30-day-guide/"
+    secondaryLabel="Email a prayer request"
+    secondaryHref="mailto:prayer@favorintl.org"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">What we ask you to pray for</p>
+      <h2>Six specific battles, one Kingdom outcome.</h2>
+      <ul class="focus-list">
+        {focuses.map((f) => (
+          <li>
+            <strong>{f.country}.</strong> {f.ask}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <ProofBlock
+        name="Field Leader, South Sudan"
+        place="Lakes State"
+        outcome="Cattle-camp church planted in 2025."
+        quote="The prayers from outside Sudan reached our village before the team did. We felt the protection in our bones."
+        image="/images/pillar-community.jpg"
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Stand in the gap for 30 days."
+    body="Download the prayer guide. One focus per day across the fourteen nations Favor serves. No email required."
+    ctaLabel={CTA.prayerGuide}
+    ctaHref="/pray/30-day-guide/"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .focus-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
+  .focus-list li {
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-cream);
+    border-left: 4px solid var(--color-gold);
+    border-radius: var(--radius-input);
+  }
+  .focus-list strong { color: var(--color-green); }
+</style>

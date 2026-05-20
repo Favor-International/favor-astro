@@ -1,0 +1,84 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const projects = [
+  { slug: 'gulu-primary-school', name: 'Primary school in Gulu, Uganda', goal: 80000, raised: 47200, image: '/images/pillar-education.jpg', summary: 'A new primary school building serving 220 students. Two classrooms ready, four to go.' },
+  { slug: 'gift-dormitory', name: 'GIFT Institute dormitory', goal: 65000, raised: 51800, image: '/images/gift-bishoftu-tot.jpg', summary: 'Beds and study rooms for the next cohort of pastor-trainees. Doors open Q3.' },
+  { slug: 'arabic-bible-curriculum', name: 'Arabic-translated Bible curriculum', goal: 18000, raised: 12400, image: '/images/hero-pbs-graduation.jpg', summary: 'Translating the PBS curriculum into Arabic for Sudan and Chad field teams.' },
+  { slug: 'solar-radio', name: 'Solar power for two radio stations', goal: 22000, raised: 9100, image: '/images/pillar-community.jpg', summary: 'Off-grid solar arrays for Favor FM radio sites. Keeps the Gospel on air through the dry season.' },
+];
+
+function pct(raised: number, goal: number) { return Math.min(100, Math.round((raised / goal) * 100)); }
+---
+<PageLayout
+  title="Specific Project"
+  description="Fund a specific Favor International project directly. School buildings, dormitories, Bible curriculum, off-grid power."
+>
+  <PageHero
+    label="Specific project"
+    title="Fund the exact thing the field needs."
+    promise="Pick a project. Watch the progress bar. Receive direct field updates from the team you funded."
+    image="/images/pillar-education.jpg"
+    imageAlt="Primary school in Gulu, Uganda under construction"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Active projects</p>
+        <h2>What's open today.</h2>
+      </header>
+      <div class="proj-grid">
+        {projects.map((p) => (
+          <a class="proj-card" href={`/give/specific-project/${p.slug}/`}>
+            <div class="proj-card__photo" style={`background-image: url(${p.image})`} role="img" aria-label={p.name}></div>
+            <div class="proj-card__body">
+              <h3>{p.name}</h3>
+              <p>{p.summary}</p>
+              <div class="proj-card__progress" aria-label={`${pct(p.raised, p.goal)} percent funded`}>
+                <div class="proj-card__bar" style={`--pct: ${pct(p.raised, p.goal)}%`}></div>
+              </div>
+              <p class="proj-card__meta"><strong>${p.raised.toLocaleString()}</strong> raised of ${p.goal.toLocaleString()} goal</p>
+              <span class="proj-card__cta">Fund this project →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Not seeing what you want to fund?"
+    body="Email info@favorintl.org. We will route your gift to the field team most likely to use it well."
+    ctaLabel="Email the team"
+    ctaHref="mailto:info@favorintl.org"
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
+  @media (max-width: 800px) { .proj-grid { grid-template-columns: 1fr; } }
+  .proj-card {
+    display: flex; flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
+  }
+  .proj-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+  .proj-card__photo { aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
+  .proj-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+  .proj-card h3 { margin: 0; font-size: 1.2rem; color: var(--color-green); }
+  .proj-card p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
+  .proj-card__progress { height: 8px; background: var(--color-sage-light); border-radius: 999px; overflow: hidden; }
+  .proj-card__bar { height: 100%; width: var(--pct); background: var(--color-gold); border-radius: 999px; }
+  .proj-card__meta { font-size: 0.88rem; margin: 0; }
+  .proj-card__meta strong { color: var(--color-green); }
+  .proj-card__cta { font-weight: 700; color: var(--color-gold); font-size: 0.9rem; }
+</style>

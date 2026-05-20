@@ -1,0 +1,52 @@
+---
+export interface Props { variant?: 'dark' | 'light'; }
+const { variant = 'light' } = Astro.props as Props;
+const items = [
+  { value: '14', label: 'Nations served' },
+  { value: 'ECFA', label: 'Accredited 501(c)(3)' },
+  { value: '195,773', label: 'Came to Christ, FY2025' },
+  { value: '$0.92', label: 'Of every dollar to the field' },
+];
+---
+<aside class:list={['trust-strip', `trust-strip--${variant}`]} aria-label="Trust signals">
+  <ul>
+    {items.map((it) => (
+      <li>
+        <span class="trust-strip__value">{it.value}</span>
+        <span class="trust-strip__label">{it.label}</span>
+      </li>
+    ))}
+  </ul>
+</aside>
+<style>
+  .trust-strip ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    list-style: none;
+    padding: var(--space-6) var(--space-6);
+    margin: 0;
+    border-radius: var(--radius-card);
+  }
+  .trust-strip--light ul { background: rgba(255, 255, 255, 0.94); box-shadow: var(--shadow-card); }
+  .trust-strip--dark ul { background: color-mix(in srgb, var(--color-green-deep) 92%, transparent); color: var(--color-white); }
+  .trust-strip li { display: flex; flex-direction: column; gap: var(--space-1); text-align: center; }
+  .trust-strip__value {
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    color: var(--color-green);
+    line-height: 1;
+  }
+  .trust-strip--dark .trust-strip__value { color: var(--color-gold); }
+  .trust-strip__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+  }
+  .trust-strip--dark .trust-strip__label { color: color-mix(in srgb, var(--color-white) 80%, transparent); }
+  @media (max-width: 720px) {
+    .trust-strip ul { grid-template-columns: repeat(2, 1fr); padding: var(--space-4); }
+  }
+</style>

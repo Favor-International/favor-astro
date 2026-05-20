@@ -1,0 +1,78 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import { SITE } from '../../lib/site';
+---
+<PageLayout
+  title="Contact"
+  description="Reach a real human on the Favor International US team. Mailing address, phone, and email."
+>
+  <PageHero
+    label="Contact"
+    title="Reach a real human."
+    promise={`Email or call us during ${SITE.hours}. We answer within one business day.`}
+    image="/images/partner-with-us.jpg"
+    imageAlt="US team office"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <p class="label">Direct contact</p>
+          <h2>Talk to us.</h2>
+          <ul class="contact-meta">
+            <li><strong>General:</strong> <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a></li>
+            <li><strong>Prayer:</strong> <a href={`mailto:${SITE.emailPrayer}`}>{SITE.emailPrayer}</a></li>
+            <li><strong>Phone:</strong> <a href={`tel:${SITE.phoneTel}`}>{SITE.phone}</a></li>
+            <li><strong>Hours:</strong> {SITE.hours}</li>
+            <li><strong>Mailing:</strong> {SITE.mailing}</li>
+          </ul>
+        </div>
+        <form class="contact-form" action="/contact/submit" method="post">
+          <label>
+            <span>Your name</span>
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label>
+            <span>What is this about?</span>
+            <select name="topic">
+              <option value="general">General question</option>
+              <option value="prayer">Prayer request</option>
+              <option value="church">Church partnership</option>
+              <option value="foundation">Foundation / DAF inquiry</option>
+              <option value="vision-trip">Vision trip</option>
+              <option value="volunteer">Volunteering</option>
+              <option value="media">Media or press</option>
+            </select>
+          </label>
+          <label>
+            <span>Your message</span>
+            <textarea name="message" rows="6" required></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary btn--large">Send the message</button>
+          <p class="contact-form__privacy">We never sell or share your information. We will reply within one business day.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-16); }
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-meta { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; gap: var(--space-3); }
+  .contact-meta li { padding: var(--space-3) var(--space-4); background: var(--color-cream); border-radius: var(--radius-input); }
+  .contact-meta strong { color: var(--color-green); margin-right: var(--space-2); }
+  .contact-form { display: grid; gap: var(--space-4); padding: var(--space-8); background: var(--color-cream); border-radius: var(--radius-card); }
+  .contact-form label { display: grid; gap: var(--space-2); }
+  .contact-form span { font-weight: 700; font-size: 0.85rem; color: var(--color-green); letter-spacing: 0.04em; text-transform: uppercase; }
+  .contact-form input, .contact-form select, .contact-form textarea { font: inherit; padding: 12px 14px; border: 2px solid var(--color-border); border-radius: var(--radius-input); background: var(--color-white); }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; }
+  .contact-form__privacy { margin: 0; font-size: 0.8rem; color: var(--color-sage); }
+</style>

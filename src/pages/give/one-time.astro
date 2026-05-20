@@ -1,0 +1,74 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { SITE } from '../../lib/site';
+---
+<PageLayout
+  title="Give Once"
+  description="A one-time gift to Favor International. Any amount. Direct to Blackbaud. Tax-deductible. Real, recurring impact on the field."
+>
+  <PageHero
+    label="One-time gift"
+    title="Any amount. Any time."
+    promise="A single gift goes straight to the field. We will receipt you by email immediately."
+    image="/images/hero-pbs-graduation.jpg"
+    imageAlt="PBS graduates in South Sudan"
+    ctaLabel="Give $50"
+    ctaHref="/give/one-time/form/?amount=50"
+    secondaryLabel="Choose a different amount"
+    secondaryHref="/give/one-time/form/"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">Quick amounts</p>
+      <h2>Pick an amount that's right today.</h2>
+      <div class="quick-grid">
+        {[25, 50, 100, 250, 500, 1000].map((amt) => (
+          <a class="quick" href={`/give/one-time/form/?amount=${amt}`}>${amt}</a>
+        ))}
+        <a class="quick quick--custom" href="/give/one-time/form/">Custom →</a>
+      </div>
+      <p class="band__cta-row">
+        <a class="btn btn--secondary" href="/give/partner-monthly/">Or become a monthly Favor Partner →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <p class="label">Trust signals</p>
+      <h2>Where your gift goes.</h2>
+      <p>One-time gifts route through Blackbaud and are received the same day. You will receive a tax-deductible receipt by email immediately. 92 cents of every dollar goes to the field.</p>
+      <p>Favor International is a 501(c)(3) public charity, EIN {SITE.ein}, and an <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited member</a>.</p>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Already a Favor Partner?"
+    body="Thank you. A second gift on top of your monthly partnership goes directly to the next field need."
+    ctaLabel="Make a second gift"
+    ctaHref="/give/one-time/form/"
+    variant="gold"
+  />
+</PageLayout>
+
+<style>
+  .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); margin: var(--space-8) 0; }
+  @media (max-width: 720px) { .quick-grid { grid-template-columns: repeat(2, 1fr); } }
+  .quick {
+    display: flex; align-items: center; justify-content: center;
+    padding: var(--space-8) var(--space-4);
+    background: var(--color-cream);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-card);
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--color-green);
+    text-decoration: none;
+    transition: border-color 160ms, transform 160ms;
+  }
+  .quick:hover { border-color: var(--color-gold); transform: translateY(-2px); }
+  .quick--custom { font-size: 1.1rem; }
+</style>

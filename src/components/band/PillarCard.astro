@@ -1,0 +1,55 @@
+---
+export interface Props {
+  slug: string;
+  label: string;
+  blurb: string;
+  image?: string;
+  programs?: readonly string[];
+}
+const { slug, label, blurb, image, programs = [] } = Astro.props as Props;
+---
+<a class="pillar-card" href={`/impact/${slug}/`}>
+  {image && <div class="pillar-card__photo" style={`background-image: url(${image})`} role="img" aria-label={label} />}
+  <div class="pillar-card__body">
+    <h3>{label}</h3>
+    <p>{blurb}</p>
+    {programs.length > 0 && (
+      <ul class="pillar-card__programs">
+        {programs.slice(0, 3).map((p) => <li>{p}</li>)}
+      </ul>
+    )}
+    <span class="pillar-card__cta">See the work →</span>
+  </div>
+</a>
+<style>
+  .pillar-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 180ms, box-shadow 180ms, border-color 180ms;
+    height: 100%;
+  }
+  .pillar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+    border-color: var(--color-gold);
+  }
+  .pillar-card__photo {
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .pillar-card__body { padding: var(--space-6); flex: 1; display: flex; flex-direction: column; gap: var(--space-3); }
+  .pillar-card h3 { margin: 0; font-size: 1.2rem; color: var(--color-green); }
+  .pillar-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; }
+  .pillar-card__programs { list-style: none; padding: 0; margin: 0; font-size: 0.82rem; color: var(--color-sage); }
+  .pillar-card__programs li { padding: 4px 0; border-top: 1px solid var(--color-border); }
+  .pillar-card__programs li:first-child { border-top: 0; }
+  .pillar-card__cta { margin-top: auto; font-weight: 700; color: var(--color-gold); font-size: 0.9rem; }
+</style>

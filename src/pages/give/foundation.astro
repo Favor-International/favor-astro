@@ -1,0 +1,60 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { SITE } from '../../lib/site';
+---
+<PageLayout
+  title="Foundation Giving"
+  description="Foundation, donor-advised fund, and grant-maker inquiries. Due-diligence-ready financials and program reports."
+>
+  <PageHero
+    label="For foundations and DAFs"
+    title="Due-diligence-ready. Field-result-ready."
+    promise="ECFA accreditation, audited financials, and program-restricted reporting. We will send the package the next business day."
+    image="/images/hero-pbs-graduation.jpg"
+    imageAlt="PBS graduation in South Sudan"
+    ctaLabel="Request the foundation packet"
+    ctaHref="/about/contact/?topic=foundation"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">What you can expect</p>
+      <h2>Due diligence on day one.</h2>
+      <ul class="due-diligence">
+        <li><strong>Audited financials</strong> — FY2022, FY2023, FY2024. FY2025 audit available in Q3.</li>
+        <li><strong>IRS Form 990</strong> — Most recent three years. Public on Candid.</li>
+        <li><strong>Program restriction options</strong> — All four pillars and individual projects accept restricted gifts with quarterly reporting.</li>
+        <li><strong>ECFA accreditation</strong> — Current and continuous.</li>
+        <li><strong>DAFpay and TrustBridge</strong> — Both are wired up for DAF and donor-advised fund routing.</li>
+        <li><strong>Site visits</strong> — Field site visits available for grant officers. Two-week scheduling lead time.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <p class="label">Contact</p>
+      <h2>Talk to a real human.</h2>
+      <p>Foundation officers, family-office staff, DAF advisors — email the executive team directly. We will respond within one business day with the packet you need.</p>
+      <p><strong>{SITE.emailGeneral}</strong> · {SITE.phone}</p>
+      <p>EIN {SITE.ein} · 501(c)(3) public charity · ECFA member ID 50004.</p>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Already routing a DAF gift?"
+    body="DAFpay and TrustBridge are wired up. Use them or send a direct check; we will receipt within 48 hours."
+    ctaLabel="Email for routing instructions"
+    ctaHref={`mailto:${SITE.emailGeneral}?subject=DAF gift routing`}
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .due-diligence { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
+  .due-diligence li { padding: var(--space-4) var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
+  .due-diligence strong { color: var(--color-green); display: block; margin-bottom: 4px; }
+</style>

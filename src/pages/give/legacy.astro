@@ -1,0 +1,56 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import { SITE } from '../../lib/site';
+---
+<PageLayout
+  title="Legacy Giving"
+  description="Plan your estate to keep the field moving. Wills, beneficiary designations, and charitable trusts."
+>
+  <PageHero
+    label="Legacy giving"
+    title="Send a pastor for the next generation."
+    promise="Wills, beneficiary designations, and charitable trusts that keep Favor's work moving when you cannot."
+    image="/images/gift-bishoftu-tot.jpg"
+    imageAlt="Training the next generation of leaders"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">Three common paths</p>
+      <h2>How most Favor legacy partners give.</h2>
+      <div class="legacy-paths">
+        <article>
+          <h3>Bequest by will</h3>
+          <p>A specific dollar amount or a percentage of your estate, named in your will. Most common, easiest to set up. Talk to your attorney.</p>
+        </article>
+        <article>
+          <h3>Beneficiary designation</h3>
+          <p>Name Favor International as a beneficiary on an IRA, 401(k), or life-insurance policy. Often the most tax-efficient route.</p>
+        </article>
+        <article>
+          <h3>Charitable trust</h3>
+          <p>Charitable remainder or lead trusts can provide income to you or family and route the remainder to Favor. Talk to a CFP first.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Send us your intent."
+    body="If you have already named Favor in your estate, please tell us. We will keep it confidential and add you to a small annual legacy gathering."
+    ctaLabel="Email the legacy team"
+    ctaHref={`mailto:${SITE.emailGeneral}?subject=Legacy gift intent`}
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .legacy-paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-top: var(--space-8); }
+  @media (max-width: 900px) { .legacy-paths { grid-template-columns: 1fr; } }
+  .legacy-paths article { background: var(--color-cream); padding: var(--space-6); border-radius: var(--radius-card); border-top: 4px solid var(--color-gold); }
+  .legacy-paths h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.1rem; }
+  .legacy-paths p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; }
+</style>

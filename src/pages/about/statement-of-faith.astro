@@ -1,0 +1,75 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const articles = [
+  { title: 'The Bible', body: 'We believe the Bible — Old and New Testaments — is the inspired, infallible, and authoritative Word of God.' },
+  { title: 'God', body: 'We believe in one God, eternally existent in three persons: Father, Son, and Holy Spirit.' },
+  { title: 'Jesus Christ', body: 'We believe in the deity of our Lord Jesus Christ, His virgin birth, sinless life, atoning death, bodily resurrection, ascension, and personal return in power and glory.' },
+  { title: 'Salvation', body: 'We believe salvation is by grace through faith in Jesus Christ alone, not by works.' },
+  { title: 'The Holy Spirit', body: 'We believe in the present ministry of the Holy Spirit, by whose indwelling the Christian is enabled to live a godly life.' },
+  { title: 'The Church', body: 'We believe in the spiritual unity of believers in our Lord Jesus Christ, expressed locally in the gathered church.' },
+];
+---
+<PageLayout
+  title="Statement of Faith"
+  description="The doctrinal statement of Favor International. Where we stand."
+>
+  <PageHero
+    label="Statement of Faith"
+    title="Where we stand."
+    promise="The doctrinal core that every Favor staff member, board member, and field leader affirms."
+    image="/images/evangelism-discipleship.jpg"
+    imageAlt="Pastor teaching"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <ol class="faith-list">
+        {articles.map((a) => (
+          <li>
+            <h3>{a.title}</h3>
+            <p>{a.body}</p>
+          </li>
+        ))}
+      </ol>
+      <p>This statement is intentionally short and intentionally classic. Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant.</p>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Questions on doctrine?"
+    body="Email the team. We are happy to discuss what we believe and why."
+    ctaLabel="Email the team"
+    ctaHref="mailto:info@favorintl.org"
+    variant="sage"
+  />
+</PageLayout>
+
+<style>
+  .faith-list { list-style: none; padding: 0; margin: 0 0 var(--space-8); display: grid; gap: var(--space-4); counter-reset: faith; }
+  .faith-list li {
+    padding: var(--space-6);
+    background: var(--color-cream);
+    border-radius: var(--radius-card);
+    position: relative;
+    padding-left: 72px;
+  }
+  .faith-list li::before {
+    counter-increment: faith;
+    content: counter(faith);
+    position: absolute;
+    left: var(--space-6);
+    top: var(--space-6);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    color: var(--color-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+  }
+  .faith-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
+  .faith-list p { margin: 0; color: var(--color-ink-soft); }
+</style>

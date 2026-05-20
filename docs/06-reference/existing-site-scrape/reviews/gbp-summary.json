@@ -1,0 +1,34 @@
+{
+  "queriedAt": "2026-05-19T17:41:00Z",
+  "queries": [
+    "Favor International Valrico Florida",
+    "Favor International missionary nonprofit Valrico FL 33594",
+    "Favor International Valrico FL 33596"
+  ],
+  "result": "no_gbp_listing_found",
+  "explanation": "Google Maps does not return a Google Business Profile for Favor International. The Valrico FL address (3433 Lithia Pinecrest Rd #356, Valrico, FL 33596) is a mail-suite (the '#356' indicates a private mailbox / UPS Store style address), not a physical retail or visit-by-the-public location. Nonprofits operating from PMB addresses commonly do not have a Google Business Profile. The closest-named result was 'Favor Church' in Wesley Chapel, FL (33383 CR 54), which is an unrelated church.",
+  "verified_org_facts": {
+    "legal_name": "Favor International",
+    "ein": "47-5225697",
+    "mailing_address": "3433 Lithia Pinecrest Rd #356, Valrico, FL 33596",
+    "secondary_office": "1767 Lakewood Ranch Blvd 223, Bradenton, FL 34211",
+    "international_offices": ["Gulu, Uganda", "Juba, South Sudan", "Chad"],
+    "phone": "941-444-9940",
+    "email_general": "info@favorintl.org",
+    "email_prayer": "prayer@favorintl.org",
+    "hours": "9am-5pm EST, Monday-Friday",
+    "sources": [
+      "favorintl.org/about (live)",
+      "ecfa.org/MemberProfile.aspx?ID=50004",
+      "db.ministrywatch.com/ministry.php?ein=475225697"
+    ]
+  },
+  "social_links": {
+    "facebook": "https://facebook.com/FavorIntlOrg/",
+    "twitter": "https://twitter.com/favorintlorg",
+    "instagram": "https://instagram.com/favorintlorg/",
+    "youtube": "https://youtube.com/channel/UCIv8yRH1mO5s_JLzqG5O6Ug",
+    "linkedin": "https://linkedin.com/company/favorintl/"
+  },
+  "recommendation": "Do not list a physical address in nav or hero. Use the Bradenton secondary office or a PO-box footer treatment. If GBP is desired for SEO, claim or create one at the Bradenton office. Flag for Will."
+}

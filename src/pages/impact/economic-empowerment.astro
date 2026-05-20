@@ -1,0 +1,68 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import ProofBlock from '../../components/band/ProofBlock.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+
+const programs = [
+  { name: 'Sustainability Projects', desc: 'Agriculture, water, and small-livestock programs that move villages off relief and onto their own feet. Goats for widows. Boreholes for villages.' },
+  { name: 'Women’s Empowerment', desc: 'Skills training, micro-business cohorts, and Bible study for women — many of them widows, all of them leaders in their families.' },
+  { name: 'Vocational Programs', desc: 'Tailoring, carpentry, motorcycle repair, and small-business training for young adults. Indigenous trainers, locally-sourced tools.' },
+];
+---
+<PageLayout
+  title="Economic Empowerment"
+  description="Sustainability projects, women's empowerment, and vocational programs — Favor International's economic empowerment pillar."
+>
+  <PageHero
+    label="Pillar 4 of 4"
+    title="Economic Empowerment."
+    promise="Sustainability projects, vocational programs, and women's empowerment that change a whole village."
+    image="/images/pillar-economic.jpg"
+    imageAlt="Women's empowerment program"
+    ctaLabel="Fund the work"
+    ctaHref="/give/partner-monthly/"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <p class="label">The three programs</p>
+      <h2>From relief to self-reliance.</h2>
+      <ul class="program-list">
+        {programs.map((p) => (
+          <li>
+            <h3>{p.name}</h3>
+            <p>{p.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <ProofBlock
+        name="The women of Paibony"
+        place="Northern Uganda"
+        outcome="A goats-for-widows cohort. 22 women received breeding stock; 18 are now selling milk and offspring."
+        quote="The first time I sold a goat, I bought my daughter shoes. The second time, I bought her a school uniform."
+        image="/images/pillar-economic.jpg"
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    heading="$500 a month transforms a cohort."
+    body="Sustainability tools, vocational training, and follow-up for an entire cohort of women or young adults."
+    ctaLabel="Become a Transform-tier Partner"
+    ctaHref="/give/partner-monthly/?amount=500"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .program-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
+  .program-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
+  .program-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
+  .program-list p { margin: 0; color: var(--color-ink-soft); }
+</style>

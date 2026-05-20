@@ -1,0 +1,41 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+---
+<PageLayout
+  title="Our Story"
+  description="How Favor International started, where the founding conviction came from, and how the work grew across fourteen nations."
+>
+  <PageHero
+    label="Our story"
+    title="The conviction Favor was born from."
+    promise="A short history. The founding prayer. The fourteen nations the work has reached so far."
+    image="/images/gift-bishoftu-tot.jpg"
+    imageAlt="GIFT Institute classroom"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <h2>The early years.</h2>
+      <p>Favor began with a prayer over northern Uganda during a season of civil war. A small US team made a sustained commitment to the villages no other ministry was reaching. The work started with one Portable Bible School. It grew into four pillars — Evangelism + Discipleship, Education, Community Development, and Economic Empowerment — because the field kept asking for the next thing.</p>
+
+      <h2>The expansion.</h2>
+      <p>Within a decade, Favor was operating across South Sudan, Chad, Ethiopia, DRC, Kenya, Sudan, and Burundi. Each field team is led by indigenous leaders. US staff act as long-term partners and donor-care liaisons, not field directors.</p>
+
+      <h2>Today.</h2>
+      <p>Favor International runs 18 Village Learning Centers, six accredited schools, four field clinics, three GIFT Institute cohorts a year, and a continuous PBS rotation across fourteen nations. None of that is possible without Favor Partners.</p>
+
+      <p><a href="/about/our-story/founder/">Read the founder's story →</a></p>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Be part of the next chapter."
+    body="Favor Partners write the story for the next ten years."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    variant="green"
+  />
+</PageLayout>

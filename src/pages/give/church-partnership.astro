@@ -1,0 +1,78 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+---
+<PageLayout
+  title="Church Partnership"
+  description="Mobilize your church around an indigenous Favor field team. Tiered partnerships, vision trips, and ambassador resources."
+>
+  <PageHero
+    label="For churches"
+    title="Your church can be part of what God is doing in East Africa."
+    promise="Three partnership tiers. Vision trips. Promo resources. A real relationship with a real field team."
+    image="/images/evangelism-discipleship.jpg"
+    imageAlt="Church partnership gathering"
+    ctaLabel="Inquire about a partnership"
+    ctaHref="/about/contact/?topic=church"
+    variant="split"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Three tiers</p>
+        <h2>Pick the level that fits your church.</h2>
+      </header>
+      <div class="grid grid-3">
+        <article class="church-tile">
+          <h3>Ambassador church</h3>
+          <p class="church-tile__amount">From $250/mo</p>
+          <ul>
+            <li>Monthly field-team prayer letter</li>
+            <li>Quarterly video update for your missions team</li>
+            <li>Annual vision-trip invite</li>
+          </ul>
+        </article>
+        <article class="church-tile church-tile--featured">
+          <h3>Sending church</h3>
+          <p class="church-tile__amount">From $1,000/mo</p>
+          <ul>
+            <li>All ambassador benefits</li>
+            <li>Direct sponsorship of one field worker</li>
+            <li>Yearly vision-trip slot for two leaders</li>
+            <li>Stage Sunday slot with a Favor field leader</li>
+          </ul>
+        </article>
+        <article class="church-tile">
+          <h3>Catalyst church</h3>
+          <p class="church-tile__amount">From $3,000/mo</p>
+          <ul>
+            <li>All sending-church benefits</li>
+            <li>Funded village partnership (school, VLC, or PBS site)</li>
+            <li>Custom storytelling assets for your services</li>
+            <li>Annual on-site visit from Favor leadership</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Start a conversation."
+    body="Tell us about your church and the missions vision your team has been carrying. We will recommend a tier and a field team."
+    ctaLabel="Send the church team an email"
+    ctaHref="/about/contact/?topic=church"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .church-tile { background: var(--color-cream); border-radius: var(--radius-card); padding: var(--space-8); display: flex; flex-direction: column; gap: var(--space-3); border: 1px solid var(--color-border); }
+  .church-tile--featured { background: var(--color-green); color: var(--color-white); border-color: var(--color-green-deep); }
+  .church-tile h3 { margin: 0; color: var(--color-green); font-size: 1.2rem; }
+  .church-tile--featured h3 { color: var(--color-gold); }
+  .church-tile__amount { font-weight: 800; font-size: 1.4rem; color: var(--color-gold); margin: 0; }
+  .church-tile ul { padding-left: var(--space-6); margin: 0; }
+  .church-tile li { padding: 4px 0; font-size: 0.92rem; }
+</style>
