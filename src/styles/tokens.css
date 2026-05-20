@@ -2,10 +2,12 @@
   /* Colors from brand-book.md */
   --color-gold: #e1a730;
   --color-gold-light: #e0c081;
+  --color-gold-deep: #b88424;
   --color-terracotta: #a36d4c;
   --color-tan: #ba9a86;
   --color-green: #2b4d24;
   --color-green-deep: #1f3a1a;
+  --color-green-bright: #2ea84a;   /* logo bird green; for highlights only */
   --color-sage: #8b957b;
   --color-sage-light: #c5ccc2;
   --color-white: #ffffff;

@@ -1,110 +1,520 @@
 ---
-import { PRIMARY_NAV } from '../../lib/site';
-import { CTA } from '../../lib/cta';
+import { MEGA_NAV, SITE } from '../../lib/site';
 export interface Props { variant?: 'transparent' | 'opaque'; }
 const { variant = 'opaque' } = Astro.props as Props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+function isCurrent(href: string) {
+  const h = href.replace(/\/$/, '');
+  if (!h) return path === '/';
+  return path === h || path.startsWith(h + '/');
+}
 ---
-<header class:list={['site-header', `site-header--${variant}`]}>
-  <div class="container site-header__inner">
-    <a class="site-header__brand" href="/" aria-label="Favor International home">
-      <span class="brand-mark">Favor International</span>
-    </a>
-    <nav class="site-header__nav" aria-label="Primary">
-      <ul>
-        {PRIMARY_NAV.map((item) => {
-          const isCurrent = path === item.href.replace(/\/$/, '') || (item.href !== '/' && path.startsWith(item.href.replace(/\/$/, '')));
-          return (
-            <li>
-              <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>{item.label}</a>
+<header class:list={['site-header', `site-header--${variant}`]} data-mega>
+  <div class="site-header__bar">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="/" aria-label={`${SITE.name} home`}>
+        <img class="site-header__logo" src="/images/favor-logo.png" alt={SITE.name} width="180" height="180" />
+        <span class="site-header__wordmark">
+          <span class="site-header__wordmark-top">Favor</span>
+          <span class="site-header__wordmark-bottom">International</span>
+        </span>
+      </a>
+
+      <nav class="site-header__nav" aria-label="Primary">
+        <ul>
+          {MEGA_NAV.map((m) => (
+            <li class="mega-item" data-mega-item>
+              <a
+                class="mega-item__trigger"
+                href={m.href}
+                aria-current={isCurrent(m.href) ? 'page' : undefined}
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                {m.label}
+                <svg class="mega-item__caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
+                  <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+              <div class="mega-panel" role="region" aria-label={`${m.label} menu`}>
+                <div class="mega-panel__inner">
+                  <div class="mega-panel__list">
+                    <p class="mega-panel__heading">{m.label}</p>
+                    <ul>
+                      {m.items.map((it) => (
+                        <li>
+                          <a href={it.href} class:list={['mega-link', it.badge === 'featured' && 'mega-link--featured']}>
+                            {it.label}
+                            {it.badge === 'featured' && <span class="mega-link__badge">Lead path</span>}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <a class="mega-panel__feature" href={m.featured.ctaHref}>
+                    <div class="mega-panel__feature-photo" style={`background-image: url(${m.featured.image})`} aria-hidden="true"></div>
+                    <div class="mega-panel__feature-body">
+                      <span class="mega-panel__feature-eyebrow">{m.featured.eyebrow}</span>
+                      <p class="mega-panel__feature-title">{m.featured.title}</p>
+                      <p class="mega-panel__feature-body-text">{m.featured.body}</p>
+                      <span class="mega-panel__feature-cta">{m.featured.ctaLabel} →</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </li>
-          );
-        })}
-      </ul>
-    </nav>
-    <div class="site-header__actions">
-      <a class="site-header__partner" href="/partner/">Partner</a>
-      <a class="btn btn--primary site-header__give" href="/give/">{CTA.giveNow}</a>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="site-header__partner" href="/partner/">Partner</a>
+        <a class="site-header__give" href="/give/">Give Now</a>
+      </div>
+
+      <button class="site-header__mobile-toggle" aria-label="Open menu" aria-expanded="false" data-mobile-toggle>
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-drawer" data-mobile-drawer hidden>
+    <nav aria-label="Primary mobile">
+      <ul>
+        {MEGA_NAV.map((m) => (
+          <li>
+            <details>
+              <summary>{m.label}</summary>
+              <ul>
+                {m.items.map((it) => (
+                  <li><a href={it.href}>{it.label}</a></li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        ))}
+        <li><a class="mobile-drawer__partner" href="/partner/">Partner Login</a></li>
+        <li><a class="mobile-drawer__give" href="/give/">Give Now</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
+
+<script>
+  // Mega menu interactions: hover + keyboard + click toggle.
+  document.querySelectorAll<HTMLElement>('[data-mega-item]').forEach((item) => {
+    const trigger = item.querySelector<HTMLAnchorElement>('.mega-item__trigger');
+    if (!trigger) return;
+
+    let timeout: any;
+    const open = () => {
+      clearTimeout(timeout);
+      // close siblings
+      document.querySelectorAll<HTMLElement>('[data-mega-item].is-open').forEach((s) => {
+        if (s !== item) { s.classList.remove('is-open'); s.querySelector('.mega-item__trigger')?.setAttribute('aria-expanded', 'false'); }
+      });
+      item.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+    };
+    const close = () => {
+      timeout = setTimeout(() => {
+        item.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }, 120);
+    };
+
+    item.addEventListener('mouseenter', open);
+    item.addEventListener('mouseleave', close);
+    trigger.addEventListener('focus', open);
+    item.addEventListener('focusout', (e) => {
+      const next = e.relatedTarget as Node | null;
+      if (!next || !item.contains(next)) close();
+    });
+
+    trigger.addEventListener('click', (e) => {
+      // Prevent navigation only if user is clicking the parent to expand on small touch screens.
+      // On desktop, mouseenter already opened; click should still navigate to the hub.
+      if (window.matchMedia('(hover: none)').matches) {
+        e.preventDefault();
+        if (item.classList.contains('is-open')) close();
+        else open();
+      }
+    });
+  });
+
+  // Close on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll<HTMLElement>('[data-mega-item].is-open').forEach((s) => {
+        s.classList.remove('is-open');
+        s.querySelector('.mega-item__trigger')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  // Mobile drawer toggle
+  const toggle = document.querySelector<HTMLButtonElement>('[data-mobile-toggle]');
+  const drawer = document.querySelector<HTMLDivElement>('[data-mobile-drawer]');
+  if (toggle && drawer) {
+    toggle.addEventListener('click', () => {
+      const open = drawer.hasAttribute('hidden') ? false : true;
+      if (open) {
+        drawer.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      } else {
+        drawer.removeAttribute('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  }
+
+  // Transparent header should swap to opaque on scroll
+  const header = document.querySelector<HTMLElement>('.site-header--transparent');
+  if (header) {
+    const onScroll = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 80);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
 <style>
   .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
     width: 100%;
-    border-bottom: 1px solid transparent;
-    transition: background 200ms, border-color 200ms, box-shadow 200ms;
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+    transition: background 200ms, border-color 200ms;
+  }
+  .site-header--transparent {
+    position: absolute;
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+  .site-header--transparent.is-scrolled {
+    position: fixed;
     background: var(--color-white);
     border-bottom-color: var(--color-border);
   }
-  .site-header--transparent {
-    background: transparent;
-    border-bottom-color: transparent;
-    position: absolute;
-  }
+
+  .site-header__bar { padding: 0; }
   .site-header__inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-6);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .site-header__brand {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-6);
-    padding-top: var(--space-4);
-    padding-bottom: var(--space-4);
-  }
-  .site-header__brand {
-    font-weight: 800;
-    font-size: 1.05rem;
-    letter-spacing: 0.02em;
+    gap: var(--space-3);
     text-decoration: none;
     color: var(--color-green);
   }
-  .site-header--transparent .site-header__brand { color: var(--color-white); }
-  .brand-mark { white-space: nowrap; }
+  .site-header__logo {
+    width: 44px; height: 44px;
+    object-fit: contain;
+    display: block;
+  }
+  .site-header__wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .site-header__wordmark-top {
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    color: var(--color-green);
+  }
+  .site-header__wordmark-bottom {
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+    margin-top: 2px;
+  }
+  .site-header--transparent .site-header__wordmark-top { color: var(--color-white); }
+  .site-header--transparent .site-header__wordmark-bottom { color: color-mix(in srgb, var(--color-white) 80%, transparent); }
+  .site-header--transparent.is-scrolled .site-header__wordmark-top { color: var(--color-green); }
+  .site-header--transparent.is-scrolled .site-header__wordmark-bottom { color: var(--color-sage); }
 
   .site-header__nav ul {
     display: flex;
     align-items: center;
-    gap: var(--space-8);
+    justify-content: center;
+    gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .site-header__nav a {
+
+  .mega-item { position: static; }
+  .mega-item__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 26px var(--space-4);
     font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-green);
+    border-bottom: 3px solid transparent;
+    transition: color 150ms, border-color 150ms;
+  }
+  .mega-item__caret {
+    transition: transform 200ms;
+    color: var(--color-sage);
+  }
+  .mega-item:hover .mega-item__caret,
+  .mega-item.is-open .mega-item__caret {
+    transform: rotate(180deg);
+    color: var(--color-gold);
+  }
+  .mega-item__trigger[aria-current="page"] { color: var(--color-gold-deep); border-bottom-color: var(--color-gold); }
+  .mega-item__trigger:hover { color: var(--color-gold-deep); }
+  .site-header--transparent .mega-item__trigger { color: var(--color-white); }
+  .site-header--transparent .mega-item__caret { color: color-mix(in srgb, var(--color-white) 70%, transparent); }
+  .site-header--transparent.is-scrolled .mega-item__trigger { color: var(--color-green); }
+  .site-header--transparent.is-scrolled .mega-item__caret { color: var(--color-sage); }
+
+  .mega-panel {
+    position: absolute;
+    left: 0; right: 0;
+    top: 100%;
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 16px 32px rgba(31, 58, 26, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 200ms, transform 200ms, visibility 200ms;
+    z-index: 50;
+  }
+  .mega-item.is-open .mega-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .mega-panel__inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-6);
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: var(--space-12);
+  }
+  .mega-panel__heading {
+    font-size: var(--font-size-label);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+    margin: 0 0 var(--space-4);
+  }
+  .mega-panel__list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+  }
+  .mega-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4) var(--space-3) 0;
+    text-decoration: none;
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 140ms, padding 140ms;
+  }
+  .mega-link:hover { color: var(--color-gold-deep); padding-left: var(--space-2); }
+  .mega-link--featured { color: var(--color-green); font-weight: 800; }
+  .mega-link__badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--color-gold);
+    color: var(--color-ink);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+  }
+
+  .mega-panel__feature {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-6);
+    align-items: stretch;
+    background: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 160ms, transform 160ms, box-shadow 160ms;
+  }
+  .mega-panel__feature:hover { border-color: var(--color-gold); box-shadow: var(--shadow-card); transform: translateY(-2px); }
+  .mega-panel__feature-photo {
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+    min-height: 220px;
+  }
+  .mega-panel__feature-body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+  .mega-panel__feature-eyebrow {
+    font-size: var(--font-size-label);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-green-bright);
+  }
+  .mega-panel__feature-title { font-weight: 800; font-size: 1.35rem; color: var(--color-green); margin: 0; line-height: 1.2; }
+  .mega-panel__feature-body-text { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; }
+  .mega-panel__feature-cta { margin-top: var(--space-2); font-weight: 700; color: var(--color-gold-deep); font-size: 0.9rem; }
+
+  .site-header__actions { display: flex; align-items: center; gap: var(--space-3); }
+  .site-header__partner {
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     text-decoration: none;
     color: var(--color-green);
-    padding: var(--space-2) 0;
-    border-bottom: 2px solid transparent;
-  }
-  .site-header__nav a[aria-current="page"] { border-bottom-color: var(--color-gold); }
-  .site-header__nav a:hover { color: var(--color-gold); }
-  .site-header--transparent .site-header__nav a { color: var(--color-white); }
-
-  .site-header__actions { display: flex; align-items: center; gap: var(--space-3); }
-  .site-header__partner {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--color-green);
     border: 2px solid var(--color-green);
     border-radius: var(--radius-input);
-    padding: 10px 18px;
+    padding: 10px 16px;
+    transition: background 140ms, color 140ms;
   }
   .site-header__partner:hover { background: var(--color-green); color: var(--color-white); }
   .site-header--transparent .site-header__partner { color: var(--color-white); border-color: var(--color-white); }
   .site-header--transparent .site-header__partner:hover { background: var(--color-white); color: var(--color-green); }
-  .site-header__give { padding: 10px 20px; font-size: 0.85rem; }
+  .site-header--transparent.is-scrolled .site-header__partner { color: var(--color-green); border-color: var(--color-green); }
 
-  @media (max-width: 900px) {
-    .site-header__nav { display: none; }
+  .site-header__give {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-ink);
+    background: var(--color-gold);
+    border-radius: var(--radius-input);
+    padding: 12px 22px;
+    transition: background 140ms, transform 140ms;
   }
-  @media (max-width: 600px) {
-    .site-header__partner { display: none; }
+  .site-header__give:hover { background: color-mix(in srgb, var(--color-gold) 88%, var(--color-ink)); transform: translateY(-1px); }
+
+  .site-header__mobile-toggle {
+    display: none;
+    width: 44px; height: 44px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .site-header__mobile-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-green);
+    transition: background 140ms;
+  }
+  .site-header--transparent .site-header__mobile-toggle span { background: var(--color-white); }
+  .site-header--transparent.is-scrolled .site-header__mobile-toggle span { background: var(--color-green); }
+
+  @media (max-width: 1100px) {
+    .site-header__nav { display: none; }
+    .site-header__actions { display: none; }
+    .site-header__mobile-toggle { display: inline-flex; }
+    .site-header__inner { grid-template-columns: 1fr auto; gap: var(--space-4); }
+  }
+
+  /* Mobile drawer */
+  .mobile-drawer {
+    position: fixed;
+    top: 76px; left: 0; right: 0; bottom: 0;
+    background: var(--color-white);
+    z-index: 90;
+    overflow-y: auto;
+    padding: var(--space-6);
+  }
+  .mobile-drawer nav > ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+  .mobile-drawer details {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3) 0;
+  }
+  .mobile-drawer summary {
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-green);
+    cursor: pointer;
+    padding: var(--space-3) 0;
+    list-style: none;
+  }
+  .mobile-drawer summary::-webkit-details-marker { display: none; }
+  .mobile-drawer summary::after { content: '+'; float: right; font-size: 1.4rem; line-height: 1; color: var(--color-gold); }
+  .mobile-drawer details[open] summary::after { content: '–'; }
+  .mobile-drawer details ul { list-style: none; padding: var(--space-3) 0 0 var(--space-2); display: grid; gap: var(--space-2); }
+  .mobile-drawer details ul a {
+    display: block;
+    padding: var(--space-2) 0;
+    text-decoration: none;
+    color: var(--color-ink-soft);
+    font-size: 0.95rem;
+  }
+  .mobile-drawer__partner {
+    display: block;
+    padding: var(--space-4);
+    text-align: center;
+    border: 2px solid var(--color-green);
+    border-radius: var(--radius-input);
+    color: var(--color-green) !important;
+    font-weight: 800;
+    text-decoration: none;
+    margin-top: var(--space-4);
+  }
+  .mobile-drawer__give {
+    display: block;
+    padding: var(--space-4);
+    text-align: center;
+    background: var(--color-gold);
+    color: var(--color-ink) !important;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: var(--radius-input);
+  }
+
+  /* Hide mega panels on small screens; mobile drawer handles it */
+  @media (max-width: 1100px) {
+    .mega-panel { display: none; }
   }
 </style>

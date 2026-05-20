@@ -2,40 +2,36 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/global/SiteHeader.astro';
 import SiteFooter from '../components/global/SiteFooter.astro';
-import TrustStrip from '../components/global/TrustStrip.astro';
 import NewsletterForm from '../components/global/NewsletterForm.astro';
-import PillarCard from '../components/band/PillarCard.astro';
-import StatTile from '../components/band/StatTile.astro';
-import StoryCard from '../components/story/StoryCard.astro';
 import { PILLARS, PARTNER_TIERS, IMPACT_STATS, SITE } from '../lib/site';
-import { CTA, TAGLINE, SIGNATURE } from '../lib/cta';
+import { CTA, SIGNATURE } from '../lib/cta';
 
 const pillarImages: Record<string, string> = {
   'evangelism-discipleship': '/images/evangelism-discipleship.jpg',
-  'education': '/images/pillar-education.jpg',
+  'education': '/images/education-vlc-jondoru.jpg',
   'community-development': '/images/pillar-community.jpg',
   'economic-empowerment': '/images/pillar-economic.jpg',
 };
 
 const featuredStories = [
   {
-    title: 'From spear-masters to the Holy Spirit',
-    country: 'South Sudan',
-    outcome: 'A Taposa warrior cohort lays down their weapons after PBS training.',
+    title: 'A former witch doctor’s testimony',
+    country: 'Uganda',
+    excerpt: 'After decades of leading a village in the wrong direction, one man’s encounter with a Favor pastor changed his line.',
     image: '/images/pillar-community.jpg',
-    href: '/stories/from-spear-masters-to-holy-spirit/',
+    href: '/stories/a-former-witch-doctors-testimony/',
   },
   {
     title: 'The next generation’s leaders',
-    country: 'Uganda',
-    outcome: 'A GIFT Institute graduate plants a church in his home village.',
+    country: 'Ethiopia',
+    excerpt: 'GIFT Cohort 14 graduated 92 pastors. Twelve are already on their way to plant in unreached districts.',
     image: '/images/gift-bishoftu-tot.jpg',
     href: '/stories/the-next-generations-leaders/',
   },
   {
-    title: 'Bibles for Ethiopia',
+    title: 'More Bibles for Ethiopia',
     country: 'Ethiopia',
-    outcome: 'Field teachers run out of Bibles — and a partner gives more.',
+    excerpt: 'Field teachers ran out of Amharic Bibles in the middle of a PBS run. A partner answered.',
     image: '/images/hero-pbs-graduation.jpg',
     href: '/stories/more-bibles-for-ethiopia-please/',
   },
@@ -43,212 +39,193 @@ const featuredStories = [
 ---
 <BaseLayout
   title={SITE.name}
-  description="Send a pastor where others will not go. Favor International partners with indigenous African missionaries to plant churches, train leaders, and care for the persecuted across 14 nations."
-  image="/images/hero-pbs-graduation.jpg"
+  description="Favor International partners with indigenous African missionaries to plant churches, train pastors, and care for the persecuted across fourteen nations. Prayer-birthed. Indigenous-led. Partner-powered."
+  image="/images/pbs-karamoja.jpg"
 >
   <SiteHeader variant="transparent" />
   <main id="main">
 
-    <!-- Band 1: Hero -->
+    <!-- BAND 1: Hero -->
     <section class="hero">
-      <div class="hero__photo" style="background-image: url(/images/hero-pbs-graduation.jpg)" role="img" aria-label="Portable Bible School graduates in South Sudan"></div>
-      <div class="hero__scrim"></div>
-      <div class="container hero__inner">
-        <p class="hero__signature">{SIGNATURE}</p>
-        <h1>You can send a pastor where others will not go.</h1>
-        <p class="hero__sub">For $50 a month, you keep an indigenous missionary on the trail — equipped, fed, and reaching villages no other ministry will reach.</p>
-        <div class="hero__cta">
-          <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
-          <a class="hero__secondary" href="/impact/">{CTA.seeField} →</a>
+      <div class="hero__photo" style="background-image: url(/images/pbs-karamoja.jpg)" role="img" aria-label="Portable Bible School graduates raise their certificates under a tree in Karamoja, Uganda"></div>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__container container">
+        <div class="hero__inner">
+          <p class="hero__eyebrow"><span class="hero__eyebrow-dot" aria-hidden="true"></span>{SIGNATURE}</p>
+          <h1>Stand with indigenous pastors reaching the hardest places on earth.</h1>
+          <p class="hero__sub">Favor International equips African leaders to plant churches, train pastors, and care for the persecuted. Fourteen nations. One Kingdom outcome. You can be part of it.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+            <a class="hero__secondary" href="/impact/">See where we work →</a>
+          </div>
         </div>
       </div>
-      <div class="container hero__trust">
-        <TrustStrip variant="light" />
+
+      <div class="hero__trust container">
+        <ul>
+          <li><strong>14</strong><span>nations served</span></li>
+          <li><strong>ECFA</strong><span>accredited 501(c)(3)</span></li>
+          <li><strong>FY2025</strong><span>field reports published</span></li>
+          <li><strong>Since 2012</strong><span>indigenous-led on the ground</span></li>
+        </ul>
       </div>
     </section>
 
-    <!-- Band 2: Signature phrase -->
-    <section class="band band--white signature-band">
+    <!-- BAND 2: Signature -->
+    <section class="band band--cream signature">
       <div class="container container--narrow">
-        <p class="label">Where we work</p>
-        <h2 class="signature-band__phrase">{SIGNATURE}</h2>
-        <p class="signature-band__body">Favor International serves and trains indigenous leaders in fourteen East African nations. Areas that are hard to reach by air, harder by road, and impossible to reach without the local church. We pray, live sacrificially, and do whatever it takes to put the Gospel in the hands of every village.</p>
+        <p class="label">Our calling</p>
+        <h2 class="signature__phrase">{SIGNATURE}</h2>
+        <p class="signature__body">For fourteen years, Favor International has supported indigenous African leaders in places most ministries cannot or will not reach. We pray. We send. We stand with the field. We do whatever it takes to put the Gospel in the hands of every village.</p>
       </div>
     </section>
 
-    <!-- Band 3: The four ministry pillars -->
-    <section class="band band--sage">
+    <!-- BAND 3: Four pillars -->
+    <section class="band band--white pillars">
       <div class="container">
         <header class="band__header">
           <p class="label">The work</p>
-          <h2>Four ministries. One Kingdom outcome.</h2>
-          <p class="band__lede">Every Favor program flows from one conviction: transformed hearts transform nations. These are the four ways your partnership reaches the field.</p>
+          <h2>Four ministries. Fourteen nations. One Kingdom outcome.</h2>
         </header>
-        <div class="grid grid-4">
+        <div class="pillars__grid">
           {PILLARS.map((p) => (
-            <PillarCard
-              slug={p.slug}
-              label={p.label}
-              blurb={p.blurb}
-              image={pillarImages[p.slug]}
-              programs={p.programs}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Band 4: Real transformation stories -->
-    <section class="band band--white">
-      <div class="container">
-        <header class="band__header">
-          <p class="label">Stories from the field</p>
-          <h2>Real names. Real places. Real outcomes.</h2>
-        </header>
-        <div class="grid grid-3">
-          {featuredStories.map((s) => (
-            <StoryCard
-              title={s.title}
-              country={s.country}
-              outcome={s.outcome}
-              image={s.image}
-              href={s.href}
-            />
-          ))}
-        </div>
-        <p class="band__cta-row">
-          <a class="btn btn--secondary" href="/stories/">See all stories</a>
-        </p>
-      </div>
-    </section>
-
-    <!-- Band 5: Impact numbers -->
-    <section class="band band--green-deep stats-band">
-      <div class="container">
-        <header class="band__header band__header--inverse">
-          <p class="label label--inverse">FY2025 field report</p>
-          <h2>Your partnership, in numbers.</h2>
-        </header>
-        <div class="grid grid-4 stats-band__grid">
-          {IMPACT_STATS.map((s) => (
-            <StatTile value={s.value} label={s.label} source={s.source} />
-          ))}
-        </div>
-        <p class="stats-band__source">Source: Favor International FY2025 field reports. <a href="/about/accountability/">See ECFA + 990s →</a></p>
-      </div>
-    </section>
-
-    <!-- Band 6: Become a Favor Partner (PRIMARY CONVERSION) -->
-    <section class="band partner-band" id="partner">
-      <div class="container partner-band__grid">
-        <div class="partner-band__copy">
-          <p class="label">Monthly partnership</p>
-          <h2>Become a Favor Partner.</h2>
-          <p>One monthly gift. Real, recurring impact. Favor Partners keep field workers on the trail, Bibles in villages, and pastors in training. Pick a tier, or choose your own amount.</p>
-          <p class="partner-band__trust">Your gift is tax-deductible. Favor International is <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a>.</p>
-        </div>
-        <div class="partner-band__tiles">
-          {PARTNER_TIERS.map((t) => (
-            <a
-              href={`/give/partner-monthly/?amount=${t.amount}`}
-              class:list={['tier', t.featured && 'tier--featured']}
-            >
-              <span class="tier__amount">${t.amount}<span class="tier__period">/mo</span></span>
-              <span class="tier__label">{t.label}</span>
-              <span class="tier__tagline">{t.tagline}</span>
+            <a class="pillar" href={`/impact/${p.slug}/`}>
+              <div class="pillar__photo" style={`background-image: url(${pillarImages[p.slug]})`} aria-hidden="true"></div>
+              <div class="pillar__body">
+                <h3>{p.label}</h3>
+                <p>{p.blurb}</p>
+                <span class="pillar__cta">Explore →</span>
+              </div>
             </a>
           ))}
         </div>
-        <div class="partner-band__cta">
-          <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
-          <a class="partner-band__alt" href="/give/">Or give a one-time gift →</a>
+      </div>
+    </section>
+
+    <!-- BAND 4: Stories -->
+    <section class="band band--cream stories">
+      <div class="container">
+        <header class="band__header band__header--left">
+          <p class="label">Stories from the field</p>
+          <h2>Real partnership, real outcomes.</h2>
+          <a class="band__header-cta" href="/stories/">All stories →</a>
+        </header>
+        <div class="stories__grid">
+          {featuredStories.map((s) => (
+            <a class="story" href={s.href}>
+              <div class="story__photo" style={`background-image: url(${s.image})`} aria-hidden="true"></div>
+              <div class="story__body">
+                <span class="story__country">{s.country}</span>
+                <h3>{s.title}</h3>
+                <p>{s.excerpt}</p>
+                <span class="story__cta">Read the story →</span>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- Band 7: Pray with us -->
-    <section class="band band--tan pray-band">
-      <div class="container pray-band__grid">
-        <div class="pray-band__copy">
+    <!-- BAND 5: Stats -->
+    <section class="band band--green-deep stats">
+      <div class="container">
+        <p class="label label--bright">FY2025 highlights</p>
+        <h2>What the field reported back to us last year.</h2>
+        <div class="stats__grid">
+          {IMPACT_STATS.map((s) => (
+            <div class="stat">
+              <span class="stat__value">{s.value}</span>
+              <span class="stat__label">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <p class="stats__note">Sourced from FY2025 field reports. The audited annual report posts to <a href="/about/accountability/">accountability</a> in Q3.</p>
+      </div>
+    </section>
+
+    <!-- BAND 6: Become a Favor Partner -->
+    <section class="band partner" id="partner">
+      <div class="container partner__grid">
+        <div class="partner__copy">
+          <p class="label">Monthly partnership</p>
+          <h2>Become a Favor Partner.</h2>
+          <p>Favor Partners give monthly. Your gift goes to the field every month and keeps indigenous pastors, teachers, and counselors in motion. Pick the tier that fits. Custom amounts welcome.</p>
+          <p class="partner__trust">Tax-deductible. ECFA-accredited. <a href="/about/accountability/">See the financials →</a></p>
+        </div>
+        <div class="partner__tiers">
+          {PARTNER_TIERS.map((t) => (
+            <a class:list={['tier', t.featured && 'tier--featured']} href={`/give/partner-monthly/?amount=${t.amount}`}>
+              <span class="tier__amount">${t.amount}<span class="tier__period">/mo</span></span>
+              <span class="tier__label">{t.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="container partner__footer">
+        <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+        <a class="partner__alt" href="/give/">Or explore other ways to give →</a>
+      </div>
+    </section>
+
+    <!-- BAND 7: Pray -->
+    <section class="band band--tan pray-cta">
+      <div class="container pray-cta__grid">
+        <div class="pray-cta__photo" style="background-image: url(/images/evangelism-discipleship.jpg)" role="img" aria-label="A pastor prays with children in a village"></div>
+        <div class="pray-cta__copy">
           <p class="label">Pray with us</p>
           <h2>You can pray where they cannot reach.</h2>
-          <p>Get the 30-Day Prayer Guide. One focus per day across the fourteen nations Favor serves. Specific villages, specific pastors, specific battles. No email required to download.</p>
+          <p>The 30-Day Prayer Guide walks you through one specific request per day across the fourteen nations Favor serves. No email required. Print it, tape it to the fridge, pray it out loud.</p>
           <a class="btn btn--secondary btn--large" href="/pray/30-day-guide/">{CTA.prayerGuide}</a>
         </div>
-        <div class="pray-band__photo" style="background-image: url(/images/evangelism-discipleship.jpg)" role="img" aria-label="A Favor pastor prays with children in a village"></div>
       </div>
     </section>
 
-    <!-- Band 8: Go (vision trips) -->
-    <section class="band band--white">
+    <!-- BAND 8: Go -->
+    <section class="band band--white go">
       <div class="container">
         <header class="band__header">
-          <p class="label">Go with us</p>
+          <p class="label">Walk the field with us</p>
           <h2>See it for yourself.</h2>
-          <p class="band__lede">Walk a village with a Favor field leader. Visit a Portable Bible School. Sit at the table with the people you’ve been praying for.</p>
+          <p class="band__lede">Vision trips run twice a year. Volunteer roles are open all year. The field needs you wherever you are.</p>
         </header>
-        <div class="grid grid-3">
-          <a class="trip-card" href="/go/vision-trips/">
-            <div class="trip-card__photo" style="background-image: url(/images/pbs-karamoja.jpg)"></div>
-            <div class="trip-card__body">
-              <span class="label">Uganda · Spring 2026</span>
-              <h3>Vision Trip: Gulu and Karamoja</h3>
-              <p>10 days with the Favor Uganda team. Visit PBS sites, the GIFT Institute, and Village Learning Centers.</p>
+        <div class="go__grid">
+          <a class="go-card" href="/go/vision-trips/">
+            <div class="go-card__photo" style="background-image: url(/images/pbs-karamoja.jpg)"></div>
+            <div class="go-card__body">
+              <span class="go-card__eyebrow">Uganda · Spring 2026</span>
+              <h3>Vision Trip: Gulu &amp; Karamoja</h3>
+              <p>Ten days walking with the Favor Uganda team. PBS sites, the GIFT Institute, Village Learning Centers.</p>
+              <span class="go-card__cta">Open trips →</span>
             </div>
           </a>
-          <a class="trip-card" href="/go/vision-trips/">
-            <div class="trip-card__photo" style="background-image: url(/images/education-vlc-jondoru.jpg)"></div>
-            <div class="trip-card__body">
-              <span class="label">South Sudan · Fall 2026</span>
-              <h3>Vision Trip: Juba and the cattle camps</h3>
-              <p>Travel with our Juba team to the unreached border villages.</p>
+          <a class="go-card" href="/go/vision-trips/">
+            <div class="go-card__photo" style="background-image: url(/images/education-vlc-jondoru.jpg)"></div>
+            <div class="go-card__body">
+              <span class="go-card__eyebrow">South Sudan · Fall 2026</span>
+              <h3>Vision Trip: Juba &amp; the cattle camps</h3>
+              <p>Twelve days with the Juba team to border villages most teams will not enter.</p>
+              <span class="go-card__cta">Open trips →</span>
             </div>
           </a>
-          <a class="trip-card" href="/go/volunteer/">
-            <div class="trip-card__photo" style="background-image: url(/images/gift-bishoftu-tot.jpg)"></div>
-            <div class="trip-card__body">
-              <span class="label">Stateside</span>
+          <a class="go-card" href="/go/volunteer/">
+            <div class="go-card__photo" style="background-image: url(/images/gift-bishoftu-tot.jpg)"></div>
+            <div class="go-card__body">
+              <span class="go-card__eyebrow">Stateside</span>
               <h3>Serve from home</h3>
-              <p>Ambassadors, prayer warriors, intercession teams. The field needs you wherever you are.</p>
+              <p>Ambassadors, prayer warriors, intercession teams. Pick a role that fits your time.</p>
+              <span class="go-card__cta">Volunteer roles →</span>
             </div>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Band 9: Field updates / blog teaser -->
-    <section class="band band--cream">
-      <div class="container">
-        <header class="band__header">
-          <p class="label">From the field</p>
-          <h2>What just happened.</h2>
-        </header>
-        <div class="grid grid-3">
-          <a class="update-card" href="/impact/field-updates/">
-            <p class="label">South Sudan · this week</p>
-            <h3>Rumbek crusade: 1,400 first-time decisions.</h3>
-            <p>A three-day open-air gathering in Lakes State. The field team is following up with discipleship plans for every village.</p>
-          </a>
-          <a class="update-card" href="/impact/field-updates/">
-            <p class="label">Uganda · last week</p>
-            <h3>GIFT cohort 14 graduates 92 pastors.</h3>
-            <p>The largest graduating class since the institute opened. Twelve graduates are already heading to plant in unreached districts.</p>
-          </a>
-          <a class="update-card" href="/impact/field-updates/">
-            <p class="label">Chad · ongoing</p>
-            <h3>Ten days in Chad: opening a closed door.</h3>
-            <p>A Favor team is on the ground in a region long closed to the Gospel. Pray specifically and frequently.</p>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Band 10: Newsletter -->
+    <!-- BAND 9: Newsletter -->
     <section class="band band--sage newsletter-band">
       <div class="container container--narrow">
         <p class="label">Get the field report</p>
-        <h2>One email. Real news from the field.</h2>
-        <p>Once a month. Honest reporting on what your partnership made possible, what didn’t work, and what the field is asking for next.</p>
+        <h2>One email a month. Real news from the field.</h2>
+        <p>Honest reporting from each country team. What worked. What didn’t. What the field is asking for next.</p>
         <NewsletterForm />
       </div>
     </section>
@@ -258,55 +235,63 @@ const featuredStories = [
 </BaseLayout>
 
 <style>
-  /* Hero */
+  /* HERO */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 92vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     color: var(--color-white);
     overflow: hidden;
-    padding-bottom: var(--space-12);
+    padding: 0 0 var(--space-16);
   }
   .hero__photo {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background-size: cover;
-    background-position: center;
+    background-position: center 35%;
     z-index: 0;
   }
   .hero__scrim {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(31, 58, 26, 0.85) 0%, rgba(31, 58, 26, 0.55) 40%, rgba(31, 58, 26, 0.0) 70%),
-      linear-gradient(180deg, rgba(31, 58, 26, 0.4) 0%, rgba(31, 58, 26, 0.0) 25%, rgba(31, 58, 26, 0.0) 65%, rgba(31, 58, 26, 0.65) 100%);
+      linear-gradient(95deg, rgba(31, 58, 26, 0.78) 0%, rgba(31, 58, 26, 0.50) 35%, rgba(31, 58, 26, 0.08) 70%, rgba(31, 58, 26, 0.0) 100%),
+      linear-gradient(180deg, rgba(31, 58, 26, 0.55) 0%, rgba(31, 58, 26, 0.0) 30%, rgba(31, 58, 26, 0.0) 60%, rgba(31, 58, 26, 0.45) 100%);
     z-index: 1;
   }
-  .hero__inner {
-    position: relative;
-    z-index: 2;
-    padding-top: 25vh;
-    max-width: 880px;
-  }
-  .hero__signature {
-    font-style: italic;
+  .hero__container { position: relative; z-index: 2; padding-top: 32vh; padding-bottom: var(--space-16); }
+  .hero__inner { max-width: 720px; }
+  .hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
     color: var(--color-gold-light);
-    font-size: 1rem;
-    margin: 0 0 var(--space-3);
-    letter-spacing: 0.04em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-5);
+  }
+  .hero__eyebrow-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-green-bright);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-green-bright) 25%, transparent);
   }
   .hero h1 {
     color: var(--color-white);
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-6);
+    font-size: clamp(2.5rem, 5.2vw, 4.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    font-weight: 800;
     text-wrap: balance;
   }
   .hero__sub {
-    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-    max-width: 640px;
-    margin: 0 0 var(--space-8);
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
     color: color-mix(in srgb, var(--color-white) 92%, transparent);
+    max-width: 580px;
+    margin: 0 0 var(--space-8);
+    line-height: 1.5;
   }
   .hero__cta { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
   .hero__secondary {
@@ -320,166 +305,254 @@ const featuredStories = [
     padding-bottom: 4px;
   }
   .hero__secondary:hover { color: var(--color-gold); }
-  .hero__trust {
-    position: relative;
-    z-index: 2;
-    margin-top: var(--space-12);
+
+  .hero__trust { position: relative; z-index: 2; }
+  .hero__trust ul {
+    list-style: none; margin: 0; padding: var(--space-6) var(--space-8);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6);
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: var(--radius-card);
+    box-shadow: 0 24px 48px rgba(31, 58, 26, 0.25);
+  }
+  .hero__trust li { display: flex; flex-direction: column; gap: 4px; }
+  .hero__trust strong {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 800;
+    color: var(--color-green);
+    line-height: 1;
+  }
+  .hero__trust span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: var(--color-sage); }
+  @media (max-width: 720px) {
+    .hero__trust ul { grid-template-columns: repeat(2, 1fr); gap: var(--space-4); padding: var(--space-4); }
   }
 
-  /* Common band helpers */
-  .band__header { max-width: 760px; margin: 0 auto var(--space-12); text-align: center; }
+  /* Band helpers */
+  .band__header { text-align: center; max-width: 760px; margin: 0 auto var(--space-16); }
+  .band__header--left { text-align: left; max-width: none; display: grid; grid-template-columns: 1fr auto; gap: var(--space-4); align-items: end; }
+  .band__header--left h2 { grid-row: 2; grid-column: 1; margin: 0; }
+  .band__header--left .label { grid-row: 1; grid-column: 1; margin: 0; }
+  .band__header--left .band__header-cta { grid-row: 2; grid-column: 2; font-weight: 700; color: var(--color-gold-deep); text-decoration: none; font-size: 0.95rem; letter-spacing: 0.04em; }
   .band__header h2 { text-wrap: balance; }
-  .band__lede { font-size: 1.1rem; color: var(--color-ink-soft); }
-  .band__header--inverse h2, .band__header--inverse { color: var(--color-white); }
-  .label--inverse { color: var(--color-gold) !important; }
-  .band__cta-row { display: flex; justify-content: center; margin-top: var(--space-12); }
+  .band__lede { font-size: 1.05rem; color: var(--color-ink-soft); }
+  .label--bright { color: var(--color-green-bright) !important; }
 
   /* Signature band */
-  .signature-band { text-align: center; }
-  .signature-band__phrase {
+  .signature { text-align: center; }
+  .signature__phrase {
+    font-family: var(--font-sans);
+    font-weight: 800;
     font-style: italic;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
     color: var(--color-green);
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin-bottom: var(--space-6);
+    line-height: 1.1;
+    margin: var(--space-4) 0 var(--space-6);
   }
-  .signature-band__body {
-    font-size: 1.15rem;
-    color: var(--color-ink-soft);
-    max-width: 640px;
-    margin: 0 auto;
-  }
+  .signature__body { font-size: 1.1rem; color: var(--color-ink-soft); max-width: 640px; margin: 0 auto; }
 
-  /* Stats band */
-  .stats-band__grid { padding: var(--space-12) 0; }
-  .stats-band__source {
-    text-align: center;
-    margin: var(--space-8) 0 0;
-    color: color-mix(in srgb, var(--color-white) 70%, transparent);
-    font-size: 0.9rem;
+  /* Pillars */
+  .pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
   }
-  .stats-band__source a { color: var(--color-gold); }
+  @media (max-width: 1100px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .pillars__grid { grid-template-columns: 1fr; } }
+  .pillar {
+    display: flex; flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 200ms, box-shadow 200ms, border-color 200ms;
+    height: 100%;
+  }
+  .pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); border-color: var(--color-gold); }
+  .pillar__photo {
+    aspect-ratio: 5 / 4;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .pillar__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .pillar h3 { margin: 0; color: var(--color-green); font-size: 1.1rem; font-weight: 800; }
+  .pillar p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; flex: 1; }
+  .pillar__cta { font-weight: 700; color: var(--color-gold-deep); font-size: 0.85rem; }
+
+  /* Stories */
+  .stories__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+  @media (max-width: 900px) { .stories__grid { grid-template-columns: 1fr; } }
+  .story {
+    display: flex; flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    box-shadow: var(--shadow-soft);
+    transition: transform 200ms, box-shadow 200ms;
+  }
+  .story:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .story__photo {
+    aspect-ratio: 3 / 2;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .story__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+  .story__country {
+    font-size: var(--font-size-label);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+  }
+  .story h3 { margin: 0; color: var(--color-green); font-size: 1.25rem; line-height: 1.25; }
+  .story p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; }
+  .story__cta { margin-top: auto; font-weight: 700; color: var(--color-gold-deep); font-size: 0.9rem; }
+
+  /* Stats */
+  .stats { color: var(--color-white); text-align: center; }
+  .stats h2 { color: var(--color-white); margin: var(--space-2) 0 var(--space-16); }
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+    padding: var(--space-8) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 18%, transparent);
+  }
+  @media (max-width: 900px) { .stats__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .stats__grid { grid-template-columns: 1fr; } }
+  .stat { display: flex; flex-direction: column; gap: var(--space-3); }
+  .stat__value {
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    color: var(--color-gold);
+    line-height: 1;
+  }
+  .stat__label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-white) 90%, transparent);
+    text-wrap: balance;
+  }
+  .stats__note {
+    margin: var(--space-8) auto 0;
+    font-size: 0.88rem;
+    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  }
+  .stats__note a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
 
   /* Partner band */
-  .partner-band {
-    background: var(--color-gold);
+  .partner {
+    background: linear-gradient(135deg, var(--color-gold) 0%, color-mix(in srgb, var(--color-gold) 78%, var(--color-terracotta)) 100%);
     color: var(--color-ink);
-    position: relative;
-    overflow: hidden;
   }
-  .partner-band::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--color-gold) 0%, color-mix(in srgb, var(--color-gold) 80%, var(--color-terracotta)) 100%);
-    z-index: 0;
-  }
-  .partner-band__grid {
-    position: relative;
-    z-index: 1;
+  .partner__grid {
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
+    grid-template-columns: 1fr 1.5fr;
     gap: var(--space-16);
     align-items: center;
   }
-  .partner-band__copy h2 { color: var(--color-ink); }
-  .partner-band__copy .label { color: var(--color-green); }
-  .partner-band__copy a { color: var(--color-green); }
-  .partner-band__trust { font-size: 0.9rem; color: color-mix(in srgb, var(--color-ink) 75%, transparent); margin-top: var(--space-4); }
-  .partner-band__tiles {
+  @media (max-width: 1024px) { .partner__grid { grid-template-columns: 1fr; gap: var(--space-12); } }
+  .partner__copy h2 { color: var(--color-ink); font-size: clamp(2rem, 3.5vw, 2.75rem); }
+  .partner__copy .label { color: var(--color-green-deep); }
+  .partner__copy a { color: var(--color-green-deep); }
+  .partner__trust { font-size: 0.92rem; color: color-mix(in srgb, var(--color-ink) 78%, transparent); }
+  .partner__tiers {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-3);
   }
+  @media (max-width: 540px) { .partner__tiers { grid-template-columns: repeat(2, 1fr); } }
   .tier {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+    display: flex; flex-direction: column; gap: var(--space-2);
     background: var(--color-white);
     color: var(--color-ink);
     border-radius: var(--radius-card);
     padding: var(--space-6);
     text-decoration: none;
-    transition: transform 160ms, box-shadow 160ms;
     border: 2px solid transparent;
+    transition: transform 160ms, border-color 160ms, box-shadow 160ms;
+    text-align: center;
   }
-  .tier:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-green); }
-  .tier__amount { font-weight: 800; font-size: 1.7rem; color: var(--color-green); display: flex; align-items: baseline; gap: 2px; }
-  .tier__period { font-size: 0.85rem; font-weight: 600; color: var(--color-sage); }
-  .tier__label { font-weight: 700; letter-spacing: 0.04em; color: var(--color-green-deep); text-transform: uppercase; font-size: 0.85rem; }
-  .tier__tagline { font-size: 0.85rem; color: var(--color-ink-soft); margin-top: var(--space-1); }
+  .tier:hover { transform: translateY(-3px); border-color: var(--color-green); box-shadow: var(--shadow-card); }
+  .tier__amount { font-weight: 800; font-size: 1.8rem; color: var(--color-green); line-height: 1; display: inline-flex; align-items: baseline; justify-content: center; gap: 2px; }
+  .tier__period { font-size: 0.78rem; font-weight: 600; color: var(--color-sage); margin-left: 4px; }
+  .tier__label { font-weight: 700; letter-spacing: 0.06em; color: var(--color-green-deep); text-transform: uppercase; font-size: 0.78rem; }
   .tier--featured { background: var(--color-green); color: var(--color-white); border-color: var(--color-green-deep); }
   .tier--featured .tier__amount, .tier--featured .tier__label { color: var(--color-gold); }
-  .tier--featured .tier__period, .tier--featured .tier__tagline { color: color-mix(in srgb, var(--color-white) 80%, transparent); }
-  .partner-band__cta {
-    grid-column: 1 / -1;
-    display: flex;
-    gap: var(--space-6);
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-top: var(--space-4);
+  .tier--featured .tier__period { color: color-mix(in srgb, var(--color-white) 82%, transparent); }
+
+  .partner__footer {
+    display: flex; gap: var(--space-6); align-items: center; justify-content: center; flex-wrap: wrap;
+    padding-top: var(--space-12);
+    margin-top: var(--space-12);
     border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
   }
-  .partner-band__alt { color: var(--color-green-deep); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-green-deep); padding-bottom: 2px; }
-  @media (max-width: 1024px) {
-    .partner-band__grid { grid-template-columns: 1fr; }
-    .partner-band__tiles { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 540px) {
-    .partner-band__tiles { grid-template-columns: 1fr; }
-  }
+  .partner__alt { color: var(--color-green-deep); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-green-deep); padding-bottom: 2px; font-size: 0.95rem; }
 
-  /* Pray band */
-  .pray-band__grid {
+  /* Pray CTA */
+  .pray-cta__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-16);
     align-items: center;
   }
-  .pray-band__photo {
+  @media (max-width: 900px) { .pray-cta__grid { grid-template-columns: 1fr; } }
+  .pray-cta__photo {
     aspect-ratio: 4 / 3;
     background-size: cover;
     background-position: center;
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
-    min-height: 320px;
+    min-height: 360px;
   }
-  @media (max-width: 900px) {
-    .pray-band__grid { grid-template-columns: 1fr; }
-  }
+  .pray-cta__copy h2 { margin-bottom: var(--space-4); }
+  .pray-cta__copy p { color: var(--color-ink-soft); font-size: 1.05rem; margin-bottom: var(--space-8); }
 
-  /* Trip cards */
-  .trip-card {
-    display: flex; flex-direction: column;
-    background: var(--color-white); border-radius: var(--radius-card);
-    box-shadow: var(--shadow-soft); overflow: hidden;
-    text-decoration: none; color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
+  /* Go cards */
+  .go__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
   }
-  .trip-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
-  .trip-card__photo { aspect-ratio: 4 / 3; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
-  .trip-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); }
-  .trip-card h3 { margin: 0; font-size: 1.15rem; color: var(--color-green); }
-  .trip-card p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
-
-  /* Update cards */
-  .update-card {
-    display: block;
-    padding: var(--space-8);
+  @media (max-width: 1024px) { .go__grid { grid-template-columns: 1fr; } }
+  .go-card {
     background: var(--color-white);
     border-radius: var(--radius-card);
-    border: 1px solid var(--color-border);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 160ms, transform 160ms;
+    box-shadow: var(--shadow-soft);
+    text-decoration: none; color: inherit;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform 180ms, box-shadow 180ms;
   }
-  .update-card:hover { border-color: var(--color-gold); transform: translateY(-2px); }
-  .update-card h3 { font-size: 1.15rem; margin: 0 0 var(--space-3); color: var(--color-green); }
-  .update-card p { margin: 0; font-size: 0.95rem; color: var(--color-ink-soft); }
+  .go-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+  .go-card__photo {
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .go-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+  .go-card__eyebrow {
+    font-size: var(--font-size-label);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-green-bright);
+  }
+  .go-card h3 { margin: 0; color: var(--color-green); font-size: 1.2rem; }
+  .go-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; }
+  .go-card__cta { font-weight: 700; color: var(--color-gold-deep); font-size: 0.9rem; }
 
-  /* Newsletter band */
+  /* Newsletter */
   .newsletter-band { text-align: center; }
-  .newsletter-band h2 { margin-bottom: var(--space-3); }
   .newsletter-band > .container > p { margin: 0 auto var(--space-8); max-width: 540px; color: var(--color-ink-soft); }
   .newsletter-band :global(.newsletter) { margin: 0 auto; }
 </style>

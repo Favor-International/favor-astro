@@ -61,7 +61,6 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
           <li class:list={[t.featured && 'tier-list--featured']}>
             <span class="tier-list__amount">${t.amount}<span class="tier-list__period">/mo</span></span>
             <span class="tier-list__label">{t.label}</span>
-            <span class="tier-list__tagline">{t.tagline}</span>
           </li>
         ))}
       </ul>
@@ -130,7 +129,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
   .tier-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
   .tier-list li {
     display: grid;
-    grid-template-columns: 120px 140px 1fr;
+    grid-template-columns: 140px 1fr;
     gap: var(--space-6);
     align-items: center;
     padding: var(--space-4) var(--space-6);

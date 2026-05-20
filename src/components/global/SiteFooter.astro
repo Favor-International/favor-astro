@@ -4,6 +4,7 @@ import { SITE } from '../../lib/site';
 <footer class="site-footer">
   <div class="container site-footer__top">
     <div class="site-footer__brand">
+      <img class="site-footer__logo" src="/images/favor-logo.png" alt={SITE.name} width="180" height="180" />
       <p class="site-footer__name">{SITE.name}</p>
       <p class="site-footer__signature">{SITE.signature}</p>
       <address>
@@ -98,6 +99,7 @@ import { SITE } from '../../lib/site';
     .site-footer__top { grid-template-columns: 1fr; gap: var(--space-8); }
   }
 
+  .site-footer__logo { width: 64px; height: 64px; object-fit: contain; margin-bottom: var(--space-3); filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
   .site-footer__name { font-size: 1.15rem; font-weight: 800; margin: 0 0 var(--space-2); }
   .site-footer__signature { font-style: italic; color: var(--color-gold-light); margin: 0 0 var(--space-4); }
   address { font-style: normal; font-size: 0.9rem; line-height: 1.7; color: color-mix(in srgb, var(--color-white) 80%, transparent); }

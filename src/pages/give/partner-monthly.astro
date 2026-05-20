@@ -29,7 +29,6 @@ import { PARTNER_TIERS, SITE } from '../../lib/site';
           <a class:list={['tier-card', t.featured && 'tier-card--featured']} href={`/give/partner-monthly/form/?amount=${t.amount}`}>
             <span class="tier-card__amount">${t.amount}<span>/mo</span></span>
             <span class="tier-card__label">{t.label}</span>
-            <span class="tier-card__tagline">{t.tagline}</span>
             <span class="tier-card__cta">Become {t.label} →</span>
           </a>
         ))}
