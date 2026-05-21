@@ -432,18 +432,23 @@ function isCurrent(href: string) {
   .site-header--transparent.is-scrolled .site-header__partner { color: var(--color-green); border-color: var(--color-green); }
 
   .site-header__give {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
     color: var(--color-ink);
     background: var(--color-gold);
-    border-radius: var(--radius-input);
-    padding: 12px 22px;
-    transition: background 140ms, transform 140ms;
+    border-radius: 999px;
+    padding: 14px 28px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+    transition: background 140ms, transform 140ms, box-shadow 140ms;
   }
-  .site-header__give:hover { background: color-mix(in srgb, var(--color-gold) 88%, var(--color-ink)); transform: translateY(-1px); }
+  .site-header__give:hover {
+    background: color-mix(in srgb, var(--color-gold) 88%, var(--color-ink));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  }
 
   .site-header__mobile-toggle {
     display: none;

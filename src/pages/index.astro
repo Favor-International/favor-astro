@@ -49,27 +49,27 @@ const quickAmounts = [25, 50, 100, 200, 500];
   <SiteHeader variant="transparent" />
   <main id="main">
 
-    <!-- BAND 1: Hero — full-bleed background, partner-centric H1 (World Vision pattern) -->
-    <!--
-      DESIGN NOTE: Photo is intentionally low-rendered with a strong gradient
-      overlay to mask compression artifacts in the available field photography.
-      Replace /images/pbs-karamoja.jpg with a high-resolution editorial hero
-      shot when one becomes available. Recommended: wide environmental shot
-      (IJM-style "joy from a distance"), 2400x1500 minimum.
-    -->
-    <section class="hero hero--fullbleed" aria-label="Stand with the missionaries reaching East Africa">
-      <div class="hero__bg" style="background-image: url(/images/pbs-karamoja.jpg)" aria-hidden="true"></div>
+    <!-- BAND 1: Hero — full-bleed photo + dark-green-on-left gradient (inspiration spec) -->
+    <section class="hero hero--fullbleed" aria-label="Send a pastor where the gospel has not reached">
+      <div class="hero__bg" style="background-image: url(/images/hero-pastor-preaching.jpg)" aria-hidden="true"></div>
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__inner container">
         <div class="hero__copy">
-          <p class="hero__eyebrow">Transformed Hearts Transform Nations</p>
-          <h1 class="hero__h1">Stand with the missionaries reaching East Africa's hardest places.</h1>
-          <p class="hero__sub">Favor International equips indigenous African leaders to plant churches, train pastors, run schools, and care for the persecuted. Your monthly partnership makes their work possible.</p>
+          <p class="hero__eyebrow">Where others will not go</p>
+          <h1 class="hero__h1">Send a pastor where the gospel has not reached.</h1>
+          <p class="hero__sub">Indigenous missionaries equipped and sent across East and Central Africa.</p>
           <div class="hero__cta">
-            <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
-            <a class="hero__secondary" href="/impact/">See the field &rarr;</a>
+            <a class="btn btn--primary btn--large hero__primary" href="/give/partner-monthly/">{CTA.partnerMonthly} <span aria-hidden="true">&rarr;</span></a>
           </div>
-          <p class="hero__trust">ECFA-accredited &middot; 501(c)(3) &middot; EIN {SITE.ein}</p>
+          <ul class="hero__trust">
+            <li class="hero__trust-item hero__trust-item--badge">
+              <span class="hero__trust-ecfa">ECFA</span>
+            </li>
+            <li class="hero__trust-divider" aria-hidden="true"></li>
+            <li class="hero__trust-item">501(c)(3)</li>
+            <li class="hero__trust-divider" aria-hidden="true"></li>
+            <li class="hero__trust-item">On the field since 2002</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -240,110 +240,127 @@ const quickAmounts = [25, 50, 100, 200, 500];
 </BaseLayout>
 
 <style>
-  /* ===== HERO (full-bleed, World Vision pattern) ===== */
+  /* ===== HERO (full-bleed, copies inspiration mockup) ===== */
   .hero--fullbleed {
     position: relative;
-    min-height: clamp(560px, 88vh, 760px);
+    min-height: clamp(640px, 92vh, 880px);
     display: flex;
     align-items: center;
     color: var(--color-white);
     overflow: hidden;
-    padding-top: 96px;
-    padding-bottom: var(--space-12);
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .hero__bg {
     position: absolute; inset: 0;
     background-size: cover;
     background-position: center;
     z-index: 0;
-    /* Slight zoom + saturation tweak helps low-res field photos read better */
-    transform: scale(1.05);
-    filter: saturate(1.05) contrast(1.02);
   }
   .hero__scrim {
     position: absolute; inset: 0;
     z-index: 1;
-    /* Strong deep-green gradient on the left where the text lives, fading to
-       lighter green on the right. Masks compression artifacts in the photo. */
+    /* Deep-green gradient: opaque on the left where text lives, fully clear
+       on the right so the pastor's face and the warm sunset breathe. */
     background:
       linear-gradient(90deg,
-        rgba(11, 64, 36, 0.92) 0%,
-        rgba(11, 64, 36, 0.78) 32%,
-        rgba(11, 64, 36, 0.45) 58%,
-        rgba(11, 64, 36, 0.18) 85%,
-        rgba(11, 64, 36, 0.08) 100%),
-      linear-gradient(180deg,
-        rgba(11, 64, 36, 0.15) 0%,
-        transparent 30%,
-        transparent 70%,
-        rgba(11, 64, 36, 0.35) 100%);
+        rgba(11, 64, 36, 0.96) 0%,
+        rgba(11, 64, 36, 0.92) 28%,
+        rgba(11, 64, 36, 0.55) 52%,
+        rgba(11, 64, 36, 0.10) 72%,
+        rgba(11, 64, 36, 0) 100%);
   }
   .hero__inner {
     position: relative;
     z-index: 2;
     width: 100%;
+    padding-top: 120px;
+    padding-bottom: var(--space-12);
   }
   .hero__copy {
     max-width: 640px;
   }
   .hero__eyebrow {
-    margin: 0 0 var(--space-4) 0;
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
+    margin: 0 0 var(--space-5) 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--color-gold);
   }
   .hero__h1 {
-    margin: 0 0 var(--space-5) 0;
-    font-size: clamp(2.1rem, 4.6vw, 3.6rem);
+    margin: 0 0 var(--space-6) 0;
+    font-size: clamp(2.5rem, 5.6vw, 4.6rem);
     font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -0.015em;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
     color: var(--color-white);
     text-wrap: balance;
   }
   .hero__sub {
     margin: 0 0 var(--space-8) 0;
-    font-size: clamp(1.0rem, 1.3vw, 1.15rem);
-    line-height: 1.6;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    line-height: 1.5;
     color: color-mix(in srgb, var(--color-white) 92%, transparent);
-    max-width: 56ch;
+    max-width: 48ch;
   }
   .hero__cta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-5);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-10);
   }
-  .hero__secondary {
-    color: var(--color-white);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.02em;
-    border-bottom: 2px solid var(--color-gold);
-    padding-bottom: 2px;
+  .hero__primary {
+    border-radius: 999px;
+    padding: 20px 36px;
+    font-size: 1.05rem;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    gap: var(--space-3);
   }
-  .hero__secondary:hover { color: var(--color-gold); }
+  .hero__primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
+  }
   .hero__trust {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .hero__trust-item {
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
     font-weight: 600;
-    color: color-mix(in srgb, var(--color-white) 72%, transparent);
+    color: color-mix(in srgb, var(--color-white) 86%, transparent);
+  }
+  .hero__trust-item--badge {
+    width: 44px; height: 44px;
+    border: 2px solid color-mix(in srgb, var(--color-white) 70%, transparent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero__trust-ecfa {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--color-white);
+  }
+  .hero__trust-divider {
+    width: 1px; height: 20px;
+    background: color-mix(in srgb, var(--color-white) 35%, transparent);
+  }
+  @media (max-width: 900px) {
+    .hero__inner { padding-top: 110px; }
+    .hero__scrim {
+      background: linear-gradient(180deg,
+        rgba(11, 64, 36, 0.65) 0%,
+        rgba(11, 64, 36, 0.82) 40%,
+        rgba(11, 64, 36, 0.94) 100%);
+    }
   }
   @media (max-width: 720px) {
-    .hero--fullbleed { min-height: 540px; padding-top: 88px; }
-    .hero__scrim {
-      /* On mobile, scrim from the bottom up so text-over-photo still reads */
-      background: linear-gradient(180deg,
-        rgba(11, 64, 36, 0.6) 0%,
-        rgba(11, 64, 36, 0.78) 38%,
-        rgba(11, 64, 36, 0.92) 100%);
-    }
+    .hero--fullbleed { min-height: 600px; }
+    .hero__h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
   }
   /* ===== SCRIPTURE BAND ===== */
   .scripture { padding-top: var(--space-12); padding-bottom: var(--space-12); }
