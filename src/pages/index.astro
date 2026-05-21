@@ -5,7 +5,7 @@ import SiteFooter from '../components/global/SiteFooter.astro';
 import { PILLARS, PARTNER_TIERS, SITE } from '../lib/site';
 import { CTA } from '../lib/cta';
 
-// Pillar imagery (each pillar has its own distinct photo).
+// Pillar imagery — each pillar gets its own distinct field photo.
 const pillarImages: Record<string, string> = {
   'evangelism-discipleship': '/images/pillar-evangelism-discipleship.jpg',
   'education': '/images/pillar-education.jpg',
@@ -14,30 +14,31 @@ const pillarImages: Record<string, string> = {
 };
 
 // Real published stories from the Webflow CMS (Stories.csv).
-const featuredStories = [
-  {
-    title: '"More Bibles for Ethiopia, please!"',
-    country: 'Ethiopia',
-    excerpt: 'After two months of Portable Bible Schools in Ethiopia, field teachers graduated 763 students, led 112 to salvation, and baptized 57. Then they ran out of Bibles.',
-    image: '/images/stories/more-bibles-for-ethiopia-please.jpg',
-    href: '/stories/more-bibles-for-ethiopia-please/',
-  },
+// One lead story carries the editorial weight; two stacked supporting stories
+// give a 1+2 magazine layout.
+const leadStory = {
+  title: '"More Bibles for Ethiopia, please!"',
+  country: 'Ethiopia',
+  excerpt: 'After two months of Portable Bible Schools in Ethiopia, field teachers graduated 763 students, led 112 to salvation, and baptized 57. Then they ran out of Bibles.',
+  image: '/images/stories/more-bibles-for-ethiopia-please.jpg',
+  href: '/stories/more-bibles-for-ethiopia-please/',
+};
+const supportingStories = [
   {
     title: 'Daniel Kidia',
     country: 'South Sudan',
-    excerpt: 'A former Mundari cattle warrior, now a Favor field pastor leading PBS classes among his own people. A PBS testimony.',
+    excerpt: 'A former Mundari cattle warrior, now a Favor field pastor leading PBS classes among his own people.',
     image: '/images/stories/daniel-kidia.jpg',
     href: '/stories/daniel-kidia/',
   },
   {
     title: 'Goats for Women',
     country: 'Uganda',
-    excerpt: 'Women of Puranga praised and worshipped God as they waited to receive two goats each, the fruit of a year of Women’s Empowerment training.',
+    excerpt: 'Women of Puranga praised and worshipped God as they waited to receive two goats each, the fruit of a year of training.',
     image: '/images/stories/goats-for-women.jpg',
     href: '/stories/goats-for-women/',
   },
 ];
-
 ---
 <BaseLayout
   title={`${SITE.name} — ${SITE.tagline}`}
@@ -47,7 +48,7 @@ const featuredStories = [
   <SiteHeader variant="transparent" />
   <main id="main">
 
-    <!-- BAND 1: Hero — full-bleed photo + dark-green-on-left gradient (inspiration spec) -->
+    <!-- BAND 1: Hero (locked) -->
     <section class="hero hero--fullbleed" aria-label="Send a pastor where the gospel has not reached">
       <div class="hero__bg" style="background-image: url(/images/hero-pastor-preaching.jpg)" aria-hidden="true"></div>
       <div class="hero__scrim" aria-hidden="true"></div>
@@ -72,114 +73,43 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 2: Scripture pause-beat — white, centered, gold rule above, no em-dashes -->
-    <section class="scripture-band">
-      <div class="container container--narrow scripture-band__inner">
-        <span class="scripture-band__rule scripture-band__rule--gold" aria-hidden="true"></span>
-        <blockquote class="scripture-band__quote">
+    <!-- BAND 2: Signature phrase ("Where others will not go") -->
+    <section class="signature">
+      <div class="container container--narrow signature__inner">
+        <span class="signature__rule" aria-hidden="true"></span>
+        <p class="signature__eyebrow">The Favor signature</p>
+        <h2 class="signature__phrase">Where others will not go.</h2>
+        <p class="signature__body">
+          The hardest places on earth still belong to Jesus. Favor sends indigenous
+          pastors and teachers into villages, refugee camps, and tribal lands no
+          outside agency will enter. You make that possible.
+        </p>
+        <p class="signature__scripture">
           &ldquo;{SITE.scripture.text}&rdquo;
-        </blockquote>
-        <p class="scripture-band__cite">JOHN 9:4 &middot; AMPC</p>
-        <span class="scripture-band__rule scripture-band__rule--sage" aria-hidden="true"></span>
-      </div>
-    </section>
-
-    <!-- BAND 3: What you make possible — white, photo-on-top pillar cards -->
-    <section class="pillars-band">
-      <div class="container">
-        <header class="pillars-band__header">
-          <p class="eyebrow">Where your partnership goes</p>
-          <h2>Four fronts. One Gospel.</h2>
-          <span class="gold-underline" aria-hidden="true"></span>
-          <p class="pillars-band__lede">You fund four kinds of work at once. A pastor in a village no missions agency will enter. A child learning to read at a Favor school. A widow with a goat. A clinic with antibiotics on the shelf.</p>
-        </header>
-        <div class="pillars-band__grid">
-          {PILLARS.map((p) => (
-            <a class="pillar-card" href={`/impact/${p.slug}/`}>
-              <div class="pillar-card__photo" style={`background-image: url(${pillarImages[p.slug]})`} role="img" aria-label={p.label}></div>
-              <div class="pillar-card__body">
-                <h3 class="pillar-card__title">{p.label}</h3>
-                <p class="pillar-card__blurb">{p.blurb}</p>
-                <span class="pillar-card__cta">See this work &rarr;</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- BAND 4: Proof strip — sage-light, 3 ECFA-audited numbers, icon + card -->
-    <section class="proof-band">
-      <div class="container">
-        <header class="proof-band__header">
-          <p class="eyebrow eyebrow--green">The receipts</p>
-          <h2>Your dollar reaches the field.</h2>
-          <p class="proof-band__lede">You can trust where the money goes. Favor International has been ECFA-accredited since 2019 and rated four stars by Charity Navigator.</p>
-        </header>
-        <ul class="proof-band__grid">
-          <li class="proof-stat">
-            <span class="proof-stat__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2v20M5 9l7-7 7 7"/>
-                <path d="M5 21h14"/>
-              </svg>
-            </span>
-            <span class="proof-stat__value">89%</span>
-            <span class="proof-stat__label">to the field</span>
-            <span class="proof-stat__note">FY2024 program ratio, audited</span>
-          </li>
-          <li class="proof-stat">
-            <span class="proof-stat__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-              </svg>
-            </span>
-            <span class="proof-stat__value">14</span>
-            <span class="proof-stat__label">nations reached</span>
-            <span class="proof-stat__note">East and Central Africa</span>
-          </li>
-          <li class="proof-stat">
-            <span class="proof-stat__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="6" width="20" height="12" rx="2"/>
-                <circle cx="12" cy="12" r="2"/>
-                <path d="M6 12h.01M18 12h.01"/>
-              </svg>
-            </span>
-            <span class="proof-stat__value">$8.36M</span>
-            <span class="proof-stat__label">FY2024 revenue</span>
-            <span class="proof-stat__note">Filed Form 990, ECFA, Candid</span>
-          </li>
-        </ul>
-        <p class="proof-band__sources">
-          Sources: <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA</a> ·
-          <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">Charity Navigator</a> ·
-          <a href={SITE.trust.candid} target="_blank" rel="noopener">Candid</a>
+          <span class="signature__cite">John 9:4 · AMPC</span>
         </p>
       </div>
     </section>
 
-    <!-- BAND 5: Stories from the field — white, real story photos breathing -->
-    <section class="stories-band">
+    <!-- BAND 3: Four ministry pillars (light sage, editorial photo cards) -->
+    <section class="pillars">
       <div class="container">
-        <header class="stories-band__header">
-          <div>
-            <p class="eyebrow">Stories from the field</p>
-            <h2>Real names. Real places.</h2>
-            <p class="stories-band__lede">You can read the names of the pastors, women, and children your partnership is sending us to.</p>
-          </div>
-          <a class="stories-band__all" href="/stories/">All stories &rarr;</a>
+        <header class="band-head">
+          <p class="band-head__eyebrow">Where your partnership goes</p>
+          <h2 class="band-head__h2">Four fronts. One Gospel.</h2>
+          <span class="gold-rule" aria-hidden="true"></span>
+          <p class="band-head__lede">You fund four kinds of work at once. A pastor on the trail. A child at her desk. A widow with a goat. A clinic with antibiotics on the shelf.</p>
         </header>
-        <div class="stories-band__grid">
-          {featuredStories.map((s) => (
-            <a class="story-card" href={s.href}>
-              <div class="story-card__photo" style={`background-image: url(${s.image})`} role="img" aria-label={s.title}></div>
-              <div class="story-card__body">
-                <span class="story-card__country">{s.country}</span>
-                <h3 class="story-card__title">{s.title}</h3>
-                <p class="story-card__excerpt">{s.excerpt}</p>
-                <span class="story-card__cta">Read the story &rarr;</span>
+        <div class="pillars__grid">
+          {PILLARS.map((p, i) => (
+            <a class="pillar" href={`/impact/${p.slug}/`}>
+              <div class="pillar__photo" style={`background-image: url(${pillarImages[p.slug]})`} role="img" aria-label={p.label}></div>
+              <div class="pillar__scrim" aria-hidden="true"></div>
+              <div class="pillar__body">
+                <span class="pillar__num">0{i + 1}</span>
+                <h3 class="pillar__title">{p.label}</h3>
+                <p class="pillar__blurb">{p.blurb}</p>
+                <span class="pillar__cta">Explore this pillar <span aria-hidden="true">&rarr;</span></span>
               </div>
             </a>
           ))}
@@ -187,25 +117,37 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 6: Partner — white outer, contained green inset card -->
-    <section class="partner-band" id="partner">
+    <!-- BAND 4: Stories (white, asymmetric 1 lead + 2 stacked) -->
+    <section class="stories">
       <div class="container">
-        <div class="partner-card">
-          <div class="partner-card__copy">
-            <p class="eyebrow eyebrow--gold">Become a Favor Partner</p>
-            <h2 class="partner-card__h2">$40 a month sends a pastor.</h2>
-            <span class="gold-underline gold-underline--bright" aria-hidden="true"></span>
-            <p class="partner-card__body">You can keep a Favor pastor on the trail in a place no other ministry will go. Pick a monthly tier, or set your own amount. Every gift is tax-deductible. ECFA-accredited since 2019.</p>
-            <a class="btn btn--primary btn--large partner-card__cta" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
-            <p class="partner-card__pray">Or pray with us: <a href="/pray/30-day-guide/">get the 30-day guide &rarr;</a></p>
+        <header class="band-head band-head--row">
+          <div>
+            <p class="band-head__eyebrow">Stories from the field</p>
+            <h2 class="band-head__h2">Real names. Real places.</h2>
+            <p class="band-head__lede band-head__lede--left">You can read the names of the pastors, women, and children your partnership is sending us to.</p>
           </div>
-          <div class="partner-card__tiers">
-            <p class="partner-card__tiers-label">Suggested monthly tiers</p>
-            {PARTNER_TIERS.map((t) => (
-              <a class:list={['partner-tier', t.featured && 'partner-tier--featured']} href={`/give/partner-monthly/?amount=${t.amount}`}>
-                {t.featured && <span class="partner-tier__badge">Most chosen</span>}
-                <span class="partner-tier__amount">${t.amount}<span class="partner-tier__period">/mo</span></span>
-                <span class="partner-tier__label">{t.label}</span>
+          <a class="band-head__all" href="/stories/">Every story <span aria-hidden="true">&rarr;</span></a>
+        </header>
+        <div class="stories__grid">
+          <a class="story story--lead" href={leadStory.href}>
+            <div class="story__photo" style={`background-image: url(${leadStory.image})`} role="img" aria-label={leadStory.title}></div>
+            <div class="story__body">
+              <span class="story__country">{leadStory.country}</span>
+              <h3 class="story__title story__title--lead">{leadStory.title}</h3>
+              <p class="story__excerpt">{leadStory.excerpt}</p>
+              <span class="story__cta">Read the full story <span aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+          <div class="stories__sidecol">
+            {supportingStories.map((s) => (
+              <a class="story story--side" href={s.href}>
+                <div class="story__photo story__photo--side" style={`background-image: url(${s.image})`} role="img" aria-label={s.title}></div>
+                <div class="story__body story__body--side">
+                  <span class="story__country">{s.country}</span>
+                  <h3 class="story__title">{s.title}</h3>
+                  <p class="story__excerpt story__excerpt--side">{s.excerpt}</p>
+                  <span class="story__cta">Read <span aria-hidden="true">&rarr;</span></span>
+                </div>
               </a>
             ))}
           </div>
@@ -213,35 +155,149 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 7: Trust signals — cream, ECFA + Charity Navigator + Candid -->
-    <section class="trust-band">
-      <div class="container">
-        <header class="trust-band__header">
-          <p class="eyebrow eyebrow--green">Accountability</p>
-          <h2>You can verify every dollar.</h2>
-          <p class="trust-band__lede">You don't have to take our word for it. Three independent watchdogs audit Favor's books and stewardship every year.</p>
+    <!-- BAND 5: Impact numbers (deep green, big gold numbers, field-photo backdrop) -->
+    <section class="impact" aria-label="Audited impact numbers">
+      <div class="impact__bg" style="background-image: url(/images/hero-congo-grads.jpg)" aria-hidden="true"></div>
+      <div class="impact__scrim" aria-hidden="true"></div>
+      <div class="container impact__inner">
+        <header class="impact__head">
+          <p class="band-head__eyebrow impact__eyebrow">The receipts</p>
+          <h2 class="impact__h2">Audit-grade numbers, every year.</h2>
         </header>
-        <div class="trust-band__grid">
-          <article class="trust-card">
-            <img class="trust-card__badge" src="/images/trust/ecfa.png" alt="ECFA Accredited" width="96" height="96" />
-            <h3>ECFA-accredited since 2019</h3>
-            <p>Favor International has been a member of the Evangelical Council for Financial Accountability since September 30, 2019. ECFA holds members to a public standard of stewardship and disclosure.</p>
-            <a href={SITE.trust.ecfa} target="_blank" rel="noopener">View our ECFA profile &rarr;</a>
-          </article>
-          <article class="trust-card">
-            <img class="trust-card__badge" src="/images/trust/charity-navigator.svg" alt="Charity Navigator Four-Star" width="96" height="96" />
-            <h3>Four-Star Charity Navigator rating</h3>
-            <p>Charity Navigator scores nonprofits on financial health, accountability, and transparency. Favor holds the Four-Star rating, the highest tier.</p>
-            <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">View our Charity Navigator profile &rarr;</a>
-          </article>
-          <article class="trust-card">
-            <img class="trust-card__badge" src="/images/trust/candid-platinum.svg" alt="Candid Platinum Transparency Seal" width="96" height="96" />
-            <h3>Candid Platinum transparency seal</h3>
-            <p>Candid (formerly Guidestar) verifies nonprofit transparency at four tiers. Favor holds the Platinum tier, the highest.</p>
-            <p class="trust-card__ein">EIN 47-5225697 &middot; FY2024 Form 990</p>
-            <a href={SITE.trust.candid} target="_blank" rel="noopener">View our Candid profile &rarr;</a>
-          </article>
+        <ul class="impact__grid">
+          <li class="impact-stat">
+            <span class="impact-stat__value">89<span class="impact-stat__unit">%</span></span>
+            <span class="impact-stat__label">To the field</span>
+            <span class="impact-stat__note">FY2024 program-expense ratio, ECFA-audited</span>
+          </li>
+          <li class="impact-stat">
+            <span class="impact-stat__value">14</span>
+            <span class="impact-stat__label">Nations reached</span>
+            <span class="impact-stat__note">East and Central Africa</span>
+          </li>
+          <li class="impact-stat">
+            <span class="impact-stat__value">$8.36<span class="impact-stat__unit">M</span></span>
+            <span class="impact-stat__label">FY2024 revenue</span>
+            <span class="impact-stat__note">Filed Form 990</span>
+          </li>
+        </ul>
+        <p class="impact__sources">
+          Verified by
+          <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA</a>,
+          <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">Charity Navigator</a>, and
+          <a href={SITE.trust.candid} target="_blank" rel="noopener">Candid</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- BAND 6: Partner — full 6-tier grid per sitemap v2.1 -->
+    <section class="partner" id="partner">
+      <div class="container">
+        <div class="partner__card">
+          <div class="partner__copy">
+            <p class="band-head__eyebrow partner__eyebrow">Become a Favor Partner</p>
+            <h2 class="partner__h2">Monthly partnership is the most-chosen way to send.</h2>
+            <p class="partner__body">
+              You can keep an indigenous pastor on the trail in a place no other
+              ministry will go. Pick a tier, or set your own amount. Every gift is
+              tax-deductible. ECFA-accredited since 2019.
+            </p>
+            <a class="btn btn--primary btn--large partner__cta" href="/give/partner-monthly/">{CTA.partnerMonthly} <span aria-hidden="true">&rarr;</span></a>
+            <p class="partner__altgive">
+              Prefer to give once? <a href="/give/one-time/">Single gift</a> ·
+              <a href="/give/specific-project/">Specific project</a> ·
+              <a href="/give/non-cash/">Stocks &amp; non-cash</a>
+            </p>
+          </div>
+          <div class="partner__tiers">
+            <p class="partner__tiers-label">Monthly partner tiers</p>
+            <div class="partner__tiers-grid">
+              {PARTNER_TIERS.map((t) => (
+                <a class:list={['tier', t.featured && 'tier--featured']} href={`/give/partner-monthly/?amount=${t.amount}`}>
+                  {t.featured && <span class="tier__badge">Lead tier</span>}
+                  <span class="tier__amount">${t.amount.toLocaleString()}<span class="tier__period">/mo</span></span>
+                  <span class="tier__label">{t.label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- BAND 7: Pray + Go (split-band) -->
+    <section class="praygo">
+      <a class="praygo__panel praygo__panel--pray" href="/pray/30-day-guide/">
+        <div class="praygo__photo" style="background-image: url(/images/hero-prayer-team.jpg)" aria-hidden="true"></div>
+        <div class="praygo__scrim praygo__scrim--green" aria-hidden="true"></div>
+        <div class="praygo__body">
+          <p class="praygo__eyebrow">Pray with us</p>
+          <h3 class="praygo__h3">You can pray where they cannot reach.</h3>
+          <p class="praygo__lede">One specific request a day, across 14 nations Favor serves. Free PDF, no signup.</p>
+          <span class="praygo__cta">Get the 30-Day Prayer Guide <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="praygo__panel praygo__panel--go" href="/go/vision-trips/">
+        <div class="praygo__photo" style="background-image: url(/images/pbs-karamoja.jpg)" aria-hidden="true"></div>
+        <div class="praygo__scrim praygo__scrim--terracotta" aria-hidden="true"></div>
+        <div class="praygo__body">
+          <p class="praygo__eyebrow">Walk with us</p>
+          <h3 class="praygo__h3">See it for yourself.</h3>
+          <p class="praygo__lede">Small-team vision trips to Uganda, South Sudan, and Ethiopia. Spring and Fall 2026.</p>
+          <span class="praygo__cta">See open vision trips <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+    </section>
+
+    <!-- BAND 8: Newsletter (sage-light, single-field) -->
+    <section class="newsletter">
+      <div class="container container--narrow newsletter__inner">
+        <p class="band-head__eyebrow newsletter__eyebrow">Field report</p>
+        <h2 class="newsletter__h2">One short email. Every other week.</h2>
+        <p class="newsletter__body">Real names, real numbers, real prayer requests from the field. Unsubscribe in one click.</p>
+        <form class="newsletter__form" action="/newsletter/" method="get">
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <input class="newsletter__input" id="newsletter-email" type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+          <button class="btn btn--primary newsletter__submit" type="submit">Subscribe <span aria-hidden="true">&rarr;</span></button>
+        </form>
+        <p class="newsletter__privacy">We never sell or share your email. Read our <a href="/about/accountability/">accountability practice</a>.</p>
+      </div>
+    </section>
+
+    <!-- BAND 9: Trust strip (compact, horizontal, near footer) -->
+    <section class="trust">
+      <div class="container trust__inner">
+        <p class="trust__lede">You can verify every dollar.</p>
+        <ul class="trust__row">
+          <li class="trust__item">
+            <a href={SITE.trust.ecfa} target="_blank" rel="noopener" class="trust__link">
+              <span class="trust__badge" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 4 8 14v18c0 13 11 25 24 28 13-3 24-15 24-28V14L32 4z"/><path d="M22 33l7 7 13-15"/></svg>
+                <span class="trust__badge-text">ECFA</span>
+              </span>
+              <span class="trust__label">ECFA-accredited <em>since 2019</em></span>
+            </a>
+          </li>
+          <li class="trust__item">
+            <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener" class="trust__link">
+              <span class="trust__badge" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="currentColor"><path d="M32 6l7.4 14.9L56 23.3l-12 11.7 2.8 16.6L32 43.8l-14.8 7.8L20 35 8 23.3l16.6-2.4L32 6z"/></svg>
+                <span class="trust__badge-text">4★</span>
+              </span>
+              <span class="trust__label">Charity Navigator <em>Four-Star rating</em></span>
+            </a>
+          </li>
+          <li class="trust__item">
+            <a href={SITE.trust.candid} target="_blank" rel="noopener" class="trust__link">
+              <span class="trust__badge" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26"/><path d="M44 24c-2-4-6-6-12-6-6 0-12 4-12 14s6 14 12 14c6 0 10-2 12-6"/></svg>
+                <span class="trust__badge-text">Platinum</span>
+              </span>
+              <span class="trust__label">Candid Platinum <em>transparency seal</em></span>
+            </a>
+          </li>
+        </ul>
+        <p class="trust__ein">EIN {SITE.ein} · FY2024 Form 990 on file · Tax-deductible · 501(c)(3)</p>
       </div>
     </section>
 
@@ -250,48 +306,99 @@ const featuredStories = [
 </BaseLayout>
 
 <style>
-  /* ===== HERO (full-bleed, copies inspiration mockup) ===== */
+  /* ===== SHARED PRIMITIVES ===== */
+  .band-head {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto var(--space-12) auto;
+  }
+  .band-head--row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    text-align: left;
+    max-width: none;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+  .band-head__eyebrow {
+    margin: 0 0 var(--space-3) 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+  }
+  .band-head__h2 {
+    margin: 0;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    color: var(--color-green-deep);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.018em;
+  }
+  .band-head__lede {
+    margin: var(--space-5) auto 0 auto;
+    color: var(--color-ink-soft);
+    font-size: 1.08rem;
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+  .band-head__lede--left { margin-left: 0; }
+  .band-head__all {
+    color: var(--color-green-deep);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 3px;
+    white-space: nowrap;
+  }
+  .band-head__all:hover { color: var(--color-gold); }
+  .gold-rule {
+    display: block;
+    width: 64px;
+    height: 3px;
+    background: var(--color-gold);
+    margin: var(--space-5) auto var(--space-4) auto;
+    border-radius: 2px;
+  }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  /* ===== HERO (unchanged from v9.1) ===== */
   .hero--fullbleed {
     position: relative;
     min-height: clamp(680px, 96vh, 920px);
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     color: var(--color-white);
     overflow: hidden;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 0; padding-bottom: 0;
   }
   .hero__bg {
     position: absolute; inset: 0;
     background-size: cover;
-    /* Bias the crop so the pastor sits centered in his half rather than
-       jammed against the top-right corner. */
     background-position: 70% 65%;
     z-index: 0;
   }
   .hero__scrim {
-    position: absolute; inset: 0;
-    z-index: 1;
-    /* Deep-green gradient: opaque on the left where text lives, fully clear
-       on the right so the pastor's face and the warm sunset breathe. */
-    background:
-      linear-gradient(90deg,
-        rgba(11, 64, 36, 0.96) 0%,
-        rgba(11, 64, 36, 0.92) 28%,
-        rgba(11, 64, 36, 0.55) 52%,
-        rgba(11, 64, 36, 0.10) 72%,
-        rgba(11, 64, 36, 0) 100%);
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(90deg,
+      rgba(11, 64, 36, 0.96) 0%,
+      rgba(11, 64, 36, 0.92) 28%,
+      rgba(11, 64, 36, 0.55) 52%,
+      rgba(11, 64, 36, 0.10) 72%,
+      rgba(11, 64, 36, 0) 100%);
   }
   .hero__inner {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    padding-top: 120px;
-    padding-bottom: var(--space-12);
+    position: relative; z-index: 2; width: 100%;
+    padding-top: 120px; padding-bottom: var(--space-12);
   }
-  .hero__copy {
-    max-width: 720px;
-  }
+  .hero__copy { max-width: 720px; }
   .hero__eyebrow {
     margin: 0 0 var(--space-5) 0;
     font-size: 0.85rem;
@@ -307,9 +414,6 @@ const featuredStories = [
     line-height: 1.04;
     letter-spacing: -0.02em;
     color: var(--color-white);
-    /* Force 3-line break to match mockup: "Send a pastor / where the gospel
-       / has not reached." Narrower than the copy column so subhead can still
-       breathe. */
     max-width: 14ch;
   }
   .hero__sub {
@@ -319,9 +423,7 @@ const featuredStories = [
     color: color-mix(in srgb, var(--color-white) 92%, transparent);
     max-width: 48ch;
   }
-  .hero__cta {
-    margin-bottom: var(--space-10);
-  }
+  .hero__cta { margin-bottom: var(--space-10); }
   .hero__primary {
     border-radius: 999px;
     padding: 20px 36px;
@@ -334,17 +436,11 @@ const featuredStories = [
     box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
   }
   .hero__trust {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    flex-wrap: wrap;
+    list-style: none; padding: 0; margin: 0;
+    display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap;
   }
   .hero__trust-item {
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
+    font-size: 0.82rem; letter-spacing: 0.06em;
     font-weight: 600;
     color: color-mix(in srgb, var(--color-white) 86%, transparent);
   }
@@ -355,10 +451,8 @@ const featuredStories = [
     display: flex; align-items: center; justify-content: center;
   }
   .hero__trust-ecfa {
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    color: var(--color-white);
+    font-size: 0.7rem; font-weight: 800;
+    letter-spacing: 0.04em; color: var(--color-white);
   }
   .hero__trust-divider {
     width: 1px; height: 20px;
@@ -377,523 +471,737 @@ const featuredStories = [
     .hero--fullbleed { min-height: 600px; }
     .hero__h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
   }
-  /* ===== SHARED HELPERS ===== */
-  .eyebrow {
-    margin: 0 0 var(--space-3) 0;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-sage);
-  }
-  .eyebrow--gold { color: var(--color-gold); }
-  .eyebrow--green { color: var(--color-green-deep); }
-  .gold-underline {
-    display: inline-block;
-    width: 56px;
-    height: 3px;
-    background: var(--color-gold);
-    margin: var(--space-4) auto;
-    border-radius: 2px;
-  }
-  .gold-underline--bright { background: var(--color-gold); margin: var(--space-3) 0; }
 
-  /* ===== BAND 2: SCRIPTURE PAUSE-BEAT (white) ===== */
-  .scripture-band {
+  /* ===== BAND 2: SIGNATURE PHRASE ===== */
+  .signature {
     background: var(--color-white);
-    padding: var(--space-14) 0;
+    padding: clamp(var(--space-16), 12vw, var(--space-24)) 0;
+    position: relative;
   }
-  .scripture-band__inner {
+  .signature__inner {
     text-align: center;
     display: flex; flex-direction: column; align-items: center;
-    gap: var(--space-6);
+    gap: 0;
   }
-  .scripture-band__rule {
-    width: 64px; height: 2px; display: block;
+  .signature__rule {
+    display: block;
+    width: 80px; height: 3px;
+    background: var(--color-gold);
+    margin-bottom: var(--space-8);
+    border-radius: 2px;
   }
-  .scripture-band__rule--gold { background: var(--color-gold); }
-  .scripture-band__rule--sage { background: color-mix(in srgb, var(--color-sage) 50%, transparent); }
-  .scripture-band__quote {
-    margin: 0;
-    max-width: 56ch;
-    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
-    line-height: 1.45;
-    color: var(--color-green-deep);
-    font-weight: 500;
-    quotes: none;
-    border: none;
-    padding: 0;
-  }
-  .scripture-band__cite {
-    margin: 0;
-    font-size: 0.85rem;
+  .signature__eyebrow {
+    margin: 0 0 var(--space-6) 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 0.22em;
     color: var(--color-sage);
   }
-
-  /* ===== BAND 3: PILLARS (white, photo-on-top card) ===== */
-  .pillars-band {
-    background: var(--color-white);
-    padding: var(--space-14) 0;
-  }
-  .pillars-band__header {
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto var(--space-12) auto;
-  }
-  .pillars-band__header h2 {
-    margin: 0;
-    font-size: clamp(2rem, 3.6vw, 2.75rem);
-    color: var(--color-green-deep);
-    line-height: 1.1;
+  .signature__phrase {
+    margin: 0 0 var(--space-8) 0;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 800;
-    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--color-green-deep);
+    letter-spacing: -0.03em;
+    max-width: 14ch;
   }
-  .pillars-band__lede {
-    margin: var(--space-5) auto 0 auto;
-    color: var(--color-ink-soft);
-    font-size: 1.05rem;
+  .signature__body {
+    margin: 0 0 var(--space-10) 0;
+    max-width: 56ch;
+    font-size: 1.15rem;
     line-height: 1.6;
-    max-width: 60ch;
+    color: var(--color-ink);
   }
-  .pillars-band__grid {
+  .signature__scripture {
+    margin: 0;
+    padding: var(--space-6) var(--space-8);
+    border-left: 3px solid var(--color-gold);
+    background: var(--color-cream);
+    max-width: 52ch;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--color-green-deep);
+    text-align: left;
+  }
+  .signature__cite {
+    display: block;
+    margin-top: var(--space-3);
+    font-style: normal;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+    font-weight: 700;
+  }
+
+  /* ===== BAND 3: PILLARS (light sage bg, dark photo cards) ===== */
+  .pillars {
+    background: color-mix(in srgb, var(--color-sage-light) 50%, var(--color-white));
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
+  }
+  .pillars__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-6);
+    gap: var(--space-5);
   }
-  @media (max-width: 1100px) { .pillars-band__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .pillars-band__grid { grid-template-columns: 1fr; } }
-  .pillar-card {
-    display: flex; flex-direction: column;
-    background: var(--color-white);
-    border-radius: 12px;
+  @media (max-width: 1100px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px)  { .pillars__grid { grid-template-columns: 1fr; } }
+  .pillar {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    border-radius: 14px;
     overflow: hidden;
     text-decoration: none;
+    color: var(--color-white);
+    box-shadow: 0 14px 40px rgba(11, 64, 36, 0.15);
+    isolation: isolate;
+    transition: transform 280ms ease, box-shadow 280ms ease;
+  }
+  .pillar:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 60px rgba(11, 64, 36, 0.28);
+  }
+  .pillar__photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform 700ms ease;
+  }
+  .pillar:hover .pillar__photo { transform: scale(1.06); }
+  .pillar__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(11, 64, 36, 0) 0%, rgba(11, 64, 36, 0.15) 40%, rgba(11, 64, 36, 0.95) 100%);
+  }
+  .pillar__body {
+    position: absolute;
+    inset: auto var(--space-6) var(--space-6) var(--space-6);
+    z-index: 2;
+    display: flex; flex-direction: column;
+    gap: var(--space-2);
+  }
+  .pillar__num {
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    font-weight: 800;
+    color: var(--color-gold);
+    margin-bottom: var(--space-2);
+  }
+  .pillar__title {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-white);
+    letter-spacing: -0.01em;
+  }
+  .pillar__blurb {
+    margin: var(--space-2) 0 var(--space-3) 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+  }
+  .pillar__cta {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    letter-spacing: 0.04em;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-gold) 60%, transparent);
+    align-self: flex-start;
+    padding-bottom: 2px;
+    transition: border-color 200ms;
+  }
+  .pillar:hover .pillar__cta { border-bottom-color: var(--color-gold); }
+
+  /* ===== BAND 4: STORIES (white, 1 lead + 2 stacked) ===== */
+  .stories {
+    background: var(--color-white);
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
+  }
+  .stories__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--space-8);
+  }
+  @media (max-width: 980px) { .stories__grid { grid-template-columns: 1fr; } }
+  .story {
+    display: block;
+    text-decoration: none;
     color: var(--color-ink);
-    border: 1px solid color-mix(in srgb, var(--color-sage) 30%, transparent);
-    transition: transform 200ms, box-shadow 200ms, border-color 200ms;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-white);
+    transition: transform 240ms, box-shadow 240ms;
   }
-  .pillar-card:hover {
+  .story--lead {
+    box-shadow: 0 6px 20px rgba(11, 64, 36, 0.08);
+    border: 1px solid color-mix(in srgb, var(--color-sage) 18%, transparent);
+  }
+  .story:hover {
     transform: translateY(-4px);
-    border-color: var(--color-gold);
-    box-shadow: 0 18px 36px rgba(11, 64, 36, 0.12);
+    box-shadow: 0 22px 48px rgba(11, 64, 36, 0.16);
   }
-  .pillar-card__photo {
+  .story__photo {
     aspect-ratio: 4 / 3;
     background-size: cover;
     background-position: center;
   }
-  .pillar-card__body {
-    padding: var(--space-6);
+  .story__photo--side {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+  }
+  .story__body {
+    padding: var(--space-8);
     display: flex; flex-direction: column;
     gap: var(--space-3);
-    flex: 1;
   }
-  .pillar-card__title {
-    margin: 0;
-    color: var(--color-green-deep);
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1.25;
-  }
-  .pillar-card__blurb {
-    margin: 0;
-    color: var(--color-ink-soft);
-    font-size: 0.92rem;
-    line-height: 1.55;
-    flex: 1;
-  }
-  .pillar-card__cta {
-    color: var(--color-green-deep);
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-top: auto;
-  }
-
-  /* ===== BAND 4: PROOF STRIP (sage-light, icon+stat cards) ===== */
-  .proof-band {
-    background: #d8dfd2;
-    padding: var(--space-14) 0;
-  }
-  .proof-band__header {
-    text-align: center;
-    margin-bottom: var(--space-10);
-    max-width: 720px;
-    margin-left: auto; margin-right: auto;
-  }
-  .proof-band__header h2 {
-    margin: 0;
-    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
-    color: var(--color-green-deep);
-    line-height: 1.1;
-    font-weight: 800;
-  }
-  .proof-band__lede {
-    margin: var(--space-4) auto 0 auto;
-    color: var(--color-ink);
-    font-size: 1.0rem;
-    line-height: 1.55;
-    max-width: 56ch;
-  }
-  .proof-band__grid {
-    list-style: none; padding: 0; margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-  }
-  @media (max-width: 800px) {
-    .proof-band__grid { grid-template-columns: 1fr; gap: var(--space-4); }
-  }
-  .proof-stat {
-    display: flex; flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
-    padding: var(--space-7) var(--space-6);
-    background: var(--color-white);
-    border-radius: 12px;
-    border-left: 4px solid var(--color-gold);
-    box-shadow: 0 2px 12px rgba(11, 64, 36, 0.06);
-  }
-  .proof-stat__icon {
-    display: inline-flex;
-    width: 48px; height: 48px;
-    align-items: center; justify-content: center;
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--color-gold) 18%, var(--color-white));
-    color: var(--color-green-deep);
-    margin-bottom: var(--space-2);
-  }
-  .proof-stat__value {
-    font-size: clamp(2.6rem, 5vw, 3.6rem);
-    font-weight: 800;
-    color: var(--color-green-deep);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .proof-stat__label {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--color-green-deep);
-  }
-  .proof-stat__note {
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    color: var(--color-sage);
-    font-weight: 600;
-    margin-top: var(--space-1);
-  }
-  .proof-band__sources {
-    margin: var(--space-8) 0 0 0;
-    text-align: center;
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-sage);
-    font-weight: 600;
-  }
-  .proof-band__sources a {
-    color: var(--color-green-deep);
-    text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 70%, transparent);
-    padding-bottom: 1px;
-  }
-  .proof-band__sources a:hover { color: var(--color-gold); }
-
-  /* ===== BAND 5: STORIES (white, photo-led cards) ===== */
-  .stories-band {
-    background: var(--color-white);
-    padding: var(--space-14) 0;
-  }
-  .stories-band__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-6);
-    flex-wrap: wrap;
-    margin-bottom: var(--space-10);
-  }
-  .stories-band__header h2 {
-    margin: 0;
-    font-size: clamp(2rem, 3.6vw, 2.75rem);
-    color: var(--color-green-deep);
-    line-height: 1.1;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-  }
-  .stories-band__lede {
-    margin: var(--space-3) 0 0 0;
-    color: var(--color-ink-soft);
-    font-size: 1rem;
-    line-height: 1.55;
-    max-width: 56ch;
-  }
-  .stories-band__all {
-    color: var(--color-green-deep);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    border-bottom: 2px solid var(--color-gold);
-    padding-bottom: 2px;
-  }
-  .stories-band__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-7);
-  }
-  @media (max-width: 900px) { .stories-band__grid { grid-template-columns: 1fr; } }
-  .story-card {
-    display: flex; flex-direction: column;
-    text-decoration: none;
-    color: var(--color-ink);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--color-white);
-    box-shadow: 0 2px 12px rgba(11, 64, 36, 0.06);
-    transition: transform 200ms, box-shadow 200ms;
-  }
-  .story-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 36px rgba(11, 64, 36, 0.14);
-  }
-  .story-card__photo {
-    aspect-ratio: 3 / 2;
-    background-size: cover;
-    background-position: center;
-  }
-  .story-card__body {
-    padding: var(--space-6);
-    display: flex; flex-direction: column;
-    gap: var(--space-3);
-    flex: 1;
-  }
-  .story-card__country {
+  .story__country {
     color: var(--color-gold);
     font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    font-weight: 800;
   }
-  .story-card__title {
+  .story__title {
     margin: 0;
     color: var(--color-green-deep);
-    font-size: 1.25rem;
-    line-height: 1.25;
-    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.005em;
   }
-  .story-card__excerpt {
+  .story__title--lead {
+    font-size: clamp(1.6rem, 2.4vw, 2rem);
+  }
+  .story__excerpt {
     margin: 0;
     color: var(--color-ink-soft);
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.55;
-    flex: 1;
   }
-  .story-card__cta {
+  .story__excerpt--side { font-size: 0.92rem; line-height: 1.5; }
+  .story__cta {
     color: var(--color-green-deep);
     font-weight: 700;
     font-size: 0.9rem;
     border-bottom: 2px solid var(--color-gold);
     align-self: flex-start;
     padding-bottom: 2px;
+    margin-top: var(--space-2);
+  }
+  .stories__sidecol {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: var(--space-6);
+  }
+  .story--side {
+    display: grid;
+    grid-template-columns: minmax(140px, 38%) 1fr;
+    border: 1px solid color-mix(in srgb, var(--color-sage) 18%, transparent);
+    box-shadow: 0 4px 14px rgba(11, 64, 36, 0.06);
+  }
+  .story__body--side {
+    padding: var(--space-6);
+    gap: var(--space-2);
+  }
+  .story--side .story__title { font-size: 1.1rem; }
+  @media (max-width: 560px) {
+    .story--side { grid-template-columns: 1fr; }
+    .story__photo--side { aspect-ratio: 16 / 10; height: auto; }
   }
 
-  /* ===== BAND 6: PARTNER (white outer, contained green inset card) ===== */
-  .partner-band {
-    background: var(--color-white);
-    padding: var(--space-16) 0;
+  /* ===== BAND 5: IMPACT (deep green, photo backdrop, huge stats) ===== */
+  .impact {
+    position: relative;
+    background: var(--color-green-deep);
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
+    overflow: hidden;
+    color: var(--color-white);
   }
-  .partner-card {
-    max-width: 1240px;
+  .impact__bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.18;
+    z-index: 0;
+    filter: grayscale(40%);
+  }
+  .impact__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(11, 64, 36, 0.55), rgba(11, 64, 36, 0.95) 70%),
+      linear-gradient(180deg, rgba(11, 64, 36, 0.78) 0%, rgba(11, 64, 36, 0.92) 100%);
+  }
+  .impact__inner { position: relative; z-index: 2; }
+  .impact__head { text-align: center; margin-bottom: var(--space-12); }
+  .impact__eyebrow { color: var(--color-gold); }
+  .impact__h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--color-white);
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+  }
+  .impact__grid {
+    list-style: none; padding: 0; margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    border-top: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+    padding: var(--space-12) 0;
+  }
+  @media (max-width: 800px) {
+    .impact__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      padding: var(--space-8) 0;
+    }
+  }
+  .impact-stat {
+    display: flex; flex-direction: column;
+    align-items: center; text-align: center;
+    gap: var(--space-3);
+    position: relative;
+  }
+  .impact-stat:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: calc(var(--space-8) * -0.5);
+    top: 12%; bottom: 12%;
+    width: 1px;
+    background: color-mix(in srgb, var(--color-gold) 30%, transparent);
+  }
+  @media (max-width: 800px) { .impact-stat::after { display: none; } }
+  .impact-stat__value {
+    font-size: clamp(4rem, 10vw, 7.5rem);
+    font-weight: 800;
+    line-height: 0.9;
+    color: var(--color-gold);
+    letter-spacing: -0.04em;
+  }
+  .impact-stat__unit {
+    font-size: 0.55em;
+    font-weight: 700;
+    margin-left: 2px;
+    color: color-mix(in srgb, var(--color-gold) 90%, var(--color-white));
+  }
+  .impact-stat__label {
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--color-white);
+  }
+  .impact-stat__note {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--color-white) 65%, transparent);
+    max-width: 28ch;
+  }
+  .impact__sources {
+    margin: var(--space-8) 0 0 0;
+    text-align: center;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    color: color-mix(in srgb, var(--color-white) 75%, transparent);
+  }
+  .impact__sources a {
+    color: var(--color-gold);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 50%, transparent);
+    padding-bottom: 1px;
+  }
+  .impact__sources a:hover { border-bottom-color: var(--color-gold); }
+
+  /* ===== BAND 6: PARTNER (white outer, big green inset card, 6 tiers) ===== */
+  .partner {
+    background: var(--color-white);
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
+  }
+  .partner__card {
+    max-width: 1260px;
     margin: 0 auto;
-    background: linear-gradient(135deg, var(--color-green-deep) 0%, var(--color-green) 100%);
-    border-radius: 24px;
-    padding: clamp(var(--space-10), 6vw, var(--space-14));
+    background: linear-gradient(135deg, var(--color-green-deep) 0%, #2b4d24 100%);
+    border-radius: 28px;
+    padding: clamp(var(--space-12), 6vw, var(--space-16));
     color: var(--color-white);
     display: grid;
     grid-template-columns: 5fr 6fr;
-    gap: var(--space-12);
+    gap: clamp(var(--space-8), 4vw, var(--space-12));
     align-items: center;
-    box-shadow: 0 32px 80px rgba(11, 64, 36, 0.28);
+    box-shadow: 0 40px 90px rgba(11, 64, 36, 0.32);
     position: relative;
     overflow: hidden;
   }
-  .partner-card::before {
+  .partner__card::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background-image:
-      radial-gradient(circle at 18% 22%, rgba(255,255,255,0.06), transparent 38%),
-      radial-gradient(circle at 78% 78%, rgba(212, 168, 56, 0.10), transparent 48%);
+      radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.06), transparent 42%),
+      radial-gradient(circle at 88% 86%, rgba(225, 167, 48, 0.14), transparent 52%);
     pointer-events: none;
   }
-  .partner-card > * { position: relative; z-index: 1; }
-  @media (max-width: 900px) { .partner-card { grid-template-columns: 1fr; gap: var(--space-8); } }
-  .partner-card__h2 {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    line-height: 1.05;
+  .partner__card > * { position: relative; z-index: 1; }
+  @media (max-width: 980px) {
+    .partner__card {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+  }
+  .partner__eyebrow { color: var(--color-gold); margin-bottom: var(--space-4); }
+  .partner__h2 {
+    margin: 0 0 var(--space-5) 0;
+    font-size: clamp(1.85rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
     color: var(--color-white);
     font-weight: 800;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.018em;
   }
-  .partner-card__body {
-    margin: var(--space-3) 0 var(--space-6) 0;
-    color: color-mix(in srgb, var(--color-white) 90%, transparent);
-    line-height: 1.55;
-    font-size: 1rem;
+  .partner__body {
+    margin: 0 0 var(--space-8) 0;
+    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+    line-height: 1.6;
+    font-size: 1.02rem;
+    max-width: 42ch;
   }
-  .partner-card__cta {
+  .partner__cta {
     border-radius: 999px;
     padding: 18px 32px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    font-size: 1rem;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+    gap: var(--space-3);
   }
-  .partner-card__pray {
-    margin: var(--space-5) 0 0 0;
+  .partner__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  }
+  .partner__altgive {
+    margin: var(--space-6) 0 0 0;
     font-size: 0.85rem;
-    color: color-mix(in srgb, var(--color-white) 75%, transparent);
+    color: color-mix(in srgb, var(--color-white) 65%, transparent);
+    line-height: 1.6;
   }
-  .partner-card__pray a {
+  .partner__altgive a {
     color: var(--color-gold);
     text-decoration: none;
-    font-weight: 700;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 60%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 50%, transparent);
     padding-bottom: 1px;
   }
-  .partner-card__tiers {
+  .partner__tiers-label {
+    margin: 0 0 var(--space-5) 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  }
+  .partner__tiers-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-3);
   }
-  @media (max-width: 700px) {
-    .partner-card__tiers { grid-template-columns: repeat(2, 1fr); }
-  }
-  .partner-card__tiers-label {
-    grid-column: 1 / -1;
-    margin: 0;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: color-mix(in srgb, var(--color-white) 70%, transparent);
-  }
-  .partner-tier {
+  @media (max-width: 680px) { .partner__tiers-grid { grid-template-columns: repeat(2, 1fr); } }
+  .tier {
     position: relative;
     display: flex; flex-direction: column; align-items: flex-start;
-    padding: var(--space-4) var(--space-5);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 10px;
+    padding: var(--space-5);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
     text-decoration: none;
     color: var(--color-white);
-    transition: background 180ms, border-color 180ms, transform 180ms;
+    transition: background 200ms, border-color 200ms, transform 200ms;
+    min-height: 110px;
   }
-  .partner-tier:hover {
+  .tier:hover {
     background: rgba(255, 255, 255, 0.12);
     border-color: var(--color-gold);
     transform: translateY(-2px);
   }
-  .partner-tier__amount {
-    font-size: 1.5rem;
+  .tier__amount {
+    font-size: clamp(1.35rem, 1.8vw, 1.65rem);
     font-weight: 800;
     line-height: 1;
     color: var(--color-gold);
+    letter-spacing: -0.02em;
   }
-  .partner-tier__period {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  .tier__period {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-white) 65%, transparent);
     margin-left: 4px;
+    letter-spacing: 0;
   }
-  .partner-tier__label {
-    margin-top: var(--space-1);
-    font-size: 0.74rem;
-    letter-spacing: 0.1em;
+  .tier__label {
+    margin-top: var(--space-3);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--color-white);
   }
-  .partner-tier--featured {
+  .tier--featured {
     background: var(--color-gold);
     border-color: var(--color-gold);
+    box-shadow: 0 12px 28px rgba(225, 167, 48, 0.36);
   }
-  .partner-tier--featured .partner-tier__amount,
-  .partner-tier--featured .partner-tier__label {
-    color: var(--color-green-deep);
+  .tier--featured .tier__amount,
+  .tier--featured .tier__label { color: var(--color-green-deep); }
+  .tier--featured .tier__period { color: color-mix(in srgb, var(--color-green-deep) 65%, transparent); }
+  .tier--featured:hover {
+    background: var(--color-gold);
+    border-color: var(--color-white);
   }
-  .partner-tier--featured .partner-tier__period {
-    color: color-mix(in srgb, var(--color-green-deep) 70%, transparent);
-  }
-  .partner-tier__badge {
+  .tier__badge {
     position: absolute;
-    top: -10px;
-    left: var(--space-5);
+    top: -10px; left: var(--space-5);
     background: var(--color-green-deep);
     color: var(--color-gold);
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     padding: 4px 8px;
     border-radius: 4px;
+    border: 1px solid var(--color-gold);
   }
 
-  /* ===== BAND 7: TRUST (cream) ===== */
-  .trust-band {
-    background: var(--color-cream);
-    padding: var(--space-14) 0;
+  /* ===== BAND 7: PRAY + GO (split-band, photo each side) ===== */
+  .praygo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 460px;
   }
-  .trust-band__header {
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto var(--space-10) auto;
+  @media (max-width: 880px) { .praygo { grid-template-columns: 1fr; } }
+  .praygo__panel {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: var(--color-white);
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 460px;
   }
-  .trust-band__header h2 {
-    margin: 0;
-    font-size: clamp(2rem, 3.6vw, 2.5rem);
-    color: var(--color-green-deep);
-    line-height: 1.1;
+  .praygo__photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform 800ms ease;
+  }
+  .praygo__panel:hover .praygo__photo { transform: scale(1.05); }
+  .praygo__scrim { position: absolute; inset: 0; z-index: 1; }
+  .praygo__scrim--green {
+    background: linear-gradient(135deg, rgba(11, 64, 36, 0.92) 0%, rgba(11, 64, 36, 0.78) 100%);
+  }
+  .praygo__scrim--terracotta {
+    background: linear-gradient(135deg, rgba(163, 109, 76, 0.90) 0%, rgba(31, 58, 26, 0.82) 100%);
+  }
+  .praygo__body {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: clamp(var(--space-10), 6vw, var(--space-16));
+    display: flex; flex-direction: column; justify-content: center;
+    max-width: 480px;
+  }
+  .praygo__eyebrow {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
     font-weight: 800;
+    color: var(--color-gold);
   }
-  .trust-band__lede {
-    margin: var(--space-4) auto 0 auto;
-    color: var(--color-ink);
+  .praygo__h3 {
+    margin: 0 0 var(--space-4) 0;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-white);
+    letter-spacing: -0.018em;
+  }
+  .praygo__lede {
+    margin: 0 0 var(--space-6) 0;
     font-size: 1rem;
     line-height: 1.55;
-    max-width: 56ch;
+    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+    max-width: 38ch;
   }
-  .trust-band__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
+  .praygo__cta {
+    align-self: flex-start;
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.04em;
+    color: var(--color-gold);
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 3px;
   }
-  @media (max-width: 900px) { .trust-band__grid { grid-template-columns: 1fr; } }
-  .trust-card {
-    background: var(--color-white);
-    padding: var(--space-7);
-    border-radius: 12px;
+
+  /* ===== BAND 8: NEWSLETTER (sage-light, centered, single-field) ===== */
+  .newsletter {
+    background: color-mix(in srgb, var(--color-sage-light) 55%, var(--color-white));
+    padding: clamp(var(--space-16), 10vw, var(--space-20)) 0;
+  }
+  .newsletter__inner {
     text-align: center;
     display: flex; flex-direction: column; align-items: center;
-    gap: var(--space-3);
-    border-top: 4px solid var(--color-gold);
-    box-shadow: 0 2px 12px rgba(11, 64, 36, 0.05);
+    gap: var(--space-4);
   }
-  .trust-card__badge { height: 96px; width: auto; }
-  .trust-card h3 { margin: 0; color: var(--color-green-deep); font-size: 1.05rem; font-weight: 700; }
-  .trust-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.5; }
-  .trust-card__ein {
-    font-size: 0.72rem !important;
+  .newsletter__eyebrow { color: var(--color-green-deep); }
+  .newsletter__h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    color: var(--color-green-deep);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+  }
+  .newsletter__body {
+    margin: 0 0 var(--space-4) 0;
+    color: var(--color-ink-soft);
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 52ch;
+  }
+  .newsletter__form {
+    display: flex;
+    gap: var(--space-2);
+    width: 100%;
+    max-width: 520px;
+    padding: 6px;
+    background: var(--color-white);
+    border-radius: 999px;
+    box-shadow: 0 8px 28px rgba(11, 64, 36, 0.10);
+  }
+  @media (max-width: 540px) {
+    .newsletter__form {
+      flex-direction: column;
+      border-radius: 14px;
+      padding: var(--space-2);
+    }
+  }
+  .newsletter__input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-ink);
+    outline: none;
+    min-width: 0;
+  }
+  .newsletter__submit {
+    border-radius: 999px;
+    padding: 14px 26px;
+    font-size: 0.95rem;
+    gap: var(--space-2);
+  }
+  @media (max-width: 540px) { .newsletter__submit { border-radius: 10px; } }
+  .newsletter__privacy {
+    margin: var(--space-2) 0 0 0;
+    font-size: 0.8rem;
+    color: var(--color-sage);
+  }
+  .newsletter__privacy a {
+    color: var(--color-green-deep);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 70%, transparent);
+    text-decoration: none;
+    padding-bottom: 1px;
+  }
+
+  /* ===== BAND 9: TRUST STRIP (compact, horizontal, near footer) ===== */
+  .trust {
+    background: var(--color-cream);
+    padding: clamp(var(--space-12), 7vw, var(--space-16)) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-sage) 20%, transparent);
+  }
+  .trust__inner {
+    display: flex; flex-direction: column; align-items: center;
+    gap: var(--space-8);
+    text-align: center;
+  }
+  .trust__lede {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 800;
+    color: var(--color-green-deep);
+    letter-spacing: -0.018em;
+  }
+  .trust__row {
+    list-style: none; padding: 0; margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-10);
+    width: 100%;
+    max-width: 960px;
+  }
+  @media (max-width: 760px) {
+    .trust__row { grid-template-columns: 1fr; gap: var(--space-6); }
+  }
+  .trust__item { display: flex; justify-content: center; }
+  .trust__link {
+    display: flex; align-items: center;
+    gap: var(--space-4);
+    text-decoration: none;
+    color: var(--color-ink);
+    padding: var(--space-3) var(--space-4);
+    border-radius: 10px;
+    transition: background 180ms;
+  }
+  .trust__link:hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+  .trust__badge {
+    flex-shrink: 0;
+    width: 84px; height: 84px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2px;
+    color: var(--color-green-deep);
+    background: var(--color-white);
+    border: 1.5px solid color-mix(in srgb, var(--color-gold) 50%, transparent);
+    border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(11, 64, 36, 0.10);
+    position: relative;
+  }
+  .trust__badge svg { position: absolute; inset: 6px; opacity: 0.18; }
+  .trust__badge-text {
+    position: relative; z-index: 1;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--color-green-deep);
+  }
+  .trust__label {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-green-deep);
+    text-align: left;
+    line-height: 1.3;
+  }
+  .trust__label em {
+    display: block;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--color-ink-soft);
+    font-size: 0.82rem;
+    margin-top: 2px;
+  }
+  .trust__ein {
+    margin: 0;
+    font-size: 0.78rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-green) !important;
+    color: var(--color-sage);
     font-weight: 700;
-  }
-  .trust-card a {
-    color: var(--color-green-deep);
-    font-weight: 700;
-    font-size: 0.88rem;
-    text-decoration: none;
-    border-bottom: 2px solid var(--color-gold);
-    padding-bottom: 2px;
-    margin-top: auto;
   }
 </style>
