@@ -49,25 +49,28 @@ const quickAmounts = [25, 50, 100, 200, 500];
   <SiteHeader variant="transparent" />
   <main id="main">
 
-    <!-- BAND 1: Hero — text-led, single photo on the right (Compassion split pattern) -->
-    <section class="hero">
+    <!-- BAND 1: Hero — full-bleed background, partner-centric H1 (World Vision pattern) -->
+    <!--
+      DESIGN NOTE: Photo is intentionally low-rendered with a strong gradient
+      overlay to mask compression artifacts in the available field photography.
+      Replace /images/pbs-karamoja.jpg with a high-resolution editorial hero
+      shot when one becomes available. Recommended: wide environmental shot
+      (IJM-style "joy from a distance"), 2400x1500 minimum.
+    -->
+    <section class="hero hero--fullbleed" aria-label="Stand with the missionaries reaching East Africa">
+      <div class="hero__bg" style="background-image: url(/images/pbs-karamoja.jpg)" aria-hidden="true"></div>
+      <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__inner container">
         <div class="hero__copy">
-          <p class="hero__eyebrow">FAVOR INTERNATIONAL</p>
-          <h1 class="hero__h1">Transformed Hearts<br/>Transform&nbsp;Nations</h1>
-          <p class="hero__mission">{SITE.mission}</p>
+          <p class="hero__eyebrow">Transformed Hearts Transform Nations</p>
+          <h1 class="hero__h1">Stand with the missionaries reaching East Africa's hardest places.</h1>
+          <p class="hero__sub">Favor International equips indigenous African leaders to plant churches, train pastors, run schools, and care for the persecuted. Your monthly partnership makes their work possible.</p>
           <div class="hero__cta">
-            <a class="btn btn--gold btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
-            <a class="hero__secondary" href="/about/mission-vision/">Read our mission &amp; vision →</a>
+            <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+            <a class="hero__secondary" href="/impact/">See the field &rarr;</a>
           </div>
+          <p class="hero__trust">ECFA-accredited &middot; 501(c)(3) &middot; EIN {SITE.ein}</p>
         </div>
-        <figure class="hero__photo">
-          <div class="hero__photo-img" style="background-image: url(/images/pbs-karamoja.jpg)" role="img" aria-label="A Portable Bible School graduation in Karamoja, Uganda"></div>
-          <figcaption class="hero__photo-caption">
-            <span class="hero__photo-label">Portable Bible School</span>
-            <span class="hero__photo-place">Karamoja, Uganda</span>
-          </figcaption>
-        </figure>
       </div>
     </section>
 
@@ -150,7 +153,7 @@ const quickAmounts = [25, 50, 100, 200, 500];
         </div>
       </div>
       <div class="container partner__footer">
-        <a class="btn btn--gold btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
+        <a class="btn btn--primary btn--large" href="/give/partner-monthly/">{CTA.partnerMonthly}</a>
         <a class="partner__alt" href="/give/">Or explore other ways to give →</a>
       </div>
     </section>
@@ -216,7 +219,7 @@ const quickAmounts = [25, 50, 100, 200, 500];
               <input type="number" name="amount" placeholder="Custom" min="5" />
             </label>
           </div>
-          <button type="submit" class="btn btn--gold btn--large">Give now</button>
+          <button type="submit" class="btn btn--primary btn--large">Give now</button>
         </form>
         <p class="inline-give__note">Tax-deductible. Powered by Blackbaud. <a href="/give/">See all giving options →</a></p>
       </div>
@@ -237,35 +240,52 @@ const quickAmounts = [25, 50, 100, 200, 500];
 </BaseLayout>
 
 <style>
-  /* ===== HERO ===== */
-  .hero {
-    background: linear-gradient(135deg, var(--color-green-deep) 0%, var(--color-green) 100%);
-    color: var(--color-white);
-    padding-top: 140px;
-    padding-bottom: var(--space-16);
+  /* ===== HERO (full-bleed, World Vision pattern) ===== */
+  .hero--fullbleed {
     position: relative;
+    min-height: clamp(560px, 88vh, 760px);
+    display: flex;
+    align-items: center;
+    color: var(--color-white);
     overflow: hidden;
+    padding-top: 96px;
+    padding-bottom: var(--space-12);
   }
-  .hero::before {
-    /* subtle leaf-pattern texture so the green isn't flat */
-    content: '';
+  .hero__bg {
     position: absolute; inset: 0;
-    background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.04), transparent 40%),
-                      radial-gradient(circle at 80% 70%, rgba(212, 168, 56, 0.06), transparent 50%);
-    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    /* Slight zoom + saturation tweak helps low-res field photos read better */
+    transform: scale(1.05);
+    filter: saturate(1.05) contrast(1.02);
+  }
+  .hero__scrim {
+    position: absolute; inset: 0;
+    z-index: 1;
+    /* Strong deep-green gradient on the left where the text lives, fading to
+       lighter green on the right. Masks compression artifacts in the photo. */
+    background:
+      linear-gradient(90deg,
+        rgba(11, 64, 36, 0.92) 0%,
+        rgba(11, 64, 36, 0.78) 32%,
+        rgba(11, 64, 36, 0.45) 58%,
+        rgba(11, 64, 36, 0.18) 85%,
+        rgba(11, 64, 36, 0.08) 100%),
+      linear-gradient(180deg,
+        rgba(11, 64, 36, 0.15) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(11, 64, 36, 0.35) 100%);
   }
   .hero__inner {
     position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: var(--space-12);
-    align-items: center;
+    z-index: 2;
+    width: 100%;
   }
-  @media (max-width: 900px) {
-    .hero__inner { grid-template-columns: 1fr; gap: var(--space-10); }
+  .hero__copy {
+    max-width: 640px;
   }
-  .hero__copy { max-width: 600px; }
   .hero__eyebrow {
     margin: 0 0 var(--space-4) 0;
     font-size: 0.78rem;
@@ -275,18 +295,19 @@ const quickAmounts = [25, 50, 100, 200, 500];
     color: var(--color-gold);
   }
   .hero__h1 {
-    margin: 0 0 var(--space-6) 0;
-    font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+    margin: 0 0 var(--space-5) 0;
+    font-size: clamp(2.1rem, 4.6vw, 3.6rem);
     font-weight: 800;
-    line-height: 1.04;
-    letter-spacing: -0.02em;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
     color: var(--color-white);
+    text-wrap: balance;
   }
-  .hero__mission {
+  .hero__sub {
     margin: 0 0 var(--space-8) 0;
-    font-size: clamp(1.0rem, 1.4vw, 1.15rem);
+    font-size: clamp(1.0rem, 1.3vw, 1.15rem);
     line-height: 1.6;
-    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+    color: color-mix(in srgb, var(--color-white) 92%, transparent);
     max-width: 56ch;
   }
   .hero__cta {
@@ -294,49 +315,36 @@ const quickAmounts = [25, 50, 100, 200, 500];
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-5);
+    margin-bottom: var(--space-8);
   }
   .hero__secondary {
-    color: var(--color-gold);
+    color: var(--color-white);
     text-decoration: none;
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 0.02em;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 2px;
   }
-  .hero__secondary:hover { color: var(--color-white); }
-
-  .hero__photo {
+  .hero__secondary:hover { color: var(--color-gold); }
+  .hero__trust {
     margin: 0;
-    position: relative;
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    aspect-ratio: 4 / 5;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-    border: 6px solid color-mix(in srgb, var(--color-white) 10%, transparent);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-white) 72%, transparent);
   }
-  @media (max-width: 900px) {
-    .hero__photo { aspect-ratio: 16 / 10; }
+  @media (max-width: 720px) {
+    .hero--fullbleed { min-height: 540px; padding-top: 88px; }
+    .hero__scrim {
+      /* On mobile, scrim from the bottom up so text-over-photo still reads */
+      background: linear-gradient(180deg,
+        rgba(11, 64, 36, 0.6) 0%,
+        rgba(11, 64, 36, 0.78) 38%,
+        rgba(11, 64, 36, 0.92) 100%);
+    }
   }
-  .hero__photo-img {
-    position: absolute; inset: 0;
-    background-size: cover;
-    background-position: center;
-  }
-  .hero__photo-caption {
-    position: absolute;
-    left: var(--space-5);
-    bottom: var(--space-5);
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    color: var(--color-white);
-    padding: 8px 14px;
-    border-radius: var(--radius-input);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .hero__photo-label { font-weight: 700; font-size: 0.92rem; color: var(--color-gold); }
-  .hero__photo-place { font-size: 0.78rem; letter-spacing: 0.06em; color: color-mix(in srgb, var(--color-white) 80%, transparent); }
-
   /* ===== SCRIPTURE BAND ===== */
   .scripture { padding-top: var(--space-12); padding-bottom: var(--space-12); }
   .scripture__inner { text-align: center; }

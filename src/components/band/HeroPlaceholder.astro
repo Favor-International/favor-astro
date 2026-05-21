@@ -1,0 +1,163 @@
+---
+// Intentional placeholder hero for pages where the available field photography
+// is too low-resolution to use as a hero photo. Renders a clean on-brand panel
+// that signals "this slot is reserved for the right image" rather than looking
+// broken or recycling a bad photo.
+//
+// Replace with a real <PageHero image="..."> once a high-resolution editorial
+// shot is available for the page. See docs/03-design/brand-book.md for spec.
+
+export interface Props {
+  label: string;               // eyebrow above the H1, e.g. "Mission & Vision"
+  title: string;               // page H1
+  promise?: string;            // subhead under the H1
+  ctaLabel?: string;
+  ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  // What the missing photo should be once sourced. Renders inside the
+  // placeholder block as a developer note that ships to production.
+  imageNeeded?: string;
+}
+
+const {
+  label,
+  title,
+  promise,
+  ctaLabel,
+  ctaHref,
+  secondaryLabel,
+  secondaryHref,
+  imageNeeded = 'Editorial hero photo (2400 × 1500 px, wide environmental shot)',
+} = Astro.props as Props;
+---
+<section class="hero-ph" aria-label={title}>
+  <div class="hero-ph__inner container">
+    <div class="hero-ph__copy">
+      <p class="hero-ph__label">{label}</p>
+      <h1 class="hero-ph__title">{title}</h1>
+      {promise && <p class="hero-ph__promise">{promise}</p>}
+      {(ctaLabel && ctaHref) && (
+        <div class="hero-ph__cta">
+          <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
+          {(secondaryLabel && secondaryHref) && (
+            <a class="hero-ph__secondary" href={secondaryHref}>{secondaryLabel}</a>
+          )}
+        </div>
+      )}
+    </div>
+    <div class="hero-ph__media" aria-hidden="true">
+      <div class="hero-ph__frame">
+        <svg class="hero-ph__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+          <path d="M21 16l-5-5-7 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="hero-ph__caption">Photo needed</p>
+        <p class="hero-ph__spec">{imageNeeded}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-ph {
+    background: linear-gradient(135deg, var(--color-green-deep) 0%, var(--color-green) 100%);
+    color: var(--color-white);
+    padding: 140px 0 var(--space-14) 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-ph::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(255,255,255,0.05), transparent 45%),
+      radial-gradient(circle at 82% 72%, rgba(212, 168, 56, 0.08), transparent 55%);
+    pointer-events: none;
+  }
+  .hero-ph__inner {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero-ph__inner { grid-template-columns: 1fr; gap: var(--space-8); }
+  }
+  .hero-ph__copy { max-width: 620px; }
+  .hero-ph__label {
+    margin: 0 0 var(--space-3) 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-gold);
+  }
+  .hero-ph__title {
+    margin: 0 0 var(--space-4) 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--color-white);
+    text-wrap: balance;
+  }
+  .hero-ph__promise {
+    margin: 0 0 var(--space-7) 0;
+    font-size: clamp(1rem, 1.3vw, 1.1rem);
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-white) 86%, transparent);
+    max-width: 56ch;
+  }
+  .hero-ph__cta { display: flex; gap: var(--space-5); flex-wrap: wrap; align-items: center; }
+  .hero-ph__secondary {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 2px;
+  }
+  .hero-ph__secondary:hover { color: var(--color-gold); }
+
+  /* The placeholder block itself — looks intentional, not broken */
+  .hero-ph__media {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(255, 255, 255, 0.025) 0,
+        rgba(255, 255, 255, 0.025) 8px,
+        rgba(255, 255, 255, 0.05) 8px,
+        rgba(255, 255, 255, 0.05) 16px);
+    border: 2px dashed color-mix(in srgb, var(--color-gold) 60%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+  }
+  @media (max-width: 900px) { .hero-ph__media { aspect-ratio: 16 / 10; } }
+  .hero-ph__frame {
+    text-align: center;
+    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  }
+  .hero-ph__icon { color: var(--color-gold); opacity: 0.7; margin-bottom: var(--space-3); }
+  .hero-ph__caption {
+    margin: 0 0 var(--space-2) 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-gold);
+  }
+  .hero-ph__spec {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+    max-width: 32ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
