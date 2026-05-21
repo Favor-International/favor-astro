@@ -19,5 +19,6 @@ export const CTA = {
   partnerLogin: 'Partner Login',
 } as const;
 
-export const TAGLINE = 'Transformed Hearts Transform Nations.';
-export const SIGNATURE = 'Where others will not go.';
+// The org's stamped statement. Used as H1 on the homepage and as the
+// footer sign-off across the site.
+export const TAGLINE = 'Transformed Hearts Transform Nations';

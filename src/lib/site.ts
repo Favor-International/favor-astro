@@ -3,8 +3,21 @@
 export const SITE = {
   url: 'https://favorintl.org',
   name: 'Favor International',
-  tagline: 'Transformed Hearts Transform Nations.',
-  signature: 'Where others will not go.',
+  // The org's stamped statement. Used as H1 on the homepage and as the footer
+  // sign-off. Carole's prayer ("Lord, send me where others will not go") is a
+  // personal calling, NOT the org's tagline — do not put it on the site as
+  // such. If it appears anywhere, it's a quote attributed to Carole on the
+  // founder/our-story page.
+  tagline: 'Transformed Hearts Transform Nations',
+  // The verbatim mission statement from favorintl.org. Do not paraphrase.
+  mission: 'Transforming nations with the power of the Gospel through prayer movements and indigenous missionary movements which are accelerating the fulfillment of the Great Commission to unreached people groups, and into every area of society from grassroots to governments.',
+  // The verbatim vision statement.
+  vision: 'Transformed Hearts Transform Nations!',
+  // Scripture used on the existing homepage.
+  scripture: {
+    text: 'We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work.',
+    attribution: 'Jesus (John 9:4, AMPC)',
+  },
   mailing: '3433 Lithia Pinecrest Rd #356, Valrico, FL 33596',
   phone: '941-444-9940',
   phoneTel: '+19414449940',
@@ -155,35 +168,36 @@ export const MEGA_NAV: MegaMenu[] = [
 // Legacy flat nav for SiteHeader fallback / footer / SEO
 export const PRIMARY_NAV = MEGA_NAV.map((m) => ({ label: m.label, href: m.href }));
 
-// Confirmed by v2.1 doc diagram (Q4 RESOLVED 2026-05-19)
+// Pillar names matched verbatim to favorintl.org (use "&" not "+").
+// Confirmed by v2.1 doc diagram (Q4 RESOLVED 2026-05-19).
 export const PILLARS = [
   {
     slug: 'evangelism-discipleship',
-    label: 'Evangelism + Discipleship',
-    blurb: 'Indigenous pastors and teachers walking into villages no one else will reach.',
+    label: 'Evangelism & Discipleship',
+    blurb: 'Indigenous pastors and teachers reaching villages and tribes others cannot. Portable Bible Schools, GIFT, House of Prayer, and Favor FM.',
     color: 'green',
-    programs: ['Portable Bible Schools (PBS)', 'GIFT Leadership Institute', 'House of Prayer', 'Favor FM (Christian Radio)'],
+    programs: ['Portable Bible Schools (PBS)', 'God’s Institute for Transformation (GIFT)', 'House of Prayer', 'Favor FM (Christian Radio)'],
   },
   {
     slug: 'education',
     label: 'Education',
-    blurb: 'Village learning centers and schools that pull children out of poverty and into the Kingdom.',
+    blurb: 'Village Learning Centers, Favor Primary School, Favor Secondary School, and the Leadership Training Institute.',
     color: 'terracotta',
-    programs: ['Village Learning Centers', 'Primary + Secondary Schools', 'Leadership Training'],
+    programs: ['Village Learning Centers', 'Favor Primary School', 'Favor Secondary School', 'Leadership Training Institute'],
   },
   {
     slug: 'community-development',
     label: 'Community Development',
-    blurb: 'Trauma counseling, medical clinics, and indigenous church planting across conflict-affected regions.',
+    blurb: 'Trauma counseling, medical care, church planting, and church construction in places no other ministry will go.',
     color: 'sage',
-    programs: ['Trauma Counseling', 'Medical Services', 'Church Planting + Construction'],
+    programs: ['Trauma Counseling', 'Medical', 'Church Planting', 'Church Construction'],
   },
   {
     slug: 'economic-empowerment',
     label: 'Economic Empowerment',
-    blurb: 'Sustainability projects, vocational training, and women’s programs that move a village off relief.',
+    blurb: 'Sustainability projects, women’s empowerment cohorts, and vocational training that move a whole village off relief.',
     color: 'gold',
-    programs: ['Sustainability Projects', 'Women’s Empowerment', 'Vocational Programs'],
+    programs: ['Sustainability Projects', 'Women’s Empowerment', 'Vocational Program'],
   },
 ] as const;
 

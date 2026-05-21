@@ -2,15 +2,16 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
+import { SITE } from '../../lib/site';
 ---
 <PageLayout
-  title="Mission and Vision"
-  description="The mission, vision, and founding conviction of Favor International."
+  title="Mission & Vision"
+  description="The verbatim mission, vision, and founding convictions of Favor International."
 >
   <PageHero
-    label="Mission and Vision"
-    title="Transformed hearts transform nations."
-    promise="Favor International exists to put the Gospel in the hands of every village, tribe, and nation in Africa."
+    label="Mission & Vision"
+    title="Transformed Hearts Transform Nations"
+    promise="Favor International serves and trains indigenous African leaders to advance the Gospel into the unreached."
     image="/images/ministry-house-of-prayer.jpg"
     imageAlt="The House of Prayer in Juba, South Sudan"
     variant="split"
@@ -18,26 +19,150 @@ import CtaBand from '../../components/band/CtaBand.astro';
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <p class="label">Our mission</p>
-      <h2>Train and equip indigenous leaders. Reach the villages no one else will go to.</h2>
-      <p>Favor International serves and trains national leaders in East African war zones and unreached regions to sustainably change their communities with the power of the Gospel. Currently working in fourteen nations across northern Uganda, South Sudan, Chad, Ethiopia, DRC, Kenya, Sudan, Burundi, and others.</p>
+      <p class="label">Our vision</p>
+      <h2 class="vision">{SITE.vision}</h2>
     </div>
   </section>
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <p class="label">Our vision</p>
-      <h2>Whole villages and nations transformed by the Gospel.</h2>
-      <p>We see whole communities transformed by the Gospel being applied to every part of life — from health to education to economic empowerment, all rooted in transformation of the heart. Transformed national leaders fit Biblical solutions to local needs and see life-changing results for whole villages and regions.</p>
-      <p>Our international partnerships serve, train, and empower nationals to impact their local communities in the context of God-sustained movements. We pray, live sacrificially, and do whatever it takes to align our lives with God's purposes and methods for particular people groups in particular lands and contexts.</p>
+      <p class="label">Our mission</p>
+      <p class="mission-body">{SITE.mission}</p>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <h2>A spiritual army from the broken, lost, and impoverished.</h2>
+      <p>
+        God has raised Favor up to mobilize a spiritual army from the broken, lost, and
+        impoverished in 10+ countries. This army will raise up the next generation of soldiers
+        growing and expanding the Kingdom of God that will overcome the strongholds of darkness
+        that have long plagued Northern Africa.
+      </p>
+      <p class="emphasis">
+        Favor International serves to transform war-torn victims into purpose-driven Christian
+        victors, equipped to advance the Gospel in villages and mobilized to advance the Kingdom
+        in nations.
+      </p>
+      <p>
+        We see trauma resolved, communities revitalized, at-risk children rescued from
+        traffickers, poverty shrinking, and darkness driven away by the power of the Gospel in
+        action.
+      </p>
+      <p class="emphasis">
+        Favor does whatever is needed to bring the Gospel and discipleship to unreached areas.
+        Often what others are unwilling or unable to do.
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <h2>National leaders, on the front lines.</h2>
+      <p class="lede">
+        Our passion is to mobilize national leaders in front-line battlegrounds to align their
+        communities with the purposes of God in every aspect of life.
+      </p>
+      <p>
+        National leaders are solving problems others haven't been able to. They are willing to
+        work harder, more self-sacrificially, and more effectively for their people and nation
+        than we ever could. Our work is to serve and train them and ensure they have everything
+        they need to multiply and accelerate individual and national transformation. National
+        leadership is one of our core principles in Favor.
+      </p>
+      <h3>What we instill in the leaders we train</h3>
+      <ul class="trait-list">
+        <li>Strong prayer life</li>
+        <li>Humble dependency and submission to God</li>
+        <li>Passion for the Kingdom mission</li>
+        <li>Focused study of God's Word</li>
+        <li>Discipleship</li>
+        <li>Desire to serve native to their location</li>
+        <li>Developed vision, calling, and gifts from God</li>
+      </ul>
+      <p>
+        Transformation takes time and commitment. Investing in national leadership and
+        discipleship has proven to be the most fruitful way to administer transformation. Our
+        ministry is committed to not just give temporary relief and then leave. We are here to
+        sow for a lifetime.
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--green-deep gospel-band">
+    <div class="container container--narrow">
+      <p class="label label--bright">The Gospel comes first</p>
+      <p class="emphasis-bright">
+        Favor gets the Gospel out to unreached areas where few others go, and we lead
+        discipleship efforts beyond mere evangelism to produce fruit that multiplies.
+      </p>
+      <p>
+        The Gospel is foundational to all other humanitarian work (education, orphanages,
+        business, medical, etc.) and must be in place for other organizations to effectively do
+        their work. National leaders can better access all spheres of their societies with
+        greater speed and less expense than western missionaries.
+      </p>
+      <p class="emphasis-bright">
+        Favor's vision is to see national leaders of all walks of life, equipped by the rest of
+        the body of Christ, establish national leaders of all walks of life to disciple other
+        national leaders, to further establish the Kingdom of God.
+      </p>
     </div>
   </section>
 
   <CtaBand
-    heading="Stand with us."
+    heading="Stand with the mission."
     body="Becoming a Favor Partner is the simplest way to put this mission into motion every month."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
     variant="gold"
   />
 </PageLayout>
+
+<style>
+  .vision {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--color-green-deep);
+    margin: 0;
+    line-height: 1.1;
+    font-weight: 800;
+  }
+  .mission-body {
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--color-ink);
+    margin: 0;
+  }
+  .lede {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--color-green-deep);
+    line-height: 1.55;
+  }
+  .emphasis {
+    font-weight: 700;
+    color: var(--color-green-deep);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  .emphasis-bright {
+    font-weight: 700;
+    color: var(--color-gold);
+    font-size: 1.1rem;
+    line-height: 1.55;
+  }
+  .gospel-band { color: var(--color-white); }
+  .gospel-band p { color: color-mix(in srgb, var(--color-white) 86%, transparent); margin-bottom: var(--space-4); line-height: 1.6; }
+  .label--bright { color: var(--color-gold); }
+  .trait-list { list-style: none; padding: 0; margin: var(--space-4) 0 var(--space-6); display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
+  @media (max-width: 600px) { .trait-list { grid-template-columns: 1fr; } }
+  .trait-list li {
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-white);
+    border-left: 4px solid var(--color-gold);
+    border-radius: var(--radius-input);
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+</style>
