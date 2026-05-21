@@ -124,13 +124,13 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'Impact',
     href: '/impact/',
     items: [
-      { label: 'Evangelism + Discipleship', href: '/impact/evangelism-discipleship/' },
+      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/' },
       { label: 'Education', href: '/impact/education/' },
       { label: 'Community Development', href: '/impact/community-development/' },
       { label: 'Economic Empowerment', href: '/impact/economic-empowerment/' },
       { label: 'Stories from the Field', href: '/stories/' },
       { label: 'Field Updates', href: '/impact/' },
-      { label: 'Impact Reports + 990s', href: '/about/accountability/' },
+      { label: 'Impact Reports & 990s', href: '/about/accountability/' },
     ],
     featured: {
       image: '/images/gift-bishoftu-tot.jpg',
@@ -145,13 +145,13 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'About',
     href: '/about/',
     items: [
-      { label: 'Mission and Vision', href: '/about/mission-vision/' },
+      { label: 'Mission & Vision', href: '/about/mission-vision/' },
       { label: 'Our Story', href: '/about/our-story/' },
       { label: 'Where We Work', href: '/about/where-we-work/' },
       { label: 'Team', href: '/about/team/' },
       { label: 'Board of Directors', href: '/about/board/' },
       { label: 'Statement of Faith', href: '/about/statement-of-faith/' },
-      { label: 'Accountability + Financials', href: '/about/accountability/' },
+      { label: 'Accountability & Financials', href: '/about/accountability/' },
       { label: 'Contact', href: '/about/contact/' },
     ],
     featured: {

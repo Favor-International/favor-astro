@@ -7,10 +7,10 @@ import CtaBand from '../../components/band/CtaBand.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
 
 const pillarImages: Record<string, string> = {
-  'evangelism-discipleship': '/images/evangelism-discipleship.jpg',
+  'evangelism-discipleship': '/images/pillar-evangelism-discipleship.jpg',
   'education': '/images/pillar-education.jpg',
-  'community-development': '/images/pillar-community.jpg',
-  'economic-empowerment': '/images/pillar-economic.jpg',
+  'community-development': '/images/pillar-community-care.jpg',
+  'economic-empowerment': '/images/pillar-economic-empowerment.jpg',
 };
 ---
 <PageLayout
@@ -29,12 +29,21 @@ const pillarImages: Record<string, string> = {
   <section class="band band--green-deep">
     <div class="container">
       <header class="band__header band__header--inverse">
-        <p class="label label--inverse">FY2025 field report</p>
-        <h2>The numbers behind the work.</h2>
+        <p class="label label--inverse">Audited financials</p>
+        <h2>The receipts behind the work.</h2>
+        <p class="band__lede band__lede--inverse" style="max-width: 60ch; margin: var(--space-3) auto 0;">
+          Every number below is sourced from Favor's FY2024 audited financials,
+          filed with ECFA and IRS Form 990. No estimates. No projections.
+        </p>
       </header>
       <div class="grid grid-4">
         {IMPACT_STATS.map((s) => <StatTile value={s.value} label={s.label} source={s.source} />)}
       </div>
+      <p style="text-align:center; margin-top: var(--space-8); color: color-mix(in srgb, var(--color-white) 70%, transparent); font-size: 0.85rem;">
+        Sources: <a href="https://www.ecfa.org/MemberProfile.aspx?ID=50004" target="_blank" rel="noopener" style="color: var(--color-gold);">ECFA member profile</a> ·
+        <a href="https://www.charitynavigator.org/ein/475225697" target="_blank" rel="noopener" style="color: var(--color-gold);">Charity Navigator</a> ·
+        <a href="https://app.candid.org/profile/9511233" target="_blank" rel="noopener" style="color: var(--color-gold);">Candid (Guidestar)</a>
+      </p>
     </div>
   </section>
 

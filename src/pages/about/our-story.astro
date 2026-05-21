@@ -5,12 +5,12 @@ import CtaBand from '../../components/band/CtaBand.astro';
 ---
 <PageLayout
   title="Our Story"
-  description="How Favor International started, where the founding conviction came from, and how the work grew across fourteen nations."
+  description="How Favor International started, where the founding conviction came from, and how the work grew across East Africa."
 >
   <PageHero
     label="Our story"
     title="The conviction Favor was born from."
-    promise="The founding prayer. The nations the work has reached. The 20-year story across East Africa."
+    promise={'"Lord, send me where no one wants to GO, to do what no one wants to DO." — Carole Ward'}
     image="/images/about-original-house.jpg"
     imageAlt="The original Favor House — where the work began"
     variant="split"
@@ -18,24 +18,65 @@ import CtaBand from '../../components/band/CtaBand.astro';
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <h2>The early years.</h2>
-      <p>Favor began with a prayer over northern Uganda during a season of civil war. A small US team made a sustained commitment to the villages no other ministry was reaching. The work started with one Portable Bible School. It grew into four pillars — Evangelism + Discipleship, Education, Community Development, and Economic Empowerment — because the field kept asking for the next thing.</p>
+      <p class="label">The founding prayer</p>
+      <blockquote class="founding-quote">
+        &ldquo;Lord, send me where no one wants to <span class="green-word">GO</span>, to do what no one wants to <span class="green-word">DO</span>.&rdquo;
+      </blockquote>
+      <p class="founding-cite">— Carole Ward, Founder</p>
+
+      <h2>The beginning.</h2>
+      <p>Carole Ward moved to Uganda in 2002 during a 20-year horrific war, serving and training African leaders from all backgrounds to pray. Together they saw the war end, and she began equipping them to reach their own people with the power of the Gospel.</p>
+      <p>After six months of prayer, Ugandans came to her with desperate visions for reaching their own people with Bibles, discipleship, education, and evangelism. In 2004, Carole formed Favour of God Ministries and began training indigenous missionaries to run that vision.</p>
 
       <h2>The expansion.</h2>
-      <p>Within a decade, Favor was operating across South Sudan, Chad, Ethiopia, DRC, Kenya, Sudan, and Burundi. Each field team is led by indigenous leaders. US staff act as long-term partners and donor-care liaisons, not field directors.</p>
+      <p>In 2007, the Lord led Carole to begin extending the work into Sudan before liberation. National prayer gatherings were mobilized in Juba, the capital of South Sudan, in 2015 and again in 2019, to see enough peace for the Gospel to extend to the farthest regions of the nation and into the most remote tribes and villages. In 2014, FAMI was birthed as a sister organization to FOGM in Northern Uganda, with the same vision, prayer foundation, and indigenous leadership development in each country.</p>
+      <p>The vision: every tribe and language reaching their own people, and beyond, with the power of God's Word.</p>
 
       <h2>Today.</h2>
-      <p>Favor International runs 18 Village Learning Centers, six accredited schools, four field clinics, three GIFT Institute cohorts a year, and a continuous PBS rotation across fourteen nations. None of that is possible without Favor Partners.</p>
+      <p>Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
 
-      <p><a href="/about/our-story/founder/">Read the founder's story →</a></p>
+      <p style="margin-top: var(--space-6);"><a href="/about/our-story/founder/" class="story-link">Read the full founder's story →</a></p>
     </div>
   </section>
 
   <CtaBand
     heading="Be part of the next chapter."
-    body="Favor Partners write the story for the next ten years."
+    body="Favor Partners keep this story going. Monthly partnership, any tier, makes the field work possible."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
     variant="green"
   />
 </PageLayout>
+
+<style>
+  .founding-quote {
+    margin: var(--space-3) 0 var(--space-1) 0;
+    font-family: var(--font-serif, Georgia, 'Source Serif Pro', serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.8vw, 2rem);
+    line-height: 1.35;
+    color: var(--color-green-deep);
+    border: none;
+    padding: 0;
+    font-weight: 600;
+  }
+  .green-word {
+    color: var(--color-green);
+    font-weight: 800;
+    font-style: normal;
+  }
+  .founding-cite {
+    margin: 0 0 var(--space-8) 0;
+    color: var(--color-sage);
+    font-size: 0.92rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .story-link {
+    color: var(--color-green);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid var(--color-gold);
+  }
+</style>
