@@ -108,7 +108,7 @@ const featuredStories = [
       </div>
     </section>
 
-    <!-- BAND 4: Proof strip — sage-light band with 3 ECFA-audited numbers -->
+    <!-- BAND 4: Proof strip — sage-light, 3 ECFA-audited numbers, icon + card -->
     <section class="proof-band">
       <div class="container">
         <header class="proof-band__header">
@@ -118,21 +118,45 @@ const featuredStories = [
         </header>
         <ul class="proof-band__grid">
           <li class="proof-stat">
+            <span class="proof-stat__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M5 9l7-7 7 7"/>
+                <path d="M5 21h14"/>
+              </svg>
+            </span>
             <span class="proof-stat__value">89%</span>
-            <span class="proof-stat__label">Program ratio</span>
-            <span class="proof-stat__note">FY2024, audited</span>
+            <span class="proof-stat__label">to the field</span>
+            <span class="proof-stat__note">FY2024 program ratio, audited</span>
           </li>
           <li class="proof-stat">
+            <span class="proof-stat__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </span>
             <span class="proof-stat__value">14</span>
-            <span class="proof-stat__label">Nations reached</span>
+            <span class="proof-stat__label">nations reached</span>
             <span class="proof-stat__note">East and Central Africa</span>
           </li>
           <li class="proof-stat">
+            <span class="proof-stat__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="6" width="20" height="12" rx="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <path d="M6 12h.01M18 12h.01"/>
+              </svg>
+            </span>
             <span class="proof-stat__value">$8.36M</span>
             <span class="proof-stat__label">FY2024 revenue</span>
-            <span class="proof-stat__note">Direct to the field</span>
+            <span class="proof-stat__note">Filed Form 990, ECFA, Candid</span>
           </li>
         </ul>
+        <p class="proof-band__sources">
+          Sources: <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA</a> ·
+          <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener">Charity Navigator</a> ·
+          <a href={SITE.trust.candid} target="_blank" rel="noopener">Candid</a>
+        </p>
       </div>
     </section>
 
@@ -487,7 +511,7 @@ const featuredStories = [
     margin-top: auto;
   }
 
-  /* ===== BAND 4: PROOF STRIP (sage-light, 3 audited stats) ===== */
+  /* ===== BAND 4: PROOF STRIP (sage-light, icon+stat cards) ===== */
   .proof-band {
     background: #d8dfd2;
     padding: var(--space-14) 0;
@@ -516,41 +540,65 @@ const featuredStories = [
     list-style: none; padding: 0; margin: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-8);
-    text-align: center;
+    gap: var(--space-5);
   }
   @media (max-width: 800px) {
-    .proof-band__grid { grid-template-columns: 1fr; gap: var(--space-6); }
+    .proof-band__grid { grid-template-columns: 1fr; gap: var(--space-4); }
   }
   .proof-stat {
     display: flex; flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-2);
-    padding: 0 var(--space-4);
-    border-left: 1px solid color-mix(in srgb, var(--color-gold) 60%, transparent);
+    padding: var(--space-7) var(--space-6);
+    background: var(--color-white);
+    border-radius: 12px;
+    border-left: 4px solid var(--color-gold);
+    box-shadow: 0 2px 12px rgba(11, 64, 36, 0.06);
   }
-  .proof-stat:first-child { border-left: 0; }
-  @media (max-width: 800px) {
-    .proof-stat { border-left: 0; }
+  .proof-stat__icon {
+    display: inline-flex;
+    width: 48px; height: 48px;
+    align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--color-gold) 18%, var(--color-white));
+    color: var(--color-green-deep);
+    margin-bottom: var(--space-2);
   }
   .proof-stat__value {
-    font-size: clamp(2.6rem, 5vw, 4rem);
+    font-size: clamp(2.6rem, 5vw, 3.6rem);
     font-weight: 800;
     color: var(--color-green-deep);
     line-height: 1;
     letter-spacing: -0.02em;
   }
   .proof-stat__label {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-green-deep);
   }
   .proof-stat__note {
     font-size: 0.78rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.06em;
+    color: var(--color-sage);
+    font-weight: 600;
+    margin-top: var(--space-1);
+  }
+  .proof-band__sources {
+    margin: var(--space-8) 0 0 0;
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-sage);
     font-weight: 600;
   }
+  .proof-band__sources a {
+    color: var(--color-green-deep);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 70%, transparent);
+    padding-bottom: 1px;
+  }
+  .proof-band__sources a:hover { color: var(--color-gold); }
 
   /* ===== BAND 5: STORIES (white, photo-led cards) ===== */
   .stories-band {
@@ -652,21 +700,33 @@ const featuredStories = [
   /* ===== BAND 6: PARTNER (white outer, contained green inset card) ===== */
   .partner-band {
     background: var(--color-white);
-    padding: var(--space-14) 0;
+    padding: var(--space-16) 0;
   }
   .partner-card {
-    max-width: 1100px;
+    max-width: 1240px;
     margin: 0 auto;
     background: linear-gradient(135deg, var(--color-green-deep) 0%, var(--color-green) 100%);
-    border-radius: 18px;
-    padding: clamp(var(--space-8), 5vw, var(--space-12));
+    border-radius: 24px;
+    padding: clamp(var(--space-10), 6vw, var(--space-14));
     color: var(--color-white);
     display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: var(--space-10);
+    grid-template-columns: 5fr 6fr;
+    gap: var(--space-12);
     align-items: center;
-    box-shadow: 0 24px 60px rgba(11, 64, 36, 0.22);
+    box-shadow: 0 32px 80px rgba(11, 64, 36, 0.28);
+    position: relative;
+    overflow: hidden;
   }
+  .partner-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(255,255,255,0.06), transparent 38%),
+      radial-gradient(circle at 78% 78%, rgba(212, 168, 56, 0.10), transparent 48%);
+    pointer-events: none;
+  }
+  .partner-card > * { position: relative; z-index: 1; }
   @media (max-width: 900px) { .partner-card { grid-template-columns: 1fr; gap: var(--space-8); } }
   .partner-card__h2 {
     margin: 0;
