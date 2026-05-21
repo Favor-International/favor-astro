@@ -57,7 +57,7 @@ const quickAmounts = [25, 50, 100, 200, 500];
         <div class="hero__copy">
           <p class="hero__eyebrow">Where others will not go</p>
           <h1 class="hero__h1">Send a pastor where the gospel has not reached.</h1>
-          <p class="hero__sub">Indigenous missionaries equipped and sent across East and Central Africa.</p>
+          <p class="hero__sub">Indigenous missionaries equipped and sent into 14 nations across East and Central Africa.</p>
           <div class="hero__cta">
             <a class="btn btn--primary btn--large hero__primary" href="/give/partner-monthly/">{CTA.partnerMonthly} <span aria-hidden="true">&rarr;</span></a>
           </div>
@@ -243,7 +243,7 @@ const quickAmounts = [25, 50, 100, 200, 500];
   /* ===== HERO (full-bleed, copies inspiration mockup) ===== */
   .hero--fullbleed {
     position: relative;
-    min-height: clamp(640px, 92vh, 880px);
+    min-height: clamp(680px, 96vh, 920px);
     display: flex;
     align-items: center;
     color: var(--color-white);
@@ -254,7 +254,9 @@ const quickAmounts = [25, 50, 100, 200, 500];
   .hero__bg {
     position: absolute; inset: 0;
     background-size: cover;
-    background-position: center;
+    /* Bias the crop so the pastor sits centered in his half rather than
+       jammed against the top-right corner. */
+    background-position: 70% 65%;
     z-index: 0;
   }
   .hero__scrim {
@@ -278,7 +280,7 @@ const quickAmounts = [25, 50, 100, 200, 500];
     padding-bottom: var(--space-12);
   }
   .hero__copy {
-    max-width: 640px;
+    max-width: 720px;
   }
   .hero__eyebrow {
     margin: 0 0 var(--space-5) 0;
