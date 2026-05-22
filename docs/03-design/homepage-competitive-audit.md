@@ -1,12 +1,13 @@
 # Homepage Competitive Audit, Below the Fold
 
-Status: working brief, v10 build (May 2026). Revised v2 after reading the locked specs.
-Goal: identify what to fix on the rest of the homepage. Bound by the locked sitemap and homepage-bands spec.
+Status: working brief, v10 build (May 2026). Revised v3 after clarification.
+Goal: identify what to fix on the rest of the homepage.
 
-**Read first**
-- `docs/00-decisions/approved-sitemap-v2.1.md` (locked IA, tier ladder, pillars)
-- `docs/03-design/homepage-bands.md` (locked 11-band order and visual rules)
-- `docs/03-design/give-page-segments.md` (segmentation belongs on /give/, not home)
+**What's locked, what's open**
+- **Structure is locked.** Band order, tier ladder, pillar names, the eight Give tiles, primary nav, footer trust marks. From `docs/00-decisions/approved-sitemap-v2.1.md`, `docs/03-design/homepage-bands.md`, `docs/03-design/give-page-segments.md`. Do not change.
+- **Visual design is open.** "Sparse white background," "gold band," "icon cards" inside the spec docs are sketches of intent, not pixel-accurate rules. The design has to look as good as Compassion or World Vision. Where the spec sketch and the comparable evidence disagree, follow the comparable evidence.
+
+The bar: when a donor lands on favor-astro.pages.dev they should feel they are looking at a national-scale ministry, not a small-town church site built in a Squarespace template.
 
 ---
 
@@ -25,25 +26,13 @@ The five comparables are the closest mission-recognition matches in the Christia
 
 ---
 
-## 2. v10 vs. locked spec (deviation audit)
+## 2. Structural state (what bands exist, what data is locked)
 
-The spec is the source of truth. v10 has drifted in several places. Listing each:
+v10 has the right structure: hero, signature, pillars, stories, impact, partner band, pray+go (merged), newsletter, trust strip, footer. The tier ladder in `src/lib/site.ts` matches the locked markdown exactly ($25 Equip / $50 Send / $100 Educate / $200 Heal / $500 Transform / $1,200 Founders' Circle, last tier featured).
 
-| Band | Spec | v10 build | Disposition |
-|---|---|---|---|
-| B2 signature | "Sparse. White background. Dark green type. **No photo.**" | text-only on white | matches spec |
-| B3 pillars | **Icon cards**, icon + name + one-line + Learn more | **Photo cards**, 3:4 aspect, dark scrim | DEVIATION, revert to icons |
-| B4 stories | 3 featured cards, photo + name + country + outcome | 1 lead + 2 stacked layout | minor variation, acceptable |
-| B5 impact | Green band #2b4d24, gold accent on numbers | Matches | matches spec |
-| B6 partner | **"Gold band (#e1a730) with dark text. Photo of a field leader."** | Dark green inset card, no field-leader photo | DEVIATION, revert to gold band |
-| B7 Pray | Light tan bg, photo, "You can pray where they cannot reach" | Dark scrim panel inside split-band | partial, see B8 |
-| B8 Go | **Separate band**, white bg, 2-3 vision-trip cards | Merged into B7 split-band, no trip cards | DEVIATION, keep merge (approved exception, see §5), but add trip cards back |
-| B9 field updates | Latest 3 stories from CMS | Replaced with trust strip | DEVIATION, see §5 trust decision |
-| B10 newsletter | Single-field email, light sage | Matches | matches spec |
-| Trust marks | Hero strip + footer only | Dedicated trust band added | DEVIATION, keep (approved exception, see §5) |
-| Tier ladder | Equip $25, Send $50, Educate $100, **Heal $200**, Transform $500, **Founders' Circle $1,200** | `src/lib/site.ts` matches markdown exactly; diagram is out of date | code matches markdown spec |
+The diagram sent in chat shows $250 / $1,000 / Movement, which conflicts with the markdown source. The code matches the markdown. Recommend updating the diagram, not the code.
 
-The tier-amount conflict (markdown says $200 / $1,200 / Founders' Circle; the diagram says $250 / $1,000 / Movement) needs a decision-log entry. Defaulting to markdown until resolved.
+Everything below this point is about visual execution, not structure.
 
 ---
 
@@ -117,55 +106,48 @@ Three large outlined circles with hand-drawn SVG shields, stars, and a circled "
 
 ---
 
-## 5. What v10 is doing better than the comparables (and should keep)
+## 5. What v10 is doing better than the comparables (keep)
 
-Three things genuinely beat the comparables:
+Two things genuinely beat the comparables. Don't touch:
 
-1. **The B5 impact moment (89% / 14 / $8.36M).** Bigger, more confident, more emotionally weighted than WV's polite gray pie chart or VOM's persecution-tag legend. The single strongest visual moment on the entire Favor page. Don't change.
-2. **The B7 split-band concept (pray + go in one band).** More elegant than VOM's 3-card prayer grid or any of the other comparables' approaches. This is a spec deviation but a deliberate one, recommend logging it as an approved exception. The problem isn't the concept, it's that both panels are dark (see §4.6).
-3. **The dedicated B9 trust band.** All comparables bury trust marks in the footer. A dedicated band is a real differentiator for donor confidence. Spec deviation but worth keeping, recommend logging it as an approved exception. The problem isn't the band, it's the badge art (see §4.7).
+1. **B5 impact moment (89% / 14 / $8.36M).** Bigger and more confident than WV's polite gray pie chart or VOM's persecution-tag legend. The single strongest visual moment on the page. Keep as-is.
+2. **B7 split-band concept (pray + go side by side).** Cleaner than VOM's 3-card prayer grid or any other comparable's approach. The concept is right; the execution (both panels dark) is the only problem.
+
+The dedicated trust band (B9) is also a real differentiator since no comparable surfaces trust this prominently. The concept is good; the hand-drawn badges undercut it (see §4.7).
 
 ---
 
 ## 6. v11 plan
 
-Ordered by risk + impact. Spec-compliance items first (low risk, high impact), visual polish second, decisions to flag third.
+Ordered by visual impact. Each fix is what the comparable evidence says to do, not what the homepage-bands spec sketch says.
 
-### 6.1 Spec-compliance fixes (do these first)
+1. **B2 signature: kill the white wall.** Pair the phrase with imagery. Either (a) asymmetric 60/40 with a pastor-on-the-trail photo right, or (b) three small asymmetric photo circles like Wycliffe does. Drop the standalone scripture box, fold the line into the body copy. The current pure-text-on-white treatment is the single worst visual moment on the page. Effort: 2 hr.
+2. **B3 pillars: fix the brown wall.** Two options that both work. (a) Keep photo cards but recolor: swap two photos to non-earth-tone contexts (water-blue, classroom interior, market color). Or (b) flip to color-blocked cards with a single color-coded illustration per pillar, no photo. WV's program grid is the model for (a); Wycliffe's icon-card row is the model for (b). Recommend (a), Favor's field photography is its real asset. Effort: 2 hr if photos exist, plus photo selection.
+3. **B6 partner band: build a real conversion moment.** The current dark green card hides under the white surround. Options: (a) full-bleed gold band per spec sketch, photo of a field leader right, tier grid left, or (b) keep the green card concept but make it bigger, photo-forward, with the tier grid as a clean 2x3 horizontal row instead of the current dense layout. Either way, the partner band has to read as a destination, not a section. Effort: 4 hr.
+4. **B7 split-band: differentiate the two panels.** Keep one dark (Pray), lighten the other to cream or warm-white (Go). Add visible vision-trip cards inside the Go panel so it doesn't read as the same panel as Pray. Effort: 2 hr.
+5. **B9 trust band: real badge assets.** Swap the hand-drawn SVGs for the actual ECFA, Charity Navigator, and Candid brand assets sized small in a row. Keep the cream band. Effort: 1 hr.
+6. **B4 stories: tighten the lead card.** Lead photo needs to be bigger relative to the white text box below. The current proportions look awkward. Effort: 1 hr.
+7. **Add a founder pull-quote** between B5 and B6. One Carole Ward sentence, headshot, gold rule. Restores photo presence in the deadest stretch of the page. Effort: 1 hr, needs asset.
 
-1. **B3 pillars: revert to icon cards** per spec. Icon + pillar name + one-line description + "Explore this pillar" link. Light sage background. Fixes the brown-wall problem in one step. Effort: 2 hr (icons can come from Lucide).
-2. **B6 partner band: revert to gold band** per spec. #e1a730 background, dark green text, photo of a field leader to the right or as background with strong scrim. Keep the 6-tier ladder. Replace the alt-give text line with a single "See all ways to give →" link to /give/ (the segmentation belongs on /give/, not home). Effort: 3 hr.
-3. **Tier amounts**: verified, `src/lib/site.ts` already matches the locked markdown spec exactly. The diagram you sent ($250 Heal, $1,000 Movement) is out of date. Recommend updating the diagram, not the code. Effort: zero (code is already correct), plus a decision-log entry to flag the diagram drift.
+### Decisions to log
 
-### 6.2 Visual polish within spec
+Three v10 deviations from the homepage-bands sketch that I recommend keeping as design decisions. Each needs one line in `docs/00-decisions/decision-log.md`:
 
-4. **B9 trust band: swap hand-drawn SVGs for real badge assets** from ECFA, Charity Navigator, and Candid. Keep the cream band, keep the layout, change the art. Effort: 1 hr (assets are downloadable from each org's brand page).
-5. **B7 split-band: differentiate the two panels.** Keep one with the dark green scrim (Pray), lighten the other to a cream or warm-white treatment (Go) so they read as two distinct invitations. Restore 2-3 vision-trip cards inside the Go panel per spec B8 content. Effort: 2 hr.
-6. **B4 stories: tighten the lead-story card** so the photo-to-text ratio matches the comparables. Reduce the white gap between photo and excerpt. Effort: 1 hr.
+- Pillar treatment (photo cards over icon cards), pending v11 photo refresh.
+- Pray+Go as a single split-band, not two stacked bands.
+- Dedicated trust band before footer.
 
-### 6.3 Approved-exception decisions to log
+### Larger calls (need Will's input)
 
-Three v10 deviations from spec that I recommend keeping. Each needs a one-line entry in `docs/00-decisions/decision-log.md`:
-
-- **Keep B7+B8 merged as a split-band.** Reason: more elegant than two separate bands; the dual-CTA reading is stronger when paired. (Adds trip cards to the Go side per fix #5.)
-- **Keep the dedicated B9 trust band.** Reason: a genuine differentiator against comparables; no Christian-international comparable surfaces trust this prominently. (Fixes the badge art per fix #4.)
-- **Keep B4 stories as 1 lead + 2 stacked** (not 3 equal cards per spec). Reason: gives the editorial layout one feature story per cycle, which suits the long-form nature of Favor's stories.
-
-### 6.4 Larger calls (need Will's input)
-
-- **Geographic visual.** VOM's persecution map is their strongest visual moment. Favor's "14 nations" framing is begging for a small East/Central Africa map with country pins. Possible add as a small B5-bis between Impact and Partner. Decision needed because the spec doesn't reserve a slot for it.
-- **Field video.** Compassion has a video carousel; nobody else does, and it's a real differentiator. Per the rule against auto-play, render as a click-to-play poster with a play affordance. Needs an actual video asset. Possible add as a small B4-bis between Stories and Impact.
-- **B9 field updates band per spec** (latest 3 stories). v10 replaced this slot with trust. Should we add it back as a new B9.5 between Newsletter and Trust? Or drop it entirely?
-- **B2 signature.** Spec is "no photo." Comparable evidence suggests pairing with imagery would help. Recommend keeping per spec for now (brand anchoring intent is clear) and revisiting after the higher-impact fixes ship.
+- **Geographic visual.** VOM's persecution map is their strongest moment. Favor's "14 nations" framing is begging for a small East/Central Africa map with country pins. Possible add as a small B5-bis between Impact and Partner.
+- **Field video.** Compassion has it, nobody else does. Real differentiator. Click-to-play poster, no auto-play. Needs a real asset.
+- **Field updates band.** v10 replaced the spec B9 slot with trust. Adding a "latest 3 stories" band before Newsletter would help the page feel alive. Drop trust band concept entirely, or layer field updates above newsletter?
 
 ---
 
-## 7. What I am NOT recommending (corrections to v1 of this audit)
+## 7. What v10 looks like vs. comparables, plainly
 
-- ~~Pair B2 phrase with a photo~~, spec mandates no photo.
-- ~~Cut B6 to 4 visible tiers~~, 6 tiers are locked per the sitemap.
-- ~~Add an alt-give row to B6~~, segmentation belongs on /give/, not on home.
-- ~~Vary pillar photos to fix the brown wall~~, the right fix is icon cards per spec, not better photos.
+Compassion looks like a magazine. World Vision looks like a corporate brand. Favor v10 looks like a thoughtful Squarespace template. The hero is fine. Everything below has the same visual energy as a small-town church website, not a national-scale ministry. The 7 fixes in §6 close that gap.
 
 ---
 
