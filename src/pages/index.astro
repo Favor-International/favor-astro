@@ -5,12 +5,11 @@ import SiteFooter from '../components/global/SiteFooter.astro';
 import { PILLARS, PARTNER_TIERS, SITE } from '../lib/site';
 import { CTA } from '../lib/cta';
 
-// Pillar imagery — each pillar gets its own distinct field photo.
 const pillarImages: Record<string, string> = {
-  'evangelism-discipleship': '/images/pillar-evangelism-discipleship.jpg',
+  'evangelism-discipleship': '/images/hero-pbs-graduation.jpg',
   'education': '/images/pillar-education.jpg',
   'community-development': '/images/pillar-community-care.jpg',
-  'economic-empowerment': '/images/pillar-economic-empowerment.jpg',
+  'economic-empowerment': '/images/hero-women-celebrating.jpg',
 };
 
 // Real published stories from the Webflow CMS (Stories.csv).
@@ -75,19 +74,22 @@ const supportingStories = [
 
     <!-- BAND 2: Signature phrase ("Where others will not go") -->
     <section class="signature">
-      <div class="container container--narrow signature__inner">
-        <span class="signature__rule" aria-hidden="true"></span>
-        <p class="signature__eyebrow">The Favor signature</p>
-        <h2 class="signature__phrase">Where others will not go.</h2>
-        <p class="signature__body">
-          The hardest places on earth still belong to Jesus. Favor sends indigenous
-          pastors and teachers into villages, refugee camps, and tribal lands no
-          outside agency will enter. You make that possible.
-        </p>
-        <p class="signature__scripture">
-          &ldquo;{SITE.scripture.text}&rdquo;
-          <span class="signature__cite">John 9:4 · AMPC</span>
-        </p>
+      <div class="container signature__grid">
+        <div class="signature__copy">
+          <span class="signature__rule" aria-hidden="true"></span>
+          <p class="signature__eyebrow">The Favor signature</p>
+          <h2 class="signature__phrase">Where others will not go.</h2>
+          <p class="signature__body">
+            The hardest places on earth still belong to Jesus. Favor sends indigenous
+            pastors and teachers into villages, refugee camps, and tribal lands no
+            outside agency will enter. <strong>You make that possible.</strong>
+          </p>
+          <p class="signature__scripture">
+            &ldquo;{SITE.scripture.text}&rdquo;
+            <span class="signature__cite">John 9:4 &middot; AMPC</span>
+          </p>
+        </div>
+        <div class="signature__photo" style="background-image: url(/images/pillar-evangelism-discipleship.jpg)" role="img" aria-label="Two indigenous pastors walking through floodwaters to reach a remote village"></div>
       </div>
     </section>
 
@@ -104,7 +106,6 @@ const supportingStories = [
           {PILLARS.map((p, i) => (
             <a class="pillar" href={`/impact/${p.slug}/`}>
               <div class="pillar__photo" style={`background-image: url(${pillarImages[p.slug]})`} role="img" aria-label={p.label}></div>
-              <div class="pillar__scrim" aria-hidden="true"></div>
               <div class="pillar__body">
                 <span class="pillar__num">0{i + 1}</span>
                 <h3 class="pillar__title">{p.label}</h3>
@@ -190,36 +191,34 @@ const supportingStories = [
       </div>
     </section>
 
-    <!-- BAND 6: Partner — full 6-tier grid per sitemap v2.1 -->
-    <section class="partner" id="partner">
-      <div class="container">
-        <div class="partner__card">
-          <div class="partner__copy">
-            <p class="band-head__eyebrow partner__eyebrow">Become a Favor Partner</p>
-            <h2 class="partner__h2">Monthly partnership is the most-chosen way to send.</h2>
-            <p class="partner__body">
-              You can keep an indigenous pastor on the trail in a place no other
-              ministry will go. Pick a tier, or set your own amount. Every gift is
-              tax-deductible. ECFA-accredited since 2019.
-            </p>
-            <a class="btn btn--primary btn--large partner__cta" href="/give/partner-monthly/">{CTA.partnerMonthly} <span aria-hidden="true">&rarr;</span></a>
-            <p class="partner__altgive">
-              Prefer to give once? <a href="/give/one-time/">Single gift</a> ·
-              <a href="/give/specific-project/">Specific project</a> ·
-              <a href="/give/non-cash/">Stocks &amp; non-cash</a>
-            </p>
-          </div>
-          <div class="partner__tiers">
-            <p class="partner__tiers-label">Monthly partner tiers</p>
-            <div class="partner__tiers-grid">
-              {PARTNER_TIERS.map((t) => (
-                <a class:list={['tier', t.featured && 'tier--featured']} href={`/give/partner-monthly/?amount=${t.amount}`}>
-                  {t.featured && <span class="tier__badge">Lead tier</span>}
-                  <span class="tier__amount">${t.amount.toLocaleString()}<span class="tier__period">/mo</span></span>
-                  <span class="tier__label">{t.label}</span>
-                </a>
-              ))}
-            </div>
+    <!-- BAND 6: Partner. Full-bleed gold band, field-leader photo, white tier cards -->
+    <section class="partner" id="partner" aria-label="Become a Favor Partner">
+      <div class="partner__photo" style="background-image: url(/images/hero-pastor-preaching.jpg)" aria-hidden="true"></div>
+      <div class="partner__scrim" aria-hidden="true"></div>
+      <div class="container partner__inner">
+        <div class="partner__copy">
+          <p class="partner__eyebrow">Become a Favor Partner</p>
+          <h2 class="partner__h2">Monthly partnership is the most-chosen way to send.</h2>
+          <p class="partner__body">
+            You can keep an indigenous pastor on the trail in a place no other
+            ministry will go. Pick a tier, or set your own amount. Every gift is
+            tax-deductible. ECFA-accredited since 2019.
+          </p>
+          <a class="btn partner__cta" href="/give/partner-monthly/">{CTA.partnerMonthly} <span aria-hidden="true">&rarr;</span></a>
+          <p class="partner__altgive">
+            <a href="/give/">See all ways to give <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+        <div class="partner__tiers">
+          <p class="partner__tiers-label">Monthly partner tiers</p>
+          <div class="partner__tiers-grid">
+            {PARTNER_TIERS.map((t) => (
+              <a class:list={['tier', t.featured && 'tier--featured']} href={`/give/partner-monthly/?amount=${t.amount}`}>
+                {t.featured && <span class="tier__badge">Lead tier</span>}
+                <span class="tier__amount">${t.amount.toLocaleString()}<span class="tier__period">/mo</span></span>
+                <span class="tier__label">{t.label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
@@ -238,13 +237,18 @@ const supportingStories = [
         </div>
       </a>
       <a class="praygo__panel praygo__panel--go" href="/go/vision-trips/">
-        <div class="praygo__photo" style="background-image: url(/images/pbs-karamoja.jpg)" aria-hidden="true"></div>
-        <div class="praygo__scrim praygo__scrim--terracotta" aria-hidden="true"></div>
+        <div class="praygo__photo praygo__photo--light" style="background-image: url(/images/pbs-karamoja.jpg)" aria-hidden="true"></div>
+        <div class="praygo__scrim praygo__scrim--cream" aria-hidden="true"></div>
         <div class="praygo__body">
-          <p class="praygo__eyebrow">Walk with us</p>
-          <h3 class="praygo__h3">See it for yourself.</h3>
-          <p class="praygo__lede">Small-team vision trips to Uganda, South Sudan, and Ethiopia. Spring and Fall 2026.</p>
-          <span class="praygo__cta">See open vision trips <span aria-hidden="true">&rarr;</span></span>
+          <p class="praygo__eyebrow praygo__eyebrow--dark">Walk with us</p>
+          <h3 class="praygo__h3 praygo__h3--dark">See it for yourself.</h3>
+          <p class="praygo__lede praygo__lede--dark">Small-team vision trips to Uganda, South Sudan, and Ethiopia. Spring and Fall 2026.</p>
+          <ul class="praygo__trips" aria-label="Upcoming vision trips">
+            <li><span class="praygo__trip-date">Mar 2026</span> Uganda &middot; Karamoja</li>
+            <li><span class="praygo__trip-date">Oct 2026</span> South Sudan &middot; Bor</li>
+            <li><span class="praygo__trip-date">Nov 2026</span> Ethiopia &middot; Bishoftu</li>
+          </ul>
+          <span class="praygo__cta praygo__cta--dark">See open vision trips <span aria-hidden="true">&rarr;</span></span>
         </div>
       </a>
     </section>
@@ -472,72 +476,96 @@ const supportingStories = [
     .hero__h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
   }
 
-  /* ===== BAND 2: SIGNATURE PHRASE ===== */
+  /* ===== BAND 2: SIGNATURE PHRASE (asymmetric photo + text) ===== */
   .signature {
     background: var(--color-white);
-    padding: clamp(var(--space-16), 12vw, var(--space-24)) 0;
+    padding: clamp(var(--space-16), 11vw, var(--space-24)) 0;
     position: relative;
   }
-  .signature__inner {
-    text-align: center;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 0;
+  .signature__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(var(--space-8), 5vw, var(--space-16));
+    align-items: center;
   }
+  @media (max-width: 900px) {
+    .signature__grid { grid-template-columns: 1fr; }
+  }
+  .signature__copy { max-width: 56ch; }
   .signature__rule {
     display: block;
-    width: 80px; height: 3px;
+    width: 56px; height: 3px;
     background: var(--color-gold);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-6);
     border-radius: 2px;
   }
   .signature__eyebrow {
-    margin: 0 0 var(--space-6) 0;
+    margin: 0 0 var(--space-4) 0;
     font-size: 0.78rem;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--color-sage);
   }
   .signature__phrase {
-    margin: 0 0 var(--space-8) 0;
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    margin: 0 0 var(--space-6) 0;
+    font-size: clamp(2.4rem, 5.2vw, 4.2rem);
     font-weight: 800;
-    line-height: 1;
+    line-height: 1.02;
     color: var(--color-green-deep);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.025em;
     max-width: 14ch;
   }
   .signature__body {
-    margin: 0 0 var(--space-10) 0;
-    max-width: 56ch;
-    font-size: 1.15rem;
-    line-height: 1.6;
+    margin: 0 0 var(--space-8) 0;
+    font-size: 1.08rem;
+    line-height: 1.65;
     color: var(--color-ink);
+  }
+  .signature__body strong {
+    color: var(--color-green-deep);
+    font-weight: 700;
   }
   .signature__scripture {
     margin: 0;
-    padding: var(--space-6) var(--space-8);
+    padding: var(--space-5) var(--space-7);
     border-left: 3px solid var(--color-gold);
     background: var(--color-cream);
-    max-width: 52ch;
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-style: italic;
     line-height: 1.55;
     color: var(--color-green-deep);
-    text-align: left;
   }
   .signature__cite {
     display: block;
-    margin-top: var(--space-3);
+    margin-top: var(--space-2);
     font-style: normal;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--color-sage);
     font-weight: 700;
   }
+  .signature__photo {
+    background-size: cover;
+    background-position: center;
+    border-radius: 14px;
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 24px 60px rgba(11, 64, 36, 0.22);
+    position: relative;
+  }
+  .signature__photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(11, 64, 36, 0) 60%, rgba(11, 64, 36, 0.25) 100%);
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .signature__photo { aspect-ratio: 16 / 10; }
+  }
 
-  /* ===== BAND 3: PILLARS (light sage bg, dark photo cards) ===== */
+  /* ===== BAND 3: PILLARS (photo top, white card below, no scrim) ===== */
   .pillars {
     background: color-mix(in srgb, var(--color-sage-light) 50%, var(--color-white));
     padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
@@ -545,78 +573,71 @@ const supportingStories = [
   .pillars__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-5);
+    gap: var(--space-6);
   }
   @media (max-width: 1100px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px)  { .pillars__grid { grid-template-columns: 1fr; } }
   .pillar {
-    position: relative;
-    display: block;
-    aspect-ratio: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
     border-radius: 14px;
     overflow: hidden;
     text-decoration: none;
-    color: var(--color-white);
-    box-shadow: 0 14px 40px rgba(11, 64, 36, 0.15);
-    isolation: isolate;
+    color: var(--color-ink);
+    box-shadow: 0 8px 24px rgba(11, 64, 36, 0.10);
     transition: transform 280ms ease, box-shadow 280ms ease;
   }
   .pillar:hover {
     transform: translateY(-6px);
-    box-shadow: 0 26px 60px rgba(11, 64, 36, 0.28);
+    box-shadow: 0 22px 50px rgba(11, 64, 36, 0.20);
   }
   .pillar__photo {
-    position: absolute; inset: 0;
+    aspect-ratio: 5 / 4;
     background-size: cover;
     background-position: center;
-    z-index: 0;
     transition: transform 700ms ease;
   }
-  .pillar:hover .pillar__photo { transform: scale(1.06); }
-  .pillar__scrim {
-    position: absolute; inset: 0; z-index: 1;
-    background:
-      linear-gradient(180deg, rgba(11, 64, 36, 0) 0%, rgba(11, 64, 36, 0.15) 40%, rgba(11, 64, 36, 0.95) 100%);
-  }
+  .pillar:hover .pillar__photo { transform: scale(1.04); }
   .pillar__body {
-    position: absolute;
-    inset: auto var(--space-6) var(--space-6) var(--space-6);
-    z-index: 2;
+    padding: var(--space-6);
     display: flex; flex-direction: column;
     gap: var(--space-2);
+    flex: 1;
   }
   .pillar__num {
-    font-size: 0.72rem;
-    letter-spacing: 0.32em;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
     font-weight: 800;
     color: var(--color-gold);
     margin-bottom: var(--space-2);
   }
   .pillar__title {
     margin: 0;
-    font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+    font-size: clamp(1.15rem, 1.4vw, 1.35rem);
     font-weight: 800;
-    line-height: 1.1;
-    color: var(--color-white);
+    line-height: 1.15;
+    color: var(--color-green-deep);
     letter-spacing: -0.01em;
   }
   .pillar__blurb {
-    margin: var(--space-2) 0 var(--space-3) 0;
+    margin: var(--space-2) 0 var(--space-4) 0;
     font-size: 0.92rem;
-    line-height: 1.5;
-    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+    flex: 1;
   }
   .pillar__cta {
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--color-gold);
-    letter-spacing: 0.04em;
-    border-bottom: 1.5px solid color-mix(in srgb, var(--color-gold) 60%, transparent);
+    color: var(--color-green-deep);
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid var(--color-gold);
     align-self: flex-start;
     padding-bottom: 2px;
-    transition: border-color 200ms;
+    transition: color 200ms;
   }
-  .pillar:hover .pillar__cta { border-bottom-color: var(--color-gold); }
+  .pillar:hover .pillar__cta { color: var(--color-gold); }
 
   /* ===== BAND 4: STORIES (white, 1 lead + 2 stacked) ===== */
   .stories {
@@ -641,6 +662,23 @@ const supportingStories = [
   .story--lead {
     box-shadow: 0 6px 20px rgba(11, 64, 36, 0.08);
     border: 1px solid color-mix(in srgb, var(--color-sage) 18%, transparent);
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+  .story--lead .story__photo {
+    aspect-ratio: 5 / 3;
+  }
+  .story--lead .story__body {
+    padding: var(--space-7) var(--space-7) var(--space-8) var(--space-7);
+    gap: var(--space-3);
+  }
+  @media (min-width: 980px) {
+    .story--lead {
+      grid-template-columns: 1.1fr 1fr;
+      grid-template-rows: auto;
+    }
+    .story--lead .story__photo { aspect-ratio: auto; height: 100%; min-height: 360px; }
+    .story--lead .story__body { padding: var(--space-9) var(--space-8); }
   }
   .story:hover {
     transform: translateY(-4px);
@@ -820,79 +858,97 @@ const supportingStories = [
   }
   .impact__sources a:hover { border-bottom-color: var(--color-gold); }
 
-  /* ===== BAND 6: PARTNER (white outer, big green inset card, 6 tiers) ===== */
+  /* ===== BAND 6: PARTNER (full-bleed gold band, field-leader photo, white tier cards) ===== */
   .partner {
-    background: var(--color-white);
-    padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
+    position: relative;
+    padding: clamp(var(--space-16), 11vw, var(--space-24)) 0;
+    background: var(--color-gold);
+    color: var(--color-green-deep);
+    overflow: hidden;
+    isolation: isolate;
   }
-  .partner__card {
-    max-width: 1260px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, var(--color-green-deep) 0%, #2b4d24 100%);
-    border-radius: 28px;
-    padding: clamp(var(--space-12), 6vw, var(--space-16));
-    color: var(--color-white);
+  .partner__photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: right center;
+    opacity: 0.28;
+    z-index: 0;
+    filter: saturate(1.05);
+  }
+  .partner__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold) 35%, color-mix(in srgb, var(--color-gold) 70%, transparent) 70%, color-mix(in srgb, var(--color-gold) 30%, transparent) 100%);
+  }
+  .partner__inner {
+    position: relative; z-index: 2;
     display: grid;
     grid-template-columns: 5fr 6fr;
     gap: clamp(var(--space-8), 4vw, var(--space-12));
     align-items: center;
-    box-shadow: 0 40px 90px rgba(11, 64, 36, 0.32);
-    position: relative;
-    overflow: hidden;
   }
-  .partner__card::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.06), transparent 42%),
-      radial-gradient(circle at 88% 86%, rgba(225, 167, 48, 0.14), transparent 52%);
-    pointer-events: none;
-  }
-  .partner__card > * { position: relative; z-index: 1; }
   @media (max-width: 980px) {
-    .partner__card {
-      grid-template-columns: 1fr;
-      gap: var(--space-10);
+    .partner__inner { grid-template-columns: 1fr; gap: var(--space-10); }
+    .partner__scrim {
+      background: linear-gradient(180deg, var(--color-gold) 0%, color-mix(in srgb, var(--color-gold) 88%, transparent) 100%);
     }
   }
-  .partner__eyebrow { color: var(--color-gold); margin-bottom: var(--space-4); }
+  .partner__eyebrow {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--color-green-deep);
+  }
   .partner__h2 {
     margin: 0 0 var(--space-5) 0;
-    font-size: clamp(1.85rem, 3.6vw, 2.6rem);
-    line-height: 1.1;
-    color: var(--color-white);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    color: var(--color-green-deep);
     font-weight: 800;
-    letter-spacing: -0.018em;
+    letter-spacing: -0.02em;
   }
   .partner__body {
     margin: 0 0 var(--space-8) 0;
-    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+    color: color-mix(in srgb, var(--color-green-deep) 88%, transparent);
     line-height: 1.6;
-    font-size: 1.02rem;
-    max-width: 42ch;
+    font-size: 1.05rem;
+    max-width: 44ch;
   }
   .partner__cta {
-    border-radius: 999px;
-    padding: 18px 32px;
-    font-size: 1rem;
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+    display: inline-flex;
+    align-items: center;
     gap: var(--space-3);
+    background: var(--color-green-deep);
+    color: var(--color-white);
+    border-radius: 999px;
+    padding: 20px 36px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 18px 40px rgba(11, 64, 36, 0.28);
+    transition: transform 200ms, box-shadow 200ms, background 200ms;
   }
   .partner__cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+    box-shadow: 0 22px 48px rgba(11, 64, 36, 0.34);
+    background: #0d5b32;
   }
   .partner__altgive {
-    margin: var(--space-6) 0 0 0;
-    font-size: 0.85rem;
-    color: color-mix(in srgb, var(--color-white) 65%, transparent);
+    margin: var(--space-5) 0 0 0;
+    font-size: 0.9rem;
     line-height: 1.6;
   }
   .partner__altgive a {
-    color: var(--color-gold);
+    color: var(--color-green-deep);
     text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 50%, transparent);
-    padding-bottom: 1px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-green-deep);
+    padding-bottom: 2px;
+  }
+  .partner__altgive a:hover {
+    border-bottom-color: transparent;
   }
   .partner__tiers-label {
     margin: 0 0 var(--space-5) 0;
@@ -900,7 +956,7 @@ const supportingStories = [
     letter-spacing: 0.22em;
     text-transform: uppercase;
     font-weight: 800;
-    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+    color: color-mix(in srgb, var(--color-green-deep) 75%, transparent);
   }
   .partner__tiers-grid {
     display: grid;
@@ -912,30 +968,31 @@ const supportingStories = [
     position: relative;
     display: flex; flex-direction: column; align-items: flex-start;
     padding: var(--space-5);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--color-white);
+    border: 1px solid color-mix(in srgb, var(--color-green-deep) 12%, transparent);
     border-radius: 12px;
     text-decoration: none;
-    color: var(--color-white);
-    transition: background 200ms, border-color 200ms, transform 200ms;
+    color: var(--color-green-deep);
+    transition: transform 200ms, box-shadow 200ms, border-color 200ms;
     min-height: 110px;
+    box-shadow: 0 4px 14px rgba(11, 64, 36, 0.08);
   }
   .tier:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: var(--color-gold);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    border-color: var(--color-green-deep);
+    box-shadow: 0 14px 30px rgba(11, 64, 36, 0.18);
   }
   .tier__amount {
-    font-size: clamp(1.35rem, 1.8vw, 1.65rem);
+    font-size: clamp(1.35rem, 1.8vw, 1.7rem);
     font-weight: 800;
     line-height: 1;
-    color: var(--color-gold);
+    color: var(--color-green-deep);
     letter-spacing: -0.02em;
   }
   .tier__period {
     font-size: 0.72rem;
     font-weight: 600;
-    color: color-mix(in srgb, var(--color-white) 65%, transparent);
+    color: color-mix(in srgb, var(--color-green-deep) 60%, transparent);
     margin-left: 4px;
     letter-spacing: 0;
   }
@@ -945,32 +1002,32 @@ const supportingStories = [
     letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 800;
-    color: var(--color-white);
+    color: var(--color-green-deep);
   }
   .tier--featured {
-    background: var(--color-gold);
-    border-color: var(--color-gold);
-    box-shadow: 0 12px 28px rgba(225, 167, 48, 0.36);
+    background: var(--color-green-deep);
+    border-color: var(--color-green-deep);
+    box-shadow: 0 14px 32px rgba(11, 64, 36, 0.32);
   }
-  .tier--featured .tier__amount,
-  .tier--featured .tier__label { color: var(--color-green-deep); }
-  .tier--featured .tier__period { color: color-mix(in srgb, var(--color-green-deep) 65%, transparent); }
+  .tier--featured .tier__amount { color: var(--color-gold); }
+  .tier--featured .tier__label { color: var(--color-white); }
+  .tier--featured .tier__period { color: color-mix(in srgb, var(--color-white) 75%, transparent); }
   .tier--featured:hover {
-    background: var(--color-gold);
-    border-color: var(--color-white);
+    background: #0d5b32;
+    border-color: var(--color-gold);
   }
   .tier__badge {
     position: absolute;
     top: -10px; left: var(--space-5);
-    background: var(--color-green-deep);
-    color: var(--color-gold);
+    background: var(--color-gold);
+    color: var(--color-green-deep);
     font-size: 0.6rem;
     font-weight: 800;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     padding: 4px 8px;
     border-radius: 4px;
-    border: 1px solid var(--color-gold);
+    border: 1px solid var(--color-green-deep);
   }
 
   /* ===== BAND 7: PRAY + GO (split-band, photo each side) ===== */
@@ -1003,6 +1060,42 @@ const supportingStories = [
   }
   .praygo__scrim--terracotta {
     background: linear-gradient(135deg, rgba(163, 109, 76, 0.90) 0%, rgba(31, 58, 26, 0.82) 100%);
+  }
+  .praygo__scrim--cream {
+    background: linear-gradient(135deg, rgba(248, 244, 228, 0.94) 0%, rgba(243, 234, 216, 0.97) 100%);
+  }
+  .praygo__photo--light { opacity: 1; }
+  .praygo__eyebrow--dark { color: var(--color-green-deep); }
+  .praygo__h3--dark { color: var(--color-green-deep); }
+  .praygo__lede--dark { color: var(--color-ink); }
+  .praygo__cta--dark {
+    color: var(--color-green-deep);
+    border-bottom-color: var(--color-gold);
+  }
+  .praygo__trips {
+    list-style: none; padding: 0;
+    margin: 0 0 var(--space-6) 0;
+    display: flex; flex-direction: column;
+    gap: var(--space-2);
+    font-size: 0.92rem;
+    color: var(--color-ink);
+  }
+  .praygo__trips li {
+    display: flex; gap: var(--space-3);
+    align-items: baseline;
+    padding: var(--space-2) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-green-deep) 12%, transparent);
+  }
+  .praygo__trips li:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-green-deep) 12%, transparent);
+  }
+  .praygo__trip-date {
+    font-weight: 800;
+    color: var(--color-green-deep);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    min-width: 76px;
   }
   .praygo__body {
     position: absolute;
