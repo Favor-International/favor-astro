@@ -4,19 +4,94 @@ import SiteHeader from '../components/global/SiteHeader.astro';
 import SiteFooter from '../components/global/SiteFooter.astro';
 import { SITE } from '../lib/site';
 import { CTA } from '../lib/cta';
+
+// =====================================================================
+// HOMEPAGE — rebuilt 1:1 against the existing favorintl.org structure.
+// Same bands, same order, same copy. New hero photo. Existing color
+// system (gold #e1a730 + green #2b4d24). New brand colors will replace
+// when the client provides them.
+// =====================================================================
+
+// Existing favorintl.org "2025 Highlights" — verbatim numbers + photos.
+const highlights = [
+  { value: '195,773', label: 'Saved' },
+  { value: '119,182', label: 'Discipled' },
+];
+const highlightPhotos = [
+  { src: '/images/highlight-saved.jpg',   alt: 'New believers sitting, smiling, and listening to someone out of frame.' },
+  { src: '/images/highlight-crowd.jpg',   alt: 'Crowd of thousands of Africans with their hands thrown up at a revival meeting.' },
+  { src: '/images/highlight-baptism.jpg', alt: 'Woman being baptized in a large can of water.' },
+  { src: '/images/highlight-prayer.jpg',  alt: 'Man with hands lifted up in prayer.' },
+];
+
+// "What We Do" — four ministries. Verbatim names from favorintl.org.
+const ministries = [
+  {
+    name: 'Evangelism & Discipleship',
+    href: '/impact/evangelism-discipleship/',
+    image: '/images/pillar-evangelism-discipleship.jpg',
+    alt: 'Two men standing on a stage preaching',
+  },
+  {
+    name: 'Education',
+    href: '/impact/education/',
+    image: '/images/pillar-education.jpg',
+    alt: 'Secondary student standing at his desk reading a portion of a book to the rest of the class.',
+  },
+  {
+    name: 'Community Development',
+    href: '/impact/community-development/',
+    image: '/images/pillar-community-care.jpg',
+    alt: 'Lady stands by a half-built house',
+  },
+  {
+    name: 'Economic Empowerment',
+    href: '/impact/economic-empowerment/',
+    image: '/images/pillar-economic-empowerment.jpg',
+    alt: 'Woman working in a field',
+  },
+];
+
+// "Stories of Transformation" — all 25 stories from the existing homepage.
+// Each links to /stories/<slug>/ on the new site (matches the v2.1 sitemap).
+const stories = [
+  { title: 'The Power of Love',                       slug: 'the-power-of-love',                        image: '/images/stories/the-power-of-love.jpg' },
+  { title: 'Strongholds Collapse',                    slug: 'strongholds-collapse',                     image: '/images/stories/strongholds-collapse.jpg' },
+  { title: 'Healing From Addictions',                 slug: 'healing-from-addictions',                  image: '/images/stories/healing-from-addictions.jpg' },
+  { title: "Simon's and Angelo's Stories",            slug: 'simons-and-angelos-stories',               image: '/images/stories/simons-and-angelos-stories.jpg' },
+  { title: 'Listening in Prison',                     slug: 'listening-in-prison',                      image: '/images/stories/listening-in-prison.jpg' },
+  { title: 'Rising Through the Ranks',                slug: 'rising-through-the-ranks',                 image: '/images/stories/rising-through-the-ranks.jpg' },
+  { title: 'Student on a Mission!',                   slug: 'student-on-a-mission',                     image: '/images/stories/student-on-a-mission.jpg' },
+  { title: 'Healing and Harvest',                     slug: 'healing-and-harvest',                      image: '/images/stories/healing-and-harvest.jpg' },
+  { title: 'Training Leaders in Chad',                slug: 'training-leaders-in-chad',                 image: '/images/stories/training-leaders-in-chad.jpg' },
+  { title: 'Restoring the Home',                      slug: 'restoring-the-home',                       image: '/images/stories/restoring-the-home.jpg' },
+  { title: 'A Timely Word',                           slug: 'a-timely-word',                            image: '/images/stories/a-timely-word.jpg' },
+  { title: 'What Next??',                             slug: 'what-next',                                image: '/images/stories/what-next.jpg' },
+  { title: 'Deep Into Africa',                        slug: 'deep-into-africa',                         image: '/images/stories/deep-into-africa.jpg' },
+  { title: 'Those Who Have Ears to Hear...',          slug: 'those-who-have-ears-to-hear',              image: '/images/stories/those-who-have-ears-to-hear.jpg' },
+  { title: 'Curing the Snakebite',                    slug: 'curing-the-snakebite',                     image: '/images/stories/curing-the-snakebite.jpg' },
+  { title: 'The Fear of the LORD',                    slug: 'the-fear-of-the-lord',                     image: '/images/stories/the-fear-of-the-lord.jpg' },
+  { title: 'Praying Without Ceasing',                 slug: 'praying-without-ceasing',                  image: '/images/stories/praying-without-ceasing.jpg' },
+  { title: 'Wars That Win Souls',                     slug: 'wars-that-win-souls',                      image: '/images/stories/wars-that-win-souls.jpg' },
+  { title: 'Members of Parliament Find Forgiveness',  slug: 'members-of-parliament-find-forgiveness',   image: '/images/stories/members-of-parliament-find-forgiveness.jpg' },
+  { title: 'Restored by the Spirit',                  slug: 'restored-by-the-spirit',                   image: '/images/stories/restored-by-the-spirit.jpg' },
+  { title: 'Healing Streams',                         slug: 'healing-streams',                          image: '/images/stories/healing-streams.jpg' },
+  { title: 'Irreversible Transformation',             slug: 'irreversible-transformation',              image: '/images/stories/irreversible-transformation.jpg' },
+  { title: 'The God Who Rescues Captives',            slug: 'the-god-who-rescues-captives',             image: '/images/stories/the-god-who-rescues-captives.jpg' },
+  { title: 'Hope Through the Night',                  slug: 'hope-through-the-night',                   image: '/images/stories/hope-through-the-night.jpg' },
+  { title: 'The Gospel in Their Native Tongue',       slug: 'the-gospel-in-their-native-tongue',        image: '/images/stories/the-gospel-in-their-native-tongue.jpg' },
+];
 ---
 <BaseLayout
   title={SITE.name}
-  description="Favor International equips indigenous African leaders to advance the Gospel through Portable Bible Schools, the GIFT Institute, schools, medical care, church planting, and economic empowerment. ECFA-accredited. Carole Ward, Founder."
+  description="Favor International equips indigenous African leaders to advance the Gospel through Portable Bible Schools, the GIFT Institute, schools, medical care, church planting, and economic empowerment. ECFA-accredited."
   image="/images/hero-pastor-preaching.jpg"
 >
   <SiteHeader variant="transparent" />
   <main id="main">
 
     <!-- ====================================================
-         BAND 1 — HERO (full-bleed, AI pastor-under-tree photo)
-         Everything below the hero was deleted per client request.
-         Future bands rebuild from scratch after design direction.
+         BAND 1 — HERO
          ==================================================== -->
     <section class="hero hero--fullbleed" aria-label="Send a pastor where the gospel has not reached">
       <div class="hero__bg" style="background-image: url(/images/hero-pastor-preaching.jpg)" aria-hidden="true"></div>
@@ -40,12 +115,135 @@ import { CTA } from '../lib/cta';
       </div>
     </section>
 
+    <!-- ====================================================
+         BAND 2 — OUR VISION + OUR MISSION (verbatim from
+         favorintl.org). Side-by-side on desktop, stacked on
+         mobile. The existing site shows these as two h1-style
+         headings; we render them as h2s on the page (the hero
+         carries the h1) and keep the copy verbatim.
+         ==================================================== -->
+    <section class="vm">
+      <div class="container vm__grid">
+        <div class="vm__block">
+          <p class="vm__label">Our Vision</p>
+          <h2 class="vm__vision">Transformed Hearts Transform Nations!</h2>
+        </div>
+        <div class="vm__block">
+          <p class="vm__label">Our Mission</p>
+          <p class="vm__mission">
+            Transforming nations with the power of the Gospel through prayer movements and indigenous missionary movements which are accelerating the fulfillment of the Great Commission to unreached people groups, and into every area of society from grassroots to governments.
+          </p>
+          <a class="vm__link" href="/about/mission-vision/">Learn More &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 3 — 2025 HIGHLIGHTS (numbers + 4 photos)
+         ==================================================== -->
+    <section class="highlights">
+      <div class="container">
+        <header class="highlights__header">
+          <h2 class="highlights__h2">2025 Highlights:</h2>
+        </header>
+        <div class="highlights__stats">
+          {highlights.map((h) => (
+            <div class="hl-stat">
+              <span class="hl-stat__value">{h.value}</span>
+              <span class="hl-stat__label">{h.label}</span>
+            </div>
+          ))}
+        </div>
+        <p class="highlights__line">Your support is actively raising the next generation of missionary leaders!</p>
+        <div class="highlights__photos">
+          {highlightPhotos.map((p) => (
+            <figure class="hl-photo">
+              <img src={p.src} alt={p.alt} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 4 — WHAT WE DO (4 ministries)
+         ==================================================== -->
+    <section class="whatwedo">
+      <div class="container">
+        <header class="whatwedo__header">
+          <h2 class="whatwedo__h2">What We Do</h2>
+        </header>
+        <div class="whatwedo__grid">
+          {ministries.map((m) => (
+            <article class="ministry">
+              <h3 class="ministry__name">{m.name}</h3>
+              <figure class="ministry__photo">
+                <img src={m.image} alt={m.alt} loading="lazy" />
+              </figure>
+              <a class="ministry__cta" href={m.href}>LEARN MORE</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 5 — JOHN 9:4 SCRIPTURE PAUSE
+         ==================================================== -->
+    <section class="scripture">
+      <div class="container container--narrow scripture__inner">
+        <blockquote class="scripture__quote">
+          "We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work."
+        </blockquote>
+        <p class="scripture__cite">&mdash; Jesus (John 9:4, AMPC)</p>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 6 — PARTNER WITH US TODAY (photo + CTA)
+         ==================================================== -->
+    <section class="partner">
+      <div class="container partner__grid">
+        <div class="partner__copy">
+          <h2 class="partner__h2">Partner<br/>with us today!</h2>
+          <a class="btn btn--primary btn--large partner__cta" href="/give/">Donate Now</a>
+        </div>
+        <figure class="partner__photo">
+          <img src="/images/partner-with-us.jpg" alt="A field gathering across the regions Favor serves." loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 7 — STORIES OF TRANSFORMATION (grid of 25)
+         Matches the existing favorintl.org homepage story grid.
+         ==================================================== -->
+    <section class="stories">
+      <div class="container">
+        <header class="stories__header">
+          <h2 class="stories__h2">
+            <a href="/stories/">Stories of Transformation &rarr;</a>
+          </h2>
+        </header>
+        <div class="stories__grid">
+          {stories.map((s) => (
+            <a class="story" href={`/stories/${s.slug}/`}>
+              <figure class="story__photo">
+                <img src={s.image} alt={s.title} loading="lazy" onerror="this.style.background='var(--color-sage-light)';this.removeAttribute('src');" />
+              </figure>
+              <h3 class="story__title">{s.title}</h3>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
   </main>
   <SiteFooter />
 </BaseLayout>
 
 <style>
-  /* ========== HERO (locked spec from v8.1) ========== */
+  /* ========== HERO ========== */
   .hero--fullbleed {
     position: relative;
     min-height: clamp(680px, 96vh, 920px);
@@ -61,13 +259,12 @@ import { CTA } from '../lib/cta';
   }
   .hero__scrim {
     position: absolute; inset: 0; z-index: 1;
-    background:
-      linear-gradient(90deg,
-        rgba(11, 64, 36, 0.96) 0%,
-        rgba(11, 64, 36, 0.90) 28%,
-        rgba(11, 64, 36, 0.55) 52%,
-        rgba(11, 64, 36, 0.10) 72%,
-        rgba(11, 64, 36, 0) 100%);
+    background: linear-gradient(90deg,
+      rgba(11, 64, 36, 0.96) 0%,
+      rgba(11, 64, 36, 0.90) 28%,
+      rgba(11, 64, 36, 0.55) 52%,
+      rgba(11, 64, 36, 0.10) 72%,
+      rgba(11, 64, 36, 0) 100%);
   }
   .hero__inner { position: relative; z-index: 2; width: 100%; padding-top: 120px; padding-bottom: var(--space-12); }
   .hero__copy  { max-width: 720px; }
@@ -100,10 +297,7 @@ import { CTA } from '../lib/cta';
   }
   .hero__primary:hover { transform: translateY(-2px); box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32); }
   .hero__trust { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
-  .hero__trust-item {
-    font-size: 0.82rem; letter-spacing: 0.06em; font-weight: 600;
-    color: color-mix(in srgb, var(--color-white) 86%, transparent);
-  }
+  .hero__trust-item { font-size: 0.82rem; letter-spacing: 0.06em; font-weight: 600; color: color-mix(in srgb, var(--color-white) 86%, transparent); }
   .hero__trust-item--badge {
     width: 44px; height: 44px;
     border: 2px solid color-mix(in srgb, var(--color-white) 70%, transparent);
@@ -115,5 +309,283 @@ import { CTA } from '../lib/cta';
   @media (max-width: 900px) {
     .hero__inner { padding-top: 110px; }
     .hero__scrim { background: linear-gradient(180deg, rgba(11,64,36,0.65) 0%, rgba(11,64,36,0.82) 40%, rgba(11,64,36,0.94) 100%); }
+  }
+
+  /* ========== BAND 2 — VISION & MISSION ========== */
+  .vm { background: var(--color-white); padding: clamp(var(--space-12), 8vw, var(--space-16)) 0; }
+  .vm__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: clamp(var(--space-8), 6vw, var(--space-14));
+    align-items: start;
+  }
+  @media (max-width: 900px) { .vm__grid { grid-template-columns: 1fr; } }
+  .vm__label {
+    margin: 0 0 var(--space-3) 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .vm__vision {
+    margin: 0;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.04;
+    font-weight: 800;
+    color: var(--color-green-deep);
+    letter-spacing: -0.018em;
+  }
+  .vm__mission {
+    margin: 0 0 var(--space-6) 0;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    line-height: 1.7;
+    color: var(--color-ink);
+  }
+  .vm__link {
+    color: var(--color-green-deep);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 2px;
+  }
+  .vm__link:hover { color: var(--color-gold); }
+
+  /* ========== BAND 3 — 2025 HIGHLIGHTS ========== */
+  .highlights {
+    background: var(--color-white);
+    padding: clamp(var(--space-12), 8vw, var(--space-16)) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-sage) 25%, transparent);
+  }
+  .highlights__header { text-align: center; margin-bottom: var(--space-10); }
+  .highlights__h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+    font-weight: 800;
+    color: var(--color-green-deep);
+    line-height: 1.15;
+  }
+  .highlights__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    max-width: 760px;
+    margin: 0 auto var(--space-8) auto;
+    text-align: center;
+  }
+  .hl-stat { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+  .hl-stat__value {
+    font-size: clamp(3.4rem, 7vw, 5.2rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-green-deep);
+    letter-spacing: -0.03em;
+  }
+  .hl-stat__label {
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-gold);
+  }
+  .highlights__line {
+    margin: 0 auto var(--space-10) auto;
+    max-width: 56ch;
+    text-align: center;
+    color: var(--color-ink);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.55;
+  }
+  .highlights__photos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+  @media (max-width: 900px) {
+    .highlights__photos { grid-template-columns: repeat(2, 1fr); }
+    .highlights__stats { gap: var(--space-6); }
+  }
+  .hl-photo {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(11, 64, 36, 0.08);
+  }
+  .hl-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ========== BAND 4 — WHAT WE DO ========== */
+  .whatwedo {
+    background: var(--color-cream);
+    padding: clamp(var(--space-12), 8vw, var(--space-16)) 0;
+  }
+  .whatwedo__header { text-align: center; margin-bottom: var(--space-10); }
+  .whatwedo__h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+    font-weight: 800;
+    color: var(--color-green-deep);
+    line-height: 1.15;
+  }
+  .whatwedo__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+  @media (max-width: 1100px) { .whatwedo__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px)  { .whatwedo__grid { grid-template-columns: 1fr; } }
+  .ministry {
+    background: var(--color-white);
+    border-radius: 8px;
+    padding: var(--space-5);
+    display: flex; flex-direction: column;
+    gap: var(--space-4);
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(11, 64, 36, 0.06);
+    transition: transform 200ms, box-shadow 200ms;
+  }
+  .ministry:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(11, 64, 36, 0.12); }
+  .ministry__name {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--color-green-deep);
+    font-weight: 700;
+    line-height: 1.25;
+    min-height: 2.6em;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ministry__photo {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  .ministry__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ministry__cta {
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    padding: 10px 0;
+  }
+  .ministry__cta:hover { color: var(--color-green-deep); }
+
+  /* ========== BAND 5 — SCRIPTURE ========== */
+  .scripture {
+    background: var(--color-white);
+    padding: clamp(var(--space-14), 10vw, var(--space-16)) 0;
+  }
+  .scripture__inner { text-align: center; }
+  .scripture__quote {
+    margin: 0 auto var(--space-3) auto;
+    max-width: 56ch;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    line-height: 1.5;
+    color: var(--color-green-deep);
+    font-weight: 500;
+    border: 0; padding: 0;
+  }
+  .scripture__cite {
+    margin: 0;
+    color: var(--color-sage);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ========== BAND 6 — PARTNER WITH US TODAY ========== */
+  .partner {
+    background: var(--color-cream);
+    padding: clamp(var(--space-12), 8vw, var(--space-16)) 0;
+  }
+  .partner__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(var(--space-8), 6vw, var(--space-12));
+    align-items: center;
+  }
+  @media (max-width: 900px) { .partner__grid { grid-template-columns: 1fr; } }
+  .partner__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-6); }
+  .partner__h2 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1;
+    font-weight: 800;
+    color: var(--color-green-deep);
+    letter-spacing: -0.02em;
+  }
+  .partner__cta {
+    border-radius: 999px;
+    padding: 18px 32px;
+    font-size: 1rem;
+    box-shadow: 0 12px 28px rgba(11, 64, 36, 0.18);
+  }
+  .partner__cta:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(11, 64, 36, 0.25); }
+  .partner__photo {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(11, 64, 36, 0.14);
+  }
+  .partner__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ========== BAND 7 — STORIES OF TRANSFORMATION ========== */
+  .stories {
+    background: var(--color-white);
+    padding: clamp(var(--space-12), 8vw, var(--space-16)) 0;
+  }
+  .stories__header { margin-bottom: var(--space-10); }
+  .stories__h2 {
+    margin: 0;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-green-deep);
+    letter-spacing: -0.01em;
+  }
+  .stories__h2 a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 2px;
+  }
+  .stories__h2 a:hover { color: var(--color-gold); }
+  .stories__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-4);
+  }
+  @media (max-width: 1200px) { .stories__grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 900px)  { .stories__grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px)  { .stories__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 380px)  { .stories__grid { grid-template-columns: 1fr; } }
+  .story {
+    display: flex; flex-direction: column;
+    text-decoration: none;
+    color: var(--color-ink);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--color-white);
+    transition: transform 200ms, box-shadow 200ms;
+  }
+  .story:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(11, 64, 36, 0.12);
+  }
+  .story__photo {
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--color-sage-light);
+  }
+  .story__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .story__title {
+    margin: var(--space-3) 0 var(--space-2) 0;
+    padding: 0 var(--space-2);
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-green-deep);
+    line-height: 1.3;
   }
 </style>
