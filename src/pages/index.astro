@@ -95,14 +95,14 @@ const ministries = [
           <ul class="impact-story__numbers">
             <li>
               <span class="impact-story__value">195,773</span>
-              <span class="impact-story__label">Came to Christ</span>
+              <span class="impact-story__label">Came to Christ in 2025</span>
             </li>
             <li>
               <span class="impact-story__value">119,182</span>
-              <span class="impact-story__label">Discipled</span>
+              <span class="impact-story__label">Discipled through local churches</span>
             </li>
           </ul>
-          <p class="impact-story__source">Per Favor's 2025 field-team reports.</p>
+          <p class="impact-story__source">Per Favor's 2025 field-team reports. <a href="/about/accountability/">Verify the numbers &rarr;</a></p>
         </div>
         <figure class="impact-story__feature">
           <a class="impact-story__link" href={featuredStory.href}>
@@ -164,9 +164,56 @@ const ministries = [
     </section>
 
     <!-- ====================================================
-         BAND 5 — BECOME A FAVOR PARTNER (monthly giving)
-         Per review: "Insert a full-width band inviting visitors
-         to join the monthly giving community." Mid-page lead path.
+         BAND 5 — PRAY + GO (split panel; low-commitment asks)
+         Per v13 review: visitors who aren't ready to give should
+         see the no-cost engagement paths BEFORE the monthly ask.
+         ==================================================== -->
+    <section class="praygo">
+      <div class="container praygo__grid">
+        <a class="praygo__panel praygo__panel--pray" href="/pray/30-day-guide/">
+          <div class="praygo__bg" style="background-image: url(/images/ministry-house-of-prayer.jpg)" aria-hidden="true"></div>
+          <div class="praygo__scrim praygo__scrim--green" aria-hidden="true"></div>
+          <div class="praygo__copy">
+            <p class="praygo__eyebrow">Pray with us</p>
+            <h3 class="praygo__h3">You can pray where they cannot reach.</h3>
+            <p class="praygo__sub">One request per day across the 14 nations Favor serves. Free PDF. No signup.</p>
+            <span class="praygo__cta">Get the prayer guide <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+        <a class="praygo__panel praygo__panel--go" href="/go/vision-trips/">
+          <div class="praygo__bg" style="background-image: url(/images/story-vision-trip-team.jpg)" aria-hidden="true"></div>
+          <div class="praygo__scrim praygo__scrim--terracotta" aria-hidden="true"></div>
+          <div class="praygo__copy">
+            <p class="praygo__eyebrow">Walk with us</p>
+            <h3 class="praygo__h3">You can see the work for yourself.</h3>
+            <p class="praygo__sub">Small-team vision trips to Uganda, South Sudan, and Ethiopia. Spring and Fall 2026.</p>
+            <span class="praygo__cta">See trips <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 6 — JOHN 9:4 SCRIPTURE PAUSE
+         Sits between the low-commitment Pray/Go and the big
+         partner ask so the visitor catches a breath before the
+         monthly-giving moment.
+         ==================================================== -->
+    <section class="scripture">
+      <div class="container container--narrow scripture__inner">
+        <span class="scripture__rule" aria-hidden="true"></span>
+        <blockquote class="scripture__quote">
+          "We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work."
+        </blockquote>
+        <p class="scripture__cite">JOHN 9:4 &middot; AMPC</p>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         BAND 7 — BECOME A FAVOR PARTNER (monthly giving)
+         The primary mid-page ask. Sits after the scripture
+         pause and after the visitor has seen the work, the
+         pray/go options, and the impact numbers.
          ==================================================== -->
     <section class="partner" id="partner">
       <div class="container partner__grid">
@@ -180,49 +227,6 @@ const ministries = [
         <figure class="partner__photo">
           <img src="/images/partner-with-us.jpg" alt="A Favor field worker shares a meal with two men in a community gathering." loading="lazy" />
         </figure>
-      </div>
-    </section>
-
-    <!-- ====================================================
-         BAND 6 — JOHN 9:4 SCRIPTURE PAUSE
-         ==================================================== -->
-    <section class="scripture">
-      <div class="container container--narrow scripture__inner">
-        <span class="scripture__rule" aria-hidden="true"></span>
-        <blockquote class="scripture__quote">
-          "We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work."
-        </blockquote>
-        <p class="scripture__cite">JOHN 9:4 &middot; AMPC</p>
-      </div>
-    </section>
-
-    <!-- ====================================================
-         BAND 7 — PRAY + GO (split panel; the two non-give CTAs)
-         Per review: many visitors aren't ready to give. Offer
-         prayer + vision-trip options to keep them engaged.
-         ==================================================== -->
-    <section class="praygo">
-      <div class="container praygo__grid">
-        <a class="praygo__panel praygo__panel--pray" href="/pray/30-day-guide/">
-          <div class="praygo__bg" style="background-image: url(/images/ministry-house-of-prayer.jpg)" aria-hidden="true"></div>
-          <div class="praygo__scrim praygo__scrim--green" aria-hidden="true"></div>
-          <div class="praygo__copy">
-            <p class="praygo__eyebrow">Pray with us</p>
-            <h3 class="praygo__h3">You can pray where they cannot reach.</h3>
-            <p class="praygo__sub">One specific request per day across the 14 nations Favor serves. Free PDF. No signup.</p>
-            <span class="praygo__cta">Get the 30-Day Prayer Guide <span aria-hidden="true">&rarr;</span></span>
-          </div>
-        </a>
-        <a class="praygo__panel praygo__panel--go" href="/go/vision-trips/">
-          <div class="praygo__bg" style="background-image: url(/images/story-vision-trip-team.jpg)" aria-hidden="true"></div>
-          <div class="praygo__scrim praygo__scrim--terracotta" aria-hidden="true"></div>
-          <div class="praygo__copy">
-            <p class="praygo__eyebrow">Walk with us</p>
-            <h3 class="praygo__h3">You can see the work for yourself.</h3>
-            <p class="praygo__sub">Small-team vision trips to Uganda, South Sudan, and Ethiopia. Spring and Fall 2026.</p>
-            <span class="praygo__cta">See open vision trips <span aria-hidden="true">&rarr;</span></span>
-          </div>
-        </a>
       </div>
     </section>
 
@@ -309,7 +313,7 @@ const ministries = [
     <section class="final-cta">
       <div class="container final-cta__inner">
         <h2 class="final-cta__h2">Send a pastor today.</h2>
-        <p class="final-cta__sub">Your monthly partnership equips a field pastor, feeds a Village Learning Center child, or stocks a field clinic. Pick the work. Set the amount. Cancel anytime.</p>
+        <p class="final-cta__sub">Your monthly gift supports a pastor, feeds a student, and stocks a clinic. Pick the amount. Cancel anytime.</p>
         <a class="btn btn--primary btn--large final-cta__btn" href="/give/partner-monthly/">{CTA.partnerMonthly} <span aria-hidden="true">&rarr;</span></a>
       </div>
     </section>
@@ -438,6 +442,8 @@ const ministries = [
     color: var(--color-gold);
   }
   .impact-story__source { margin: 0; color: var(--color-sage); font-size: 0.82rem; font-style: italic; }
+  .impact-story__source a { color: var(--color-green-deep); font-style: normal; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--color-gold); padding-bottom: 1px; }
+  .impact-story__source a:hover { color: var(--color-gold); }
 
   .impact-story__feature { margin: 0; }
   .impact-story__link {
@@ -480,7 +486,7 @@ const ministries = [
     color: var(--color-green-deep);
     letter-spacing: -0.018em;
   }
-  .vm__mission { margin: 0 0 var(--space-6) 0; font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.65; color: var(--color-ink); font-weight: 500; }
+  .vm__mission { margin: 0 0 var(--space-6) 0; font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.65; color: var(--color-ink); font-weight: 600; }
   .vm__link { color: var(--color-green-deep); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
   .vm__link:hover { color: var(--color-gold); }
 
