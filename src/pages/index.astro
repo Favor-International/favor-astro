@@ -478,6 +478,11 @@ const ministries = [
   .vm { background: var(--color-cream); padding: clamp(var(--space-12), 8vw, var(--space-16)) 0; }
   .vm__grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(var(--space-8), 6vw, var(--space-14)); align-items: start; }
   @media (max-width: 900px) { .vm__grid { grid-template-columns: 1fr; } }
+  .vm__block {
+    padding-left: var(--space-6);
+    border-left: 4px solid var(--color-gold);
+  }
+  @media (max-width: 900px) { .vm__block { padding-left: var(--space-5); } }
   .vm__vision {
     margin: 0;
     font-size: clamp(2rem, 4.4vw, 3.4rem);
