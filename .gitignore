@@ -33,3 +33,4 @@ preview.log
 
 # IDE
 .vscode/
+.claude/

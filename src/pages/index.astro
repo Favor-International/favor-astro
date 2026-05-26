@@ -235,15 +235,16 @@ const featuredStories = [
           </div>
           <a class="stories-band__all" href="/stories/">All stories &rarr;</a>
         </header>
-        <div class="stories-band__grid">
-          {featuredStories.map((s) => (
-            <a class="story-card" href={s.href}>
-              <div class="story-card__photo" style={`background-image: url(${s.image})`} role="img" aria-label={s.title}></div>
-              <div class="story-card__body">
-                <span class="story-card__country">{s.country}</span>
-                <h3 class="story-card__title">{s.title}</h3>
-                <p class="story-card__excerpt">{s.excerpt}</p>
-                <span class="story-card__cta">Read the story &rarr;</span>
+        <div class="pillars__grid">
+          {PILLARS.map((p, i) => (
+            <a class="pillar" href={`/impact/${p.slug}/`}>
+              <div class="pillar__photo" style={`background-image: url(${pillarImages[p.slug]})`} role="img" aria-label={p.label}></div>
+              <div class="pillar__scrim" aria-hidden="true"></div>
+              <div class="pillar__body">
+                <span class="pillar__num">0{i + 1}</span>
+                <h3 class="pillar__title">{p.label}</h3>
+                <p class="pillar__blurb">{p.blurb}</p>
+                <span class="pillar__cta">Explore this pillar <span aria-hidden="true">&rarr;</span></span>
               </div>
             </a>
           ))}
@@ -335,6 +336,82 @@ const featuredStories = [
         <p class="trust__fdacs">
           A copy of the official registration and financial information for Favor International, Inc. (CH57842) may be obtained from the Florida Division of Consumer Services by visiting <a href="https://www.fdacs.gov/" target="_blank" rel="noopener">fdacs.gov</a> or calling toll-free 1-800-HELP-FLA (1-800-435-7352) within the state. Registration does not imply endorsement, approval, or recommendation by the State. Favor International, Inc. is a registered 501(c)(3) nonprofit organization. EIN {SITE.ein}.
         </p>
+      </div>
+    </section>
+
+    <!-- BAND 7: Pray + Go (split-band) -->
+    <section class="praygo">
+      <a class="praygo__panel praygo__panel--pray" href="/pray/30-day-guide/">
+        <div class="praygo__photo" style="background-image: url(/images/hero-prayer-team.jpg)" aria-hidden="true"></div>
+        <div class="praygo__scrim praygo__scrim--green" aria-hidden="true"></div>
+        <div class="praygo__body">
+          <p class="praygo__eyebrow">Pray with us</p>
+          <h3 class="praygo__h3">You can pray where they cannot reach.</h3>
+          <p class="praygo__lede">One specific request a day, across 14 nations Favor serves. Free PDF, no signup.</p>
+          <span class="praygo__cta">Get the 30-Day Prayer Guide <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="praygo__panel praygo__panel--go" href="/go/vision-trips/">
+        <div class="praygo__photo" style="background-image: url(/images/pbs-karamoja.jpg)" aria-hidden="true"></div>
+        <div class="praygo__scrim praygo__scrim--terracotta" aria-hidden="true"></div>
+        <div class="praygo__body">
+          <p class="praygo__eyebrow">Walk with us</p>
+          <h3 class="praygo__h3">See it for yourself.</h3>
+          <p class="praygo__lede">Small-team vision trips to Uganda, South Sudan, and Ethiopia. Spring and Fall 2026.</p>
+          <span class="praygo__cta">See open vision trips <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+    </section>
+
+    <!-- BAND 8: Newsletter (sage-light, single-field) -->
+    <section class="newsletter">
+      <div class="container container--narrow newsletter__inner">
+        <p class="band-head__eyebrow newsletter__eyebrow">Field report</p>
+        <h2 class="newsletter__h2">One short email. Every other week.</h2>
+        <p class="newsletter__body">Real names, real numbers, real prayer requests from the field. Unsubscribe in one click.</p>
+        <form class="newsletter__form" action="/newsletter/" method="get">
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <input class="newsletter__input" id="newsletter-email" type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+          <button class="btn btn--primary newsletter__submit" type="submit">Subscribe <span aria-hidden="true">&rarr;</span></button>
+        </form>
+        <p class="newsletter__privacy">We never sell or share your email. Read our <a href="/about/accountability/">accountability practice</a>.</p>
+      </div>
+    </section>
+
+    <!-- BAND 9: Trust strip (compact, horizontal, near footer) -->
+    <section class="trust">
+      <div class="container trust__inner">
+        <p class="trust__lede">You can verify every dollar.</p>
+        <ul class="trust__row">
+          <li class="trust__item">
+            <a href={SITE.trust.ecfa} target="_blank" rel="noopener" class="trust__link">
+              <span class="trust__badge" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 4 8 14v18c0 13 11 25 24 28 13-3 24-15 24-28V14L32 4z"/><path d="M22 33l7 7 13-15"/></svg>
+                <span class="trust__badge-text">ECFA</span>
+              </span>
+              <span class="trust__label">ECFA-accredited <em>since 2019</em></span>
+            </a>
+          </li>
+          <li class="trust__item">
+            <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener" class="trust__link">
+              <span class="trust__badge" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="currentColor"><path d="M32 6l7.4 14.9L56 23.3l-12 11.7 2.8 16.6L32 43.8l-14.8 7.8L20 35 8 23.3l16.6-2.4L32 6z"/></svg>
+                <span class="trust__badge-text">4★</span>
+              </span>
+              <span class="trust__label">Charity Navigator <em>Four-Star rating</em></span>
+            </a>
+          </li>
+          <li class="trust__item">
+            <a href={SITE.trust.candid} target="_blank" rel="noopener" class="trust__link">
+              <span class="trust__badge" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26"/><path d="M44 24c-2-4-6-6-12-6-6 0-12 4-12 14s6 14 12 14c6 0 10-2 12-6"/></svg>
+                <span class="trust__badge-text">Platinum</span>
+              </span>
+              <span class="trust__label">Candid Platinum <em>transparency seal</em></span>
+            </a>
+          </li>
+        </ul>
+        <p class="trust__ein">EIN {SITE.ein} · FY2024 Form 990 on file · Tax-deductible · 501(c)(3)</p>
       </div>
     </section>
 
@@ -571,7 +648,10 @@ const featuredStories = [
     color: var(--color-green-deep);
     line-height: 1.1;
     font-weight: 800;
-    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--color-green-deep);
+    letter-spacing: -0.03em;
+    max-width: 14ch;
   }
   .pillars-band__lede { margin: var(--space-5) auto 0 auto; color: var(--color-ink-soft); font-size: 1.05rem; line-height: 1.65; max-width: 60ch; }
   .pillars-band__grid {
@@ -586,6 +666,82 @@ const featuredStories = [
     background: var(--color-white);
     border-radius: 14px;
     overflow: hidden;
+    text-decoration: none;
+    color: var(--color-white);
+    box-shadow: 0 14px 40px rgba(11, 64, 36, 0.15);
+    isolation: isolate;
+    transition: transform 280ms ease, box-shadow 280ms ease;
+  }
+  .pillar:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 60px rgba(11, 64, 36, 0.28);
+  }
+  .pillar__photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform 700ms ease;
+  }
+  .pillar:hover .pillar__photo { transform: scale(1.06); }
+  .pillar__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(11, 64, 36, 0) 0%, rgba(11, 64, 36, 0.15) 40%, rgba(11, 64, 36, 0.95) 100%);
+  }
+  .pillar__body {
+    position: absolute;
+    inset: auto var(--space-6) var(--space-6) var(--space-6);
+    z-index: 2;
+    display: flex; flex-direction: column;
+    gap: var(--space-2);
+  }
+  .pillar__num {
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    font-weight: 800;
+    color: var(--color-gold);
+    margin-bottom: var(--space-2);
+  }
+  .pillar__title {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-white);
+    letter-spacing: -0.01em;
+  }
+  .pillar__blurb {
+    margin: var(--space-2) 0 var(--space-3) 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+  }
+  .pillar__cta {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    letter-spacing: 0.04em;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-gold) 60%, transparent);
+    align-self: flex-start;
+    padding-bottom: 2px;
+    transition: border-color 200ms;
+  }
+  .pillar:hover .pillar__cta { border-bottom-color: var(--color-gold); }
+
+  /* ===== BAND 4: STORIES (white, 1 lead + 2 stacked) ===== */
+  .stories {
+    background: var(--color-white);
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) 0;
+  }
+  .stories__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--space-8);
+  }
+  @media (max-width: 980px) { .stories__grid { grid-template-columns: 1fr; } }
+  .story {
+    display: block;
     text-decoration: none;
     color: var(--color-ink);
     border: 1px solid color-mix(in srgb, var(--color-sage) 30%, transparent);
@@ -782,7 +938,7 @@ const featuredStories = [
     color: var(--color-green-deep);
     line-height: 1.05;
     font-weight: 800;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.018em;
   }
   .partner__lede { margin: 0 0 var(--space-3) 0; color: var(--color-ink); font-size: 1.1rem; line-height: 1.65; }
   .partner__line { margin: 0 0 var(--space-6) 0; font-size: 0.92rem; color: var(--color-ink-soft); }
@@ -835,18 +991,20 @@ const featuredStories = [
     font-size: 0.78rem; font-weight: 500;
     color: var(--color-sage);
     margin-left: 4px;
+    letter-spacing: 0;
   }
-  .partner-tier__label {
-    margin-top: var(--space-1);
-    font-size: 0.74rem;
-    letter-spacing: 0.1em;
+  .tier__label {
+    margin-top: var(--space-3);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--color-sage);
   }
-  .partner-tier--featured {
+  .tier--featured {
     background: var(--color-gold);
     border-color: var(--color-gold);
+    box-shadow: 0 12px 28px rgba(225, 167, 48, 0.36);
   }
   .partner-tier--featured .partner-tier__amount,
   .partner-tier--featured .partner-tier__label,
@@ -856,12 +1014,13 @@ const featuredStories = [
     top: -10px; left: var(--space-5);
     background: var(--color-green-deep);
     color: var(--color-gold);
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     padding: 4px 8px;
     border-radius: 4px;
+    border: 1px solid var(--color-gold);
   }
 
   /* ========== BAND 8 — SCRIPTURE ========== */
