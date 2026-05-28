@@ -13,11 +13,8 @@ function isCurrent(href: string) {
   <div class="site-header__bar">
     <div class="site-header__inner">
       <a class="site-header__brand" href="/" aria-label={`${SITE.name} home`}>
-        <img class="site-header__logo" src="/images/favor-logo.png" alt={SITE.name} width="180" height="180" />
-        <span class="site-header__wordmark">
-          <span class="site-header__wordmark-top">Favor</span>
-          <span class="site-header__wordmark-bottom">International</span>
-        </span>
+        <img class="site-header__logo site-header__logo--white" src="/images/favor-logo-white.png" alt={SITE.name} width="1358" height="443" />
+        <img class="site-header__logo site-header__logo--color" src="/images/favor-logo-color.png" alt={SITE.name} width="1358" height="443" />
       </a>
 
       <nav class="site-header__nav" aria-label="Primary">
@@ -214,7 +211,10 @@ function isCurrent(href: string) {
     background: var(--color-white);
     border-bottom-color: var(--color-border);
   }
-  .site-header--transparent.is-menu-open { position: absolute; }
+  /* Menu-open only forces absolute when at the top of the page.
+     If the user is scrolled, the header must stay fixed so it remains
+     visible while interacting with the mega menu. */
+  .site-header--transparent.is-menu-open:not(.is-scrolled) { position: absolute; }
   .site-header--transparent.is-menu-open .site-header__wordmark-top { color: var(--color-green); }
   .site-header--transparent.is-menu-open .site-header__wordmark-bottom { color: var(--color-sage); }
   .site-header--transparent.is-menu-open .mega-item__trigger { color: var(--color-green); }
@@ -235,38 +235,31 @@ function isCurrent(href: string) {
   .site-header__brand {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
     text-decoration: none;
-    color: var(--color-green);
+    position: relative;
   }
+  /* Stack the two logo variants in the same slot; toggle which one is
+     visible based on header state (transparent at top of page → white,
+     opaque/scrolled/menu-open → color). */
   .site-header__logo {
-    width: 44px; height: 44px;
+    height: 56px;
+    width: auto;
     object-fit: contain;
     display: block;
+    transition: opacity 200ms;
   }
-  .site-header__wordmark {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-  .site-header__wordmark-top {
-    font-weight: 800;
-    font-size: 1.05rem;
-    letter-spacing: 0.02em;
-    color: var(--color-green);
-  }
-  .site-header__wordmark-bottom {
-    font-weight: 600;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-sage);
-    margin-top: 2px;
-  }
-  .site-header--transparent .site-header__wordmark-top { color: var(--color-white); }
-  .site-header--transparent .site-header__wordmark-bottom { color: color-mix(in srgb, var(--color-white) 80%, transparent); }
-  .site-header--transparent.is-scrolled .site-header__wordmark-top { color: var(--color-green); }
-  .site-header--transparent.is-scrolled .site-header__wordmark-bottom { color: var(--color-sage); }
+  .site-header__logo--color { display: block; }
+  .site-header__logo--white { display: none; }
+  /* On a transparent header (top of page over the hero video) we want
+     the all-white logo to read clearly against the dark scrim. */
+  .site-header--transparent .site-header__logo--white { display: block; }
+  .site-header--transparent .site-header__logo--color { display: none; }
+  /* Once the user scrolls or opens the mega menu, the header becomes
+     white-backgrounded and the color logo reads correctly again. */
+  .site-header--transparent.is-scrolled .site-header__logo--white,
+  .site-header--transparent.is-menu-open .site-header__logo--white { display: none; }
+  .site-header--transparent.is-scrolled .site-header__logo--color,
+  .site-header--transparent.is-menu-open .site-header__logo--color { display: block; }
 
   .site-header__nav ul {
     display: flex;

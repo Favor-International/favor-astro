@@ -1,0 +1,378 @@
+---
+// Interactive Africa map for the home page. Shows the 10-40 Window
+// region (top half of Africa). Sage-tinted countries are context;
+// gold countries are where Favor International actively works. Red
+// dot clusters mark approximate concentrations of mission stations
+// matching the reference map. Hover or tap a country for its name.
+//
+// Projection is equirectangular over viewBox 0,0 1000x800 (see
+// scripts that generated africa-paths.json from public geo data).
+
+import paths from '../../data/africa-paths.json';
+
+// Nations where Favor International is actively serving.
+const ACTIVE = new Set<string>([
+  'south-sudan',
+  'uganda',
+  'ethiopia',
+  'sudan',
+  'chad',
+  'kenya',
+  'democratic-republic-of-the-congo',
+  'eritrea',
+  'central-african-republic',
+  'rwanda',
+  'burundi',
+  'somalia',
+  'djibouti',
+  'tanzania', // not in path data but reserved
+]);
+
+// Approximate dot-cluster positions, generated from the reference map
+// (lat/lng converted to the same equirectangular projection used by
+// africa-paths.json). Each cluster is rendered as a small group of
+// red dots to mirror the field map's visual density.
+const dots: { x: number; y: number }[] = [];
+function cluster(centerLng: number, centerLat: number, count: number, spread = 0.7) {
+  // Deterministic pseudo-random offsets so the map is stable build-to-build
+  for (let i = 0; i < count; i++) {
+    const angle = (i * 137.5) * Math.PI / 180; // golden-angle scatter
+    const r = spread * Math.sqrt(i / count);
+    const lng = centerLng + Math.cos(angle) * r;
+    const lat = centerLat + Math.sin(angle) * r;
+    const x = (lng + 20) * (1000 / 75);
+    const y = (38 - lat) * (800 / 50);
+    dots.push({ x: +x.toFixed(1), y: +y.toFixed(1) });
+  }
+}
+// Heavy concentration in the South Sudan / Uganda / Ethiopia triangle
+cluster(31, 7, 22, 2.0);   // South Sudan
+cluster(32, 3, 14, 1.2);   // northern Uganda
+cluster(37, 9, 16, 1.6);   // western Ethiopia
+cluster(30, 11, 10, 1.4);  // Sudan/SSD border
+cluster(28, -1, 6, 1.0);   // eastern DRC
+cluster(20, 13, 6, 1.1);   // eastern Chad
+cluster(36, 2, 5, 0.8);    // northern Kenya
+cluster(41, 4, 4, 0.6);    // Somalia/Ogaden region
+
+// Sort by alphabetical for stable rendering
+const countries = Object.entries(paths) as [string, { name: string; d: string }][];
+---
+
+<section class="africa-map" aria-label="Where your partnership reaches across Africa">
+  <div class="container africa-map__inner">
+    <header class="africa-map__head">
+      <p class="eyebrow eyebrow--gold">Where your partnership reaches</p>
+      <h2 class="africa-map__h2">Every dot is a village where the Gospel has gone.</h2>
+      <p class="africa-map__lede">
+        Across the 10-40 Window, Favor's indigenous missionaries plant churches in places no other ministry will go.
+        Hover any country to see where you're sending them.
+      </p>
+    </header>
+
+    <div class="africa-map__board">
+      <svg
+        class="africa-map__svg"
+        viewBox="0 0 1000 800"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-labelledby="africa-map-title"
+      >
+        <title id="africa-map-title">Map of Northern and Central Africa showing Favor International mission locations</title>
+
+        <defs>
+          <pattern id="textile-bg" x="0" y="0" width="180" height="180" patternUnits="userSpaceOnUse">
+            <image href="/images/patterns/Pattern 2-04.png" x="0" y="0" width="180" height="180" preserveAspectRatio="xMidYMid slice" opacity="0.06" />
+          </pattern>
+        </defs>
+
+        <rect x="0" y="0" width="1000" height="800" fill="url(#textile-bg)" />
+
+        <g class="africa-map__countries">
+          {countries.map(([slug, c]) => (
+            <path
+              d={c.d}
+              data-name={c.name}
+              data-active={ACTIVE.has(slug) ? 'true' : 'false'}
+              class={ACTIVE.has(slug) ? 'country country--active' : 'country country--context'}
+            />
+          ))}
+        </g>
+
+        <g class="africa-map__dots" aria-hidden="true">
+          {dots.map((d) => (
+            <circle cx={d.x} cy={d.y} r="3" />
+          ))}
+        </g>
+
+        <text x="35" y="58" class="africa-map__label">10–40 Window</text>
+        <text x="35" y="80" class="africa-map__label africa-map__label--soft">Northern Africa, the Middle East, parts of Asia</text>
+
+        <g class="africa-map__verse" transform="translate(680, 50)">
+          <text class="africa-map__verse-line" y="0">"And this Gospel of the kingdom</text>
+          <text class="africa-map__verse-line" y="22">shall be preached in all the world..."</text>
+          <text class="africa-map__verse-cite" y="48">Matthew 24:14</text>
+        </g>
+      </svg>
+
+      <aside class="africa-map__panel" id="africa-map-panel">
+        <p class="africa-map__panel-label">Active nation</p>
+        <p class="africa-map__panel-name" data-default="Hover a country">Hover a country</p>
+        <p class="africa-map__panel-note">
+          Favor is active across 14 nations of East and Central Africa. The dots mark mission stations,
+          Portable Bible School locations, and active church plants.
+        </p>
+        <ul class="africa-map__legend">
+          <li><span class="dot dot--active"></span> Favor active</li>
+          <li><span class="dot dot--context"></span> 10-40 Window</li>
+          <li><span class="dot dot--cluster"></span> Mission station</li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="africa-map__stats">
+      <div class="africa-map__stat">
+        <span class="africa-map__stat-num">524,673</span>
+        <span class="africa-map__stat-label">Total salvations</span>
+      </div>
+      <span class="africa-map__stat-divider" aria-hidden="true"></span>
+      <div class="africa-map__stat">
+        <span class="africa-map__stat-num">3,635</span>
+        <span class="africa-map__stat-label">PBS locations</span>
+      </div>
+      <span class="africa-map__stat-divider" aria-hidden="true"></span>
+      <div class="africa-map__stat">
+        <span class="africa-map__stat-num">14</span>
+        <span class="africa-map__stat-label">Nations served</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Lightweight hover/tap interactivity. No framework needed.
+  const svg = document.querySelector('.africa-map__svg');
+  const panel = document.getElementById('africa-map-panel');
+  if (svg && panel) {
+    const nameEl = panel.querySelector('.africa-map__panel-name') as HTMLElement | null;
+    const labelEl = panel.querySelector('.africa-map__panel-label') as HTMLElement | null;
+    const defaultName = nameEl?.dataset.default ?? '';
+    const onIn = (e: Event) => {
+      const t = e.target as SVGPathElement;
+      if (!t.matches('path.country')) return;
+      const name = t.getAttribute('data-name') ?? '';
+      const active = t.getAttribute('data-active') === 'true';
+      if (nameEl) nameEl.textContent = name;
+      if (labelEl) labelEl.textContent = active ? 'Active nation' : '10-40 Window';
+    };
+    const onOut = () => {
+      if (nameEl) nameEl.textContent = defaultName;
+      if (labelEl) labelEl.textContent = 'Active nation';
+    };
+    svg.addEventListener('mouseover', onIn);
+    svg.addEventListener('focusin', onIn);
+    svg.addEventListener('mouseleave', onOut);
+    svg.addEventListener('focusout', onOut);
+  }
+</script>
+
+<style>
+  .africa-map {
+    background: var(--color-cream);
+    padding: clamp(var(--space-12), 9vw, var(--space-16)) 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .africa-map__head {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto clamp(var(--space-12), 6vw, var(--space-16)) auto;
+  }
+  .africa-map__h2 {
+    margin: 0 0 var(--space-4) 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+    line-height: 1.12;
+    color: var(--color-green-deep);
+    letter-spacing: -0.01em;
+  }
+  .africa-map__lede {
+    margin: 0;
+    color: var(--color-ink-soft);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .africa-map__board {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: clamp(var(--space-6), 4vw, var(--space-10));
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .africa-map__board { grid-template-columns: 1fr; }
+  }
+
+  .africa-map__svg {
+    width: 100%;
+    height: auto;
+    background: var(--color-white);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(11, 64, 36, 0.12);
+    display: block;
+  }
+
+  .country {
+    stroke: var(--color-white);
+    stroke-width: 1;
+    transition: fill 200ms;
+    cursor: pointer;
+  }
+  .country--context {
+    fill: var(--color-sage-light);
+  }
+  .country--active {
+    fill: var(--color-gold);
+  }
+  .country--context:hover,
+  .country--context:focus-visible {
+    fill: var(--color-sage);
+    outline: none;
+  }
+  .country--active:hover,
+  .country--active:focus-visible {
+    fill: var(--color-terracotta);
+    outline: none;
+  }
+
+  .africa-map__dots circle {
+    fill: #c0392b;
+    fill-opacity: 0.85;
+    stroke: #ffffff;
+    stroke-width: 0.5;
+    pointer-events: none;
+  }
+
+  .africa-map__label {
+    font-family: var(--font-brand);
+    font-size: 16px;
+    fill: var(--color-green-deep);
+    letter-spacing: 4px;
+    font-weight: 200;
+    text-transform: uppercase;
+  }
+  .africa-map__label--soft {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--color-ink-soft);
+    letter-spacing: 0.6px;
+    text-transform: none;
+    font-weight: 400;
+  }
+  .africa-map__verse-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    fill: var(--color-green-deep);
+  }
+  .africa-map__verse-cite {
+    font-family: var(--font-brand);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    fill: var(--color-gold);
+    font-weight: 200;
+  }
+
+  /* Side info panel */
+  .africa-map__panel {
+    background: var(--color-white);
+    border-radius: 14px;
+    padding: var(--space-8);
+    border-left: 4px solid var(--color-gold);
+    box-shadow: 0 4px 16px rgba(11, 64, 36, 0.06);
+    position: sticky;
+    top: var(--space-6);
+  }
+  .africa-map__panel-label {
+    margin: 0 0 var(--space-2) 0;
+    font-family: var(--font-brand);
+    font-size: 0.75rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    font-weight: 200;
+  }
+  .africa-map__panel-name {
+    margin: 0 0 var(--space-4) 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--color-green-deep);
+    line-height: 1.1;
+  }
+  .africa-map__panel-note {
+    margin: 0 0 var(--space-6) 0;
+    color: var(--color-ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .africa-map__legend {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: 0.85rem;
+    color: var(--color-ink-soft);
+  }
+  .africa-map__legend li { display: flex; align-items: center; gap: var(--space-3); }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot--active { background: var(--color-gold); }
+  .dot--context { background: var(--color-sage-light); }
+  .dot--cluster { background: #c0392b; width: 8px; height: 8px; }
+
+  /* Cumulative stats below the map */
+  .africa-map__stats {
+    margin-top: clamp(var(--space-8), 5vw, var(--space-12));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(var(--space-6), 5vw, var(--space-12));
+    flex-wrap: wrap;
+  }
+  .africa-map__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+  .africa-map__stat-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    color: var(--color-green-deep);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .africa-map__stat-label {
+    font-family: var(--font-brand);
+    font-size: 0.75rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    font-weight: 200;
+  }
+  .africa-map__stat-divider {
+    width: 1px;
+    height: 48px;
+    background: var(--color-gold);
+    opacity: 0.4;
+  }
+  @media (max-width: 700px) {
+    .africa-map__stat-divider { display: none; }
+  }
+</style>

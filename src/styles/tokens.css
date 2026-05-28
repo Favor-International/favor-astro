@@ -16,8 +16,12 @@
   --color-ink-soft: #3a3a3a;
   --color-border: #e5e0d6;
 
-  /* Type */
+  /* Type — semantic roles */
   --font-sans: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-script: 'Caveat', 'Bradley Hand', cursive;
+  --font-brand: 'Bentoga', 'Playfair Display', serif;
   --font-size-base: 16px;
   --font-size-small: 14px;
   --font-size-label: 12px;

@@ -1,0 +1,30 @@
+---
+// African-textile horizontal divider strip placed between page sections.
+// Renders a real Gemini-generated mud-cloth/Kente pattern image (cream or
+// green base). Designed to span full viewport width and read as a clean
+// decorative seam between two content bands.
+
+export interface Props {
+  variant?: 'cream' | 'green';
+  height?: string;
+}
+
+const { variant = 'cream', height = '110px' } = Astro.props as Props;
+
+const src = variant === 'green'
+  ? '/images/patterns/divider-green.png'
+  : '/images/patterns/divider-cream.png';
+
+const style = `height: ${height}; background-image: url('${src}');`;
+---
+<div class="pattern-divider" style={style} aria-hidden="true"></div>
+
+<style>
+  .pattern-divider {
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: block;
+  }
+</style>

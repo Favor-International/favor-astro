@@ -4,7 +4,7 @@ import { SITE } from '../../lib/site';
 <footer class="site-footer">
   <div class="container site-footer__top">
     <div class="site-footer__brand">
-      <img class="site-footer__logo" src="/images/favor-logo.png" alt={SITE.name} width="180" height="180" />
+      <img class="site-footer__logo" src="/images/favor-dove-white.png" alt={SITE.name} width="1000" height="1000" />
       <p class="site-footer__name">{SITE.name}</p>
       <p class="site-footer__signature">{SITE.signature}</p>
       <address>
@@ -123,23 +123,58 @@ import { SITE } from '../../lib/site';
   .site-footer__col li { margin-bottom: var(--space-2); font-size: 0.92rem; }
 
   .site-footer__trust-list { margin-bottom: var(--space-6) !important; }
-  .site-footer__badges { display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap; margin-bottom: var(--space-4); }
-  .site-footer__badges img { background: white; border-radius: 50%; padding: 4px; transition: transform 160ms; }
+  /* Three trust badges in a row, evenly sized columns so they fit inside
+     the narrow Trust column without wrapping. */
+  .site-footer__badges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+  .site-footer__badges a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .site-footer__badges img {
+    width: 100%;
+    max-width: 56px;
+    height: auto;
+    background: white;
+    border-radius: 50%;
+    padding: 4px;
+    transition: transform 160ms;
+  }
   .site-footer__badges img[src$=".svg"] { background: transparent; padding: 0; }
   .site-footer__badges a:hover img { transform: scale(1.05); }
-  .site-footer__ein { font-size: 0.8rem; color: color-mix(in srgb, var(--color-white) 65%, transparent); margin: 0 0 var(--space-6); }
+  .site-footer__ein {
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--color-white);
+    margin: 0 0 var(--space-6);
+    text-align: center;
+  }
 
-  .site-footer__social { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  /* Social row: all five icons on a single line. Smaller circles, no
+     wrap, equal spacing. Narrow column forces tight icons. */
+  .site-footer__social {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
   .site-footer__social li { margin: 0; }
   .site-footer__social a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     border: 1px solid color-mix(in srgb, var(--color-white) 35%, transparent);
     border-radius: 50%;
-    font-size: 0.7rem;
+    font-size: 0.62rem;
     font-weight: 700;
   }
   .site-footer__social a:hover { background: var(--color-gold); color: var(--color-ink); border-color: var(--color-gold); }

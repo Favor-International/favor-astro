@@ -34,3 +34,13 @@ preview.log
 # IDE
 .vscode/
 .claude/
+
+# Playwright debug artifacts
+.playwright-mcp/
+
+# Debug screenshots dropped in repo root during development
+/*.png
+/*.jpg
+
+# Raw source media (encoded versions live in public/videos/)
+/*.mp4
