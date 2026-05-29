@@ -4,7 +4,7 @@ import PageHero from '../../components/band/PageHero.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import directorsData from '../../data/directors.json';
 
-// Board of Directors — 9 volunteer board members. Source: Webflow CMS Directors collection.
+// Board of Directors: 9 volunteer board members. Source: Webflow CMS Directors collection.
 const board = directorsData
   .filter(d => /board/i.test(d.type))
   .sort((a, b) => (a.order || 999) - (b.order || 999));
@@ -62,7 +62,7 @@ const board = directorsData
 
   <CtaBand
     heading="Read the financial accountability page."
-    body="ECFA, Charity Navigator, Candid Platinum — the third-party signals that show where the money goes."
+    body="ECFA, Charity Navigator, Candid Platinum: the third-party signals that show where the money goes."
     ctaLabel="Financial accountability"
     ctaHref="/about/accountability/"
     variant="sage"

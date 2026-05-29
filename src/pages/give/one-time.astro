@@ -45,6 +45,21 @@ import { SITE } from '../../lib/site';
     </div>
   </section>
 
+  <section class="band band--sage">
+    <div class="container container--narrow">
+      <p class="label">More ways to give once</p>
+      <h2>Check, Zelle, CashApp, wire, stock, and PayPal.</h2>
+      <ul class="give-methods">
+        <li><strong>By check.</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</li>
+        <li><strong>Zelle.</strong> Send to admin@favorintl.org.</li>
+        <li><strong>CashApp.</strong> Send to the CashTag $FavorIntl.</li>
+        <li><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</li>
+        <li><strong>Stock and securities.</strong> Give appreciated stock through our stock-gift form. Email {SITE.emailGeneral} and we will send it.</li>
+        <li><strong>PayPal, ACH, and credit card.</strong> All available through our online giving portal.</li>
+      </ul>
+    </div>
+  </section>
+
   <CtaBand
     heading="Already a Favor Partner?"
     body="Thank you. A second gift on top of your monthly partnership goes directly to the next field need."
@@ -71,4 +86,7 @@ import { SITE } from '../../lib/site';
   }
   .quick:hover { border-color: var(--color-gold); transform: translateY(-2px); }
   .quick--custom { font-size: 1.1rem; }
+  .give-methods { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; gap: var(--space-3); }
+  .give-methods li { padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.55; }
+  .give-methods strong { color: var(--color-green); }
 </style>

@@ -1,4 +1,4 @@
-/* Body — Montserrat (stand-in for licensed Garet) */
+/* Body: Montserrat (stand-in for licensed Garet) */
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/montserrat-300.woff2') format('woff2');
@@ -35,7 +35,7 @@
   font-display: swap;
 }
 
-/* Display headlines — Playfair Display (variable, full weight range) */
+/* Display headlines: Playfair Display (variable, full weight range) */
 @font-face {
   font-family: 'Playfair Display';
   src: url('/fonts/PlayfairDisplay-VariableFont.ttf') format('truetype-variations');
@@ -51,7 +51,7 @@
   font-display: swap;
 }
 
-/* Handwritten accent — Biro Script Plus (Carole's voice, pull quotes) */
+/* Handwritten accent: Biro Script Plus (Carole's voice, pull quotes) */
 @font-face {
   font-family: 'Biro Script Plus';
   src: url('/fonts/BiroScriptPlus.ttf') format('truetype');
@@ -60,7 +60,7 @@
   font-display: swap;
 }
 
-/* Brand accent — Bentoga Thin (eyebrows, small wordmark moments only) */
+/* Brand accent: Bentoga Thin (eyebrows, small wordmark moments only) */
 @font-face {
   font-family: 'Bentoga';
   src: url('/fonts/Bentoga-Thin.otf') format('opentype');

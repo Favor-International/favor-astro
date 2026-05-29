@@ -10,9 +10,9 @@ import CtaBand from '../../components/band/CtaBand.astro';
   <PageHero
     label="Our story"
     title="The conviction Favor was born from."
-    promise={'"Lord, send me where no one wants to GO, to do what no one wants to DO." — Carole Ward'}
+    promise={'"Lord, send me where no one wants to GO, to do what no one wants to DO." (Carole Ward)'}
     image="/images/about-original-house.jpg"
-    imageAlt="The original Favor House — where the work began"
+    imageAlt="The original Favor House, where the work began"
     variant="split"
   />
 
@@ -22,7 +22,7 @@ import CtaBand from '../../components/band/CtaBand.astro';
       <blockquote class="founding-quote">
         &ldquo;Lord, send me where no one wants to <span class="green-word">GO</span>, to do what no one wants to <span class="green-word">DO</span>.&rdquo;
       </blockquote>
-      <p class="founding-cite">— Carole Ward, Founder</p>
+      <p class="founding-cite">Carole Ward, Founder</p>
 
       <h2>The beginning.</h2>
       <p>Carole Ward moved to Uganda in 2002 during a 20-year horrific war, serving and training African leaders from all backgrounds to pray. Together they saw the war end, and she began equipping them to reach their own people with the power of the Gospel.</p>
@@ -36,6 +36,43 @@ import CtaBand from '../../components/band/CtaBand.astro';
       <p>Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
 
       <p style="margin-top: var(--space-6);"><a href="/about/our-story/founder/" class="story-link">Read the full founder's story →</a></p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <p class="label">The story, year by year</p>
+      <h2>How the work grew.</h2>
+
+      <div class="milestone">
+        <h3>2004</h3>
+        <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
+        <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
+        <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
+        <ul class="milestone-stats">
+          <li>Distributed 80,000+ Bibles,</li>
+          <li>Trained 7,000+ pastors,</li>
+          <li>Built a school with 400 attending,</li>
+          <li>Graduated 500+ leaders from a Bible college,</li>
+          <li>Reached 50,000+ through trauma counseling,</li>
+          <li>Built the first Christian radio station,</li>
+          <li>Held crusades with 1 million+ attending,</li>
+          <li>Trained government leaders,</li>
+          <li>Conducted mobile medical clinics for 8,000+ patients.</li>
+        </ul>
+      </div>
+
+      <div class="milestone">
+        <h3>2005</h3>
+        <p>A real turning point in our story was the National Prayer Gathering in Gulu. The Lord prompted us to organize a gathering in the War Memorial Stadium to unify the tribes, leaders, churches, and regions in Uganda in repentant prayer for the ending of the war. We planned a 77 hour prayer meeting, 11 hours a day for 7 days in December 2005. Radio stations were contacted to spread the news and word spread like wildfire. The day finally approached and over 1,000 people, including political leaders, gathered inside this humble stadium to join in intense, radical, united prayer.</p>
+        <p>As a result, the war stopped and many significant stories of radical transformation followed. Pastors reported that they sensed heaven opening in a new way. Government officials called and testified of a strong sense that the spiritual climate over the area had changed. Miracles were occurring in local churches. It even led to inaugurating the month of January as the month of prayer.</p>
+      </div>
+
+      <div class="milestone">
+        <h3>2015 to now</h3>
+        <p>We began to focus more direct efforts to South Sudan in 2007 by sending missionaries and Portable Bible School (PBS) programs. We organized a legal presence in the nation through trusted Portable Bible School graduates and purchased our first office space in Juba in 2015. That same year we hosted a national prayer meeting in Juba, the capital of South Sudan, just as we did in Uganda, to bring God&rsquo;s repentance, revival, and restoration.</p>
+        <p>In the years since, we have continued establishing Houses of Prayer in strategic locations across Uganda and South Sudan. In the early part of 2024, we also established a House of Prayer in N&rsquo;Djamena, the capital city of Chad.</p>
+      </div>
     </div>
   </section>
 
@@ -79,4 +116,22 @@ import CtaBand from '../../components/band/CtaBand.astro';
     text-decoration: none;
     border-bottom: 2px solid var(--color-gold);
   }
+  .milestone { padding: var(--space-6) 0; border-top: 1px solid var(--color-border); }
+  .milestone:first-of-type { border-top: 0; }
+  .milestone h3 {
+    margin: 0 0 var(--space-3);
+    color: var(--color-gold-deep);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .milestone p { margin: 0 0 var(--space-3); color: var(--color-ink-soft); }
+  .milestone-stats {
+    margin: var(--space-3) 0 0;
+    padding-left: var(--space-6);
+    display: grid;
+    gap: var(--space-1);
+    color: var(--color-ink-soft);
+  }
+  .milestone-stats li { line-height: 1.5; }
 </style>

@@ -29,6 +29,14 @@ import { SITE } from '../../lib/site';
             <li><strong>Hours:</strong> {SITE.hours}</li>
             <li><strong>Mailing:</strong> {SITE.mailing}</li>
           </ul>
+          <p class="label" style="margin-top: var(--space-8);">Follow Favor</p>
+          <ul class="contact-social">
+            <li><a href={SITE.social.facebook} target="_blank" rel="noopener">Facebook</a></li>
+            <li><a href={SITE.social.instagram} target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href={SITE.social.youtube} target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href={SITE.social.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href={SITE.social.twitter} target="_blank" rel="noopener">X</a></li>
+          </ul>
         </div>
         <form class="contact-form" action="/contact/submit" method="post">
           <label>
@@ -75,4 +83,7 @@ import { SITE } from '../../lib/site';
   .contact-form input, .contact-form select, .contact-form textarea { font: inherit; padding: 12px 14px; border: 2px solid var(--color-border); border-radius: var(--radius-input); background: var(--color-white); }
   .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; }
   .contact-form__privacy { margin: 0; font-size: 0.8rem; color: var(--color-sage); }
+  .contact-social { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .contact-social a { display: inline-block; padding: 8px 14px; background: var(--color-cream); border-radius: var(--radius-pill); color: var(--color-green); font-weight: 600; font-size: 0.85rem; text-decoration: none; }
+  .contact-social a:hover { background: var(--color-gold); color: var(--color-ink); }
 </style>

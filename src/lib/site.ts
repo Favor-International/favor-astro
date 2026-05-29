@@ -5,7 +5,7 @@ export const SITE = {
   name: 'Favor International',
   // The org's stamped statement. Used as H1 on the homepage and as the footer
   // sign-off. Carole's prayer ("Lord, send me where others will not go") is a
-  // personal calling, NOT the org's tagline — do not put it on the site as
+  // personal calling, NOT the org's tagline, do not put it on the site as
   // such. If it appears anywhere, it's a quote attributed to Carole on the
   // founder/our-story page.
   tagline: 'Transformed Hearts Transform Nations',
@@ -203,7 +203,7 @@ export const PILLARS = [
 
 // Locked by v2.1 doc diagram. Per-tier impact taglines are intentionally
 // modest. Carole has not signed off on the dollar-to-outcome mappings yet, so
-// we don't claim "$50 sends a pastor" — that would be a made-up number.
+// we don't claim "$50 sends a pastor", that would be a made-up number.
 export const PARTNER_TIERS = [
   { amount: 25, label: 'Equip' },
   { amount: 50, label: 'Send' },
@@ -215,7 +215,7 @@ export const PARTNER_TIERS = [
 
 // Only verified, audit-grade figures. Source: ECFA member profile (FY2024) and
 // the publicly filed Form 990. Do not add unverified counts here without a
-// sourced citation — the brand book is explicit: no made-up numbers.
+// sourced citation. The brand book is explicit: no made-up numbers.
 export const IMPACT_STATS = [
   { value: '$8.36M', label: 'FY2024 total revenue', source: 'ECFA member profile (audited).' },
   { value: '89%', label: 'Program expense ratio', source: 'FY2024 audited financials.' },

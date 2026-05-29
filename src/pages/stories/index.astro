@@ -7,7 +7,7 @@ import CtaBand from '../../components/band/CtaBand.astro';
 const stories = [
   { title: 'From spear-masters to the Holy Spirit', country: 'South Sudan', outcome: 'A Taposa warrior cohort lays down their weapons after PBS training.', image: '/images/pillar-community.jpg', href: '/stories/from-spear-masters-to-holy-spirit/' },
   { title: 'The next generation’s leaders', country: 'Uganda', outcome: 'A GIFT graduate plants a church in his home village.', image: '/images/gift-bishoftu-tot.jpg', href: '/stories/the-next-generations-leaders/' },
-  { title: 'More Bibles for Ethiopia', country: 'Ethiopia', outcome: 'Field teachers run out of Bibles — and a partner gives more.', image: '/images/hero-pbs-graduation.jpg', href: '/stories/more-bibles-for-ethiopia-please/' },
+  { title: 'More Bibles for Ethiopia', country: 'Ethiopia', outcome: 'Field teachers run out of Bibles, and a partner gives more.', image: '/images/hero-pbs-graduation.jpg', href: '/stories/more-bibles-for-ethiopia-please/' },
   { title: 'The Anaka crusade', country: 'Uganda', outcome: '1,400 first-time decisions in three days.', image: '/images/pillar-community.jpg', href: '/stories/the-anaka-crusade/' },
   { title: 'Emmy: from orphan to leader', country: 'Uganda', outcome: 'Top of her class. Now training her year-mates.', image: '/images/education-vlc-jondoru.jpg', href: '/stories/emmy-from-orphan-to-leader/' },
   { title: 'A timely word', country: 'South Sudan', outcome: 'A pastor’s prayer reaches a village he never knew about.', image: '/images/evangelism-discipleship.jpg', href: '/stories/a-timely-word/' },
@@ -30,6 +30,15 @@ const stories = [
       <div class="grid grid-3">
         {stories.map((s) => <StoryCard {...s} />)}
       </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow" style="text-align:center;">
+      <p class="label">The full archive</p>
+      <h2>Read every story.</h2>
+      <p>More than one hundred transformation stories, filterable by ministry, are published on our current site.</p>
+      <p class="band__cta-row"><a class="btn btn--secondary" href="https://www.favorintl.org/testimonies-updates/stories-of-transformation" target="_blank" rel="noopener">Browse all stories</a></p>
     </div>
   </section>
 
