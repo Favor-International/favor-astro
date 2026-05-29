@@ -1,0 +1,53 @@
+---
+// A simple, modern image + text row. Real photo on one side, copy on the
+// other, vertically centered. Reused to break up text-heavy pages with real
+// field photography. No icons, no gimmicks.
+export interface Props {
+  image: string;
+  imageAlt: string;
+  eyebrow?: string;
+  heading?: string;
+  layout?: 'image-left' | 'image-right';
+  background?: 'white' | 'cream';
+  objectPosition?: string;
+}
+const {
+  image, imageAlt, eyebrow, heading,
+  layout = 'image-right', background = 'white', objectPosition = 'center',
+} = Astro.props as Props;
+---
+<section class:list={['band', `band--${background}`, 'feature-row', `feature-row--${layout}`]}>
+  <div class="container feature-row__grid">
+    <div class="feature-row__copy">
+      {eyebrow && <p class="label">{eyebrow}</p>}
+      {heading && <h2>{heading}</h2>}
+      <slot />
+    </div>
+    <div class="feature-row__media" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
+  </div>
+</section>
+
+<style>
+  .feature-row__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(var(--space-8), 5vw, var(--space-16));
+    align-items: center;
+  }
+  .feature-row--image-left .feature-row__media { order: -1; }
+  .feature-row__media {
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    min-height: 340px;
+  }
+  .feature-row__copy { line-height: 1.7; }
+  .feature-row__copy h2 { margin-top: 0; }
+  @media (max-width: 860px) {
+    .feature-row__grid { grid-template-columns: 1fr; gap: var(--space-8); }
+    .feature-row--image-left .feature-row__media { order: -1; }
+    .feature-row__media { aspect-ratio: 16 / 10; min-height: 240px; }
+  }
+</style>
