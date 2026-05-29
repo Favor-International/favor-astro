@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import ProofBlock from '../../components/band/ProofBlock.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const programs = [
@@ -23,6 +24,21 @@ const programs = [
     ctaLabel="Fund the work"
     ctaHref="/give/partner-monthly/"
   />
+
+  <section class="band band--cream">
+    <div class="container">
+      <div class="video-feature">
+        <div class="video-feature__copy">
+          <p class="label">From the field</p>
+          <h2>To reach a village, reach a woman.</h2>
+          <p>When a widow receives training and a small project, the whole village changes. Watch how economic empowerment multiplies across a community.</p>
+        </div>
+        <div class="video-feature__player">
+          <VideoEmbed id="JCjHdG0NnLQ" title="To Reach a Village, Reach a Woman" />
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="band band--white">
     <div class="container">
@@ -77,6 +93,8 @@ const programs = [
     body="Sustainability tools, vocational training, and women’s programs are built to multiply. Favor Partners get them started."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
+    image="/images/hero-women-celebrating.jpg"
+    imageAlt="Women celebrating at a Favor empowerment gathering"
     variant="green"
   />
 </PageLayout>

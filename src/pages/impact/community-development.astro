@@ -2,7 +2,15 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
+
+const gallery = [
+  { src: '/images/ministry-medical-clinic.jpg', caption: 'A Favor medical clinic serving the community' },
+  { src: '/images/hero-church-planting.jpg', caption: 'A newly planted church in a rural village' },
+  { src: '/images/highlight-baptism.jpg', caption: 'Baptisms in the field' },
+  { src: '/images/ministry-church-planting.jpg', caption: 'Believers gathering where a church was planted' },
+];
 
 const programs = [
   { name: 'Medical', accent: 'var(--color-green-bright)', body: 'In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community.' },
@@ -23,6 +31,21 @@ const programs = [
     ctaLabel="Fund a clinic"
     ctaHref="/give/specific-project/"
   />
+
+  <section class="band band--white">
+    <div class="container">
+      <div class="video-feature">
+        <div class="video-feature__copy">
+          <p class="label">From the field</p>
+          <h2>Where medicine meets miracles.</h2>
+          <p>Medical care, church planting, and trauma healing reach places no other ministry will go. Watch the work, then read how each program runs.</p>
+        </div>
+        <div class="video-feature__player">
+          <VideoEmbed id="4YpOvDoc6k4" title="Where Medicine Meets Miracles" />
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="band band--cream">
     <div class="container">
@@ -53,11 +76,29 @@ const programs = [
     <p>The original Trauma Counseling curriculum that we use was <strong>written by Christ-believing psychologists from Australia, peer-reviewed through publications at Boston University</strong>, and for many years has been adapted and contextualized for the many people groups we serve throughout South Sudan and Uganda.</p>
   </OverlayFeature>
 
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">From the field</p>
+        <h2>Healing, planting, baptizing.</h2>
+      </header>
+      <div class="field-gallery">
+        {gallery.map((g) => (
+          <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
+            <figcaption>{g.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <CtaBand
     heading="Help carry the cost of healing."
     body="Trauma counseling, medical clinics, and church planting are field-led. Favor Partners keep them funded."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
+    image="/images/pillar-community.jpg"
+    imageAlt="A Favor community gathering"
   />
 </PageLayout>
 

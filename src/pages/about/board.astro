@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import directorsData from '../../data/directors.json';
 
@@ -61,6 +62,17 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
       </ul>
     </div>
   </section>
+
+  <OverlayFeature
+    image="/images/hero-prayer-team.jpg"
+    imageAlt="Favor leaders gathered in prayer"
+    eyebrow="Built to be trusted"
+    heading="Oversight that protects every gift."
+    side="right"
+  >
+    <p>Favor International is accredited by the <strong>Evangelical Council for Financial Accountability (ECFA)</strong> and audited every year by an independent firm.</p>
+    <p>Our audited financials are filed with the IRS as a public Form 990, rated by Charity Navigator, and listed on Candid. The board reviews them, along with executive compensation, every year.</p>
+  </OverlayFeature>
 
   <CtaBand
     heading="Read the financial accountability page."

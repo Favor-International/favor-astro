@@ -2,7 +2,15 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
+
+const gallery = [
+  { src: '/images/hero-pbs-students.jpg', caption: 'Students in class in Gulu, Uganda' },
+  { src: '/images/school-construction.jpg', caption: 'A new Favor school under construction' },
+  { src: '/images/stories/student-on-a-mission.jpg', caption: 'A Favor student carrying the Gospel' },
+  { src: '/images/hero-pbs-graduation.jpg', caption: 'Graduation day for a Bible-school cohort' },
+];
 
 const programs = [
   { name: 'Village Learning Centers (VLCs)', desc: 'Local-language literacy and Bible foundations for kids in places no formal school will reach. 18 active VLCs across Uganda and South Sudan.' },
@@ -32,6 +40,21 @@ const depth = [
   />
 
   <section class="band band--white">
+    <div class="container">
+      <div class="video-feature">
+        <div class="video-feature__copy">
+          <p class="label">From the field</p>
+          <h2>Watch a Favor school.</h2>
+          <p>Educated for the Kingdom. See what a Christ-centered classroom looks like in Gulu and Juba, taught by Ugandan and South Sudanese staff.</p>
+        </div>
+        <div class="video-feature__player">
+          <VideoEmbed id="DEydcLqBQW0" title="Favor's Primary Schools" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
     <div class="container">
       <header class="ed-head">
         <p class="label">The three programs</p>
@@ -76,11 +99,29 @@ const depth = [
     </div>
   </section>
 
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">From the field</p>
+        <h2>Real classrooms, real children.</h2>
+      </header>
+      <div class="field-gallery">
+        {gallery.map((g) => (
+          <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
+            <figcaption>{g.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <CtaBand
     heading="Stand with the schools."
     body="Favor Partners make Village Learning Centers and the primary and secondary schools possible every month. Pick the tier that fits."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
+    image="/images/hero-new-believers.jpg"
+    imageAlt="Children in a Favor program"
     variant="green"
   />
 </PageLayout>

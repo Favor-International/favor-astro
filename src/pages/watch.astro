@@ -1,0 +1,74 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/band/PageHero.astro';
+import VideoEmbed from '../components/global/VideoEmbed.astro';
+import CtaBand from '../components/band/CtaBand.astro';
+
+// Featured film + the rest of the library. Source: Favor International YouTube.
+const featured = { id: 'LHarkRULU7Q', title: 'Favor International: An Indigenous Missionary Movement', caption: '1,400 native missionaries across 14+ African nations.' };
+
+const films = [
+  { id: 'C5VBPhA50Mg', title: 'Evangelism in Africa', caption: 'Building lasting disciples through God’s Word' },
+  { id: 'DEydcLqBQW0', title: 'Favor’s Primary Schools', caption: 'Educated for the Kingdom' },
+  { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', caption: 'Inside Favor’s medical center in Africa' },
+  { id: 'nSFl3Y7TLYI', title: 'The Power of Trauma Counseling', caption: 'Healing the whole person' },
+  { id: 'TZmNp40_lbI', title: 'Church Planting', caption: 'The church is the body of Christ' },
+  { id: '25f290un21o', title: 'They Once Met Under Trees', caption: 'Now they have a church' },
+  { id: 'xwSVEViFikA', title: 'God’s Institute For Transformation', caption: 'GIFT leadership training' },
+  { id: 'JCjHdG0NnLQ', title: 'To Reach a Village, Reach a Woman', caption: 'Women’s empowerment that changes a village' },
+  { id: '32QTIfjF7Mg', title: 'First: Apostles', caption: 'Teaching from the field' },
+];
+---
+<PageLayout
+  title="Watch"
+  description="Films from the field: Favor International's indigenous missionaries, schools, medical work, church planting, trauma counseling, and women's empowerment across East and Central Africa."
+>
+  <PageHero
+    label="Watch"
+    title="Favor on film."
+    promise="See the work in the words and faces of the indigenous teams who do it. Every film is shot in the field."
+    image="/images/highlight-crowd.jpg"
+    imageAlt="A Favor field gathering"
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Start here</p>
+        <h2>The movement, in four minutes.</h2>
+      </header>
+      <div class="watch-featured">
+        <VideoEmbed id={featured.id} title={featured.title} caption={featured.caption} />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">The film library</p>
+        <h2>More from the field.</h2>
+      </header>
+      <div class="watch-grid">
+        {films.map((f) => (
+          <VideoEmbed id={f.id} title={f.title} caption={f.caption} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Keep these films coming."
+    body="Every story on film is a real person in a real place. Favor Partners keep the field work, and the storytelling, going."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching in the field"
+  />
+</PageLayout>
+
+<style>
+  .watch-featured { max-width: 900px; margin: 0 auto; }
+  .watch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
+  @media (max-width: 760px) { .watch-grid { grid-template-columns: 1fr; } }
+</style>
