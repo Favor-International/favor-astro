@@ -1,13 +1,13 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
+import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const programs = [
-  { name: 'Trauma Counseling', desc: 'Christ-centered counseling for survivors of conflict, trafficking, and abandonment. Trained Ugandan and South Sudanese counselors lead.' },
-  { name: 'Medical Services', desc: 'Three field clinics in northern Uganda and South Sudan. Maternal care, malaria, and basic surgical referral.' },
-  { name: 'Church Planting + Construction', desc: 'Indigenous church planters supported by the team. Where a congregation outgrows the meeting place, we build with them, not for them.' },
+  { name: 'Medical', accent: 'var(--color-green-bright)', body: 'In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community.' },
+  { name: 'Church Planting', accent: 'var(--color-gold-deep)', body: 'In many rural communities there are no churches, so following a Portable Bible School small churches are planted, sometimes meeting in a hut or under a mango tree. Churches are also planted as a result of church construction. Once a church is constructed the mandate is for them to plant 3 more churches in 5 years.' },
+  { name: 'Church Construction', accent: 'var(--color-terracotta)', body: 'Favor partners with International Cooperating Ministries (ICM) to fund the new church construction, and ICM has helped Favor build many churches across Uganda and South Sudan. These churches don’t belong to Favor but to the community of believers and their leadership from that local church.' },
 ];
 ---
 <PageLayout
@@ -24,57 +24,32 @@ const programs = [
     ctaHref="/give/specific-project/"
   />
 
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">The three programs</p>
-      <h2>Bringing healing to the whole person.</h2>
-      <ul class="program-list">
-        {programs.map((p) => (
-          <li>
-            <h3>{p.name}</h3>
-            <p>{p.desc}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <OverlayFeature
+    image="/images/hero-trauma-counseling.jpg"
+    imageAlt="A trauma counseling session in the field"
+    eyebrow="Trauma counseling"
+    heading="Healing the whole person."
+    side="left"
+  >
+    <p>Our trauma healing program has two parts. The first section focuses on developing emotional strength, and the second teaches about forgiveness. Throughout the program, the counselors teach people how to connect to one another and counter stress with positive activity.</p>
+    <p>The original Trauma Counseling curriculum that we use was <strong>written by Christ-believing psychologists from Australia, peer-reviewed through publications at Boston University</strong>, and for many years has been adapted and contextualized for the many people groups we serve throughout South Sudan and Uganda.</p>
+  </OverlayFeature>
 
   <section class="band band--cream">
-    <div class="container container--narrow" style="text-align:center;">
-      <p class="label">What this looks like on the ground</p>
-      <h2 style="margin-bottom: var(--space-4);">Read the field reports.</h2>
-      <p style="max-width: 56ch; margin: 0 auto var(--space-6) auto;">
-        Field teams publish stories from medical clinics, church plants, and trauma counseling
-        cohorts as they happen. Every report names the village, the teacher, and what was
-        actually true that week.
-      </p>
-      <a class="btn btn--secondary btn--large" href="/stories/">See stories from the field</a>
-    </div>
-  </section>
-
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">The programs in depth</p>
-      <h2>Healing the whole person, program by program.</h2>
-      <div class="depth">
-        <article>
-          <h3>Trauma Counseling</h3>
-          <p>Our trauma healing program has two parts. The first section focuses on developing emotional strength, and the second teaches about forgiveness. Throughout the program, the counselors teach people how to connect to one another and counter stress with positive activity.</p>
-          <p>The original Trauma Counseling curriculum that we use 1) was written by Christ-believing psychologists from Australia, 2) was peer-reviewed through publications at Boston University, and 3) for many years has been adapted and contextualized for the many people groups we serve throughout South Sudan and Uganda.</p>
-        </article>
-        <article>
-          <h3>Medical</h3>
-          <p>In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community.</p>
-        </article>
-        <article>
-          <h3>Church Planting</h3>
-          <p>In many rural communities there are no churches, so following a Portable Bible School small churches are planted, sometimes meeting in a hut or under a mango tree. Churches are also planted as a result of church construction. Once a church is constructed the mandate is for them to plant 3 more churches in 5 years.</p>
-        </article>
-        <article>
-          <h3>Church Construction</h3>
-          <p>Favor partners with International Cooperating Ministries (ICM) to fund the new church construction, and ICM has helped Favor build many churches across Uganda and South Sudan. These churches don&rsquo;t belong to Favor but to the community of believers and their leadership from that local church.</p>
-        </article>
+    <div class="container">
+      <header class="cd-head">
+        <p class="label">The rest of the pillar</p>
+        <h2>Bringing healing to the whole person.</h2>
+      </header>
+      <div class="cd-grid">
+        {programs.map((p) => (
+          <article class="cd-card has-texture" style={`--accent: ${p.accent}`}>
+            <h3>{p.name}</h3>
+            <p>{p.body}</p>
+          </article>
+        ))}
       </div>
+      <p class="cd-cta-row"><a class="btn btn--secondary btn--large" href="/stories/">See field stories</a></p>
     </div>
   </section>
 
@@ -83,18 +58,15 @@ const programs = [
     body="Trauma counseling, medical clinics, and church planting are field-led. Favor Partners keep them funded."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    variant="green"
   />
 </PageLayout>
 
 <style>
-  .program-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
-  .program-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .program-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
-  .program-list p { margin: 0; color: var(--color-ink-soft); }
-  .depth { display: grid; gap: var(--space-6); margin-top: var(--space-6); }
-  .depth article { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .depth h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
-  .depth p { margin: 0 0 var(--space-3); color: var(--color-ink-soft); }
-  .depth p:last-child { margin-bottom: 0; }
+  .cd-head { text-align: center; max-width: 720px; margin: 0 auto var(--space-12); }
+  .cd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  @media (max-width: 860px) { .cd-grid { grid-template-columns: 1fr; } }
+  .cd-card { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 5px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .cd-card h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
+  .cd-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .cd-cta-row { text-align: center; margin-top: var(--space-10); }
 </style>

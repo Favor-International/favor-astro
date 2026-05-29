@@ -122,3 +122,12 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 .why-card { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 4px solid var(--color-gold); box-shadow: var(--shadow-soft); }
 .why-card h3 { color: var(--color-green); font-size: 1.15rem; margin: 0 0 var(--space-2); }
 .why-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; line-height: 1.55; }
+
+/* Faint African-pattern texture behind a container (subtle, stays readable). */
+.has-texture { position: relative; isolation: isolate; overflow: hidden; }
+.has-texture::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url('/images/patterns/texture-mudcloth-green.webp');
+  background-size: 320px auto; background-repeat: repeat; opacity: 0.07;
+}
+.has-texture > * { position: relative; z-index: 1; }

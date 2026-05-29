@@ -5,10 +5,10 @@ import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const roles = [
-  { title: 'Ambassador', commitment: '~3 hr/mo', desc: 'Refer Favor to your network. We give you the assets, you tell the story.' },
-  { title: 'Prayer warrior', commitment: 'Daily, your pace', desc: 'Receive a weekly specific prayer brief from a field team. Stand in the gap.' },
-  { title: 'Intercession team', commitment: 'Monthly + during trips', desc: 'Live-link prayer support during vision trips and crusades.' },
-  { title: 'Stage Sunday host', commitment: 'One Sunday', desc: 'Bring a Favor field leader to your church for a stage Sunday.' },
+  { title: 'Ambassador', commitment: '~3 hr/mo', desc: 'Refer Favor to your network. We give you the assets, you tell the story.', accent: 'var(--color-gold-deep)' },
+  { title: 'Prayer warrior', commitment: 'Daily, your pace', desc: 'Receive a weekly specific prayer brief from a field team. Stand in the gap.', accent: 'var(--color-green-bright)' },
+  { title: 'Intercession team', commitment: 'Monthly + during trips', desc: 'Live-link prayer support during vision trips and crusades.', accent: 'var(--color-terracotta)' },
+  { title: 'Stage Sunday host', commitment: 'One Sunday', desc: 'Bring a Favor field leader to your church for a stage Sunday.', accent: 'var(--color-sage)' },
 ];
 ---
 <PageLayout
@@ -32,7 +32,7 @@ const roles = [
       <h2>Pick one that fits your time.</h2>
       <ul class="role-list">
         {roles.map((r) => (
-          <li>
+          <li class="has-texture" style={`--accent: ${r.accent}`}>
             <div>
               <h3>{r.title}</h3>
               <p>{r.desc}</p>
@@ -70,9 +70,9 @@ const roles = [
 
 <style>
   .role-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
-  .role-list li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .role-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
+  .role-list li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding: var(--space-5) var(--space-6); background: var(--color-cream); border-left: 5px solid var(--accent, var(--color-gold)); border-radius: var(--radius-card); }
+  .role-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
   .role-list p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
-  .commitment { font-weight: 700; color: var(--color-gold); font-size: 0.85rem; white-space: nowrap; padding: var(--space-2) var(--space-4); background: var(--color-white); border-radius: var(--radius-pill); }
+  .commitment { font-weight: 800; color: var(--accent, var(--color-gold)); font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; padding: var(--space-2) var(--space-4); background: var(--color-white); border-radius: var(--radius-pill); }
   @media (max-width: 600px) { .role-list li { flex-direction: column; align-items: flex-start; } }
 </style>
