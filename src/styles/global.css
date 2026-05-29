@@ -63,6 +63,9 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 }
 .label--inverse { color: var(--color-gold); }
 
+/* Centered intro header sitting above a card/grid section. */
+.band__header { text-align: center; max-width: 760px; margin: 0 auto var(--space-12); }
+
 .btn {
   display: inline-flex;
   align-items: center;
