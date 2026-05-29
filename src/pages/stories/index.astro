@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import PostCard from '../../components/band/PostCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import storiesData from '../../data/stories.json';
 
@@ -29,15 +30,15 @@ function excerpt(paras: string[], n = 150) {
       <p class="stories-count">{stories.length} stories from the field.</p>
       <div class="stories-grid">
         {stories.map((s) => (
-          <a class="story-card" href={`/stories/${s.slug}/`}>
-            <div class="story-card__photo" style={`background-image: url(${s.image})`} role="img" aria-label={s.title}></div>
-            <div class="story-card__body">
-              <span class="story-card__date">{s.date}</span>
-              <h3>{s.title}</h3>
-              <p>{excerpt(s.paragraphs)}</p>
-              <span class="story-card__cta">Read the story →</span>
-            </div>
-          </a>
+          <PostCard
+            href={`/stories/${s.slug}/`}
+            image={s.image}
+            imageAlt={s.title}
+            chip={s.date}
+            title={s.title}
+            desc={excerpt(s.paragraphs)}
+            actionLabel="Read the story"
+          />
         ))}
       </div>
     </div>

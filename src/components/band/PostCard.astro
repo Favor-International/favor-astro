@@ -1,0 +1,88 @@
+---
+// Polished grid card modeled on the "Ongoing Donation" reference: inset rounded
+// photo with a category chip, bold title, short description, an optional
+// progress bar, and a footer with a meta value + a solid button. Used for
+// donation projects, stories, and other grids/posts.
+export interface Props {
+  href: string;
+  image: string;
+  imageAlt?: string;
+  chip?: string;
+  title: string;
+  desc?: string;
+  progress?: number;
+  metaLabel?: string;
+  metaValue?: string;
+  actionLabel?: string;
+}
+const { href, image, imageAlt = '', chip, title, desc, progress, metaLabel, metaValue, actionLabel } = Astro.props as Props;
+---
+<a class="post-card" href={href}>
+  <div class="post-card__media">
+    <div class="post-card__img" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
+    {chip && <span class="post-card__chip">{chip}</span>}
+  </div>
+  <div class="post-card__body">
+    <h3 class="post-card__title">{title}</h3>
+    {desc && <p class="post-card__desc">{desc}</p>}
+    {typeof progress === 'number' && (
+      <div class="post-card__progress" aria-label={`${Math.round(progress)} percent funded`}>
+        <span style={`width: ${Math.min(100, Math.max(0, progress))}%`}></span>
+      </div>
+    )}
+    {(metaValue || actionLabel) && (
+      <div class="post-card__foot">
+        {metaValue && (
+          <span class="post-card__meta">
+            {metaLabel && <span class="post-card__meta-label">{metaLabel}</span>}
+            <strong>{metaValue}</strong>
+          </span>
+        )}
+        {actionLabel && <span class="post-card__btn">{actionLabel}</span>}
+      </div>
+    )}
+  </div>
+</a>
+<style>
+  .post-card {
+    display: flex; flex-direction: column;
+    background: var(--color-white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+    padding: var(--space-3);
+    text-decoration: none; color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
+    height: 100%;
+  }
+  .post-card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(31, 58, 26, 0.16); }
+  .post-card__media { position: relative; }
+  .post-card__img {
+    aspect-ratio: 4 / 3;
+    background-size: cover; background-position: center;
+    border-radius: 14px;
+    background-color: var(--color-sage-light);
+  }
+  .post-card__chip {
+    position: absolute; top: var(--space-3); left: var(--space-3);
+    background: rgba(31, 58, 26, 0.78); color: var(--color-white);
+    padding: 6px 14px; border-radius: var(--radius-pill);
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+    backdrop-filter: blur(2px);
+  }
+  .post-card__body { padding: var(--space-5) var(--space-4) var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .post-card__title { font-size: 1.35rem; color: var(--color-green); margin: 0; line-height: 1.2; }
+  .post-card__desc { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; line-height: 1.55; }
+  .post-card__progress { height: 6px; background: var(--color-sage-light); border-radius: 999px; overflow: hidden; }
+  .post-card__progress span { display: block; height: 100%; background: var(--color-gold); border-radius: 999px; }
+  .post-card__foot { margin-top: auto; padding-top: var(--space-2); display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
+  .post-card__meta { display: flex; flex-direction: column; line-height: 1.2; }
+  .post-card__meta-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-sage); font-weight: 700; }
+  .post-card__meta strong { color: var(--color-green); font-size: 1.25rem; }
+  .post-card__btn {
+    background: var(--color-green); color: var(--color-white);
+    padding: 11px 22px; border-radius: var(--radius-pill);
+    font-weight: 700; font-size: 0.85rem; white-space: nowrap;
+    transition: background 140ms;
+  }
+  .post-card:hover .post-card__btn { background: var(--color-green-deep); }
+</style>

@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import PostCard from '../../components/band/PostCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const projects = [
@@ -33,26 +34,18 @@ function pct(raised: number, goal: number) { return Math.min(100, Math.round((ra
       </header>
       <div class="proj-grid">
         {projects.map((p) => (
-          <a class="proj-card" href={`/give/specific-project/${p.slug}/`}>
-            <div class="proj-card__photo" style={`background-image: url(${p.image})`} role="img" aria-label={p.name}>
-              <span class="proj-card__chip">{p.category}</span>
-            </div>
-            <div class="proj-card__body">
-              <h3>{p.name}</h3>
-              <p>{p.summary}</p>
-              <div class="proj-card__progress" aria-label={`${pct(p.raised, p.goal)} percent funded`}>
-                <div class="proj-card__bar" style={`--pct: ${pct(p.raised, p.goal)}%`}></div>
-              </div>
-              <div class="proj-card__foot">
-                <span class="proj-card__meta">
-                  <span class="proj-card__meta-label">Reached</span>
-                  <strong>${p.raised.toLocaleString()}</strong>
-                  <span class="proj-card__goal">of ${p.goal.toLocaleString()} goal</span>
-                </span>
-                <span class="proj-card__btn">Fund this project</span>
-              </div>
-            </div>
-          </a>
+          <PostCard
+            href={`/give/specific-project/${p.slug}/`}
+            image={p.image}
+            imageAlt={p.name}
+            chip={p.category}
+            title={p.name}
+            desc={p.summary}
+            progress={pct(p.raised, p.goal)}
+            metaLabel="Reached"
+            metaValue={`$${p.raised.toLocaleString()}`}
+            actionLabel="Fund this project"
+          />
         ))}
       </div>
     </div>
