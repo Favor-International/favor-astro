@@ -10,7 +10,7 @@ export interface Props {
   side?: 'left' | 'right';
   objectPosition?: string;
 }
-const { image, imageAlt, eyebrow, heading, side = 'left', objectPosition = 'center' } = Astro.props as Props;
+const { image, imageAlt, eyebrow, heading, side = 'left', objectPosition = 'center 30%' } = Astro.props as Props;
 ---
 <section class:list={['overlay-feature', `overlay-feature--${side}`]}>
   <div class="overlay-feature__panel">
@@ -51,7 +51,7 @@ const { image, imageAlt, eyebrow, heading, side = 'left', objectPosition = 'cent
   .overlay-feature__inner :global(strong) { color: var(--color-gold); font-weight: 700; }
   .overlay-feature__photo {
     background-size: cover; background-repeat: no-repeat;
-    min-height: clamp(380px, 48vh, 580px);
+    min-height: clamp(340px, 42vh, 520px);
   }
   @media (max-width: 860px) {
     .overlay-feature { grid-template-columns: 1fr; }

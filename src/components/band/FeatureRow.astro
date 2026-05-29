@@ -13,7 +13,7 @@ export interface Props {
 }
 const {
   image, imageAlt, eyebrow, heading,
-  layout = 'image-right', background = 'white', objectPosition = 'center',
+  layout = 'image-right', background = 'white', objectPosition = 'center 30%',
 } = Astro.props as Props;
 ---
 <section class:list={['band', `band--${background}`, 'feature-row', `feature-row--${layout}`]}>
