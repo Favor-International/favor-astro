@@ -8,17 +8,38 @@ export interface Props {
   // always a light, premium treatment (no dark gold/green blocks that clashed
   // with the green footer). The variant only tints the small accent rule.
   variant?: 'gold' | 'green' | 'sage';
+  // Optional photo. When present, the CTA renders as a photo + copy card so the
+  // visitor sees real people right before the button.
+  image?: string;
+  imageAlt?: string;
+  objectPosition?: string;
 }
-const { heading, body, ctaLabel, ctaHref } = Astro.props as Props;
+const { heading, body, ctaLabel, ctaHref, image, imageAlt = '', objectPosition = 'center 30%' } = Astro.props as Props;
 ---
-<section class="cta-band band">
-  <div class="container cta-band__inner">
-    <span class="cta-band__rule" aria-hidden="true"></span>
-    <h2>{heading}</h2>
-    {body && <p>{body}</p>}
-    <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
-  </div>
-</section>
+{image ? (
+  <section class="cta-band band">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-card__photo" style={`background-image:url(${image}); background-position:${objectPosition};`} role="img" aria-label={imageAlt}></div>
+        <div class="cta-card__body">
+          <span class="cta-band__rule" aria-hidden="true"></span>
+          <h2>{heading}</h2>
+          {body && <p>{body}</p>}
+          <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+) : (
+  <section class="cta-band band">
+    <div class="container cta-band__inner">
+      <span class="cta-band__rule" aria-hidden="true"></span>
+      <h2>{heading}</h2>
+      {body && <p>{body}</p>}
+      <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
+    </div>
+  </section>
+)}
 <style>
   /* Warm, light CTA panel: a faint gold wash over cream so it reads as a
      distinct, premium call-to-action without a heavy dark block. */
@@ -38,4 +59,20 @@ const { heading, body, ctaLabel, ctaHref } = Astro.props as Props;
   .cta-band h2 { color: var(--color-green-deep); margin: 0; }
   .cta-band p { font-size: 1.1rem; margin: 0; color: var(--color-ink-soft); max-width: 56ch; }
   .cta-band .btn { margin-top: var(--space-2); }
+
+  /* Photo variant: image + copy in one rounded card. */
+  .cta-card {
+    display: grid; grid-template-columns: 1.05fr 1fr; align-items: stretch;
+    background: var(--color-white); border-radius: var(--radius-card); overflow: hidden;
+    box-shadow: var(--shadow-card); text-align: left; max-width: 1040px; margin: 0 auto;
+  }
+  @media (max-width: 760px) { .cta-card { grid-template-columns: 1fr; } }
+  .cta-card__photo { background-size: cover; background-repeat: no-repeat; min-height: clamp(240px, 34vw, 380px); }
+  .cta-card__body {
+    display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4);
+    padding: clamp(var(--space-8), 4vw, var(--space-12));
+  }
+  .cta-card__body h2 { color: var(--color-green-deep); margin: 0; }
+  .cta-card__body p { font-size: 1.05rem; margin: 0; color: var(--color-ink-soft); }
+  .cta-card__body .btn { margin-top: var(--space-2); }
 </style>

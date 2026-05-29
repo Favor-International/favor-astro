@@ -1,7 +1,7 @@
 ---
-// Lightweight YouTube embed: shows the poster thumbnail with a play button and
-// only loads the real iframe on click (keeps the page fast, no autoplay trackers
-// until the visitor chooses to watch). Pass the bare YouTube video id.
+// Lightweight YouTube embed: shows the poster thumbnail with a play button.
+// Clicking opens a full-screen lightbox player (no iframe loads until then, so
+// the page stays fast). Pass the bare YouTube video id.
 export interface Props {
   id: string;
   title: string;
@@ -10,7 +10,7 @@ export interface Props {
 const { id, title, caption } = Astro.props as Props;
 ---
 <figure class="video-embed">
-  <button class="video-embed__btn" type="button" data-ytid={id} aria-label={`Play video: ${title}`}>
+  <button class="video-embed__btn" type="button" data-ytid={id} data-yttitle={title} aria-label={`Play video: ${title}`}>
     <img
       class="video-embed__thumb"
       src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
@@ -39,18 +39,60 @@ const { id, title, caption } = Astro.props as Props;
   .video-embed__btn:hover .yt-bg { fill: var(--color-gold); fill-opacity: 1; }
   .video-embed__label { position: absolute; left: var(--space-6); right: var(--space-6); bottom: var(--space-5); color: #fff; font-family: var(--font-sans); font-weight: 800; font-size: clamp(1rem, 1.8vw, 1.3rem); text-align: left; line-height: 1.2; text-shadow: 0 1px 10px rgba(0,0,0,0.55); }
   .video-embed__cap { margin-top: var(--space-3); color: var(--color-sage); font-size: 0.9rem; }
-  .video-embed :global(iframe) { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius-card); display: block; box-shadow: var(--shadow-card); }
 </style>
+
+<style is:global>
+  .video-lightbox { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: clamp(12px, 4vw, 48px); background: rgba(10, 14, 9, 0.92); opacity: 0; transition: opacity 180ms ease; }
+  .video-lightbox.is-open { display: flex; opacity: 1; }
+  .video-lightbox__frame { position: relative; width: min(92vw, calc((92vh - 0px) * 16 / 9)); aspect-ratio: 16 / 9; }
+  .video-lightbox__frame iframe { width: 100%; height: 100%; border: 0; border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.5); background: #000; }
+  .video-lightbox__close { position: absolute; top: -48px; right: 0; width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(255,255,255,0.14); color: #fff; font-size: 1.4rem; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background 140ms; }
+  .video-lightbox__close:hover { background: var(--color-gold); color: var(--color-ink); }
+  @media (max-width: 600px) { .video-lightbox__close { top: -44px; } }
+</style>
+
 <script>
+  function getLightbox() {
+    let lb = document.getElementById('video-lightbox') as HTMLElement | null;
+    if (lb) return lb;
+    lb = document.createElement('div');
+    lb.id = 'video-lightbox';
+    lb.className = 'video-lightbox';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.innerHTML = '<div class="video-lightbox__frame"><button class="video-lightbox__close" type="button" aria-label="Close video">&times;</button></div>';
+    document.body.appendChild(lb);
+
+    const close = () => {
+      lb!.classList.remove('is-open');
+      const f = lb!.querySelector('iframe');
+      if (f) f.remove();
+      document.body.style.overflow = '';
+    };
+    lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+    lb.querySelector('.video-lightbox__close')!.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    return lb;
+  }
+
+  function openVideo(id: string, title: string) {
+    const lb = getLightbox();
+    const frame = lb.querySelector('.video-lightbox__frame')!;
+    const old = frame.querySelector('iframe');
+    if (old) old.remove();
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.title = title || 'Video';
+    frame.appendChild(iframe);
+    lb.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
   document.querySelectorAll('.video-embed__btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-ytid');
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.title = btn.getAttribute('aria-label') || 'Video';
-      btn.replaceWith(iframe);
+      openVideo(btn.getAttribute('data-ytid') || '', btn.getAttribute('data-yttitle') || '');
     });
   });
 </script>
