@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import PostCard from '../../components/band/PostCard.astro';
+import OverlayCard from '../../components/global/OverlayCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
 
@@ -59,13 +60,13 @@ const deeper = [
     </div>
     <div class="container pillar-grid">
       {PILLARS.map((p) => (
-        <PostCard
+        <OverlayCard
           href={`/impact/${p.slug}/`}
           image={pillarImages[p.slug]}
-          imageAlt={p.label}
           title={p.label}
           desc={p.blurb}
-          actionLabel="See the work"
+          cta="See the work"
+          ratio="16 / 10"
         />
       ))}
     </div>
