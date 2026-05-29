@@ -1,7 +1,7 @@
 ---
-// Immersive full-width section: a real photo edge-to-edge with a dark green
-// gradient over one side, so the copy reads directly on the image. Used for
-// dramatic, cohesive moments instead of flat color bands.
+// Immersive split: one half is a SOLID green panel holding the copy, the other
+// half is a full, clean photo. No gradient washed over the image (that looked
+// cheap). Reads premium and the text is always legible on solid green.
 export interface Props {
   image: string;
   imageAlt: string;
@@ -13,47 +13,39 @@ export interface Props {
 const { image, imageAlt, eyebrow, heading, side = 'left', objectPosition = 'center' } = Astro.props as Props;
 ---
 <section class:list={['overlay-feature', `overlay-feature--${side}`]}>
-  <div class="overlay-feature__photo" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
-  <div class="overlay-feature__scrim" aria-hidden="true"></div>
-  <div class="container overlay-feature__inner">
-    <div class="overlay-feature__panel">
+  <div class="overlay-feature__panel">
+    <div class="overlay-feature__inner">
       {eyebrow && <p class="label label--inverse">{eyebrow}</p>}
       {heading && <h2>{heading}</h2>}
       <slot />
     </div>
   </div>
+  <div class="overlay-feature__photo" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
 </section>
 <style>
-  .overlay-feature {
-    position: relative;
-    min-height: clamp(480px, 62vh, 660px);
-    display: flex;
-    align-items: center;
+  .overlay-feature { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .overlay-feature--right .overlay-feature__photo { order: -1; }
+  .overlay-feature__panel {
+    background: var(--color-green-deep);
     color: var(--color-white);
-    overflow: hidden;
+    display: flex; align-items: center;
+    padding: clamp(var(--space-12), 6vw, var(--space-24));
   }
-  .overlay-feature__photo { position: absolute; inset: 0; z-index: 0; background-size: cover; background-repeat: no-repeat; }
-  .overlay-feature__scrim { position: absolute; inset: 0; z-index: 1; }
-  .overlay-feature--left .overlay-feature__scrim {
-    background: linear-gradient(90deg, rgba(31,58,26,0.95) 0%, rgba(31,58,26,0.80) 42%, rgba(31,58,26,0.22) 74%, rgba(31,58,26,0) 100%);
+  .overlay-feature__inner { width: 100%; max-width: 560px; margin: 0 auto; }
+  .overlay-feature__inner h2 { color: var(--color-white); margin: 0 0 var(--space-6); }
+  .overlay-feature__inner :global(p) {
+    color: color-mix(in srgb, var(--color-white) 88%, transparent);
+    line-height: 1.75; margin: 0 0 var(--space-5);
   }
-  .overlay-feature--right .overlay-feature__scrim {
-    background: linear-gradient(270deg, rgba(31,58,26,0.95) 0%, rgba(31,58,26,0.80) 42%, rgba(31,58,26,0.22) 74%, rgba(31,58,26,0) 100%);
+  .overlay-feature__inner :global(p:last-child) { margin-bottom: 0; }
+  .overlay-feature__inner :global(strong) { color: var(--color-gold); font-weight: 700; }
+  .overlay-feature__photo {
+    background-size: cover; background-repeat: no-repeat;
+    min-height: clamp(380px, 48vh, 580px);
   }
-  .overlay-feature__inner { position: relative; z-index: 2; width: 100%; }
-  .overlay-feature--right .overlay-feature__inner { display: flex; justify-content: flex-end; }
-  .overlay-feature__panel { max-width: 540px; }
-  .overlay-feature__panel h2 { color: var(--color-white); margin: 0 0 var(--space-5); }
-  .overlay-feature__panel :global(p) { color: color-mix(in srgb, var(--color-white) 90%, transparent); line-height: 1.7; margin: 0 0 var(--space-4); }
-  .overlay-feature__panel :global(p:last-child) { margin-bottom: 0; }
-  .overlay-feature__panel :global(strong) { color: var(--color-gold); font-weight: 700; }
-  @media (max-width: 760px) {
-    .overlay-feature__scrim,
-    .overlay-feature--left .overlay-feature__scrim,
-    .overlay-feature--right .overlay-feature__scrim {
-      background: linear-gradient(180deg, rgba(31,58,26,0.55) 0%, rgba(31,58,26,0.90) 100%);
-    }
-    .overlay-feature--right .overlay-feature__inner { justify-content: flex-start; }
-    .overlay-feature__panel { max-width: none; }
+  @media (max-width: 860px) {
+    .overlay-feature { grid-template-columns: 1fr; }
+    .overlay-feature--right .overlay-feature__photo { order: 0; }
+    .overlay-feature__photo { min-height: 300px; }
   }
 </style>

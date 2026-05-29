@@ -1,47 +1,28 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/band/PageHero.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
+import DonationBlock from '../../components/band/DonationBlock.astro';
 import FeatureRow from '../../components/band/FeatureRow.astro';
+import ProofBlock from '../../components/band/ProofBlock.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { PARTNER_TIERS, SITE } from '../../lib/site';
+
+const amounts = PARTNER_TIERS.map((t) => t.amount);
 ---
 <PageLayout
   title="Become a Favor Partner"
   description="Favor Partners are monthly givers who keep indigenous missionaries on the trail across East Africa. Pick a tier from $25 to $1,200. Tax-deductible. ECFA-accredited."
-  image="/images/hero-women-celebrating.jpg"
 >
-  <PageHero
-    label="Monthly partnership"
-    title="Become a Favor Partner."
-    promise="One monthly gift. Real, recurring impact. You keep field workers on the trail, Bibles in villages, and pastors in training."
+  <DonationBlock
+    eyebrow="Become a Favor Partner"
+    heading="Become a Favor Partner."
+    body="One monthly gift. Real, recurring impact. You keep field workers on the trail, Bibles in villages, and pastors in training. Choose an amount, or give a custom amount that is right for your family."
     image="/images/hero-women-celebrating.jpg"
     imageAlt="Favor Partners gathered at a field event"
+    amounts={amounts}
+    formBase="/give/partner-monthly/form/"
+    donateLabel="Become a Partner"
+    fine="Cancel anytime, though Favor Partners almost never do. Tax-deductible. ECFA-accredited."
   />
-
-  <section class="band band--gold" id="tiers">
-    <div class="container">
-      <header class="band__header">
-        <h2>Pick your tier. Or pick your amount.</h2>
-        <p class="band__lede">Suggested tiers from the v2.1 partnership model. Custom amounts welcome. Cancel anytime, though Favor Partners almost never do.</p>
-      </header>
-      <div class="tier-grid">
-        {PARTNER_TIERS.map((t) => (
-          <a class:list={['tier-card', t.featured && 'tier-card--featured']} href={`/give/partner-monthly/form/?amount=${t.amount}`}>
-            <span class="tier-card__amount">${t.amount}<span>/mo</span></span>
-            <span class="tier-card__label">{t.label}</span>
-            <span class="tier-card__cta">Become {t.label} →</span>
-          </a>
-        ))}
-        <a class="tier-card tier-card--custom" href="/give/partner-monthly/form/">
-          <span class="tier-card__amount">$ __</span>
-          <span class="tier-card__label">Custom Amount</span>
-          <span class="tier-card__tagline">Choose what's right for your family.</span>
-          <span class="tier-card__cta">Choose my amount →</span>
-        </a>
-      </div>
-    </div>
-  </section>
 
   <FeatureRow
     image="/images/hero-congo-grads.jpg"
@@ -49,7 +30,7 @@ import { PARTNER_TIERS, SITE } from '../../lib/site';
     eyebrow="What your partnership does"
     heading="Where your monthly gift goes."
     layout="image-left"
-    background="white"
+    background="cream"
   >
     <p>Every Favor Partner gift is unrestricted, meaning the field directs it where it is most needed that month. In FY2024, 89 cents of every dollar went to program work and 11 cents covered U.S. operations, audit, and donor care.</p>
     <ul class="breakdown">
@@ -59,7 +40,7 @@ import { PARTNER_TIERS, SITE } from '../../lib/site';
     <p>Source: FY2024 audited financials filed with ECFA and IRS Form 990. Category-level breakdowns are published in the audited financials, available at <a href="/about/accountability/">accountability</a>.</p>
   </FeatureRow>
 
-  <section class="band band--cream">
+  <section class="band band--white">
     <div class="container container--narrow">
       <ProofBlock
         name="The Women of Puranga"
@@ -73,48 +54,20 @@ import { PARTNER_TIERS, SITE } from '../../lib/site';
 
   <CtaBand
     heading="Start your partnership today."
-    body="Pick a tier above, or choose your own amount. Your first gift processes immediately. You will receive a tax-deductible receipt by email."
+    body="Pick an amount above, or choose your own. Your first gift processes immediately and you will receive a tax-deductible receipt by email."
     ctaLabel="Become a Favor Partner"
-    ctaHref="#tiers"
-    variant="green"
+    ctaHref="/give/partner-monthly/form/"
   />
 </PageLayout>
 
 <style>
-  .tier-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-  }
-  @media (max-width: 1024px) { .tier-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .tier-grid { grid-template-columns: 1fr; } }
-  .tier-card {
-    display: flex; flex-direction: column; gap: var(--space-2);
-    padding: var(--space-6);
-    background: var(--color-white);
-    color: var(--color-ink);
-    border-radius: var(--radius-card);
-    text-decoration: none;
-    border: 2px solid transparent;
-    transition: transform 160ms, border-color 160ms, box-shadow 160ms;
-  }
-  .tier-card:hover { transform: translateY(-3px); border-color: var(--color-green); box-shadow: var(--shadow-card); }
-  .tier-card__amount { font-weight: 800; font-size: 2rem; color: var(--color-green); line-height: 1; }
-  .tier-card__amount span { font-size: 0.95rem; font-weight: 600; color: var(--color-sage); margin-left: 4px; }
-  .tier-card__label { font-weight: 700; letter-spacing: 0.04em; color: var(--color-green-deep); text-transform: uppercase; font-size: 0.85rem; }
-  .tier-card__tagline { font-size: 0.92rem; color: var(--color-ink-soft); flex: 1; }
-  .tier-card__cta { font-size: 0.85rem; font-weight: 700; color: var(--color-gold); }
-  .tier-card--featured { background: var(--color-green); color: var(--color-white); border-color: var(--color-green-deep); }
-  .tier-card--featured .tier-card__amount, .tier-card--featured .tier-card__label { color: var(--color-gold); }
-  .tier-card--featured .tier-card__amount span, .tier-card--featured .tier-card__tagline { color: color-mix(in srgb, var(--color-white) 82%, transparent); }
-  .tier-card--custom { background: var(--color-cream); border-style: dashed; border-color: var(--color-sage); }
-
-  .breakdown { list-style: none; padding: 0; margin: var(--space-6) 0; display: grid; gap: var(--space-2); }
+  .breakdown { list-style: none; padding: 0; margin: var(--space-5) 0; display: grid; gap: var(--space-3); }
   .breakdown li {
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-cream);
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-white);
     border-radius: var(--radius-input);
     color: var(--color-ink-soft);
+    line-height: 1.5;
   }
-  .breakdown strong { color: var(--color-green); display: inline-block; min-width: 60px; font-weight: 800; }
+  .breakdown strong { color: var(--color-green); display: inline-block; min-width: 52px; font-weight: 800; }
 </style>
