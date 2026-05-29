@@ -11,25 +11,24 @@ import CtaBand from '../../components/band/CtaBand.astro';
   <PageHero
     label="Our story"
     title="The conviction Favor was born from."
-    promise={'"Lord, send me where no one wants to GO, to do what no one wants to DO." (Carole Ward)'}
+    promise="How one woman's prayer grew into an indigenous missions movement across East and Central Africa."
     image="/images/about-original-house.jpg"
-    imageAlt="The original Favor House, where the work began"
-    variant="split"
+    imageAlt="The original Favor House in northern Uganda"
   />
 
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">The founding prayer</p>
-      <blockquote class="founding-quote">
-        &ldquo;Lord, send me where no one wants to <span class="green-word">GO</span>, to do what no one wants to <span class="green-word">DO</span>.&rdquo;
-      </blockquote>
-      <p class="founding-cite">Carole Ward, Founder</p>
+  <section class="band band--green-deep founding">
+    <div class="founding__texture" aria-hidden="true"></div>
+    <div class="container container--narrow founding__inner">
+      <p class="label label--inverse">The founding prayer</p>
+      <blockquote class="founding__quote">&ldquo;Lord, send me where no one wants to <span class="founding__hl">GO</span>, to do what no one wants to <span class="founding__hl">DO</span>.&rdquo;</blockquote>
+      <p class="founding__cite">Carole Ward, Founder</p>
     </div>
   </section>
 
   <FeatureRow
     image="/images/about-original-house.jpg"
     imageAlt="The original Favor House in northern Uganda"
+    eyebrow="2002 to 2004"
     heading="The beginning."
     layout="image-left"
     background="cream"
@@ -38,52 +37,66 @@ import CtaBand from '../../components/band/CtaBand.astro';
     <p>After six months of prayer, Ugandans came to her with desperate visions for reaching their own people with Bibles, discipleship, education, and evangelism. In 2004, Carole formed Favour of God Ministries and began training indigenous missionaries to run that vision.</p>
   </FeatureRow>
 
-  <section class="band band--white">
+  <FeatureRow
+    image="/images/hero-congo-grads.jpg"
+    imageAlt="Graduates celebrating in DR Congo"
+    eyebrow="2007 onward"
+    heading="The expansion."
+    layout="image-right"
+    background="white"
+  >
+    <p>In 2007, the Lord led Carole to begin extending the work into Sudan before liberation. National prayer gatherings were mobilized in Juba, the capital of South Sudan, in 2015 and again in 2019, to see enough peace for the Gospel to extend to the farthest regions of the nation and into the most remote tribes and villages. In 2014, FAMI was birthed as a sister organization to FOGM in Northern Uganda, with the same vision, prayer foundation, and indigenous leadership development in each country.</p>
+    <p class="our-vision-line">The vision: every tribe and language reaching their own people, and beyond, with the power of God's Word.</p>
+  </FeatureRow>
+
+  <section class="band band--cream">
     <div class="container container--narrow">
-      <h2>The expansion.</h2>
-      <p>In 2007, the Lord led Carole to begin extending the work into Sudan before liberation. National prayer gatherings were mobilized in Juba, the capital of South Sudan, in 2015 and again in 2019, to see enough peace for the Gospel to extend to the farthest regions of the nation and into the most remote tribes and villages. In 2014, FAMI was birthed as a sister organization to FOGM in Northern Uganda, with the same vision, prayer foundation, and indigenous leadership development in each country.</p>
-      <p>The vision: every tribe and language reaching their own people, and beyond, with the power of God's Word.</p>
-
-      <h2>Today.</h2>
-      <p>Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
-
-      <p style="margin-top: var(--space-6);"><a href="/about/our-story/founder/" class="story-link">Read the full founder's story →</a></p>
+      <p class="label">Today</p>
+      <h2>Indigenous-led, across East Africa.</h2>
+      <p class="today-body">Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
+      <p><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
     </div>
   </section>
 
-  <section class="band band--cream">
+  <section class="band band--white">
     <div class="container container--narrow">
       <p class="label">The story, year by year</p>
       <h2>How the work grew.</h2>
 
       <div class="milestone">
-        <h3>2004</h3>
-        <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
-        <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
-        <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
-        <ul class="milestone-stats">
-          <li>Distributed 80,000+ Bibles,</li>
-          <li>Trained 7,000+ pastors,</li>
-          <li>Built a school with 400 attending,</li>
-          <li>Graduated 500+ leaders from a Bible college,</li>
-          <li>Reached 50,000+ through trauma counseling,</li>
-          <li>Built the first Christian radio station,</li>
-          <li>Held crusades with 1 million+ attending,</li>
-          <li>Trained government leaders,</li>
-          <li>Conducted mobile medical clinics for 8,000+ patients.</li>
-        </ul>
+        <span class="milestone__year">2004</span>
+        <div class="milestone__body">
+          <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
+          <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
+          <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
+          <ul class="milestone__stats">
+            <li>Distributed 80,000+ Bibles,</li>
+            <li>Trained 7,000+ pastors,</li>
+            <li>Built a school with 400 attending,</li>
+            <li>Graduated 500+ leaders from a Bible college,</li>
+            <li>Reached 50,000+ through trauma counseling,</li>
+            <li>Built the first Christian radio station,</li>
+            <li>Held crusades with 1 million+ attending,</li>
+            <li>Trained government leaders,</li>
+            <li>Conducted mobile medical clinics for 8,000+ patients.</li>
+          </ul>
+        </div>
       </div>
 
       <div class="milestone">
-        <h3>2005</h3>
-        <p>A real turning point in our story was the National Prayer Gathering in Gulu. The Lord prompted us to organize a gathering in the War Memorial Stadium to unify the tribes, leaders, churches, and regions in Uganda in repentant prayer for the ending of the war. We planned a 77 hour prayer meeting, 11 hours a day for 7 days in December 2005. Radio stations were contacted to spread the news and word spread like wildfire. The day finally approached and over 1,000 people, including political leaders, gathered inside this humble stadium to join in intense, radical, united prayer.</p>
-        <p>As a result, the war stopped and many significant stories of radical transformation followed. Pastors reported that they sensed heaven opening in a new way. Government officials called and testified of a strong sense that the spiritual climate over the area had changed. Miracles were occurring in local churches. It even led to inaugurating the month of January as the month of prayer.</p>
+        <span class="milestone__year">2005</span>
+        <div class="milestone__body">
+          <p>A real turning point in our story was the National Prayer Gathering in Gulu. The Lord prompted us to organize a gathering in the War Memorial Stadium to unify the tribes, leaders, churches, and regions in Uganda in repentant prayer for the ending of the war. We planned a 77 hour prayer meeting, 11 hours a day for 7 days in December 2005. Radio stations were contacted to spread the news and word spread like wildfire. The day finally approached and over 1,000 people, including political leaders, gathered inside this humble stadium to join in intense, radical, united prayer.</p>
+          <p>As a result, the war stopped and many significant stories of radical transformation followed. Pastors reported that they sensed heaven opening in a new way. Government officials called and testified of a strong sense that the spiritual climate over the area had changed. Miracles were occurring in local churches. It even led to inaugurating the month of January as the month of prayer.</p>
+        </div>
       </div>
 
       <div class="milestone">
-        <h3>2015 to now</h3>
-        <p>We began to focus more direct efforts to South Sudan in 2007 by sending missionaries and Portable Bible School (PBS) programs. We organized a legal presence in the nation through trusted Portable Bible School graduates and purchased our first office space in Juba in 2015. That same year we hosted a national prayer meeting in Juba, the capital of South Sudan, just as we did in Uganda, to bring God&rsquo;s repentance, revival, and restoration.</p>
-        <p>In the years since, we have continued establishing Houses of Prayer in strategic locations across Uganda and South Sudan. In the early part of 2024, we also established a House of Prayer in N&rsquo;Djamena, the capital city of Chad.</p>
+        <span class="milestone__year">2015 to now</span>
+        <div class="milestone__body">
+          <p>We began to focus more direct efforts to South Sudan in 2007 by sending missionaries and Portable Bible School (PBS) programs. We organized a legal presence in the nation through trusted Portable Bible School graduates and purchased our first office space in Juba in 2015. That same year we hosted a national prayer meeting in Juba, the capital of South Sudan, just as we did in Uganda, to bring God&rsquo;s repentance, revival, and restoration.</p>
+          <p>In the years since, we have continued establishing Houses of Prayer in strategic locations across Uganda and South Sudan. In the early part of 2024, we also established a House of Prayer in N&rsquo;Djamena, the capital city of Chad.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -93,57 +106,44 @@ import CtaBand from '../../components/band/CtaBand.astro';
     body="Favor Partners keep this story going. Monthly partnership, any tier, makes the field work possible."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    variant="green"
   />
 </PageLayout>
 
 <style>
-  .founding-quote {
-    margin: var(--space-3) 0 var(--space-1) 0;
-    font-family: var(--font-serif, Georgia, 'Source Serif Pro', serif);
-    font-style: italic;
-    font-size: clamp(1.4rem, 2.8vw, 2rem);
-    line-height: 1.35;
-    color: var(--color-green-deep);
-    border: none;
-    padding: 0;
-    font-weight: 600;
+  /* Founding prayer: immersive green band with subtle African texture. */
+  .founding { position: relative; overflow: hidden; text-align: center; }
+  .founding__texture {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url('/images/patterns/texture-mudcloth.webp');
+    background-size: 560px auto; background-repeat: repeat; opacity: 0.06;
   }
-  .green-word {
-    color: var(--color-green);
-    font-weight: 800;
-    font-style: normal;
+  .founding__inner { position: relative; z-index: 1; }
+  .founding__quote {
+    margin: var(--space-4) auto 0; max-width: 18ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4.6vw, 3.3rem);
+    line-height: 1.25; color: var(--color-white); font-style: normal; border: 0; padding: 0;
   }
-  .founding-cite {
-    margin: 0 0 var(--space-8) 0;
-    color: var(--color-sage);
-    font-size: 0.92rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
+  .founding__hl { color: var(--color-gold); }
+  .founding__cite {
+    margin: var(--space-6) 0 0; color: var(--color-gold-light);
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.85rem;
   }
-  .story-link {
-    color: var(--color-green);
-    font-weight: 700;
-    text-decoration: none;
-    border-bottom: 2px solid var(--color-gold);
-  }
-  .milestone { padding: var(--space-6) 0; border-top: 1px solid var(--color-border); }
+
+  .our-vision-line { font-style: italic; color: var(--color-green-deep); font-weight: 600; }
+  .today-body { font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-soft); }
+  .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+
+  /* Timeline */
+  .milestone { display: grid; grid-template-columns: 120px 1fr; gap: var(--space-8); padding: var(--space-8) 0; border-top: 1px solid var(--color-border); }
   .milestone:first-of-type { border-top: 0; }
-  .milestone h3 {
-    margin: 0 0 var(--space-3);
-    color: var(--color-gold-deep);
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
+  @media (max-width: 640px) { .milestone { grid-template-columns: 1fr; gap: var(--space-3); } }
+  .milestone__year {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.8rem;
+    color: var(--color-gold-deep); line-height: 1; position: sticky; top: 100px; align-self: start;
   }
-  .milestone p { margin: 0 0 var(--space-3); color: var(--color-ink-soft); }
-  .milestone-stats {
-    margin: var(--space-3) 0 0;
-    padding-left: var(--space-6);
-    display: grid;
-    gap: var(--space-1);
-    color: var(--color-ink-soft);
-  }
-  .milestone-stats li { line-height: 1.5; }
+  @media (max-width: 640px) { .milestone__year { position: static; } }
+  .milestone__body p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .milestone__stats { margin: var(--space-2) 0 0; padding-left: var(--space-6); display: grid; gap: var(--space-1); color: var(--color-ink-soft); }
+  .milestone__stats li { line-height: 1.5; }
 </style>
