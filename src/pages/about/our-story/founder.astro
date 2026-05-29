@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
 import PageHero from '../../../components/band/PageHero.astro';
+import FeatureRow from '../../../components/band/FeatureRow.astro';
 import CtaBand from '../../../components/band/CtaBand.astro';
 ---
 <PageLayout
@@ -11,25 +12,30 @@ import CtaBand from '../../../components/band/CtaBand.astro';
     label="Founder & International Director"
     title="Carole Ward."
     promise="She dares to follow God and change nations one life at a time."
-    image="/images/team/carole-ward.png"
-    imageAlt="Carole Ward, Founder of Favor International"
-    variant="portrait"
-    objectPosition="center top"
+    image="/images/story-historic-prayer.jpg"
+    imageAlt="A national prayer gathering in northern Uganda"
   />
 
-  <section class="band band--white">
+  <FeatureRow
+    image="/images/team/carole-ward.png"
+    imageAlt="Carole Ward, Founder of Favor International"
+    eyebrow="About Carole Ward"
+    heading="A life many would not believe is real."
+    layout="image-right"
+    background="cream"
+    objectPosition="center top"
+  >
+    <p>Carole Ward lives a life many would not believe is real. She dares to follow God and change nations one life at a time. Hers is the story of one woman&rsquo;s commitment to her God and to the love for His people.</p>
+    <p>Her journey and her story began by stepping out in faith when she prayed with a sincere heart, &ldquo;send me where no one wants to go.&rdquo; Although she was told repeatedly by US authorities and other organizations she would come back in a body-bag, Carole, through her faith in the power of God, has seen Him transform lives in Northern Uganda, South Sudan, Chad, and surrounding nations for the Kingdom of God since arrival to Africa in 2002.</p>
+  </FeatureRow>
+
+  <section class="band band--cream">
     <div class="container container--narrow">
-      <h2>About Carole Ward</h2>
-      <p>Carole Ward lives a life many would not believe is real. She dares to follow God and change nations one life at a time. Hers is the story of one woman&rsquo;s commitment to her God and to the love for His people.</p>
-      <p>Her journey and her story began by stepping out in faith when she prayed with a sincere heart, &ldquo;send me where no one wants to go.&rdquo; Although she was told repeatedly by US authorities and other organizations she would come back in a body-bag, Carole, through her faith in the power of God, has seen Him transform lives in Northern Uganda, South Sudan, Chad, and surrounding nations for the Kingdom of God since arrival to Africa in 2002.</p>
-
       <blockquote class="founder-quote">&ldquo;send me where no one wants to go.&rdquo;</blockquote>
-
       <p>The Lord has since used her ministry to rescue countless children from the clutches of the rebel leader Joseph Kony, who had abducted and trained more than 50,000 child soldiers and sent them out on killing rampages against their own people. After being healed physically, spiritually, and emotionally by the Lord, many of these children, now grown, have become active members of Favor&rsquo;s large ministry staff.</p>
       <p>Through mobilized prayer and discipleship, leadership development, and the power of the Gospel, Favor International&rsquo;s indigenous leaders see holistic transformation of unreached, underserved, and often persecuted communities in 8 northeast African nations.</p>
       <p>This ministry is unique in that it does not rely on man&rsquo;s power to grow, but on God&rsquo;s power to &ldquo;confirm His Word through signs, wonders, and miracles&rdquo; as described in the Scriptures. What is impossible for any human has been made possible with God through fervent prayer and fasting. What started as a prayer movement has grown into a missions movement taking nations for Jesus!</p>
       <p>But the enemy does not sit still. While we have overcome the darkness of wars and are continuing to overcome the darkness of witchcraft, there are equally dangerous spiritual forces pushing into these nations, threatening the advancement of the Gospel with unrelenting determination. The fields are ripe unto harvest, the time is short and as we partner together, we will continue to see His Kingdom expand at an accelerated pace.</p>
-
       <p style="margin-top: var(--space-6);"><a href="/about/our-story/" class="story-link">Back to our story &rarr;</a></p>
     </div>
   </section>
@@ -39,26 +45,20 @@ import CtaBand from '../../../components/band/CtaBand.astro';
     body="Favor Partners keep indigenous missionaries on the trail across northeast Africa. Monthly partnership, any tier, makes the field work possible."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    variant="green"
   />
 </PageLayout>
 
 <style>
   .founder-quote {
-    margin: var(--space-8) 0;
+    margin: 0 0 var(--space-8);
     padding: var(--space-2) 0 var(--space-2) var(--space-6);
     border-left: 4px solid var(--color-gold);
-    font-family: var(--font-serif, Georgia, serif);
+    font-family: var(--font-display);
     font-style: italic;
-    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
-    line-height: 1.35;
-    color: var(--color-green-deep);
     font-weight: 600;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.3;
+    color: var(--color-green-deep);
   }
-  .story-link {
-    color: var(--color-green);
-    font-weight: 700;
-    text-decoration: none;
-    border-bottom: 2px solid var(--color-gold);
-  }
+  .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 </style>
