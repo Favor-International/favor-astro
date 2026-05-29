@@ -2,7 +2,6 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import PostCard from '../../components/band/PostCard.astro';
-import StatTile from '../../components/band/StatTile.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
 
@@ -12,6 +11,11 @@ const pillarImages: Record<string, string> = {
   'community-development': '/images/pillar-community-care.jpg',
   'economic-empowerment': '/images/pillar-economic-empowerment.jpg',
 };
+const deeper = [
+  { href: '/newsletter/', image: '/images/hero-newsletter-field.jpg', title: 'Field updates', desc: 'Monthly reports from the country teams, straight to your inbox.', action: 'Subscribe' },
+  { href: '/about/accountability/', image: '/images/hero-bibles-stacks.jpg', title: 'Impact reports', desc: 'Quarterly and annual PDFs with audited numbers.', action: 'View reports' },
+  { href: '/stories/', image: '/images/story-anaka-crusade.jpg', title: 'Stories of transformation', desc: 'Real names, real places, real outcomes.', action: 'Read stories' },
+];
 ---
 <PageLayout
   title="Impact"
@@ -26,59 +30,56 @@ const pillarImages: Record<string, string> = {
     imageAlt="PBS graduates with certificates"
   />
 
-  <section class="band band--green-deep" style="padding-top: clamp(var(--space-20), 11vw, 160px); padding-bottom: clamp(var(--space-20), 11vw, 160px);">
-    <div class="container">
-      <header class="band__header band__header--inverse" style="margin-bottom: var(--space-12);">
-        <p class="label label--inverse">Audited financials</p>
-        <h2>The receipts behind the work.</h2>
-        <p class="band__lede band__lede--inverse" style="max-width: 60ch; margin: var(--space-3) auto 0;">
-          Every number below is sourced from Favor's FY2024 audited financials,
-          filed with ECFA and IRS Form 990. No estimates. No projections.
-        </p>
-      </header>
-      <div class="grid grid-4">
-        {IMPACT_STATS.map((s) => <StatTile value={s.value} label={s.label} source={s.source} />)}
-      </div>
-      <p style="text-align:center; margin-top: var(--space-8); color: color-mix(in srgb, var(--color-white) 70%, transparent); font-size: 0.85rem;">
-        Sources: <a href="https://www.ecfa.org/MemberProfile.aspx?ID=50004" target="_blank" rel="noopener" style="color: var(--color-gold);">ECFA member profile</a> ·
-        <a href="https://www.charitynavigator.org/ein/475225697" target="_blank" rel="noopener" style="color: var(--color-gold);">Charity Navigator</a> ·
-        <a href="https://app.candid.org/profile/9511233" target="_blank" rel="noopener" style="color: var(--color-gold);">Candid (Guidestar)</a>
-      </p>
+  <section class="band band--white">
+    <div class="container impact-head">
+      <p class="label">Audited financials</p>
+      <h2>The receipts behind the work.</h2>
+      <p class="impact-lede">Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
+    </div>
+    <div class="container impact-stats">
+      {IMPACT_STATS.map((s) => (
+        <div class="impact-stat">
+          <span class="impact-stat__num">{s.value}</span>
+          <span class="impact-stat__label">{s.label}</span>
+          <span class="impact-stat__src">{s.source}</span>
+        </div>
+      ))}
+    </div>
+    <p class="impact-sources">
+      Sources: <a href="https://www.ecfa.org/MemberProfile.aspx?ID=50004" target="_blank" rel="noopener">ECFA member profile</a> ·
+      <a href="https://www.charitynavigator.org/ein/475225697" target="_blank" rel="noopener">Charity Navigator</a> ·
+      <a href="https://app.candid.org/profile/9511233" target="_blank" rel="noopener">Candid (Guidestar)</a>
+    </p>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container impact-head">
+      <p class="label">The pillars</p>
+      <h2>How the work breaks down.</h2>
+    </div>
+    <div class="container pillar-grid">
+      {PILLARS.map((p) => (
+        <PostCard
+          href={`/impact/${p.slug}/`}
+          image={pillarImages[p.slug]}
+          imageAlt={p.label}
+          title={p.label}
+          desc={p.blurb}
+          actionLabel="See the work"
+        />
+      ))}
     </div>
   </section>
 
   <section class="band band--white">
-    <div class="container">
-      <header class="band__header">
-        <p class="label">The pillars</p>
-        <h2>How the work breaks down.</h2>
-      </header>
-      <div class="grid grid-4">
-        {PILLARS.map((p) => (
-          <PostCard
-            href={`/impact/${p.slug}/`}
-            image={pillarImages[p.slug]}
-            imageAlt={p.label}
-            title={p.label}
-            desc={p.blurb}
-            actionLabel="See the work"
-          />
-        ))}
-      </div>
+    <div class="container impact-head">
+      <p class="label">Deeper</p>
+      <h2>Reports, stories, and the field record.</h2>
     </div>
-  </section>
-
-  <section class="band band--cream">
-    <div class="container">
-      <header class="band__header">
-        <p class="label">Deeper</p>
-        <h2>Reports, stories, and the field record.</h2>
-      </header>
-      <div class="grid grid-3">
-        <a class="impact-link" href="/newsletter/"><h3>Field updates</h3><p>Monthly reports from the country teams, straight to your inbox.</p></a>
-        <a class="impact-link" href="/about/accountability/"><h3>Impact reports</h3><p>Quarterly and annual PDFs with audited numbers.</p></a>
-        <a class="impact-link" href="/stories/"><h3>Stories of transformation</h3><p>Real names, real places, real outcomes.</p></a>
-      </div>
+    <div class="container grid grid-3">
+      {deeper.map((d) => (
+        <PostCard href={d.href} image={d.image} imageAlt={d.title} title={d.title} desc={d.desc} actionLabel={d.action} />
+      ))}
     </div>
   </section>
 
@@ -87,21 +88,21 @@ const pillarImages: Record<string, string> = {
     body="One email a month. The team's honest take on what worked and what didn't."
     ctaLabel="Send Me the Field Report"
     ctaHref="/newsletter/"
-    variant="green"
   />
 </PageLayout>
 
 <style>
-  .impact-link {
-    display: block;
-    padding: var(--space-8);
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-    text-decoration: none; color: inherit;
-    transition: border-color 160ms, transform 160ms;
-  }
-  .impact-link:hover { border-color: var(--color-gold); transform: translateY(-2px); }
-  .impact-link h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
-  .impact-link p { margin: 0; color: var(--color-ink-soft); }
+  .impact-head { text-align: center; max-width: 760px; margin-left: auto; margin-right: auto; }
+  .impact-lede { margin: var(--space-3) auto 0; color: var(--color-ink-soft); max-width: 60ch; }
+  .impact-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-8); margin-top: var(--space-12); text-align: center; }
+  @media (max-width: 760px) { .impact-stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-10) var(--space-6); } }
+  .impact-stat__num { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 5.5vw, 3.8rem); color: var(--color-green-deep); line-height: 1; letter-spacing: -0.02em; }
+  .impact-stat__label { display: block; margin-top: var(--space-3); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .impact-stat__src { display: block; margin-top: var(--space-2); font-size: 0.78rem; color: var(--color-sage); }
+  .impact-sources { text-align: center; margin: var(--space-10) 0 0; color: var(--color-sage); font-size: 0.85rem; }
+  .impact-sources a { color: var(--color-gold-deep); }
+
+  .pillar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); margin-top: var(--space-10); }
+  @media (max-width: 680px) { .pillar-grid { grid-template-columns: 1fr; } }
+  .grid-3 { margin-top: var(--space-10); }
 </style>
