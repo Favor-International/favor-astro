@@ -18,19 +18,21 @@ import { SITE } from '../../lib/site';
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">Three common paths</p>
-      <h2>How most Favor legacy partners give.</h2>
-      <div class="legacy-paths">
-        <article>
+    <div class="container">
+      <header class="lg-head">
+        <p class="label">Three common paths</p>
+        <h2>How most Favor legacy partners give.</h2>
+      </header>
+      <div class="acard-grid">
+        <article class="acard has-texture">
           <h3>Bequest by will</h3>
           <p>A specific dollar amount or a percentage of your estate, named in your will. Most common, easiest to set up. Talk to your attorney.</p>
         </article>
-        <article>
+        <article class="acard has-texture">
           <h3>Beneficiary designation</h3>
           <p>Name Favor International as a beneficiary on an IRA, 401(k), or life-insurance policy. Often the most tax-efficient route.</p>
         </article>
-        <article>
+        <article class="acard has-texture">
           <h3>Charitable trust</h3>
           <p>Charitable remainder or lead trusts can provide income to you or family and route the remainder to Favor. Talk to a CFP first.</p>
         </article>
@@ -48,9 +50,14 @@ import { SITE } from '../../lib/site';
 </PageLayout>
 
 <style>
-  .legacy-paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-top: var(--space-8); }
-  @media (max-width: 900px) { .legacy-paths { grid-template-columns: 1fr; } }
-  .legacy-paths article { background: var(--color-cream); padding: var(--space-6); border-radius: var(--radius-card); border-top: 4px solid var(--color-gold); }
-  .legacy-paths h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.1rem; }
-  .legacy-paths p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; }
+  .lg-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
+  .acard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  @media (max-width: 900px) { .acard-grid { grid-template-columns: 1fr; } }
+  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 5px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.1rem; }
+  .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
+  .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .acard:nth-child(4n+4) { --accent: var(--color-sage); }
 </style>

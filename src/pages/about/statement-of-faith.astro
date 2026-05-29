@@ -33,16 +33,16 @@ const articles = [
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
+    <div class="container">
       <ol class="faith-list">
         {articles.map((a) => (
-          <li>
+          <li class="has-texture">
             <h3>{a.title}</h3>
             <p>{a.body}</p>
           </li>
         ))}
       </ol>
-      <p>This statement is intentionally short and intentionally classic. Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant.</p>
+      <p class="faith-note">This statement is intentionally short and intentionally classic. Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant.</p>
     </div>
   </section>
 
@@ -56,27 +56,35 @@ const articles = [
 </PageLayout>
 
 <style>
-  .faith-list { list-style: none; padding: 0; margin: 0 0 var(--space-8); display: grid; gap: var(--space-4); counter-reset: faith; }
+  .faith-list { list-style: none; padding: 0; margin: 0 0 var(--space-8); display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); counter-reset: faith; }
+  @media (max-width: 760px) { .faith-list { grid-template-columns: 1fr; } }
   .faith-list li {
-    padding: var(--space-6);
-    background: var(--color-cream);
+    padding: var(--space-6) var(--space-6) var(--space-6) 76px;
+    background: var(--color-white);
     border-radius: var(--radius-card);
+    border-top: 5px solid var(--accent, var(--color-gold));
+    box-shadow: var(--shadow-soft);
     position: relative;
-    padding-left: 72px;
   }
-  .faith-list li::before {
+  .faith-list li::after {
     counter-increment: faith;
     content: counter(faith);
     position: absolute;
     left: var(--space-6);
     top: var(--space-6);
-    width: 36px; height: 36px;
+    width: 40px; height: 40px;
     border-radius: 50%;
-    background: var(--color-gold);
-    color: var(--color-ink);
+    background: var(--accent, var(--color-gold));
+    color: var(--color-white);
     display: flex; align-items: center; justify-content: center;
-    font-weight: 800;
+    font-family: var(--font-sans); font-weight: 800; font-size: 1.05rem;
+    z-index: 1;
   }
+  .faith-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .faith-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .faith-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .faith-list li:nth-child(4n+4) { --accent: var(--color-sage); }
   .faith-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
-  .faith-list p { margin: 0; color: var(--color-ink-soft); }
+  .faith-list p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
+  .faith-note { max-width: 720px; margin: 0 auto; text-align: center; color: var(--color-ink-soft); }
 </style>

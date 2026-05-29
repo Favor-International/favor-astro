@@ -25,17 +25,19 @@ const programs = [
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">The three programs</p>
-      <h2>From relief to self-reliance.</h2>
-      <ul class="program-list">
+    <div class="container">
+      <header class="ee-head">
+        <p class="label">The three programs</p>
+        <h2>From relief to self-reliance.</h2>
+      </header>
+      <div class="acard-grid">
         {programs.map((p) => (
-          <li>
+          <article class="acard has-texture">
             <h3>{p.name}</h3>
             <p>{p.desc}</p>
-          </li>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
@@ -48,19 +50,21 @@ const programs = [
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">The programs in depth</p>
-      <h2>From relief to self-reliance, program by program.</h2>
-      <div class="depth">
-        <article>
+    <div class="container">
+      <header class="ee-head">
+        <p class="label">The programs in depth</p>
+        <h2>From relief to self-reliance, program by program.</h2>
+      </header>
+      <div class="acard-grid">
+        <article class="acard has-texture">
           <h3>Sustainability Projects</h3>
           <p>God has provided Favor with a 270 acre farm. Wanting to be good stewards of what we&rsquo;ve been given to work with and lead by example, we have a few sustainability projects that help provide for our ministry teams and support our programs directly. The farm is located just outside of Gulu which includes vegetables and fruit trees, and then a poultry house and fisheries are within our Education compound. The fish farm breeds and sells fingerlings and grows table fish for market and for consumption.</p>
         </article>
-        <article>
+        <article class="acard has-texture">
           <h3>Women Empowerment</h3>
           <p>Favor&rsquo;s Women Empowerment ministry ends this cycle by equipping women to generate their own income through training in skills, trauma healing, entrepreneurship, parenting, and financial management. The women are empowered and given a project to begin. This income gains them a measure of respect from their husbands and funds the medical and educational needs of all their children.</p>
         </article>
-        <article>
+        <article class="acard has-texture">
           <h3>Vocational Program</h3>
           <p>Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice. Some of the offerings are mechanics, farming, fisheries, animal husbandry, landscaping, tailoring, hairdressing, bakery, and many more. Being part of a larger government program, we&rsquo;re able to award our vocational graduates, who rank among the top graduates in the nation, government-recognized certificates that give them an edge.</p>
         </article>
@@ -78,13 +82,14 @@ const programs = [
 </PageLayout>
 
 <style>
-  .program-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
-  .program-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .program-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
-  .program-list p { margin: 0; color: var(--color-ink-soft); }
-  .depth { display: grid; gap: var(--space-6); margin-top: var(--space-6); }
-  .depth article { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .depth h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
-  .depth p { margin: 0 0 var(--space-3); color: var(--color-ink-soft); }
-  .depth p:last-child { margin-bottom: 0; }
+  .ee-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
+  .acard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  @media (max-width: 860px) { .acard-grid { grid-template-columns: 1fr; } }
+  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 5px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
+  .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .acard:nth-child(4n+4) { --accent: var(--color-sage); }
 </style>

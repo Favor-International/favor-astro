@@ -18,27 +18,29 @@ import { SITE } from '../../lib/site';
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">Asset types we accept</p>
-      <h2>How to send each.</h2>
-      <ul class="asset-list">
-        <li>
+    <div class="container">
+      <header class="nc-head">
+        <p class="label">Asset types we accept</p>
+        <h2>How to send each.</h2>
+      </header>
+      <div class="acard-grid">
+        <article class="acard has-texture">
           <h3>Appreciated stock</h3>
           <p>Brokerage transfer or DAFpay route. Avoid capital gains; deduct full market value. We will send our DTC instructions on request.</p>
-        </li>
-        <li>
+        </article>
+        <article class="acard has-texture">
           <h3>Cryptocurrency</h3>
           <p>BTC, ETH, USDC, plus most major chains. Routed through TrustBridge Global. We will email the wallet address after a quick KYC.</p>
-        </li>
-        <li>
+        </article>
+        <article class="acard has-texture">
           <h3>Real estate, vehicles, equipment</h3>
           <p>Case-by-case. We work with a partner network to handle the transfer and convert to cash. Email the executive team first.</p>
-        </li>
-        <li>
+        </article>
+        <article class="acard has-texture">
           <h3>Matching gifts</h3>
           <p>Most large employers will match charitable gifts. Search your benefits portal for "Favor International" and EIN {SITE.ein}.</p>
-        </li>
-      </ul>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -52,8 +54,14 @@ import { SITE } from '../../lib/site';
 </PageLayout>
 
 <style>
-  .asset-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
-  .asset-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .asset-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
-  .asset-list p { margin: 0; color: var(--color-ink-soft); }
+  .nc-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
+  .acard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  @media (max-width: 760px) { .acard-grid { grid-template-columns: 1fr; } }
+  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 5px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .acard h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
+  .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
+  .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .acard:nth-child(4n+4) { --accent: var(--color-sage); }
 </style>

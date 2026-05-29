@@ -18,19 +18,34 @@ import { SITE } from '../../lib/site';
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">Country routes</p>
-      <h2>How to give from outside the United States.</h2>
-      <table class="intl-table">
-        <thead><tr><th>Country</th><th>Tax-receipt route</th><th>How to give</th></tr></thead>
-        <tbody>
-          <tr><td>United Kingdom</td><td>Gift Aid eligible via TrustBridge UK</td><td><a href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com →</a></td></tr>
-          <tr><td>Canada</td><td>CRA-receipt via TrustBridge Canada</td><td><a href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com →</a></td></tr>
-          <tr><td>European Union</td><td>TGE network via TrustBridge</td><td><a href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com →</a></td></tr>
-          <tr><td>Australia</td><td>DGR via partner foundation</td><td><a href={`mailto:${SITE.emailGeneral}?subject=Australia giving`}>Email the team</a></td></tr>
-        </tbody>
-      </table>
-      <p>If your country isn't listed, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will help you find a tax-efficient route.</p>
+    <div class="container">
+      <header class="intl-head">
+        <p class="label">Country routes</p>
+        <h2>How to give from outside the United States.</h2>
+      </header>
+      <div class="intl-grid">
+        <article class="intl-card has-texture">
+          <p class="intl-card__country">United Kingdom</p>
+          <p class="intl-card__route">Gift Aid eligible via TrustBridge UK</p>
+          <a class="intl-card__cta" href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com &rarr;</a>
+        </article>
+        <article class="intl-card has-texture">
+          <p class="intl-card__country">Canada</p>
+          <p class="intl-card__route">CRA-receipt via TrustBridge Canada</p>
+          <a class="intl-card__cta" href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com &rarr;</a>
+        </article>
+        <article class="intl-card has-texture">
+          <p class="intl-card__country">European Union</p>
+          <p class="intl-card__route">TGE network via TrustBridge</p>
+          <a class="intl-card__cta" href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com &rarr;</a>
+        </article>
+        <article class="intl-card has-texture">
+          <p class="intl-card__country">Australia</p>
+          <p class="intl-card__route">DGR via partner foundation</p>
+          <a class="intl-card__cta" href={`mailto:${SITE.emailGeneral}?subject=Australia giving`}>Email the team &rarr;</a>
+        </article>
+      </div>
+      <p class="intl-note">If your country isn't listed, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will help you find a tax-efficient route.</p>
     </div>
   </section>
 
@@ -44,8 +59,18 @@ import { SITE } from '../../lib/site';
 </PageLayout>
 
 <style>
-  .intl-table { width: 100%; border-collapse: collapse; margin: var(--space-8) 0; }
-  .intl-table th, .intl-table td { text-align: left; padding: var(--space-4); border-bottom: 1px solid var(--color-border); }
-  .intl-table th { background: var(--color-cream); font-weight: 700; color: var(--color-green); letter-spacing: 0.04em; font-size: 0.85rem; text-transform: uppercase; }
-  .intl-table td a { color: var(--color-gold); font-weight: 700; }
+  .intl-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
+  .intl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  @media (max-width: 700px) { .intl-grid { grid-template-columns: 1fr; } }
+  .intl-card { display: flex; flex-direction: column; gap: var(--space-2); background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 5px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .intl-card:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .intl-card:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .intl-card:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .intl-card:nth-child(4n+4) { --accent: var(--color-sage); }
+  .intl-card__country { margin: 0; font-family: var(--font-sans); font-weight: 800; font-size: 1.35rem; color: var(--color-green); letter-spacing: -0.01em; }
+  .intl-card__route { margin: 0; color: var(--color-ink-soft); line-height: 1.55; }
+  .intl-card__cta { margin-top: var(--space-2); color: var(--color-gold-deep); font-weight: 700; text-decoration: none; }
+  .intl-card__cta:hover { color: var(--color-green); }
+  .intl-note { margin: var(--space-8) auto 0; max-width: 640px; text-align: center; color: var(--color-ink-soft); }
+  .intl-note a { color: var(--color-gold-deep); font-weight: 700; }
 </style>
