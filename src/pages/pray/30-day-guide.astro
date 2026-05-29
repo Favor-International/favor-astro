@@ -2,25 +2,24 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
-import { CTA } from '../../lib/cta';
 
 const week1 = [
-  ['Day 1', 'Uganda:Gulu region pastors and PBS trainers.'],
-  ['Day 2', 'Uganda:Karamoja cattle herders. Pray for open doors and translators.'],
-  ['Day 3', 'South Sudan:Juba field office staff and safety on the roads.'],
-  ['Day 4', 'South Sudan:Lakes State villages where churches were planted in 2025.'],
-  ['Day 5', 'South Sudan:Taposa tribal communities and former warriors.'],
-  ['Day 6', 'Chad:protection for the Favor team currently on the ground.'],
-  ['Day 7', 'Sabbath:pray for rest for every Favor field worker. Pray for their families.'],
+  ['Day 1', 'Uganda', 'Gulu region pastors and PBS trainers.'],
+  ['Day 2', 'Uganda', 'Karamoja cattle herders. Pray for open doors and translators.'],
+  ['Day 3', 'South Sudan', 'Juba field office staff and safety on the roads.'],
+  ['Day 4', 'South Sudan', 'Lakes State villages where churches were planted in 2025.'],
+  ['Day 5', 'South Sudan', 'Taposa tribal communities and former warriors.'],
+  ['Day 6', 'Chad', 'Protection for the Favor team currently on the ground.'],
+  ['Day 7', 'Sabbath', 'Pray for rest for every Favor field worker, and for their families.'],
 ];
 const week2 = [
-  ['Day 8', 'Ethiopia:Amharic Bible printing run, every Bible reaches a household.'],
-  ['Day 9', 'Ethiopia:Bishoftu Training of Trainers session.'],
-  ['Day 10', 'DRC:eastern province church planting amid ongoing instability.'],
-  ['Day 11', 'Kenya:partner network and ambassadors referring new families.'],
-  ['Day 12', 'Sudan:refugees who have come to Christ in displacement.'],
-  ['Day 13', 'Burundi:leadership-training cohort and their home churches.'],
-  ['Day 14', 'Sabbath:pray for protection over every Favor partner family.'],
+  ['Day 8', 'Ethiopia', 'Amharic Bible printing run, that every Bible reaches a household.'],
+  ['Day 9', 'Ethiopia', 'Bishoftu Training of Trainers session.'],
+  ['Day 10', 'DR Congo', 'Eastern province church planting amid ongoing instability.'],
+  ['Day 11', 'Kenya', 'Partner network and ambassadors referring new families.'],
+  ['Day 12', 'Sudan', 'Refugees who have come to Christ in displacement.'],
+  ['Day 13', 'Burundi', 'Leadership-training cohort and their home churches.'],
+  ['Day 14', 'Sabbath', 'Pray for protection over every Favor partner family.'],
 ];
 ---
 <PageLayout
@@ -38,28 +37,28 @@ const week2 = [
     variant="split"
   />
 
-  <section class="band band--white">
+  <section class="band band--cream">
     <div class="container container--narrow">
       <p class="label">Week one</p>
       <h2>The work in East Africa.</h2>
       <ol class="prayer-list">
-        {week1.map(([day, ask]) => (
-          <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask">{ask}</span></li>
+        {week1.map(([day, where, ask]) => (
+          <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
         ))}
       </ol>
     </div>
   </section>
 
-  <section class="band band--cream">
+  <section class="band band--cream prayer-week2">
     <div class="container container--narrow">
       <p class="label">Week two</p>
       <h2>Equipping leaders, opening closed doors.</h2>
       <ol class="prayer-list" start={8}>
-        {week2.map(([day, ask]) => (
-          <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask">{ask}</span></li>
+        {week2.map(([day, where, ask]) => (
+          <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
         ))}
       </ol>
-      <p class="band__cta-row"><a class="btn btn--secondary" href="/resources/30-day-prayer-guide.pdf">Download all 30 days as a PDF</a></p>
+      <p class="prayer-download"><a class="btn btn--secondary btn--large" href="/resources/30-day-prayer-guide.pdf">Download all 30 days as a PDF</a></p>
     </div>
   </section>
 
@@ -68,6 +67,8 @@ const week2 = [
     body="Email prayer@favorintl.org. A real person reads it. Real field leaders pray over it."
     ctaLabel="Email a prayer request"
     ctaHref="mailto:prayer@favorintl.org"
+    image="/images/field/prayer-gathering-chad.webp"
+    imageAlt="A national prayer gathering in Chad"
     variant="sage"
   />
 </PageLayout>
@@ -75,19 +76,26 @@ const week2 = [
 <style>
   .prayer-list {
     list-style: none; padding: 0; margin: var(--space-8) 0 0;
-    display: grid; gap: var(--space-2);
+    display: grid; gap: var(--space-3);
   }
   .prayer-list li {
     display: grid;
-    grid-template-columns: 110px 1fr;
+    grid-template-columns: 96px 1fr;
     gap: var(--space-4);
     padding: var(--space-4) var(--space-6);
     background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-input);
+    border-radius: var(--radius-card);
+    border-left: 5px solid var(--accent, var(--color-gold));
+    box-shadow: var(--shadow-soft);
   }
-  .prayer-list__day { font-weight: 700; color: var(--color-gold); letter-spacing: 0.04em; font-size: 0.85rem; text-transform: uppercase; align-self: start; padding-top: 3px; }
-  .prayer-list__ask { color: var(--color-ink-soft); }
+  .prayer-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .prayer-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .prayer-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .prayer-list li:nth-child(4n+4) { --accent: var(--color-sage); }
+  .prayer-list__day { font-weight: 800; color: var(--accent, var(--color-gold-deep)); letter-spacing: 0.04em; font-size: 0.85rem; text-transform: uppercase; align-self: start; padding-top: 3px; }
+  .prayer-list__ask { color: var(--color-ink-soft); line-height: 1.6; }
+  .prayer-list__where { color: var(--color-green); font-weight: 800; }
+  .prayer-download { text-align: center; margin: var(--space-12) 0 0; }
   @media (max-width: 600px) {
     .prayer-list li { grid-template-columns: 1fr; gap: var(--space-1); }
   }
