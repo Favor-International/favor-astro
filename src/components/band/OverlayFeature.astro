@@ -1,0 +1,59 @@
+---
+// Immersive full-width section: a real photo edge-to-edge with a dark green
+// gradient over one side, so the copy reads directly on the image. Used for
+// dramatic, cohesive moments instead of flat color bands.
+export interface Props {
+  image: string;
+  imageAlt: string;
+  eyebrow?: string;
+  heading?: string;
+  side?: 'left' | 'right';
+  objectPosition?: string;
+}
+const { image, imageAlt, eyebrow, heading, side = 'left', objectPosition = 'center' } = Astro.props as Props;
+---
+<section class:list={['overlay-feature', `overlay-feature--${side}`]}>
+  <div class="overlay-feature__photo" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
+  <div class="overlay-feature__scrim" aria-hidden="true"></div>
+  <div class="container overlay-feature__inner">
+    <div class="overlay-feature__panel">
+      {eyebrow && <p class="label label--inverse">{eyebrow}</p>}
+      {heading && <h2>{heading}</h2>}
+      <slot />
+    </div>
+  </div>
+</section>
+<style>
+  .overlay-feature {
+    position: relative;
+    min-height: clamp(480px, 62vh, 660px);
+    display: flex;
+    align-items: center;
+    color: var(--color-white);
+    overflow: hidden;
+  }
+  .overlay-feature__photo { position: absolute; inset: 0; z-index: 0; background-size: cover; background-repeat: no-repeat; }
+  .overlay-feature__scrim { position: absolute; inset: 0; z-index: 1; }
+  .overlay-feature--left .overlay-feature__scrim {
+    background: linear-gradient(90deg, rgba(31,58,26,0.95) 0%, rgba(31,58,26,0.80) 42%, rgba(31,58,26,0.22) 74%, rgba(31,58,26,0) 100%);
+  }
+  .overlay-feature--right .overlay-feature__scrim {
+    background: linear-gradient(270deg, rgba(31,58,26,0.95) 0%, rgba(31,58,26,0.80) 42%, rgba(31,58,26,0.22) 74%, rgba(31,58,26,0) 100%);
+  }
+  .overlay-feature__inner { position: relative; z-index: 2; width: 100%; }
+  .overlay-feature--right .overlay-feature__inner { display: flex; justify-content: flex-end; }
+  .overlay-feature__panel { max-width: 540px; }
+  .overlay-feature__panel h2 { color: var(--color-white); margin: 0 0 var(--space-5); }
+  .overlay-feature__panel :global(p) { color: color-mix(in srgb, var(--color-white) 90%, transparent); line-height: 1.7; margin: 0 0 var(--space-4); }
+  .overlay-feature__panel :global(p:last-child) { margin-bottom: 0; }
+  .overlay-feature__panel :global(strong) { color: var(--color-gold); font-weight: 700; }
+  @media (max-width: 760px) {
+    .overlay-feature__scrim,
+    .overlay-feature--left .overlay-feature__scrim,
+    .overlay-feature--right .overlay-feature__scrim {
+      background: linear-gradient(180deg, rgba(31,58,26,0.55) 0%, rgba(31,58,26,0.90) 100%);
+    }
+    .overlay-feature--right .overlay-feature__inner { justify-content: flex-start; }
+    .overlay-feature__panel { max-width: none; }
+  }
+</style>
