@@ -19,10 +19,10 @@ const programs = [
 ];
 
 const depth = [
-  { name: 'Village Learning Centers', body: 'Our approach is to increase access to quality education by implementing village learning centers, in church buildings, that younger students in a village locale can reach on foot. We use the Roots to Fruit curriculum, which is a Bible-based, Christian approach to education approved by the Ugandan government, for primary school.' },
-  { name: 'Favor Primary School', body: 'The mission of Favor Primary Schools is to educate the next generation of Uganda’s and South Sudan’s leadership on the Word of God, prayer, and academic excellence. Our schools in both Gulu and Juba receive kids from all walks of life, religions, and income levels. We strive to maintain a 30:1 student-to-teacher ratio, and the schools have gained a reputation of excellence with some of our students in Uganda scoring the highest in the Gulu district of 160 schools.' },
-  { name: 'Favor Secondary School', body: 'Our Favor Secondary School opened to the public for the first time in February 2023. We have welcomed 135 registered students from all walks of life, religions, and income levels. We openly teach and practice the Word of God, and these amazing young men and women routinely come to know the love of Jesus as they pray and see God move.' },
-  { name: 'Leadership Training Institute', body: 'Favor’s Leadership Training Institute addresses both in a blend of in-class and hands-on instruction tailored to produce powerful ministers of spiritual and cultural transformation. All our indigenous staff participate in constant training including Bible training, prayer, marriage enrichment, household finances, small business entrepreneurship, and much much more!' },
+  { name: 'Village Learning Centers', icon: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>', body: 'Our approach is to increase access to quality education by implementing village learning centers, in church buildings, that younger students in a village locale can reach on foot. We use the Roots to Fruit curriculum, which is a Bible-based, Christian approach to education approved by the Ugandan government, for primary school.' },
+  { name: 'Favor Primary School', icon: '<path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-5a3 3 0 0 1 6 0v5"/>', body: 'The mission of Favor Primary Schools is to educate the next generation of Uganda’s and South Sudan’s leadership on the Word of God, prayer, and academic excellence. Our schools in both Gulu and Juba receive kids from all walks of life, religions, and income levels. We strive to maintain a 30:1 student-to-teacher ratio, and the schools have gained a reputation of excellence with some of our students in Uganda scoring the highest in the Gulu district of 160 schools.' },
+  { name: 'Favor Secondary School', icon: '<path d="m22 10-10-5L2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/>', body: 'Our Favor Secondary School opened to the public for the first time in February 2023. We have welcomed 135 registered students from all walks of life, religions, and income levels. We openly teach and practice the Word of God, and these amazing young men and women routinely come to know the love of Jesus as they pray and see God move.' },
+  { name: 'Leadership Training Institute', icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>', body: 'Favor’s Leadership Training Institute addresses both in a blend of in-class and hands-on instruction tailored to produce powerful ministers of spiritual and cultural transformation. All our indigenous staff participate in constant training including Bible training, prayer, marriage enrichment, household finances, small business entrepreneurship, and much much more!' },
 ];
 ---
 <PageLayout
@@ -91,6 +91,7 @@ const depth = [
       <div class="acard-grid acard-grid--2">
         {depth.map((d) => (
           <article class="acard has-texture">
+            <span class="acard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={d.icon}></svg></span>
             <h3>{d.name}</h3>
             <p>{d.body}</p>
           </article>
@@ -132,6 +133,8 @@ const depth = [
   .acard-grid--2 { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 860px) { .acard-grid, .acard-grid--2 { grid-template-columns: 1fr; } }
   .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 5px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .acard__icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: color-mix(in srgb, var(--accent, var(--color-gold)) 14%, var(--color-white)); color: var(--accent, var(--color-green)); margin-bottom: var(--space-4); }
+  .acard__icon svg { width: 26px; height: 26px; }
   .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
   .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
   .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }

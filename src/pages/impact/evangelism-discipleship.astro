@@ -132,10 +132,11 @@ const gallery = [
 </PageLayout>
 
 <style>
-  .ed-video { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(var(--space-8), 4vw, var(--space-16)); align-items: center; }
-  @media (max-width: 860px) { .ed-video { grid-template-columns: 1fr; } }
+  .ed-video { display: block; text-align: center; }
+  .ed-video__copy { max-width: 680px; margin: 0 auto var(--space-8); }
   .ed-video__copy h2 { margin: 0 0 var(--space-4); }
   .ed-video__copy p { color: var(--color-ink-soft); line-height: 1.7; margin: 0; }
+  .ed-video__player { max-width: 940px; margin: 0 auto; }
 
   .ed-programs { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
   @media (max-width: 760px) { .ed-programs { grid-template-columns: 1fr; } }
