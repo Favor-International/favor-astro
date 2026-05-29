@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const roles = [
@@ -43,17 +44,20 @@ const roles = [
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <p class="label">Volunteer and intern with the US team</p>
-      <h2>Keep the vision running.</h2>
-      <p>If you have a heart for giving your time and talent to God, as expressed through this ministry, you have an opportunity with Favor International to go on a short-term 2-week mission trip or a months long internship that will change your life.</p>
-      <p>Favor&rsquo;s US team is greatly supported by volunteer team members to keep operations going. From media, to accounting, to mailing and other administrative assistance, there are people who keep the vision running and ensure all our partners are honored. Volunteers can work from anywhere but are welcome to visit Favor&rsquo;s office.</p>
-      <h3 id="positions">Open position</h3>
-      <p><strong>Country Director.</strong> Full-time. Salary commensurate with experience. Location: Africa (Uganda and/or South Sudan). We retain all resumes for six months.</p>
-      <p class="band__cta-row"><a class="btn btn--secondary" href="/about/contact/?topic=volunteer">Request an application</a></p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/gift-bishoftu-tot.jpg"
+    imageAlt="A Favor training session"
+    eyebrow="Volunteer and intern with the US team"
+    heading="Keep the vision running."
+    layout="image-right"
+    background="cream"
+  >
+    <p>If you have a heart for giving your time and talent to God, as expressed through this ministry, you have an opportunity with Favor International to go on a short-term 2-week mission trip or a months long internship that will change your life.</p>
+    <p>Favor&rsquo;s US team is greatly supported by volunteer team members to keep operations going. From media, to accounting, to mailing and other administrative assistance, there are people who keep the vision running and ensure all our partners are honored. Volunteers can work from anywhere but are welcome to visit Favor&rsquo;s office.</p>
+    <h3 id="positions">Open position</h3>
+    <p><strong>Country Director.</strong> Full-time. Salary commensurate with experience. Location: Africa (Uganda and/or South Sudan). We retain all resumes for six months.</p>
+    <p class="band__cta-row"><a class="btn btn--secondary" href="/about/contact/?topic=volunteer">Request an application</a></p>
+  </FeatureRow>
 
   <CtaBand
     heading="Sign up for a role."

@@ -4,10 +4,10 @@ import PageHero from '../../components/band/PageHero.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const projects = [
-  { slug: 'gulu-primary-school', name: 'Primary school in Gulu, Uganda', goal: 80000, raised: 47200, image: '/images/ministry-church-planting.jpg', summary: 'A new primary school building serving 220 students. Two classrooms ready, four to go.' },
-  { slug: 'gift-dormitory', name: 'GIFT Institute dormitory', goal: 65000, raised: 51800, image: '/images/gift-bishoftu-tot.jpg', summary: 'Beds and study rooms for the next cohort of pastor-trainees. Doors open Q3.' },
-  { slug: 'arabic-bible-curriculum', name: 'Arabic-translated Bible curriculum', goal: 18000, raised: 12400, image: '/images/hero-pbs-graduation.jpg', summary: 'Translating the PBS curriculum into Arabic for Sudan and Chad field teams.' },
-  { slug: 'solar-radio', name: 'Solar power for two radio stations', goal: 22000, raised: 9100, image: '/images/pillar-community.jpg', summary: 'Off-grid solar arrays for Favor FM radio sites. Keeps the Gospel on air through the dry season.' },
+  { slug: 'gulu-primary-school', category: 'Education', name: 'Primary school in Gulu, Uganda', goal: 80000, raised: 47200, image: '/images/ministry-church-planting.jpg', summary: 'A new primary school building serving 220 students. Two classrooms ready, four to go.' },
+  { slug: 'gift-dormitory', category: 'Care', name: 'GIFT Institute dormitory', goal: 65000, raised: 51800, image: '/images/gift-bishoftu-tot.jpg', summary: 'Beds and study rooms for the next cohort of pastor-trainees. Doors open Q3.' },
+  { slug: 'arabic-bible-curriculum', category: 'Evangelism', name: 'Arabic-translated Bible curriculum', goal: 18000, raised: 12400, image: '/images/hero-pbs-graduation.jpg', summary: 'Translating the PBS curriculum into Arabic for Sudan and Chad field teams.' },
+  { slug: 'solar-radio', category: 'Community', name: 'Solar power for two radio stations', goal: 22000, raised: 9100, image: '/images/pillar-community.jpg', summary: 'Off-grid solar arrays for Favor FM radio sites. Keeps the Gospel on air through the dry season.' },
 ];
 
 function pct(raised: number, goal: number) { return Math.min(100, Math.round((raised / goal) * 100)); }
@@ -34,15 +34,23 @@ function pct(raised: number, goal: number) { return Math.min(100, Math.round((ra
       <div class="proj-grid">
         {projects.map((p) => (
           <a class="proj-card" href={`/give/specific-project/${p.slug}/`}>
-            <div class="proj-card__photo" style={`background-image: url(${p.image})`} role="img" aria-label={p.name}></div>
+            <div class="proj-card__photo" style={`background-image: url(${p.image})`} role="img" aria-label={p.name}>
+              <span class="proj-card__chip">{p.category}</span>
+            </div>
             <div class="proj-card__body">
               <h3>{p.name}</h3>
               <p>{p.summary}</p>
               <div class="proj-card__progress" aria-label={`${pct(p.raised, p.goal)} percent funded`}>
                 <div class="proj-card__bar" style={`--pct: ${pct(p.raised, p.goal)}%`}></div>
               </div>
-              <p class="proj-card__meta"><strong>${p.raised.toLocaleString()}</strong> raised of ${p.goal.toLocaleString()} goal</p>
-              <span class="proj-card__cta">Fund this project →</span>
+              <div class="proj-card__foot">
+                <span class="proj-card__meta">
+                  <span class="proj-card__meta-label">Reached</span>
+                  <strong>${p.raised.toLocaleString()}</strong>
+                  <span class="proj-card__goal">of ${p.goal.toLocaleString()} goal</span>
+                </span>
+                <span class="proj-card__btn">Fund this project</span>
+              </div>
             </div>
           </a>
         ))}
@@ -72,13 +80,30 @@ function pct(raised: number, goal: number) { return Math.min(100, Math.round((ra
     transition: transform 180ms, box-shadow 180ms;
   }
   .proj-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
-  .proj-card__photo { aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
-  .proj-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
-  .proj-card h3 { margin: 0; font-size: 1.2rem; color: var(--color-green); }
-  .proj-card p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
+  .proj-card__photo { position: relative; aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
+  .proj-card__chip {
+    position: absolute; top: var(--space-3); left: var(--space-3);
+    background: color-mix(in srgb, var(--color-white) 92%, transparent);
+    color: var(--color-green-deep);
+    padding: 6px 14px; border-radius: var(--radius-pill);
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    backdrop-filter: blur(2px);
+  }
+  .proj-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .proj-card h3 { margin: 0; font-size: 1.4rem; color: var(--color-green); line-height: 1.2; }
+  .proj-card p { margin: 0; font-size: 0.95rem; color: var(--color-ink-soft); }
   .proj-card__progress { height: 8px; background: var(--color-sage-light); border-radius: 999px; overflow: hidden; }
   .proj-card__bar { height: 100%; width: var(--pct); background: var(--color-gold); border-radius: 999px; }
-  .proj-card__meta { font-size: 0.88rem; margin: 0; }
-  .proj-card__meta strong { color: var(--color-green); }
-  .proj-card__cta { font-weight: 700; color: var(--color-gold); font-size: 0.9rem; }
+  .proj-card__foot { margin-top: auto; padding-top: var(--space-2); display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
+  .proj-card__meta { display: flex; flex-direction: column; line-height: 1.2; }
+  .proj-card__meta-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-sage); font-weight: 700; }
+  .proj-card__meta strong { color: var(--color-green); font-size: 1.25rem; }
+  .proj-card__goal { font-size: 0.78rem; color: var(--color-sage); }
+  .proj-card__btn {
+    background: var(--color-green); color: var(--color-white);
+    padding: 11px 20px; border-radius: var(--radius-pill);
+    font-weight: 700; font-size: 0.85rem; white-space: nowrap;
+    transition: background 140ms;
+  }
+  .proj-card:hover .proj-card__btn { background: var(--color-green-deep); }
 </style>
