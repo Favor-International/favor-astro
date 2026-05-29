@@ -2,7 +2,14 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import Gallery from '../../components/global/Gallery.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
+
+const tripGallery = [
+  { src: '/images/field/crusade-south-sudan.webp', caption: 'An evening crusade, South Sudan', desc: 'Hundreds gather at dusk to hear the Gospel preached in their own language. On a trip you stand in the middle of it.', alt: 'An outdoor evening crusade gathering in South Sudan' },
+  { src: '/images/field/primary-school-south-sudan.webp', caption: 'A Favor primary school, South Sudan', desc: 'A hall full of children who would otherwise never see a classroom, learning to read with the Word of God at the center.', alt: 'Students gathered in a Favor primary school hall' },
+  { src: '/images/field/well-uganda.webp', caption: 'A new village well, Uganda', desc: 'Clean water from a borehole Favor helped fund, often the first the village has ever had.', alt: 'Villagers at a new water well in Uganda' },
+];
 
 const trips = [
   { dest: 'Gulu and Karamoja, Uganda', dates: 'Spring 2026', length: '10 days', leader: 'Pastor Daniel and the Favor Uganda team', cost: '~$3,400 + airfare' },
@@ -59,6 +66,15 @@ const trips = [
   >
     <p>Returned from her first vision trip and brought four new Favor Partners home with her.</p>
   </OverlayFeature>
+
+  <Gallery
+    eyebrow="What you'll witness"
+    heading="Days you won't forget."
+    description="Every vision trip walks you into real ministry, not a tour. Tap any photo to look closer."
+    background="cream"
+    columns={3}
+    items={tripGallery}
+  />
 
   <CtaBand
     heading="Apply for a vision trip."

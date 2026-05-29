@@ -1,0 +1,44 @@
+---
+// A titled photo gallery: eyebrow + heading + description, then a grid of
+// captioned tiles. Each tile is clickable (the site-wide GalleryLightbox opens
+// the full image with its caption + longer description). Pass real photos.
+export interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  background?: 'cream' | 'white';
+  columns?: number;
+  items: { src: string; caption?: string; desc?: string; alt?: string }[];
+}
+const { eyebrow, heading, description, background = 'cream', columns = 3, items } = Astro.props as Props;
+---
+<section class:list={['band', `band--${background}`]}>
+  <div class="container">
+    {(eyebrow || heading || description) && (
+      <header class="band__header">
+        {eyebrow && <p class="label">{eyebrow}</p>}
+        {heading && <h2>{heading}</h2>}
+        {description && <p class="gallery-desc">{description}</p>}
+      </header>
+    )}
+    <div class="field-gallery" style={`--fg-cols:${columns}`}>
+      {items.map((it) => (
+        <figure
+          class="field-tile"
+          style={`background-image:url('${it.src}')`}
+          data-src={it.src}
+          data-caption={it.caption}
+          data-desc={it.desc}
+          role="img"
+          aria-label={it.alt || it.caption}
+        >
+          {it.caption && <figcaption>{it.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery-desc { margin: var(--space-3) auto 0; color: var(--color-ink-soft); max-width: 60ch; }
+</style>
