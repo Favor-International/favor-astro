@@ -29,7 +29,7 @@ export const SITE = {
     facebook: 'https://facebook.com/FavorIntlOrg/',
     twitter: 'https://twitter.com/favorintlorg',
     instagram: 'https://instagram.com/favorintlorg/',
-    youtube: 'https://youtube.com/channel/UCIv8yRH1mO5s_JLzqG5O6Ug',
+    youtube: 'https://youtube.com/@favorinternational',
     linkedin: 'https://linkedin.com/company/favorintl/',
   },
   trust: {

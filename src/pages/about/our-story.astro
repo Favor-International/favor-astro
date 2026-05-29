@@ -12,8 +12,8 @@ import CtaBand from '../../components/band/CtaBand.astro';
     label="Our story"
     title="The conviction Favor was born from."
     promise="How one woman's prayer grew into an indigenous missions movement across East and Central Africa."
-    image="/images/about-original-house.jpg"
-    imageAlt="The original Favor House in northern Uganda"
+    image="/images/story-historic-prayer.jpg"
+    imageAlt="A national prayer gathering in northern Uganda"
   />
 
   <FeatureRow
@@ -40,12 +40,16 @@ import CtaBand from '../../components/band/CtaBand.astro';
     <p class="our-vision-line">The vision: every tribe and language reaching their own people, and beyond, with the power of God's Word.</p>
   </FeatureRow>
 
-  <section class="band band--green-deep founding">
-    <div class="founding__texture" aria-hidden="true"></div>
-    <div class="container container--narrow founding__inner">
-      <p class="label label--inverse">The founding prayer</p>
-      <blockquote class="founding__quote">&ldquo;Lord, send me where no one wants to <span class="founding__hl">GO</span>, to do what no one wants to <span class="founding__hl">DO</span>.&rdquo;</blockquote>
-      <p class="founding__cite">Carole Ward, Founder</p>
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <div class="founding">
+        <div class="founding__texture" aria-hidden="true"></div>
+        <div class="founding__inner">
+          <p class="label label--inverse">The founding prayer</p>
+          <blockquote class="founding__quote">&ldquo;Lord, send me where no one wants to <span class="founding__hl">GO</span>, to do what no one wants to <span class="founding__hl">DO</span>.&rdquo;</blockquote>
+          <p class="founding__cite">Carole Ward, Founder</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -110,8 +114,16 @@ import CtaBand from '../../components/band/CtaBand.astro';
 </PageLayout>
 
 <style>
-  /* Founding prayer: immersive green band with subtle African texture. */
-  .founding { position: relative; overflow: hidden; text-align: center; }
+  /* Founding prayer: a green rounded container set inside the cream section,
+     so it reads as a distinct framed moment with contrast (not a full slab). */
+  .founding {
+    position: relative; overflow: hidden; text-align: center;
+    background: var(--color-green-deep);
+    border: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+    border-radius: var(--radius-card);
+    box-shadow: 0 24px 60px rgba(31, 58, 26, 0.18);
+    padding: clamp(var(--space-12), 6vw, var(--space-20));
+  }
   .founding__texture {
     position: absolute; inset: 0; z-index: 0; pointer-events: none;
     background-image: url('/images/patterns/texture-mudcloth.webp');

@@ -1,6 +1,8 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
+import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import directorsData from '../../data/directors.json';
 
@@ -52,23 +54,36 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <h2 class="band__title">Why the team looks like this.</h2>
-      <p>
-        Most international ministries grow a large U.S. headquarters and a smaller field
-        presence. We do the opposite. Favor employs more than 100 indigenous workers across
-        Uganda, South Sudan, Ethiopia, DR Congo, Chad, and the broader region: pastors,
-        teachers, evangelists, midwives, accountants, security staff, and program directors.
-        The U.S. team is a handful of people whose job is to support them well.
-      </p>
-      <p>
-        This is what the brand book calls <em>partner-as-hero</em>. The pastor in Karamoja is
-        not a beneficiary of our work; he is the work. Our role is to make sure he has Bibles,
-        a motorcycle, a salary, and the prayer cover to keep going.
-      </p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/hero-tot-bishoftu.jpg"
+    imageAlt="A Favor training of trainers session"
+    eyebrow="Why the team looks like this"
+    heading="A small U.S. office, a large field."
+    layout="image-left"
+    background="cream"
+  >
+    <p>
+      Most international ministries grow a large U.S. headquarters and a smaller field
+      presence. We do the opposite. Favor employs more than 100 indigenous workers across
+      Uganda, South Sudan, Ethiopia, DR Congo, Chad, and the broader region: pastors,
+      teachers, evangelists, midwives, accountants, security staff, and program directors.
+      The U.S. team is a handful of people whose job is to support them well.
+    </p>
+  </FeatureRow>
+
+  <OverlayFeature
+    image="/images/pbs-karamoja.jpg"
+    imageAlt="A Portable Bible School class in Karamoja"
+    eyebrow="Partner as hero"
+    heading="The pastor in Karamoja is not a beneficiary. He is the work."
+    side="right"
+  >
+    <p>
+      Our role is to make sure he has Bibles, a motorcycle, a salary, and the prayer cover to
+      keep going. The indigenous leaders who live in each country we serve design and run every
+      program; the U.S. team exists to support them well.
+    </p>
+  </OverlayFeature>
 
   <CtaBand
     heading="See the board."

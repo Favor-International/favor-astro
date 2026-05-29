@@ -16,7 +16,7 @@ const articles = [
   { title: 'Tithing and Giving', body: 'We believe in tithing and giving offerings in the Kingdom of God so that there may be enough supply for the work of God and His servants. We apply the power of prayer, fasting, and giving within our lives, as has been taught us by our Lord Jesus Christ through His Word (Matthew 6:3-18).' },
   { title: 'The Great Commission', body: 'We believe in preaching the Gospel of Jesus Christ and being witnesses of His Word and works to the entire world, in fulfillment of the Great Commission. This was commanded to us, by the Lord Jesus Christ, and is His commission for the whole body of Christ worldwide.' },
   { title: 'Spiritual Authority', body: 'We believe that the devil is the prince of demons and darkness, and as the adversary of God is therefore an enemy of the children of God. When Jesus died on the cross, He guaranteed the ultimate triumph of God and His church, over all darkness. He has given believers power and authority for prayer, doing His Word and will, fulfilling His commission, and setting people free from the works of the enemy, in His Name. (Mark 16:16-17, Ephesians 2:2, Colossians 2:13-15, 1 Peter 5:8, and Revelation 20:10.)' },
-  { title: 'The Return of Christ', body: 'We believe in and eagerly await the second return of this same Jesus Christ, to take the Church to Himself, a Church without spot or wrinkle. This is our driving force in preparing ourselves and the rest of the world, as we &lsquo;occupy&rsquo; until His return.' },
+  { title: 'The Return of Christ', body: 'We believe in and eagerly await the second return of this same Jesus Christ, to take the Church to Himself, a Church without spot or wrinkle. This is our driving force in preparing ourselves and the rest of the world, as we “occupy” until His return.' },
 ];
 ---
 <PageLayout
@@ -34,6 +34,11 @@ const articles = [
 
   <section class="band band--white">
     <div class="container">
+      <header class="band__header">
+        <p class="label">What we believe</p>
+        <h2>The doctrinal core we all affirm.</h2>
+        <p>Every Favor staff member, board member, and field leader affirms this statement of faith. It is intentionally short and intentionally classic.</p>
+      </header>
       <ol class="faith-list">
         {articles.map((a) => (
           <li class="has-texture">
@@ -42,7 +47,14 @@ const articles = [
           </li>
         ))}
       </ol>
-      <p class="faith-note">This statement is intentionally short and intentionally classic. Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant.</p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow sof-stand">
+      <p class="label">Where we stand</p>
+      <h2>In the historic Christian faith.</h2>
+      <p>Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant. We are not a denomination and we do not plant our own brand of church. Across every tribe, language, and nation we serve, this shared confession is the ground we build on together.</p>
     </div>
   </section>
 
@@ -62,7 +74,7 @@ const articles = [
     padding: var(--space-6) var(--space-6) var(--space-6) 76px;
     background: var(--color-white);
     border-radius: var(--radius-card);
-    border-top: 5px solid var(--accent, var(--color-gold));
+    border: 2px solid var(--accent, var(--color-gold));
     box-shadow: var(--shadow-soft);
     position: relative;
   }
