@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import ProofBlock from '../../components/band/ProofBlock.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { CTA } from '../../lib/cta';
 
@@ -57,14 +58,17 @@ const focuses = [
     </div>
   </section>
 
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">Houses of Prayer</p>
-      <h2>Where every Favor work begins.</h2>
-      <p>Our Houses of Prayer in Gulu, Uganda, and in Juba, South Sudan were our first operational centers, before offices, schools, radio, or leadership training facilities. Prayer always comes first and then everything else follows.</p>
-      <p>Our House of Prayer ministry teams do so much, from leading morning devotions and noon-hour prayers every weekday to all-night prayer events. They also launch local and rural outreaches and ministries on the streets, in hospitals, and in prisons. They provide a 24/7 prayer covering for new believers, organize pastors&rsquo; fellowships and national prayer gatherings, and coordinate local crusades.</p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/ministry-house-of-prayer.jpg"
+    imageAlt="A Favor House of Prayer gathering"
+    eyebrow="Houses of Prayer"
+    heading="Where every Favor work begins."
+    layout="image-right"
+    background="white"
+  >
+    <p>Our Houses of Prayer in Gulu, Uganda, and in Juba, South Sudan were our first operational centers, before offices, schools, radio, or leadership training facilities. Prayer always comes first and then everything else follows.</p>
+    <p>Our House of Prayer ministry teams do so much, from leading morning devotions and noon-hour prayers every weekday to all-night prayer events. They also launch local and rural outreaches and ministries on the streets, in hospitals, and in prisons. They provide a 24/7 prayer covering for new believers, organize pastors&rsquo; fellowships and national prayer gatherings, and coordinate local crusades.</p>
+  </FeatureRow>
 
   <CtaBand
     heading="Stand in the gap for 30 days."
