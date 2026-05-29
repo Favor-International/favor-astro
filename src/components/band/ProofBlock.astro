@@ -1,47 +1,26 @@
 ---
-export interface Props { name: string; place: string; outcome: string; quote?: string; image?: string; }
-const { name, place, outcome, quote, image } = Astro.props as Props;
+// A real-person proof/testimony. Renders the immersive green split: the quote
+// as the heading, name + place as the eyebrow, the outcome as the body, the
+// photo filling the other half. Place this at the top level of a page (it is a
+// full-bleed section, not a card inside a container).
+import OverlayFeature from './OverlayFeature.astro';
+export interface Props {
+  name: string;
+  place: string;
+  outcome: string;
+  quote?: string;
+  image?: string;
+  objectPosition?: string;
+}
+const { name, place, outcome, quote, image, objectPosition } = Astro.props as Props;
 ---
-<aside class="proof">
-  {image && <div class="proof__photo" style={`background-image: url(${image})`} role="img" aria-label={`${name}, ${place}`}></div>}
-  <div class="proof__body">
-    <span class="label">Proof from the field</span>
-    {quote && <blockquote class="proof__quote">“{quote}”</blockquote>}
-    <p class="proof__meta"><strong>{name}</strong> · {place} · {outcome}</p>
-  </div>
-</aside>
-<style>
-  .proof {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-    gap: var(--space-12);
-    align-items: center;
-    background: var(--color-cream);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-  }
-  .proof__photo {
-    aspect-ratio: 4 / 5;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-    min-height: 360px;
-  }
-  .proof__body { padding: var(--space-12); }
-  .proof__quote {
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-    line-height: 1.3;
-    color: var(--color-green);
-    margin: 0 0 var(--space-6);
-    border-left: 4px solid var(--color-gold);
-    padding-left: var(--space-6);
-  }
-  .proof__meta { font-size: 0.95rem; color: var(--color-ink-soft); margin: 0; }
-  @media (max-width: 900px) {
-    .proof { grid-template-columns: 1fr; }
-    .proof__body { padding: var(--space-8); }
-  }
-</style>
+<OverlayFeature
+  image={image ?? '/images/hero-congo-grads.jpg'}
+  imageAlt={`${name}, ${place}`}
+  eyebrow={`${name} · ${place}`}
+  heading={quote ? `“${quote}”` : outcome}
+  side="left"
+  objectPosition={objectPosition ?? 'center 30%'}
+>
+  {quote && <p>{outcome}</p>}
+</OverlayFeature>

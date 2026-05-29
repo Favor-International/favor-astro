@@ -1,45 +1,31 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import DonationBlock from '../../components/band/DonationBlock.astro';
 import FeatureRow from '../../components/band/FeatureRow.astro';
 import ProofBlock from '../../components/band/ProofBlock.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { PARTNER_TIERS } from '../../lib/site';
+
+const amounts = PARTNER_TIERS.map((t) => t.amount);
 ---
 <PageLayout
   title="Become a Favor Partner"
   description="Favor Partners are monthly givers who keep indigenous missionaries on the trail across East Africa. Pick a tier from $25 to $1,200. Tax-deductible. ECFA-accredited."
 >
-  <section class="band band--cream pm-hero">
-    <div class="container pm-hero__grid">
-      <div class="pm-hero__left">
-        <p class="label">Become a Favor Partner</p>
-        <h1>Become a Favor Partner.</h1>
-        <p class="pm-hero__body">One monthly gift keeps indigenous missionaries on the trail, Bibles in villages, and pastors in training. Choose a tier, or give a custom amount that fits your family.</p>
-        <div class="pm-tiers">
-          {PARTNER_TIERS.map((t) => (
-            <a class:list={['pm-tier', t.featured && 'pm-tier--featured']} href={`/give/partner-monthly/form/?amount=${t.amount}`}>
-              <span class="pm-tier__amount">${t.amount}<span>/mo</span></span>
-              <span class="pm-tier__label">{t.label}</span>
-            </a>
-          ))}
-          <a class="pm-tier pm-tier--custom" href="/give/partner-monthly/form/">
-            <span class="pm-tier__amount">Custom</span>
-            <span class="pm-tier__label">Your amount</span>
-          </a>
-        </div>
-        <a class="btn btn--primary btn--large pm-hero__cta" href="/give/partner-monthly/form/">Become a Partner <span aria-hidden="true">&rarr;</span></a>
-        <p class="pm-hero__fine">Cancel anytime, though Favor Partners almost never do. Tax-deductible. ECFA-accredited.</p>
-      </div>
-      <div class="pm-hero__right">
-        <div class="pm-hero__photo" style="background-image: url(/images/hero-women-celebrating.jpg)" role="img" aria-label="Favor Partners gathered at a field event"></div>
-        <div class="pm-stats">
-          <div class="pm-stat"><span class="pm-stat__num">195,773</span><span class="pm-stat__label">Came to Christ in 2025</span></div>
-          <div class="pm-stat"><span class="pm-stat__num">119,182</span><span class="pm-stat__label">Discipled in 2025</span></div>
-          <div class="pm-stat"><span class="pm-stat__num">14</span><span class="pm-stat__label">Nations served</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <DonationBlock
+    eyebrow="Become a Favor Partner"
+    heading="Become a Favor Partner."
+    body="One monthly gift keeps indigenous missionaries on the trail, Bibles in villages, and pastors in training. Choose an amount, or give a custom amount that fits your family."
+    image="/images/hero-women-celebrating.jpg"
+    imageAlt="Favor Partners gathered at a field event"
+    amounts={amounts}
+    defaultAmount={50}
+    formBase="/give/partner-monthly/form/"
+    donateLabel="Become a Partner"
+    goal={65000}
+    raised={51800}
+    causeLabel="A current need your partnership helps fund · GIFT Institute dormitory"
+  />
 
   <FeatureRow
     image="/images/hero-congo-grads.jpg"
@@ -47,73 +33,32 @@ import { PARTNER_TIERS } from '../../lib/site';
     eyebrow="What your partnership does"
     heading="Where your monthly gift goes."
     layout="image-left"
-    background="white"
   >
     <p>Every Favor Partner gift is unrestricted, meaning the field directs it where it is most needed that month. In FY2024, 89 cents of every dollar went to program work and 11 cents covered U.S. operations, audit, and donor care.</p>
     <ul class="breakdown">
       <li><strong>89%</strong> Field programs: indigenous workers, PBS, Village Learning Centers, medical, counseling, women’s empowerment</li>
       <li><strong>11%</strong> U.S. operations: audit, accounting, payroll, donor care, governance</li>
     </ul>
-    <p>Source: FY2024 audited financials filed with ECFA and IRS Form 990. Category-level breakdowns are published in the audited financials, available at <a href="/about/accountability/">accountability</a>.</p>
+    <p>Source: FY2024 audited financials filed with ECFA and IRS Form 990, available at <a href="/about/accountability/">accountability</a>.</p>
   </FeatureRow>
 
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <ProofBlock
-        name="The Women of Puranga"
-        place="Uganda"
-        outcome="A Women's Empowerment cohort finished a year of training and received two goats each. The herds pay for school fees, food, and medical care across the village."
-        quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
-        image="/images/stories/goats-for-women.jpg"
-      />
-    </div>
-  </section>
+  <ProofBlock
+    name="The Women of Puranga"
+    place="Uganda"
+    outcome="A Women's Empowerment cohort finished a year of training and received two goats each. The herds pay for school fees, food, and medical care across the village."
+    quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
+    image="/images/stories/goats-for-women.jpg"
+  />
 
   <CtaBand
     heading="Start your partnership today."
-    body="Pick a tier above, or choose your own amount. Your first gift processes immediately and you will receive a tax-deductible receipt by email."
+    body="Pick an amount above, or choose your own. Your first gift processes immediately and you will receive a tax-deductible receipt by email."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/form/"
   />
 </PageLayout>
 
 <style>
-  .pm-hero__grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(var(--space-8), 5vw, var(--space-16));
-    align-items: center;
-  }
-  @media (max-width: 900px) { .pm-hero__grid { grid-template-columns: 1fr; } }
-  .pm-hero__left h1 { margin: var(--space-2) 0 var(--space-4); }
-  .pm-hero__body { font-size: 1.1rem; line-height: 1.65; color: var(--color-ink-soft); margin: 0 0 var(--space-6); max-width: 46ch; }
-  .pm-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }
-  @media (max-width: 480px) { .pm-tiers { grid-template-columns: repeat(2, 1fr); } }
-  .pm-tier {
-    display: flex; flex-direction: column; gap: 2px;
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-white);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-card);
-    text-decoration: none;
-    transition: border-color 140ms, transform 140ms;
-  }
-  .pm-tier:hover { border-color: var(--color-gold); transform: translateY(-2px); }
-  .pm-tier__amount { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--color-green); line-height: 1; }
-  .pm-tier__amount span { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 600; color: var(--color-sage); margin-left: 2px; }
-  .pm-tier__label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-green-deep); }
-  .pm-tier--featured { border-color: var(--color-gold); background: color-mix(in srgb, var(--color-gold) 12%, var(--color-white)); }
-  .pm-tier--custom { border-style: dashed; }
-  .pm-hero__cta { border-radius: var(--radius-pill); }
-  .pm-hero__fine { margin: var(--space-4) 0 0; font-size: 0.85rem; color: var(--color-sage); }
-  .pm-hero__photo {
-    aspect-ratio: 4 / 3; background-size: cover; background-position: center;
-    border-radius: 24px; box-shadow: 0 24px 60px rgba(31, 58, 26, 0.18); min-height: 340px;
-  }
-  .pm-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-6); text-align: center; }
-  .pm-stat__num { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--color-green-deep); line-height: 1; letter-spacing: -0.01em; }
-  .pm-stat__label { display: block; margin-top: 4px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-gold-deep); }
-
   .breakdown { list-style: none; padding: 0; margin: var(--space-5) 0; display: grid; gap: var(--space-3); }
   .breakdown li { padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.5; }
   .breakdown strong { color: var(--color-green); display: inline-block; min-width: 52px; font-weight: 800; }
