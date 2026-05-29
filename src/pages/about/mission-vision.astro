@@ -5,6 +5,16 @@ import FeatureRow from '../../components/band/FeatureRow.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
+
+const traits = [
+  { title: 'Strong prayer life', desc: 'Everything begins on the knees. Leaders are formed in prayer before they are ever sent out.' },
+  { title: 'Humble dependency and submission to God', desc: 'Reliance on God rather than self, following His direction over their own ambition.' },
+  { title: 'Passion for the Kingdom mission', desc: 'A burning desire to see God’s Kingdom advance among their own people and beyond.' },
+  { title: 'Focused study of God’s Word', desc: 'Grounded in Scripture, so they can teach and disciple others faithfully.' },
+  { title: 'Discipleship', desc: 'Leaders who make leaders, multiplying themselves into the next generation.' },
+  { title: 'Desire to serve native to their location', desc: 'A heart to reach their own tribe, language, and region first.' },
+  { title: 'Developed vision, calling, and gifts from God', desc: 'Clarity about how God has uniquely equipped them, and the courage to walk in it.' },
+];
 ---
 <PageLayout
   title="Mission & Vision"
@@ -82,13 +92,9 @@ import { SITE } from '../../lib/site';
     <div class="container container--narrow">
       <h2>What we instill in the leaders we train</h2>
       <ul class="trait-list">
-        <li>Strong prayer life</li>
-        <li>Humble dependency and submission to God</li>
-        <li>Passion for the Kingdom mission</li>
-        <li>Focused study of God's Word</li>
-        <li>Discipleship</li>
-        <li>Desire to serve native to their location</li>
-        <li>Developed vision, calling, and gifts from God</li>
+        {traits.map((t) => (
+          <li><strong class="trait-list__title">{t.title}</strong><span class="trait-list__desc">{t.desc}</span></li>
+        ))}
       </ul>
       <p class="mv-sow">
         Transformation takes time and commitment. Investing in national leadership and
@@ -159,14 +165,15 @@ import { SITE } from '../../lib/site';
   .trait-list { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
   @media (max-width: 600px) { .trait-list { grid-template-columns: 1fr; } }
   .trait-list li {
+    display: flex; flex-direction: column; gap: 5px;
     padding: var(--space-5) var(--space-6);
     background: var(--color-white);
     border-left: 5px solid var(--accent, var(--color-gold));
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-soft);
-    color: var(--color-ink);
-    font-weight: 600;
   }
+  .trait-list__title { color: var(--color-green); font-weight: 800; font-size: 1.02rem; line-height: 1.25; }
+  .trait-list__desc { color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.5; }
   .trait-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
   .trait-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .trait-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
