@@ -1,18 +1,19 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import OverlayCard from '../../components/global/OverlayCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
 
 const links = [
-  { href: '/about/mission-vision/', label: 'Mission and Vision', desc: 'What we believe Favor is for, and why we still exist.' },
-  { href: '/about/our-story/', label: 'Our Story', desc: 'How Favor started and where the founding conviction came from.' },
-  { href: '/about/where-we-work/', label: 'Where We Work', desc: 'The fourteen nations and how we got to each one.' },
-  { href: '/about/team/', label: 'Team', desc: 'US staff and key field leaders. Alphabetical.' },
-  { href: '/about/board/', label: 'Board of Directors', desc: 'Volunteer governance. Five members, term-limited.' },
-  { href: '/about/statement-of-faith/', label: 'Statement of Faith', desc: 'Doctrinal core. Where we stand.' },
-  { href: '/about/accountability/', label: 'Accountability + Financials', desc: 'ECFA, 990s, audits, and the public profiles.' },
-  { href: '/about/contact/', label: 'Contact', desc: 'Reach a real human on the US team.' },
+  { href: '/about/mission-vision/', label: 'Mission and Vision', desc: 'What we believe Favor is for, and why we still exist.', image: '/images/hero-new-believers.jpg' },
+  { href: '/about/our-story/', label: 'Our Story', desc: 'How Favor started and where the founding conviction came from.', image: '/images/about-original-house.jpg' },
+  { href: '/about/where-we-work/', label: 'Where We Work', desc: 'The nations we serve, and how we got to each one.', image: '/images/hero-about-overview.jpg' },
+  { href: '/about/team/', label: 'Team', desc: 'US staff and key field leaders.', image: '/images/about-leadership-training.jpg' },
+  { href: '/about/board/', label: 'Board of Directors', desc: 'Volunteer governance, term-limited.', image: '/images/hero-tot-bishoftu.jpg' },
+  { href: '/about/statement-of-faith/', label: 'Statement of Faith', desc: 'Doctrinal core. Where we stand.', image: '/images/hero-bibles-stacks.jpg' },
+  { href: '/about/accountability/', label: 'Accountability + Financials', desc: 'ECFA, 990s, audits, and the public profiles.', image: '/images/hero-foundation-cohort.jpg' },
+  { href: '/about/contact/', label: 'Contact', desc: 'Reach a real human on the US team.', image: '/images/hero-radio-broadcast.jpg' },
 ];
 ---
 <PageLayout
@@ -33,13 +34,9 @@ const links = [
         <p class="label">About sections</p>
         <h2>The full picture.</h2>
       </header>
-      <div class="grid grid-4">
+      <div class="about-grid">
         {links.map((l) => (
-          <a class="about-tile" href={l.href}>
-            <h3>{l.label}</h3>
-            <p>{l.desc}</p>
-            <span class="about-tile__cta">Read →</span>
-          </a>
+          <OverlayCard href={l.href} image={l.image} title={l.label} desc={l.desc} cta="Read" ratio="4 / 3" />
         ))}
       </div>
     </div>
@@ -55,17 +52,7 @@ const links = [
 </PageLayout>
 
 <style>
-  .about-tile {
-    display: flex; flex-direction: column; gap: var(--space-2);
-    padding: var(--space-6);
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-    text-decoration: none; color: inherit;
-    transition: border-color 160ms, transform 160ms;
-  }
-  .about-tile:hover { border-color: var(--color-gold); transform: translateY(-3px); }
-  .about-tile h3 { margin: 0; color: var(--color-green); font-size: 1.05rem; }
-  .about-tile p { margin: 0; color: var(--color-ink-soft); font-size: 0.9rem; }
-  .about-tile__cta { margin-top: auto; font-weight: 700; color: var(--color-gold); font-size: 0.8rem; }
+  .about-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  @media (max-width: 1000px) { .about-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .about-grid { grid-template-columns: 1fr; } }
 </style>

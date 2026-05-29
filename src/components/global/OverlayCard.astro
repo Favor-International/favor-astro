@@ -1,0 +1,40 @@
+---
+// Image card with a dark gradient at the bottom and text over it. Modern, clean,
+// reusable for link grids, info cards, and image CTAs. If `href` is set it renders
+// as a link; otherwise a static figure. Use real photos; keep text short.
+export interface Props {
+  href?: string;
+  image: string;
+  imageAlt?: string;
+  kicker?: string;
+  title: string;
+  desc?: string;
+  cta?: string;
+  ratio?: string;
+  objectPosition?: string;
+}
+const { href, image, imageAlt = '', kicker, title, desc, cta, ratio = '4 / 3', objectPosition = 'center 30%' } = Astro.props as Props;
+const Tag = href ? 'a' : 'div';
+---
+<Tag class="ocard" href={href} style={`aspect-ratio:${ratio};`} aria-label={href ? `${title}` : undefined}>
+  <span class="ocard__img" style={`background-image:url(${image}); background-position:${objectPosition};`} role="img" aria-label={imageAlt || title}></span>
+  <span class="ocard__scrim" aria-hidden="true"></span>
+  <span class="ocard__body">
+    {kicker && <span class="ocard__kicker">{kicker}</span>}
+    <span class="ocard__title">{title}</span>
+    {desc && <span class="ocard__desc">{desc}</span>}
+    {cta && <span class="ocard__cta">{cta} <span aria-hidden="true">&rarr;</span></span>}
+  </span>
+</Tag>
+<style>
+  .ocard { position: relative; display: block; overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-card); text-decoration: none; color: #fff; background: var(--color-green-deep); }
+  .ocard__img { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; transition: transform 320ms ease; }
+  a.ocard:hover .ocard__img { transform: scale(1.05); }
+  .ocard__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,30,18,0) 38%, rgba(20,30,18,0.55) 70%, rgba(20,30,18,0.88) 100%); }
+  .ocard__body { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 4px; padding: var(--space-6) var(--space-6) var(--space-5); }
+  .ocard__kicker { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-light); }
+  .ocard__title { font-family: var(--font-sans); font-weight: 800; font-size: 1.2rem; line-height: 1.2; color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,0.45); }
+  .ocard__desc { font-size: 0.92rem; line-height: 1.45; color: color-mix(in srgb, #fff 88%, transparent); }
+  .ocard__cta { margin-top: var(--space-2); font-weight: 800; font-size: 0.85rem; color: var(--color-gold); }
+  a.ocard:hover .ocard__cta { color: var(--color-gold-light); }
+</style>
