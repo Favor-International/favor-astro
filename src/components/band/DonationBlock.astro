@@ -80,12 +80,8 @@ const money = (n: number) => '$' + n.toLocaleString();
 </section>
 <style>
   .donation { background: var(--color-white); }
-  .donation__panel {
-    background: color-mix(in srgb, var(--color-green) 5%, var(--color-cream));
-    border: 1px solid var(--color-border);
-    border-radius: 28px;
-    padding: clamp(var(--space-8), 5vw, var(--space-20));
-  }
+  /* No card wrapper: the donation content sits directly in the section. */
+  .donation__panel { padding: 0; }
   .donation__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--space-8), 5vw, var(--space-16)); align-items: stretch; }
   @media (max-width: 860px) { .donation__grid { grid-template-columns: 1fr; } }
   .donation__left { display: flex; flex-direction: column; justify-content: center; }
