@@ -1,0 +1,69 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import CtaBand from '../../components/band/CtaBand.astro';
+import storiesData from '../../data/stories.json';
+
+export function getStaticPaths() {
+  return storiesData.map((s) => ({ params: { slug: s.slug }, props: { story: s } }));
+}
+const { story } = Astro.props as { story: { slug: string; title: string; date: string; paragraphs: string[]; image: string } };
+const desc = (story.paragraphs[0] || story.title).slice(0, 155);
+---
+<PageLayout title={story.title} description={desc}>
+  <article class="story">
+    <div class="story__hero" style={`background-image: url(${story.image})`} role="img" aria-label={story.title}></div>
+    <div class="container container--narrow story__body">
+      <p class="story__date">{story.date}</p>
+      <h1 class="story__title">{story.title}</h1>
+      {story.paragraphs.map((p) => <p class="story__p">{p}</p>)}
+      <p class="story__back"><a href="/stories/">&larr; All stories</a></p>
+    </div>
+  </article>
+
+  <CtaBand
+    heading="Stand with the next story."
+    body="Favor Partners keep these stories coming. Monthly partnership makes the field work possible."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    variant="green"
+  />
+</PageLayout>
+
+<style>
+  .story__hero {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  @media (max-width: 700px) { .story__hero { aspect-ratio: 4 / 3; } }
+  .story__body { padding-top: var(--space-12); padding-bottom: var(--space-12); }
+  .story__date {
+    color: var(--color-terracotta);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 var(--space-3);
+  }
+  .story__title {
+    margin: 0 0 var(--space-8);
+    color: var(--color-green);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.15;
+  }
+  .story__p {
+    margin: 0 0 var(--space-5);
+    color: var(--color-ink-soft);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .story__back { margin-top: var(--space-8); }
+  .story__back a {
+    color: var(--color-green);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid var(--color-gold);
+  }
+</style>

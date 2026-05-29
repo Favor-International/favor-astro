@@ -1,44 +1,45 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import StoryCard from '../../components/story/StoryCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
+import storiesData from '../../data/stories.json';
 
-const stories = [
-  { title: 'From spear-masters to the Holy Spirit', country: 'South Sudan', outcome: 'A Taposa warrior cohort lays down their weapons after PBS training.', image: '/images/pillar-community.jpg', href: '/stories/from-spear-masters-to-holy-spirit/' },
-  { title: 'The next generation’s leaders', country: 'Uganda', outcome: 'A GIFT graduate plants a church in his home village.', image: '/images/gift-bishoftu-tot.jpg', href: '/stories/the-next-generations-leaders/' },
-  { title: 'More Bibles for Ethiopia', country: 'Ethiopia', outcome: 'Field teachers run out of Bibles, and a partner gives more.', image: '/images/hero-pbs-graduation.jpg', href: '/stories/more-bibles-for-ethiopia-please/' },
-  { title: 'The Anaka crusade', country: 'Uganda', outcome: '1,400 first-time decisions in three days.', image: '/images/pillar-community.jpg', href: '/stories/the-anaka-crusade/' },
-  { title: 'Emmy: from orphan to leader', country: 'Uganda', outcome: 'Top of her class. Now training her year-mates.', image: '/images/education-vlc-jondoru.jpg', href: '/stories/emmy-from-orphan-to-leader/' },
-  { title: 'A timely word', country: 'South Sudan', outcome: 'A pastor’s prayer reaches a village he never knew about.', image: '/images/evangelism-discipleship.jpg', href: '/stories/a-timely-word/' },
-];
+const stories = [...storiesData].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+function excerpt(paras: string[], n = 150) {
+  const t = paras && paras[0] ? paras[0] : '';
+  return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t;
+}
 ---
 <PageLayout
   title="Stories of Transformation"
-  description="Real names. Real places. Real outcomes. Stories from the fourteen nations Favor International serves."
+  description="Real transformation stories from the field across East Africa, in the words of the Favor International teams who witnessed them."
 >
   <PageHero
     label="Stories"
-    title="Real names. Real places. Real outcomes."
-    promise="No anonymous outcomes. Every story carries a name, a country, and a verifiable outcome."
+    title="Stories of transformation."
+    promise="Every story here is a real person, in a real place, in a real work of God. Read them in the words of the teams who witnessed them."
     image="/images/story-anaka-crusade.jpg"
-    imageAlt="PBS graduation"
+    imageAlt="A Favor field gathering"
   />
 
   <section class="band band--white">
     <div class="container">
-      <div class="grid grid-3">
-        {stories.map((s) => <StoryCard {...s} />)}
+      <p class="stories-count">{stories.length} stories from the field.</p>
+      <div class="stories-grid">
+        {stories.map((s) => (
+          <a class="story-card" href={`/stories/${s.slug}/`}>
+            <div class="story-card__photo" style={`background-image: url(${s.image})`} role="img" aria-label={s.title}></div>
+            <div class="story-card__body">
+              <span class="story-card__date">{s.date}</span>
+              <h3>{s.title}</h3>
+              <p>{excerpt(s.paragraphs)}</p>
+              <span class="story-card__cta">Read the story →</span>
+            </div>
+          </a>
+        ))}
       </div>
-    </div>
-  </section>
-
-  <section class="band band--cream">
-    <div class="container container--narrow" style="text-align:center;">
-      <p class="label">The full archive</p>
-      <h2>Read every story.</h2>
-      <p>More than one hundred transformation stories, filterable by ministry, are published on our current site.</p>
-      <p class="band__cta-row"><a class="btn btn--secondary" href="https://www.favorintl.org/testimonies-updates/stories-of-transformation" target="_blank" rel="noopener">Browse all stories</a></p>
     </div>
   </section>
 
@@ -50,3 +51,50 @@ const stories = [
     variant="sage"
   />
 </PageLayout>
+
+<style>
+  .stories-count {
+    text-align: center;
+    color: var(--color-sage);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 var(--space-8);
+  }
+  .stories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+  @media (max-width: 900px) { .stories-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .stories-grid { grid-template-columns: 1fr; } }
+  .story-card {
+    display: flex; flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
+    height: 100%;
+  }
+  .story-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .story-card__photo {
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .story-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+  .story-card__date {
+    font-size: var(--font-size-label);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+  }
+  .story-card h3 { font-size: 1.2rem; margin: 0; color: var(--color-green); line-height: 1.25; }
+  .story-card p { font-size: 0.95rem; color: var(--color-ink-soft); margin: 0; }
+  .story-card__cta { margin-top: auto; padding-top: var(--space-2); font-weight: 700; color: var(--color-gold); font-size: 0.9rem; }
+</style>
