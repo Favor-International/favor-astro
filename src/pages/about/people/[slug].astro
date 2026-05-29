@@ -1,0 +1,65 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHero from '../../../components/band/PageHero.astro';
+import FeatureRow from '../../../components/band/FeatureRow.astro';
+import CtaBand from '../../../components/band/CtaBand.astro';
+import directorsData from '../../../data/directors.json';
+
+// Profile pages for every director/leader except Carole Ward, who has a
+// dedicated founder page at /about/our-story/founder/. Source: Directors data.
+export function getStaticPaths() {
+  return directorsData
+    .filter((d) => d.slug !== 'carole-ward')
+    .map((d) => ({ params: { slug: d.slug }, props: { person: d } }));
+}
+
+const { person } = Astro.props as {
+  person: {
+    slug: string;
+    fullName: string;
+    type: string;
+    position: string;
+    location: string;
+    bioIntro: string;
+    imagePath: string;
+  };
+};
+
+const isBoard = /board/i.test(person.type);
+const backHref = isBoard ? '/about/board/' : '/about/team/';
+const backLabel = isBoard ? 'Back to the Board' : 'Back to the team';
+const desc = `${person.fullName}, ${person.position} at Favor International. ${person.bioIntro}`.slice(0, 155);
+---
+<PageLayout title={person.fullName} description={desc}>
+  <PageHero
+    label={person.position}
+    title={`${person.fullName}.`}
+    promise={person.location}
+    image="/images/about-leadership-training.jpg"
+    imageAlt="Favor International leadership"
+  />
+
+  <FeatureRow
+    image={person.imagePath}
+    imageAlt={`${person.fullName}, ${person.position}`}
+    eyebrow={person.type}
+    heading={person.position}
+    layout="image-right"
+    background="cream"
+    objectPosition="center top"
+  >
+    <p>{person.bioIntro}</p>
+    <p><a href={backHref} class="profile-back">{backLabel} &rarr;</a></p>
+  </FeatureRow>
+
+  <CtaBand
+    heading="Stand with the work this team carries."
+    body="Favor Partners keep indigenous missionaries on the field across northeast Africa. Monthly partnership, any tier, makes the work possible."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+  />
+</PageLayout>
+
+<style>
+  .profile-back { color: var(--color-gold); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+</style>

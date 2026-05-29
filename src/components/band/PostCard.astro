@@ -14,10 +14,11 @@ export interface Props {
   metaLabel?: string;
   metaValue?: string;
   actionLabel?: string;
+  category?: string;
 }
-const { href, image, imageAlt = '', chip, title, desc, progress, metaLabel, metaValue, actionLabel } = Astro.props as Props;
+const { href, image, imageAlt = '', chip, title, desc, progress, metaLabel, metaValue, actionLabel, category } = Astro.props as Props;
 ---
-<a class="post-card" href={href}>
+<a class="post-card" href={href} data-category={category}>
   <div class="post-card__media">
     <div class="post-card__img" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
     {chip && <span class="post-card__chip">{chip}</span>}

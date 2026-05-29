@@ -10,6 +10,7 @@ const leadershipSlugs = ['carole-ward', 'joy-daniels', 'stephanie-maier', 'terry
 const leadership = leadershipSlugs
   .map(slug => directorsData.find(d => d.slug === slug))
   .filter(Boolean);
+const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
 ---
 <PageLayout
   title="Our Team"
@@ -34,7 +35,7 @@ const leadership = leadershipSlugs
       </p>
       <div class="team-grid">
         {leadership.map((m) => (
-          <article class="leader-card">
+          <a class="leader-card" href={personHref(m.slug)}>
             <div class="leader-card__photo">
               <img src={m.imagePath} alt={`${m.fullName}, ${m.position}`} loading="lazy" />
             </div>
@@ -43,8 +44,9 @@ const leadership = leadershipSlugs
               <p class="leader-card__role">{m.position}</p>
               <p class="leader-card__location">{m.location}</p>
               {m.bioIntro && <p class="leader-card__bio">{m.bioIntro}</p>}
+              <span class="leader-card__more">View profile &rarr;</span>
             </div>
-          </article>
+          </a>
         ))}
       </div>
     </div>
@@ -93,7 +95,18 @@ const leadership = leadershipSlugs
     display: grid;
     grid-template-columns: 220px 1fr;
     box-shadow: var(--shadow-card);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
   }
+  .leader-card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(31, 58, 26, 0.16); }
+  .leader-card__more {
+    margin-top: var(--space-3);
+    color: var(--color-gold-deep);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .leader-card:hover .leader-card__more { color: var(--color-green); }
   @media (max-width: 600px) {
     .leader-card { grid-template-columns: 1fr; }
     .leader-card__photo { aspect-ratio: 4 / 3; }

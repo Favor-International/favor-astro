@@ -8,6 +8,7 @@ import directorsData from '../../data/directors.json';
 const board = directorsData
   .filter(d => /board/i.test(d.type))
   .sort((a, b) => (a.order || 999) - (b.order || 999));
+const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
 ---
 <PageLayout
   title="Board of Directors"
@@ -32,7 +33,7 @@ const board = directorsData
       </p>
       <div class="board-grid">
         {board.map((m) => (
-          <article class="board-card">
+          <a class="board-card" href={personHref(m.slug)}>
             <div class="board-card__photo">
               <img src={m.imagePath} alt={`${m.fullName}, ${m.position}`} loading="lazy" />
             </div>
@@ -40,8 +41,9 @@ const board = directorsData
               <h3>{m.fullName}</h3>
               <p class="board-card__role">{m.position}</p>
               <p class="board-card__location">{m.location}</p>
+              <span class="board-card__more">View profile &rarr;</span>
             </div>
-          </article>
+          </a>
         ))}
       </div>
     </div>
@@ -89,7 +91,18 @@ const board = directorsData
     box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
   }
+  .board-card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(31, 58, 26, 0.16); }
+  .board-card__more {
+    margin-top: var(--space-3);
+    color: var(--color-gold-deep);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .board-card:hover .board-card__more { color: var(--color-green); }
   .board-card__photo {
     width: 100%;
     aspect-ratio: 1 / 1;

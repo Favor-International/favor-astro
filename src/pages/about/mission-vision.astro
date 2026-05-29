@@ -161,9 +161,14 @@ import { SITE } from '../../lib/site';
   .trait-list li {
     padding: var(--space-5) var(--space-6);
     background: var(--color-white);
-    border-left: 4px solid var(--color-gold);
-    border-radius: var(--radius-input);
+    border-left: 5px solid var(--accent, var(--color-gold));
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
     color: var(--color-ink);
     font-weight: 600;
   }
+  .trait-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
+  .trait-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
+  .trait-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
+  .trait-list li:nth-child(4n+4) { --accent: var(--color-sage); }
 </style>

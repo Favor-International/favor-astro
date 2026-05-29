@@ -8,6 +8,7 @@ import storiesData from '../../data/stories.json';
 const stories = [...storiesData].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
+const categories = ['All', 'Salvation', 'Discipleship & Training', 'Healing & Freedom', 'Education & Children', 'Women & Family', 'Community & Care'];
 function excerpt(paras: string[], n = 150) {
   const t = paras && paras[0] ? paras[0] : '';
   return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t;
@@ -28,18 +29,32 @@ function excerpt(paras: string[], n = 150) {
   <section class="band band--white">
     <div class="container">
       <p class="stories-count">{stories.length} stories from the field.</p>
+
+      <div class="story-filters" role="group" aria-label="Filter stories by category">
+        {categories.map((c, i) => (
+          <button class="story-filter" type="button" data-cat={c} aria-pressed={i === 0 ? 'true' : 'false'}>{c}</button>
+        ))}
+      </div>
+
       <div class="stories-grid">
         {stories.map((s) => (
           <PostCard
             href={`/stories/${s.slug}/`}
             image={s.image}
             imageAlt={s.title}
-            chip={s.date}
+            chip={s.category}
+            category={s.category}
             title={s.title}
             desc={excerpt(s.paragraphs)}
             actionLabel="Read the story"
           />
         ))}
+      </div>
+
+      <div class="story-pager">
+        <button class="story-pager__btn" type="button" data-prev>&larr; Prev</button>
+        <span class="story-pager__info"></span>
+        <button class="story-pager__btn" type="button" data-next>Next &rarr;</button>
       </div>
     </div>
   </section>
@@ -49,53 +64,54 @@ function excerpt(paras: string[], n = 150) {
     body="The field report carries one new story each month."
     ctaLabel="Send Me the Field Report"
     ctaHref="/newsletter/"
-    variant="sage"
   />
 </PageLayout>
 
+<script>
+  const PER = 12;
+  const grid = document.querySelector('.stories-grid');
+  const cards = Array.from(document.querySelectorAll('.stories-grid .post-card')) as HTMLElement[];
+  const filters = Array.from(document.querySelectorAll('.story-filter')) as HTMLElement[];
+  const info = document.querySelector('.story-pager__info');
+  const prev = document.querySelector('[data-prev]') as HTMLButtonElement | null;
+  const next = document.querySelector('[data-next]') as HTMLButtonElement | null;
+  let cat = 'All';
+  let page = 1;
+  const matches = () => (cat === 'All' ? cards : cards.filter((c) => c.dataset.category === cat));
+  function render() {
+    const list = matches();
+    const pages = Math.max(1, Math.ceil(list.length / PER));
+    if (page > pages) page = pages;
+    cards.forEach((c) => { c.style.display = 'none'; });
+    list.slice((page - 1) * PER, (page - 1) * PER + PER).forEach((c) => { c.style.display = ''; });
+    if (info) info.textContent = `Page ${page} of ${pages} · ${list.length} stories`;
+    if (prev) prev.disabled = page <= 1;
+    if (next) next.disabled = page >= pages;
+  }
+  filters.forEach((b) => b.addEventListener('click', () => {
+    cat = b.dataset.cat || 'All';
+    page = 1;
+    filters.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    render();
+  }));
+  const jump = () => { if (grid) window.scrollTo({ top: (grid as HTMLElement).offsetTop - 120, behavior: 'smooth' }); };
+  prev?.addEventListener('click', () => { if (page > 1) { page--; render(); jump(); } });
+  next?.addEventListener('click', () => { page++; render(); jump(); });
+  render();
+</script>
+
 <style>
-  .stories-count {
-    text-align: center;
-    color: var(--color-sage);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    margin: 0 0 var(--space-8);
-  }
-  .stories-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-8);
-  }
+  .stories-count { text-align: center; color: var(--color-sage); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; margin: 0 0 var(--space-6); }
+  .story-filters { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; margin: 0 0 var(--space-10); }
+  .story-filter { padding: 9px 18px; border: 1px solid var(--color-border); background: var(--color-white); border-radius: var(--radius-pill); font-weight: 700; font-size: 0.82rem; color: var(--color-green); cursor: pointer; transition: background 140ms, color 140ms, border-color 140ms; }
+  .story-filter:hover { border-color: var(--color-gold); }
+  .story-filter[aria-pressed="true"] { background: var(--color-green); color: var(--color-white); border-color: var(--color-green); }
+  .stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
   @media (max-width: 900px) { .stories-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .stories-grid { grid-template-columns: 1fr; } }
-  .story-card {
-    display: flex; flex-direction: column;
-    background: var(--color-white);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-soft);
-    overflow: hidden;
-    text-decoration: none; color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
-    height: 100%;
-  }
-  .story-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
-  .story-card__photo {
-    aspect-ratio: 4 / 3;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-  }
-  .story-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
-  .story-card__date {
-    font-size: var(--font-size-label);
-    font-weight: 600;
-    letter-spacing: var(--letter-spacing-label);
-    text-transform: uppercase;
-    color: var(--color-terracotta);
-  }
-  .story-card h3 { font-size: 1.2rem; margin: 0; color: var(--color-green); line-height: 1.25; }
-  .story-card p { font-size: 0.95rem; color: var(--color-ink-soft); margin: 0; }
-  .story-card__cta { margin-top: auto; padding-top: var(--space-2); font-weight: 700; color: var(--color-gold); font-size: 0.9rem; }
+  .story-pager { display: flex; align-items: center; justify-content: center; gap: var(--space-6); margin-top: var(--space-12); }
+  .story-pager__btn { padding: 11px 22px; border-radius: var(--radius-pill); border: 2px solid var(--color-green); background: transparent; color: var(--color-green); font-weight: 700; cursor: pointer; transition: background 140ms, color 140ms; }
+  .story-pager__btn:hover:not(:disabled) { background: var(--color-green); color: var(--color-white); }
+  .story-pager__btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .story-pager__info { color: var(--color-ink-soft); font-size: 0.9rem; }
 </style>

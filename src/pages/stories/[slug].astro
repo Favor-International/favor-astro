@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PatternDivider from '../../components/global/PatternDivider.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import storiesData from '../../data/stories.json';
 import { SITE } from '../../lib/site';
@@ -28,6 +29,8 @@ const shareMail = `mailto:?subject=${encodeURIComponent(story.title)}&body=${enc
       <p class="story-banner__crumb"><a href="/stories/">Stories</a> &middot; {story.date}</p>
     </div>
   </section>
+
+  <PatternDivider variant="cream" height="90px" />
 
   <section class="band band--white">
     <div class="container story-layout">
@@ -89,7 +92,8 @@ const shareMail = `mailto:?subject=${encodeURIComponent(story.title)}&body=${enc
 <style>
   .story-banner { position: relative; display: flex; align-items: center; min-height: clamp(320px, 42vh, 460px); color: var(--color-white); overflow: hidden; }
   .story-banner__photo { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
-  .story-banner__scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(31,58,26,0.55) 0%, rgba(31,58,26,0.82) 100%); }
+  .story-banner__scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(20,30,18,0.94) 0%, rgba(20,30,18,0.84) 30%, rgba(20,30,18,0.45) 62%, rgba(20,30,18,0.12) 85%, rgba(20,30,18,0) 100%); }
+  @media (max-width: 760px) { .story-banner__scrim { background: linear-gradient(180deg, rgba(20,30,18,0.5) 0%, rgba(20,30,18,0.88) 100%); } }
   .story-banner__inner { position: relative; z-index: 2; padding: var(--space-12) 0; }
   .story-banner__inner h1 { color: var(--color-white); margin: var(--space-3) 0; max-width: 18ch; }
   .story-banner__crumb { margin: 0; font-size: 0.9rem; color: color-mix(in srgb, var(--color-white) 80%, transparent); }
