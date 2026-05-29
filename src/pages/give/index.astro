@@ -1,17 +1,18 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import OverlayCard from '../../components/global/OverlayCard.astro';
 import { PARTNER_TIERS, SITE } from '../../lib/site';
 
 const tiles = [
-  { slug: 'partner-monthly', label: 'Become a Favor Partner', desc: 'Monthly partnership. The lead path. Pick a tier.', featured: true },
-  { slug: 'one-time', label: 'Give Once', desc: 'Any amount, any time. Direct to Blackbaud.' },
-  { slug: 'specific-project', label: 'Specific Project', desc: 'Choose a current project to fund directly.' },
-  { slug: 'foundation', label: 'Foundation Giving', desc: 'Grants and DAFs. We will send the package.' },
-  { slug: 'church-partnership', label: 'Church Partnership', desc: 'Mobilize your church around an indigenous team.' },
-  { slug: 'international', label: 'International Giving', desc: 'UK, Canada, EU. Tax-receipt routes available.' },
-  { slug: 'legacy', label: 'Legacy Giving', desc: 'Wills, estates, charitable trusts.' },
-  { slug: 'non-cash', label: 'Stocks, Crypto, Non-Cash', desc: 'DAFpay, TrustBridge, equities.' },
+  { slug: 'partner-monthly', label: 'Become a Favor Partner', desc: 'Monthly partnership. The lead path. Pick a tier.', featured: true, image: '/images/highlight-crowd.jpg' },
+  { slug: 'one-time', label: 'Give Once', desc: 'Any amount, any time. Direct to Blackbaud.', image: '/images/hero-bibles-stacks.jpg' },
+  { slug: 'specific-project', label: 'Specific Project', desc: 'Choose a current project to fund directly.', image: '/images/school-construction.jpg' },
+  { slug: 'foundation', label: 'Foundation Giving', desc: 'Grants and DAFs. We will send the package.', image: '/images/hero-foundation-cohort.jpg' },
+  { slug: 'church-partnership', label: 'Church Partnership', desc: 'Mobilize your church around an indigenous team.', image: '/images/ministry-gift-staff.jpg' },
+  { slug: 'international', label: 'International Giving', desc: 'UK, Canada, EU. Tax-receipt routes available.', image: '/images/hero-pbs-students.jpg' },
+  { slug: 'legacy', label: 'Legacy Giving', desc: 'Wills, estates, charitable trusts.', image: '/images/hero-legacy-history.jpg' },
+  { slug: 'non-cash', label: 'Stocks, Crypto, Non-Cash', desc: 'DAFpay, TrustBridge, equities.', image: '/images/pillar-economic.jpg' },
 ];
 
 const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
@@ -41,11 +42,13 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
       </header>
       <div class="give-grid">
         {tiles.map((t) => (
-          <a class:list={['give-tile', t.featured && 'give-tile--featured']} href={`/give/${t.slug}/`}>
-            <h3>{t.label}</h3>
-            <p>{t.desc}</p>
-            <span class="give-tile__cta">{t.featured ? 'Start your partnership →' : 'Learn the details →'}</span>
-          </a>
+          t.featured ? (
+            <div class="give-grid__feature">
+              <OverlayCard href={`/give/${t.slug}/`} image={t.image} kicker="Recommended" title={t.label} desc={t.desc} cta="Start your partnership" ratio="21 / 9" />
+            </div>
+          ) : (
+            <OverlayCard href={`/give/${t.slug}/`} image={t.image} title={t.label} desc={t.desc} cta="Learn the details" ratio="4 / 3" />
+          )
         ))}
       </div>
     </div>
@@ -127,31 +130,12 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
   .give-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
   @media (max-width: 1100px) { .give-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .give-grid { grid-template-columns: 1fr; } }
-  .give-tile {
-    display: flex; flex-direction: column; gap: var(--space-3);
-    padding: var(--space-6);
-    background: var(--color-white);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-card);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 160ms, transform 160ms, box-shadow 160ms;
-  }
-  .give-tile:hover { border-color: var(--color-gold); transform: translateY(-3px); box-shadow: var(--shadow-card); }
-  .give-tile h3 { margin: 0; font-size: 1.1rem; color: var(--color-green); }
-  .give-tile p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
-  .give-tile__cta { margin-top: auto; font-weight: 700; color: var(--color-gold); font-size: 0.85rem; }
-  .give-tile--featured { background: var(--color-gold); border-color: var(--color-gold); grid-column: span 2; }
-  .give-tile--featured h3 { color: var(--color-ink); font-size: 1.4rem; }
-  .give-tile--featured p { color: color-mix(in srgb, var(--color-ink) 78%, transparent); }
-  .give-tile--featured .give-tile__cta { color: var(--color-green-deep); }
-  @media (max-width: 540px) {
-    .give-tile--featured { grid-column: span 1; }
-  }
+  .give-grid__feature { grid-column: span 2; }
+  @media (max-width: 540px) { .give-grid__feature { grid-column: span 1; } }
 
   .tier-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
   .tier-list li {
