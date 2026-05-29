@@ -1,7 +1,7 @@
 ---
-// Standard internal-page hero: copy on the LEFT (eyebrow + serif title +
-// promise + CTA) over a cream base, with the photo bleeding in from the RIGHT
-// and softly fading into the cream. Symmetric, left-aligned, generous space.
+// Standard internal-page hero: full-bleed photo with a DARK (slightly green)
+// overlay that's heaviest on the left where the copy sits and fades out across
+// the image, so the photo reads as continuous. White text on the dark side.
 export interface Props {
   label?: string;
   title: string;
@@ -23,9 +23,10 @@ const {
 ---
 <section class="page-hero">
   <div class="page-hero__media" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
-  <div class="container">
+  <div class="page-hero__scrim" aria-hidden="true"></div>
+  <div class="container page-hero__inner">
     <div class="page-hero__copy">
-      {label && <p class="label">{label}</p>}
+      {label && <p class="label label--inverse">{label}</p>}
       <h1>{title}</h1>
       <p class="page-hero__promise">{promise}</p>
       {(ctaLabel || secondaryLabel) && (
@@ -42,42 +43,45 @@ const {
     position: relative;
     display: flex;
     align-items: center;
-    background: var(--color-cream);
-    min-height: clamp(480px, 58vh, 620px);
+    min-height: clamp(480px, 60vh, 640px);
     overflow: hidden;
+    color: var(--color-white);
   }
-  .page-hero__media {
-    position: absolute; top: 0; right: 0; bottom: 0;
-    width: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
+  .page-hero__media { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; z-index: 0; }
+  /* Dark, slightly-green overlay: heavy on the left, fading wide across the
+     image so the photo feels like it keeps going. */
+  .page-hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(90deg,
+      rgba(20, 30, 18, 0.94) 0%,
+      rgba(20, 30, 18, 0.84) 30%,
+      rgba(20, 30, 18, 0.45) 60%,
+      rgba(20, 30, 18, 0.12) 84%,
+      rgba(20, 30, 18, 0) 100%);
   }
-  /* Soft cream fade on the photo's left edge so it blends into the copy side. */
-  .page-hero__media::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, var(--color-cream) 0%, rgba(250, 247, 241, 0) 24%);
-  }
-  .page-hero .container { position: relative; z-index: 1; }
-  .page-hero__copy { max-width: 47%; padding: var(--space-16) 0; }
-  .page-hero__copy h1 { margin: var(--space-3) 0 var(--space-4); }
+  .page-hero__inner { position: relative; z-index: 2; }
+  .page-hero__copy { max-width: 620px; padding: var(--space-16) 0; }
+  .page-hero__copy h1 { color: var(--color-white); margin: var(--space-3) 0 var(--space-4); text-wrap: balance; }
   .page-hero__promise {
     font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    color: var(--color-ink-soft);
+    color: color-mix(in srgb, var(--color-white) 90%, transparent);
     line-height: 1.6;
     margin: 0 0 var(--space-6);
     max-width: 46ch;
   }
   .page-hero__cta { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
   .page-hero__secondary {
-    color: var(--color-green); text-decoration: none; font-weight: 700;
+    color: var(--color-white); text-decoration: none; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85rem;
     border-bottom: 2px solid var(--color-gold); padding-bottom: 4px;
   }
-  .page-hero__secondary:hover { color: var(--color-gold-deep); }
-  @media (max-width: 860px) {
-    .page-hero { display: block; min-height: 0; }
-    .page-hero__media { position: relative; width: 100%; height: 300px; }
-    .page-hero__media::before { background: linear-gradient(0deg, var(--color-cream) 0%, rgba(250, 247, 241, 0) 40%); }
-    .page-hero__copy { max-width: none; padding: var(--space-10) 0 var(--space-12); }
+  .page-hero__secondary:hover { color: var(--color-gold); }
+  @media (max-width: 760px) {
+    .page-hero__scrim {
+      background: linear-gradient(180deg,
+        rgba(20, 30, 18, 0.55) 0%,
+        rgba(20, 30, 18, 0.80) 55%,
+        rgba(20, 30, 18, 0.94) 100%);
+    }
   }
 </style>
