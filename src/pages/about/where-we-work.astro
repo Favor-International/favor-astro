@@ -2,24 +2,27 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import AfricaMap from '../../components/global/AfricaMap.astro';
+import OverlayCard from '../../components/global/OverlayCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const countries = [
-  { name: 'Uganda', focus: 'PBS, GIFT Institute, VLCs, Favor FM' },
-  { name: 'South Sudan', focus: 'Church planting, trauma counseling, schools' },
-  { name: 'Chad', focus: 'Field teams, pastor training' },
-  { name: 'Ethiopia', focus: 'GIFT Institute campus (Bishoftu), Bible printing' },
-  { name: 'Democratic Republic of Congo', focus: 'Eastern province church planting' },
-  { name: 'Kenya', focus: 'Logistics hub, partner network' },
-  { name: 'Sudan', focus: 'Refugee discipleship, Arabic Bible distribution' },
-  { name: 'Burundi', focus: 'Leadership training cohorts' },
-  { name: 'Rwanda', focus: 'Vision trip routes, partner church visits' },
-  { name: 'Tanzania', focus: 'Border-region outreach' },
-  { name: 'Eritrea', focus: 'Underground church support' },
-  { name: 'Somalia (border regions)', focus: 'Outreach via Kenya and Ethiopia partners' },
-  { name: 'Central African Republic', focus: 'Pastor support, occasional visits' },
-  { name: 'Mozambique', focus: 'Partnership exploration' },
+  { name: 'Uganda', focus: 'PBS, the GIFT Institute, Village Learning Centers, and Favor FM radio.', image: '/images/field/country-uganda.webp' },
+  { name: 'South Sudan', focus: 'Church planting, trauma counseling, and schools across Lakes State and beyond.', image: '/images/field/country-south-sudan.webp' },
+  { name: 'Chad', focus: 'Field teams, pastor training, wells, and a House of Prayer in N’Djamena.', image: '/images/field/country-chad.webp' },
+  { name: 'Ethiopia', focus: 'The GIFT Institute campus in Bishoftu and Amharic Bible printing.', image: '/images/field/country-ethiopia.webp' },
+  { name: 'Democratic Republic of Congo', focus: 'Portable Bible Schools and church planting in the eastern provinces.', image: '/images/field/country-drc.webp' },
+  { name: 'Kenya', focus: 'Portable Bible Schools, a logistics hub, and the partner network.', image: '/images/field/country-kenya.webp' },
+  { name: 'Sudan', focus: 'Refugee discipleship and Arabic Bible distribution.' },
+  { name: 'Burundi', focus: 'Leadership-training cohorts.' },
+  { name: 'Rwanda', focus: 'Vision-trip routes and partner church visits.' },
+  { name: 'Tanzania', focus: 'Border-region outreach.' },
+  { name: 'Eritrea', focus: 'Underground church support.' },
+  { name: 'Somalia (border regions)', focus: 'Outreach via Kenya and Ethiopia partners.' },
+  { name: 'Central African Republic', focus: 'Pastor support and occasional field visits.' },
+  { name: 'Mozambique', focus: 'Partnership exploration.' },
 ];
+const withImage = countries.filter((c) => c.image);
+const moreCountries = countries.filter((c) => !c.image);
 ---
 <PageLayout
   title="Where We Work"
@@ -41,8 +44,14 @@ const countries = [
         <p class="label">The fourteen</p>
         <h2>Where Favor Partners are funding work today.</h2>
       </header>
+      <div class="country-grid">
+        {withImage.map((c) => (
+          <OverlayCard image={c.image} title={c.name} desc={c.focus} ratio="4 / 3" />
+        ))}
+      </div>
+      <p class="country-more-label">Also serving across the region</p>
       <ul class="country-list">
-        {countries.map((c) => (
+        {moreCountries.map((c) => (
           <li>
             <strong>{c.name}</strong>
             <span>{c.focus}</span>
@@ -62,6 +71,10 @@ const countries = [
 </PageLayout>
 
 <style>
+  .country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  @media (max-width: 900px) { .country-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .country-grid { grid-template-columns: 1fr; } }
+  .country-more-label { text-align: center; margin: var(--space-12) 0 var(--space-6); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; color: var(--color-sage); }
   .country-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
   @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
   .country-list li {
