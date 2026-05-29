@@ -25,9 +25,9 @@
   --font-size-base: 17px;
   --font-size-small: 14px;
   --font-size-label: 12px;
-  --font-size-h1: clamp(2.5rem, 5vw, 4.5rem);
-  --font-size-h2: clamp(1.875rem, 3vw, 2.5rem);
-  --font-size-h3: 1.5rem;
+  --font-size-h1: clamp(3rem, 6vw, 5rem);
+  --font-size-h2: clamp(2.1rem, 3.8vw, 3.1rem);
+  --font-size-h3: 1.7rem;
   --font-size-stat: clamp(3rem, 7vw, 5.5rem);
   --line-height-base: 1.6;
   --line-height-tight: 1.15;
