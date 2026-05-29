@@ -105,3 +105,20 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 1024px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) { .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+/* FAQ accordion (reusable) */
+.faq { display: grid; gap: var(--space-3); margin-top: var(--space-8); }
+.faq details { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: var(--space-4) var(--space-6); }
+.faq summary { cursor: pointer; font-weight: 700; color: var(--color-green); font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; color: var(--color-gold); font-size: 1.5rem; line-height: 1; font-weight: 400; }
+.faq details[open] summary::after { content: '–'; }
+.faq details p { margin: var(--space-4) 0 0; color: var(--color-ink-soft); line-height: 1.6; }
+
+/* "Why Favor" highlight grid (reusable) */
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); margin-top: var(--space-8); }
+@media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
+.why-card { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border-top: 4px solid var(--color-gold); box-shadow: var(--shadow-soft); }
+.why-card h3 { color: var(--color-green); font-size: 1.15rem; margin: 0 0 var(--space-2); }
+.why-card p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; line-height: 1.55; }

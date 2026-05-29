@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import PostCard from '../../components/band/PostCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const paths = [
@@ -36,14 +37,14 @@ const paths = [
       </header>
       <div class="go-grid">
         {paths.map((p) => (
-          <a class="go-tile" href={p.href}>
-            <div class="go-tile__photo" style={`background-image: url(${p.image})`} role="img" aria-label={p.label}></div>
-            <div class="go-tile__body">
-              <h3>{p.label}</h3>
-              <p>{p.desc}</p>
-              <span class="go-tile__cta">See the details →</span>
-            </div>
-          </a>
+          <PostCard
+            href={p.href}
+            image={p.image}
+            imageAlt={p.label}
+            title={p.label}
+            desc={p.desc}
+            actionLabel="See the details"
+          />
         ))}
       </div>
     </div>
