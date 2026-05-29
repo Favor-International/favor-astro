@@ -1,0 +1,56 @@
+---
+// Lightweight YouTube embed: shows the poster thumbnail with a play button and
+// only loads the real iframe on click (keeps the page fast, no autoplay trackers
+// until the visitor chooses to watch). Pass the bare YouTube video id.
+export interface Props {
+  id: string;
+  title: string;
+  caption?: string;
+}
+const { id, title, caption } = Astro.props as Props;
+---
+<figure class="video-embed">
+  <button class="video-embed__btn" type="button" data-ytid={id} aria-label={`Play video: ${title}`}>
+    <img
+      class="video-embed__thumb"
+      src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+      alt=""
+      loading="lazy"
+      width="1280"
+      height="720"
+      onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg';`}
+    />
+    <span class="video-embed__scrim" aria-hidden="true"></span>
+    <span class="video-embed__play" aria-hidden="true">
+      <svg viewBox="0 0 68 48" width="72" height="51"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#1f3a1a" fill-opacity="0.85"/><path d="M45 24 27 14v20z" fill="#fff"/></svg>
+    </span>
+    <span class="video-embed__label">{title}</span>
+  </button>
+  {caption && <figcaption class="video-embed__cap">{caption}</figcaption>}
+</figure>
+<style>
+  .video-embed { margin: 0; }
+  .video-embed__btn { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; padding: 0; cursor: pointer; border-radius: var(--radius-card); overflow: hidden; background: var(--color-green-deep); box-shadow: var(--shadow-card); }
+  .video-embed__thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-embed__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,30,18,0) 45%, rgba(20,30,18,0.6) 100%); }
+  .video-embed__play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: transform 160ms; }
+  .video-embed__play .yt-bg { transition: fill 160ms, fill-opacity 160ms; }
+  .video-embed__btn:hover .video-embed__play { transform: translate(-50%, -50%) scale(1.08); }
+  .video-embed__btn:hover .yt-bg { fill: var(--color-gold); fill-opacity: 1; }
+  .video-embed__label { position: absolute; left: var(--space-6); right: var(--space-6); bottom: var(--space-5); color: #fff; font-family: var(--font-sans); font-weight: 800; font-size: clamp(1rem, 1.8vw, 1.3rem); text-align: left; line-height: 1.2; text-shadow: 0 1px 10px rgba(0,0,0,0.55); }
+  .video-embed__cap { margin-top: var(--space-3); color: var(--color-sage); font-size: 0.9rem; }
+  .video-embed :global(iframe) { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius-card); display: block; box-shadow: var(--shadow-card); }
+</style>
+<script>
+  document.querySelectorAll('.video-embed__btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-ytid');
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.title = btn.getAttribute('aria-label') || 'Video';
+      btn.replaceWith(iframe);
+    });
+  });
+</script>

@@ -2,13 +2,22 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import Figure from '../../components/global/Figure.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const programs = [
-  { name: 'Portable Bible Schools (PBS)', desc: 'Three- to six-month church-based training that goes where no seminary can. Cohorts move village to village in places like Karamoja, the Mundari cattle camps of South Sudan, and the Ethiopian highlands. Most students will never see the inside of a Bible college; PBS is the Bible college.' },
-  { name: 'GIFT Leadership Institute', desc: 'A two-year residential training program for the next generation of indigenous African pastors. Bishoftu, Ethiopia campus. Students are sent home equipped to plant churches, lead trainings, and disciple their own people.' },
-  { name: 'House of Prayer', desc: 'Continuous intercession from the field. Trains local prayer warriors and connects them to a global prayer network. Many of Favor’s field decisions are made in this room first.' },
-  { name: 'Favor FM (Christian Radio)', desc: 'FM stations broadcasting in northern Uganda and South Sudan. Discipleship content in local languages, on-demand pastoral care by call-in, and Gospel reach into villages without churches.' },
+  { name: 'Portable Bible Schools (PBS)', image: '/images/pbs-karamoja.jpg', desc: 'Three- to six-month church-based training that goes where no seminary can. Cohorts move village to village in places like Karamoja, the Mundari cattle camps of South Sudan, and the Ethiopian highlands. Most students will never see the inside of a Bible college; PBS is the Bible college.' },
+  { name: 'GIFT Leadership Institute', image: '/images/gift-bishoftu-tot.jpg', desc: 'A two-year residential training program for the next generation of indigenous African pastors. Bishoftu, Ethiopia campus. Students are sent home equipped to plant churches, lead trainings, and disciple their own people.' },
+  { name: 'House of Prayer', image: '/images/ministry-house-of-prayer.jpg', desc: 'Continuous intercession from the field. Trains local prayer warriors and connects them to a global prayer network. Many of Favor’s field decisions are made in this room first.' },
+  { name: 'Favor FM (Christian Radio)', image: '/images/ministry-radio.jpg', desc: 'FM stations broadcasting in northern Uganda and South Sudan. Discipleship content in local languages, on-demand pastoral care by call-in, and Gospel reach into villages without churches.' },
+];
+
+const gallery = [
+  { src: '/images/story-anaka-crusade.jpg', caption: 'A field crusade in Anaka, northern Uganda' },
+  { src: '/images/hero-bibles-stacks.jpg', caption: 'Bibles staged for distribution by PBS teams' },
+  { src: '/images/hero-pastor-preaching.jpg', caption: 'An indigenous pastor preaching in the field' },
+  { src: '/images/hero-congo-grads.jpg', caption: 'Portable Bible School graduates, DR Congo' },
 ];
 ---
 <PageLayout
@@ -27,17 +36,37 @@ const programs = [
   />
 
   <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">The four programs</p>
-      <h2>How indigenous pastors get equipped.</h2>
-      <ul class="program-list">
+    <div class="container">
+      <div class="ed-video">
+        <div class="ed-video__copy">
+          <p class="label">From the field</p>
+          <h2>See it where it happens.</h2>
+          <p>Before you read a word of program description, watch the work. This is evangelism and discipleship in Africa, led by the indigenous pastors who live there.</p>
+        </div>
+        <div class="ed-video__player">
+          <VideoEmbed id="C5VBPhA50Mg" title="Evangelism in Africa: Building Lasting Disciples Through God's Word" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">The four programs</p>
+        <h2>How indigenous pastors get equipped.</h2>
+      </header>
+      <div class="ed-programs">
         {programs.map((p) => (
-          <li>
-            <h3>{p.name}</h3>
-            <p>{p.desc}</p>
-          </li>
+          <article class="ed-prog">
+            <Figure src={p.image} alt={p.name} ratio="16 / 10" />
+            <div class="ed-prog__body">
+              <h3>{p.name}</h3>
+              <p>{p.desc}</p>
+            </div>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
@@ -53,22 +82,38 @@ const programs = [
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <p class="label">The programs in depth</p>
-      <h2>How the work happens on the ground.</h2>
-      <div class="depth">
-        <article>
-          <h3>Portable Bible Schools (PBS)</h3>
+      <header class="band__header">
+        <p class="label">The programs in depth</p>
+        <h2>How the work happens on the ground.</h2>
+      </header>
+      <div class="faq ed-depth">
+        <details open>
+          <summary>Portable Bible Schools (PBS)</summary>
           <p>Favor&rsquo;s Portable Bible Schools (PBSs) mobilize new disciple-makers into physical and spiritual war zones. Whether a life-time believer or brand-new convert, all come hungry for the Word and for training. These emerging leaders come from hidden corners, of nations restrictive of and hostile to the Gospel, for the two-month discipleship training that Favor brings to rural villages, always moving further outward into the unreached tribes.</p>
-        </article>
-        <article>
-          <h3>Houses of Prayer</h3>
+        </details>
+        <details>
+          <summary>Houses of Prayer</summary>
           <p>Our Houses of Prayer in Gulu, Uganda, and in Juba, South Sudan were our first operational centers, before offices, schools, radio, or leadership training facilities. Prayer always comes first and then everything else follows.</p>
           <p>Our House of Prayer ministry teams do so much, from leading morning devotions and noon-hour prayers every weekday to all-night prayer events. They also launch local and rural outreaches and ministries on the streets, in hospitals, and in prisons. They provide a 24/7 prayer covering for new believers, organize pastors&rsquo; fellowships and national prayer gatherings, and coordinate local crusades.</p>
-        </article>
-        <article>
-          <h3>Christian Radio</h3>
+        </details>
+        <details>
+          <summary>Christian Radio</summary>
           <p>Favor operates two radio stations that cover Gulu, Uganda, and Juba, South Sudan, reaching people in the right place at the right time. Our programming is a mix of teaching, music, news, testimonies, prayer, preaching, education, and more. We have become one of the highest preferred radio stations in the regions of both nations, with a high level of daily community involvement and call-ins.</p>
-        </article>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">From the field</p>
+        <h2>Real people, real places.</h2>
+      </header>
+      <div class="ed-gallery">
+        {gallery.map((g) => (
+          <Figure src={g.src} caption={g.caption} ratio="4 / 3" />
+        ))}
       </div>
     </div>
   </section>
@@ -83,13 +128,22 @@ const programs = [
 </PageLayout>
 
 <style>
-  .program-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
-  .program-list li { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .program-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
-  .program-list p { margin: 0; color: var(--color-ink-soft); }
-  .depth { display: grid; gap: var(--space-6); margin-top: var(--space-6); }
-  .depth article { padding: var(--space-6); background: var(--color-cream); border-left: 4px solid var(--color-gold); border-radius: var(--radius-input); }
-  .depth h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.15rem; }
-  .depth p { margin: 0 0 var(--space-3); color: var(--color-ink-soft); }
-  .depth p:last-child { margin-bottom: 0; }
+  .ed-video { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(var(--space-8), 4vw, var(--space-16)); align-items: center; }
+  @media (max-width: 860px) { .ed-video { grid-template-columns: 1fr; } }
+  .ed-video__copy h2 { margin: 0 0 var(--space-4); }
+  .ed-video__copy p { color: var(--color-ink-soft); line-height: 1.7; margin: 0; }
+
+  .ed-programs { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
+  @media (max-width: 760px) { .ed-programs { grid-template-columns: 1fr; } }
+  .ed-prog { background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
+  .ed-prog :global(.figure__img) { border-radius: 0; box-shadow: none; }
+  .ed-prog__body { padding: var(--space-6); }
+  .ed-prog__body h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
+  .ed-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+
+  .ed-depth { margin-top: var(--space-2); }
+
+  .ed-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  @media (max-width: 900px) { .ed-gallery { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .ed-gallery { grid-template-columns: 1fr; } }
 </style>

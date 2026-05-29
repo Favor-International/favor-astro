@@ -1,0 +1,32 @@
+---
+// Captioned photo. If `src` is omitted it renders a clearly-marked placeholder
+// (dashed frame + camera icon + the caption) so an empty media slot reads as
+// "a real photo goes here" rather than looking broken. Swap a real path into
+// `src` when the photo is ready.
+export interface Props {
+  src?: string;
+  alt?: string;
+  caption?: string;
+  ratio?: string;
+  objectPosition?: string;
+}
+const { src, alt = '', caption, ratio = '4 / 3', objectPosition = 'center 30%' } = Astro.props as Props;
+---
+<figure class="figure">
+  {src ? (
+    <div class="figure__img" style={`aspect-ratio:${ratio}; background-image:url(${src}); background-position:${objectPosition};`} role="img" aria-label={alt || caption}></div>
+  ) : (
+    <div class="figure__ph" style={`aspect-ratio:${ratio};`} role="img" aria-label={alt || caption || 'Photo placeholder'}>
+      <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M9 3 7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9Zm3 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+      <span>{caption || alt || 'Photo coming soon'}</span>
+    </div>
+  )}
+  {src && caption && <figcaption class="figure__cap">{caption}</figcaption>}
+</figure>
+<style>
+  .figure { margin: 0; }
+  .figure__img { background-size: cover; background-repeat: no-repeat; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); }
+  .figure__ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); text-align: center; padding: var(--space-6); border: 2px dashed var(--color-sage); border-radius: var(--radius-card); background: color-mix(in srgb, var(--color-sage-light) 28%, var(--color-cream)); color: var(--color-sage); }
+  .figure__ph span { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.02em; max-width: 28ch; }
+  .figure__cap { margin-top: var(--space-3); color: var(--color-sage); font-size: 0.85rem; line-height: 1.4; }
+</style>
