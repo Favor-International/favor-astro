@@ -22,7 +22,7 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-script: 'Biro Script Plus', 'Caveat', 'Bradley Hand', cursive;
   --font-brand: 'Bentoga', 'Playfair Display', serif;
-  --font-size-base: 16px;
+  --font-size-base: 17px;
   --font-size-small: 14px;
   --font-size-label: 12px;
   --font-size-h1: clamp(2.5rem, 5vw, 4.5rem);
@@ -52,8 +52,8 @@
   --band-py-mobile: 48px;
 
   /* Radius */
-  --radius-card: 8px;
-  --radius-input: 4px;
+  --radius-card: 16px;
+  --radius-input: 8px;
   --radius-pill: 999px;
 
   /* Shadow */

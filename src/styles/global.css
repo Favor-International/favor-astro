@@ -5,7 +5,7 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scrollbar-gutter: stable; }
 
 body {
   margin: 0;
@@ -19,8 +19,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-sans); margin: 0 0 0.5em; line-height: var(--line-height-tight); color: var(--color-green); }
-h1 { font-weight: 800; font-size: var(--font-size-h1); }
-h2 { font-weight: 700; font-size: var(--font-size-h2); }
+h1, h2 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.015em; }
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
 h3 { font-weight: 700; font-size: var(--font-size-h3); }
 
 p { margin: 0 0 1em; }
@@ -54,12 +55,13 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 .label {
   display: inline-block;
   font-size: var(--font-size-label);
-  font-weight: 600;
-  letter-spacing: var(--letter-spacing-label);
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-terracotta);
+  color: var(--color-gold-deep);
   margin-bottom: var(--space-3);
 }
+.label--inverse { color: var(--color-gold); }
 
 .btn {
   display: inline-flex;
@@ -72,7 +74,7 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
   letter-spacing: 0.02em;
   padding: 14px 28px;
   border: 2px solid transparent;
-  border-radius: var(--radius-input);
+  border-radius: var(--radius-pill);
   cursor: pointer;
   text-decoration: none;
   transition: transform 120ms, box-shadow 120ms, background 120ms, color 120ms;

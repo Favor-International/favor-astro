@@ -42,7 +42,6 @@ function isCurrent(href: string) {
                         <li>
                           <a href={it.href} class:list={['mega-link', it.badge === 'featured' && 'mega-link--featured']}>
                             {it.label}
-                            {it.badge === 'featured' && <span class="mega-link__badge">Lead path</span>}
                           </a>
                         </li>
                       ))}
@@ -355,7 +354,7 @@ function isCurrent(href: string) {
     font-size: 0.95rem;
     transition: color 140ms, padding 140ms;
   }
-  .mega-link:hover { color: var(--color-gold-deep); padding-left: var(--space-2); }
+  .mega-link:hover { color: var(--color-gold-deep); }
   .mega-link--featured { color: var(--color-green); font-weight: 800; }
   .mega-link__badge {
     font-size: 0.65rem;
