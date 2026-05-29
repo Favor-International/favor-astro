@@ -2,68 +2,120 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import storiesData from '../../data/stories.json';
+import { SITE } from '../../lib/site';
 
 export function getStaticPaths() {
   return storiesData.map((s) => ({ params: { slug: s.slug }, props: { story: s } }));
 }
 const { story } = Astro.props as { story: { slug: string; title: string; date: string; paragraphs: string[]; image: string } };
 const desc = (story.paragraphs[0] || story.title).slice(0, 155);
+
+const all = [...storiesData].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const more = all.filter((s) => s.slug !== story.slug).slice(0, 4);
+
+const pageUrl = `${SITE.url}/stories/${story.slug}/`;
+const shareFb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+const shareX = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(story.title)}`;
+const shareMail = `mailto:?subject=${encodeURIComponent(story.title)}&body=${encodeURIComponent('A story from Favor International: ' + pageUrl)}`;
 ---
 <PageLayout title={story.title} description={desc}>
-  <article class="story">
-    <div class="story__hero" style={`background-image: url(${story.image})`} role="img" aria-label={story.title}></div>
-    <div class="container container--narrow story__body">
-      <p class="story__date">{story.date}</p>
-      <h1 class="story__title">{story.title}</h1>
-      {story.paragraphs.map((p) => <p class="story__p">{p}</p>)}
-      <p class="story__back"><a href="/stories/">&larr; All stories</a></p>
+  <section class="story-banner">
+    <div class="story-banner__photo" style={`background-image: url(${story.image})`} role="img" aria-label={story.title}></div>
+    <div class="story-banner__scrim" aria-hidden="true"></div>
+    <div class="container story-banner__inner">
+      <p class="label label--inverse">Story from the field</p>
+      <h1>{story.title}</h1>
+      <p class="story-banner__crumb"><a href="/stories/">Stories</a> &middot; {story.date}</p>
     </div>
-  </article>
+  </section>
+
+  <section class="band band--white">
+    <div class="container story-layout">
+      <article class="story-main">
+        {story.paragraphs.map((p) => <p class="story-main__p">{p}</p>)}
+        <p class="story-main__back"><a href="/stories/">&larr; All stories</a></p>
+      </article>
+
+      <aside class="story-side">
+        <div class="side-card">
+          <p class="side-card__title">From the field</p>
+          <p class="side-meta"><span class="side-meta__k">Published</span><span class="side-meta__v">{story.date}</span></p>
+          <p class="side-meta"><span class="side-meta__k">Where</span><span class="side-meta__v">East &amp; Central Africa</span></p>
+        </div>
+
+        <div class="side-card">
+          <p class="side-card__title">More stories</p>
+          <ul class="side-more">
+            {more.map((m) => (
+              <li>
+                <a href={`/stories/${m.slug}/`}>
+                  <span class="side-more__img" style={`background-image: url(${m.image})`} aria-hidden="true"></span>
+                  <span class="side-more__text">
+                    <span class="side-more__t">{m.title}</span>
+                    <span class="side-more__d">{m.date}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="side-card">
+          <p class="side-card__title">Share this story</p>
+          <div class="side-share">
+            <a href={shareFb} target="_blank" rel="noopener" aria-label="Share on Facebook">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12Z"/></svg>
+            </a>
+            <a href={shareX} target="_blank" rel="noopener" aria-label="Share on X">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
+            </a>
+            <a href={shareMail} aria-label="Share by email">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 7.5L4.2 7h15.6L12 12.5ZM4 8.3V17h16V8.3l-8 5.7-8-5.7Z"/></svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
 
   <CtaBand
     heading="Stand with the next story."
     body="Favor Partners keep these stories coming. Monthly partnership makes the field work possible."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    variant="green"
   />
 </PageLayout>
 
 <style>
-  .story__hero {
-    width: 100%;
-    aspect-ratio: 16 / 7;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-  }
-  @media (max-width: 700px) { .story__hero { aspect-ratio: 4 / 3; } }
-  .story__body { padding-top: var(--space-12); padding-bottom: var(--space-12); }
-  .story__date {
-    color: var(--color-terracotta);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    margin: 0 0 var(--space-3);
-  }
-  .story__title {
-    margin: 0 0 var(--space-8);
-    color: var(--color-green);
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    line-height: 1.15;
-  }
-  .story__p {
-    margin: 0 0 var(--space-5);
-    color: var(--color-ink-soft);
-    font-size: 1.05rem;
-    line-height: 1.7;
-  }
-  .story__back { margin-top: var(--space-8); }
-  .story__back a {
-    color: var(--color-green);
-    font-weight: 700;
-    text-decoration: none;
-    border-bottom: 2px solid var(--color-gold);
-  }
+  .story-banner { position: relative; display: flex; align-items: center; min-height: clamp(320px, 42vh, 460px); color: var(--color-white); overflow: hidden; }
+  .story-banner__photo { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+  .story-banner__scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(31,58,26,0.55) 0%, rgba(31,58,26,0.82) 100%); }
+  .story-banner__inner { position: relative; z-index: 2; padding: var(--space-12) 0; }
+  .story-banner__inner h1 { color: var(--color-white); margin: var(--space-3) 0; max-width: 18ch; }
+  .story-banner__crumb { margin: 0; font-size: 0.9rem; color: color-mix(in srgb, var(--color-white) 80%, transparent); }
+  .story-banner__crumb a { color: var(--color-gold); text-decoration: none; }
+
+  .story-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: clamp(var(--space-8), 4vw, var(--space-16)); align-items: start; }
+  @media (max-width: 900px) { .story-layout { grid-template-columns: 1fr; } }
+  .story-main__p { margin: 0 0 var(--space-5); color: var(--color-ink-soft); font-size: 1.08rem; line-height: 1.75; }
+  .story-main__back { margin-top: var(--space-8); }
+  .story-main__back a { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+
+  .story-side { display: grid; gap: var(--space-6); position: sticky; top: 100px; }
+  @media (max-width: 900px) { .story-side { position: static; } }
+  .side-card { background: var(--color-cream); border-radius: var(--radius-card); padding: var(--space-6); }
+  .side-card__title { font-family: var(--font-sans); font-weight: 800; letter-spacing: 0.04em; color: var(--color-green); margin: 0 0 var(--space-4); font-size: 1.05rem; }
+  .side-meta { display: flex; justify-content: space-between; gap: var(--space-4); margin: 0 0 var(--space-2); font-size: 0.9rem; }
+  .side-meta__k { color: var(--color-sage); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
+  .side-meta__v { color: var(--color-ink); }
+  .side-more { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
+  .side-more a { display: flex; gap: var(--space-3); align-items: center; text-decoration: none; color: inherit; }
+  .side-more__img { flex: 0 0 auto; width: 64px; height: 64px; border-radius: 10px; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
+  .side-more__text { display: flex; flex-direction: column; gap: 2px; }
+  .side-more__t { font-weight: 700; color: var(--color-green); font-size: 0.92rem; line-height: 1.25; }
+  .side-more a:hover .side-more__t { color: var(--color-gold-deep); }
+  .side-more__d { font-size: 0.78rem; color: var(--color-sage); }
+  .side-share { display: flex; gap: var(--space-3); }
+  .side-share a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--color-white); color: var(--color-green); border: 1px solid var(--color-border); transition: background 140ms, color 140ms; }
+  .side-share a:hover { background: var(--color-gold); color: var(--color-ink); }
 </style>
