@@ -1,7 +1,8 @@
 ---
-// Donation block modeled on the "Help Children Reach Their Full Potential"
-// reference: amount chips + a Give button on the left, a large rounded photo
-// on the right. Optional real Goal/Raised stat row underneath.
+// Donation block copied from the "Help Children Reach Their Full Potential"
+// reference layout, in Favor's colors. Left: heading + body + amount input
+// (with currency) + preset buttons + full-width Donate button. Right: image
+// with a share button, then a % progress bar and Goal / Raised / To-go.
 export interface Props {
   eyebrow?: string;
   heading: string;
@@ -9,67 +10,126 @@ export interface Props {
   image: string;
   imageAlt: string;
   amounts?: number[];
+  defaultAmount?: number;
+  currency?: string;
   formBase?: string;
   donateLabel?: string;
-  fine?: string;
+  goal?: number;
+  raised?: number;
+  causeLabel?: string;
 }
 const {
   eyebrow, heading, body, image, imageAlt,
-  amounts = [25, 50, 100, 250, 500],
-  formBase = '/give/one-time/form/',
-  donateLabel = 'Give now',
-  fine,
+  amounts = [10, 50, 100, 150, 200],
+  defaultAmount = 60, currency = 'USD',
+  formBase = '/give/one-time/form/', donateLabel = 'Donate Now',
+  goal, raised, causeLabel,
 } = Astro.props as Props;
+const hasProgress = typeof goal === 'number' && typeof raised === 'number';
+const pct = hasProgress ? Math.min(100, Math.round((raised! / goal!) * 100)) : 0;
+const toGo = hasProgress ? Math.max(0, goal! - raised!) : 0;
+const money = (n: number) => '$' + n.toLocaleString();
 ---
-<section class="donation-block band band--cream">
-  <div class="container donation-block__grid">
-    <div class="donation-block__copy">
-      {eyebrow && <p class="label">{eyebrow}</p>}
-      <h1>{heading}</h1>
-      <p class="donation-block__body">{body}</p>
-      <p class="donation-block__amount-label">Choose an amount</p>
-      <div class="donation-block__amounts">
-        {amounts.map((a) => <a class="donation-block__chip" href={`${formBase}?amount=${a}`}>${a}</a>)}
-        <a class="donation-block__chip donation-block__chip--custom" href={formBase}>Custom</a>
+<section class="band donation">
+  <div class="container">
+    <div class="donation__panel">
+      <div class="donation__grid">
+        <div class="donation__left">
+          {eyebrow && <p class="label">{eyebrow}</p>}
+          <h1 class="donation__title">{heading}</h1>
+          <p class="donation__body">{body}</p>
+
+          <p class="donation__amount-label">Donation Amount</p>
+          <div class="donation__input">
+            <span class="donation__sym">$</span>
+            <input class="donation__field" type="number" min="1" value={defaultAmount} aria-label="Donation amount" />
+            <span class="donation__currency">{currency} <span aria-hidden="true">&#9662;</span></span>
+          </div>
+
+          <div class="donation__presets">
+            {amounts.map((a) => <a class="donation__preset" href={`${formBase}?amount=${a}`}>${a}</a>)}
+          </div>
+
+          <a class="donation__cta" href={formBase}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
+        </div>
+
+        <div class="donation__right">
+          <div class="donation__media">
+            <div class="donation__photo" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
+            <a class="donation__share" href={formBase} aria-label="Share or give">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92Z"/></svg>
+            </a>
+          </div>
+
+          {hasProgress && (
+            <div class="donation__progress">
+              {causeLabel && <p class="donation__cause">{causeLabel}</p>}
+              <p class="donation__pct">{pct}%</p>
+              <div class="donation__bar"><span style={`width: ${pct}%`}></span></div>
+              <div class="donation__figures">
+                <div><span class="donation__fk">Goal</span><span class="donation__fv">{money(goal!)}</span></div>
+                <div><span class="donation__fk">Raised</span><span class="donation__fv">{money(raised!)}</span></div>
+                <div><span class="donation__fk">To go</span><span class="donation__fv donation__fv--accent">{money(toGo)}</span></div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <a class="btn btn--primary btn--large donation-block__cta" href={formBase}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
-      {fine && <p class="donation-block__fine">{fine}</p>}
     </div>
-    <div class="donation-block__media" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
   </div>
 </section>
 <style>
-  .donation-block__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(var(--space-8), 5vw, var(--space-16));
-    align-items: center;
+  .donation { background: var(--color-white); }
+  .donation__panel {
+    background: color-mix(in srgb, var(--color-green) 5%, var(--color-cream));
+    border: 1px solid var(--color-border);
+    border-radius: 28px;
+    padding: clamp(var(--space-8), 5vw, var(--space-20));
   }
-  .donation-block__copy h1 { margin: var(--space-2) 0 var(--space-4); }
-  .donation-block__body { font-size: 1.1rem; line-height: 1.65; color: var(--color-ink-soft); margin: 0 0 var(--space-8); max-width: 48ch; }
-  .donation-block__amount-label {
-    font-size: var(--font-size-label); font-weight: 700; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--color-green); margin: 0 0 var(--space-3);
+  .donation__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--space-8), 5vw, var(--space-16)); align-items: center; }
+  @media (max-width: 860px) { .donation__grid { grid-template-columns: 1fr; } }
+
+  .donation__title { margin: var(--space-2) 0 var(--space-4); }
+  .donation__body { font-size: 1.05rem; line-height: 1.7; color: var(--color-ink-soft); margin: 0 0 var(--space-8); }
+  .donation__amount-label { font-weight: 800; color: var(--color-green-deep); margin: 0 0 var(--space-3); font-size: 1.05rem; }
+
+  .donation__input {
+    display: flex; align-items: center; gap: var(--space-2);
+    background: var(--color-white); border: 1px solid var(--color-border);
+    border-radius: var(--radius-input); padding: 6px 6px 6px var(--space-5);
+    box-shadow: var(--shadow-soft); margin-bottom: var(--space-4);
   }
-  .donation-block__amounts { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-6); }
-  .donation-block__chip {
-    padding: 12px 22px; border-radius: var(--radius-pill);
-    border: 2px solid var(--color-border); background: var(--color-white);
-    color: var(--color-green); font-weight: 700; font-size: 1rem; text-decoration: none;
-    transition: border-color 140ms, background 140ms, transform 140ms;
+  .donation__sym { color: var(--color-sage); font-weight: 700; }
+  .donation__field { flex: 1; border: 0; outline: 0; font: inherit; font-size: 1.2rem; font-weight: 700; color: var(--color-green-deep); background: transparent; padding: 12px 0; -moz-appearance: textfield; }
+  .donation__field::-webkit-outer-spin-button, .donation__field::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .donation__currency { display: inline-flex; align-items: center; gap: 4px; background: var(--color-cream); color: var(--color-green); font-weight: 700; font-size: 0.85rem; padding: 12px 16px; border-radius: var(--radius-input); }
+
+  .donation__presets { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .donation__preset { padding: 12px 22px; border: 1px solid var(--color-border); border-radius: var(--radius-input); background: var(--color-white); color: var(--color-green); font-weight: 700; text-decoration: none; transition: border-color 140ms, color 140ms; }
+  .donation__preset:hover { border-color: var(--color-gold); color: var(--color-gold-deep); }
+
+  .donation__cta {
+    display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+    width: 100%; padding: 18px; border-radius: var(--radius-pill);
+    background: var(--color-gold); color: var(--color-ink); font-weight: 800; font-size: 1.05rem;
+    text-decoration: none; box-shadow: 0 12px 28px rgba(225, 167, 48, 0.3); transition: transform 140ms, box-shadow 140ms;
   }
-  .donation-block__chip:hover { border-color: var(--color-gold); transform: translateY(-2px); }
-  .donation-block__chip--custom { border-style: dashed; color: var(--color-sage); }
-  .donation-block__cta { border-radius: var(--radius-pill); }
-  .donation-block__fine { margin: var(--space-4) 0 0; font-size: 0.85rem; color: var(--color-sage); }
-  .donation-block__media {
-    aspect-ratio: 4 / 3;
-    background-size: cover; background-position: center 30%;
-    border-radius: 24px; box-shadow: 0 24px 60px rgba(31, 58, 26, 0.18);
-    min-height: 380px;
-  }
-  @media (max-width: 860px) {
-    .donation-block__grid { grid-template-columns: 1fr; }
-    .donation-block__media { order: -1; aspect-ratio: 16 / 10; min-height: 260px; }
-  }
+  .donation__cta:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(225, 167, 48, 0.4); color: var(--color-ink); }
+
+  .donation__media { position: relative; }
+  .donation__photo { aspect-ratio: 4 / 3; background-size: cover; background-position: center 30%; border-radius: 20px; box-shadow: 0 18px 44px rgba(31, 58, 26, 0.16); }
+  .donation__share { position: absolute; top: var(--space-4); right: var(--space-4); width: 44px; height: 44px; border-radius: 12px; background: var(--color-white); color: var(--color-green); display: inline-flex; align-items: center; justify-content: center; box-shadow: var(--shadow-card); }
+  .donation__share:hover { color: var(--color-gold-deep); }
+
+  .donation__progress { margin-top: var(--space-8); }
+  .donation__cause { text-align: center; margin: 0 0 var(--space-3); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-sage); }
+  .donation__pct { text-align: center; margin: 0 0 var(--space-2); font-weight: 800; color: var(--color-green-deep); }
+  .donation__bar { height: 10px; background: var(--color-sage-light); border-radius: 999px; overflow: hidden; }
+  .donation__bar span { display: block; height: 100%; background: var(--color-gold); border-radius: 999px; }
+  .donation__figures { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-5); }
+  .donation__figures div:nth-child(2) { text-align: center; }
+  .donation__figures div:nth-child(3) { text-align: right; }
+  .donation__fk { display: block; font-size: 0.8rem; color: var(--color-sage); margin-bottom: 2px; }
+  .donation__fv { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 2.2vw, 1.6rem); color: var(--color-green-deep); }
+  .donation__fv--accent { color: var(--color-gold-deep); }
 </style>

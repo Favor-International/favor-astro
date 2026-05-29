@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
+import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const trips = [
@@ -50,17 +50,15 @@ const trips = [
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <ProofBlock
-        name="Jennifer M."
-        place="Tampa, FL"
-        outcome="Returned from her first vision trip and brought 4 new Favor Partners home with her."
-        quote="I thought I was going to give. I came back having received more than I deposited."
-        image="/images/ministry-gift-staff.jpg"
-      />
-    </div>
-  </section>
+  <OverlayFeature
+    image="/images/ministry-gift-staff.jpg"
+    imageAlt="A Favor vision trip team in the field"
+    eyebrow="Jennifer M. &middot; Tampa, FL"
+    heading="&ldquo;I thought I was going to give. I came back having received more than I deposited.&rdquo;"
+    side="left"
+  >
+    <p>Returned from her first vision trip and brought four new Favor Partners home with her.</p>
+  </OverlayFeature>
 
   <CtaBand
     heading="Apply for a vision trip."

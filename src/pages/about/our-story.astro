@@ -63,13 +63,13 @@ import CtaBand from '../../components/band/CtaBand.astro';
       <p class="label">The story, year by year</p>
       <h2>How the work grew.</h2>
 
-      <div class="milestone">
-        <span class="milestone__year">2004</span>
-        <div class="milestone__body">
+      <div class="tl-item">
+        <span class="tl-year">2004</span>
+        <div class="tl-content">
           <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
           <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
           <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
-          <ul class="milestone__stats">
+          <ul class="tl-stats">
             <li>Distributed 80,000+ Bibles,</li>
             <li>Trained 7,000+ pastors,</li>
             <li>Built a school with 400 attending,</li>
@@ -83,17 +83,17 @@ import CtaBand from '../../components/band/CtaBand.astro';
         </div>
       </div>
 
-      <div class="milestone">
-        <span class="milestone__year">2005</span>
-        <div class="milestone__body">
+      <div class="tl-item">
+        <span class="tl-year">2005</span>
+        <div class="tl-content">
           <p>A real turning point in our story was the National Prayer Gathering in Gulu. The Lord prompted us to organize a gathering in the War Memorial Stadium to unify the tribes, leaders, churches, and regions in Uganda in repentant prayer for the ending of the war. We planned a 77 hour prayer meeting, 11 hours a day for 7 days in December 2005. Radio stations were contacted to spread the news and word spread like wildfire. The day finally approached and over 1,000 people, including political leaders, gathered inside this humble stadium to join in intense, radical, united prayer.</p>
           <p>As a result, the war stopped and many significant stories of radical transformation followed. Pastors reported that they sensed heaven opening in a new way. Government officials called and testified of a strong sense that the spiritual climate over the area had changed. Miracles were occurring in local churches. It even led to inaugurating the month of January as the month of prayer.</p>
         </div>
       </div>
 
-      <div class="milestone">
-        <span class="milestone__year">2015 to now</span>
-        <div class="milestone__body">
+      <div class="tl-item">
+        <span class="tl-year">2015 to now</span>
+        <div class="tl-content">
           <p>We began to focus more direct efforts to South Sudan in 2007 by sending missionaries and Portable Bible School (PBS) programs. We organized a legal presence in the nation through trusted Portable Bible School graduates and purchased our first office space in Juba in 2015. That same year we hosted a national prayer meeting in Juba, the capital of South Sudan, just as we did in Uganda, to bring God&rsquo;s repentance, revival, and restoration.</p>
           <p>In the years since, we have continued establishing Houses of Prayer in strategic locations across Uganda and South Sudan. In the early part of 2024, we also established a House of Prayer in N&rsquo;Djamena, the capital city of Chad.</p>
         </div>
@@ -134,16 +134,14 @@ import CtaBand from '../../components/band/CtaBand.astro';
   .today-body { font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-soft); }
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 
-  /* Timeline */
-  .milestone { display: grid; grid-template-columns: 120px 1fr; gap: var(--space-8); padding: var(--space-8) 0; border-top: 1px solid var(--color-border); }
-  .milestone:first-of-type { border-top: 0; }
-  @media (max-width: 640px) { .milestone { grid-template-columns: 1fr; gap: var(--space-3); } }
-  .milestone__year {
-    font-family: var(--font-display); font-weight: 700; font-size: 1.8rem;
-    color: var(--color-gold-deep); line-height: 1; position: sticky; top: 100px; align-self: start;
-  }
-  @media (max-width: 640px) { .milestone__year { position: static; } }
-  .milestone__body p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
-  .milestone__stats { margin: var(--space-2) 0 0; padding-left: var(--space-6); display: grid; gap: var(--space-1); color: var(--color-ink-soft); }
-  .milestone__stats li { line-height: 1.5; }
+  /* Vertical timeline */
+  .tl-item { position: relative; padding-left: 64px; padding-bottom: var(--space-12); }
+  .tl-item::after { content: ''; position: absolute; left: 11px; top: 6px; bottom: 0; width: 2px; background: var(--color-sage-light); }
+  .tl-item:last-child::after { background: linear-gradient(var(--color-sage-light), transparent); }
+  .tl-item::before { content: ''; position: absolute; left: 4px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 4px var(--color-white); z-index: 1; }
+  .tl-year { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.6rem); color: var(--color-gold-deep); line-height: 1; margin-bottom: var(--space-4); }
+  .tl-content p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .tl-stats { margin: var(--space-2) 0 0; padding-left: var(--space-6); display: grid; gap: var(--space-1); color: var(--color-ink-soft); }
+  .tl-stats li { line-height: 1.5; }
+  @media (max-width: 640px) { .tl-item { padding-left: 48px; } }
 </style>
