@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
+import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const programs = [
@@ -40,17 +40,15 @@ const programs = [
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <ProofBlock
-        name="Daniel Kidia"
-        place="South Sudan"
-        outcome="A former Mundari cattle warrior, now a Favor field pastor leading PBS classes among his own people. Read the full PBS testimony."
-        quote="There are so many precious to God in Africa that need to know the truth. They are ready for a change in their villages, towns, and nations."
-        image="/images/stories/daniel-kidia.jpg"
-      />
-    </div>
-  </section>
+  <OverlayFeature
+    image="/images/stories/daniel-kidia.jpg"
+    imageAlt="Daniel Kidia, a Favor field pastor in South Sudan"
+    eyebrow="Daniel Kidia &middot; South Sudan"
+    heading="&ldquo;There are so many precious to God in Africa that need to know the truth. They are ready for a change in their villages, towns, and nations.&rdquo;"
+    side="left"
+  >
+    <p>A former Mundari cattle warrior, now a Favor field pastor leading Portable Bible School classes among his own people.</p>
+  </OverlayFeature>
 
   <section class="band band--white">
     <div class="container container--narrow">

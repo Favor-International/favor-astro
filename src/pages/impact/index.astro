@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import PillarCard from '../../components/band/PillarCard.astro';
+import PostCard from '../../components/band/PostCard.astro';
 import StatTile from '../../components/band/StatTile.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
@@ -55,12 +55,13 @@ const pillarImages: Record<string, string> = {
       </header>
       <div class="grid grid-4">
         {PILLARS.map((p) => (
-          <PillarCard
-            slug={p.slug}
-            label={p.label}
-            blurb={p.blurb}
+          <PostCard
+            href={`/impact/${p.slug}/`}
             image={pillarImages[p.slug]}
-            programs={p.programs}
+            imageAlt={p.label}
+            title={p.label}
+            desc={p.blurb}
+            actionLabel="See the work"
           />
         ))}
       </div>
