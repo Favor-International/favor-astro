@@ -4,25 +4,38 @@ export interface Props {
   body?: string;
   ctaLabel: string;
   ctaHref: string;
+  // Kept for backward compatibility with existing call sites. The band is now
+  // always a light, premium treatment (no dark gold/green blocks that clashed
+  // with the green footer). The variant only tints the small accent rule.
   variant?: 'gold' | 'green' | 'sage';
 }
-const { heading, body, ctaLabel, ctaHref, variant = 'gold' } = Astro.props as Props;
+const { heading, body, ctaLabel, ctaHref } = Astro.props as Props;
 ---
-<section class:list={['cta-band', `cta-band--${variant}`, 'band']}>
+<section class="cta-band band">
   <div class="container cta-band__inner">
+    <span class="cta-band__rule" aria-hidden="true"></span>
     <h2>{heading}</h2>
     {body && <p>{body}</p>}
-    <a class:list={['btn', variant === 'gold' ? 'btn--secondary' : 'btn--primary', 'btn--large']} href={ctaHref}>{ctaLabel}</a>
+    <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
   </div>
 </section>
 <style>
-  .cta-band { text-align: center; }
-  .cta-band--gold { background: var(--color-gold); color: var(--color-ink); }
-  .cta-band--green { background: var(--color-green); color: var(--color-white); }
-  .cta-band--sage { background: color-mix(in srgb, var(--color-sage-light) 30%, var(--color-white)); }
-  .cta-band--gold h2, .cta-band--green h2 { color: inherit; }
-  .cta-band__inner { display: flex; flex-direction: column; gap: var(--space-6); align-items: center; max-width: 720px; margin: 0 auto; }
-  .cta-band p { font-size: 1.1rem; margin: 0; opacity: 0.92; }
-  .cta-band--gold .btn--secondary { color: var(--color-green); border-color: var(--color-green); }
-  .cta-band--gold .btn--secondary:hover { background: var(--color-green); color: var(--color-white); }
+  /* Warm, light CTA panel: a faint gold wash over cream so it reads as a
+     distinct, premium call-to-action without a heavy dark block. */
+  .cta-band {
+    text-align: center;
+    background: color-mix(in srgb, var(--color-gold) 9%, var(--color-cream));
+    border-top: 1px solid color-mix(in srgb, var(--color-gold) 22%, transparent);
+  }
+  .cta-band__inner {
+    display: flex; flex-direction: column; gap: var(--space-5); align-items: center;
+    max-width: 720px; margin: 0 auto;
+  }
+  .cta-band__rule {
+    width: 56px; height: 3px; border-radius: 999px;
+    background: var(--color-gold);
+  }
+  .cta-band h2 { color: var(--color-green-deep); margin: 0; }
+  .cta-band p { font-size: 1.1rem; margin: 0; color: var(--color-ink-soft); max-width: 56ch; }
+  .cta-band .btn { margin-top: var(--space-2); }
 </style>
