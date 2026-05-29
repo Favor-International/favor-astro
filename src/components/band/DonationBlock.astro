@@ -1,0 +1,75 @@
+---
+// Donation block modeled on the "Help Children Reach Their Full Potential"
+// reference: amount chips + a Give button on the left, a large rounded photo
+// on the right. Optional real Goal/Raised stat row underneath.
+export interface Props {
+  eyebrow?: string;
+  heading: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  amounts?: number[];
+  formBase?: string;
+  donateLabel?: string;
+  fine?: string;
+}
+const {
+  eyebrow, heading, body, image, imageAlt,
+  amounts = [25, 50, 100, 250, 500],
+  formBase = '/give/one-time/form/',
+  donateLabel = 'Give now',
+  fine,
+} = Astro.props as Props;
+---
+<section class="donation-block band band--cream">
+  <div class="container donation-block__grid">
+    <div class="donation-block__copy">
+      {eyebrow && <p class="label">{eyebrow}</p>}
+      <h1>{heading}</h1>
+      <p class="donation-block__body">{body}</p>
+      <p class="donation-block__amount-label">Choose an amount</p>
+      <div class="donation-block__amounts">
+        {amounts.map((a) => <a class="donation-block__chip" href={`${formBase}?amount=${a}`}>${a}</a>)}
+        <a class="donation-block__chip donation-block__chip--custom" href={formBase}>Custom</a>
+      </div>
+      <a class="btn btn--primary btn--large donation-block__cta" href={formBase}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
+      {fine && <p class="donation-block__fine">{fine}</p>}
+    </div>
+    <div class="donation-block__media" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
+  </div>
+</section>
+<style>
+  .donation-block__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(var(--space-8), 5vw, var(--space-16));
+    align-items: center;
+  }
+  .donation-block__copy h1 { margin: var(--space-2) 0 var(--space-4); }
+  .donation-block__body { font-size: 1.1rem; line-height: 1.65; color: var(--color-ink-soft); margin: 0 0 var(--space-8); max-width: 48ch; }
+  .donation-block__amount-label {
+    font-size: var(--font-size-label); font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--color-green); margin: 0 0 var(--space-3);
+  }
+  .donation-block__amounts { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .donation-block__chip {
+    padding: 12px 22px; border-radius: var(--radius-pill);
+    border: 2px solid var(--color-border); background: var(--color-white);
+    color: var(--color-green); font-weight: 700; font-size: 1rem; text-decoration: none;
+    transition: border-color 140ms, background 140ms, transform 140ms;
+  }
+  .donation-block__chip:hover { border-color: var(--color-gold); transform: translateY(-2px); }
+  .donation-block__chip--custom { border-style: dashed; color: var(--color-sage); }
+  .donation-block__cta { border-radius: var(--radius-pill); }
+  .donation-block__fine { margin: var(--space-4) 0 0; font-size: 0.85rem; color: var(--color-sage); }
+  .donation-block__media {
+    aspect-ratio: 4 / 3;
+    background-size: cover; background-position: center;
+    border-radius: 24px; box-shadow: 0 24px 60px rgba(31, 58, 26, 0.18);
+    min-height: 380px;
+  }
+  @media (max-width: 860px) {
+    .donation-block__grid { grid-template-columns: 1fr; }
+    .donation-block__media { order: -1; aspect-ratio: 16 / 10; min-height: 260px; }
+  }
+</style>

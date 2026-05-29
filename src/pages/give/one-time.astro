@@ -1,6 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/band/PageHero.astro';
+import DonationBlock from '../../components/band/DonationBlock.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
 ---
@@ -8,44 +8,28 @@ import { SITE } from '../../lib/site';
   title="Give Once"
   description="A one-time gift to Favor International. Any amount. Direct to Blackbaud. Tax-deductible. Real, recurring impact on the field."
 >
-  <PageHero
-    label="One-time gift"
-    title="Any amount. Any time."
-    promise="A single gift goes straight to the field. We will receipt you by email immediately."
-    image="/images/pillar-economic-empowerment.jpg"
-    imageAlt="Women selling produce after an Economic Empowerment training"
-    ctaLabel="Give $50"
-    ctaHref="/give/one-time/form/?amount=50"
-    secondaryLabel="Choose a different amount"
-    secondaryHref="/give/one-time/form/"
+  <DonationBlock
+    eyebrow="One-time gift"
+    heading="Give once. Reach the unreached."
+    body="A single gift goes straight to the field, where indigenous missionaries are planting churches in the hardest places on earth. You will receive a tax-deductible receipt by email immediately."
+    image="/images/education-vlc-jondoru.jpg"
+    imageAlt="Children at a Favor Village Learning Center"
+    amounts={[25, 50, 100, 250, 500, 1000]}
+    formBase="/give/one-time/form/"
+    donateLabel="Give now"
+    fine="Secure, tax-deductible, and processed the same day. ECFA-accredited."
   />
-
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <p class="label">Quick amounts</p>
-      <h2>Pick an amount that's right today.</h2>
-      <div class="quick-grid">
-        {[25, 50, 100, 250, 500, 1000].map((amt) => (
-          <a class="quick" href={`/give/one-time/form/?amount=${amt}`}>${amt}</a>
-        ))}
-        <a class="quick quick--custom" href="/give/one-time/form/">Custom →</a>
-      </div>
-      <p class="band__cta-row">
-        <a class="btn btn--secondary" href="/give/partner-monthly/">Or become a monthly Favor Partner →</a>
-      </p>
-    </div>
-  </section>
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <p class="label">Trust signals</p>
-      <h2>Where your gift goes.</h2>
+      <p class="label">Where your gift goes</p>
+      <h2>Straight to the field.</h2>
       <p>One-time gifts route through Blackbaud and are received the same day. You will receive a tax-deductible receipt by email immediately. 89 cents of every dollar went to program in FY2024 (audited).</p>
-      <p>Favor International is a 501(c)(3) public charity, EIN {SITE.ein}, and an <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited member</a>.</p>
+      <p>Favor International is a 501(c)(3) public charity, EIN {SITE.ein}, and an <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited member</a>. Prefer to give every month? <a href="/give/partner-monthly/">Become a Favor Partner</a>.</p>
     </div>
   </section>
 
-  <section class="band band--sage">
+  <section class="band band--white">
     <div class="container container--narrow">
       <p class="label">More ways to give once</p>
       <h2>Check, Zelle, CashApp, wire, stock, and PayPal.</h2>
@@ -60,33 +44,65 @@ import { SITE } from '../../lib/site';
     </div>
   </section>
 
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <p class="label">Questions</p>
+      <h2>Common questions about giving.</h2>
+      <div class="faq">
+        <details>
+          <summary>Is my gift tax-deductible?</summary>
+          <p>Yes. Favor International is a registered 501(c)(3) public charity (EIN {SITE.ein}). You will receive a tax-deductible receipt by email immediately after you give.</p>
+        </details>
+        <details>
+          <summary>How much of my gift reaches the field?</summary>
+          <p>In FY2024, 89 cents of every dollar went to program work, with the remainder covering U.S. operations, audit, and donor care. The figures are audited and filed with ECFA and on IRS Form 990. See the <a href="/about/accountability/">accountability page</a>.</p>
+        </details>
+        <details>
+          <summary>Can I give monthly instead of once?</summary>
+          <p>Yes. Monthly partners are the engine of the work. <a href="/give/partner-monthly/">Become a Favor Partner</a> and choose a tier or a custom amount.</p>
+        </details>
+        <details>
+          <summary>Can I give by check, Zelle, CashApp, or stock?</summary>
+          <p>Yes. Make checks payable to Favor Intl. and mail to 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596. We also accept Zelle (admin@favorintl.org), CashApp ($FavorIntl), wire transfer, and appreciated stock. Email {SITE.emailGeneral} for routing details.</p>
+        </details>
+        <details>
+          <summary>Where does my gift go to work?</summary>
+          <p>Across the nations of East and Central Africa, where Favor equips indigenous missionaries to plant churches, train pastors, run schools, and care for communities. See <a href="/impact/">the work</a>.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <CtaBand
-    heading="Already a Favor Partner?"
-    body="Thank you. A second gift on top of your monthly partnership goes directly to the next field need."
-    ctaLabel="Make a second gift"
-    ctaHref="/give/one-time/form/"
-    variant="gold"
+    heading="Prefer to give every month?"
+    body="Favor Partners keep indigenous missionaries on the trail all year. Any tier, cancel anytime."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
   />
 </PageLayout>
 
 <style>
-  .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); margin: var(--space-8) 0; }
-  @media (max-width: 720px) { .quick-grid { grid-template-columns: repeat(2, 1fr); } }
-  .quick {
-    display: flex; align-items: center; justify-content: center;
-    padding: var(--space-8) var(--space-4);
-    background: var(--color-cream);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-card);
-    font-weight: 800;
-    font-size: 1.6rem;
-    color: var(--color-green);
-    text-decoration: none;
-    transition: border-color 160ms, transform 160ms;
-  }
-  .quick:hover { border-color: var(--color-gold); transform: translateY(-2px); }
-  .quick--custom { font-size: 1.1rem; }
   .give-methods { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; gap: var(--space-3); }
-  .give-methods li { padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.55; }
+  .give-methods li { padding: var(--space-4) var(--space-6); background: var(--color-cream); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.55; }
   .give-methods strong { color: var(--color-green); }
+
+  .faq { margin-top: var(--space-6); display: grid; gap: var(--space-3); }
+  .faq details {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4) var(--space-6);
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-green);
+    font-size: 1.05rem;
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--color-gold); font-size: 1.5rem; line-height: 1; font-weight: 400; }
+  .faq details[open] summary::after { content: '–'; }
+  .faq details p { margin: var(--space-4) 0 0; color: var(--color-ink-soft); line-height: 1.6; }
 </style>
