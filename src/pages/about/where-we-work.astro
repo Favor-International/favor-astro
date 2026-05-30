@@ -2,7 +2,6 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import AfricaMap from '../../components/global/AfricaMap.astro';
-import OverlayCard from '../../components/global/OverlayCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const countries = [
@@ -46,7 +45,13 @@ const moreCountries = countries.filter((c) => !c.image);
       </header>
       <div class="country-grid">
         {withImage.map((c) => (
-          <OverlayCard image={c.image} title={c.name} desc={c.focus} ratio="4 / 3" />
+          <article class="country-card">
+            <div class="country-card__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div>
+            <div class="country-card__body">
+              <h3>{c.name}</h3>
+              <p>{c.focus}</p>
+            </div>
+          </article>
         ))}
       </div>
       <p class="country-more-label">Also serving across the region</p>
@@ -74,14 +79,33 @@ const moreCountries = countries.filter((c) => !c.image);
   .country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
   @media (max-width: 900px) { .country-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .country-grid { grid-template-columns: 1fr; } }
+  .country-card {
+    background: var(--color-white);
+    border: 1px solid color-mix(in srgb, var(--color-green) 18%, var(--color-white));
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+  }
+  .country-card__img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+  }
+  .country-card__body { padding: var(--space-5) var(--space-6) var(--space-6); }
+  .country-card__body h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.2rem; }
+  .country-card__body p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.55; }
   .country-more-label { text-align: center; margin: var(--space-12) 0 var(--space-6); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; color: var(--color-sage); }
   .country-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
   @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
   .country-list li {
     display: flex; flex-direction: column; gap: var(--space-1);
     padding: var(--space-4) var(--space-6);
-    background: var(--color-cream);
-    border: 2px solid var(--color-gold);
+    background: var(--color-white);
+    border: 1px solid color-mix(in srgb, var(--color-green) 16%, var(--color-white));
     border-radius: var(--radius-input);
   }
   .country-list strong { color: var(--color-green); font-size: 1.05rem; }

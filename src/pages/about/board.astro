@@ -12,11 +12,11 @@ const board = directorsData
 const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
 
 const governance = [
-  { title: 'Term limits', body: 'Board members serve renewable three-year terms, with a maximum tenure that keeps fresh perspective and continuity in balance.', icon: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' },
-  { title: 'Volunteer service', body: 'Board service is fully volunteer. No board member receives any compensation for their role.', icon: '<path d="M19 14c1.5-1.6 3-3.3 3-5.5A3.5 3.5 0 0 0 12 6 3.5 3.5 0 0 0 2 8.5c0 2.2 1.5 3.9 3 5.5l7 7z"/>' },
-  { title: 'Independence', body: 'A majority of the board is independent of paid staff, and the board reviews the executive team’s compensation every year.', icon: '<path d="M12 3v18"/><path d="M6 7h12"/><path d="M6 7 3 13h6zM18 7l-3 6h6z"/><path d="M5 21h14"/>' },
-  { title: 'Annual audit', body: 'Favor is audited every year by an independent firm. The audited financials are filed with the IRS as Form 990 and reviewed by ECFA.', icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/>' },
-  { title: 'Conflict-of-interest policy', body: 'A written conflict-of-interest policy is signed by every board member each year and reviewed by counsel.', icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
+  { title: 'Term limits', body: 'Board members serve renewable three-year terms, with a maximum tenure that keeps fresh perspective and continuity in balance.' },
+  { title: 'Volunteer service', body: 'Board service is fully volunteer. No board member receives any compensation for their role.' },
+  { title: 'Independence', body: 'A majority of the board is independent of paid staff, and the board reviews the executive team’s compensation every year.' },
+  { title: 'Annual audit', body: 'Favor is audited every year by an independent firm. The audited financials are filed with the IRS as Form 990 and reviewed by ECFA.' },
+  { title: 'Conflict-of-interest policy', body: 'A written conflict-of-interest policy is signed by every board member each year and reviewed by counsel.' },
 ];
 ---
 <PageLayout
@@ -34,6 +34,10 @@ const governance = [
 
   <section class="band band--white">
     <div class="container">
+      <header class="band__header">
+        <p class="label">The Board</p>
+        <h2>The volunteers who govern Favor.</h2>
+      </header>
       <p class="band__lede" style="text-align:center; max-width: 760px; margin: 0 auto var(--space-12) auto;">
         Favor International's Board of Directors meets quarterly and is responsible for
         governance, financial oversight, executive review, and strategic direction. Each member
@@ -64,10 +68,10 @@ const governance = [
         <p class="label">Governance</p>
         <h2>How the board works.</h2>
       </header>
-      <div class="gov-grid">
+      <div class="gov-layout">
+        <div class="gov-photo" style="background-image:url('/images/ministry-gift-staff.jpg')" role="img" aria-label="Favor field and office leaders together"></div>
         {governance.map((g) => (
-          <article class="gov-card">
-            <span class="gov-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={g.icon}></svg></span>
+          <article class="gov-box">
             <h3>{g.title}</h3>
             <p>{g.body}</p>
           </article>
@@ -162,14 +166,38 @@ const governance = [
     text-transform: uppercase;
   }
 
-  .gov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-6); }
-  .gov-card { background: var(--color-white); border: 2px solid var(--accent, var(--color-gold)); border-radius: var(--radius-card); padding: var(--space-6); box-shadow: var(--shadow-soft); }
-  .gov-card:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .gov-card:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .gov-card:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .gov-card:nth-child(4n+4) { --accent: var(--color-sage); }
-  .gov-card__icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: color-mix(in srgb, var(--accent, var(--color-gold)) 14%, var(--color-white)); color: var(--accent, var(--color-green)); margin-bottom: var(--space-4); }
-  .gov-card__icon svg { width: 26px; height: 26px; }
-  .gov-card h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
-  .gov-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; font-size: 0.95rem; }
+  .gov-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: var(--space-5);
+  }
+  .gov-photo {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    border-radius: var(--radius-card);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-sage-light);
+    box-shadow: var(--shadow-card);
+    min-height: 320px;
+  }
+  .gov-box {
+    background: var(--color-white);
+    border: 1px solid color-mix(in srgb, var(--color-green) 22%, var(--color-white));
+    border-radius: var(--radius-card);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-soft);
+  }
+  .gov-box:last-child { grid-column: 1 / -1; }
+  .gov-box h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
+  .gov-box p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; font-size: 0.95rem; }
+  @media (max-width: 760px) {
+    .gov-layout { grid-template-columns: 1fr 1fr; }
+    .gov-photo { grid-column: 1 / -1; grid-row: auto; min-height: 220px; }
+    .gov-box:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .gov-layout { grid-template-columns: 1fr; }
+  }
 </style>

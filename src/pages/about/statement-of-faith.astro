@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const articles = [
@@ -50,13 +51,17 @@ const articles = [
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container container--narrow sof-stand">
-      <p class="label">Where we stand</p>
-      <h2>In the historic Christian faith.</h2>
-      <p>Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant. We are not a denomination and we do not plant our own brand of church. Across every tribe, language, and nation we serve, this shared confession is the ground we build on together.</p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/highlight-baptism.jpg"
+    imageAlt="A baptism in the field"
+    eyebrow="Where we stand"
+    heading="In the historic Christian faith."
+    layout="image-right"
+    background="cream"
+  >
+    <p>Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant. We are not a denomination, and we do not plant our own brand of church.</p>
+    <p>Across every tribe, language, and nation we serve, this shared confession is the ground we build on together.</p>
+  </FeatureRow>
 
   <CtaBand
     heading="Questions on doctrine?"
@@ -72,7 +77,7 @@ const articles = [
   @media (max-width: 760px) { .faith-list { grid-template-columns: 1fr; } }
   .faith-list li {
     padding: var(--space-6) var(--space-6) var(--space-6) 76px;
-    background: linear-gradient(155deg, color-mix(in srgb, var(--accent, var(--color-gold)) 12%, var(--color-white)), var(--color-white) 72%);
+    background: var(--color-white);
     border-radius: var(--radius-card);
     border: 2px solid var(--accent, var(--color-gold));
     box-shadow: var(--shadow-soft);
@@ -92,10 +97,7 @@ const articles = [
     font-family: var(--font-sans); font-weight: 800; font-size: 1.05rem;
     z-index: 1;
   }
-  .faith-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .faith-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .faith-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .faith-list li:nth-child(4n+4) { --accent: var(--color-sage); }
+  .faith-list li { --accent: var(--color-gold); }
   .faith-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
   .faith-list p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
   .faith-note { max-width: 720px; margin: 0 auto; text-align: center; color: var(--color-ink-soft); }
