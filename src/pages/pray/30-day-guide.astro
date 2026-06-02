@@ -39,8 +39,10 @@ const week2 = [
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <p class="label">Week one</p>
-      <h2>The work in East Africa.</h2>
+      <header class="band__header">
+        <p class="label">Week one</p>
+        <h2>The work in East Africa.</h2>
+      </header>
       <ol class="prayer-list">
         {week1.map(([day, where, ask]) => (
           <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
@@ -51,8 +53,10 @@ const week2 = [
 
   <section class="band band--cream prayer-week2">
     <div class="container container--narrow">
-      <p class="label">Week two</p>
-      <h2>Equipping leaders, opening closed doors.</h2>
+      <header class="band__header">
+        <p class="label">Week two</p>
+        <h2>Equipping leaders, opening closed doors.</h2>
+      </header>
       <ol class="prayer-list" start={8}>
         {week2.map(([day, where, ask]) => (
           <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>

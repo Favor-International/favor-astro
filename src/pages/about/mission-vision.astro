@@ -90,7 +90,9 @@ const traits = [
 
   <section class="band band--cream mv-traits">
     <div class="container container--narrow">
-      <h2>What we instill in the leaders we train</h2>
+      <header class="band__header">
+        <h2>What we instill in the leaders we train</h2>
+      </header>
       <ul class="trait-list">
         {traits.map((t) => (
           <li><strong class="trait-list__title">{t.title}</strong><span class="trait-list__desc">{t.desc}</span></li>
@@ -138,7 +140,7 @@ const traits = [
 </PageLayout>
 
 <style>
-  .mv-vision { text-align: center; }
+  .mv-vision, .mv-mission { text-align: center; }
   .vision {
     font-family: var(--font-display);
     font-size: clamp(2.4rem, 4.8vw, 3.6rem);

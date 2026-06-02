@@ -28,8 +28,10 @@ const roles = [
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <p class="label">Four roles</p>
-      <h2>Pick one that fits your time.</h2>
+      <header class="band__header">
+        <p class="label">Four roles</p>
+        <h2>Pick one that fits your time.</h2>
+      </header>
       <ul class="role-list">
         {roles.map((r) => (
           <li class="has-texture" style={`--accent: ${r.accent}`}>
