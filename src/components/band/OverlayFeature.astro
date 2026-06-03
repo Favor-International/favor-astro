@@ -41,7 +41,8 @@ const { image, imageAlt, eyebrow, heading, side = 'left', objectPosition = 'cent
     background-repeat: repeat;
     opacity: 0.06;
   }
-  .overlay-feature__inner { position: relative; z-index: 1; width: 100%; max-width: 560px; margin: 0 auto; }
+  .overlay-feature__inner { position: relative; z-index: 1; width: 100%; max-width: 560px; margin: 0 auto; text-align: center; }
+  .overlay-feature__inner :global(ul), .overlay-feature__inner :global(ol), .overlay-feature__inner :global(li) { text-align: left; }
   .overlay-feature__inner h2 { color: var(--color-white); margin: 0 0 var(--space-6); }
   .overlay-feature__inner :global(p) {
     color: color-mix(in srgb, var(--color-white) 88%, transparent);
