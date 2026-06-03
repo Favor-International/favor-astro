@@ -8,6 +8,37 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Impact pillars: missing verbatim content added; taglines debunked
+
+**Decision:** Added genuinely-missing verbatim content to the four pillar pages +
+impact hub, captured from favorintl.org/what-we-do/* via Chrome MCP. Additive only.
+- **Evangelism & Discipleship:** "Bibles instead of bullets" South Sudan motto +
+  Matthew 28:19 NKJV.
+- **Community Development:** the holistic community-development model paragraph +
+  the "guiding hearts to Jesus" philosophy; "we pray with each of our patients" +
+  mobile medical clinics on the Medical card; named churches (Wedweil Refugee
+  Camp, Pabo Calvary Chapel) on the Church Planting card.
+- **Economic Empowerment:** "The Gospel is the foundation of healthy economies."
+- **Impact hub:** "non-denominational missionary movement" mission + prayer-as-
+  engine "Our Approach" + the four-departments framing.
+**Debunked:** the gap-analysis-v2 "four official taglines" ("Mobilization of
+heaven's agenda," "Next generation leadership," "Holistic transformation by the
+Word," "Independence built on freedom in Christ") appear on NONE of the four live
+pillar pages or the What We Do overview. WebFetch artifact, like the "6 R's." Not
+added.
+**Flag for Favor (NOT changed):** GIFT identity mismatch. Our E&D page frames GIFT
+as a "Leadership Institute" (two-year residential pastor training, Bishoftu
+Ethiopia); the live site calls it "GIFT (God's Institute For Transformation)
+children's homes." Different program. Daniel chose flag-only. Also re-verify the
+Daniel Kidia testimonial. **Retracted flag:** the "270-acre farm" is fine; the
+live "10 acres of maize" is one plot, not the total.
+**Consequences:** Impact Tier-3 item done. Verified: prod build clean (160 pages),
+no console errors, 10/10 DOM checks pass, motto band styles correct. Pushed to
+`main` (commit 9b3aee8). Q4 (the four pillars) was already RESOLVED; names
+unchanged.
+
+---
+
 ## 2026-06-02 — Give methods: real forms added, fabrications fixed (Daniel-approved)
 
 **Decision:** Ported the genuinely-missing give content and corrected fabricated
