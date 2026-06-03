@@ -128,9 +128,11 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
 
   <section class="band band--white">
     <div class="container">
-      <p class="label">Reports</p>
-      <h2>Impact reports.</h2>
-      <p class="acct-sub">Quarterly and annual reports from the field, published since 2020.</p>
+      <header class="band__header">
+        <p class="label">Reports</p>
+        <h2>Impact reports.</h2>
+        <p class="acct-sub">Quarterly and annual reports from the field, published since 2020.</p>
+      </header>
       <div class="doc-grid">
         {impactReports.map((r) => (
           <a class="doc-card" href={r.url} target="_blank" rel="noopener">
@@ -185,7 +187,8 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   .acct-badges a:hover img { transform: translateY(-3px); }
 
   .acct-sub { color: var(--color-ink-soft); margin: 0; }
-  .acct-financials-title { margin-top: var(--space-16); }
+  .acct-financials-title { margin-top: var(--space-16); text-align: center; }
+  .acct-financials-title + .acct-sub { text-align: center; }
   .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-6); }
   @media (max-width: 720px) { .doc-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 460px) { .doc-grid { grid-template-columns: 1fr; } }
