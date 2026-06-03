@@ -7,6 +7,11 @@ import CtaBand from '../components/band/CtaBand.astro';
 // Featured film + the rest of the library. Source: Favor International YouTube.
 const featured = { id: 'LHarkRULU7Q', title: 'Favor International: An Indigenous Missionary Movement', caption: '1,400 native missionaries across 14+ African nations.' };
 
+// Live Media hub links (favorintl.org/testimonies-updates/media).
+const FAVOUR_FM = 'https://zeno.fm/radio/favour-fm/';
+const YOUTUBE_CHANNEL = 'https://www.youtube.com/c/FavorInternational';
+const SPEAKING_PLAYLIST = 'https://www.youtube.com/playlist?list=PLjCR1m3nUEPX11uw8NWzmYg-MglW3Fpc_';
+
 const films = [
   { id: 'C5VBPhA50Mg', title: 'Evangelism in Africa', caption: 'Building lasting disciples through God’s Word' },
   { id: 'DEydcLqBQW0', title: 'Favor’s Primary Schools', caption: 'Educated for the Kingdom' },
@@ -54,6 +59,31 @@ const films = [
           <VideoEmbed id={f.id} title={f.title} caption={f.caption} />
         ))}
       </div>
+      <p class="watch-more">
+        <a href={SPEAKING_PLAYLIST} target="_blank" rel="noopener">Speaking engagements playlist &rarr;</a>
+        <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener">Watch the full channel on YouTube &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Listen and read</p>
+        <h2>Beyond the films.</h2>
+      </header>
+      <div class="watch-cards">
+        <article class="watch-card has-texture">
+          <h3>Favour FM</h3>
+          <p>Favor's own radio station, broadcasting teaching, music, testimonies, prayer, and preaching across northern Uganda and South Sudan. Listen live from anywhere.</p>
+          <a class="btn btn--secondary" href={FAVOUR_FM} target="_blank" rel="noopener">Listen now to Favour FM</a>
+        </article>
+        <article class="watch-card has-texture">
+          <h3>The Carole Ward Story</h3>
+          <p>Get a free copy of either or each of Carole's books today. Her story of how Favor began, in her own words.</p>
+          <a class="btn btn--secondary" href="/about/contact/?topic=book">Request a copy</a>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -71,4 +101,14 @@ const films = [
   .watch-featured { max-width: 900px; margin: 0 auto; }
   .watch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
   @media (max-width: 760px) { .watch-grid { grid-template-columns: 1fr; } }
+  .watch-more { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); justify-content: center; margin: var(--space-10) 0 0; }
+  .watch-more a { color: var(--color-gold-deep); font-weight: 700; }
+
+  .watch-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  @media (max-width: 760px) { .watch-cards { grid-template-columns: 1fr; } }
+  .watch-card { background: var(--color-white); border: 2px solid var(--accent, var(--color-gold)); border-radius: var(--radius-card); padding: var(--space-8); box-shadow: var(--shadow-soft); }
+  .watch-card:nth-child(1) { --accent: var(--color-gold-deep); }
+  .watch-card:nth-child(2) { --accent: var(--color-green-bright); }
+  .watch-card h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.3rem; }
+  .watch-card p { margin: 0 0 var(--space-6); color: var(--color-ink-soft); line-height: 1.7; }
 </style>
