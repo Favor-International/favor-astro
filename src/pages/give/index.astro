@@ -56,8 +56,10 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <p class="label">Why give through Favor</p>
-      <h2>Your gift goes further here.</h2>
+      <header class="band__header">
+        <p class="label">Why give through Favor</p>
+        <h2>Your gift goes further here.</h2>
+      </header>
       <div class="why-grid">
         <div class="why-card"><h3>Indigenous-led</h3><p>Every program on the field is run by African nationals who live where they serve.</p></div>
         <div class="why-card"><h3>Prayer-birthed</h3><p>Favor began as a prayer movement, and prayer still comes before everything else.</p></div>
@@ -69,9 +71,11 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <p class="label">Featured tiers</p>
-      <h2>Favor Partner monthly amounts.</h2>
-      <p>Custom amounts welcome. These are the suggested tiers from the v2.1 partnership model.</p>
+      <header class="band__header">
+        <p class="label">Featured tiers</p>
+        <h2>Favor Partner monthly amounts.</h2>
+        <p>Custom amounts welcome. These are the suggested tiers from the v2.1 partnership model.</p>
+      </header>
       <ul class="tier-list">
         {PARTNER_TIERS.map((t) => (
           <li class:list={[t.featured && 'tier-list--featured']}>
@@ -88,9 +92,11 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--sage">
     <div class="container container--narrow">
-      <p class="label">Other ways to give</p>
-      <h2>Stocks, crypto, non-cash, employer match.</h2>
-      <p>If a non-cash gift fits your situation better, we have a route. Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will send the right form.</p>
+      <header class="band__header">
+        <p class="label">Other ways to give</p>
+        <h2>Stocks, crypto, non-cash, employer match.</h2>
+        <p>If a non-cash gift fits your situation better, we have a route. Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will send the right form.</p>
+      </header>
       <ul class="other-ways">
         {otherWays.map((w) => <li>{w}</li>)}
       </ul>
@@ -102,8 +108,10 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <p class="label">Questions</p>
-      <h2>Common questions about giving.</h2>
+      <header class="band__header">
+        <p class="label">Questions</p>
+        <h2>Common questions about giving.</h2>
+      </header>
       <div class="faq">
         <details><summary>Is my gift tax-deductible?</summary><p>Yes. Favor International is a registered 501(c)(3) public charity (EIN {SITE.ein}). You receive a tax-deductible receipt by email.</p></details>
         <details><summary>How much of my gift reaches the field?</summary><p>In FY2024, 89 cents of every dollar went to program work. The figures are audited and filed with ECFA and on IRS Form 990. See the <a href="/about/accountability/">accountability page</a>.</p></details>
@@ -135,7 +143,10 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
   @media (max-width: 860px) { .give-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .give-grid { grid-template-columns: 1fr; } }
   .give-grid__feature { grid-column: span 2; }
-  @media (max-width: 540px) { .give-grid__feature { grid-column: span 1; } }
+  /* Let the featured card fill its row height so it lines up with the taller
+     4/5 card beside it instead of sitting short. */
+  .give-grid__feature :global(.ocard) { aspect-ratio: auto !important; height: 100%; min-height: 100%; }
+  @media (max-width: 540px) { .give-grid__feature { grid-column: span 1; } .give-grid__feature :global(.ocard) { aspect-ratio: 4 / 5 !important; } }
 
   .tier-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
   .tier-list li {
