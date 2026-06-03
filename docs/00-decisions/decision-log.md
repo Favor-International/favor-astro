@@ -8,6 +8,31 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Country Director: full posting ported verbatim
+
+**Decision:** Expanded the one-line Country Director mention on `go/volunteer.astro`
+into the full live posting (favorintl.org/positions/country-director), verbatim:
+meta (Full-time / Commensurate with experience / Uganda + South Sudan), Overview,
+Accountability, Relationships, Location (Gulu / Juba), 7 responsibility groups
+(26 bullets), Qualifications (9), Compensation. "Request an application" CTA points
+to contact.
+**Note on the redirect mapping:** `urls.csv` marks the standalone `/positions/*`
+URLs as "drop → /about/contact/" (a redirect choice). The posting content itself is
+live and active, and the gap analysis wanted it on the volunteer page, so it was
+ported there; the standalone-URL redirect decision is unaffected.
+**Flag for Daniel/Favor:**
+1. One qualification line contains the word **"inclusivity"** ("...and inclusivity
+   among organizational staff..."). Kept verbatim (it's Favor's own HR posting), but
+   it brushes the brand's no-DEI-vocab voice rule. Confirm whether to keep verbatim.
+2. The volunteer page's **"four roles"** (Ambassador, Prayer warrior, Intercession
+   team, Stage Sunday host) were flagged in gap-analysis-v2 (#9) as invented; left in
+   place this round (out of scope for #6). Provenance/keep-or-cut still to decide.
+**Consequences:** Country Director Tier-3 item done. Verified: prod build clean
+(160 pages), no console errors, DOM checks pass (7 groups / 26 bullets / 9 quals).
+Pushed to `main` (commit f7aae3a).
+
+---
+
 ## 2026-06-02 — Impact pillars: missing verbatim content added; taglines debunked
 
 **Decision:** Added genuinely-missing verbatim content to the four pillar pages +
