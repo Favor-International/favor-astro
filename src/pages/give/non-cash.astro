@@ -3,6 +3,9 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
+
+// Real downloadable form from favorintl.org/connect-support/donate-now
+const STOCK_FORM = 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/635894bf64ee6f1e03b6eb5e_Favor%20International%20Stock%20and%20Non-Cash%20Assets%20Transfer%20Form%202022%20(Updated%2010.25).pdf';
 ---
 <PageLayout
   title="Stocks, Crypto, and Non-Cash Giving"
@@ -26,15 +29,15 @@ import { SITE } from '../../lib/site';
       <div class="acard-grid">
         <article class="acard has-texture">
           <h3>Appreciated stock</h3>
-          <p>Brokerage transfer or DAFpay route. Avoid capital gains; deduct full market value. We will send our DTC instructions on request.</p>
+          <p>Give appreciated stock and avoid capital gains while deducting full market value. Use our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a> to start.</p>
         </article>
         <article class="acard has-texture">
           <h3>Cryptocurrency</h3>
-          <p>BTC, ETH, USDC, plus most major chains. Routed through TrustBridge Global. We will email the wallet address after a quick KYC.</p>
+          <p>Email {SITE.emailGeneral} for current instructions to give cryptocurrency.</p>
         </article>
         <article class="acard has-texture">
           <h3>Real estate, vehicles, equipment</h3>
-          <p>Case-by-case. We work with a partner network to handle the transfer and convert to cash. Email the executive team first.</p>
+          <p>Non-cash assets are handled case-by-case. Start with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>, or email {SITE.emailGeneral} first.</p>
         </article>
         <article class="acard has-texture">
           <h3>Matching gifts</h3>

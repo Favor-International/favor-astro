@@ -3,6 +3,9 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import DonationBlock from '../../components/band/DonationBlock.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
+
+// Real downloadable forms from favorintl.org/connect-support/donate-now
+const STOCK_FORM = 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/635894bf64ee6f1e03b6eb5e_Favor%20International%20Stock%20and%20Non-Cash%20Assets%20Transfer%20Form%202022%20(Updated%2010.25).pdf';
 ---
 <PageLayout
   title="Give Once"
@@ -37,12 +40,13 @@ import { SITE } from '../../lib/site';
       <p class="label">More ways to give once</p>
       <h2>Check, Zelle, CashApp, wire, stock, and PayPal.</h2>
       <ul class="give-methods">
-        <li><strong>By check.</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</li>
+        <li><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</li>
         <li><strong>Zelle.</strong> Send to admin@favorintl.org.</li>
-        <li><strong>CashApp.</strong> Send to the CashTag $FavorIntl.</li>
+        <li><strong>CashApp.</strong> Send to the CashTag $FavorInternational.</li>
         <li><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</li>
-        <li><strong>Stock and securities.</strong> Give appreciated stock through our stock-gift form. Email {SITE.emailGeneral} and we will send it.</li>
+        <li><strong>Stock and securities.</strong> Give appreciated stock with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>.</li>
         <li><strong>PayPal, ACH, and credit card.</strong> All available through our online giving portal.</li>
+        <li><strong>Designate or dedicate.</strong> Designate your gift, write a note, or honor someone with a dedicated gift through the online giving portal.</li>
       </ul>
     </div>
   </section>
@@ -66,7 +70,7 @@ import { SITE } from '../../lib/site';
         </details>
         <details>
           <summary>Can I give by check, Zelle, CashApp, or stock?</summary>
-          <p>Yes. Make checks payable to Favor Intl. and mail to 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596. We also accept Zelle (admin@favorintl.org), CashApp ($FavorIntl), wire transfer, and appreciated stock. Email {SITE.emailGeneral} for routing details.</p>
+          <p>Yes. Make checks payable to Favor Intl. and mail to 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596. We also accept Zelle (admin@favorintl.org), CashApp ($FavorInternational), wire transfer, and appreciated stock. Email {SITE.emailGeneral} for routing details.</p>
         </details>
         <details>
           <summary>Where does my gift go to work?</summary>

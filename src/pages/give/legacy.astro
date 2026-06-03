@@ -3,6 +3,9 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
+
+// Real downloadable form from favorintl.org/connect-support/donate-now
+const LEGACY_FORM = 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/659c4087374d3143b34b70b3_Favor%20International%20Legacy%20Circle%20Membership%20Form.docx.pdf';
 ---
 <PageLayout
   title="Legacy Giving"
@@ -36,13 +39,17 @@ import { SITE } from '../../lib/site';
           <h3>Charitable trust</h3>
           <p>Charitable remainder or lead trusts can provide income to you or family and route the remainder to Favor. Talk to a CFP first.</p>
         </article>
+        <article class="acard has-texture">
+          <h3>The Legacy Circle</h3>
+          <p>Tell us your plans and join the Legacy Circle. Download the <a href={LEGACY_FORM} target="_blank" rel="noopener">Legacy Circle Membership Form</a> to get started.</p>
+        </article>
       </div>
     </div>
   </section>
 
   <CtaBand
     heading="Send us your intent."
-    body="If you have already named Favor in your estate, please tell us. We will keep it confidential and add you to a small annual legacy gathering."
+    body="If you have already named Favor in your estate, please tell us. We will keep it confidential."
     ctaLabel="Email the legacy team"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Legacy gift intent`}
     image="/images/hero-legacy-history.jpg"
@@ -53,8 +60,8 @@ import { SITE } from '../../lib/site';
 
 <style>
   .lg-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
-  .acard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 900px) { .acard-grid { grid-template-columns: 1fr; } }
+  .acard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  @media (max-width: 600px) { .acard-grid { grid-template-columns: 1fr; } }
   .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
   .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.1rem; }
   .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
