@@ -8,6 +8,30 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Image de-dup + section images DONE (local Media library, no Drive)
+
+**Resolved the image blocker.** The Drive connector couldn't read the Favor photos,
+but the photos exist LOCALLY: `Media/extracted/2026/` (a sibling of the repo) holds
+**2,601 real field photos** organized by country + ministry. Used those.
+- `build-field-library.mjs`: sharp-optimized 120 images -> `public/images/field-2026/`
+  across 25 topics (evangelism, baptism, PBS, prayer, medical, women, church, radio,
+  GIFT, agriculture, etc.), 1600px max, webp q80, EXIF-rotated.
+- `apply-dedup.mjs`: kept the first use of each duplicated image, replaced the other
+  70 with unique topic-matched field photos (landscape preferred). Verdict: **every
+  site photo now used exactly once** (was 37 images reused across 70 slots).
+- **Section images:** the text-only bands added earlier this session were converted to
+  `FeatureRow` (image+text split) with unique field photos: community-development
+  (holistic model + philosophy), economic-empowerment (Gospel-economy), impact hub
+  (mission), accountability (stewardship). Country Director posting got a lead image
+  (terry-1, a real Country Director).
+- Pruned 45 unused field images + the build manifest. Final: 75 field-2026 images
+  (9.5MB), 144 total site photos all unique. Build clean (160 pages).
+- Commits a7247c9 (de-dup), 51604a3 (section images + prune).
+**Note:** image `alt` text was not individually rewritten for every swapped photo;
+most are generic or topic-matched. A future polish pass could tighten alts.
+
+---
+
 ## 2026-06-02 — Site-wide design QA pass (buttons, titles, cards) + image task pending
 
 **Done (shipped):** Daniel flagged 3 recurring visual bugs from screenshots; fixed
