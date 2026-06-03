@@ -8,6 +8,32 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Accountability page: verbatim live content ported (additive)
+
+**Decision:** Added the genuinely-missing live content from
+favorintl.org/about/ecfa-accountability to `about/accountability.astro`,
+verbatim, additive-only (no existing copy/numbers changed): the stewardship
+statement + 1 Cor 4:2 NKJV verse (incl. finance email
+`accounting@favourafrica.org`); the 2024 expense breakdown (89.3% program
+$6,671,668 / 6.2% general $464,178 / 4.5% fundraising $341,235); the Great
+Multiplier Effect (GME) explanation; the Carole Ward pull-quote. Also added
+the Florida solicitation disclosure (CH57842 / FDACS) site-wide in
+`SiteFooter.astro` (Daniel approved footer + on-page).
+**Source:** live page captured verbatim via Chrome MCP (not WebFetch).
+**Correction:** the gap-analysis-v2 / handoff items **"6 R's framework"** and
+**"5-year plan download"** are NOT real. The "6 R's" appears in no source
+except the WebFetch-paraphrased gap doc. The "5-year plan" is the live URL
+`/5yearplan2025`, which `urls.csv:208` shows is a 301 to a Blackbaud donation
+form (marked "drop"), not a downloadable plan. Neither was added. Do not chase.
+**One easy-fix:** the live GME line joined two clauses with a spaced hyphen
+("communities - there is no limit"); split into two sentences per the brand
+no-dash rule. All words preserved.
+**Consequences:** Accountability Tier-3 port is complete. Verified: prod build
+clean (160 pages), no console errors, DOM/computed-style checks pass. Pushed to
+`main` (commit e7403be).
+
+---
+
 ## 2026-05-18 — Stack locked
 
 **Decision:** Astro + Cloudflare Pages + Cloudflare R2 + Blackbaud API
