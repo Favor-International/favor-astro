@@ -13,8 +13,8 @@ const gallery = [
 ];
 
 const programs = [
-  { name: 'Medical', accent: 'var(--color-green-bright)', body: 'In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community.' },
-  { name: 'Church Planting', accent: 'var(--color-gold-deep)', body: 'In many rural communities there are no churches, so following a Portable Bible School small churches are planted, sometimes meeting in a hut or under a mango tree. Churches are also planted as a result of church construction. Once a church is constructed the mandate is for them to plant 3 more churches in 5 years.' },
+  { name: 'Medical', accent: 'var(--color-green-bright)', body: 'In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community. In our medical centers, we pray with each of our patients. Mobile medical clinics allow us to serve those who cannot come to our medical centers.' },
+  { name: 'Church Planting', accent: 'var(--color-gold-deep)', body: 'In many rural communities there are no churches, so following a Portable Bible School small churches are planted, sometimes meeting in a hut or under a mango tree. Churches are also planted as a result of church construction. Once a church is constructed the mandate is for them to plant 3 more churches in 5 years. Recent plants include the church at the Wedweil Refugee Camp and the new Calvary Chapel building in Pabo, Uganda.' },
   { name: 'Church Construction', accent: 'var(--color-terracotta)', body: 'Favor partners with International Cooperating Ministries (ICM) to fund the new church construction, and ICM has helped Favor build many churches across Uganda and South Sudan. These churches don’t belong to Favor but to the community of believers and their leadership from that local church.' },
 ];
 ---
@@ -44,6 +44,17 @@ const programs = [
           <VideoEmbed id="4YpOvDoc6k4" title="Where Medicine Meets Miracles" />
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container cd-intro">
+      <header class="cd-head">
+        <p class="label">Transforming communities</p>
+        <h2>The whole community, transformed.</h2>
+      </header>
+      <p>Favor's community development model has been informed by almost 20 years of work and recognizes the church as the hub of the community and the Word of God as center of sustainable, ongoing community development. Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. Community development starts with nothing less than transformed lives surrendered to Jesus and then extends to holistic transformation of the entire community.</p>
+      <p>We could comfort those in emotional pain. We could bandage every wound. We could build beautiful buildings. We could even pass out thousands of Bibles, but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do. Our foremost mission is guiding hearts to Jesus, but we also recognize that without a demonstration of God's love in meeting people where they are at emotionally, physically, and spiritually, as Jesus did, the former won't happen.</p>
     </div>
   </section>
 
@@ -104,6 +115,10 @@ const programs = [
 
 <style>
   .cd-head { text-align: center; max-width: 720px; margin: 0 auto var(--space-12); }
+  .cd-intro { max-width: 760px; }
+  .cd-intro .cd-head { margin-bottom: var(--space-8); }
+  .cd-intro p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
+  .cd-intro p:last-child { margin-bottom: 0; }
   .cd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
   @media (max-width: 860px) { .cd-grid { grid-template-columns: 1fr; } }
   .cd-card { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
