@@ -1,23 +1,27 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
+// Verbatim from favorintl.org/about/statement-of-faith (14 articles, in the
+// live order). Titles are added for scannability; the bodies are Favor's exact
+// wording. Two spaced hyphens in the live text were changed to commas per the
+// brand no-dash rule (no words altered).
 const articles = [
-  { title: 'The Bible', body: 'We believe the Bible (Old and New Testaments) is the inspired, infallible, and authoritative Word of God.' },
-  { title: 'God', body: 'We believe in one God, eternally existent in three persons: Father, Son, and Holy Spirit.' },
-  { title: 'Jesus Christ', body: 'We believe in the deity of our Lord Jesus Christ, His virgin birth, sinless life, atoning death, bodily resurrection, ascension, and personal return in power and glory.' },
-  { title: 'Salvation', body: 'We believe salvation is by grace through faith in Jesus Christ alone, not by works.' },
-  { title: 'The Holy Spirit', body: 'We believe in the present ministry of the Holy Spirit, by whose indwelling the Christian is enabled to live a godly life.' },
-  { title: 'The Church', body: 'We believe in the spiritual unity of believers in our Lord Jesus Christ, expressed locally in the gathered church.' },
-  { title: 'Baptism', body: 'We believe in the baptism of all believers by immersion as a physical sign of the inward faith in Jesus Christ. Baptism symbolizes our death and resurrection with Him.' },
-  { title: 'The Resurrection', body: 'We believe in the resurrection of the dead and that the dead in Christ will rise never to die again, and those who are still living will be caught up with them to meet the Lord in the air, and to live with Christ throughout eternity.' },
-  { title: 'Holy Matrimony', body: 'We believe in holy matrimony, that is marriage between one man and one woman, as having been sanctioned in the Christian life according to the Word of God. We believe that in marriage, a man leaves his father and mother and joins his wife and the two become one flesh (Genesis 2:24).' },
-  { title: 'Tithing and Giving', body: 'We believe in tithing and giving offerings in the Kingdom of God so that there may be enough supply for the work of God and His servants. We apply the power of prayer, fasting, and giving within our lives, as has been taught us by our Lord Jesus Christ through His Word (Matthew 6:3-18).' },
-  { title: 'The Great Commission', body: 'We believe in preaching the Gospel of Jesus Christ and being witnesses of His Word and works to the entire world, in fulfillment of the Great Commission. This was commanded to us, by the Lord Jesus Christ, and is His commission for the whole body of Christ worldwide.' },
-  { title: 'Spiritual Authority', body: 'We believe that the devil is the prince of demons and darkness, and as the adversary of God is therefore an enemy of the children of God. When Jesus died on the cross, He guaranteed the ultimate triumph of God and His church, over all darkness. He has given believers power and authority for prayer, doing His Word and will, fulfilling His commission, and setting people free from the works of the enemy, in His Name. (Mark 16:16-17, Ephesians 2:2, Colossians 2:13-15, 1 Peter 5:8, and Revelation 20:10.)' },
-  { title: 'The Return of Christ', body: 'We believe in and eagerly await the second return of this same Jesus Christ, to take the Church to Himself, a Church without spot or wrinkle. This is our driving force in preparing ourselves and the rest of the world, as we “occupy” until His return.' },
+  { title: 'God', body: `We believe in the one and only true God. We believe in the trinity of the Godhead; God the Father, God the Son, and God the Holy Spirit. We believe that these three are one.` },
+  { title: 'The Bible', body: `We believe the Holy Scriptures of both the Old and New Testament, which together form the Holy Bible. It is the infallible written Word of God, unchangeable, immutable, and as powerful today as the day it was wholly inspired by the Holy Spirit. His Word is the supreme and final authority in all matters.` },
+  { title: 'Jesus Christ', body: `We believe that Jesus Christ is the Son of God who was made manifest in the flesh; that he was born of the Virgin Mary, lived, died on the cross, rose from the dead, and ascended to heaven as God's plan for the redemption of all mankind by faith through Jesus Christ. He is now seated at the right hand of the Father, ever living to make intercession for us, His church (Hebrews 7:25).` },
+  { title: 'Sin and Justification', body: `We believe that all mankind has sinned and fallen short of the glory of God, thereby deserving death, since men are born of the seed of the sinful seed Adam. All mankind may be justified by grace, through faith, in Jesus Christ, who died to be a ransom for all.` },
+  { title: 'Transformation', body: `We believe in the transformation of sinners when they believe in Jesus Christ. As one comes to Jesus Christ and personally receives Him as Lord and Savior, he becomes a new creation, the old has passed away and new life begins. Therefore we do not hold one's past against them but see them forgiven by Jesus Christ who justifies all men.` },
+  { title: 'Baptism', body: `We believe in the baptism of all believers by immersion as a physical sign of the inward faith in Jesus Christ. Baptism symbolizes our death and resurrection with Him.` },
+  { title: 'The Resurrection', body: `We believe in the resurrection of the dead and that the dead in Christ will rise never to die again, and those who are still living will be caught up with them to meet the Lord in the air, and to live with Christ throughout eternity.` },
+  { title: 'Holy Matrimony', body: `We believe in holy matrimony, that is marriage between one man and one woman, as having been sanctioned in the Christian life according to the Word of God. We believe that in marriage, a man leaves his father and mother and joins his wife and the two become one flesh (Genesis 2:24).` },
+  { title: 'Tithing and Giving', body: `We believe in tithing and giving offerings in the Kingdom of God so that there may be enough supply for the work of God and His servants. We apply the power of prayer, fasting, and giving within our lives, as has been taught us by our Lord Jesus Christ through His Word (Matthew 6:3-18).` },
+  { title: 'The Church', body: `We believe in the Church as the body of Christ, which He laid down His life to purchase. Jesus Christ is the head of His Church and He is coming back to take this same Church to be with Him for eternity, a Church without spot or wrinkle. His church is made up of all races, classes, nations, tribes, languages, and generations. Together we represent God's love and equal value for all mankind. Members of His church are all those that have become children of God, through their faith and confession of Jesus as their Savior and Lord.` },
+  { title: 'The Holy Spirit', body: `We believe in the in-filling of the Holy Spirit in all believers of the Lord Jesus Christ. The empowerment of the Holy Spirit upon believers is for the manifestation of His works through signs, wonders, and miracles, as was demonstrated by Jesus and the New Testament Church, throughout the whole Word of God, and by His church since then.` },
+  { title: 'The Great Commission', body: `We believe in preaching the Gospel of Jesus Christ and being witnesses of His Word and works to the entire world, in fulfillment of the Great Commission. This was commanded to us, by the Lord Jesus Christ, and is His commission for the whole body of Christ worldwide.` },
+  { title: 'Spiritual Authority', body: `We believe that the devil is the prince of demons and darkness, and as the adversary of God is therefore an enemy of the children of God. When Jesus died on the cross, He guaranteed the ultimate triumph of God and His church, over all darkness. He has given believers power and authority for prayer, doing His Word and will, fulfilling His commission, and setting people free from the works of the enemy, in His Name. (Mark 16:16-17, Ephesians 2:2, Colossians 2:13-15, 1 Peter 5:8, and Revelation 20:10.)` },
+  { title: 'The Return of Christ', body: `We believe in and eagerly await the second return of this same Jesus Christ, to take the Church to Himself, a Church without spot or wrinkle. This is our driving force in preparing ourselves and the rest of the world, as we 'occupy' until His return.` },
 ];
 ---
 <PageLayout
@@ -37,8 +41,8 @@ const articles = [
     <div class="container">
       <header class="band__header">
         <p class="label">What we believe</p>
-        <h2>The doctrinal core we all affirm.</h2>
-        <p>Every Favor staff member, board member, and field leader affirms this statement of faith. It is intentionally short and intentionally classic.</p>
+        <h2>In one accord, we believe.</h2>
+        <p>Every Favor staff member, board member, and field leader affirms this statement of faith.</p>
       </header>
       <ol class="faith-list">
         {articles.map((a) => (
@@ -50,18 +54,6 @@ const articles = [
       </ol>
     </div>
   </section>
-
-  <FeatureRow
-    image="/images/highlight-baptism.jpg"
-    imageAlt="A baptism in the field"
-    eyebrow="Where we stand"
-    heading="In the historic Christian faith."
-    layout="image-right"
-    background="cream"
-  >
-    <p>Favor stands in the historic Christian faith summarized in the Nicene Creed and the Lausanne Covenant. We are not a denomination, and we do not plant our own brand of church.</p>
-    <p>Across every tribe, language, and nation we serve, this shared confession is the ground we build on together.</p>
-  </FeatureRow>
 
   <CtaBand
     heading="Questions on doctrine?"
