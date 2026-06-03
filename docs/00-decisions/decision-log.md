@@ -8,6 +8,36 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Give methods: real forms added, fabrications fixed (Daniel-approved)
+
+**Decision:** Ported the genuinely-missing give content and corrected fabricated
+specifics on the give pages, per Daniel's "add real + fix fabrications" approval.
+Sourced verbatim from favorintl.org/connect-support/donate-now.
+**Added (real):** the Give By Stock PDF (Stock and Non-Cash Assets Transfer Form)
+on `non-cash.astro` + `one-time.astro`; the Give A Legacy PDF (Legacy Circle
+Membership Form) + a "Legacy Circle" card on `legacy.astro`; the verbatim
+designate/note/honor-a-gift option on `one-time.astro`. Both PDF URLs verified
+200 application/pdf.
+**Fixed:** donor-facing CashApp tag `$FavorIntl` -> `$FavorInternational`
+(`one-time.astro` x2, `give/index.astro`) — was the wrong handle. Removed invented
+crypto mechanics ("BTC/ETH/USDC routed through TrustBridge after a quick KYC") to
+an inquiry; removed the invented "annual legacy gathering" line.
+**Kept (provenance-checked):** TrustBridge + DAFpay/DAF Direct on
+`foundation.astro` / `international.astro`. Earlier I wrongly said TrustBridge was
+not on the live site; it IS in the Site Map v2.1 instructions ("DAF integration
+(DAFpay, TrustBridge)") and on the live homepage per the site scrape
+(scrape-summary.md: "TrustBridge for international, DAF Direct for donor-advised
+funds"), with a real portal URL in the scrape manifest. Per Daniel's rule
+(instructions/real content stays), they remain untouched.
+**Flag for Favor:** crypto appears only in the instructions doc (modeled on
+Destiny Rescue), not on Favor's live giving page. Kept as a category but Favor
+should confirm they actually accept crypto.
+**Consequences:** Give-methods Tier-3 item done. Verified: prod build clean (160
+pages), no console errors, DOM checks pass, both forms resolve. Pushed to `main`
+(commit a8afdfc).
+
+---
+
 ## 2026-06-02 — Statement of Faith: full verbatim restore (Daniel-approved)
 
 **Decision:** Restored all 14 articles of `about/statement-of-faith.astro` to
