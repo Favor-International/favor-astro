@@ -8,6 +8,40 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Site-wide design QA pass (buttons, titles, cards) + image task pending
+
+**Done (shipped):** Daniel flagged 3 recurring visual bugs from screenshots; fixed
+site-wide.
+1. **Left-stuck/cramped CTA buttons** (e.g. Founders' Circle "Become a Favor
+   Partner"): root cause was a MISSING global `.band__cta-row` style. Added it
+   (centered + spaced) in `global.css`. Commit a634cec.
+2. **Left-aligned section titles:** empirically audited all 30 pages by computed
+   `text-align` (via an iframe sweep in the preview, since source-scanning gives
+   false positives — centering often comes from an ancestor section/`*-head` class,
+   not the immediate container). Only 5 were genuinely bare-left: give/one-time (3),
+   give/foundation (Contact), about/accountability (Reports + 990s subhead). Wrapped
+   them in centered `.band__header`. Left intentional split bands (FeatureRow /
+   OverlayFeature / contact-grid / donation / hero) alone. Commits a634cec, 662f64c.
+3. **Mismatched overlay-card heights** (Give hub): featured card was 16/9 (short)
+   next to 4/5 cards; now fills row height. Commit a634cec.
+
+**PENDING — image de-duplication + section images (Daniel wants EVERY photo
+unique):** BLOCKED on photo access.
+- Audit: 141 photo refs site-wide vs only **102 local photos** -> full de-dup is
+  mathematically impossible without ~40-50 NEW images. 70 duplicate slots; only ~31
+  unused local photos (mostly story images).
+- **The Google Drive connector cannot read the Favor photo files** — it enumerates
+  the folder tree (Uganda, South Sudan, DRC, Cameroon, _Photography) but every
+  image-containing folder returns empty, while it DOES return images from other
+  projects. Likely a Shared-Drive / ownership permission scope.
+- Daniel chose: **re-share the Drive** so the connector can read file contents; and
+  **hold section images** until the full photo set arrives (so everything is placed
+  uniquely in one pass). Next session: re-test Drive access, then de-dup + add
+  section images to the text-only bands created this session (cd-intro, ee-intro,
+  impact-intro, steward, Country Director, wd-motto, watch cards, etc.).
+
+---
+
 ## 2026-06-02 — Stories / Media hub (#5): media added; "9 stubs" debunked
 
 **Media hub (DONE):** Added the missing live Media-hub pieces to `watch.astro`
