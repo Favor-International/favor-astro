@@ -8,6 +8,32 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Statement of Faith: full verbatim restore (Daniel-approved)
+
+**Decision:** Restored all 14 articles of `about/statement-of-faith.astro` to
+Favor's exact live wording (favorintl.org/about/statement-of-faith), in live
+order. This is a deviation from the default "ADD, don't touch" rule, explicitly
+approved by Daniel because a statement of faith is doctrinal and must be the
+org's exact confession, not a paraphrase.
+**What was wrong:** the new page had 13 articles; 7 were already verbatim, but 6
+(Bible, God, Jesus Christ, Salvation, Holy Spirit, Church) were generic
+evangelical paraphrases, not Favor's wording. Two live articles were missing
+entirely (Sin and Justification; Transformation / new creation), and the live
+Holy Spirit article (continuationist: "signs, wonders, and miracles") had been
+replaced with a generic "live a godly life" version. An invented block claimed
+Favor affirms the "Nicene Creed and Lausanne Covenant" and is "not a
+denomination."
+**Fix:** all 14 articles now verbatim; the invented creed block removed (not in
+live, Stephanie's comments, or the instructions doc — checked). Kept the
+numbered-card design + short navigational titles (titles are not doctrinal);
+intro h2 set to the live "In one accord, we believe." Two spaced hyphens in the
+live text changed to commas per the brand no-dash rule (no words altered).
+**Consequences:** SoF Tier-3 item complete. Verified: 14 articles render in
+order, prod build clean (160 pages), no console errors. Pushed to `main`
+(commit 26ed2c6). `highlight-baptism.jpg` is now unused but left in place.
+
+---
+
 ## 2026-06-02 — Accountability page: verbatim live content ported (additive)
 
 **Decision:** Added the genuinely-missing live content from
