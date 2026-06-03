@@ -1,76 +1,87 @@
-// Selects an even spread of field photos from ../Media/extracted/2026 by topic,
-// optimizes them to web-ready webp, and writes them to public/images/field-2026/.
-// Outputs a manifest so each new image's topic/source is known for wiring.
+// Builds a HIGH-RESOLUTION field-photo library from ../Media/extracted/2026.
+// Only sources whose longest side >= MIN_SRC are used (skips WhatsApp-compressed
+// copies), gathered per topic across ALL countries. Output: public/images/field-2026.
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 
 const MEDIA = path.resolve('../Media/extracted/2026');
 const OUT = path.resolve('public/images/field-2026');
+const MIN_SRC = 1500;      // skip sources smaller than this on the long side
+const OUT_MAX = 1700;      // output long-side cap
+fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
 const isImg = (f) => /\.(jpe?g)$/i.test(f);
-function pick(folder, n) {
-  const dir = path.join(MEDIA, folder);
-  if (!fs.existsSync(dir)) { console.warn('MISSING', folder); return []; }
-  const files = fs.readdirSync(dir).filter(isImg).sort();
-  if (!files.length) return [];
-  // evenly spaced indices for variety (skip burst duplicates)
-  const out = [];
-  const step = Math.max(1, Math.floor(files.length / n));
-  for (let i = 0; i < files.length && out.length < n; i += step) out.push(path.join(dir, files[i]));
+async function candidates(folders) {
+  const list = [];
+  for (const fo of folders) {
+    const dir = path.join(MEDIA, fo);
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).filter(isImg)) {
+      const p = path.join(dir, f);
+      try { const m = await sharp(p).metadata(); const long = Math.max(m.width, m.height);
+        if (long >= MIN_SRC) list.push({ p, long }); } catch {}
+    }
+  }
+  // highest resolution first, then spread for variety
+  list.sort((a, b) => b.long - a.long);
+  return list;
+}
+function spread(arr, n) { // pick n items spread across the (res-sorted) array
+  if (arr.length <= n) return arr;
+  const out = []; const step = arr.length / n;
+  for (let i = 0; i < n; i++) out.push(arr[Math.floor(i * step)]);
   return out;
 }
 
-// topic-key -> [ [folder, count], ... ]  (mix countries for variety)
+// topic -> { count, folders[] (across countries) }
 const PLAN = {
-  'evangelism':       [['Uganda/Evangelism ', 3], ['South Sudan/Evangelism ', 3], ['Chad/Evangelism ', 2], ['Cameroon/Evangelism', 2]],
-  'crusade':          [['Uganda/crusades', 3], ['Uganda/Evangelism /Crusades_', 2]],
-  'street-outreach':  [['Uganda/Evangelism /Street Outreach', 2], ['South Sudan/Evangelism /Street Outreach', 2], ['Ethiopia/Street Evangelism', 2]],
-  'baptism':          [['Uganda/Baptisms_', 3], ['South Sudan/Baptisms ', 2], ['Cameroon/Baptisms', 2]],
-  'prayer':           [['Chad/House of Prayer', 3], ['Uganda/House of Prayer', 3], ['South Sudan/House of Prayer', 2]],
-  'prayer-gathering': [['Chad/National Prayer Gathering', 3]],
-  'pbs':              [['Uganda/Portable Bible School', 3], ['South Sudan/Portable Bible School', 3], ['Nigeria/PBS', 2], ['Kenya/PBS', 2]],
-  'education':        [['Uganda/Education/Primary', 3], ['South Sudan/Education/Primary', 2], ['Uganda/Education/Secondary (Highschool)', 2]],
-  'vlc':              [['Uganda/VLC', 2], ['Chad/VLC', 2]],
-  'gift':             [['Uganda/GIFT/Boys', 2], ['South Sudan/GIFT/Girls', 1], ['South Sudan/GIFT/Boys', 1]],
-  'medical':          [['South Sudan/Medical', 2], ['Uganda/Medical', 2]],
-  'women':            [['Uganda/Women Empowerment', 3], ['Chad/Women Empowerment', 2], ['Cameroon/Women Empowerment', 1]],
-  'agriculture':      [['Uganda/Wells', 2], ['Chad/Wells', 2], ['Chad/Agriculture', 2]],
-  'church':           [['Uganda/Churches/Dedication', 3], ['Uganda/Churches/Construction ', 2], ['Chad/Churches/Construction', 2]],
-  'radio':            [['South Sudan/Radio', 2], ['Uganda/Radio', 2]],
-  'trauma':           [['South Sudan/Trauma Counseling', 2], ['Chad/Trauma Counceling', 2]],
-  'bibles':           [['Uganda/Bibles', 2], ['Chad/Bibles', 1], ['South Sudan/Bibles', 1]],
-  'jesus-film':       [['Chad/Jesus Film', 2], ['Uganda/Jesus Film', 2]],
-  'missionaries':     [['Chad/Missionaries', 2], ['South Sudan/Missionaries', 2], ['Central Africa/Missionaries', 1]],
-  'carole':           [['Chad/Carole', 2], ['South Sudan/Carole_', 1]],
-  'terry':            [['South Sudan/Terry', 2], ['Uganda/Terry', 1]],
-  'youth':            [['South Sudan/Destiny Youth', 2], ['Chad/destiny youth ', 2]],
-  'villages':         [['Uganda/Villages', 3]],
-  'us-staff':         [['U.S./Staff', 2], ['U.S./Events', 2], ['U.S./Headquarters', 1]],
-  'vehicles':         [['Uganda/Vehicles/Motorcycles', 1], ['Chad/Vehicles/Van', 1]],
-  'sports':           [['Uganda/Sports', 1], ['Chad/Sports', 1]],
-  'prison':           [['Chad/prison ministry', 2]],
+  evangelism:       { n: 12, f: ['South Sudan/Evangelism ', 'Chad/Evangelism ', 'Cameroon/Evangelism', 'Nigeria/Evangelism', 'Central Africa/Evangelism', 'Niger/Evangelism'] },
+  crusade:          { n: 5,  f: ['Uganda/crusades', 'Uganda/Evangelism /Crusades_', 'South Sudan/Evangelism /Crusades ', 'Chad/Evangelism /Crusades_'] },
+  'street-outreach':{ n: 8,  f: ['South Sudan/Evangelism /Street Outreach', 'Uganda/Evangelism /Street Outreach', 'Chad/Evangelism /Street Outreach', 'Ethiopia/Street Evangelism'] },
+  baptism:          { n: 9,  f: ['South Sudan/Baptisms ', 'Cameroon/Baptisms', 'Central Africa/Baptism', 'Democratic Republic of Congo/Baptism ', 'Congo/baptism', 'Nigeria/Baptism', 'Uganda/Baptisms_'] },
+  prayer:           { n: 10, f: ['Chad/House of Prayer', 'Uganda/House of Prayer', 'South Sudan/House of Prayer', 'Nigeria/House of Prayer'] },
+  'prayer-gathering':{ n: 3, f: ['Chad/National Prayer Gathering', 'Chad/Prayer Gathering'] },
+  pbs:              { n: 12, f: ['Cameroon/PBS', 'Central Africa/PBS', 'Nigeria/PBS', 'Kenya/PBS', 'Ethiopia/PBS', 'Niger/PBS', 'South Sudan/Portable Bible School', 'Uganda/Portable Bible School', 'Democratic Republic of Congo/PBS'] },
+  education:        { n: 9,  f: ['Uganda/Education/Primary', 'Uganda/Education/Secondary (Highschool)', 'South Sudan/Education/Primary', 'Chad/Education/Secondary'] },
+  vlc:              { n: 5,  f: ['Uganda/VLC', 'Chad/VLC'] },
+  gift:             { n: 5,  f: ['Uganda/GIFT/Boys', 'South Sudan/GIFT/Girls', 'South Sudan/GIFT/Boys', 'Chad/GIFT/Girls', 'Chad/GIFT/Boys'] },
+  medical:          { n: 4,  f: ['South Sudan/Medical', 'Uganda/Medical'] },
+  women:            { n: 4,  f: ['Uganda/Women Empowerment', 'Chad/Women Empowerment', 'Cameroon/Women Empowerment', 'South Sudan/Women Empowerment'] },
+  agriculture:      { n: 4,  f: ['Chad/Agriculture', 'Uganda/Wells', 'Chad/Wells', 'Uganda/Agriculture_'] },
+  church:           { n: 6,  f: ['Uganda/Churches/Dedication', 'Uganda/Churches/Construction ', 'Chad/Churches/Construction', 'Chad/Churches/Dedication', 'Cameroon/Church', 'South Sudan/Churches'] },
+  radio:            { n: 4,  f: ['South Sudan/Radio', 'Uganda/Radio', 'Chad/Radio'] },
+  bibles:           { n: 5,  f: ['Uganda/Bibles', 'Chad/Bibles', 'South Sudan/Bibles'] },
+  'jesus-film':     { n: 3,  f: ['Chad/Jesus Film', 'Uganda/Jesus Film'] },
+  missionaries:     { n: 5,  f: ['Chad/Missionaries', 'South Sudan/Missionaries', 'Central Africa/Missionaries', 'Ethiopia/Field Missionaries'] },
+  carole:           { n: 4,  f: ['Chad/Carole', 'South Sudan/Carole_', 'Uganda/Carole_'] },
+  terry:            { n: 3,  f: ['South Sudan/Terry', 'Uganda/Terry'] },
+  villages:         { n: 4,  f: ['Uganda/Villages'] },
 };
 
 const manifest = [];
-let idx = 0;
-for (const [topic, sources] of Object.entries(PLAN)) {
-  let n = 0;
-  for (const [folder, count] of sources) {
-    for (const src of pick(folder, count)) {
-      const dest = path.join(OUT, `${topic}-${++n}.webp`);
+for (const [topic, { n, f }] of Object.entries(PLAN)) {
+  const cands = await candidates(f);
+  if (!cands.length) { console.warn('NO HI-RES for', topic); continue; }
+  let chosen = spread(cands, n);
+  const chosenSet = new Set(chosen.map(c => c.p));
+  const backups = cands.filter(c => !chosenSet.has(c.p)); // for replacing corrupt files
+  let i = 0, done = 0;
+  for (const c0 of chosen) {
+    let c = c0, ok = false;
+    for (let attempt = 0; attempt < 3 && !ok; attempt++) {
+      const dest = path.join(OUT, `${topic}-${i + 1}.webp`);
       try {
-        await sharp(src).rotate().resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
-          .webp({ quality: 80 }).toFile(dest);
-        manifest.push({ topic, file: `/images/field-2026/${path.basename(dest)}`, src: path.relative(MEDIA, src) });
-        idx++;
-      } catch (e) { console.warn('FAIL', src, e.message); }
+        await sharp(c.p).rotate().resize({ width: OUT_MAX, height: OUT_MAX, fit: 'inside', withoutEnlargement: true })
+          .webp({ quality: 82 }).toFile(dest);
+        ok = true; i++; done++;
+        manifest.push({ topic, file: `/images/field-2026/${topic}-${i}.webp`, srcLong: c.long });
+      } catch (e) {
+        if (backups.length) c = backups.shift(); else break;
+      }
     }
   }
+  console.log(`${topic}: ${done} hi-res (of ${cands.length} candidates)`);
 }
-fs.writeFileSync(path.join(OUT, '_manifest.json'), JSON.stringify(manifest, null, 1));
-console.log(`Processed ${idx} images into public/images/field-2026/`);
-const byTopic = {};
-manifest.forEach(m => (byTopic[m.topic] = (byTopic[m.topic] || 0) + 1));
-console.log('By topic:', JSON.stringify(byTopic));
+console.log(`Total: ${manifest.length} hi-res images.`);
