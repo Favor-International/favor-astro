@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import PostCard from '../../components/band/PostCard.astro';
 import OverlayCard from '../../components/global/OverlayCard.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
 
@@ -31,14 +32,17 @@ const deeper = [
     imageAlt="PBS graduates with certificates"
   />
 
-  <section class="band band--cream">
-    <div class="container impact-intro">
-      <p class="label">What we do</p>
-      <h2>A non-denominational missionary movement.</h2>
-      <p>Founded in northern Uganda and also operating in neighboring South Sudan, Favor International serves and trains war-torn victims into purpose-driven Christian missionaries, equipped to advance the Gospel in villages and mobilized to advance the Kingdom in nations.</p>
-      <p>Prayer is the fuel and engine of everything Favor does. We started as a prayer movement. Today we start with prayer, we go with prayer, and we end with prayer. From that foundation, the work flows through four departments: evangelism and discipleship, education, community development, and economic empowerment.</p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/field-2026/evangelism-10.webp"
+    imageAlt="Indigenous missionaries evangelizing in the field"
+    eyebrow="What we do"
+    heading="A non-denominational missionary movement."
+    layout="image-left"
+    background="cream"
+  >
+    <p>Founded in northern Uganda and also operating in neighboring South Sudan, Favor International serves and trains war-torn victims into purpose-driven Christian missionaries, equipped to advance the Gospel in villages and mobilized to advance the Kingdom in nations.</p>
+    <p>Prayer is the fuel and engine of everything Favor does. We started as a prayer movement. Today we start with prayer, we go with prayer, and we end with prayer. From that foundation, the work flows through four departments: evangelism and discipleship, education, community development, and economic empowerment.</p>
+  </FeatureRow>
 
   <section class="band band--white">
     <div class="container impact-head">

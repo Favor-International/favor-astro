@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
@@ -47,16 +48,17 @@ const programs = [
     </div>
   </section>
 
-  <section class="band band--white">
-    <div class="container cd-intro">
-      <header class="cd-head">
-        <p class="label">Transforming communities</p>
-        <h2>The whole community, transformed.</h2>
-      </header>
-      <p>Favor's community development model has been informed by almost 20 years of work and recognizes the church as the hub of the community and the Word of God as center of sustainable, ongoing community development. Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. Community development starts with nothing less than transformed lives surrendered to Jesus and then extends to holistic transformation of the entire community.</p>
-      <p>We could comfort those in emotional pain. We could bandage every wound. We could build beautiful buildings. We could even pass out thousands of Bibles, but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do. Our foremost mission is guiding hearts to Jesus, but we also recognize that without a demonstration of God's love in meeting people where they are at emotionally, physically, and spiritually, as Jesus did, the former won't happen.</p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/field-2026/church-3.webp"
+    imageAlt="A church dedication in the field"
+    eyebrow="Transforming communities"
+    heading="The whole community, transformed."
+    layout="image-left"
+    background="white"
+  >
+    <p>Favor's community development model has been informed by almost 20 years of work and recognizes the church as the hub of the community and the Word of God as center of sustainable, ongoing community development. Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. Community development starts with nothing less than transformed lives surrendered to Jesus and then extends to holistic transformation of the entire community.</p>
+    <p>We could comfort those in emotional pain. We could bandage every wound. We could build beautiful buildings. We could even pass out thousands of Bibles, but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do. Our foremost mission is guiding hearts to Jesus, but we also recognize that without a demonstration of God's love in meeting people where they are at emotionally, physically, and spiritually, as Jesus did, the former won't happen.</p>
+  </FeatureRow>
 
   <section class="band band--cream">
     <div class="container">

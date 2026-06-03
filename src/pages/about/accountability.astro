@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE, IMPACT_STATS } from '../../lib/site';
 
@@ -52,16 +53,19 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     imageAlt="Stacks of Bibles ready for field distribution"
   />
 
-  <section class="band band--cream">
-    <div class="container steward">
-      <p class="label">Financials</p>
-      <blockquote class="steward__verse">
-        "Moreover it is required in stewards that one be found faithful."
-        <cite>1 Corinthians 4:2, NKJV</cite>
-      </blockquote>
-      <p class="steward__body">We strive to be faithful stewards of the gifts entrusted to us. Scriptural standards are the means by which we make ourselves accountable to you, those we serve, and most of all to God. We are committed to wise stewardship and to efficiently making the greatest impact while advancing the kingdom of God. We focus on transformational change and self-sustenance that have a multiplying and long lasting effect. As you partner, we as the steward of your donation stand committed to bear much fruit because of your sacred trust. We have a responsibility to maintain integrity and transparency in our financial practice. If you have any questions regarding our finances, please email <a href="mailto:accounting@favourafrica.org">accounting@favourafrica.org</a>.</p>
-    </div>
-  </section>
+  <FeatureRow
+    image="/images/field-2026/prayer-6.webp"
+    imageAlt="A Favor prayer gathering in the field"
+    eyebrow="Financials"
+    layout="image-right"
+    background="cream"
+  >
+    <blockquote class="steward__verse">
+      "Moreover it is required in stewards that one be found faithful."
+      <cite>1 Corinthians 4:2, NKJV</cite>
+    </blockquote>
+    <p class="steward__body">We strive to be faithful stewards of the gifts entrusted to us. Scriptural standards are the means by which we make ourselves accountable to you, those we serve, and most of all to God. We are committed to wise stewardship and to efficiently making the greatest impact while advancing the kingdom of God. We focus on transformational change and self-sustenance that have a multiplying and long lasting effect. As you partner, we as the steward of your donation stand committed to bear much fruit because of your sacred trust. We have a responsibility to maintain integrity and transparency in our financial practice. If you have any questions regarding our finances, please email <a href="mailto:accounting@favourafrica.org">accounting@favourafrica.org</a>.</p>
+  </FeatureRow>
 
   <section class="band band--white">
     <div class="container acct-head">
