@@ -52,6 +52,17 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     imageAlt="Stacks of Bibles ready for field distribution"
   />
 
+  <section class="band band--cream">
+    <div class="container steward">
+      <p class="label">Financials</p>
+      <blockquote class="steward__verse">
+        "Moreover it is required in stewards that one be found faithful."
+        <cite>1 Corinthians 4:2, NKJV</cite>
+      </blockquote>
+      <p class="steward__body">We strive to be faithful stewards of the gifts entrusted to us. Scriptural standards are the means by which we make ourselves accountable to you, those we serve, and most of all to God. We are committed to wise stewardship and to efficiently making the greatest impact while advancing the kingdom of God. We focus on transformational change and self-sustenance that have a multiplying and long lasting effect. As you partner, we as the steward of your donation stand committed to bear much fruit because of your sacred trust. We have a responsibility to maintain integrity and transparency in our financial practice. If you have any questions regarding our finances, please email <a href="mailto:accounting@favourafrica.org">accounting@favourafrica.org</a>.</p>
+    </div>
+  </section>
+
   <section class="band band--white">
     <div class="container acct-head">
       <p class="label">Audited financials</p>
@@ -87,6 +98,34 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     <p>No anonymous outcomes. Every story we publish has a real name, a real place, and a real outcome.</p>
   </OverlayFeature>
 
+  <section class="band band--cream">
+    <div class="container exp">
+      <p class="label">Expenses accountability</p>
+      <h2>Where 2024 went.</h2>
+      <div class="exp-grid">
+        <div class="exp-item exp-item--program">
+          <span class="exp-pct">89.3%</span>
+          <span class="exp-amt">$6,671,668</span>
+          <span class="exp-cat">Program</span>
+        </div>
+        <div class="exp-item">
+          <span class="exp-pct">6.2%</span>
+          <span class="exp-amt">$464,178</span>
+          <span class="exp-cat">General</span>
+        </div>
+        <div class="exp-item">
+          <span class="exp-pct">4.5%</span>
+          <span class="exp-amt">$341,235</span>
+          <span class="exp-cat">Fundraising</span>
+        </div>
+      </div>
+      <div class="exp-gme">
+        <p>We take great pride in our financial efficiency, maximizing every dollar we receive. We use the great multiplier effect (GME) to get the best outcome.</p>
+        <p>The GME is our way of developing, training, and empowering indigenous faith leaders. These leaders in turn transform their villages and communities. There is no limit to what they can do.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="band band--white">
     <div class="container">
       <p class="label">Reports</p>
@@ -112,6 +151,15 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
         ))}
       </div>
       <p class="acct-ein">EIN {SITE.ein} &middot; 501(c)(3) public charity &middot; ECFA-accredited since September 30, 2019.</p>
+    </div>
+  </section>
+
+  <section class="band band--green acct-quote-band">
+    <div class="container">
+      <blockquote class="acct-quote">
+        "God will not be mocked. Those who sow the Kingdom will reap the Kingdom."
+        <cite>Carole Ward</cite>
+      </blockquote>
     </div>
   </section>
 
@@ -145,4 +193,28 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   .doc-card:hover { border-color: var(--color-gold); transform: translateY(-2px); background: var(--color-white); }
   .doc-card__icon { flex: 0 0 auto; color: var(--color-gold-deep); }
   .acct-ein { margin-top: var(--space-8); font-size: 0.85rem; color: var(--color-sage); }
+
+  /* Stewardship intro (verbatim from live: 1 Cor 4:2 + finance statement) */
+  .steward { max-width: 820px; margin-left: auto; margin-right: auto; text-align: center; }
+  .steward__verse { margin: var(--space-4) 0 var(--space-8); border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: clamp(1.3rem, 3vw, 1.9rem); line-height: 1.4; color: var(--color-green-deep); }
+  .steward__verse cite { display: block; margin-top: var(--space-4); font-style: normal; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .steward__body { margin: 0 auto; max-width: 70ch; color: var(--color-ink-soft); line-height: 1.8; }
+  .steward__body a { color: var(--color-green-deep); font-weight: 600; }
+
+  /* 2024 Expenses breakdown + GME (verbatim figures from live) */
+  .exp { text-align: center; }
+  .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-top: var(--space-10); }
+  @media (max-width: 640px) { .exp-grid { grid-template-columns: 1fr; gap: var(--space-4); } }
+  .exp-item { padding: var(--space-8) var(--space-4); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card); }
+  .exp-item--program { border-color: var(--color-gold); box-shadow: 0 2px 14px color-mix(in srgb, var(--color-gold) 22%, transparent); }
+  .exp-pct { display: block; font-family: var(--font-sans); font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; color: var(--color-green-deep); }
+  .exp-amt { display: block; margin-top: var(--space-4); font-weight: 700; color: var(--color-ink); }
+  .exp-cat { display: block; margin-top: var(--space-2); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .exp-gme { max-width: 70ch; margin: var(--space-10) auto 0; color: var(--color-ink-soft); line-height: 1.8; }
+  .exp-gme p { margin: 0 0 var(--space-4); }
+
+  /* Carole Ward pull-quote */
+  .acct-quote-band { text-align: center; }
+  .acct-quote { margin: 0 auto; max-width: 800px; border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: clamp(1.4rem, 3.4vw, 2.2rem); line-height: 1.4; color: var(--color-white); }
+  .acct-quote cite { display: block; margin-top: var(--space-5); font-style: normal; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-light); }
 </style>

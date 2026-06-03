@@ -106,6 +106,10 @@ import { SITE } from '../../lib/site';
     </div>
   </div>
 
+  <div class="container site-footer__legal">
+    <p>A copy of the official registration and financial information for Favor International, Inc. (CH57842) may be obtained from the Florida Division of Consumer Services by visiting fdacs.gov or calling toll-free 1-800-HELP-FLA (1-800-435-7352) within the state. Registration does not imply endorsement, approval, or recommendation by the State.</p>
+  </div>
+
   <div class="container site-footer__bottom">
     <p>{SITE.tagline}</p>
     <p>&copy; {new Date().getFullYear()} {SITE.name}. All rights reserved. · <a href="/legal/privacy/">Privacy</a> · <a href="/legal/terms/">Terms</a></p>
@@ -213,6 +217,14 @@ import { SITE } from '../../lib/site';
   }
   .site-footer__social a svg { display: block; }
   .site-footer__social a:hover { background: var(--color-gold); color: var(--color-green-deep); border-color: var(--color-gold); }
+
+  .site-footer__legal {
+    padding-top: var(--space-6);
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-white) 55%, transparent);
+  }
+  .site-footer__legal p { margin: 0; }
 
   .site-footer__bottom {
     padding-top: var(--space-6);
