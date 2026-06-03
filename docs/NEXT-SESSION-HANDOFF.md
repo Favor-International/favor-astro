@@ -85,10 +85,18 @@ community-development,economic-empowerment}`.
   Wedweil), the Gospel-economy line, and the impact-hub mission intro. The four **"official taglines"
   were a WebFetch fabrication** (on no live page) — NOT added. Commit 9b3aee8. **Still flag for Favor:**
   GIFT identity (our "Leadership Institute" vs live "God's Institute For Transformation children's homes").
-- **[TODO] Stories:** build the missing **Media/Video hub** (YouTube Videos + Speaking Engagements
-  playlists, Favour FM listen-now, "The Carole Ward Story" book); consider restoring finer tag filters;
-  expand the 9 single-paragraph stub stories (list in the audit) from their live sources.
-- **[TODO] Country Director** posting (`go/volunteer.astro`): add the full live job posting detail.
+- **[DONE 2026-06-02] Stories / Media hub:** added Favour FM listen-now, Speaking Engagements playlist,
+  YouTube channel, and the "Carole Ward Story" book to `watch.astro`. Commit 4da8522. **The "9 stub
+  stories" need NO expansion** — their live sources are equally short (verified taposa + emmy match
+  verbatim); expanding would be inventing. Optional/low-ROI: per-story multi-tags (live has ~3-6 tags
+  per story vs our single category) — large scrape, not done.
+- **[DONE 2026-06-02] Country Director** posting (`go/volunteer.astro`): full live posting ported
+  verbatim (7 responsibility groups, qualifications, etc.). Commit f7aae3a.
+
+**ALL Tier-3 additive ports are now complete.** What remains is verify-with-Favor items (Section 7) and
+the launch blockers (Section 6: Blackbaud donation URLs, newsletter backend, 30-day prayer PDF), plus the
+open flags: GIFT identity, the volunteer "4 roles" (likely invented), the "inclusivity" word in the CD
+posting, the real book-request form, and the Tier-2 data-confirmation list.
 
 ## 6. Broken / functional (fixes OK — these aren't "Will's data")
 

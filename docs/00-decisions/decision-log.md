@@ -8,6 +8,31 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-02 — Stories / Media hub (#5): media added; "9 stubs" debunked
+
+**Media hub (DONE):** Added the missing live Media-hub pieces to `watch.astro`
+(already had the video library): Favour FM "Listen now" (zeno.fm/radio/favour-fm),
+the Speaking Engagements playlist + YouTube channel links, and "The Carole Ward
+Story" free-book card. Book request routed to contact (the live "REQUEST COPY" is a
+JS modal; confirm the real form with Favor). Commit 4da8522.
+**The "9 stub stories" are NOT expandable (do not chase):** gap-analysis-v2 #16
+said to "expand the 9 single-paragraph stub stories from their live sources." I
+captured the live pages and they are **equally short** — our stored text is already
+the complete live article, verbatim. Verified 2 of 9 against live:
+`the-taposa-tribe` (2023) and `emmy-from-orphan-to-leader` (2020) both match the
+live `/testimonies-updates/transformation-stories/<slug>` pages word-for-word.
+These are short news-style testimonies by design. Expanding them would require
+INVENTING content, which violates the core rule, so they were left as-is.
+**Optional future (low ROI, flagged):** live stories carry multiple per-story tags
+(e.g., Taposa = South Sudan / New Believers / Salvation / Noteworthy News /
+Community Transformation / Rural Communities); our JSON collapses each to one
+`category`. Restoring full tag granularity for 115 stories is a large scrape with
+marginal benefit; the 6-category filter is a reasonable simplification. Not done.
+**Consequences:** #5 actionable scope complete. Verified: build clean (160 pages),
+media-hub DOM checks pass. The story stubs need no work.
+
+---
+
 ## 2026-06-02 — Country Director: full posting ported verbatim
 
 **Decision:** Expanded the one-line Country Director mention on `go/volunteer.astro`
