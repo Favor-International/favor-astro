@@ -65,23 +65,30 @@ These are real live-site items genuinely MISSING from the new site. Add them ver
 exact wording from favorintl.org first — `WebFetch` returns PARAPHRASE, so use the Chrome MCP
 (`mcp__claude-in-chrome__*`) or have Daniel paste the real copy. Never present paraphrase as verbatim.**
 
-- **Statement of Faith** (`about/statement-of-faith.astro`): add the **missing 14th article**
-  (sin/justification) and any missing verbatim lines/scripture refs. Leave the existing wording unless
-  Daniel asks to restore verbatim.
-- **Accountability** (`about/accountability.astro`): add the verbatim 2024 expense lines, the **"Great
-  Multiplier Effect (GME)"** section, the stewardship verse (1 Cor 4:2 NKJV), **FL Reg. CH57842**, the
-  finance email `accounting@favourafrica.org`, the **5-year plan** download, the **"6 R's"** framework.
-- **Give methods** (`give/non-cash.astro`, `give/legacy.astro`, `give/one-time.astro`): add the real
-  **"Give By Stock"** and **"Give A Legacy" (Legacy Circle)** PDF forms, the **"designate/honor/dedicate
-  a gift"** option, and the **Florida solicitation disclosure** (CH57842 / FDACS 1-800-435-7352).
-- **Impact pillars:** add the four official **taglines** ("Mobilization of heaven's agenda," "Next
-  generation leadership," "Holistic transformation by the Word," "Independence built on freedom in
-  Christ"), **"Bibles instead of bullets,"** mobile medical clinics, named churches (Pabo Calvary
-  Chapel, Wedweil). Confirm GIFT = "God's Institute for Transformation" wording with Favor.
-- **Stories:** build the missing **Media/Video hub** (YouTube Videos + Speaking Engagements playlists,
-  Favour FM listen-now, "The Carole Ward Story" book); consider restoring finer tag filters; expand the
-  9 single-paragraph stub stories (list in the audit) from their live sources.
-- **Country Director** posting (`go/volunteer.astro`): add the full live job posting detail.
+**Live Webflow slugs (differ from new-site routes):** Accountability =
+`/about/ecfa-accountability`; Statement of Faith = `/about/statement-of-faith`; donate methods =
+`/connect-support/donate-now`; pillars = `/what-we-do`, `/what-we-do/{evangelism-discipleship,education,
+community-development,economic-empowerment}`.
+
+- **[DONE 2026-06-02]** **Statement of Faith** (`about/statement-of-faith.astro`): full verbatim restore
+  of all 14 articles; removed the invented Nicene/Lausanne creed block. Commit 26ed2c6.
+- **[DONE 2026-06-02]** **Accountability** (`about/accountability.astro`): added stewardship statement +
+  1 Cor 4:2 NKJV, 2024 expense breakdown, GME, Carole Ward quote, finance email; FL disclosure added to
+  the global footer. Commit e7403be. NOTE: the **"5-year plan"** and **"6 R's"** were NOT real (the
+  former is a Blackbaud donate-form redirect marked "drop"; the latter is a WebFetch artifact) — do not chase.
+- **[DONE 2026-06-02]** **Give methods**: added the real Give By Stock + Give A Legacy (Legacy Circle)
+  PDFs, the designate/honor/dedicate option; fixed CashApp `$FavorIntl`→`$FavorInternational`; stripped
+  invented crypto mechanics + "legacy gathering." TrustBridge/DAFpay KEPT (in instructions + live homepage).
+  Commit a8afdfc.
+- **[DONE 2026-06-02]** **Impact pillars:** added "Bibles instead of bullets," the community-development
+  model + philosophy, "we pray with each patient," mobile clinics, named churches (Pabo Calvary Chapel,
+  Wedweil), the Gospel-economy line, and the impact-hub mission intro. The four **"official taglines"
+  were a WebFetch fabrication** (on no live page) — NOT added. Commit 9b3aee8. **Still flag for Favor:**
+  GIFT identity (our "Leadership Institute" vs live "God's Institute For Transformation children's homes").
+- **[TODO] Stories:** build the missing **Media/Video hub** (YouTube Videos + Speaking Engagements
+  playlists, Favour FM listen-now, "The Carole Ward Story" book); consider restoring finer tag filters;
+  expand the 9 single-paragraph stub stories (list in the audit) from their live sources.
+- **[TODO] Country Director** posting (`go/volunteer.astro`): add the full live job posting detail.
 
 ## 6. Broken / functional (fixes OK — these aren't "Will's data")
 
