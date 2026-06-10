@@ -8,6 +8,41 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-09 — Will/Daniel feedback round 2 (late-night batch)
+
+**Shipped:**
+1. **Joy Daniels removed from the site** (team page, directors.json, generated
+   profile page). Per Daniel: she is no longer with Favor. Team grid now 3-up.
+2. **Mega-menu "flagship" fixed.** The Impact tab claimed "The flagship program —
+   GIFT Leadership Institute" (invented framing; live GIFT = God's Institute For
+   Transformation children's homes). Replaced with a live-grounded Portable Bible
+   Schools card. NOTE: the E&D page's "GIFT Leadership Institute" program card is
+   STILL flagged for Favor to confirm; not changed.
+3. **H1 typography unified.** Internal-page H1s now match the homepage hero
+   (Playfair Display 700, tight leading) instead of Montserrat 800.
+4. **African pattern divider** now opt-in on PageHero (default OFF) per Will:
+   kept only on /stories, story posts, /watch; homepage untouched.
+5. **Statement of Faith redesigned**: single quiet column, neutral 1px hairlines,
+   muted serif numerals; no more gold-bordered card grid.
+6. **"Pillar N of 4" hero labels** replaced with "What we do" (Daniel: pillar
+   jargon "doesn't make sense" to visitors).
+
+**Accountability numbers VERIFIED for Will (all sourced, nothing invented):**
+- $8.36M FY2024 revenue = ECFA member profile exactly $8,360,676 ✓
+- ECFA total expenses $7,477,081 = EXACT sum of the live site's three expense
+  lines ($6,671,668 + $464,178 + $341,235) ✓ → 89% program ratio ✓
+- ECFA-accredited September 30, 2019 ✓ (ECFA profile)
+- Charity Navigator 4/4 stars, 94 score, FY2024 ✓ (charitynavigator.org/ein/475225697)
+- The 2024 expense band on /about/accountability/ is verbatim from
+  favorintl.org/about/ecfa-accountability (captured 2026-06-02).
+
+**Also:** Daniel supplied a UI-principles doc (3 video transcripts); distilled to
+memory (feedback_ui-design-principles): hierarchy via size/weight/lightness,
+neutral layered color, no loud borders, whitespace, interaction states. Apply to
+all future design work on this site.
+
+---
+
 ## 2026-06-02 — Image de-dup + section images DONE (local Media library, no Drive)
 
 **Resolved the image blocker.** The Drive connector couldn't read the Favor photos,
