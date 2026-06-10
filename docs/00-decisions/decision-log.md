@@ -8,6 +8,32 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-10 (night) — Wave dividers, smooth blurs, intl/foundation rebuilds
+
+**Hero wave dividers replace the blur fade** (Daniel rejected the blur look and
+described a Canva-style wave): every PageHero photo now finishes in a soft SVG
+wave; 3 path variants chosen deterministically from the page title so angles
+vary; `waveColor` matches the first band below (cream-first pages audited and
+wired); pattern-divider pages (stories/watch) skip the wave.
+**Blur smoothing:** field-tile and OverlayCard caption frosting moved to
+multi-stop progressive masks (no hard edge); the first version's blocky bar was
+the complaint.
+**More scaffold inventions removed (same 80356b4 pattern):** foundation page's
+"Due diligence on day one" cards promised an FY2025 audit in Q3, grant-officer
+site visits with two-week lead times, and quarterly restricted-gift reporting —
+all invented. Rebuilt with six verifiable facts (audits, 990s, ECFA since
+9/30/2019, CN 4-star + Candid Platinum, IRS letter PDF, DAF routes) and the new
+title "Everything your board needs to say yes."
+**International Giving rebuilt:** flags, centered cards, intro band, and the
+REAL TrustBridge portal donate URL captured from the live site
+(portal.trustbridgeglobal.com/public/donate?id=aa3417c3...). No globe/world hero
+image exists in the Media library; kept a field photo (flagged to Daniel).
+**Nations Prayer Guide continuation teaser:** Day 13/14 fade, ghost Day 15/16
+skeleton rows (deliberately NO fabricated prayer text), "The guide continues,
+day by day", print CTA. Conveys continuation without inventing content.
+
+---
+
 ## 2026-06-10 (evening) — Harmony overhaul P1-P5 (Daniel-approved A-D, applied site-wide)
 
 **P1 Harmony system:** hero photos now melt into the page (progressive blur+wash
