@@ -8,6 +8,30 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-10 (day) — FUNCTIONAL DONATIONS unblocked + archive + founder + UI fixes
+
+**Donations are LIVE.** Discovered the live site embeds its donation form
+client-side: `BBDonorFormLoader.newBlackbaudDonationFormZoned('renxt',
+'p-5_k5FlbubEyEQnUJw7C9Rw', '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b', 'usa')`
+(loader: sky.blackbaudcdn.net/static/donor-form-loader/2/main.js). Built
+`/give/donate/` with the SAME embed; verified the production donor-form iframe
+renders. This resolves the "BLOCKED, needs Blackbaud URLs" launch blocker.
+All give CTAs point there; DonationBlock presets are interactive (pressed
+states, fill the amount). Their PayPal variant form: c2cfae15-d047-481b-a548-
+95e3c3fc60fb. Their bbox EMAIL-SIGNUP form (for the dead newsletter form fix):
+2446db74-94fe-4197-8a40-03b10341c4e2 (bbox-2.0-min.js loader). NOTE: first
+attempt embedded the signup form thinking it was the donation form; caught it
+when the rendered widget said "Sign up". Verify what renders, not what a
+script name implies.
+**Newsletter archive** at /newsletter/archive/: 98 issues (2024-2026) with real
+titles/dates/links scraped from the live past-newsletters page.
+**Founder page:** new hero (Carole preaching, carole-5), the 3 live YouTube
+talks embedded (5oUghxzqGXU, Y5pWE0AX97M, g2fB1RwyHNM) with live titles, book card.
+**UI fixes:** SoF texture removed + padding; volunteer trips/CD spacing; give-hub
+chips centered. Alignment audit re-run: only card-internal H3s left-align (correct).
+
+---
+
 ## 2026-06-10 — Parts A+B: 13 program sub-pages + content expansion (overnight, Daniel-approved)
 
 **Part A — all 13 live program sub-pages built** at /impact/<pillar>/<program>/,
