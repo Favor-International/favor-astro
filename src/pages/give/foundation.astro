@@ -1,73 +1,113 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
+
+// Rebuilt 2026-06-10. The previous "Due diligence on day one" cards carried
+// scaffold-INVENTED promises (FY2025 audit timing, site-visit lead times,
+// quarterly restricted-gift reporting). Removed. Everything below is real and
+// verifiable: the documents live on /about/accountability/ and the public
+// profiles, and the figures match ECFA's filed numbers.
+const IRS_LETTER = 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/65562b9562e1a1a1d733b585_IRS%20determination%20letter%20updated%20address.pdf';
+
+const facts = [
+  { icon: '📊', title: 'Audited financials', body: 'Independently audited every year. Five years of audited statements, published in full.', cta: 'See the financials', href: '/about/accountability/' },
+  { icon: '🗂️', title: 'IRS Form 990s', body: 'Five years of public 990s, filed and published. EIN ' + '47-5225697' + '.', cta: 'View the 990s', href: '/about/accountability/' },
+  { icon: '✓', title: 'ECFA-accredited', body: 'Accredited by the Evangelical Council for Financial Accountability since September 30, 2019.', cta: 'ECFA profile', href: 'https://www.ecfa.org/MemberProfile.aspx?ID=50004' },
+  { icon: '★', title: 'Independently rated', body: 'Charity Navigator Four-Star (94, FY2024) and Candid Platinum Transparency.', cta: 'Charity Navigator', href: 'https://www.charitynavigator.org/ein/475225697' },
+  { icon: '🏛️', title: '501(c)(3) determination', body: 'IRS determination letter available for your files.', cta: 'Download the letter', href: IRS_LETTER },
+  { icon: '↗', title: 'DAF-ready', body: 'Donor-advised fund routing through TrustBridge and DAF Direct.', cta: 'International & DAF routes', href: '/give/international/' },
+];
 ---
 <PageLayout
   title="Foundation Giving"
-  description="Foundation, donor-advised fund, and grant-maker inquiries. Due-diligence-ready financials and program reports."
+  description="Foundation, donor-advised fund, and grant-maker inquiries. Audited financials, public 990s, ECFA accreditation, and direct access to the Favor International team."
 >
   <PageHero
-    label="For foundations and DAFs"
-    title="Due-diligence-ready. Field-result-ready."
-    promise="ECFA accreditation, audited financials, and program-restricted reporting. We will send the package the next business day."
+    label="For foundations and grant-makers"
+    title="Everything your board needs to say yes."
+    promise="Audited financials, public 990s, ECFA accreditation, and a team that answers directly."
     image="/images/field-2026/pbs-3.webp"
     imageAlt="PBS graduation in South Sudan"
     ctaLabel="Request the foundation packet"
     ctaHref="/about/contact/?topic=foundation"
-    variant="split"
   />
 
   <section class="band band--white">
-    <div class="container">
-      <header class="fnd-head">
-        <p class="label">What you can expect</p>
-        <h2>Due diligence on day one.</h2>
-      </header>
-      <div class="acard-grid">
-        <article class="acard has-texture"><h3>Audited financials</h3><p>FY2022, FY2023, FY2024. FY2025 audit available in Q3.</p></article>
-        <article class="acard has-texture"><h3>IRS Form 990</h3><p>Most recent three years. Public on Candid.</p></article>
-        <article class="acard has-texture"><h3>Program restriction options</h3><p>All four pillars and individual projects accept restricted gifts with quarterly reporting.</p></article>
-        <article class="acard has-texture"><h3>ECFA accreditation</h3><p>Current and continuous.</p></article>
-        <article class="acard has-texture"><h3>DAFpay and TrustBridge</h3><p>Both are wired up for DAF and donor-advised fund routing.</p></article>
-        <article class="acard has-texture"><h3>Site visits</h3><p>Field site visits available for grant officers. Two-week scheduling lead time.</p></article>
-      </div>
+    <div class="container container--narrow fnd-intro">
+      <p class="label">Grant-maker basics</p>
+      <h2>The record is public. The team is reachable.</h2>
+      <p>Favor International is a 501(c)(3) public charity (EIN {SITE.ein}), ECFA-accredited, and independently audited every year. The documents your due-diligence process needs are already published, and the executive team answers grant-maker questions directly.</p>
     </div>
   </section>
 
   <section class="band band--cream">
-    <div class="container container--narrow">
+    <div class="container">
       <header class="band__header">
-        <p class="label">Contact</p>
-        <h2>Talk to the team.</h2>
+        <p class="label">On the record</p>
+        <h2>Six things you can verify today.</h2>
       </header>
-      <p>Foundation officers, family-office staff, DAF advisors. Email the executive team directly. We will respond within one business day with the packet you need.</p>
-      <p><strong>{SITE.emailGeneral}</strong> · {SITE.phone}</p>
-      <p>EIN {SITE.ein} · 501(c)(3) public charity · ECFA member ID 50004.</p>
+      <div class="fnd-grid">
+        {facts.map((f) => (
+          <a class="fnd-card" href={f.href} target={f.href.startsWith('http') ? '_blank' : undefined} rel={f.href.startsWith('http') ? 'noopener' : undefined}>
+            <span class="fnd-card__icon" aria-hidden="true">{f.icon}</span>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+            <span class="fnd-card__cta">{f.cta} &rarr;</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
+  <FeatureRow
+    image="/images/field-2026/vlc-5.webp"
+    imageAlt="Children at a Favor Village Learning Center"
+    eyebrow="What grants fund"
+    heading="Programs run by the people who live there."
+    layout="image-right"
+    background="white"
+  >
+    <p>Every Favor program on the field is run by indigenous leaders: Portable Bible Schools, GIFT children&rsquo;s homes, primary and secondary schools, medical care, trauma counseling, and women&rsquo;s empowerment across the nations Favor serves.</p>
+    <p>Foundation officers, family-office staff, and DAF advisors can email the executive team directly at <strong>{SITE.emailGeneral}</strong> or call {SITE.phone}. We will respond with the packet you need.</p>
+  </FeatureRow>
+
   <CtaBand
-    heading="Already routing a DAF gift?"
-    body="DAFpay and TrustBridge are wired up. Use them or send a direct check; we will receipt within 48 hours."
-    ctaLabel="Email for routing instructions"
-    ctaHref={`mailto:${SITE.emailGeneral}?subject=DAF gift routing`}
+    heading="Start the conversation."
+    body="Tell us what your board needs to see. We will send the foundation packet and answer directly."
+    ctaLabel="Email the executive team"
+    ctaHref={`mailto:${SITE.emailGeneral}?subject=Foundation inquiry`}
     image="/images/field-2026/pbs-4.webp"
     imageAlt="A PBS graduation cohort in South Sudan"
-    variant="sage"
+    variant="green"
   />
 </PageLayout>
 
 <style>
-  .fnd-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
-  .acard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 860px) { .acard-grid { grid-template-columns: 1fr; } }
-  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
-  .acard h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
-  .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
-  .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .acard:nth-child(4n+4) { --accent: var(--color-sage); }
+  .fnd-intro { text-align: center; }
+  .fnd-intro p:last-child { margin: var(--space-5) auto 0; color: var(--color-ink-soft); line-height: 1.8; max-width: 66ch; }
+
+  .fnd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  @media (max-width: 980px) { .fnd-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .fnd-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; } }
+  .fnd-card {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-2);
+    background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+    padding: var(--space-8) var(--space-6);
+    text-decoration: none; color: inherit; box-shadow: var(--shadow-soft);
+    transition: transform 180ms, box-shadow 180ms, border-color 180ms;
+  }
+  .fnd-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.14); border-color: var(--color-gold); }
+  .fnd-card__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 14px; font-size: 1.4rem;
+    background: color-mix(in srgb, var(--color-gold) 14%, var(--color-white));
+    color: var(--color-gold-deep);
+  }
+  .fnd-card h3 { margin: var(--space-2) 0 0; font-size: 1.1rem; color: var(--color-green); }
+  .fnd-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; font-size: 0.95rem; }
+  .fnd-card__cta { margin-top: var(--space-2); color: var(--color-gold-deep); font-weight: 700; font-size: 0.88rem; }
+  .fnd-card:hover .fnd-card__cta { color: var(--color-green); }
 </style>

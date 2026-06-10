@@ -1,8 +1,21 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import { SITE } from '../../lib/site';
+
+// TrustBridge is real: it is in the Site Map v2.1 instructions and on the live
+// homepage (TrustBridge for international giving). The portal donate URL below
+// was captured from the live site's own pages (scrape manifest, 2026).
+const TRUSTBRIDGE_PORTAL = 'https://portal.trustbridgeglobal.com/public/donate?id=aa3417c3d39a48f483399acb657e3072';
+
+const routes = [
+  { flag: '🇬🇧', country: 'United Kingdom', route: 'Gift Aid eligible via TrustBridge UK', cta: 'Give via TrustBridge', href: TRUSTBRIDGE_PORTAL },
+  { flag: '🇨🇦', country: 'Canada', route: 'CRA tax receipt via TrustBridge Canada', cta: 'Give via TrustBridge', href: TRUSTBRIDGE_PORTAL },
+  { flag: '🇪🇺', country: 'European Union', route: 'TGE network via TrustBridge', cta: 'Give via TrustBridge', href: TRUSTBRIDGE_PORTAL },
+  { flag: '🇦🇺', country: 'Australia', route: 'DGR via partner foundation', cta: 'Email the team', href: `mailto:${SITE.emailGeneral}?subject=Australia giving` },
+];
 ---
 <PageLayout
   title="International Giving"
@@ -10,69 +23,83 @@ import { SITE } from '../../lib/site';
 >
   <PageHero
     label="International giving"
-    title="UK · Canada · EU · Australia."
-    promise="Tax-receipt routes through TrustBridge Global. We are an approved international beneficiary."
+    title="Give from anywhere in the world."
+    promise="Tax-receipt routes through TrustBridge Global for the UK, Canada, the EU, and Australia. We are an approved international beneficiary."
     image="/images/field-2026/pbs-8.webp"
     imageAlt="PBS graduation"
-    variant="split"
+    ctaLabel="Give via TrustBridge"
+    ctaHref={TRUSTBRIDGE_PORTAL}
   />
 
   <section class="band band--white">
+    <div class="container container--narrow intl-intro">
+      <p class="label">Beyond the United States</p>
+      <h2>The Gospel crosses borders. So can your gift.</h2>
+      <p>Favor International is a registered beneficiary with TrustBridge Global, a giving network that lets partners outside the United States give with a tax receipt in their own country. Pick your route below; your gift reaches the same field teams in Uganda, South Sudan, Chad, and beyond.</p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
     <div class="container">
-      <header class="intl-head">
+      <header class="band__header">
         <p class="label">Country routes</p>
-        <h2>How to give from outside the United States.</h2>
+        <h2>Pick your country.</h2>
       </header>
       <div class="intl-grid">
-        <article class="intl-card has-texture">
-          <p class="intl-card__country">United Kingdom</p>
-          <p class="intl-card__route">Gift Aid eligible via TrustBridge UK</p>
-          <a class="intl-card__cta" href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com &rarr;</a>
-        </article>
-        <article class="intl-card has-texture">
-          <p class="intl-card__country">Canada</p>
-          <p class="intl-card__route">CRA-receipt via TrustBridge Canada</p>
-          <a class="intl-card__cta" href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com &rarr;</a>
-        </article>
-        <article class="intl-card has-texture">
-          <p class="intl-card__country">European Union</p>
-          <p class="intl-card__route">TGE network via TrustBridge</p>
-          <a class="intl-card__cta" href="https://trustbridgeglobal.com" target="_blank" rel="noopener">trustbridgeglobal.com &rarr;</a>
-        </article>
-        <article class="intl-card has-texture">
-          <p class="intl-card__country">Australia</p>
-          <p class="intl-card__route">DGR via partner foundation</p>
-          <a class="intl-card__cta" href={`mailto:${SITE.emailGeneral}?subject=Australia giving`}>Email the team &rarr;</a>
-        </article>
+        {routes.map((r) => (
+          <a class="intl-card" href={r.href} target="_blank" rel="noopener">
+            <span class="intl-card__flag" aria-hidden="true">{r.flag}</span>
+            <span class="intl-card__country">{r.country}</span>
+            <span class="intl-card__route">{r.route}</span>
+            <span class="intl-card__cta">{r.cta} &rarr;</span>
+          </a>
+        ))}
       </div>
       <p class="intl-note">If your country isn't listed, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will help you find a tax-efficient route.</p>
     </div>
   </section>
 
-  <CtaBand
-    heading="One step closer to the field."
-    body="Pick your country route, follow the link, and your gift will reach the field within 30 days."
-    ctaLabel="Go to TrustBridge"
-    ctaHref="https://trustbridgeglobal.com"
+  <FeatureRow
     image="/images/field-2026/pbs-9.webp"
     imageAlt="Portable Bible School students"
+    eyebrow="Where it goes"
+    heading="Same field. Same accountability."
+    layout="image-left"
+    background="white"
+  >
+    <p>International gifts fund the same work as US gifts: Portable Bible Schools, GIFT homes, schools, medical care, and women&rsquo;s empowerment across the nations Favor serves.</p>
+    <p>Favor International is ECFA-accredited and independently audited every year. See the <a href="/about/accountability/">audited financials</a> any time.</p>
+  </FeatureRow>
+
+  <CtaBand
+    heading="One step closer to the field."
+    body="Pick your country route and give with a tax receipt where you live."
+    ctaLabel="Give via TrustBridge"
+    ctaHref={TRUSTBRIDGE_PORTAL}
     variant="green"
   />
 </PageLayout>
 
 <style>
-  .intl-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
-  .intl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
-  @media (max-width: 700px) { .intl-grid { grid-template-columns: 1fr; } }
-  .intl-card { display: flex; flex-direction: column; gap: var(--space-2); background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
-  .intl-card:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .intl-card:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .intl-card:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .intl-card:nth-child(4n+4) { --accent: var(--color-sage); }
-  .intl-card__country { margin: 0; font-family: var(--font-sans); font-weight: 800; font-size: 1.35rem; color: var(--color-green); letter-spacing: -0.01em; }
-  .intl-card__route { margin: 0; color: var(--color-ink-soft); line-height: 1.55; }
-  .intl-card__cta { margin-top: var(--space-2); color: var(--color-gold-deep); font-weight: 700; text-decoration: none; }
-  .intl-card__cta:hover { color: var(--color-green); }
-  .intl-note { margin: var(--space-8) auto 0; max-width: 640px; text-align: center; color: var(--color-ink-soft); }
+  .intl-intro { text-align: center; }
+  .intl-intro p:last-child { margin: var(--space-5) auto 0; color: var(--color-ink-soft); line-height: 1.8; max-width: 64ch; }
+
+  .intl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 1000px) { .intl-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .intl-grid { grid-template-columns: 1fr; max-width: 380px; } }
+  .intl-card {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-2);
+    background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+    padding: var(--space-8) var(--space-6); box-shadow: var(--shadow-soft);
+    text-decoration: none; color: inherit;
+    transition: transform 180ms, box-shadow 180ms, border-color 180ms;
+  }
+  .intl-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.14); border-color: var(--color-gold); }
+  .intl-card__flag { font-size: 2.6rem; line-height: 1; }
+  .intl-card__country { font-family: var(--font-sans); font-weight: 800; font-size: 1.2rem; color: var(--color-green); margin-top: var(--space-2); }
+  .intl-card__route { color: var(--color-ink-soft); line-height: 1.5; font-size: 0.92rem; }
+  .intl-card__cta { margin-top: var(--space-3); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
+  .intl-card:hover .intl-card__cta { color: var(--color-green); }
+  .intl-note { margin: var(--space-10) auto 0; max-width: 640px; text-align: center; color: var(--color-ink-soft); }
   .intl-note a { color: var(--color-gold-deep); font-weight: 700; }
 </style>

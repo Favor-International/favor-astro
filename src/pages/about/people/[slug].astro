@@ -31,7 +31,7 @@ const backLabel = isBoard ? 'Back to the Board' : 'Back to the team';
 const desc = `${person.fullName}, ${person.position} at Favor International. ${person.bioIntro}`.slice(0, 155);
 ---
 <PageLayout title={person.fullName} description={desc}>
-  <PageHero
+  <PageHero waveColor="cream"
     label={person.position}
     title={`${person.fullName}.`}
     promise={person.location}

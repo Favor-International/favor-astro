@@ -26,7 +26,7 @@ const week2 = [
   title="Nations Prayer Guide"
   description="One focus per day across the fourteen nations Favor International serves. Specific villages, specific pastors, specific battles."
 >
-  <PageHero
+  <PageHero waveColor="cream"
     label="Nations prayer guide"
     title="Pray for the nations, one day at a time."
     promise="A short, specific prayer for each of the fourteen nations Favor serves. Print it. Tape it on the fridge. Pray it out loud with your family."
@@ -57,12 +57,15 @@ const week2 = [
         <p class="label">Week two</p>
         <h2>Equipping leaders, opening closed doors.</h2>
       </header>
-      <ol class="prayer-list" start={8}>
+      <ol class="prayer-list prayer-list--tail" start={8}>
         {week2.map(([day, where, ask]) => (
           <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
         ))}
+        <li class="prayer-ghost" aria-hidden="true"><span class="prayer-list__day">Day 15</span><span class="prayer-list__ask"><span class="ghost-bar" style="width: 76%"></span></span></li>
+        <li class="prayer-ghost prayer-ghost--far" aria-hidden="true"><span class="prayer-list__day">Day 16</span><span class="prayer-list__ask"><span class="ghost-bar" style="width: 58%"></span></span></li>
       </ol>
-      <p class="prayer-download"><button class="btn btn--secondary btn--large" type="button" onclick="window.print()">Print this guide</button></p>
+      <p class="prayer-continues">The guide continues, day by day.</p>
+      <p class="prayer-download"><button class="btn btn--primary btn--large" type="button" onclick="window.print()">Print the full guide</button></p>
     </div>
   </section>
 
@@ -103,4 +106,12 @@ const week2 = [
   @media (max-width: 600px) {
     .prayer-list li { grid-template-columns: 1fr; gap: var(--space-1); }
   }
+  /* The list visibly continues: the tail fades and ghost rows hint at more. */
+  .prayer-list--tail li:nth-last-child(4) { opacity: 0.92; }
+  .prayer-list--tail li:nth-last-child(3) { opacity: 0.74; }
+  .prayer-ghost { opacity: 0.38; filter: blur(1px); pointer-events: none; }
+  .prayer-ghost--far { opacity: 0.16; filter: blur(2px); }
+  .ghost-bar { display: inline-block; height: 0.85em; border-radius: 6px; background: var(--color-sage-light); vertical-align: middle; }
+  .prayer-continues { text-align: center; margin: var(--space-6) 0 0; color: var(--color-sage); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .prayer-download { text-align: center; margin-top: var(--space-4); }
 </style>
