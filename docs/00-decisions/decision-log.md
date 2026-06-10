@@ -8,6 +8,41 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-10 (evening) — Harmony overhaul P1-P5 (Daniel-approved A-D, applied site-wide)
+
+**P1 Harmony system:** hero photos now melt into the page (progressive blur+wash
+.page-hero__fade, no hard cut); OverlayCard/field-tile captions frosted
+(progressive blur); CtaBand uses standard cream (one-off gold wash removed).
+**P2 Structure:** program template flow = Hero > centered text intro > image+text
+band > body > quote > sibling nav (no image band stacked on hero). Economic page
+rebuilt (tagline intro, image-led cards, story strip); CommDev cards image-led;
+Education's redundant trio removed. New StoryStrip component (real tag-matched
+stories) on all four ministry pages + give hub.
+**P3 More scaffold inventions REMOVED:** church-partnership "three tiers"
+($250/$1,000/$3,000 Ambassador/Sending/Catalyst with benefit lists) and the
+volunteer "4 roles" were invented in commit 80356b4 (no docs, not on live).
+Church page rebuilt image-led on verbatim live content (Invitation to Share)
+with three REAL ways in (present / give / send). Pattern now firmly established:
+the original scaffold invented donor-facing specifics (crypto mechanics, legacy
+gathering, GIFT identity, PBS duration, church tiers, volunteer roles, mega-menu
+flagship). Treat any unverified scaffold specific as suspect.
+**P4 Copy:** "real human" x5 removed (Will's flag); "The receipts" -> "The
+numbers behind the work"; the "30-Day Prayer Guide" (invented branding; the page
+has one day per nation) reframed as "Nations Prayer Guide", dead PDF links
+replaced with print button. NOTE: mission-vision "not just give temporary
+relief" left as possibly-live copy (unverified) despite the brand's no-"not
+just" rule; verify the live our-story page before changing.
+**P5 (A-D):** stories index redesigned (featured editorial card, 17 real
+ministry-tag underline filters); mega menu v2 with the live site's NESTED
+program links + pillar-tagline descriptions; muted video-loop heroes on /pray/
+and /watch/ from Favor's own field mp4s (ffmpeg-compressed, poster fallback,
+reduced-motion respected); pray photo gallery.
+**Deferred (next session):** where-we-work country profile cards; impact-hub
+country mosaic; go-hub gallery+FAQ; newsletter signup embed (bbox form
+2446db74); per-card image content review.
+
+---
+
 ## 2026-06-10 (day) — FUNCTIONAL DONATIONS unblocked + archive + founder + UI fixes
 
 **Donations are LIVE.** Discovered the live site embeds its donation form
