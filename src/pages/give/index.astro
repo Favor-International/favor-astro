@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayCard from '../../components/global/OverlayCard.astro';
+import StoryStrip from '../../components/band/StoryStrip.astro';
 import { PARTNER_TIERS, SITE } from '../../lib/site';
 
 const tiles = [
@@ -121,6 +122,8 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
       </div>
     </div>
   </section>
+
+  <StoryStrip tags={['Stewardship', 'Humanitarian Impact', 'Skills Development']} heading="What giving makes possible." label="Real outcomes" background="white" />
 
   <section class="band band--green-deep">
     <div class="container container--narrow trust-band">

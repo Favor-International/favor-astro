@@ -5,9 +5,11 @@ import PostCard from '../../components/band/PostCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import storiesData from '../../data/stories.json';
 
-const stories = [...storiesData].sort(
+const sorted = [...storiesData].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
+const featured = sorted[0];
+const stories = sorted.slice(1);
 // Ministry filters from the live site's per-story tags (restored 2026-06-10;
 // every story carries its real live tags in stories.json).
 const categories = ['All', 'Testimony', 'Discipleship', 'New Believers', 'Salvation', 'Spiritual Deliverance', 'Emotional Healing', 'Physical Healing', 'Community Transformation', 'Women', 'Children/Youth', 'Training & Multiplication', 'Skills Development', 'Unreached People Groups', 'Rural Communities', 'Humanitarian Impact', 'Favor Team'];
@@ -30,9 +32,20 @@ function excerpt(paras: string[], n = 150) {
 
   <section class="band band--white">
     <div class="container">
-      <p class="stories-count">{stories.length} stories from the field.</p>
+      <a class="story-featured" href={`/stories/${featured.slug}/`}>
+        <span class="story-featured__photo" style={`background-image:url(${featured.image})`} role="img" aria-label={featured.title}></span>
+        <span class="story-featured__body">
+          <span class="story-featured__kicker">Latest from the field</span>
+          <h2>{featured.title}</h2>
+          <p>{excerpt(featured.paragraphs, 220)}</p>
+          <span class="story-featured__meta">{featured.date}{(featured.tags||[])[0] ? ' · ' + featured.tags[0] : ''}</span>
+          <span class="story-featured__cta">Read the story &rarr;</span>
+        </span>
+      </a>
 
-      <div class="story-filters" role="group" aria-label="Filter stories by category">
+      <p class="stories-count">{sorted.length} stories from the field.</p>
+
+      <div class="story-filters" role="group" aria-label="Filter stories by ministry">
         {categories.map((c, i) => (
           <button class="story-filter" type="button" data-cat={c} aria-pressed={i === 0 ? 'true' : 'false'}>{c}</button>
         ))}
@@ -104,11 +117,33 @@ function excerpt(paras: string[], n = 150) {
 </script>
 
 <style>
+  /* Featured latest story: editorial split card. */
+  .story-featured {
+    display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
+    background: var(--color-white); border: 1px solid var(--color-border);
+    border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-card);
+    text-decoration: none; color: inherit; margin-bottom: var(--space-16);
+    transition: box-shadow 200ms;
+  }
+  .story-featured:hover { box-shadow: 0 22px 48px rgba(31, 58, 26, 0.18); }
+  .story-featured__photo { min-height: 340px; background-size: cover; background-position: center 30%; transition: transform 400ms ease; }
+  .story-featured:hover .story-featured__photo { transform: scale(1.03); }
+  .story-featured__body { display: flex; flex-direction: column; justify-content: center; gap: var(--space-3); padding: clamp(var(--space-8), 4vw, var(--space-12)); text-align: center; align-items: center; }
+  .story-featured__kicker { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .story-featured__body h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.2rem); }
+  .story-featured__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; max-width: 48ch; }
+  .story-featured__meta { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-sage); }
+  .story-featured__cta { font-weight: 800; color: var(--color-gold-deep); }
+  .story-featured:hover .story-featured__cta { color: var(--color-green); }
+  @media (max-width: 800px) { .story-featured { grid-template-columns: 1fr; } .story-featured__photo { min-height: 240px; } }
+
   .stories-count { text-align: center; color: var(--color-sage); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; margin: 0 0 var(--space-6); }
-  .story-filters { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin: 0 0 var(--space-16); }
-  .story-filter { padding: 9px 18px; border: 1px solid var(--color-border); background: var(--color-white); border-radius: var(--radius-pill); font-weight: 700; font-size: 0.82rem; color: var(--color-green); cursor: pointer; transition: background 140ms, color 140ms, border-color 140ms; }
-  .story-filter:hover { border-color: var(--color-gold); }
-  .story-filter[aria-pressed="true"] { background: var(--color-green); color: var(--color-white); border-color: var(--color-green); }
+  /* Quiet underline tabs instead of pills. */
+  .story-filters { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); justify-content: center; margin: 0 0 var(--space-12); border-bottom: 1px solid var(--color-border); padding-bottom: 0; }
+  .story-filter { padding: 10px 2px 14px; border: 0; border-bottom: 3px solid transparent; background: none; font-weight: 700; font-size: 0.85rem; color: var(--color-sage); cursor: pointer; transition: color 140ms, border-color 140ms; margin-bottom: -1px; }
+  .story-filter:hover { color: var(--color-green); }
+  .story-filter[aria-pressed="true"] { color: var(--color-green); border-bottom-color: var(--color-gold); }
+  .stories-grid :global(.post-card) { border-radius: 12px; }
   .stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
   @media (max-width: 900px) { .stories-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .stories-grid { grid-template-columns: 1fr; } }

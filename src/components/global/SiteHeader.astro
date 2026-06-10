@@ -39,10 +39,18 @@ function isCurrent(href: string) {
                     <p class="mega-panel__heading">{m.label}</p>
                     <ul>
                       {m.items.map((it) => (
-                        <li>
+                        <li class:list={[it.children && 'mega-li--group']}>
                           <a href={it.href} class:list={['mega-link', it.badge === 'featured' && 'mega-link--featured']}>
-                            {it.label}
+                            <span class="mega-link__label">{it.label}</span>
+                            {it.desc && <span class="mega-link__desc">{it.desc}</span>}
                           </a>
+                          {it.children && (
+                            <ul class="mega-sub">
+                              {it.children.map((c) => (
+                                <li><a class="mega-sub__link" href={c.href}>{c.label}</a></li>
+                              ))}
+                            </ul>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -356,6 +364,19 @@ function isCurrent(href: string) {
   }
   .mega-link:hover { color: var(--color-gold-deep); }
   .mega-link--featured { color: var(--color-green); font-weight: 800; }
+  .mega-link__label { display: block; }
+  .mega-link__desc {
+    display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--color-sage); margin-top: 2px; text-transform: none;
+  }
+  .mega-li--group { margin-bottom: var(--space-3); }
+  .mega-sub { list-style: none; margin: 4px 0 0; padding: 0 0 0 var(--space-4); border-left: 2px solid var(--color-border); }
+  .mega-sub__link {
+    display: block; padding: 4px var(--space-2); font-size: 0.82rem; font-weight: 600;
+    color: var(--color-ink-soft); text-decoration: none; border-radius: 6px;
+    transition: background 120ms, color 120ms, padding-left 120ms;
+  }
+  .mega-sub__link:hover { background: var(--color-cream); color: var(--color-green); padding-left: var(--space-3); }
   .mega-link__badge {
     font-size: 0.65rem;
     font-weight: 700;

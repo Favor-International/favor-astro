@@ -46,6 +46,8 @@ export type MegaItem = {
   label: string;
   href: string;
   badge?: 'featured' | null;
+  desc?: string;
+  children?: { label: string; href: string }[];
 };
 export type MegaMenu = {
   label: string;
@@ -124,12 +126,31 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'Impact',
     href: '/impact/',
     items: [
-      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/' },
-      { label: 'Education', href: '/impact/education/' },
-      { label: 'Community Development', href: '/impact/community-development/' },
-      { label: 'Economic Empowerment', href: '/impact/economic-empowerment/' },
+      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/', desc: "Mobilization of heaven's agenda", children: [
+        { label: 'Portable Bible Schools', href: '/impact/evangelism-discipleship/portable-bible-schools/' },
+        { label: 'GIFT', href: '/impact/evangelism-discipleship/gift-institute/' },
+        { label: 'House of Prayer', href: '/pray/' },
+        { label: 'Christian Radio', href: '/impact/evangelism-discipleship/radio/' },
+      ] },
+      { label: 'Education', href: '/impact/education/', desc: 'Next generation leadership', children: [
+        { label: 'Village Learning Centers', href: '/impact/education/centers/' },
+        { label: 'Favor Primary School', href: '/impact/education/primary/' },
+        { label: 'Favor Secondary School', href: '/impact/education/secondary/' },
+        { label: 'Leadership Training Institute', href: '/impact/education/leadership/' },
+      ] },
+      { label: 'Community Development', href: '/impact/community-development/', desc: 'Holistic transformation by the Word', children: [
+        { label: 'Trauma Counseling', href: '/impact/community-development/counseling/' },
+        { label: 'Medical', href: '/impact/community-development/medical/' },
+        { label: 'Church Planting', href: '/impact/community-development/church-planting/' },
+        { label: 'Church Construction', href: '/impact/community-development/construction/' },
+      ] },
+      { label: 'Economic Empowerment', href: '/impact/economic-empowerment/', desc: 'Independence built on freedom in Christ', children: [
+        { label: 'Sustainability Projects', href: '/impact/economic-empowerment/sustainability/' },
+        { label: 'Women Empowerment', href: '/impact/economic-empowerment/women/' },
+        { label: 'Vocational Program', href: '/impact/economic-empowerment/vocation/' },
+      ] },
       { label: 'Stories from the Field', href: '/stories/' },
-      { label: 'Field Updates', href: '/impact/' },
+      { label: 'Past Newsletters', href: '/newsletter/archive/' },
       { label: 'Impact Reports & 990s', href: '/about/accountability/' },
     ],
     featured: {
