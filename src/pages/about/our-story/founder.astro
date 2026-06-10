@@ -3,6 +3,7 @@ import PageLayout from '../../../layouts/PageLayout.astro';
 import PageHero from '../../../components/band/PageHero.astro';
 import FeatureRow from '../../../components/band/FeatureRow.astro';
 import CtaBand from '../../../components/band/CtaBand.astro';
+import VideoEmbed from '../../../components/global/VideoEmbed.astro';
 ---
 <PageLayout
   title="Founder Carole Ward"
@@ -12,8 +13,9 @@ import CtaBand from '../../../components/band/CtaBand.astro';
     label="Founder & International Director"
     title="Carole Ward."
     promise="She dares to follow God and change nations one life at a time."
-    image="/images/field/hero-carole-chad.webp"
-    imageAlt="Carole Ward ministering in the field in Chad"
+    image="/images/field-2026/carole-5.webp"
+    imageAlt="Carole Ward preaching at a pulpit in the field"
+    objectPosition="center 22%"
   />
 
   <FeatureRow
@@ -46,19 +48,18 @@ import CtaBand from '../../../components/band/CtaBand.astro';
         <p class="label">In her own words</p>
         <h2>Get to know Carole&rsquo;s story more.</h2>
       </header>
-      <div class="founder-links">
-        <a class="founder-link" href="https://www.youtube.com/playlist?list=PLjCR1m3nUEPUB6x-kTEHRNwZxcZ2SH-Vd" target="_blank" rel="noopener">
-          <span class="founder-link__name">Carole sharing Favor stories: talks and interviews</span>
-          <span class="founder-link__go" aria-hidden="true">&rarr;</span>
-        </a>
-        <a class="founder-link" href="https://www.youtube.com/channel/UCIv8yRH1mO5s_JLzqG5O6Ug" target="_blank" rel="noopener">
-          <span class="founder-link__name">The Favor International YouTube channel</span>
-          <span class="founder-link__go" aria-hidden="true">&rarr;</span>
-        </a>
-        <a class="founder-link" href="/about/contact/?topic=book">
-          <span class="founder-link__name">Request a free copy of Carole&rsquo;s book</span>
-          <span class="founder-link__go" aria-hidden="true">&rarr;</span>
-        </a>
+      <div class="founder-videos">
+        <VideoEmbed id="5oUghxzqGXU" title="Carole Sharing Favor Stories on The Nations Media Podcast" />
+        <VideoEmbed id="Y5pWE0AX97M" title="Carole Summarizing Her Story in a Home Group" />
+        <VideoEmbed id="g2fB1RwyHNM" title="Carole on Re-igniting a Passion for Prayer" />
+      </div>
+      <p class="band__cta-row">
+        <a class="btn btn--secondary" href="https://www.youtube.com/playlist?list=PLjCR1m3nUEPUB6x-kTEHRNwZxcZ2SH-Vd" target="_blank" rel="noopener">More talks and interviews on YouTube</a>
+      </p>
+      <div class="founder-book">
+        <h3>The Carole Ward Story</h3>
+        <p>Get a free copy of either or each of Carole&rsquo;s books today. Her story of how Favor began, in her own words.</p>
+        <a class="btn btn--primary" href="/about/contact/?topic=book">Request a free copy</a>
       </div>
     </div>
   </section>
@@ -85,15 +86,15 @@ import CtaBand from '../../../components/band/CtaBand.astro';
   }
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 
-  .founder-links { display: grid; gap: 0; border-top: 1px solid var(--color-border); }
-  .founder-link {
-    display: flex; justify-content: space-between; align-items: center; gap: var(--space-6);
-    padding: var(--space-5) var(--space-2);
-    border-bottom: 1px solid var(--color-border);
-    text-decoration: none; color: var(--color-green);
-    transition: background 160ms, padding-left 160ms;
+  .founder-videos { display: grid; gap: var(--space-10); }
+  .founder-book {
+    margin-top: var(--space-16);
+    text-align: center;
+    background: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: var(--space-10);
   }
-  .founder-link:hover { background: var(--color-cream); padding-left: var(--space-4); }
-  .founder-link__name { font-weight: 700; }
-  .founder-link__go { color: var(--color-gold-deep); font-weight: 800; }
+  .founder-book h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.3rem; }
+  .founder-book p { margin: 0 auto var(--space-6); max-width: 52ch; color: var(--color-ink-soft); line-height: 1.7; }
 </style>

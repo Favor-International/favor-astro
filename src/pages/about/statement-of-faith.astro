@@ -46,7 +46,7 @@ const articles = [
       </header>
       <ol class="faith-list">
         {articles.map((a) => (
-          <li class="has-texture">
+          <li>
             <h3>{a.title}</h3>
             <p>{a.body}</p>
           </li>
@@ -76,7 +76,7 @@ const articles = [
   }
   .faith-list li {
     position: relative;
-    padding: var(--space-8) 0 var(--space-8) 84px;
+    padding: var(--space-10) var(--space-4) var(--space-10) 96px;
     border-bottom: 1px solid var(--color-border);
   }
   .faith-list li:last-child { border-bottom: 0; }
@@ -84,8 +84,8 @@ const articles = [
     counter-increment: faith;
     content: counter(faith, decimal-leading-zero);
     position: absolute;
-    left: 0;
-    top: calc(var(--space-8) + 2px);
+    left: var(--space-4);
+    top: calc(var(--space-10) + 2px);
     font-family: var(--font-display);
     font-size: 1.5rem;
     line-height: 1;
@@ -95,8 +95,8 @@ const articles = [
   .faith-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
   .faith-list p { margin: 0; color: var(--color-ink-soft); line-height: 1.75; }
   @media (max-width: 560px) {
-    .faith-list li { padding-left: 0; padding-top: var(--space-10); }
-    .faith-list li::before { top: var(--space-6); }
+    .faith-list li { padding-left: var(--space-2); padding-right: var(--space-2); padding-top: var(--space-12); }
+    .faith-list li::before { left: var(--space-2); top: var(--space-6); }
   }
   .faith-note { max-width: 720px; margin: 0 auto; text-align: center; color: var(--color-ink-soft); }
 </style>
