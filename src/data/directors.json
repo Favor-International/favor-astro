@@ -12,18 +12,6 @@
     "imagePath": "/images/team/carole-ward.png"
   },
   {
-    "slug": "joy-daniels",
-    "fullName": "Joy Daniels",
-    "firstName": "Joy",
-    "lastName": "Daniels",
-    "type": "Country Director",
-    "position": "U.S. Executive Director",
-    "order": 2,
-    "location": "Brandon, Florida",
-    "bioIntro": "Joy Daniels was born in Quebec, Canada. Raised in a missionary's home, Joy witnessed people's lives transformed through the many revivals her father conducted. Joy attended Zion Bible Institute which helped and guided her in her walk with the Lord.",
-    "imagePath": "/images/team/joy-daniels.jpg"
-  },
-  {
     "slug": "stephanie-maier",
     "fullName": "Stephanie Maier",
     "firstName": "Stephanie",

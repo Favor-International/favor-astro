@@ -8,7 +8,7 @@ import directorsData from '../../data/directors.json';
 
 // Leadership shown on the Team page: founder + U.S. Executive Directors + Africa Country Director.
 // Full board lives on /about/board/. Source: Webflow CMS Directors collection.
-const leadershipSlugs = ['carole-ward', 'joy-daniels', 'stephanie-maier', 'terry-lynne-goodman'];
+const leadershipSlugs = ['carole-ward', 'stephanie-maier', 'terry-lynne-goodman'];
 const leadership = leadershipSlugs
   .map(slug => directorsData.find(d => d.slug === slug))
   .filter(Boolean);
@@ -101,10 +101,10 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
 <style>
   .team-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-8);
   }
-  @media (max-width: 720px) { .team-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .team-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
 
   .leader-card {
     background: var(--color-white);
