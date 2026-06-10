@@ -65,32 +65,38 @@ const articles = [
 </PageLayout>
 
 <style>
-  .faith-list { list-style: none; padding: 0; margin: 0 0 var(--space-8); display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); counter-reset: faith; }
-  @media (max-width: 760px) { .faith-list { grid-template-columns: 1fr; } }
+  /* A confession reads as one quiet column, not a grid of loud boxes.
+     Neutral hairline separators; hierarchy from size, weight, and lightness. */
+  .faith-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 760px;
+    counter-reset: faith;
+  }
   .faith-list li {
-    padding: var(--space-6) var(--space-6) var(--space-6) 76px;
-    background: var(--color-white);
-    border-radius: var(--radius-card);
-    border: 2px solid var(--accent, var(--color-gold));
-    box-shadow: var(--shadow-soft);
     position: relative;
+    padding: var(--space-8) 0 var(--space-8) 84px;
+    border-bottom: 1px solid var(--color-border);
   }
-  .faith-list li::after {
+  .faith-list li:last-child { border-bottom: 0; }
+  .faith-list li::before {
     counter-increment: faith;
-    content: counter(faith);
+    content: counter(faith, decimal-leading-zero);
     position: absolute;
-    left: var(--space-6);
-    top: var(--space-6);
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--accent, var(--color-gold));
-    color: var(--color-white);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-sans); font-weight: 800; font-size: 1.05rem;
-    z-index: 1;
+    left: 0;
+    top: calc(var(--space-8) + 2px);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-gold-deep);
+    opacity: 0.75;
   }
-  .faith-list li { --accent: var(--color-gold); }
-  .faith-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
-  .faith-list p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
+  .faith-list h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
+  .faith-list p { margin: 0; color: var(--color-ink-soft); line-height: 1.75; }
+  @media (max-width: 560px) {
+    .faith-list li { padding-left: 0; padding-top: var(--space-10); }
+    .faith-list li::before { top: var(--space-6); }
+  }
   .faith-note { max-width: 720px; margin: 0 auto; text-align: center; color: var(--color-ink-soft); }
 </style>

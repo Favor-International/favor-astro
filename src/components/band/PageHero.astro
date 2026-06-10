@@ -15,11 +15,15 @@ export interface Props {
   secondaryHref?: string;
   variant?: string; // accepted for backward-compat; ignored
   objectPosition?: string;
+  // African pattern divider under the hero. Per Will (2026-06): NOT on every
+  // page. Off by default; opt in only on field-content pages (stories, watch).
+  pattern?: boolean;
 }
 const {
   label, title, promise, image, imageAlt,
   ctaLabel, ctaHref, secondaryLabel, secondaryHref,
   objectPosition = 'center 30%',
+  pattern = false,
 } = Astro.props as Props;
 ---
 <section class="page-hero">
@@ -39,7 +43,7 @@ const {
     </div>
   </div>
 </section>
-<PatternDivider variant="cream" height="90px" />
+{pattern && <PatternDivider variant="cream" height="90px" />}
 <style>
   .page-hero {
     position: relative;

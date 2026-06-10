@@ -20,7 +20,9 @@ body {
 
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-sans); margin: 0 0 0.5em; line-height: var(--line-height-tight); color: var(--color-green); }
 h1, h2 { font-family: var(--font-sans); font-weight: 800; letter-spacing: -0.02em; }
-h1 { font-size: var(--font-size-h1); }
+/* H1 matches the homepage hero treatment: Playfair Display serif, weight 700,
+   tight leading (homepage .hero__h1). Keeps every page title in one voice. */
+h1 { font-family: var(--font-display); font-weight: 700; font-size: var(--font-size-h1); line-height: 1.05; }
 h2 { font-size: var(--font-size-h2); }
 h3 { font-weight: 700; font-size: var(--font-size-h3); }
 
