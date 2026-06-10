@@ -95,8 +95,18 @@ community-development,economic-empowerment}`.
 
 **ALL Tier-3 additive ports are now complete.** What remains is verify-with-Favor items (Section 7) and
 the launch blockers (Section 6: Blackbaud donation URLs, newsletter backend, 30-day prayer PDF), plus the
-open flags: GIFT identity, the volunteer "4 roles" (likely invented), the "inclusivity" word in the CD
+open flags: the volunteer "4 roles" (likely invented), the "inclusivity" word in the CD
 posting, the real book-request form, and the Tier-2 data-confirmation list.
+
+**[2026-06-10] Parts A+B SHIPPED (Daniel-approved overnight run):** all 13 live program sub-pages
+built verbatim at `/impact/<pillar>/<program>/` (data: `src/data/programs.ts`; raw-HTML captures in
+`/tmp/favor-live`); pillar pages link to them; the four pillar taglines are REAL (live nav dropdown) and
+now used as eyebrows; GIFT identity RESOLVED (children's home, verbatim; "Leadership Institute" was
+scaffold-invented); live tags scraped for all 115 stories (16 real ministry filters on /stories/);
+volunteer/church-partnership/pray/founder expanded verbatim; og-default.jpg created. Still open:
+where-we-work expansion (live page is map-based); the founder page's live "8 northeast African nations"
+vs "14 nations" elsewhere (add to the Will nations-count question); stories tag-SEARCH page (live had
+/tag-search; we have filters, no dedicated page).
 
 ## 6. Broken / functional (fixes OK — these aren't "Will's data")
 
