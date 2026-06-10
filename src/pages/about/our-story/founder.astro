@@ -40,6 +40,29 @@ import CtaBand from '../../../components/band/CtaBand.astro';
     </div>
   </section>
 
+  <section class="band band--white">
+    <div class="container container--narrow founder-more">
+      <header class="band__header">
+        <p class="label">In her own words</p>
+        <h2>Get to know Carole&rsquo;s story more.</h2>
+      </header>
+      <div class="founder-links">
+        <a class="founder-link" href="https://www.youtube.com/playlist?list=PLjCR1m3nUEPUB6x-kTEHRNwZxcZ2SH-Vd" target="_blank" rel="noopener">
+          <span class="founder-link__name">Carole sharing Favor stories: talks and interviews</span>
+          <span class="founder-link__go" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="founder-link" href="https://www.youtube.com/channel/UCIv8yRH1mO5s_JLzqG5O6Ug" target="_blank" rel="noopener">
+          <span class="founder-link__name">The Favor International YouTube channel</span>
+          <span class="founder-link__go" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="founder-link" href="/about/contact/?topic=book">
+          <span class="founder-link__name">Request a free copy of Carole&rsquo;s book</span>
+          <span class="founder-link__go" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <CtaBand
     heading="Partner with the work Carole started."
     body="Favor Partners keep indigenous missionaries on the trail across northeast Africa. Monthly partnership, any tier, makes the field work possible."
@@ -61,4 +84,16 @@ import CtaBand from '../../../components/band/CtaBand.astro';
     color: var(--color-green-deep);
   }
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+
+  .founder-links { display: grid; gap: 0; border-top: 1px solid var(--color-border); }
+  .founder-link {
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-6);
+    padding: var(--space-5) var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none; color: var(--color-green);
+    transition: background 160ms, padding-left 160ms;
+  }
+  .founder-link:hover { background: var(--color-cream); padding-left: var(--space-4); }
+  .founder-link__name { font-weight: 700; }
+  .founder-link__go { color: var(--color-gold-deep); font-weight: 800; }
 </style>

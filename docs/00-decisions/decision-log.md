@@ -8,6 +8,58 @@ here before the deviation ships.
 
 ---
 
+## 2026-06-10 — Parts A+B: 13 program sub-pages + content expansion (overnight, Daniel-approved)
+
+**Part A — all 13 live program sub-pages built** at /impact/<pillar>/<program>/,
+content VERBATIM from live (raw-HTML capture; src/data/programs.ts is the single
+source). E&D: portable-bible-schools, gift-institute, radio. Education: centers,
+leadership, primary, secondary. CommDev: counseling, medical, church-planting,
+construction. Economic: sustainability, vocation, women. One shared template
+([pillar]/[program].astro): hero, verbatim body, scripture/pull-quote band,
+sibling-program nav (the "nav within the page" Will wanted), CTA. Pillar pages
+link to them via clickable cards.
+
+**CORRECTION — the four pillar taglines are REAL.** I previously "debunked" them
+(2026-06-02 entry) because they're absent from pillar page BODIES. They are in
+the live site's nav dropdown: "Mobilization of heaven's agenda" (E&D), "Next
+generation leadership" (Education), "Holistic transformation by the Word"
+(CommDev), "Independence built on freedom in Christ" (Economic). Now used as
+section eyebrows on pillar pages + program pages. Lesson: a "not found" verdict
+is only as good as the surfaces searched; the nav menu is content too.
+
+**GIFT fixed (provenance-sanctioned):** "GIFT Leadership Institute / two-year
+pastor training, Bishoftu" was invented in scaffold commits 80356b4/361f595. Live
+GIFT = God's Institute for Transformation, a children's-home ministry. E&D card
++ new sub-page now verbatim. Also fixed PBS card ("three- to six-month" invented;
+live = two-month).
+
+**Verbatim deviations (logged, deliberate):** live GIFT text "is not just a
+program, but a 24/7 family" rendered as "is a 24/7 family" per the non-negotiable
+brand rule (no "not just X" constructions). Spaced-hyphen joins converted to
+commas/periods site-wide per the no-dash rule. No other word changes.
+
+**Part B — sections added from real live content:** volunteer page (self-starter
+line + the live Short-Term Mission Trips ministries list), church-partnership
+("Invitation to Share / Be a voice to the vision", verbatim), pray (3rd Houses of
+Prayer paragraph), founder ("Get to know Carole's story more" with the real
+YouTube playlist/channel + book request).
+
+**Stories tags restored:** scraped the live tags for ALL 115 stories
+(/testimonies-updates/transformation-stories/<slug>; 115/115 matched; 40-tag
+universe) into stories.json `tags`. Story pages now show their real tag chips;
+the /stories/ filter now offers 16 real ministry filters (replacing the 6
+invented categories as filters; `category` field retained on cards).
+
+**Also:** created missing og-default.jpg (social shares were 404ing); image audit
+extended to site.ts/JSON (mega-menu images de-duplicated; 303 photos unique).
+
+**NOT done (needs Daniel/Favor):** where-we-work expansion (live page is
+map-based, needs design discussion); founder-page "8 northeast African nations"
+(live) vs our "14 nations" elsewhere — ANOTHER nations-count variant to add to
+the Will list; Blackbaud URLs, newsletter backend, prayer-guide PDF still blocked.
+
+---
+
 ## 2026-06-09 — Will/Daniel feedback round 2 (late-night batch)
 
 **Shipped:**
