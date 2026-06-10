@@ -4,13 +4,6 @@ import PageHero from '../../components/band/PageHero.astro';
 import FeatureRow from '../../components/band/FeatureRow.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
-const roles = [
-  { title: 'Ambassador', commitment: '~3 hr/mo', desc: 'Refer Favor to your network. We give you the assets, you tell the story.', accent: 'var(--color-gold-deep)' },
-  { title: 'Prayer warrior', commitment: 'Daily, your pace', desc: 'Receive a weekly specific prayer brief from a field team. Stand in the gap.', accent: 'var(--color-green-bright)' },
-  { title: 'Intercession team', commitment: 'Monthly + during trips', desc: 'Live-link prayer support during vision trips and crusades.', accent: 'var(--color-terracotta)' },
-  { title: 'Stage Sunday host', commitment: 'One Sunday', desc: 'Bring a Favor field leader to your church for a stage Sunday.', accent: 'var(--color-sage)' },
-];
-
 // Country Director posting, verbatim from favorintl.org/positions/country-director.
 const cdResponsibilities = [
   { group: 'Leadership', items: [
@@ -73,33 +66,13 @@ const cdQualifications = [
   <PageHero
     label="Volunteer"
     title="Serve from home."
-    promise="You don't have to fly to be useful. Pick a role that fits your time."
+    promise="Short-term mission trips, internships, and US-team volunteering. You don't have to fly to be useful."
     image="/images/hero-volunteer-action.jpg"
     imageAlt="Volunteer team gathering"
     ctaLabel="Sign up"
     ctaHref="/about/contact/?topic=volunteer"
     variant="split"
   />
-
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Four roles</p>
-        <h2>Pick one that fits your time.</h2>
-      </header>
-      <ul class="role-list">
-        {roles.map((r) => (
-          <li class="has-texture" style={`--accent: ${r.accent}`}>
-            <div>
-              <h3>{r.title}</h3>
-              <p>{r.desc}</p>
-            </div>
-            <span class="commitment">{r.commitment}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
 
   <FeatureRow
     image="/images/field-2026/street-outreach-4.webp"
@@ -198,12 +171,6 @@ const cdQualifications = [
 </PageLayout>
 
 <style>
-  .role-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
-  .role-list li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding: var(--space-5) var(--space-6); background: var(--color-cream); border: 2px solid var(--accent, var(--color-gold)); border-radius: var(--radius-card); }
-  .role-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.15rem; }
-  .role-list p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
-  .commitment { font-weight: 800; color: var(--accent, var(--color-gold)); font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; padding: var(--space-2) var(--space-4); background: var(--color-white); border-radius: var(--radius-pill); }
-  @media (max-width: 600px) { .role-list li { flex-direction: column; align-items: flex-start; } }
 
   .trips__list { columns: 2; column-gap: var(--space-12); list-style: none; padding: 0; margin: 0 auto var(--space-6); max-width: 680px; }
   .trips__list li { position: relative; padding: var(--space-2) 0 var(--space-2) var(--space-6); color: var(--color-ink-soft); line-height: 1.55; break-inside: avoid; }

@@ -23,17 +23,17 @@ const week2 = [
 ];
 ---
 <PageLayout
-  title="30-Day Prayer Guide"
+  title="Nations Prayer Guide"
   description="One focus per day across the fourteen nations Favor International serves. Specific villages, specific pastors, specific battles."
 >
   <PageHero
-    label="30-day guide"
-    title="Pray with us, one day at a time."
+    label="Nations prayer guide"
+    title="Pray for the nations, one day at a time."
     promise="A short, specific prayer for each of the fourteen nations Favor serves. Print it. Tape it on the fridge. Pray it out loud with your family."
     image="/images/field-2026/prayer-1.webp"
     imageAlt="Prayer gathering"
-    ctaLabel="Download the PDF"
-    ctaHref="/resources/30-day-prayer-guide.pdf"
+    ctaLabel="Start with day one"
+    ctaHref="#day-1"
     variant="split"
   />
 
@@ -62,7 +62,7 @@ const week2 = [
           <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
         ))}
       </ol>
-      <p class="prayer-download"><a class="btn btn--secondary btn--large" href="/resources/30-day-prayer-guide.pdf">Download all 30 days as a PDF</a></p>
+      <p class="prayer-download"><button class="btn btn--secondary btn--large" type="button" onclick="window.print()">Print this guide</button></p>
     </div>
   </section>
 

@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayFeature from '../../components/band/OverlayFeature.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import StoryStrip from '../../components/band/StoryStrip.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
 const gallery = [
@@ -54,23 +55,6 @@ const depth = [
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container">
-      <header class="ed-head">
-        <p class="label">The three programs</p>
-        <h2>From letters to leaders.</h2>
-      </header>
-      <div class="acard-grid">
-        {programs.map((p) => (
-          <article class="acard has-texture">
-            <h3>{p.name}</h3>
-            <p>{p.desc}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <OverlayFeature
     image="/images/field-2026/vlc-4.webp"
     imageAlt="A village learning center class in Jondoru"
@@ -116,6 +100,8 @@ const depth = [
       </div>
     </div>
   </section>
+
+  <StoryStrip tags={['Children/Youth', 'Skills Development']} heading="Stories from the classrooms." background="cream" />
 
   <CtaBand
     heading="Stand with the schools."

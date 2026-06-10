@@ -29,6 +29,7 @@ const {
 <section class="page-hero">
   <div class="page-hero__media" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
   <div class="page-hero__scrim" aria-hidden="true"></div>
+  <div class="page-hero__fade" aria-hidden="true"></div>
   <div class="container page-hero__inner">
     <div class="page-hero__copy">
       {label && <p class="label label--inverse">{label}</p>}
@@ -52,6 +53,17 @@ const {
     min-height: clamp(480px, 60vh, 640px);
     overflow: hidden;
     color: var(--color-white);
+  }
+  /* The photo melts into the page instead of a hard cut: a soft progressive
+     blur + light wash along the bottom edge. */
+  .page-hero__fade {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 120px; z-index: 1;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    mask-image: linear-gradient(180deg, transparent, black 80%);
+    -webkit-mask-image: linear-gradient(180deg, transparent, black 80%);
+    background: linear-gradient(180deg, rgba(250, 247, 241, 0), rgba(250, 247, 241, 0.4));
   }
   .page-hero__media { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; z-index: 0; }
   /* Dark, slightly-green overlay: heavy on the left, fading wide across the

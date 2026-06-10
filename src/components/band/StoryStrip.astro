@@ -1,0 +1,55 @@
+---
+// "Stories from this ministry": the newest real field stories matching a set of
+// live tags (tags were scraped per-story from favorintl.org). Reusable on
+// pillar pages, give pages, and hubs.
+import PostCard from './PostCard.astro';
+import storiesData from '../../data/stories.json';
+
+export interface Props {
+  tags: string[];          // match stories carrying ANY of these live tags
+  heading?: string;
+  label?: string;
+  count?: number;
+  background?: 'white' | 'cream';
+}
+const { tags, heading = 'Stories from this ministry.', label = 'From the field', count = 3, background = 'cream' } = Astro.props as Props;
+
+const matches = storiesData
+  .filter((s: any) => (s.tags || []).some((t: string) => tags.includes(t)))
+  .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, count);
+
+function excerpt(paras: string[], n = 130) {
+  const t = paras && paras[0] ? paras[0] : '';
+  return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t;
+}
+---
+{matches.length > 0 && (
+  <section class:list={['band', background === 'cream' ? 'band--cream' : 'band--white']}>
+    <div class="container">
+      <header class="band__header">
+        <p class="label">{label}</p>
+        <h2>{heading}</h2>
+      </header>
+      <div class="story-strip">
+        {matches.map((s: any) => (
+          <PostCard
+            href={`/stories/${s.slug}/`}
+            image={s.image}
+            imageAlt={s.title}
+            chip={(s.tags || [])[0]}
+            title={s.title}
+            desc={excerpt(s.paragraphs)}
+            actionLabel="Read the story"
+          />
+        ))}
+      </div>
+      <p class="band__cta-row"><a class="btn btn--secondary" href="/stories/">See all stories from the field</a></p>
+    </div>
+  </section>
+)}
+
+<style>
+  .story-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
+  @media (max-width: 900px) { .story-strip { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+</style>

@@ -2,18 +2,20 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import ProofBlock from '../../components/band/ProofBlock.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
+import StoryStrip from '../../components/band/StoryStrip.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
+// Card copy is verbatim sentences from the live program sub-pages
+// (src/data/programs.ts holds the full verbatim pages these link to).
 const programs = [
-  { name: 'Sustainability Projects', desc: 'Agriculture, water, and small-livestock programs that move villages off relief and onto their own feet. Goats for widows. Boreholes for villages.' },
-  { name: 'Women’s Empowerment', desc: 'Skills training, micro-business cohorts, and Bible study for women, many of them widows, all of them leaders in their families.' },
-  { name: 'Vocational Programs', desc: 'Tailoring, carpentry, motorcycle repair, and small-business training for young adults. Indigenous trainers, locally-sourced tools.' },
+  { name: 'Sustainability Projects', href: '/impact/economic-empowerment/sustainability/', image: '/images/field-2026/agriculture-5.webp', alt: 'Water and farm work on a Favor sustainability project', desc: 'God has provided Favor with a 270 acre farm. We have a few sustainability projects that help provide for our ministry teams and support our programs directly.' },
+  { name: 'Women Empowerment', href: '/impact/economic-empowerment/women/', image: '/images/field-2026/women-4.webp', alt: 'A Women Empowerment group meeting', desc: 'Favor’s Women Empowerment ministry equips women to generate their own income through training in skills, trauma healing, entrepreneurship, parenting, and financial management.' },
+  { name: 'Vocational Program', href: '/impact/economic-empowerment/vocation/', image: '/images/field-2026/vocation-3.webp', alt: 'Vocational Program students at work', desc: 'Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice.' },
 ];
 ---
 <PageLayout
   title="Economic Empowerment"
-  description="Sustainability projects, women's empowerment, and vocational programs: Favor International's economic empowerment pillar."
+  description="Sustainability projects, women's empowerment, and vocational programs: Favor International's economic empowerment ministry."
 >
   <PageHero
     label="What we do"
@@ -25,29 +27,30 @@ const programs = [
     ctaHref="/give/partner-monthly/"
   />
 
-  <FeatureRow
-    image="/images/field-2026/agriculture-2.webp"
-    imageAlt="A Favor sustainability and agriculture project"
-    eyebrow="The Gospel is the foundation"
-    heading="The Gospel is the foundation of healthy economies."
-    layout="image-right"
-    background="cream"
-  >
-    <p>And healthy economies help lay new foundations of the Gospel to be shared freely. We strongly believe in self-sustained economic development that can take communities from poverty to productivity. Our model of education, empowerment, and investment enables the most marginalized people to bring themselves and their communities out of poverty.</p>
-  </FeatureRow>
-
   <section class="band band--white">
+    <div class="container container--narrow ee-intro">
+      <p class="label">Independence built on freedom in Christ</p>
+      <h2>The Gospel is the foundation of healthy economies.</h2>
+      <p>And healthy economies help lay new foundations of the Gospel to be shared freely. We strongly believe in self-sustained economic development that can take communities from poverty to productivity. Our model of education, empowerment, and investment enables the most marginalized people to bring themselves and their communities out of poverty.</p>
+    </div>
+  </section>
+
+  <section class="band band--cream">
     <div class="container">
-      <header class="ee-head">
+      <header class="band__header">
         <p class="label">The three programs</p>
         <h2>From relief to self-reliance.</h2>
       </header>
-      <div class="acard-grid">
+      <div class="ee-programs">
         {programs.map((p) => (
-          <article class="acard has-texture">
-            <h3>{p.name}</h3>
-            <p>{p.desc}</p>
-          </article>
+          <a class="ee-prog" href={p.href}>
+            <span class="ee-prog__photo" style={`background-image:url(${p.image})`} role="img" aria-label={p.alt}></span>
+            <span class="ee-prog__body">
+              <h3>{p.name}</h3>
+              <p>{p.desc}</p>
+              <span class="ee-prog__more">Learn more &rarr;</span>
+            </span>
+          </a>
         ))}
       </div>
     </div>
@@ -58,34 +61,10 @@ const programs = [
     place="Uganda"
     outcome="A Women's Empowerment cohort received two goats each after a year of training. The herds pay for school fees, food, and medical care across the village."
     quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
-    image="/images/field-2026/women-1.webp"
+    image="/images/stories/goats-for-women.jpg"
   />
 
-  <section class="band band--white">
-    <div class="container">
-      <header class="ee-head">
-        <p class="label">Independence built on freedom in Christ</p>
-        <h2>From relief to self-reliance, program by program.</h2>
-      </header>
-      <div class="acard-grid">
-        <a class="acard acard--link has-texture" href="/impact/economic-empowerment/sustainability/">
-          <h3>Sustainability Projects</h3>
-          <p>God has provided Favor with a 270 acre farm. Wanting to be good stewards of what we&rsquo;ve been given to work with and lead by example, we have a few sustainability projects that help provide for our ministry teams and support our programs directly. The farm is located just outside of Gulu which includes vegetables and fruit trees, and then a poultry house and fisheries are within our Education compound. The fish farm breeds and sells fingerlings and grows table fish for market and for consumption.</p>
-          <span class="acard__more">Learn more &rarr;</span>
-        </a>
-        <a class="acard acard--link has-texture" href="/impact/economic-empowerment/women/">
-          <h3>Women Empowerment</h3>
-          <p>Favor&rsquo;s Women Empowerment ministry ends this cycle by equipping women to generate their own income through training in skills, trauma healing, entrepreneurship, parenting, and financial management. The women are empowered and given a project to begin. This income gains them a measure of respect from their husbands and funds the medical and educational needs of all their children.</p>
-          <span class="acard__more">Learn more &rarr;</span>
-        </a>
-        <a class="acard acard--link has-texture" href="/impact/economic-empowerment/vocation/">
-          <h3>Vocational Program</h3>
-          <p>Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice. Some of the offerings are mechanics, farming, fisheries, animal husbandry, landscaping, tailoring, hairdressing, bakery, and many more. Being part of a larger government program, we&rsquo;re able to award our vocational graduates, who rank among the top graduates in the nation, government-recognized certificates that give them an edge.</p>
-          <span class="acard__more">Learn more &rarr;</span>
-        </a>
-      </div>
-    </div>
-  </section>
+  <StoryStrip tags={['Women', 'Skills Development', 'Stewardship']} heading="Stories of empowerment." background="white" />
 
   <CtaBand
     heading="Fund a cohort that funds itself."
@@ -99,20 +78,22 @@ const programs = [
 </PageLayout>
 
 <style>
-  .ee-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
-  .ee-intro { max-width: 760px; text-align: center; }
+  .ee-intro { text-align: center; }
   .ee-intro p:last-child { margin: var(--space-5) auto 0; color: var(--color-ink-soft); line-height: 1.8; max-width: 64ch; }
-  .acard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 860px) { .acard-grid { grid-template-columns: 1fr; } }
-  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
-  .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
-  .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
-  .acard--link { text-decoration: none; color: inherit; display: block; transition: transform 180ms, box-shadow 180ms; }
-  .acard--link:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
-  .acard__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
-  .acard--link:hover .acard__more { color: var(--color-green); }
-  .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .acard:nth-child(4n+4) { --accent: var(--color-sage); }
+
+  .ee-programs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
+  @media (max-width: 900px) { .ee-programs { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+  .ee-prog {
+    display: flex; flex-direction: column;
+    background: var(--color-white); border-radius: var(--radius-card); overflow: hidden;
+    box-shadow: var(--shadow-card); text-decoration: none; color: inherit;
+    transition: transform 180ms, box-shadow 180ms;
+  }
+  .ee-prog:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
+  .ee-prog__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; }
+  .ee-prog__body { display: block; padding: var(--space-6); }
+  .ee-prog__body h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; text-align: center; }
+  .ee-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .ee-prog__more { display: block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; text-align: center; }
+  .ee-prog:hover .ee-prog__more { color: var(--color-green); }
 </style>

@@ -17,8 +17,11 @@ const { program } = Astro.props as { program: Program };
 const pillar = PILLARS.find((p) => p.slug === program.pillar)!;
 const tagline = PILLAR_TAGLINES[program.pillar];
 const siblings = programsByPillar(program.pillar).filter((p) => p.slug !== program.slug);
-const introBlocks = program.blocks.slice(0, 2);
-const restBlocks = program.blocks.slice(2);
+// Flow: hero > centered text intro > image+text band > remaining text.
+// (Never an image band straight after the hero photo.)
+const introBlock = program.blocks[0];
+const featureBlocks = program.blocks.slice(1, 3);
+const restBlocks = program.blocks.slice(3);
 ---
 <PageLayout
   title={`${program.name} | ${pillar.label}`}
@@ -32,14 +35,23 @@ const restBlocks = program.blocks.slice(2);
     imageAlt={program.heroAlt}
   />
 
+  <section class="band band--white">
+    <div class="container container--narrow prog-intro">
+      <p class="label">{tagline}</p>
+      {introBlock.type === 'p'
+        ? <p class="prog-intro__lede">{introBlock.text}</p>
+        : <ul>{introBlock.items.map((i) => <li>{i}</li>)}</ul>}
+    </div>
+  </section>
+
   <FeatureRow
     image={program.bodyImage}
     imageAlt={program.bodyAlt}
-    eyebrow={tagline}
+    eyebrow="How it works"
     layout="image-right"
-    background="white"
+    background="cream"
   >
-    {introBlocks.map((b) => b.type === 'p'
+    {featureBlocks.map((b) => b.type === 'p'
       ? <p>{b.text}</p>
       : <>
           {b.intro && <p>{b.intro}</p>}
@@ -49,7 +61,7 @@ const restBlocks = program.blocks.slice(2);
   </FeatureRow>
 
   {restBlocks.length > 0 && (
-    <section class="band band--cream">
+    <section class="band band--white">
       <div class="container container--narrow prog-body">
         {restBlocks.map((b) => b.type === 'p'
           ? <p>{b.text}</p>
@@ -103,6 +115,8 @@ const restBlocks = program.blocks.slice(2);
 </PageLayout>
 
 <style>
+  .prog-intro { text-align: center; }
+  .prog-intro__lede { margin: 0 auto; max-width: 68ch; color: var(--color-ink-soft); line-height: 1.85; font-size: 1.08rem; }
   .prog-body p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
   .prog-body p:last-child { margin-bottom: 0; }
   .prog-body ul { margin: 0 0 var(--space-5); padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.8; }

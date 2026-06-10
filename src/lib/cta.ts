@@ -7,7 +7,7 @@ export const CTA = {
   giveProject: 'Fund This Project',
   giveNow: 'Give Now',
   pray: 'Pray With Us',
-  prayerGuide: 'Get the 30-Day Guide',
+  prayerGuide: 'Get the Prayer Guide',
   visionTrip: 'Travel With Favor',
   volunteer: 'Serve From Home',
   contact: 'Contact Us',
