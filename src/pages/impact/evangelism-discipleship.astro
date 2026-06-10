@@ -6,11 +6,13 @@ import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import Figure from '../../components/global/Figure.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 
+// Card copy is verbatim sentences from the live program sub-pages (see
+// src/data/programs.ts). Each card links to its full program page.
 const programs = [
-  { name: 'Portable Bible Schools (PBS)', image: '/images/field-2026/pbs-7.webp', desc: 'Three- to six-month church-based training that goes where no seminary can. Cohorts move village to village in places like Karamoja, the Mundari cattle camps of South Sudan, and the Ethiopian highlands. Most students will never see the inside of a Bible college; PBS is the Bible college.' },
-  { name: 'GIFT Leadership Institute', image: '/images/field-2026/street-outreach-5.webp', desc: 'A two-year residential training program for the next generation of indigenous African pastors. Bishoftu, Ethiopia campus. Students are sent home equipped to plant churches, lead trainings, and disciple their own people.' },
-  { name: 'House of Prayer', image: '/images/ministry-house-of-prayer.jpg', desc: 'Continuous intercession from the field. Trains local prayer warriors and connects them to a global prayer network. Many of Favor’s field decisions are made in this room first.' },
-  { name: 'Favor FM (Christian Radio)', image: '/images/ministry-radio.jpg', desc: 'FM stations broadcasting in northern Uganda and South Sudan. Discipleship content in local languages, on-demand pastoral care by call-in, and Gospel reach into villages without churches.' },
+  { name: 'Portable Bible Schools (PBS)', href: '/impact/evangelism-discipleship/portable-bible-schools/', image: '/images/field-2026/pbs-7.webp', desc: 'Favor’s Portable Bible Schools mobilize new disciple-makers into physical and spiritual war zones. Two-month discipleship training that Favor brings to rural villages, always moving further outward into the unreached tribes.' },
+  { name: 'God’s Institute for Transformation (GIFT)', href: '/impact/evangelism-discipleship/gift-institute/', image: '/images/field-2026/street-outreach-5.webp', desc: 'A home and family for youth who need Jesus with skin on. A 24/7 family and a holistic solution to a total need: mentoring, food, shelter, medical, clothing, education, vocational skills and opportunities, salvation and discipleship.' },
+  { name: 'House of Prayer', href: '/pray/', image: '/images/ministry-house-of-prayer.jpg', desc: 'Our Houses of Prayer in Gulu, Uganda, and in Juba, South Sudan were our first operational centers. Prayer always comes first and then everything else follows.' },
+  { name: 'Favor FM (Christian Radio)', href: '/impact/evangelism-discipleship/radio/', image: '/images/ministry-radio.jpg', desc: 'Favor operates two radio stations that cover Gulu, Uganda, and Juba, South Sudan, reaching people in the right place at the right time. We have become one of the highest preferred radio stations in the regions of both nations.' },
 ];
 
 const gallery = [
@@ -64,18 +66,19 @@ const gallery = [
   <section class="band band--cream">
     <div class="container">
       <header class="band__header">
-        <p class="label">The four programs</p>
-        <h2>How indigenous pastors get equipped.</h2>
+        <p class="label">Mobilization of heaven's agenda</p>
+        <h2>The four programs.</h2>
       </header>
       <div class="ed-programs">
         {programs.map((p) => (
-          <article class="ed-prog">
+          <a class="ed-prog" href={p.href}>
             <Figure src={p.image} alt={p.name} ratio="16 / 10" />
             <div class="ed-prog__body">
               <h3>{p.name}</h3>
               <p>{p.desc}</p>
+              <span class="ed-prog__more">Learn more &rarr;</span>
             </div>
-          </article>
+          </a>
         ))}
       </div>
     </div>
@@ -151,11 +154,14 @@ const gallery = [
 
   .ed-programs { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
   @media (max-width: 760px) { .ed-programs { grid-template-columns: 1fr; } }
-  .ed-prog { background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
+  .ed-prog { background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform 180ms, box-shadow 180ms; }
+  .ed-prog:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
   .ed-prog :global(.figure__img) { border-radius: 0; box-shadow: none; }
   .ed-prog__body { padding: var(--space-6); }
   .ed-prog__body h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
   .ed-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .ed-prog__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
+  .ed-prog:hover .ed-prog__more { color: var(--color-green); }
 
   .ed-depth { margin-top: var(--space-2); }
   .ed-depth details { border: 2px solid var(--accent, var(--color-gold)); }

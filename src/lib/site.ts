@@ -71,7 +71,7 @@ export const MEGA_NAV: MegaMenu[] = [
       { label: 'Submit a Prayer Request', href: 'mailto:prayer@favorintl.org' },
     ],
     featured: {
-      image: '/images/pbs-karamoja.jpg',
+      image: '/images/field-2026/prayer-7.webp',
       eyebrow: 'Free download',
       title: '30-Day Prayer Guide',
       body: 'One specific request per day across the nations Favor serves.',
@@ -93,7 +93,7 @@ export const MEGA_NAV: MegaMenu[] = [
       { label: 'Stocks, Crypto, Non-Cash', href: '/give/non-cash/' },
     ],
     featured: {
-      image: '/images/hero-pbs-graduation.jpg',
+      image: '/images/field-2026/baptism-4.webp',
       eyebrow: 'The lead path',
       title: 'Become a Favor Partner',
       body: 'Monthly partnership keeps indigenous missionaries on the trail across East Africa.',
@@ -112,7 +112,7 @@ export const MEGA_NAV: MegaMenu[] = [
       { label: 'Church Partnerships', href: '/give/church-partnership/' },
     ],
     featured: {
-      image: '/images/evangelism-discipleship.jpg',
+      image: '/images/field-2026/street-outreach-7.webp',
       eyebrow: 'Spring + Fall 2026',
       title: 'Walk a village with a Favor field leader',
       body: 'Small-team vision trips to Uganda, South Sudan, and Ethiopia.',
@@ -155,7 +155,7 @@ export const MEGA_NAV: MegaMenu[] = [
       { label: 'Contact', href: '/about/contact/' },
     ],
     featured: {
-      image: '/images/pillar-community.jpg',
+      image: '/images/field-2026/villages-1.webp',
       eyebrow: 'Indigenous-led',
       title: 'Prayer-birthed. Indigenous-led.',
       body: 'A 20-year story across East Africa, told by the pastors and field leaders who are living it.',

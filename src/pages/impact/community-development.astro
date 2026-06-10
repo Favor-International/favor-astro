@@ -14,9 +14,9 @@ const gallery = [
 ];
 
 const programs = [
-  { name: 'Medical', accent: 'var(--color-green-bright)', body: 'In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community. In our medical centers, we pray with each of our patients. Mobile medical clinics allow us to serve those who cannot come to our medical centers.' },
-  { name: 'Church Planting', accent: 'var(--color-gold-deep)', body: 'In many rural communities there are no churches, so following a Portable Bible School small churches are planted, sometimes meeting in a hut or under a mango tree. Churches are also planted as a result of church construction. Once a church is constructed the mandate is for them to plant 3 more churches in 5 years. Recent plants include the church at the Wedweil Refugee Camp and the new Calvary Chapel building in Pabo, Uganda.' },
-  { name: 'Church Construction', accent: 'var(--color-terracotta)', body: 'Favor partners with International Cooperating Ministries (ICM) to fund the new church construction, and ICM has helped Favor build many churches across Uganda and South Sudan. These churches don’t belong to Favor but to the community of believers and their leadership from that local church.' },
+  { name: 'Medical', href: '/impact/community-development/medical/', accent: 'var(--color-green-bright)', body: 'In both Uganda and South Sudan, we have Favor clinics that provide basic medical care to our staff and their families, and to our former street youth who are in residence. In Uganda, where 50% or more of the population lives in extreme poverty, our clinic just opened to the public providing low-cost medical assistance to the community. In our medical centers, we pray with each of our patients. Mobile medical clinics allow us to serve those who cannot come to our medical centers.' },
+  { name: 'Church Planting', href: '/impact/community-development/church-planting/', accent: 'var(--color-gold-deep)', body: 'In many rural communities there are no churches, so following a Portable Bible School small churches are planted, sometimes meeting in a hut or under a mango tree. Churches are also planted as a result of church construction. Once a church is constructed the mandate is for them to plant 3 more churches in 5 years. Recent plants include the church at the Wedweil Refugee Camp and the new Calvary Chapel building in Pabo, Uganda.' },
+  { name: 'Church Construction', href: '/impact/community-development/construction/', accent: 'var(--color-terracotta)', body: 'Favor partners with International Cooperating Ministries (ICM) to fund the new church construction, and ICM has helped Favor build many churches across Uganda and South Sudan. These churches don’t belong to Favor but to the community of believers and their leadership from that local church.' },
 ];
 ---
 <PageLayout
@@ -63,15 +63,16 @@ const programs = [
   <section class="band band--cream">
     <div class="container">
       <header class="cd-head">
-        <p class="label">The work</p>
+        <p class="label">Holistic transformation by the Word</p>
         <h2>Bringing healing to the whole person.</h2>
       </header>
       <div class="cd-grid">
         {programs.map((p) => (
-          <article class="cd-card has-texture" style={`--accent: ${p.accent}`}>
+          <a class="cd-card cd-card--link has-texture" style={`--accent: ${p.accent}`} href={p.href}>
             <h3>{p.name}</h3>
             <p>{p.body}</p>
-          </article>
+            <span class="cd-card__more">Learn more &rarr;</span>
+          </a>
         ))}
       </div>
       <p class="cd-cta-row"><a class="btn btn--secondary btn--large" href="/stories/">See field stories</a></p>
@@ -87,6 +88,7 @@ const programs = [
   >
     <p>Our trauma healing program has two parts. The first section focuses on developing emotional strength, and the second teaches about forgiveness. Throughout the program, the counselors teach people how to connect to one another and counter stress with positive activity.</p>
     <p>The original Trauma Counseling curriculum that we use was <strong>written by Christ-believing psychologists from Australia, peer-reviewed through publications at Boston University</strong>, and for many years has been adapted and contextualized for the many people groups we serve throughout South Sudan and Uganda.</p>
+    <p><a href="/impact/community-development/counseling/">Read about Trauma Counseling &rarr;</a></p>
   </OverlayFeature>
 
   <section class="band band--white">
@@ -126,5 +128,9 @@ const programs = [
   .cd-card { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
   .cd-card h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
   .cd-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .cd-card--link { text-decoration: none; color: inherit; display: block; transition: transform 180ms, box-shadow 180ms; }
+  .cd-card--link:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
+  .cd-card__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
+  .cd-card--link:hover .cd-card__more { color: var(--color-green); }
   .cd-cta-row { text-align: center; margin-top: var(--space-16); }
 </style>

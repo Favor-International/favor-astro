@@ -64,22 +64,25 @@ const programs = [
   <section class="band band--white">
     <div class="container">
       <header class="ee-head">
-        <p class="label">The programs in depth</p>
+        <p class="label">Independence built on freedom in Christ</p>
         <h2>From relief to self-reliance, program by program.</h2>
       </header>
       <div class="acard-grid">
-        <article class="acard has-texture">
+        <a class="acard acard--link has-texture" href="/impact/economic-empowerment/sustainability/">
           <h3>Sustainability Projects</h3>
           <p>God has provided Favor with a 270 acre farm. Wanting to be good stewards of what we&rsquo;ve been given to work with and lead by example, we have a few sustainability projects that help provide for our ministry teams and support our programs directly. The farm is located just outside of Gulu which includes vegetables and fruit trees, and then a poultry house and fisheries are within our Education compound. The fish farm breeds and sells fingerlings and grows table fish for market and for consumption.</p>
-        </article>
-        <article class="acard has-texture">
+          <span class="acard__more">Learn more &rarr;</span>
+        </a>
+        <a class="acard acard--link has-texture" href="/impact/economic-empowerment/women/">
           <h3>Women Empowerment</h3>
           <p>Favor&rsquo;s Women Empowerment ministry ends this cycle by equipping women to generate their own income through training in skills, trauma healing, entrepreneurship, parenting, and financial management. The women are empowered and given a project to begin. This income gains them a measure of respect from their husbands and funds the medical and educational needs of all their children.</p>
-        </article>
-        <article class="acard has-texture">
+          <span class="acard__more">Learn more &rarr;</span>
+        </a>
+        <a class="acard acard--link has-texture" href="/impact/economic-empowerment/vocation/">
           <h3>Vocational Program</h3>
           <p>Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice. Some of the offerings are mechanics, farming, fisheries, animal husbandry, landscaping, tailoring, hairdressing, bakery, and many more. Being part of a larger government program, we&rsquo;re able to award our vocational graduates, who rank among the top graduates in the nation, government-recognized certificates that give them an edge.</p>
-        </article>
+          <span class="acard__more">Learn more &rarr;</span>
+        </a>
       </div>
     </div>
   </section>
@@ -104,6 +107,10 @@ const programs = [
   .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
   .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
   .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .acard--link { text-decoration: none; color: inherit; display: block; transition: transform 180ms, box-shadow 180ms; }
+  .acard--link:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
+  .acard__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
+  .acard--link:hover .acard__more { color: var(--color-green); }
   .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
   .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }

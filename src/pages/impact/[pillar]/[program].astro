@@ -1,0 +1,136 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHero from '../../../components/band/PageHero.astro';
+import FeatureRow from '../../../components/band/FeatureRow.astro';
+import CtaBand from '../../../components/band/CtaBand.astro';
+import { PROGRAMS, PILLAR_TAGLINES, programsByPillar, type Program } from '../../../data/programs';
+import { PILLARS } from '../../../lib/site';
+
+// One template for every program sub-page. Content is verbatim from the live
+// site (see src/data/programs.ts). Mirrors the live site's What We Do tree that
+// Will navigates: /impact/<pillar>/<program>/.
+export function getStaticPaths() {
+  return PROGRAMS.map((p) => ({ params: { pillar: p.pillar, program: p.slug }, props: { program: p } }));
+}
+
+const { program } = Astro.props as { program: Program };
+const pillar = PILLARS.find((p) => p.slug === program.pillar)!;
+const tagline = PILLAR_TAGLINES[program.pillar];
+const siblings = programsByPillar(program.pillar).filter((p) => p.slug !== program.slug);
+const introBlocks = program.blocks.slice(0, 2);
+const restBlocks = program.blocks.slice(2);
+---
+<PageLayout
+  title={`${program.name} | ${pillar.label}`}
+  description={program.promise}
+>
+  <PageHero
+    label={pillar.label}
+    title={program.name + '.'}
+    promise={program.promise}
+    image={program.heroImage}
+    imageAlt={program.heroAlt}
+  />
+
+  <FeatureRow
+    image={program.bodyImage}
+    imageAlt={program.bodyAlt}
+    eyebrow={tagline}
+    layout="image-right"
+    background="white"
+  >
+    {introBlocks.map((b) => b.type === 'p'
+      ? <p>{b.text}</p>
+      : <>
+          {b.intro && <p>{b.intro}</p>}
+          <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
+        </>
+    )}
+  </FeatureRow>
+
+  {restBlocks.length > 0 && (
+    <section class="band band--cream">
+      <div class="container container--narrow prog-body">
+        {restBlocks.map((b) => b.type === 'p'
+          ? <p>{b.text}</p>
+          : <>
+              {b.intro && <p>{b.intro}</p>}
+              <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
+            </>
+        )}
+      </div>
+    </section>
+  )}
+
+  {(program.scripture || program.pullQuote) && (
+    <section class="band band--green prog-quote-band">
+      <div class="container">
+        <blockquote class="prog-quote">
+          {(program.scripture || program.pullQuote)!.text}
+          <cite>{(program.scripture || program.pullQuote)!.attribution}</cite>
+        </blockquote>
+      </div>
+    </section>
+  )}
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <header class="band__header">
+        <p class="label">{pillar.label}</p>
+        <h2>More in this ministry.</h2>
+      </header>
+      <nav class="prog-siblings" aria-label={`Other ${pillar.label} programs`}>
+        <a class="prog-sib prog-sib--hub" href={`/impact/${pillar.slug}/`}>
+          <span class="prog-sib__name">{pillar.label} overview</span>
+          <span class="prog-sib__go" aria-hidden="true">&rarr;</span>
+        </a>
+        {siblings.map((s) => (
+          <a class="prog-sib" href={`/impact/${s.pillar}/${s.slug}/`}>
+            <span class="prog-sib__name">{s.name}</span>
+            <span class="prog-sib__go" aria-hidden="true">&rarr;</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Stand with this work."
+    body="Favor Partners keep every program on this page going, month after month."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+  />
+</PageLayout>
+
+<style>
+  .prog-body p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
+  .prog-body p:last-child { margin-bottom: 0; }
+  .prog-body ul { margin: 0 0 var(--space-5); padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.8; }
+  .prog-body li { margin-bottom: var(--space-2); }
+
+  .prog-quote-band { text-align: center; }
+  .prog-quote {
+    margin: 0 auto; max-width: 820px; border: 0; padding: 0;
+    font-family: var(--font-serif, Georgia, serif); font-style: italic;
+    font-size: clamp(1.2rem, 2.6vw, 1.7rem); line-height: 1.5; color: var(--color-white);
+  }
+  .prog-quote cite {
+    display: block; margin-top: var(--space-5); font-style: normal;
+    font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--color-gold-light);
+  }
+
+  /* Quiet sibling nav: neutral hairlines, hover response (signifier). */
+  .prog-siblings { display: grid; gap: 0; border-top: 1px solid var(--color-border); }
+  .prog-sib {
+    display: flex; justify-content: space-between; align-items: center; gap: var(--space-6);
+    padding: var(--space-5) var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none; color: var(--color-green);
+    transition: background 160ms, padding-left 160ms;
+  }
+  .prog-sib:hover { background: var(--color-cream); padding-left: var(--space-4); }
+  .prog-sib__name { font-weight: 700; }
+  .prog-sib--hub .prog-sib__name { color: var(--color-gold-deep); }
+  .prog-sib__go { color: var(--color-gold-deep); font-weight: 800; }
+</style>
