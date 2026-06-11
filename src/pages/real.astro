@@ -7,13 +7,11 @@ import AfricaMap from '../components/global/AfricaMap.astro';
 import { SITE } from '../lib/site';
 
 // =====================================================================
-// ⚠ DEMO MODE — NEUTERED HOMEPAGE for the executive-director preview.
-// Identical visuals to the real homepage, but a demo-mode script at the
-// bottom of this file makes every link inert so the walkthrough cannot
-// wander into unfinished pages. Only Log In (→ /portal/) and the brand
-// logo (→ /) stay clickable. The fully functional homepage is preserved
-// verbatim at /real (src/pages/real.astro) — restore from there when
-// the demo is over.
+// /real — PRESERVED COPY of the real homepage (fully functional nav).
+// The root homepage (index.astro) is temporarily a "neutered" demo
+// version for the executive-director walkthrough: identical visuals,
+// but every link is inert except Log In → /portal/. When the demo is
+// over, copy this file back over index.astro (minus the demo script).
 //
 // HOMEPAGE v15 — Compassion-style structural cut.
 // Five sections only: Hero, Proof + Trust, Map, One Missionary Story,
@@ -51,6 +49,7 @@ const tiers = [
   title={SITE.name}
   description="You can send an indigenous missionary where the Gospel has not reached. Favor International equips local church planters across 14 nations of East and Central Africa. ECFA-accredited."
   image="/images/field-2026/evangelism-1.webp"
+  noindex
 >
   <SiteHeader variant="transparent" />
   <main id="main">
@@ -247,36 +246,6 @@ const tiers = [
       give.play().catch(() => {});
     }
   }
-</script>
-
-<script>
-  // =====================================================================
-  // DEMO MODE — exec-preview link neutering.
-  // Every link on this page is made inert so the walkthrough stays on
-  // this page. The ONLY live destinations are:
-  //   • /portal/  — the simulated Partner Portal login experience
-  //   • /         — the brand logo (reloads this same page)
-  //   • #…        — in-page anchors (skip link, #give)
-  // mailto:, tel:, and external watchdog links are neutered too so
-  // nothing pops a mail client or leaves the site mid-demo.
-  // Runs in the capture phase so it wins over any other click handler;
-  // it only calls preventDefault (no stopPropagation) so the mega-menu
-  // open/close behavior keeps working untouched.
-  // Remove this block (or restore from /real) after the demo.
-  // =====================================================================
-  const DEMO_ALLOW = [/^\/portal(\/|$)/, /^\/(#.*)?$/, /^#/];
-  document.addEventListener(
-    'click',
-    (e) => {
-      const a = (e.target as Element | null)?.closest?.('a');
-      if (!a) return;
-      const href = a.getAttribute('href') || '';
-      if (!DEMO_ALLOW.some((rx) => rx.test(href))) e.preventDefault();
-    },
-    true
-  );
-  // Belt-and-suspenders: no form on this page should actually submit.
-  document.addEventListener('submit', (e) => e.preventDefault(), true);
 </script>
 
 <style>

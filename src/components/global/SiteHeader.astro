@@ -19,7 +19,16 @@ function isCurrent(href: string) {
 
       <nav class="site-header__nav" aria-label="Primary">
         <ul>
-          {MEGA_NAV.map((m) => (
+          {MEGA_NAV.map((m) => {
+            // Menus whose items carry `children` (currently Impact) get a
+            // compact multi-column panel: one column per pillar with its
+            // programs underneath, and the loose links (Stories,
+            // Newsletters, Reports) in a slim footer row. Everything else
+            // keeps the list + featured-photo layout.
+            const groups = m.items.filter((it) => it.children?.length);
+            const extras = m.items.filter((it) => !it.children?.length);
+            const hasGroups = groups.length > 0;
+            return (
             <li class="mega-item" data-mega-item>
               <a
                 class="mega-item__trigger"
@@ -34,44 +43,72 @@ function isCurrent(href: string) {
                 </svg>
               </a>
               <div class="mega-panel" role="region" aria-label={`${m.label} menu`}>
-                <div class="mega-panel__inner">
-                  <div class="mega-panel__list">
-                    <p class="mega-panel__heading">{m.label}</p>
-                    <ul>
-                      {m.items.map((it) => (
-                        <li class:list={[it.children && 'mega-li--group']}>
-                          <a href={it.href} class:list={['mega-link', it.badge === 'featured' && 'mega-link--featured']}>
-                            <span class="mega-link__label">{it.label}</span>
-                            {it.desc && <span class="mega-link__desc">{it.desc}</span>}
+                {hasGroups ? (
+                  <div class="mega-panel__inner mega-panel__inner--columns">
+                    <div class="mega-cols">
+                      {groups.map((it) => (
+                        <div class="mega-col">
+                          <a class="mega-col__title" href={it.href}>
+                            <span class="mega-col__label">{it.label}</span>
+                            {it.desc && <span class="mega-col__desc">{it.desc}</span>}
                           </a>
-                          {it.children && (
-                            <ul class="mega-sub">
-                              {it.children.map((c) => (
-                                <li><a class="mega-sub__link" href={c.href}>{c.label}</a></li>
-                              ))}
-                            </ul>
-                          )}
-                        </li>
+                          <ul class="mega-col__list">
+                            {it.children!.map((c) => (
+                              <li><a href={c.href}>{c.label}</a></li>
+                            ))}
+                          </ul>
+                        </div>
                       ))}
-                    </ul>
-                  </div>
-                  <a class="mega-panel__feature" href={m.featured.ctaHref}>
-                    <div class="mega-panel__feature-photo" style={`background-image: url(${m.featured.image})`} aria-hidden="true"></div>
-                    <div class="mega-panel__feature-body">
-                      <span class="mega-panel__feature-eyebrow">{m.featured.eyebrow}</span>
-                      <p class="mega-panel__feature-title">{m.featured.title}</p>
-                      <p class="mega-panel__feature-body-text">{m.featured.body}</p>
-                      <span class="mega-panel__feature-cta">{m.featured.ctaLabel} →</span>
                     </div>
-                  </a>
-                </div>
+                    {extras.length > 0 && (
+                      <div class="mega-panel__more">
+                        {extras.map((it) => (
+                          <a class="mega-panel__more-link" href={it.href}>{it.label} <span aria-hidden="true">&rarr;</span></a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div class="mega-panel__inner">
+                    <div class="mega-panel__list">
+                      <p class="mega-panel__heading">{m.label}</p>
+                      <ul>
+                        {m.items.map((it) => (
+                          <li>
+                            <a href={it.href} class:list={['mega-link', it.badge === 'featured' && 'mega-link--featured']}>
+                              <span class="mega-link__label">{it.label}</span>
+                              {it.desc && <span class="mega-link__desc">{it.desc}</span>}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <a class="mega-panel__feature" href={m.featured.ctaHref}>
+                      <div class="mega-panel__feature-photo" style={`background-image: url(${m.featured.image})`} aria-hidden="true"></div>
+                      <div class="mega-panel__feature-body">
+                        <span class="mega-panel__feature-eyebrow">{m.featured.eyebrow}</span>
+                        <p class="mega-panel__feature-title">{m.featured.title}</p>
+                        <p class="mega-panel__feature-body-text">{m.featured.body}</p>
+                        <span class="mega-panel__feature-cta">{m.featured.ctaLabel} →</span>
+                      </div>
+                    </a>
+                  </div>
+                )}
               </div>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </nav>
 
       <div class="site-header__actions">
+        <a class="site-header__login" href="/portal/">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+            <path d="M4 20c1.8-3.4 4.5-5 8-5s6.2 1.6 8 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          Log In
+        </a>
         <a class="site-header__partner" href="/give/partner-monthly/">Partner</a>
         <a class="site-header__give" href="/give/">Give Now</a>
       </div>
@@ -98,7 +135,7 @@ function isCurrent(href: string) {
             </details>
           </li>
         ))}
-        <li><a class="mobile-drawer__partner" href="/give/partner-monthly/">Partner Login</a></li>
+        <li><a class="mobile-drawer__partner" href="/portal/">Log In</a></li>
         <li><a class="mobile-drawer__give" href="/give/">Give Now</a></li>
       </ul>
     </nav>
@@ -106,14 +143,30 @@ function isCurrent(href: string) {
 </header>
 
 <script>
-  // Mega menu interactions: hover + keyboard + click toggle.
+  // Mega menu interactions: hover-intent + keyboard + touch toggle.
+  // Two separate timers per item are what fix the "pops in and pops
+  // back out" flicker:
+  //  • openTimer (90ms): don't open until the cursor settles on the
+  //    trigger, so sweeping the mouse across the nav toward Give Now
+  //    doesn't strobe every panel on the way past. Skipped when a
+  //    sibling panel is already open — swaps should feel instant.
+  //  • closeTimer (300ms): a generous grace period covering the short
+  //    hop from the trigger down across the header padding into the
+  //    panel, so the panel doesn't slam shut mid-travel. (The old 120ms
+  //    was tight enough that a slow diagonal move lost the panel.)
+  // The third piece of the fix is CSS: the closed/fading panel is
+  // pointer-events: none, so a panel mid-fade can no longer catch the
+  // cursor and re-trigger mouseenter → open → close loops.
   document.querySelectorAll<HTMLElement>('[data-mega-item]').forEach((item) => {
     const trigger = item.querySelector<HTMLAnchorElement>('.mega-item__trigger');
     if (!trigger) return;
 
-    let timeout: any;
+    let openTimer: ReturnType<typeof setTimeout> | undefined;
+    let closeTimer: ReturnType<typeof setTimeout> | undefined;
+
     const open = () => {
-      clearTimeout(timeout);
+      clearTimeout(openTimer);
+      clearTimeout(closeTimer);
       // close siblings
       document.querySelectorAll<HTMLElement>('[data-mega-item].is-open').forEach((s) => {
         if (s !== item) { s.classList.remove('is-open'); s.querySelector('.mega-item__trigger')?.setAttribute('aria-expanded', 'false'); }
@@ -122,18 +175,24 @@ function isCurrent(href: string) {
       trigger.setAttribute('aria-expanded', 'true');
     };
     const close = () => {
-      timeout = setTimeout(() => {
-        item.classList.remove('is-open');
-        trigger.setAttribute('aria-expanded', 'false');
-      }, 120);
+      clearTimeout(openTimer);
+      item.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
     };
 
-    item.addEventListener('mouseenter', open);
-    item.addEventListener('mouseleave', close);
+    item.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      if (document.querySelector('[data-mega-item].is-open')) open();
+      else openTimer = setTimeout(open, 90);
+    });
+    item.addEventListener('mouseleave', () => {
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(close, 300);
+    });
     trigger.addEventListener('focus', open);
     item.addEventListener('focusout', (e) => {
       const next = e.relatedTarget as Node | null;
-      if (!next || !item.contains(next)) close();
+      if (!next || !item.contains(next)) closeTimer = setTimeout(close, 120);
     });
 
     trigger.addEventListener('click', (e) => {
@@ -268,9 +327,19 @@ function isCurrent(href: string) {
   .site-header--transparent.is-scrolled .site-header__logo--color,
   .site-header--transparent.is-menu-open .site-header__logo--color { display: block; }
 
-  .site-header__nav ul {
+  /* The nav stretches the full height of the header bar so there is no
+     hover dead-zone between a trigger's box and the dropdown panel —
+     that gap is what caused mouseleave → close → mouseenter → reopen
+     flicker while traveling down into the panel. */
+  .site-header__nav { align-self: stretch; display: flex; }
+  /* Child combinator on purpose: this flex rule is for the menu bar
+     itself. A bare descendant `ul` here also catches the program lists
+     inside the mega panels (and out-specifies their own classes once
+     Astro adds its scoping attributes), flattening them into rows. */
+  .site-header__nav > ul {
+    flex: 1;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     gap: var(--space-2);
     margin: 0;
@@ -278,7 +347,7 @@ function isCurrent(href: string) {
     list-style: none;
   }
 
-  .mega-item { position: static; }
+  .mega-item { position: static; display: flex; align-items: stretch; }
   .mega-item__trigger {
     display: inline-flex;
     align-items: center;
@@ -321,11 +390,16 @@ function isCurrent(href: string) {
     transform: translateY(-8px);
     transition: opacity 200ms, transform 200ms, visibility 200ms;
     z-index: 50;
+    /* While closed or mid-fade the panel must not catch the cursor —
+       a fading panel that still accepts hover re-fires mouseenter on
+       its parent item and re-opens itself in a loop (the glitch). */
+    pointer-events: none;
   }
   .mega-item.is-open .mega-panel {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    pointer-events: auto;
   }
   .mega-panel__inner {
     max-width: 1320px;
@@ -369,14 +443,77 @@ function isCurrent(href: string) {
     display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
     color: var(--color-sage); margin-top: 2px; text-transform: none;
   }
-  .mega-li--group { margin-bottom: var(--space-3); }
-  .mega-sub { list-style: none; margin: 4px 0 0; padding: 0 0 0 var(--space-4); border-left: 2px solid var(--color-border); }
-  .mega-sub__link {
-    display: block; padding: 4px var(--space-2); font-size: 0.82rem; font-weight: 600;
-    color: var(--color-ink-soft); text-decoration: none; border-radius: 6px;
-    transition: background 120ms, color 120ms, padding-left 120ms;
+  /* ===== Columns variant (Impact) =====
+     One tidy column per pillar with its programs underneath, and the
+     loose links (Stories / Newsletters / Reports) in a slim footer row.
+     Replaces the old single-column nested list that made the Impact
+     panel absurdly tall. */
+  .mega-panel__inner--columns {
+    display: block;
+    padding: var(--space-8) var(--space-6) var(--space-6);
   }
-  .mega-sub__link:hover { background: var(--color-cream); color: var(--color-green); padding-left: var(--space-3); }
+  .mega-cols {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .mega-col__title {
+    display: block;
+    text-decoration: none;
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-gold);
+  }
+  .mega-col__label {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--color-green);
+    line-height: 1.25;
+    transition: color 140ms;
+  }
+  .mega-col__title:hover .mega-col__label { color: var(--color-gold-deep); }
+  .mega-col__desc {
+    display: block;
+    margin-top: 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-sage);
+  }
+  .mega-col__list { list-style: none; margin: 0; padding: 0; display: grid; align-items: start; gap: 2px; }
+  .mega-col__list a {
+    display: block;
+    padding: 6px var(--space-2);
+    margin-left: calc(-1 * var(--space-2));
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 120ms, color 120ms;
+  }
+  .mega-col__list a:hover { background: var(--color-cream); color: var(--color-green); }
+  .mega-panel__more {
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+  .mega-panel__more-link {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-green);
+    text-decoration: none;
+    transition: color 140ms;
+  }
+  .mega-panel__more-link:hover { color: var(--color-gold-deep); }
+  .mega-panel__more-link span { color: var(--color-gold); }
   .mega-link__badge {
     font-size: 0.65rem;
     font-weight: 700;
@@ -427,6 +564,27 @@ function isCurrent(href: string) {
   .mega-panel__feature-cta { margin-top: var(--space-2); font-weight: 700; color: var(--color-gold-deep); font-size: 0.9rem; }
 
   .site-header__actions { display: flex; align-items: center; gap: var(--space-3); }
+  .site-header__login {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-green);
+    padding: 10px var(--space-2);
+    transition: color 140ms;
+  }
+  .site-header__login svg { flex: none; }
+  .site-header__login:hover { color: var(--color-gold-deep); }
+  .site-header--transparent .site-header__login { color: var(--color-white); }
+  .site-header--transparent .site-header__login:hover { color: var(--color-gold); }
+  .site-header--transparent.is-scrolled .site-header__login,
+  .site-header--transparent.is-menu-open .site-header__login { color: var(--color-green); }
+  .site-header--transparent.is-scrolled .site-header__login:hover,
+  .site-header--transparent.is-menu-open .site-header__login:hover { color: var(--color-gold-deep); }
   .site-header__partner {
     font-size: 0.78rem;
     font-weight: 700;
