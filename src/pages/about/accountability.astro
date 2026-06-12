@@ -4,6 +4,7 @@ import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import SavannaBand from '../../components/redesign/SavannaBand.astro';
+import NumberScroller from '../../components/redesign/NumberScroller.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE, IMPACT_STATS } from '../../lib/site';
 
@@ -68,22 +69,15 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     <p class="steward__body">We strive to be faithful stewards of the gifts entrusted to us. Scriptural standards are the means by which we make ourselves accountable to you, those we serve, and most of all to God. We are committed to wise stewardship and to efficiently making the greatest impact while advancing the kingdom of God. We focus on transformational change and self-sustenance that have a multiplying and long lasting effect. As you partner, we as the steward of your donation stand committed to bear much fruit because of your sacred trust. We have a responsibility to maintain integrity and transparency in our financial practice. If you have any questions regarding our finances, please email <a href="mailto:accounting@favourafrica.org">accounting@favourafrica.org</a>.</p>
   </RdFeature>
 
-  <section class="band band--white">
+  <NumberScroller
+    label="Audited financials"
+    heading="The numbers behind the work."
+    stats={IMPACT_STATS}
+  />
+
+  <section class="band band--white band--tight">
     <div class="container">
-      <LeafHeading
-        label="Audited financials"
-        title="The numbers behind the work."
-        intro="Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections."
-      />
-      <div class="acct-stats">
-        {IMPACT_STATS.map((s) => (
-          <div class="acct-stat">
-            <span class="acct-stat__num">{s.value}</span>
-            <span class="acct-stat__label">{s.label}</span>
-            <span class="acct-stat__src">{s.source}</span>
-          </div>
-        ))}
-      </div>
+      <p class="acct-lede">Every number above is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
       <div class="acct-badges">
         <a href={SITE.trust.ecfa} target="_blank" rel="noopener" aria-label="ECFA Accredited"><img src="/images/trust/ecfa.png" alt="ECFA Accredited" width="92" height="92" /></a>
         <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener" aria-label="Charity Navigator Four-Star"><img src="/images/trust/charity-navigator.svg" alt="Charity Navigator Four-Star" width="92" height="92" /></a>
@@ -183,30 +177,29 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
 </RedesignLayout>
 
 <style>
-  .acct-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(40px, 5vw, 64px) var(--space-8); text-align: center; }
-  @media (max-width: 760px) { .acct-stats { grid-template-columns: repeat(2, 1fr); } }
-  .acct-stat__num { display: block; font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-display); color: var(--color-green-deep); line-height: 1; letter-spacing: -0.02em; }
-  .acct-stat__label { display: block; margin-top: var(--space-4); font-weight: 800; font-size: var(--rd-fs-small); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .acct-stat__src { display: block; margin-top: var(--space-3); font-size: var(--rd-fs-small); color: var(--color-sage); }
-  .acct-badges { display: flex; justify-content: center; align-items: center; gap: clamp(var(--space-8), 8vw, var(--space-20)); margin-top: clamp(64px, 8vw, 96px); flex-wrap: wrap; }
+  .acct-lede { text-align: center; max-width: 58ch; margin: 0 auto; color: var(--color-ink-soft); line-height: 1.75; }
+  .acct-badges { display: flex; justify-content: center; align-items: center; gap: clamp(var(--space-8), 8vw, var(--space-20)); margin-top: clamp(48px, 6vw, 72px); flex-wrap: wrap; }
   .acct-badges img { height: 92px; width: auto; transition: transform 160ms; }
   .acct-badges a:hover img { transform: translateY(-3px); }
 
   .acct-sub { color: var(--color-ink-soft); margin: var(--space-3) 0 0; text-align: center; }
   .acct-financials-title { margin-top: clamp(72px, 9vw, 120px); text-align: center; }
-  .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-8); }
+  .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: clamp(48px, 6vw, 64px); }
   @media (max-width: 720px) { .doc-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 460px) { .doc-grid { grid-template-columns: 1fr; } }
+  /* Slight, transparent border so each report reads as its own item
+     (Daniel's rule: a clear edge beats a big blurry shadow). */
   .doc-card {
     display: flex; align-items: center; gap: var(--space-3);
     padding: var(--space-5) var(--space-6);
-    background: var(--color-cream);
+    background: var(--color-white);
+    border: 1px solid rgba(31, 58, 26, 0.12);
     border-radius: var(--radius-card);
-    box-shadow: var(--rd-shadow);
+    box-shadow: 0 2px 10px rgba(31, 58, 26, 0.05);
     text-decoration: none; color: var(--color-green); font-weight: 600; font-size: var(--rd-fs-body);
-    transition: transform 140ms, background 140ms, box-shadow 140ms;
+    transition: transform 140ms, border-color 140ms, box-shadow 140ms;
   }
-  .doc-card:hover { transform: translateY(-2px); background: var(--color-white); box-shadow: var(--rd-shadow-lift); }
+  .doc-card:hover { transform: translateY(-2px); border-color: var(--color-gold); box-shadow: 0 6px 18px rgba(31, 58, 26, 0.09); }
   .doc-card__icon { flex: 0 0 auto; color: var(--color-gold-deep); }
   .acct-ein { margin-top: var(--space-10); font-size: var(--rd-fs-small); color: var(--color-sage); text-align: center; }
 

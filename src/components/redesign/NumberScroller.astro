@@ -1,0 +1,215 @@
+---
+// Scroll-driven impact numbers, after Daniel's HopeRise reference: the section
+// pins, one giant green number at a time, the value scrubs up as you scroll,
+// the background crossfades between the three allowed colors, and a dome of
+// the next color sweeps up from the bottom between stats.
+// No JS or prefers-reduced-motion: a clean static grid renders instead.
+export interface Props {
+  label?: string;
+  heading: string;
+  stats: { value: string; label: string; source?: string }[];
+}
+const { label, heading, stats } = Astro.props as Props;
+const statsJson = JSON.stringify(stats);
+---
+<section class="rd-nums" data-rd-nums data-stats={statsJson} style={`--segs:${stats.length}`}>
+  <!-- Static fallback (default; JS upgrades to the pinned scroller) -->
+  <div class="band band--white rd-nums__static" data-static>
+    <div class="container">
+      <header class="band__header">
+        {label && <p class="label">{label}</p>}
+        <h2>{heading}</h2>
+      </header>
+      <div class="rd-nums__grid">
+        {stats.map((s) => (
+          <div class="rd-nums__cell">
+            <span class="rd-nums__num">{s.value}</span>
+            <span class="rd-nums__cap">{s.label}</span>
+            {s.source && <span class="rd-nums__src">{s.source}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Pinned scroller (enabled by JS) -->
+  <div class="rd-nums__track" data-track hidden>
+    <div class="rd-nums__pin" data-pin>
+      <svg class="rd-nums__dome" data-dome viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+        <path data-domepath d="M0 220 C 360 40 1080 40 1440 220 L1440 220 L0 220 Z" fill="#faf7f1" />
+      </svg>
+      <div class="rd-nums__inner container">
+        {label && <p class="label">{label}</p>}
+        <h2>{heading}</h2>
+        <div class="rd-nums__stat" data-stat aria-live="polite">
+          <span class="rd-nums__num rd-nums__num--big" data-num></span>
+          <span class="rd-nums__cap" data-cap></span>
+          <span class="rd-nums__src" data-src></span>
+        </div>
+        <div class="rd-nums__dots" data-dots aria-hidden="true">
+          {stats.map(() => <span class="rd-nums__dot"></span>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const COLORS = ['#ffffff', '#faf7f1', '#eef4ec', '#faf7f1', '#ffffff', '#eef4ec'];
+
+  function parseVal(v: string) {
+    const m = v.match(/([\d][\d,.]*)/);
+    if (!m || m.index === undefined) return null;
+    const numStr = m[1];
+    const num = parseFloat(numStr.replace(/,/g, ''));
+    const decimals = (numStr.split('.')[1] || '').length;
+    return {
+      num, decimals,
+      prefix: v.slice(0, m.index),
+      suffix: v.slice(m.index + numStr.length),
+      grouping: numStr.includes(','),
+      from: num >= 1000 && decimals === 0 ? num - 50 : 0,
+    };
+  }
+
+  function init(root: HTMLElement) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    const stats = JSON.parse(root.dataset.stats || '[]');
+    if (!stats.length) return;
+
+    const track = root.querySelector('[data-track]') as HTMLElement;
+    const pin = root.querySelector('[data-pin]') as HTMLElement;
+    const statEl = root.querySelector('[data-stat]') as HTMLElement;
+    const numEl = root.querySelector('[data-num]') as HTMLElement;
+    const capEl = root.querySelector('[data-cap]') as HTMLElement;
+    const srcEl = root.querySelector('[data-src]') as HTMLElement;
+    const dome = root.querySelector('[data-dome]') as SVGElement;
+    const domePath = root.querySelector('[data-domepath]') as SVGPathElement;
+    const dots = Array.from(root.querySelectorAll('.rd-nums__dot'));
+    const staticEl = root.querySelector('[data-static]') as HTMLElement;
+
+    staticEl.hidden = true;
+    track.hidden = false;
+
+    const N = stats.length;
+    const parsed = stats.map((s: any) => parseVal(s.value));
+    let lastI = -1;
+
+    function fmt(p: any, t: number) {
+      const val = p.from + (p.num - p.from) * t;
+      const fixed = val.toFixed(p.decimals);
+      const out = p.grouping ? Number(fixed).toLocaleString('en-US', { minimumFractionDigits: p.decimals }) : fixed;
+      return p.prefix + out + p.suffix;
+    }
+
+    function update() {
+      const rect = track.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height - vh;
+      const raw = Math.min(Math.max(-rect.top / total, 0), 0.9999);
+      const p = raw * N;
+      const i = Math.floor(p);
+      const frac = p - i;
+
+      if (i !== lastI) {
+        capEl.textContent = stats[i].label;
+        srcEl.textContent = stats[i].source || '';
+        pin.style.background = COLORS[i % COLORS.length];
+        statEl.classList.remove('is-in');
+        void statEl.offsetWidth; /* restart entry animation */
+        statEl.classList.add('is-in');
+        dots.forEach((d, di) => d.classList.toggle('is-on', di === i));
+        lastI = i;
+      }
+
+      const t = Math.min(frac / 0.5, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      numEl.textContent = parsed[i] ? fmt(parsed[i], eased) : stats[i].value;
+
+      if (i < N - 1) {
+        const d = Math.max(0, (frac - 0.62) / 0.38);
+        domePath.setAttribute('fill', COLORS[(i + 1) % COLORS.length]);
+        dome.style.transform = `translateY(${100 - d * 100}%)`;
+        dome.style.opacity = d > 0 ? '1' : '0';
+      } else {
+        dome.style.opacity = '0';
+      }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-rd-nums]').forEach(init);
+</script>
+
+<style>
+  .rd-nums__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(48px, 6vw, 80px) var(--space-8);
+    text-align: center;
+    max-width: 960px;
+    margin-inline: auto;
+  }
+  @media (max-width: 600px) { .rd-nums__grid { grid-template-columns: 1fr; } }
+
+  .rd-nums__track { height: calc((var(--segs) + 1) * 100vh); }
+  .rd-nums__pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #ffffff;
+    transition: background 600ms ease;
+  }
+  .rd-nums__inner { text-align: center; }
+  .rd-nums__inner h2 { margin: 0 0 clamp(40px, 6vh, 72px); }
+
+  .rd-nums__stat { display: block; min-height: 9rem; }
+  .rd-nums__stat.is-in { animation: rd-nums-in 420ms ease both; }
+  @keyframes rd-nums-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .rd-nums__num {
+    display: block;
+    font-weight: 800;
+    font-size: var(--rd-fs-display);
+    color: var(--color-green-bright);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .rd-nums__num--big { font-size: clamp(3.4rem, 9vw, 7rem); }
+  .rd-nums__cap {
+    display: block;
+    margin-top: var(--space-6);
+    font-weight: 800;
+    font-size: var(--rd-fs-small);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+  .rd-nums__src { display: block; margin-top: var(--space-3); font-size: var(--rd-fs-small); color: var(--color-sage); }
+
+  .rd-nums__dome {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: clamp(120px, 24vh, 220px);
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .rd-nums__dots { display: flex; gap: var(--space-3); justify-content: center; margin-top: clamp(40px, 6vh, 64px); }
+  .rd-nums__dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(31, 58, 26, 0.18); transition: background 300ms, transform 300ms; }
+  .rd-nums__dot.is-on { background: var(--color-green-bright); transform: scale(1.25); }
+</style>

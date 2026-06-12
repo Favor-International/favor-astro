@@ -37,8 +37,30 @@ const articles = [
     imageAlt="Bibles ready for distribution in Uganda"
   />
 
-  <section class="band band--white">
-    <div class="container">
+  <section class="band band--white faith-band">
+    <svg class="faith-leaf faith-leaf--1" viewBox="0 0 260 150" aria-hidden="true">
+      <g fill="currentColor">
+        <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
+        <path d="M96 146 C106 112 128 84 162 68 C186 57 212 54 232 60 C208 72 188 88 172 108 C158 126 148 140 144 150 C128 152 110 150 96 146 Z" opacity="0.7" />
+      </g>
+    </svg>
+    <svg class="faith-leaf faith-leaf--2" viewBox="0 0 260 150" aria-hidden="true">
+      <g fill="currentColor">
+        <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
+      </g>
+    </svg>
+    <svg class="faith-leaf faith-leaf--3" viewBox="0 0 260 150" aria-hidden="true">
+      <g fill="currentColor">
+        <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
+        <path d="M96 146 C106 112 128 84 162 68 C186 57 212 54 232 60 C208 72 188 88 172 108 C158 126 148 140 144 150 C128 152 110 150 96 146 Z" opacity="0.7" />
+      </g>
+    </svg>
+    <svg class="faith-leaf faith-leaf--4" viewBox="0 0 260 150" aria-hidden="true">
+      <g fill="currentColor">
+        <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
+      </g>
+    </svg>
+    <div class="container faith-band__content">
       <LeafHeading
         label="What we believe"
         title="In one accord, we believe."
@@ -64,6 +86,25 @@ const articles = [
 </RedesignLayout>
 
 <style>
+  /* Faint leaves drifting down the margins as you scroll. African touch,
+     never in the reading column, never asking for attention. */
+  .faith-band { position: relative; isolation: isolate; overflow: hidden; }
+  .faith-band__content { position: relative; z-index: 1; }
+  .faith-leaf {
+    position: absolute;
+    width: clamp(150px, 16vw, 230px);
+    height: auto;
+    color: #cfe0c6;
+    opacity: 0.42;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .faith-leaf--1 { top: 16%; left: 3%; transform: rotate(-10deg); }
+  .faith-leaf--2 { top: 38%; right: 4%; transform: rotate(152deg); }
+  .faith-leaf--3 { top: 62%; left: 5%; transform: rotate(8deg); }
+  .faith-leaf--4 { top: 84%; right: 3%; transform: rotate(168deg); }
+  @media (max-width: 1100px) { .faith-leaf { display: none; } }
+
   /* A confession reads as one quiet column, not a grid of loud boxes.
      Hierarchy from size, weight, and lightness; air between articles. */
   .faith-list {

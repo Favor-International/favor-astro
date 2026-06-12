@@ -5,6 +5,19 @@ import RdFeature from '../../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../../components/redesign/LeafHeading.astro';
 import RdCta from '../../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../../components/global/VideoEmbed.astro';
+
+// Carole's videos, verified against the Favor International YouTube channel
+// (titles match the channel exactly). The old playlist link was dead, so the
+// "more" button now points to the channel's Carole Ward search.
+const videos = [
+  { id: 'g2fB1RwyHNM', title: 'The Carole Ward Story', desc: 'Carole tells her own story: the prayer, the war, and how Favor began.' },
+  { id: '5oUghxzqGXU', title: 'Nations Media Podcast with Carole Ward', desc: 'A conversation about the work across northeast Africa, on The Nations Media Podcast.' },
+  { id: 'Y5pWE0AX97M', title: 'Reigniting a Passion for Prayer', desc: 'Carole on returning to the prayer that everything in Favor flows from.' },
+  { id: 'XRrQ9Da3ToI', title: 'Breakthrough Prayer with Carole Ward, Part 1', desc: 'A teaching on the kind of praying that has marked Favor from the start.' },
+  { id: 'l3jtHXnJnjc', title: 'A Brief Introduction to Favor', desc: 'Carole introduces the ministry and its mission, in brief.' },
+  { id: 'Hvd0ksY3ruU', title: 'Jeff Crilley Show: Carole Ward Interview', desc: 'A television interview about the story behind the ministry.' },
+];
+const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?query=carole%20ward';
 ---
 <RedesignLayout
   title="Founder Carole Ward"
@@ -43,15 +56,19 @@ import VideoEmbed from '../../../components/global/VideoEmbed.astro';
   </section>
 
   <section class="band band--white">
-    <div class="container container--narrow founder-more">
+    <div class="container founder-more">
       <LeafHeading label="In her own words" title="Get to know Carole&rsquo;s story more." />
       <div class="founder-videos">
-        <VideoEmbed id="5oUghxzqGXU" title="Carole Sharing Favor Stories on The Nations Media Podcast" />
-        <VideoEmbed id="Y5pWE0AX97M" title="Carole Summarizing Her Story in a Home Group" />
-        <VideoEmbed id="g2fB1RwyHNM" title="Carole on Re-igniting a Passion for Prayer" />
+        {videos.map((v) => (
+          <div class="founder-video">
+            <VideoEmbed id={v.id} title={v.title} />
+            <h3>{v.title}</h3>
+            <p>{v.desc}</p>
+          </div>
+        ))}
       </div>
       <p class="band__cta-row">
-        <a class="btn btn--secondary" href="https://www.youtube.com/playlist?list=PLjCR1m3nUEPUB6x-kTEHRNwZxcZ2SH-Vd" target="_blank" rel="noopener">More talks and interviews on YouTube</a>
+        <a class="btn btn--secondary" href={CAROLE_YOUTUBE} target="_blank" rel="noopener">More talks and interviews on YouTube</a>
       </p>
       <div class="founder-book rd-card">
         <h3>The Carole Ward Story</h3>
@@ -84,7 +101,17 @@ import VideoEmbed from '../../../components/global/VideoEmbed.astro';
   .founder-back { margin-top: var(--space-10); }
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 
-  .founder-videos { display: grid; gap: clamp(48px, 6vw, 80px); }
+  .founder-videos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(56px, 7vw, 88px) clamp(32px, 4vw, 56px);
+  }
+  @media (max-width: 820px) { .founder-videos { grid-template-columns: 1fr; } }
+  .founder-video h3 { margin: var(--space-6) 0 var(--space-2); color: var(--color-green); }
+  .founder-video p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+  /* Title and description live below the video now; no overlay duplicate. */
+  .founder-video :global(.video-embed__label) { display: none; }
+  .founder-video :global(.video-embed__scrim) { background: linear-gradient(180deg, rgba(20,30,18,0) 70%, rgba(20,30,18,0.25) 100%); }
   .founder-book {
     margin-top: clamp(72px, 9vw, 112px);
     text-align: center;

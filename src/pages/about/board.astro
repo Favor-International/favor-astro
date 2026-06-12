@@ -55,9 +55,13 @@ const governance = [
     </div>
   </section>
 
-  <section class="band band--greenlight">
-    <div class="container">
-      <LeafHeading label="Governance" title="How the board works." />
+  <section class="band band--greenlight gov-band">
+    <svg class="gov-band__leaf" viewBox="0 0 400 400" aria-hidden="true">
+      <path fill="currentColor" d="M52 374 C40 280 64 186 128 116 C176 64 244 30 318 24 C342 22 362 26 372 34 C332 56 296 86 266 122 C300 110 338 106 370 112 C346 138 314 158 278 170 C236 184 198 192 168 214 C124 246 92 300 80 376 C70 380 58 380 52 374 Z" />
+      <path fill="currentColor" opacity="0.6" d="M96 376 C100 320 122 268 162 230 C150 270 142 318 142 376 C128 380 106 380 96 376 Z" />
+    </svg>
+    <div class="container gov-band__content">
+      <LeafHeading label="Governance" title="How the board works." leaves={false} />
       <div class="gov-grid">
         {governance.map((g) => (
           <article class="rd-card">
@@ -89,6 +93,23 @@ const governance = [
 </RedesignLayout>
 
 <style>
+  /* One big, very transparent leaf living behind the governance section.
+     A touch of Africa in the background; never competing for attention. */
+  .gov-band { position: relative; isolation: isolate; overflow: hidden; }
+  .gov-band__leaf {
+    position: absolute;
+    right: -90px;
+    bottom: -120px;
+    width: clamp(320px, 34vw, 560px);
+    height: auto;
+    color: var(--color-green);
+    opacity: 0.05;
+    transform: rotate(14deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .gov-band__content { position: relative; z-index: 1; }
+
   .gov-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

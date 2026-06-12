@@ -1,7 +1,7 @@
 ---
 // Contained CTA: a deep-green rounded container set inside a white band, so
-// the dark moment reads as an element (not a 4th background color). Faint
-// leaves in the corner, one clear action.
+// the dark moment reads as an element (not a 4th background color). A faint
+// savanna silhouette sits along the bottom edge; one clear action.
 export interface Props {
   heading: string;
   body?: string;
@@ -15,10 +15,27 @@ const { heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref } = Astr
 <section class="band band--white band--tight">
   <div class="container">
     <div class="rd-cta">
-      <svg class="rd-cta__leaves" viewBox="0 0 260 150" aria-hidden="true">
-        <g fill="currentColor">
-          <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
-          <path d="M96 146 C106 112 128 84 162 68 C186 57 212 54 232 60 C208 72 188 88 172 108 C158 126 148 140 144 150 C128 152 110 150 96 146 Z" opacity="0.7" />
+      <svg class="rd-cta__scene" viewBox="0 0 1200 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <g id="rd-cta-acacia">
+            <g stroke="currentColor" fill="none" stroke-linecap="round">
+              <path d="M0 0 C2 -34 -2 -62 -14 -92" stroke-width="5.5" />
+              <path d="M-4 -50 C10 -72 26 -86 46 -97" stroke-width="3.5" />
+              <path d="M-7 -62 C-22 -80 -36 -90 -54 -100" stroke-width="3" />
+            </g>
+            <g fill="currentColor">
+              <path d="M-122 -110 C-106 -125 -78 -134 -52 -135 C-35 -146 -3 -150 19 -142 C45 -149 81 -142 99 -129 C113 -121 117 -112 111 -106 C96 -99 76 -96 54 -94 C58 -90 56 -86 48 -84 C30 -80 8 -81 -6 -86 C-30 -84 -58 -86 -80 -92 C-102 -97 -118 -103 -122 -110 Z" />
+              <path d="M62 -100 C80 -106 104 -104 118 -97 C112 -88 88 -84 68 -88 C60 -91 58 -96 62 -100 Z" />
+            </g>
+          </g>
+        </defs>
+        <path d="M0 226 C 200 222 420 227 600 225 C 820 223 1040 227 1200 224" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.8" />
+        <use href="#rd-cta-acacia" transform="translate(132 226) scale(0.95)" />
+        <use href="#rd-cta-acacia" transform="translate(1066 225) scale(-0.6 0.6)" opacity="0.8" />
+        <use href="#rd-cta-acacia" transform="translate(760 224) scale(0.3)" opacity="0.55" />
+        <g stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7">
+          <path d="M420 225 c-3 -7 -5 -10 -8 -13 M424 225 c0 -9 1 -12 2 -15 M429 225 c3 -6 5 -8 8 -11" />
+          <path d="M920 224 c-3 -7 -4 -9 -7 -12 M924 224 c0 -8 1 -11 2 -14" />
         </g>
       </svg>
       <h2>{heading}</h2>
@@ -42,21 +59,21 @@ const { heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref } = Astr
     background: var(--color-green-deep);
     border-radius: calc(var(--rd-radius) + 8px);
     box-shadow: var(--rd-shadow-lift);
-    padding: clamp(64px, 9vw, 128px) clamp(24px, 6vw, 96px);
+    padding: clamp(72px, 9vw, 128px) clamp(24px, 6vw, 96px) clamp(120px, 14vw, 180px);
   }
-  .rd-cta__leaves {
+  .rd-cta__scene {
     position: absolute;
-    top: -30px;
-    right: -34px;
-    width: clamp(160px, 18vw, 240px);
-    height: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: clamp(110px, 16vw, 200px);
     color: var(--color-white);
-    opacity: 0.07;
-    transform: rotate(160deg);
+    opacity: 0.08;
     pointer-events: none;
     z-index: 0;
   }
-  .rd-cta > :global(*:not(.rd-cta__leaves)) { position: relative; z-index: 1; }
+  .rd-cta > :global(*:not(.rd-cta__scene)) { position: relative; z-index: 1; }
   .rd-cta h2 { color: var(--color-white); margin: 0 0 var(--space-5); }
   .rd-cta p {
     color: color-mix(in srgb, var(--color-white) 82%, transparent);

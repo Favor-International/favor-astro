@@ -10,37 +10,49 @@ const { tight = false } = Astro.props as Props;
 ---
 <section class={`band rd-savanna ${tight ? 'band--tight' : ''}`}>
   <svg class="rd-savanna__scene" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-    <!-- ground line -->
-    <path d="M0 312 C 240 306 480 310 720 308 C 960 306 1200 310 1440 307" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" />
-    <!-- large acacia, left -->
-    <g>
-      <g stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round">
-        <path d="M150 310 C 152 262 146 232 128 200" />
-        <path d="M148 262 C 172 234 196 220 222 212" />
-        <path d="M145 240 C 124 224 106 217 88 214" />
+    <defs>
+      <g id="rd-acacia">
+        <!-- trunk + branches -->
+        <g stroke="currentColor" fill="none" stroke-linecap="round">
+          <path d="M0 0 C2 -34 -2 -62 -14 -92" stroke-width="5.5" />
+          <path d="M-4 -50 C10 -72 26 -86 46 -97" stroke-width="3.5" />
+          <path d="M-7 -62 C-22 -80 -36 -90 -54 -100" stroke-width="3" />
+          <path d="M-11 -80 C-4 -90 4 -98 14 -104" stroke-width="2.5" />
+        </g>
+        <!-- flat-topped canopy, irregular edges -->
+        <g fill="currentColor">
+          <path d="M-122 -110 C-106 -125 -78 -134 -52 -135 C-35 -146 -3 -150 19 -142 C45 -149 81 -142 99 -129 C113 -121 117 -112 111 -106 C96 -99 76 -96 54 -94 C58 -90 56 -86 48 -84 C30 -80 8 -81 -6 -86 C-30 -84 -58 -86 -80 -92 C-102 -97 -118 -103 -122 -110 Z" />
+          <path d="M62 -100 C80 -106 104 -104 118 -97 C112 -88 88 -84 68 -88 C60 -91 58 -96 62 -100 Z" />
+        </g>
       </g>
-      <g fill="currentColor">
-        <ellipse cx="150" cy="190" rx="104" ry="20" />
-        <ellipse cx="84" cy="204" rx="50" ry="13" />
-        <ellipse cx="226" cy="203" rx="56" ry="14" />
+      <g id="rd-bush" fill="currentColor">
+        <path d="M-34 0 C-30 -10 -18 -17 -2 -18 C14 -19 28 -13 33 -4 C34 -2 33 0 30 0 Z" />
       </g>
-    </g>
-    <!-- small acacia, right -->
-    <g>
-      <g stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round">
-        <path d="M1232 309 C 1233 280 1229 262 1218 242" />
-        <path d="M1231 281 C 1247 263 1262 254 1278 249" />
-      </g>
-      <g fill="currentColor">
-        <ellipse cx="1238" cy="236" rx="62" ry="12" />
-        <ellipse cx="1284" cy="245" rx="34" ry="9" />
-      </g>
-    </g>
+    </defs>
+
+    <!-- distant horizon line, slightly uneven -->
+    <path d="M0 303 C 220 299 440 304 720 302 C 1000 300 1240 304 1440 301" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.8" />
+
+    <!-- far pair, small and lighter -->
+    <use href="#rd-acacia" transform="translate(884 301) scale(0.34)" opacity="0.5" />
+    <use href="#rd-acacia" transform="translate(972 300) scale(0.26) scale(-1 1)" opacity="0.45" />
+
+    <!-- midground tree, right -->
+    <use href="#rd-acacia" transform="translate(1244 302) scale(-0.78 0.78)" opacity="0.8" />
+
+    <!-- foreground tree, left -->
+    <use href="#rd-acacia" transform="translate(176 303) scale(1.18)" />
+
+    <!-- bushes -->
+    <use href="#rd-bush" transform="translate(560 302) scale(1.1)" opacity="0.7" />
+    <use href="#rd-bush" transform="translate(1080 302) scale(0.8) scale(-1 1)" opacity="0.6" />
+
     <!-- grass tufts -->
-    <g stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round">
-      <path d="M420 310 l-6 -16 M424 310 l2 -19 M430 310 l8 -14" />
-      <path d="M760 308 l-5 -13 M764 308 l1 -16 M769 308 l7 -11" />
-      <path d="M1050 309 l-6 -15 M1054 309 l2 -18 M1060 309 l8 -12" />
+    <g stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.75">
+      <path d="M420 302 c-3 -8 -5 -12 -9 -16 M424 302 c0 -10 1 -14 2 -19 M429 302 c3 -7 6 -10 10 -13" />
+      <path d="M742 301 c-3 -7 -4 -10 -8 -13 M746 301 c0 -8 1 -12 2 -16 M751 301 c3 -6 5 -8 8 -11" />
+      <path d="M1010 302 c-3 -8 -5 -11 -9 -15 M1014 302 c0 -9 1 -13 2 -17 M1019 302 c3 -7 5 -9 9 -12" />
+      <path d="M300 303 c-2 -6 -4 -9 -7 -12 M304 303 c0 -8 0 -11 1 -14" />
     </g>
   </svg>
   <div class="container rd-savanna__content">
@@ -60,13 +72,14 @@ const { tight = false } = Astro.props as Props;
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: -2px;
     width: 100%;
-    height: clamp(130px, 22vw, 290px);
+    height: clamp(150px, 24vw, 310px);
     color: #5a4c36;
-    opacity: 0.09;
+    opacity: 0.11;
     pointer-events: none;
     z-index: 0;
   }
-  .rd-savanna__content { position: relative; z-index: 1; }
+  .rd-savanna__content { position: relative; z-index: 1; padding-bottom: clamp(120px, 16vw, 220px); }
+  .rd-savanna.band { padding-bottom: clamp(40px, 5vw, 64px); }
 </style>
