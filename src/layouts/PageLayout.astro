@@ -9,10 +9,11 @@ export interface Props {
   description?: string;
   image?: string;
   headerVariant?: 'transparent' | 'opaque';
+  noindex?: boolean;
 }
-const { title, description, image, headerVariant = 'opaque' } = Astro.props as Props;
+const { title, description, image, headerVariant = 'opaque', noindex } = Astro.props as Props;
 ---
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} image={image} noindex={noindex}>
   <SiteHeader variant={headerVariant} />
   <main id="main">
     <slot />

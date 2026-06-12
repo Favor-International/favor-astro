@@ -1,0 +1,229 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { PILLARS } from '../lib/site';
+import { PROGRAMS } from '../data/programs';
+import directorsData from '../data/directors.json';
+import storiesData from '../data/stories.json';
+
+// Human-friendly sitemap of every page on the site, for working without the
+// menu. Dynamic routes are built from the same data files as the pages
+// themselves, so this list stays in sync automatically. Noindexed.
+
+const people = directorsData
+  .filter((d) => d.slug !== 'carole-ward')
+  .map((d) => ({ href: `/about/people/${d.slug}/`, label: d.fullName, sub: d.position }));
+
+const stories = storiesData.map((s) => ({ href: `/stories/${s.slug}/`, label: s.title, sub: s.date }));
+
+const pillarSections = PILLARS.map((p) => ({
+  href: `/impact/${p.slug}/`,
+  label: p.label,
+  children: PROGRAMS.filter((pr) => pr.pillar === p.slug).map((pr) => ({
+    href: `/impact/${pr.pillar}/${pr.slug}/`,
+    label: pr.name,
+  })),
+}));
+
+const give = [
+  { href: '/give/', label: 'Give (overview)' },
+  { href: '/give/donate/', label: 'Donate' },
+  { href: '/give/one-time/', label: 'One-Time Gift' },
+  { href: '/give/partner-monthly/', label: 'Become a Favor Partner (Monthly)' },
+  { href: '/give/specific-project/', label: 'Give to a Specific Project' },
+  { href: '/give/church-partnership/', label: 'Church Partnership' },
+  { href: '/give/foundation/', label: 'Foundations' },
+  { href: '/give/international/', label: 'International Giving' },
+  { href: '/give/legacy/', label: 'Legacy Giving' },
+  { href: '/give/non-cash/', label: 'Non-Cash Gifts' },
+];
+
+const go = [
+  { href: '/go/', label: 'Go (overview)' },
+  { href: '/go/vision-trips/', label: 'Vision Trips' },
+  { href: '/go/volunteer/', label: 'Volunteer' },
+];
+
+const pray = [
+  { href: '/pray/', label: 'Pray (overview)' },
+  { href: '/pray/30-day-guide/', label: '30-Day Prayer Guide' },
+];
+
+const about = [
+  { href: '/about/', label: 'About (overview)' },
+  { href: '/about/our-story/', label: 'Our Story' },
+  { href: '/about/our-story/founder/', label: 'Carole Ward (Founder)' },
+  { href: '/about/mission-vision/', label: 'Mission & Vision' },
+  { href: '/about/statement-of-faith/', label: 'Statement of Faith' },
+  { href: '/about/where-we-work/', label: 'Where We Work' },
+  { href: '/about/board/', label: 'Board of Directors' },
+  { href: '/about/team/', label: 'Team' },
+  { href: '/about/accountability/', label: 'Accountability' },
+  { href: '/about/contact/', label: 'Contact' },
+];
+
+const media = [
+  { href: '/watch/', label: 'Watch' },
+  { href: '/newsletter/', label: 'Newsletter' },
+  { href: '/newsletter/archive/', label: 'Newsletter Archive' },
+  { href: '/stories/', label: 'Stories (index)' },
+];
+
+const totalPages =
+  1 /* home */ +
+  1 /* impact index */ +
+  pillarSections.length +
+  PROGRAMS.length +
+  give.length +
+  go.length +
+  pray.length +
+  about.length +
+  people.length +
+  media.length +
+  stories.length +
+  1; /* this page */
+---
+<PageLayout
+  title="Sitemap"
+  description="Every page on favorintl.org, organized by section."
+  noindex
+>
+  <section class="band band--cream sitemap-hero">
+    <div class="container">
+      <p class="label">Sitemap</p>
+      <h1>Every page, one place.</h1>
+      <p class="sitemap-intro">{totalPages} pages, organized by section. Built from the site's own data, so it is always current.</p>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <div class="sitemap-grid">
+
+        <div class="sitemap-col">
+          <article class="sitemap-group">
+            <h2>Home</h2>
+            <ul>
+              <li><a href="/">Homepage</a></li>
+            </ul>
+          </article>
+
+          <article class="sitemap-group">
+            <h2>Impact</h2>
+            <ul>
+              <li><a href="/impact/">Impact (overview)</a></li>
+              {pillarSections.map((p) => (
+                <li>
+                  <a href={p.href}>{p.label}</a>
+                  <ul>
+                    {p.children.map((c) => (
+                      <li><a href={c.href}>{c.label}</a></li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+        <div class="sitemap-col">
+          <article class="sitemap-group">
+            <h2>Give</h2>
+            <ul>
+              {give.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </article>
+
+          <article class="sitemap-group">
+            <h2>Go</h2>
+            <ul>
+              {go.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </article>
+
+          <article class="sitemap-group">
+            <h2>Pray</h2>
+            <ul>
+              {pray.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </article>
+
+          <article class="sitemap-group">
+            <h2>Media</h2>
+            <ul>
+              {media.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </article>
+        </div>
+
+        <div class="sitemap-col">
+          <article class="sitemap-group">
+            <h2>About</h2>
+            <ul>
+              {about.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </article>
+
+          <article class="sitemap-group">
+            <h2>People profiles</h2>
+            <ul>
+              {people.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                  <span class="sitemap-sub">{l.sub}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <header class="band__header">
+        <p class="label">Stories from the field</p>
+        <h2>All {stories.length} stories.</h2>
+      </header>
+      <ul class="sitemap-stories">
+        {stories.map((s) => (
+          <li>
+            <a href={s.href}>{s.label}</a>
+            <span class="sitemap-sub">{s.sub}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .sitemap-hero h1 { margin: var(--space-2) 0 var(--space-3); }
+  .sitemap-intro { max-width: 60ch; color: var(--color-ink-soft); margin: 0; }
+
+  .sitemap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-10); align-items: start; }
+  @media (max-width: 900px) { .sitemap-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .sitemap-grid { grid-template-columns: 1fr; } }
+
+  .sitemap-col { display: grid; gap: var(--space-8); align-content: start; }
+
+  .sitemap-group { border: 1px solid rgba(0, 0, 0, 0.08); border-radius: var(--radius-card); padding: var(--space-6); background: var(--color-white); box-shadow: var(--shadow-soft); }
+  .sitemap-group h2 { font-size: 1.1rem; color: var(--color-green); margin: 0 0 var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid rgba(0, 0, 0, 0.08); }
+
+  .sitemap-group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+  .sitemap-group ul ul { margin: var(--space-2) 0 var(--space-2) var(--space-4); gap: var(--space-1); }
+  .sitemap-group li { line-height: 1.5; }
+  .sitemap-group a { color: var(--color-ink); text-decoration: none; font-weight: 600; }
+  .sitemap-group a:hover, .sitemap-group a:focus-visible { color: var(--color-gold-deep); text-decoration: underline; }
+  .sitemap-group ul ul a { font-weight: 400; color: var(--color-ink-soft); }
+
+  .sitemap-sub { display: block; font-size: 0.8rem; color: var(--color-ink-soft); }
+
+  .sitemap-stories { list-style: none; margin: 0; padding: 0; columns: 3; column-gap: var(--space-10); }
+  @media (max-width: 900px) { .sitemap-stories { columns: 2; } }
+  @media (max-width: 620px) { .sitemap-stories { columns: 1; } }
+  .sitemap-stories li { break-inside: avoid; margin-bottom: var(--space-4); line-height: 1.45; }
+  .sitemap-stories a { color: var(--color-ink); text-decoration: none; font-weight: 600; }
+  .sitemap-stories a:hover, .sitemap-stories a:focus-visible { color: var(--color-gold-deep); text-decoration: underline; }
+</style>
