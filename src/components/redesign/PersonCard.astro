@@ -1,0 +1,45 @@
+---
+// Uniform person tile: rounded portrait, then name, role, location below.
+// No box, no border — the image and the type carry it (Daniel's card rule).
+export interface Props {
+  href: string;
+  image: string;
+  name: string;
+  role: string;
+  location?: string;
+  bio?: string;
+  objectPosition?: string;
+}
+const { href, image, name, role, location, bio, objectPosition = 'center 22%' } = Astro.props as Props;
+---
+<a class="rd-tile rd-person" href={href}>
+  <div class="rd-person__img">
+    <img src={image} alt={`${name}, ${role}`} loading="lazy" style={`object-position:${objectPosition};`} />
+  </div>
+  <div class="rd-tile__meta">
+    <h3>{name}</h3>
+    <p class="rd-person__role">{role}</p>
+    {location && <span class="rd-kicker rd-person__loc">{location}</span>}
+    {bio && <p class="rd-person__bio">{bio}</p>}
+  </div>
+</a>
+
+<style>
+  .rd-person__img {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--rd-radius);
+    overflow: hidden;
+    background: var(--color-sage-light);
+    box-shadow: var(--rd-shadow);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .rd-person:hover .rd-person__img,
+  .rd-person:focus-visible .rd-person__img {
+    transform: translateY(-5px);
+    box-shadow: var(--rd-shadow-lift);
+  }
+  .rd-person__img img { width: 100%; height: 100%; object-fit: cover; }
+  .rd-person__role { color: var(--color-ink-soft); margin: 0 0 var(--space-2); }
+  .rd-person__loc { margin-top: 0; }
+  .rd-person__bio { margin-top: var(--space-3) !important; line-height: 1.6; }
+</style>

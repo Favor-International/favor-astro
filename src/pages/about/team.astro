@@ -1,9 +1,10 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import PersonCard from '../../components/redesign/PersonCard.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import directorsData from '../../data/directors.json';
 
 // Leadership shown on the Team page: founder + U.S. Executive Directors + Africa Country Director.
@@ -14,7 +15,7 @@ const leadership = leadershipSlugs
   .filter(Boolean);
 const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
 ---
-<PageLayout
+<RedesignLayout
   title="Our Team"
   description="The U.S. executive team and Africa country leadership of Favor International."
 >
@@ -24,47 +25,37 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
     promise="A small U.S. team raises support and stewards funds. Indigenous leaders run every program on the field."
     image="/images/field-2026/evangelism-5.webp"
     imageAlt="Favor leadership at a training session"
-    variant="split"
   />
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Leadership</p>
-        <h2>The people behind the U.S. team.</h2>
-      </header>
-      <p class="band__lede" style="text-align:center; max-width: 760px; margin: 0 auto var(--space-12) auto;">
-        Favor's U.S. office is intentionally small. The role of the U.S. team is to raise prayer
-        and financial support, steward funds with ECFA-grade accountability, and stay out of the
-        field's way. Programs are designed and run by the indigenous leaders who live in each
-        country we serve.
-      </p>
-      <div class="team-grid">
+      <LeafHeading
+        label="Leadership"
+        title="The people behind the U.S. team."
+        intro="Favor's U.S. office is intentionally small. The role of the U.S. team is to raise prayer and financial support, steward funds with ECFA-grade accountability, and stay out of the field's way. Programs are designed and run by the indigenous leaders who live in each country we serve."
+      />
+      <div class="rd-grid rd-grid--3 team-grid">
         {leadership.map((m) => (
-          <a class="leader-card" href={personHref(m.slug)}>
-            <div class="leader-card__photo">
-              <img src={m.imagePath} alt={`${m.fullName}, ${m.position}`} loading="lazy" />
-            </div>
-            <div class="leader-card__body">
-              <h3>{m.fullName}</h3>
-              <p class="leader-card__role">{m.position}</p>
-              <p class="leader-card__location">{m.location}</p>
-              {m.bioIntro && <p class="leader-card__bio">{m.bioIntro}</p>}
-              <span class="leader-card__more">View profile &rarr;</span>
-            </div>
-          </a>
+          <PersonCard
+            href={personHref(m.slug)}
+            image={m.imagePath}
+            name={m.fullName}
+            role={m.position}
+            location={m.location}
+            bio={m.bioIntro}
+          />
         ))}
       </div>
     </div>
   </section>
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/pbs-2.webp"
     imageAlt="A Favor training of trainers session"
     eyebrow="Why the team looks like this"
     heading="A small U.S. office, a large field."
-    layout="image-left"
-    background="cream"
+    side="left"
+    background="greenlight"
   >
     <p>
       Most international ministries grow a large U.S. headquarters and a smaller field
@@ -73,9 +64,9 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
       teachers, evangelists, midwives, accountants, security staff, and program directors.
       The U.S. team is a handful of people whose job is to support them well.
     </p>
-  </FeatureRow>
+  </RdFeature>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/pbs-karamoja.jpg"
     imageAlt="A Portable Bible School class in Karamoja"
     eyebrow="Partner as hero"
@@ -87,93 +78,18 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
       keep going. The indigenous leaders who live in each country we serve design and run every
       program; the U.S. team exists to support them well.
     </p>
-  </OverlayFeature>
+  </RdFeature>
 
-  <CtaBand
+  <RdCta
     heading="See the board."
     body="A volunteer Board of Directors provides governance, financial oversight, and accountability."
     ctaLabel="Meet the Board"
     ctaHref="/about/board/"
-    variant="sage"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-8);
-  }
-  @media (max-width: 900px) { .team-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
-
-  .leader-card {
-    background: var(--color-white);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    border: 2px solid var(--color-green);
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-card);
-    text-decoration: none;
-    color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
-  }
-  .leader-card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(31, 58, 26, 0.16); }
-  .leader-card__more {
-    margin-top: var(--space-3);
-    color: var(--color-gold-deep);
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-  .leader-card:hover .leader-card__more { color: var(--color-green); }
-
-  .leader-card__photo {
-    width: 100%;
-    background: var(--color-sage-light);
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-  }
-  .leader-card__photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 22%;
-    display: block;
-  }
-  .leader-card__body {
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  .leader-card__body h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-green);
-    line-height: 1.15;
-  }
-  .leader-card__role {
-    align-self: start;
-    margin: var(--space-1) 0;
-    font-weight: 700;
-    color: var(--color-green-deep);
-    background: color-mix(in srgb, var(--color-green) 12%, var(--color-white));
-    padding: 4px 12px;
-    border-radius: var(--radius-pill);
-    font-size: 0.8rem;
-  }
-  .leader-card__location {
-    margin: 0;
-    color: var(--color-sage);
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-  .leader-card__bio {
-    margin: var(--space-2) 0 0 0;
-    color: var(--color-ink-soft);
-    font-size: 0.92rem;
-    line-height: 1.55;
+  @media (max-width: 900px) {
+    .team-grid { max-width: 480px; margin-inline: auto; }
   }
 </style>

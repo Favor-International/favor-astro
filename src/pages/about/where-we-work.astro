@@ -1,8 +1,10 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import AfricaMap from '../../components/global/AfricaMap.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import SavannaBand from '../../components/redesign/SavannaBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 
 const countries = [
   { name: 'Uganda', focus: 'PBS, the GIFT Institute, Village Learning Centers, and Favor FM radio.', image: '/images/field/country-uganda.webp' },
@@ -23,7 +25,7 @@ const countries = [
 const withImage = countries.filter((c) => c.image);
 const moreCountries = countries.filter((c) => !c.image);
 ---
-<PageLayout
+<RedesignLayout
   title="Where We Work"
   description="The East African nations Favor International serves, the field programs in each, and how we got to each one."
 >
@@ -39,75 +41,54 @@ const moreCountries = countries.filter((c) => !c.image);
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">The fourteen</p>
-        <h2>Where Favor Partners are funding work today.</h2>
-      </header>
-      <div class="country-grid">
+      <LeafHeading label="The fourteen" title="Where Favor Partners are funding work today." />
+      <div class="rd-grid rd-grid--3">
         {withImage.map((c) => (
-          <article class="country-card">
-            <div class="country-card__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div>
-            <div class="country-card__body">
+          <div class="rd-tile">
+            <div class="rd-tile__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div>
+            <div class="rd-tile__meta">
               <h3>{c.name}</h3>
               <p>{c.focus}</p>
             </div>
-          </article>
+          </div>
         ))}
       </div>
-      <p class="country-more-label">Also serving across the region</p>
-      <ul class="country-list">
-        {moreCountries.map((c) => (
-          <li>
-            <strong>{c.name}</strong>
-            <span>{c.focus}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
-  <CtaBand
+  <SavannaBand>
+    <LeafHeading title="Also serving across the region" leaves={false} />
+    <ul class="country-list">
+      {moreCountries.map((c) => (
+        <li class="rd-card">
+          <strong>{c.name}</strong>
+          <span>{c.focus}</span>
+        </li>
+      ))}
+    </ul>
+  </SavannaBand>
+
+  <RdCta
     heading="Pray for a specific country."
     body="The 30-day prayer guide walks you through each nation, one day at a time."
     ctaLabel="Get the 30-Day Guide"
     ctaHref="/pray/30-day-guide/"
-    variant="sage"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 900px) { .country-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .country-grid { grid-template-columns: 1fr; } }
-  .country-card {
-    background: var(--color-white);
-    border: 1px solid color-mix(in srgb, var(--color-green) 18%, var(--color-white));
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
+  .country-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    max-width: 960px;
+    margin-inline: auto;
   }
-  .country-card__img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-  }
-  .country-card__body { padding: var(--space-5) var(--space-6) var(--space-6); }
-  .country-card__body h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.2rem; }
-  .country-card__body p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.55; }
-  .country-more-label { text-align: center; margin: var(--space-12) 0 var(--space-6); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; color: var(--color-sage); }
-  .country-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
   @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
-  .country-list li {
-    display: flex; flex-direction: column; gap: var(--space-1);
-    padding: var(--space-4) var(--space-6);
-    background: var(--color-white);
-    border: 1px solid color-mix(in srgb, var(--color-green) 16%, var(--color-white));
-    border-radius: var(--radius-input);
-  }
-  .country-list strong { color: var(--color-green); font-size: 1.05rem; }
-  .country-list span { color: var(--color-ink-soft); font-size: 0.9rem; }
+  .country-list li { display: flex; flex-direction: column; gap: var(--space-2); }
+  .country-list strong { color: var(--color-green); font-size: var(--rd-fs-body); font-weight: 800; }
+  .country-list span { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
 </style>

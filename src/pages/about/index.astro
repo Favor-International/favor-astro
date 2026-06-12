@@ -1,8 +1,8 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayCard from '../../components/global/OverlayCard.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 
 const links = [
@@ -16,7 +16,7 @@ const links = [
   { href: '/about/contact/', label: 'Contact', desc: 'Email, phone, and mailing address for the US team.', image: '/images/field-2026/radio-1.webp' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="About Favor International"
   description="Indigenous-led, prayer-birthed, partner-powered. The story, the team, the board, and the financials behind Favor International."
 >
@@ -30,29 +30,25 @@ const links = [
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">About sections</p>
-        <h2>The full picture.</h2>
-      </header>
-      <div class="about-grid">
+      <LeafHeading label="About sections" title="The full picture." />
+      <div class="rd-grid rd-grid--4">
         {links.map((l) => (
-          <OverlayCard href={l.href} image={l.image} title={l.label} desc={l.desc} cta="Read" ratio="4 / 3" />
+          <a class="rd-tile" href={l.href}>
+            <div class="rd-tile__img" style={`background-image:url('${l.image}')`} role="img" aria-label={l.label}></div>
+            <div class="rd-tile__meta">
+              <h3>{l.label}</h3>
+              <p>{l.desc}</p>
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <CtaBand
+  <RdCta
     heading="Reach out."
     body={`Email ${SITE.emailGeneral} or call ${SITE.phone}, ${SITE.hours}.`}
     ctaLabel="Contact us"
     ctaHref="/about/contact/"
-    variant="green"
   />
-</PageLayout>
-
-<style>
-  .about-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
-  @media (max-width: 1000px) { .about-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .about-grid { grid-template-columns: 1fr; } }
-</style>
+</RedesignLayout>

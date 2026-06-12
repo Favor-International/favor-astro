@@ -1,0 +1,76 @@
+---
+// Contained CTA: a deep-green rounded container set inside a white band, so
+// the dark moment reads as an element (not a 4th background color). Faint
+// leaves in the corner, one clear action.
+export interface Props {
+  heading: string;
+  body?: string;
+  ctaLabel: string;
+  ctaHref: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+const { heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref } = Astro.props as Props;
+---
+<section class="band band--white band--tight">
+  <div class="container">
+    <div class="rd-cta">
+      <svg class="rd-cta__leaves" viewBox="0 0 260 150" aria-hidden="true">
+        <g fill="currentColor">
+          <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
+          <path d="M96 146 C106 112 128 84 162 68 C186 57 212 54 232 60 C208 72 188 88 172 108 C158 126 148 140 144 150 C128 152 110 150 96 146 Z" opacity="0.7" />
+        </g>
+      </svg>
+      <h2>{heading}</h2>
+      {body && <p>{body}</p>}
+      <div class="rd-cta__actions">
+        <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
+        {secondaryLabel && secondaryHref && (
+          <a class="rd-cta__secondary" href={secondaryHref}>{secondaryLabel} &rarr;</a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rd-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+    background: var(--color-green-deep);
+    border-radius: calc(var(--rd-radius) + 8px);
+    box-shadow: var(--rd-shadow-lift);
+    padding: clamp(64px, 9vw, 128px) clamp(24px, 6vw, 96px);
+  }
+  .rd-cta__leaves {
+    position: absolute;
+    top: -30px;
+    right: -34px;
+    width: clamp(160px, 18vw, 240px);
+    height: auto;
+    color: var(--color-white);
+    opacity: 0.07;
+    transform: rotate(160deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .rd-cta > :global(*:not(.rd-cta__leaves)) { position: relative; z-index: 1; }
+  .rd-cta h2 { color: var(--color-white); margin: 0 0 var(--space-5); }
+  .rd-cta p {
+    color: color-mix(in srgb, var(--color-white) 82%, transparent);
+    max-width: 56ch;
+    margin: 0 auto var(--space-8);
+    line-height: 1.75;
+  }
+  .rd-cta__actions { display: flex; gap: var(--space-8); align-items: center; justify-content: center; flex-wrap: wrap; }
+  .rd-cta__secondary {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 3px;
+  }
+  .rd-cta__secondary:hover { color: var(--color-gold); }
+</style>

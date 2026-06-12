@@ -1,0 +1,72 @@
+---
+// Savanna section: cream at the top easing into a faint brownish tone at the
+// bottom, with low-opacity acacia silhouettes on the horizon. Per Daniel:
+// "it gives me the feeling, but it's not bothering my eyes, it's not asking
+// for my attention." One per page, maximum.
+export interface Props {
+  tight?: boolean;
+}
+const { tight = false } = Astro.props as Props;
+---
+<section class={`band rd-savanna ${tight ? 'band--tight' : ''}`}>
+  <svg class="rd-savanna__scene" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <!-- ground line -->
+    <path d="M0 312 C 240 306 480 310 720 308 C 960 306 1200 310 1440 307" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" />
+    <!-- large acacia, left -->
+    <g>
+      <g stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round">
+        <path d="M150 310 C 152 262 146 232 128 200" />
+        <path d="M148 262 C 172 234 196 220 222 212" />
+        <path d="M145 240 C 124 224 106 217 88 214" />
+      </g>
+      <g fill="currentColor">
+        <ellipse cx="150" cy="190" rx="104" ry="20" />
+        <ellipse cx="84" cy="204" rx="50" ry="13" />
+        <ellipse cx="226" cy="203" rx="56" ry="14" />
+      </g>
+    </g>
+    <!-- small acacia, right -->
+    <g>
+      <g stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round">
+        <path d="M1232 309 C 1233 280 1229 262 1218 242" />
+        <path d="M1231 281 C 1247 263 1262 254 1278 249" />
+      </g>
+      <g fill="currentColor">
+        <ellipse cx="1238" cy="236" rx="62" ry="12" />
+        <ellipse cx="1284" cy="245" rx="34" ry="9" />
+      </g>
+    </g>
+    <!-- grass tufts -->
+    <g stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M420 310 l-6 -16 M424 310 l2 -19 M430 310 l8 -14" />
+      <path d="M760 308 l-5 -13 M764 308 l1 -16 M769 308 l7 -11" />
+      <path d="M1050 309 l-6 -15 M1054 309 l2 -18 M1060 309 l8 -12" />
+    </g>
+  </svg>
+  <div class="container rd-savanna__content">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .rd-savanna {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    /* Cream up top, a touch brownish toward the ground. Easy on the eyes. */
+    background: linear-gradient(180deg, var(--color-cream) 0%, #f6efe1 52%, #efe4cd 100%);
+  }
+  .rd-savanna__scene {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: clamp(130px, 22vw, 290px);
+    color: #5a4c36;
+    opacity: 0.09;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .rd-savanna__content { position: relative; z-index: 1; }
+</style>

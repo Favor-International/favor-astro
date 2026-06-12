@@ -1,9 +1,10 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import SavannaBand from '../../components/redesign/SavannaBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE, IMPACT_STATS } from '../../lib/site';
 
 const impactReports = [
@@ -41,7 +42,7 @@ const irsLetter = 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/6
 
 const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter }, ...form990s, ...audits];
 ---
-<PageLayout
+<RedesignLayout
   title="Accountability and Financials"
   description="ECFA accreditation, 990s, audited financials, and the public profiles of Favor International."
 >
@@ -53,11 +54,11 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     imageAlt="Stacks of Bibles ready for field distribution"
   />
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/prayer-6.webp"
     imageAlt="A Favor prayer gathering in the field"
     eyebrow="Financials"
-    layout="image-right"
+    side="right"
     background="cream"
   >
     <blockquote class="steward__verse">
@@ -65,59 +66,61 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
       <cite>1 Corinthians 4:2, NKJV</cite>
     </blockquote>
     <p class="steward__body">We strive to be faithful stewards of the gifts entrusted to us. Scriptural standards are the means by which we make ourselves accountable to you, those we serve, and most of all to God. We are committed to wise stewardship and to efficiently making the greatest impact while advancing the kingdom of God. We focus on transformational change and self-sustenance that have a multiplying and long lasting effect. As you partner, we as the steward of your donation stand committed to bear much fruit because of your sacred trust. We have a responsibility to maintain integrity and transparency in our financial practice. If you have any questions regarding our finances, please email <a href="mailto:accounting@favourafrica.org">accounting@favourafrica.org</a>.</p>
-  </FeatureRow>
+  </RdFeature>
 
   <section class="band band--white">
-    <div class="container acct-head">
-      <p class="label">Audited financials</p>
-      <h2>The numbers behind the work.</h2>
-      <p class="acct-lede">Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
-    </div>
-    <div class="container acct-stats">
-      {IMPACT_STATS.map((s) => (
-        <div class="acct-stat">
-          <span class="acct-stat__num">{s.value}</span>
-          <span class="acct-stat__label">{s.label}</span>
-          <span class="acct-stat__src">{s.source}</span>
-        </div>
-      ))}
-    </div>
-    <div class="container acct-badges">
-      <a href={SITE.trust.ecfa} target="_blank" rel="noopener" aria-label="ECFA Accredited"><img src="/images/trust/ecfa.png" alt="ECFA Accredited" width="92" height="92" /></a>
-      <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener" aria-label="Charity Navigator Four-Star"><img src="/images/trust/charity-navigator.svg" alt="Charity Navigator Four-Star" width="92" height="92" /></a>
-      <a href={SITE.trust.candid} target="_blank" rel="noopener" aria-label="Candid Platinum"><img src="/images/trust/candid-platinum.svg" alt="Candid Platinum Transparency" width="92" height="92" /></a>
+    <div class="container">
+      <LeafHeading
+        label="Audited financials"
+        title="The numbers behind the work."
+        intro="Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections."
+      />
+      <div class="acct-stats">
+        {IMPACT_STATS.map((s) => (
+          <div class="acct-stat">
+            <span class="acct-stat__num">{s.value}</span>
+            <span class="acct-stat__label">{s.label}</span>
+            <span class="acct-stat__src">{s.source}</span>
+          </div>
+        ))}
+      </div>
+      <div class="acct-badges">
+        <a href={SITE.trust.ecfa} target="_blank" rel="noopener" aria-label="ECFA Accredited"><img src="/images/trust/ecfa.png" alt="ECFA Accredited" width="92" height="92" /></a>
+        <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener" aria-label="Charity Navigator Four-Star"><img src="/images/trust/charity-navigator.svg" alt="Charity Navigator Four-Star" width="92" height="92" /></a>
+        <a href={SITE.trust.candid} target="_blank" rel="noopener" aria-label="Candid Platinum"><img src="/images/trust/candid-platinum.svg" alt="Candid Platinum Transparency" width="92" height="92" /></a>
+      </div>
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/hero-congo-grads.jpg"
     imageAlt="Graduates celebrating in DR Congo"
     eyebrow="Stewardship"
     heading="What we promise."
     side="right"
+    background="greenlight"
   >
     <p><strong>89 cents of every dollar went to program in FY2024.</strong> The remainder covers U.S. operations, audit, and donor care. (Source: ECFA-filed audited financials.)</p>
     <p>Restricted gifts honor the restriction. We will refund a restricted gift before we redirect one.</p>
     <p>Field-level reporting on every project. We tell you what worked and what didn't.</p>
     <p>No anonymous outcomes. Every story we publish has a real name, a real place, and a real outcome.</p>
-  </OverlayFeature>
+  </RdFeature>
 
-  <section class="band band--cream">
-    <div class="container exp">
-      <p class="label">Expenses accountability</p>
-      <h2>Where 2024 went.</h2>
+  <SavannaBand>
+    <div class="exp">
+      <LeafHeading label="Expenses accountability" title="Where 2024 went." leaves={false} />
       <div class="exp-grid">
-        <div class="exp-item exp-item--program">
+        <div class="exp-item rd-card exp-item--program">
           <span class="exp-pct">89.3%</span>
           <span class="exp-amt">$6,671,668</span>
           <span class="exp-cat">Program</span>
         </div>
-        <div class="exp-item">
+        <div class="exp-item rd-card">
           <span class="exp-pct">6.2%</span>
           <span class="exp-amt">$464,178</span>
           <span class="exp-cat">General</span>
         </div>
-        <div class="exp-item">
+        <div class="exp-item rd-card">
           <span class="exp-pct">4.5%</span>
           <span class="exp-amt">$341,235</span>
           <span class="exp-cat">Fundraising</span>
@@ -128,15 +131,15 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
         <p>The GME is our way of developing, training, and empowering indigenous faith leaders. These leaders in turn transform their villages and communities. There is no limit to what they can do.</p>
       </div>
     </div>
-  </section>
+  </SavannaBand>
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Reports</p>
-        <h2>Impact reports.</h2>
-        <p class="acct-sub">Quarterly and annual reports from the field, published since 2020.</p>
-      </header>
+      <LeafHeading
+        label="Reports"
+        title="Impact reports."
+        intro="Quarterly and annual reports from the field, published since 2020."
+      />
       <div class="doc-grid">
         {impactReports.map((r) => (
           <a class="doc-card" href={r.url} target="_blank" rel="noopener">
@@ -160,68 +163,79 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     </div>
   </section>
 
-  <section class="band band--green acct-quote-band">
+  <section class="band band--white band--tight">
     <div class="container">
-      <blockquote class="acct-quote">
-        "God will not be mocked. Those who sow the Kingdom will reap the Kingdom."
-        <cite>Carole Ward</cite>
-      </blockquote>
+      <div class="acct-quote-wrap">
+        <blockquote class="acct-quote">
+          "God will not be mocked. Those who sow the Kingdom will reap the Kingdom."
+          <cite>Carole Ward</cite>
+        </blockquote>
+      </div>
     </div>
   </section>
 
-  <CtaBand
+  <RdCta
     heading="Need anything else for due diligence?"
     body={`Email ${SITE.emailGeneral} and we will send the financial packet within one business day.`}
     ctaLabel="Request the financial packet"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Financial packet request`}
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .acct-head { text-align: center; max-width: 760px; }
-  .acct-head { margin-left: auto; margin-right: auto; }
-  .acct-lede { margin: var(--space-3) auto 0; color: var(--color-ink-soft); max-width: 60ch; }
-  .acct-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-8); margin-top: var(--space-16); text-align: center; }
-  @media (max-width: 760px) { .acct-stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-10) var(--space-6); } }
-  .acct-stat__num { display: block; font-family: var(--font-sans); font-weight: 800; font-size: clamp(2.6rem, 6vw, 4rem); color: var(--color-green-deep); line-height: 1; letter-spacing: -0.02em; }
-  .acct-stat__label { display: block; margin-top: var(--space-4); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .acct-stat__src { display: block; margin-top: var(--space-3); font-size: 0.78rem; color: var(--color-sage); }
-  .acct-badges { display: flex; justify-content: center; align-items: center; gap: clamp(var(--space-8), 8vw, var(--space-20)); margin-top: var(--space-16); flex-wrap: wrap; }
+  .acct-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(40px, 5vw, 64px) var(--space-8); text-align: center; }
+  @media (max-width: 760px) { .acct-stats { grid-template-columns: repeat(2, 1fr); } }
+  .acct-stat__num { display: block; font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-display); color: var(--color-green-deep); line-height: 1; letter-spacing: -0.02em; }
+  .acct-stat__label { display: block; margin-top: var(--space-4); font-weight: 800; font-size: var(--rd-fs-small); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .acct-stat__src { display: block; margin-top: var(--space-3); font-size: var(--rd-fs-small); color: var(--color-sage); }
+  .acct-badges { display: flex; justify-content: center; align-items: center; gap: clamp(var(--space-8), 8vw, var(--space-20)); margin-top: clamp(64px, 8vw, 96px); flex-wrap: wrap; }
   .acct-badges img { height: 92px; width: auto; transition: transform 160ms; }
   .acct-badges a:hover img { transform: translateY(-3px); }
 
-  .acct-sub { color: var(--color-ink-soft); margin: 0; }
-  .acct-financials-title { margin-top: var(--space-16); text-align: center; }
-  .acct-financials-title + .acct-sub { text-align: center; }
-  .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-6); }
+  .acct-sub { color: var(--color-ink-soft); margin: var(--space-3) 0 0; text-align: center; }
+  .acct-financials-title { margin-top: clamp(72px, 9vw, 120px); text-align: center; }
+  .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-8); }
   @media (max-width: 720px) { .doc-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 460px) { .doc-grid { grid-template-columns: 1fr; } }
-  .doc-card { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-card); text-decoration: none; color: var(--color-green); font-weight: 600; font-size: 0.92rem; transition: border-color 140ms, transform 140ms, background 140ms; }
-  .doc-card:hover { border-color: var(--color-gold); transform: translateY(-2px); background: var(--color-white); }
+  .doc-card {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-cream);
+    border-radius: var(--radius-card);
+    box-shadow: var(--rd-shadow);
+    text-decoration: none; color: var(--color-green); font-weight: 600; font-size: var(--rd-fs-body);
+    transition: transform 140ms, background 140ms, box-shadow 140ms;
+  }
+  .doc-card:hover { transform: translateY(-2px); background: var(--color-white); box-shadow: var(--rd-shadow-lift); }
   .doc-card__icon { flex: 0 0 auto; color: var(--color-gold-deep); }
-  .acct-ein { margin-top: var(--space-8); font-size: 0.85rem; color: var(--color-sage); }
+  .acct-ein { margin-top: var(--space-10); font-size: var(--rd-fs-small); color: var(--color-sage); text-align: center; }
 
   /* Stewardship intro (verbatim from live: 1 Cor 4:2 + finance statement) */
-  .steward { max-width: 820px; margin-left: auto; margin-right: auto; text-align: center; }
-  .steward__verse { margin: var(--space-4) 0 var(--space-8); border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: clamp(1.3rem, 3vw, 1.9rem); line-height: 1.4; color: var(--color-green-deep); }
-  .steward__verse cite { display: block; margin-top: var(--space-4); font-style: normal; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .steward__body { margin: 0 auto; max-width: 70ch; color: var(--color-ink-soft); line-height: 1.8; }
+  .steward__verse { margin: 0 0 var(--space-8); border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: var(--rd-fs-title); line-height: 1.35; color: var(--color-green-deep); }
+  .steward__verse cite { display: block; margin-top: var(--space-4); font-style: normal; font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .steward__body { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
   .steward__body a { color: var(--color-green-deep); font-weight: 600; }
 
   /* 2024 Expenses breakdown + GME (verbatim figures from live) */
   .exp { text-align: center; }
-  .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-top: var(--space-10); }
-  @media (max-width: 640px) { .exp-grid { grid-template-columns: 1fr; gap: var(--space-4); } }
-  .exp-item { padding: var(--space-8) var(--space-4); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card); }
-  .exp-item--program { border-color: var(--color-gold); box-shadow: 0 2px 14px color-mix(in srgb, var(--color-gold) 22%, transparent); }
-  .exp-pct { display: block; font-family: var(--font-sans); font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; color: var(--color-green-deep); }
+  .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); max-width: 960px; margin-inline: auto; }
+  @media (max-width: 640px) { .exp-grid { grid-template-columns: 1fr; } }
+  .exp-item { padding: clamp(40px, 5vw, 64px) var(--space-6); }
+  .exp-item--program { box-shadow: 0 14px 44px color-mix(in srgb, var(--color-gold) 26%, transparent); }
+  .exp-pct { display: block; font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-title); line-height: 1; letter-spacing: -0.02em; color: var(--color-green-deep); }
   .exp-amt { display: block; margin-top: var(--space-4); font-weight: 700; color: var(--color-ink); }
-  .exp-cat { display: block; margin-top: var(--space-2); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .exp-gme { max-width: 70ch; margin: var(--space-10) auto 0; color: var(--color-ink-soft); line-height: 1.8; }
+  .exp-cat { display: block; margin-top: var(--space-2); font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .exp-gme { max-width: 58ch; margin: clamp(48px, 6vw, 72px) auto 0; color: var(--color-ink-soft); line-height: 1.8; }
   .exp-gme p { margin: 0 0 var(--space-4); }
+  .exp-gme p:last-child { margin-bottom: 0; }
 
-  /* Carole Ward pull-quote */
-  .acct-quote-band { text-align: center; }
-  .acct-quote { margin: 0 auto; max-width: 800px; border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: clamp(1.4rem, 3.4vw, 2.2rem); line-height: 1.4; color: var(--color-white); }
-  .acct-quote cite { display: block; margin-top: var(--space-5); font-style: normal; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-light); }
+  /* Carole Ward pull-quote: a quiet light-green moment, no dark slab. */
+  .acct-quote-wrap {
+    background: var(--rd-bg-green);
+    border-radius: calc(var(--rd-radius) + 8px);
+    padding: clamp(56px, 8vw, 104px) clamp(24px, 6vw, 96px);
+    text-align: center;
+  }
+  .acct-quote { margin: 0 auto; max-width: 800px; border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: var(--rd-fs-title); line-height: 1.4; color: var(--color-green-deep); }
+  .acct-quote cite { display: block; margin-top: var(--space-5); font-style: normal; font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-deep); }
 </style>

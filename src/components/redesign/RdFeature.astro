@@ -1,0 +1,55 @@
+---
+// Redesign feature row: big rounded image and copy side by side, no card
+// chrome, no borders — just the photo, the words, and air between them.
+export interface Props {
+  image: string;
+  imageAlt: string;
+  eyebrow?: string;
+  heading?: string;
+  side?: 'left' | 'right';
+  background?: 'white' | 'cream' | 'greenlight';
+  objectPosition?: string;
+}
+const {
+  image, imageAlt, eyebrow, heading,
+  side = 'left', background = 'white',
+  objectPosition = 'center',
+} = Astro.props as Props;
+const bandClass = background === 'cream' ? 'band--cream' : background === 'greenlight' ? 'band--greenlight' : 'band--white';
+---
+<section class={`band ${bandClass}`}>
+  <div class="container rd-feat" data-side={side}>
+    <div class="rd-feat__img" style={`background-image:url('${image}'); background-position:${objectPosition};`} role="img" aria-label={imageAlt}></div>
+    <div class="rd-feat__copy rd-prose">
+      {eyebrow && <p class="label">{eyebrow}</p>}
+      {heading && <h2>{heading}</h2>}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .rd-feat {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(48px, 7vw, 110px);
+    align-items: center;
+  }
+  .rd-feat[data-side='right'] .rd-feat__img { order: 2; }
+  .rd-feat[data-side='right'] .rd-feat__copy { order: 1; }
+  .rd-feat__img {
+    aspect-ratio: 5 / 4;
+    border-radius: var(--rd-radius);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: var(--color-sage-light);
+    box-shadow: var(--rd-shadow);
+  }
+  .rd-feat__copy h2 { margin: 0 0 var(--space-6); }
+  .rd-feat__copy .label { margin-bottom: var(--space-3); }
+  @media (max-width: 860px) {
+    .rd-feat { grid-template-columns: 1fr; gap: var(--space-10); }
+    .rd-feat[data-side='right'] .rd-feat__img { order: 0; }
+    .rd-feat[data-side='right'] .rd-feat__copy { order: 0; }
+  }
+</style>

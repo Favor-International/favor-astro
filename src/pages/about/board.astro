@@ -1,8 +1,10 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import PersonCard from '../../components/redesign/PersonCard.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import directorsData from '../../data/directors.json';
 
 // Board of Directors: 9 volunteer board members. Source: Webflow CMS Directors collection.
@@ -19,7 +21,7 @@ const governance = [
   { title: 'Conflict-of-interest policy', body: 'A written conflict-of-interest policy is signed by every board member each year and reviewed by counsel.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Board of Directors"
   description="The volunteer Board of Directors providing governance and financial oversight for Favor International."
 >
@@ -29,49 +31,36 @@ const governance = [
     promise="Volunteer governance. Term-limited. Independent of paid staff per ECFA best practice."
     image="/images/hero-tot-bishoftu.jpg"
     imageAlt="A Training of Trainers session in Bishoftu, Ethiopia"
-    variant="split"
   />
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">The Board</p>
-        <h2>The volunteers who govern Favor.</h2>
-      </header>
-      <p class="band__lede" style="text-align:center; max-width: 760px; margin: 0 auto var(--space-12) auto;">
-        Favor International's Board of Directors meets quarterly and is responsible for
-        governance, financial oversight, executive review, and strategic direction. Each member
-        serves without compensation. The board is independent of paid staff and operates under
-        the conflict-of-interest and best-practice standards required for ECFA accreditation.
-      </p>
-      <div class="board-grid">
+      <LeafHeading
+        label="The Board"
+        title="The volunteers who govern Favor."
+        intro="Favor International's Board of Directors meets quarterly and is responsible for governance, financial oversight, executive review, and strategic direction. Each member serves without compensation. The board is independent of paid staff and operates under the conflict-of-interest and best-practice standards required for ECFA accreditation."
+      />
+      <div class="rd-grid rd-grid--3">
         {board.map((m) => (
-          <a class="board-card" href={personHref(m.slug)}>
-            <div class="board-card__photo">
-              <img src={m.imagePath} alt={`${m.fullName}, ${m.position}`} loading="lazy" />
-            </div>
-            <div class="board-card__body">
-              <h3>{m.fullName}</h3>
-              <p class="board-card__role">{m.position}</p>
-              <p class="board-card__location">{m.location}</p>
-              <span class="board-card__more">View profile &rarr;</span>
-            </div>
-          </a>
+          <PersonCard
+            href={personHref(m.slug)}
+            image={m.imagePath}
+            name={m.fullName}
+            role={m.position}
+            location={m.location}
+            objectPosition="center top"
+          />
         ))}
       </div>
     </div>
   </section>
 
-  <section class="band band--cream">
+  <section class="band band--greenlight">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Governance</p>
-        <h2>How the board works.</h2>
-      </header>
-      <div class="gov-layout">
-        <div class="gov-photo" style="background-image:url('/images/field-2026/missionaries-5.webp'); background-position: center;" role="img" aria-label="Favor field and office leaders together"></div>
+      <LeafHeading label="Governance" title="How the board works." />
+      <div class="gov-grid">
         {governance.map((g) => (
-          <article class="gov-box">
+          <article class="rd-card">
             <h3>{g.title}</h3>
             <p>{g.body}</p>
           </article>
@@ -80,7 +69,7 @@ const governance = [
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/hero-prayer-team.jpg"
     imageAlt="Favor leaders gathered in prayer"
     eyebrow="Built to be trusted"
@@ -89,115 +78,26 @@ const governance = [
   >
     <p>Favor International is accredited by the <strong>Evangelical Council for Financial Accountability (ECFA)</strong> and audited every year by an independent firm.</p>
     <p>Our audited financials are filed with the IRS as a public Form 990, rated by Charity Navigator, and listed on Candid. The board reviews them, along with executive compensation, every year.</p>
-  </OverlayFeature>
+  </RdFeature>
 
-  <CtaBand
+  <RdCta
     heading="Read the financial accountability page."
     body="ECFA, Charity Navigator, Candid Platinum: the third-party signals that show where the money goes."
     ctaLabel="Financial accountability"
     ctaHref="/about/accountability/"
-    variant="sage"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .board-grid {
+  .gov-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-8);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    max-width: 960px;
+    margin-inline: auto;
   }
-  @media (max-width: 900px) { .board-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .board-grid { grid-template-columns: 1fr; } }
-
-  .board-card {
-    background: var(--color-cream);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    border: 2px solid var(--color-green);
-    box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
-  }
-  .board-card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(31, 58, 26, 0.16); }
-  .board-card__more {
-    margin-top: var(--space-3);
-    color: var(--color-gold-deep);
-    font-weight: 700;
-    font-size: 0.85rem;
-  }
-  .board-card:hover .board-card__more { color: var(--color-green); }
-  .board-card__photo {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    background: var(--color-sage-light);
-    overflow: hidden;
-  }
-  .board-card__photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
-  }
-  .board-card__body {
-    padding: var(--space-5) var(--space-5) var(--space-6);
-    text-align: left;
-  }
-  .board-card__body h3 {
-    margin: 0 0 var(--space-1) 0;
-    color: var(--color-green);
-    font-size: 1.15rem;
-    line-height: 1.2;
-  }
-  .board-card__role {
-    margin: 0;
-    color: var(--color-ink);
-    font-weight: 600;
-    font-size: 0.92rem;
-  }
-  .board-card__location {
-    margin: var(--space-2) 0 0 0;
-    color: var(--color-sage);
-    font-size: 0.82rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .gov-layout {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 1fr;
-    gap: var(--space-5);
-  }
-  .gov-photo {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    border-radius: var(--radius-card);
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-    box-shadow: var(--shadow-card);
-    min-height: 320px;
-  }
-  .gov-box {
-    background: var(--color-white);
-    border: 1px solid color-mix(in srgb, var(--color-green) 22%, var(--color-white));
-    border-radius: var(--radius-card);
-    padding: var(--space-6);
-    box-shadow: var(--shadow-soft);
-  }
-  .gov-box:last-child { grid-column: 1 / -1; }
-  .gov-box h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
-  .gov-box p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; font-size: 0.95rem; }
-  @media (max-width: 760px) {
-    .gov-layout { grid-template-columns: 1fr 1fr; }
-    .gov-photo { grid-column: 1 / -1; grid-row: auto; min-height: 220px; }
-    .gov-box:last-child { grid-column: 1 / -1; }
-  }
-  @media (max-width: 520px) {
-    .gov-layout { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 700px) { .gov-grid { grid-template-columns: 1fr; } }
+  .gov-grid article:last-child { grid-column: 1 / -1; }
+  .gov-grid h3 { margin: 0 0 var(--space-3); color: var(--color-green); }
+  .gov-grid p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
 </style>

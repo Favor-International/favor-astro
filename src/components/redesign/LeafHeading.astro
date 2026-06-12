@@ -1,0 +1,52 @@
+---
+// Section header with faint tropical leaves tucked behind the title.
+// Per Daniel: semi-transparent, never asking for attention — a detail,
+// not a feature. Leaves render behind the text, light leaf green.
+export interface Props {
+  label?: string;
+  title: string;
+  intro?: string;
+  align?: 'center' | 'left';
+  leaves?: boolean;
+}
+const { label, title, intro, align = 'center', leaves = true } = Astro.props as Props;
+---
+<header class={`band__header rd-lhead rd-lhead--${align}`}>
+  {leaves && (
+    <svg class="rd-lhead__leaves" viewBox="0 0 260 150" aria-hidden="true">
+      <g fill="currentColor">
+        <path d="M28 142 C30 96 50 56 92 32 C120 16 152 10 178 14 C150 26 124 44 104 68 C84 92 70 118 64 144 C52 146 38 146 28 142 Z" />
+        <path d="M96 146 C106 112 128 84 162 68 C186 57 212 54 232 60 C208 72 188 88 172 108 C158 126 148 140 144 150 C128 152 110 150 96 146 Z" opacity="0.7" />
+        <path d="M10 148 C14 122 26 98 48 82 C36 110 30 132 30 150 C22 151 14 150 10 148 Z" opacity="0.55" />
+      </g>
+    </svg>
+  )}
+  {label && <p class="label">{label}</p>}
+  <h2>{title}</h2>
+  {intro && <p>{intro}</p>}
+  <slot />
+</header>
+
+<style>
+  .rd-lhead { position: relative; }
+  .rd-lhead--center { text-align: center; margin-left: auto; margin-right: auto; }
+  .rd-lhead--left { text-align: left; margin-left: 0; }
+  .rd-lhead--left > :global(p:not(.label)) { margin-left: 0 !important; }
+  .rd-lhead__leaves {
+    position: absolute;
+    top: -56px;
+    left: 50%;
+    transform: translateX(-130%) rotate(-6deg);
+    width: clamp(140px, 16vw, 210px);
+    height: auto;
+    color: #cfe0c6;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .rd-lhead--left .rd-lhead__leaves { left: -34px; transform: rotate(-6deg); }
+  .rd-lhead > :global(*:not(.rd-lhead__leaves)) { position: relative; z-index: 1; }
+  @media (max-width: 760px) {
+    .rd-lhead__leaves { top: -40px; width: 120px; }
+  }
+</style>

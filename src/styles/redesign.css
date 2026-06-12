@@ -1,0 +1,106 @@
+/* ============================================================
+   REDESIGN SYSTEM (branch: redesign)
+   Scoped under .rd so the homepage and not-yet-redesigned pages
+   keep their exact current look.
+
+   Rules locked with Daniel (2026-06-12):
+   - Backgrounds: max 3 — white (main), cream (highlight),
+     light green (nature accent). The savanna gradient is a
+     cream variant, used sparingly.
+   - Typography: max 4 sizes (display, title, body, small).
+     Weight + lightness do the rest of the hierarchy.
+   - Cards: slight shadow, NO border. Contrast separates.
+   - Uniform cards: rounded image, text below. No offsets,
+     no cramming into boxes.
+   - Breathing room everywhere: sections roughly 1.5–1.75x
+     taller, content gets its own space.
+   ============================================================ */
+
+.rd {
+  /* The 4 font sizes. Nothing in a redesigned page uses a 5th. */
+  --rd-fs-display: clamp(2.7rem, 5.2vw, 4.3rem);
+  --rd-fs-title: clamp(1.95rem, 3.3vw, 2.75rem);
+  --rd-fs-body: 1.0625rem;   /* 17px */
+  --rd-fs-small: 0.8125rem;  /* 13px */
+
+  /* The third background (with white + cream): a quiet leaf green. */
+  --rd-bg-green: #eef4ec;
+
+  --rd-radius: 22px;
+  --rd-shadow: 0 10px 36px rgba(31, 58, 26, 0.08);
+  --rd-shadow-lift: 0 22px 56px rgba(31, 58, 26, 0.13);
+}
+
+/* ---------- Breathing room ---------- */
+.rd .band { padding: clamp(96px, 11vw, 164px) 0; }
+.rd .band--tight { padding: clamp(56px, 7vw, 96px) 0; }
+.rd .band--greenlight { background: var(--rd-bg-green); }
+.rd .band__header { margin-bottom: clamp(56px, 7vw, 92px); max-width: 780px; }
+.rd .band__header > p:not(.label) {
+  color: var(--color-ink-soft);
+  max-width: 58ch;
+  margin: var(--space-4) auto 0;
+  line-height: 1.75;
+}
+
+/* ---------- Typography: 4 sizes, tight display leading ---------- */
+.rd h1 { font-size: var(--rd-fs-display); letter-spacing: -0.02em; line-height: 1.06; }
+.rd h2 { font-size: var(--rd-fs-title); letter-spacing: -0.02em; line-height: 1.14; text-wrap: balance; }
+.rd h3 { font-size: var(--rd-fs-body); font-weight: 800; line-height: 1.3; }
+.rd .label { font-size: var(--rd-fs-small); }
+.rd p { line-height: 1.75; }
+.rd .page-hero__promise { font-size: var(--rd-fs-body); }
+
+/* Body copy color discipline: ink for ledes, ink-soft for the rest. */
+.rd .rd-prose p { color: var(--color-ink-soft); margin: 0 0 var(--space-5); }
+.rd .rd-prose p:last-child { margin-bottom: 0; }
+.rd .rd-prose strong { color: var(--color-ink); }
+
+/* ---------- Cards: slight shadow, no border ---------- */
+.rd .rd-card {
+  background: var(--color-white);
+  border-radius: var(--rd-radius);
+  box-shadow: var(--rd-shadow);
+  padding: var(--space-8);
+}
+
+/* ---------- Uniform tile: rounded image, text below, no box ---------- */
+.rd .rd-tile { display: block; text-decoration: none; color: inherit; }
+.rd .rd-tile__img {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--rd-radius);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-sage-light);
+  box-shadow: var(--rd-shadow);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.rd a.rd-tile:hover .rd-tile__img,
+.rd a.rd-tile:focus-visible .rd-tile__img {
+  transform: translateY(-5px);
+  box-shadow: var(--rd-shadow-lift);
+}
+.rd .rd-tile__meta { margin-top: var(--space-5); }
+.rd .rd-tile__meta .rd-kicker { margin-bottom: var(--space-2); }
+.rd .rd-tile h3 { color: var(--color-green); margin: 0 0 var(--space-2); }
+.rd .rd-tile p { color: var(--color-ink-soft); margin: 0; line-height: 1.6; }
+.rd a.rd-tile:hover h3 { color: var(--color-gold-deep); }
+
+/* Small uppercase meta line (counts as the "small" size). */
+.rd .rd-kicker {
+  display: block;
+  font-size: var(--rd-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-sage);
+}
+
+/* ---------- Roomy grids ---------- */
+.rd .rd-grid { display: grid; gap: clamp(40px, 5vw, 72px) clamp(28px, 3vw, 48px); }
+.rd .rd-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.rd .rd-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.rd .rd-grid--4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1024px) { .rd .rd-grid--4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .rd .rd-grid--3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .rd .rd-grid--2, .rd .rd-grid--3, .rd .rd-grid--4 { grid-template-columns: 1fr; } }
