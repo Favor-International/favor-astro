@@ -1,0 +1,95 @@
+---
+// Contained deep-green quote moment: like RdCta, the dark surface reads as an
+// element inside a white band, not a 4th background color. Used for mottos and
+// scripture. Optional tag (big statement line) and body above the verse.
+export interface Props {
+  tag?: string;
+  body?: string;
+  quote?: string;
+  cite?: string;
+}
+const { tag, body, quote, cite } = Astro.props as Props;
+---
+<section class="band band--white band--tight">
+  <div class="container">
+    <div class="rd-quote">
+      <svg class="rd-quote__horizon" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 38 C 200 34 420 40 600 37 C 820 35 1040 40 1200 36" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" />
+      </svg>
+      {tag && <p class="rd-quote__tag">{tag}</p>}
+      {body && <p class="rd-quote__body">{body}</p>}
+      {quote && (
+        <blockquote class="rd-quote__verse">
+          {quote}
+          {cite && <cite>{cite}</cite>}
+        </blockquote>
+      )}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .rd-quote {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+    background: var(--color-green-deep);
+    border-radius: calc(var(--rd-radius) + 8px);
+    box-shadow: var(--rd-shadow-lift);
+    padding: clamp(64px, 8vw, 112px) clamp(24px, 6vw, 96px) clamp(72px, 9vw, 124px);
+  }
+  .rd-quote__horizon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    width: 100%;
+    height: 60px;
+    color: var(--color-white);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .rd-quote > :global(*:not(.rd-quote__horizon)) { position: relative; z-index: 1; }
+  .rd-quote__tag {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: var(--rd-fs-title);
+    letter-spacing: -0.015em;
+    line-height: 1.14;
+    color: var(--color-gold-light);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .rd-quote__body {
+    margin: var(--space-6) auto 0;
+    max-width: 60ch;
+    line-height: 1.75;
+    color: color-mix(in srgb, var(--color-white) 85%, transparent);
+  }
+  .rd-quote__verse {
+    margin: var(--space-8) auto 0;
+    max-width: 760px;
+    border: 0;
+    padding: 0;
+    font-family: var(--font-serif, Georgia, serif);
+    font-style: italic;
+    font-size: var(--rd-fs-sub);
+    line-height: 1.55;
+    color: var(--color-white);
+  }
+  .rd-quote__tag + .rd-quote__verse:not(.rd-quote__body + .rd-quote__verse) { margin-top: var(--space-8); }
+  .rd-quote__verse:first-child { margin-top: 0; }
+  .rd-quote__verse cite {
+    display: block;
+    margin-top: var(--space-5);
+    font-style: normal;
+    font-size: var(--rd-fs-small);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-light);
+  }
+</style>

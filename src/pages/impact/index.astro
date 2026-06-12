@@ -1,10 +1,11 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import PostCard from '../../components/band/PostCard.astro';
-import OverlayCard from '../../components/global/OverlayCard.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import NumberScroller from '../../components/redesign/NumberScroller.astro';
+import SavannaBand from '../../components/redesign/SavannaBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
 
 const pillarImages: Record<string, string> = {
@@ -19,12 +20,12 @@ const deeper = [
   { href: '/stories/', image: '/images/field-2026/prayer-8.webp', title: 'Stories of transformation', desc: 'Real names, real places, real outcomes.', action: 'Read stories' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Impact"
   description="Four ministry pillars across East Africa. Field reports, real stories, and the indigenous leaders behind the work."
   image="/images/field-2026/baptism-3.webp"
 >
-  <PageHero waveColor="cream"
+  <PageHero
     label="Impact"
     title="Four ministries. One Kingdom outcome."
     promise="Every Favor program flows from one conviction: transformed hearts transform nations."
@@ -32,93 +33,80 @@ const deeper = [
     imageAlt="PBS graduates with certificates"
   />
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/evangelism-10.webp"
     imageAlt="Indigenous missionaries evangelizing in the field"
     eyebrow="What we do"
     heading="A non-denominational missionary movement."
-    layout="image-left"
-    background="cream"
+    side="left"
   >
     <p>Founded in northern Uganda and also operating in neighboring South Sudan, Favor International serves and trains war-torn victims into purpose-driven Christian missionaries, equipped to advance the Gospel in villages and mobilized to advance the Kingdom in nations.</p>
     <p>Prayer is the fuel and engine of everything Favor does. We started as a prayer movement. Today we start with prayer, we go with prayer, and we end with prayer. From that foundation, the work flows through four departments: evangelism and discipleship, education, community development, and economic empowerment.</p>
-  </FeatureRow>
+  </RdFeature>
 
-  <section class="band band--white">
-    <div class="container impact-head">
-      <p class="label">Audited financials</p>
-      <h2>The numbers behind the work.</h2>
-      <p class="impact-lede">Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
+  <NumberScroller
+    label="Audited financials"
+    heading="The numbers behind the work."
+    stats={IMPACT_STATS}
+  />
+
+  <section class="band band--white band--tight">
+    <div class="container">
+      <p class="impact-lede">Every number above is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
+      <p class="impact-sources">
+        Sources: <a href="https://www.ecfa.org/MemberProfile.aspx?ID=50004" target="_blank" rel="noopener">ECFA member profile</a> ·
+        <a href="https://www.charitynavigator.org/ein/475225697" target="_blank" rel="noopener">Charity Navigator</a> ·
+        <a href="https://app.candid.org/profile/9511233" target="_blank" rel="noopener">Candid (Guidestar)</a>
+      </p>
     </div>
-    <div class="container impact-stats">
-      {IMPACT_STATS.map((s) => (
-        <div class="impact-stat">
-          <span class="impact-stat__num">{s.value}</span>
-          <span class="impact-stat__label">{s.label}</span>
-          <span class="impact-stat__src">{s.source}</span>
-        </div>
-      ))}
-    </div>
-    <p class="impact-sources">
-      Sources: <a href="https://www.ecfa.org/MemberProfile.aspx?ID=50004" target="_blank" rel="noopener">ECFA member profile</a> ·
-      <a href="https://www.charitynavigator.org/ein/475225697" target="_blank" rel="noopener">Charity Navigator</a> ·
-      <a href="https://app.candid.org/profile/9511233" target="_blank" rel="noopener">Candid (Guidestar)</a>
-    </p>
   </section>
 
   <section class="band band--cream">
-    <div class="container impact-head">
-      <p class="label">The pillars</p>
-      <h2>How the work breaks down.</h2>
-    </div>
-    <div class="container pillar-grid">
-      {PILLARS.map((p) => (
-        <OverlayCard
-          href={`/impact/${p.slug}/`}
-          image={pillarImages[p.slug]}
-          title={p.label}
-          desc={p.blurb}
-          cta="See the work"
-          ratio="16 / 10"
-        />
-      ))}
+    <div class="container">
+      <LeafHeading label="The pillars" title="How the work breaks down." leaves={false} />
+      <div class="rd-grid rd-grid--2">
+        {PILLARS.map((p) => (
+          <a class="rd-tile" href={`/impact/${p.slug}/`}>
+            <div class="rd-tile__img" style={`background-image:url('${pillarImages[p.slug]}')`} role="img" aria-label={p.label}></div>
+            <div class="rd-tile__meta">
+              <h3>{p.label}</h3>
+              <p>{p.blurb}</p>
+              <span class="rd-more">See the work &rarr;</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="band band--white">
-    <div class="container impact-head">
-      <p class="label">Deeper</p>
-      <h2>Reports, stories, and the field record.</h2>
-    </div>
-    <div class="container grid grid-3">
+  <SavannaBand>
+    <LeafHeading label="Deeper" title="Reports, stories, and the field record." leaves={false} />
+    <div class="rd-grid rd-grid--3">
       {deeper.map((d) => (
-        <PostCard href={d.href} image={d.image} imageAlt={d.title} title={d.title} desc={d.desc} actionLabel={d.action} />
+        <a class="rd-tile" href={d.href}>
+          <div class="rd-tile__img" style={`background-image:url('${d.image}')`} role="img" aria-label={d.title}></div>
+          <div class="rd-tile__meta">
+            <h3>{d.title}</h3>
+            <p>{d.desc}</p>
+            <span class="rd-more">{d.action} &rarr;</span>
+          </div>
+        </a>
       ))}
     </div>
-  </section>
+  </SavannaBand>
 
-  <CtaBand
+  <RdCta
     heading="Want the field report in your inbox?"
     body="One email a month. The team's honest take on what worked and what didn't."
     ctaLabel="Send Me the Field Report"
     ctaHref="/newsletter/"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .impact-head { text-align: center; max-width: 760px; margin-left: auto; margin-right: auto; }
-  .impact-intro { text-align: center; max-width: 760px; }
-  .impact-intro p { color: var(--color-ink-soft); line-height: 1.8; margin: var(--space-5) auto 0; max-width: 66ch; }
-  .impact-lede { margin: var(--space-3) auto 0; color: var(--color-ink-soft); max-width: 60ch; }
-  .impact-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-8); margin-top: var(--space-12); text-align: center; }
-  @media (max-width: 760px) { .impact-stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-10) var(--space-6); } }
-  .impact-stat__num { display: block; font-family: var(--font-sans); font-weight: 800; font-size: clamp(2.4rem, 5.5vw, 3.8rem); color: var(--color-green-deep); line-height: 1; letter-spacing: -0.02em; }
-  .impact-stat__label { display: block; margin-top: var(--space-4); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .impact-stat__src { display: block; margin-top: var(--space-3); font-size: 0.78rem; color: var(--color-sage); }
-  .impact-sources { text-align: center; margin: var(--space-10) 0 0; color: var(--color-sage); font-size: 0.85rem; }
+  .impact-lede { text-align: center; margin: 0 auto; color: var(--color-ink-soft); max-width: 60ch; line-height: 1.75; }
+  .impact-sources { text-align: center; margin: var(--space-6) 0 0; color: var(--color-sage); font-size: var(--rd-fs-small); }
   .impact-sources a { color: var(--color-gold-deep); }
-
-  .pillar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); margin-top: var(--space-10); }
-  @media (max-width: 680px) { .pillar-grid { grid-template-columns: 1fr; } }
-  .grid-3 { margin-top: var(--space-10); }
+  .rd-more { display: inline-block; margin-top: var(--space-3); color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); }
+  .rd-tile:hover .rd-more { color: var(--color-green); }
 </style>

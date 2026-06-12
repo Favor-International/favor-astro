@@ -1,0 +1,50 @@
+---
+// Field photo gallery on the uniform-tile rule: rounded image, caption BELOW
+// the photo (never crammed onto it), slight shadow, no border.
+export interface Props {
+  items: { src: string; caption: string; position?: string }[];
+  columns?: 2 | 3;
+}
+const { items, columns = 2 } = Astro.props as Props;
+---
+<div class={`rd-gallery rd-gallery--${columns}`}>
+  {items.map((g) => (
+    <figure class="rd-gallery__item">
+      <div
+        class="rd-gallery__img"
+        style={`background-image:url('${g.src}'); background-position:${g.position ?? 'center 30%'};`}
+        role="img"
+        aria-label={g.caption}
+      ></div>
+      <figcaption>{g.caption}</figcaption>
+    </figure>
+  ))}
+</div>
+
+<style>
+  .rd-gallery {
+    display: grid;
+    gap: clamp(36px, 4.5vw, 60px) clamp(28px, 3vw, 48px);
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .rd-gallery--2 { grid-template-columns: repeat(2, 1fr); }
+  .rd-gallery--3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 720px) { .rd-gallery--2, .rd-gallery--3 { grid-template-columns: 1fr; } }
+  .rd-gallery__item { margin: 0; }
+  .rd-gallery__img {
+    aspect-ratio: 3 / 2;
+    border-radius: var(--rd-radius);
+    background-size: cover;
+    background-color: var(--color-sage-light);
+    box-shadow: var(--rd-shadow);
+  }
+  .rd-gallery__item figcaption {
+    margin-top: var(--space-4);
+    font-size: var(--rd-fs-small);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+  }
+</style>

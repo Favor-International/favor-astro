@@ -1,9 +1,10 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
-import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import RdStoryStrip from '../../components/redesign/RdStoryStrip.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 
 // Card copy is verbatim sentences from the live program sub-pages
 // (src/data/programs.ts holds the full verbatim pages these link to).
@@ -13,7 +14,7 @@ const programs = [
   { name: 'Vocational Program', href: '/impact/economic-empowerment/vocation/', image: '/images/field-2026/vocation-3.webp', alt: 'Vocational Program students at work', desc: 'Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Economic Empowerment"
   description="Sustainability projects, women's empowerment, and vocational programs: Favor International's economic empowerment ministry."
 >
@@ -29,71 +30,54 @@ const programs = [
 
   <section class="band band--white">
     <div class="container container--narrow ee-intro">
-      <p class="label">Independence built on freedom in Christ</p>
-      <h2>The Gospel is the foundation of healthy economies.</h2>
-      <p>And healthy economies help lay new foundations of the Gospel to be shared freely. We strongly believe in self-sustained economic development that can take communities from poverty to productivity. Our model of education, empowerment, and investment enables the most marginalized people to bring themselves and their communities out of poverty.</p>
+      <LeafHeading
+        label="Independence built on freedom in Christ"
+        title="The Gospel is the foundation of healthy economies."
+        intro="And healthy economies help lay new foundations of the Gospel to be shared freely. We strongly believe in self-sustained economic development that can take communities from poverty to productivity. Our model of education, empowerment, and investment enables the most marginalized people to bring themselves and their communities out of poverty."
+      />
     </div>
   </section>
 
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">The three programs</p>
-        <h2>From relief to self-reliance.</h2>
-      </header>
-      <div class="ee-programs">
+      <LeafHeading label="The three programs" title="From relief to self-reliance." leaves={false} />
+      <div class="rd-grid rd-grid--3">
         {programs.map((p) => (
-          <a class="ee-prog" href={p.href}>
-            <span class="ee-prog__photo" style={`background-image:url(${p.image})`} role="img" aria-label={p.alt}></span>
-            <span class="ee-prog__body">
+          <a class="rd-tile" href={p.href}>
+            <div class="rd-tile__img" style={`background-image:url('${p.image}')`} role="img" aria-label={p.alt}></div>
+            <div class="rd-tile__meta">
               <h3>{p.name}</h3>
               <p>{p.desc}</p>
-              <span class="ee-prog__more">Learn more &rarr;</span>
-            </span>
+              <span class="rd-more">Learn more &rarr;</span>
+            </div>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <ProofBlock
-    name="The Women of Puranga"
-    place="Uganda"
-    outcome="A Women's Empowerment cohort received two goats each after a year of training. The herds pay for school fees, food, and medical care across the village."
-    quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
+  <RdFeature
     image="/images/field-2026/villages-4.webp"
-  />
+    imageAlt="The Women of Puranga, Uganda"
+    eyebrow="The Women of Puranga &middot; Uganda"
+    heading="&ldquo;They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group.&rdquo;"
+    side="left"
+  >
+    <p>A Women's Empowerment cohort received two goats each after a year of training. The herds pay for school fees, food, and medical care across the village.</p>
+  </RdFeature>
 
-  <StoryStrip tags={['Women', 'Skills Development', 'Stewardship']} heading="Stories of empowerment." background="white" />
+  <RdStoryStrip tags={['Women', 'Skills Development', 'Stewardship']} heading="Stories of empowerment." background="greenlight" />
 
-  <CtaBand
+  <RdCta
     heading="Fund a cohort that funds itself."
     body="Sustainability tools, vocational training, and women’s programs are built to multiply. Favor Partners get them started."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    image="/images/field/women-empowerment-uganda.webp"
-    imageAlt="Women receiving livestock at a Favor empowerment cohort in Uganda"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .ee-intro { text-align: center; }
-  .ee-intro p:last-child { margin: var(--space-5) auto 0; color: var(--color-ink-soft); line-height: 1.8; max-width: 64ch; }
-
-  .ee-programs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
-  @media (max-width: 900px) { .ee-programs { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
-  .ee-prog {
-    display: flex; flex-direction: column;
-    background: var(--color-white); border-radius: var(--radius-card); overflow: hidden;
-    box-shadow: var(--shadow-card); text-decoration: none; color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
-  }
-  .ee-prog:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
-  .ee-prog__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; }
-  .ee-prog__body { display: block; padding: var(--space-6); }
-  .ee-prog__body h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; text-align: center; }
-  .ee-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
-  .ee-prog__more { display: block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; text-align: center; }
-  .ee-prog:hover .ee-prog__more { color: var(--color-green); }
+  .ee-intro :global(.band__header) { margin-bottom: 0; }
+  .rd-more { display: inline-block; margin-top: var(--space-3); color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); }
+  .rd-tile:hover .rd-more { color: var(--color-green); }
 </style>

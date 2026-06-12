@@ -1,11 +1,12 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import RdGallery from '../../components/redesign/RdGallery.astro';
+import RdStoryStrip from '../../components/redesign/RdStoryStrip.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
-import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
 
 const gallery = [
   { src: '/images/field/medical-uganda.webp', caption: 'A Favor medical clinic in Uganda' },
@@ -20,7 +21,7 @@ const programs = [
   { name: 'Church Construction', href: '/impact/community-development/construction/', image: '/images/field-2026/construction-3.webp', alt: 'A church construction project underway', body: 'Favor partners with International Cooperating Ministries (ICM) to fund new church construction. These churches don’t belong to Favor but to the community of believers and their leadership from that local church.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Community Development"
   description="Trauma counseling, medical services, and church planting: Favor International's community development pillar."
 >
@@ -36,110 +37,81 @@ const programs = [
 
   <section class="band band--white">
     <div class="container">
-      <div class="video-feature">
-        <div class="video-feature__copy">
-          <p class="label">From the field</p>
-          <h2>Where medicine meets miracles.</h2>
-          <p>Medical care, church planting, and trauma healing reach places no other ministry will go. Watch the work, then read how each program runs.</p>
-        </div>
-        <div class="video-feature__player">
-          <VideoEmbed id="4YpOvDoc6k4" title="Where Medicine Meets Miracles" />
-        </div>
+      <LeafHeading
+        label="From the field"
+        title="Where medicine meets miracles."
+        intro="Medical care, church planting, and trauma healing reach places no other ministry will go. Watch the work, then read how each program runs."
+      />
+      <div class="rd-video">
+        <VideoEmbed id="4YpOvDoc6k4" title="Where Medicine Meets Miracles" />
       </div>
     </div>
   </section>
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/church-3.webp"
     imageAlt="A church dedication in the field"
     eyebrow="Transforming communities"
     heading="The whole community, transformed."
-    layout="image-left"
-    background="white"
+    side="left"
+    background="cream"
   >
     <p>Favor's community development model has been informed by almost 20 years of work and recognizes the church as the hub of the community and the Word of God as center of sustainable, ongoing community development. Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. Community development starts with nothing less than transformed lives surrendered to Jesus and then extends to holistic transformation of the entire community.</p>
     <p>We could comfort those in emotional pain. We could bandage every wound. We could build beautiful buildings. We could even pass out thousands of Bibles, but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do. Our foremost mission is guiding hearts to Jesus, but we also recognize that without a demonstration of God's love in meeting people where they are at emotionally, physically, and spiritually, as Jesus did, the former won't happen.</p>
-  </FeatureRow>
+  </RdFeature>
 
-  <section class="band band--cream">
+  <section class="band band--white">
     <div class="container">
-      <header class="cd-head">
-        <p class="label">Holistic transformation by the Word</p>
-        <h2>Bringing healing to the whole person.</h2>
-      </header>
-      <div class="cd-grid">
+      <LeafHeading label="Holistic transformation by the Word" title="Bringing healing to the whole person." />
+      <div class="rd-grid rd-grid--3">
         {programs.map((p) => (
-          <a class="cd-card cd-card--link" href={p.href}>
-            <span class="cd-card__photo" style={`background-image:url(${p.image})`} role="img" aria-label={p.alt}></span>
-            <span class="cd-card__body">
+          <a class="rd-tile" href={p.href}>
+            <div class="rd-tile__img" style={`background-image:url('${p.image}')`} role="img" aria-label={p.alt}></div>
+            <div class="rd-tile__meta">
               <h3>{p.name}</h3>
               <p>{p.body}</p>
-              <span class="cd-card__more">Learn more &rarr;</span>
-            </span>
+              <span class="rd-more">Learn more &rarr;</span>
+            </div>
           </a>
         ))}
       </div>
-      <p class="cd-cta-row"><a class="btn btn--secondary btn--large" href="/stories/">See field stories</a></p>
+      <p class="band__cta-row cd-stories"><a class="btn btn--secondary btn--large" href="/stories/">See field stories</a></p>
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/hero-trauma-counseling.jpg"
     imageAlt="A trauma counseling session in the field"
     eyebrow="Trauma counseling"
     heading="Healing the whole person."
-    side="left"
+    side="right"
+    background="greenlight"
   >
     <p>Our trauma healing program has two parts. The first section focuses on developing emotional strength, and the second teaches about forgiveness. Throughout the program, the counselors teach people how to connect to one another and counter stress with positive activity.</p>
     <p>The original Trauma Counseling curriculum that we use was <strong>written by Christ-believing psychologists from Australia, peer-reviewed through publications at Boston University</strong>, and for many years has been adapted and contextualized for the many people groups we serve throughout South Sudan and Uganda.</p>
     <p><a href="/impact/community-development/counseling/">Read about Trauma Counseling &rarr;</a></p>
-  </OverlayFeature>
+  </RdFeature>
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">From the field</p>
-        <h2>Healing, planting, baptizing.</h2>
-      </header>
-      <div class="field-gallery">
-        {gallery.map((g) => (
-          <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
-            <figcaption>{g.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
+      <LeafHeading label="From the field" title="Healing, planting, baptizing." />
+      <RdGallery items={gallery} />
     </div>
   </section>
 
-  <StoryStrip tags={['Emotional Healing', 'Physical Healing', 'Community Transformation']} heading="Stories of healing." background="cream" />
+  <RdStoryStrip tags={['Emotional Healing', 'Physical Healing', 'Community Transformation']} heading="Stories of healing." background="cream" />
 
-  <CtaBand
+  <RdCta
     heading="Help carry the cost of healing."
     body="Trauma counseling, medical clinics, and church planting are field-led. Favor Partners keep them funded."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    image="/images/field-2026/medical-2.webp"
-    imageAlt="A Favor community gathering"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .cd-head { text-align: center; max-width: 720px; margin: 0 auto var(--space-12); }
-  .cd-intro { max-width: 760px; }
-  .cd-intro .cd-head { margin-bottom: var(--space-8); }
-  .cd-intro p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
-  .cd-intro p:last-child { margin-bottom: 0; }
-  .cd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 860px) { .cd-grid { grid-template-columns: 1fr; } }
-  .cd-card { background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
-  .cd-card__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; }
-  .cd-card__body { display: block; padding: var(--space-6); }
-  .cd-card h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; text-align: center; }
-  .cd-card__more { display: block; text-align: center; }
-  .cd-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
-  .cd-card--link { text-decoration: none; color: inherit; display: block; transition: transform 180ms, box-shadow 180ms; }
-  .cd-card--link:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
-  .cd-card__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
-  .cd-card--link:hover .cd-card__more { color: var(--color-green); }
-  .cd-cta-row { text-align: center; margin-top: var(--space-16); }
+  .rd-video { max-width: 940px; margin: 0 auto; }
+  .rd-more { display: inline-block; margin-top: var(--space-3); color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); }
+  .rd-tile:hover .rd-more { color: var(--color-green); }
+  .cd-stories { text-align: center; }
 </style>

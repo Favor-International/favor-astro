@@ -1,10 +1,12 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import RdGallery from '../../components/redesign/RdGallery.astro';
+import RdStoryStrip from '../../components/redesign/RdStoryStrip.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
-import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
 
 const gallery = [
   { src: '/images/field-2026/pbs-10.webp', caption: 'Students in class in Gulu, Uganda' },
@@ -13,20 +15,15 @@ const gallery = [
   { src: '/images/field-2026/education-7.webp', caption: 'Graduation day for a Bible-school cohort' },
 ];
 
-const programs = [
-  { name: 'Village Learning Centers (VLCs)', desc: 'Local-language literacy and Bible foundations for kids in places no formal school will reach. 18 active VLCs across Uganda and South Sudan.' },
-  { name: 'Primary + Secondary Schools', desc: 'Six accredited Favor schools serving 1,400+ students. Christ-centered curriculum, Ugandan and South Sudanese teaching staff.' },
-  { name: 'Leadership Training', desc: 'Teacher development and school administrator training cohorts. Builds the long-term pipeline so the schools stay indigenous.' },
-];
-
+// Program copy is verbatim from the live program sub-pages (src/data/programs.ts).
 const depth = [
-  { name: 'Village Learning Centers', href: '/impact/education/centers/', icon: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>', body: 'Our approach is to increase access to quality education by implementing village learning centers, in church buildings, that younger students in a village locale can reach on foot. We use the Roots to Fruit curriculum, which is a Bible-based, Christian approach to education approved by the Ugandan government, for primary school.' },
-  { name: 'Favor Primary School', href: '/impact/education/primary/', icon: '<path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-5a3 3 0 0 1 6 0v5"/>', body: 'The mission of Favor Primary Schools is to educate the next generation of Uganda’s and South Sudan’s leadership on the Word of God, prayer, and academic excellence. Our schools in both Gulu and Juba receive kids from all walks of life, religions, and income levels. We strive to maintain a 30:1 student-to-teacher ratio, and the schools have gained a reputation of excellence with some of our students in Uganda scoring the highest in the Gulu district of 160 schools.' },
-  { name: 'Favor Secondary School', href: '/impact/education/secondary/', icon: '<path d="m22 10-10-5L2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/>', body: 'Our Favor Secondary School opened to the public for the first time in February 2023. We have welcomed 135 registered students from all walks of life, religions, and income levels. We openly teach and practice the Word of God, and these amazing young men and women routinely come to know the love of Jesus as they pray and see God move.' },
-  { name: 'Leadership Training Institute', href: '/impact/education/leadership/', icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>', body: 'Favor’s Leadership Training Institute addresses both in a blend of in-class and hands-on instruction tailored to produce powerful ministers of spiritual and cultural transformation. All our indigenous staff participate in constant training including Bible training, prayer, marriage enrichment, household finances, small business entrepreneurship, and much much more!' },
+  { name: 'Village Learning Centers', href: '/impact/education/centers/', image: '/images/field-2026/vlc-2.webp', body: 'Our approach is to increase access to quality education by implementing village learning centers, in church buildings, that younger students in a village locale can reach on foot. We use the Roots to Fruit curriculum, which is a Bible-based, Christian approach to education approved by the Ugandan government, for primary school.' },
+  { name: 'Favor Primary School', href: '/impact/education/primary/', image: '/images/field-2026/education-2.webp', body: 'The mission of Favor Primary Schools is to educate the next generation of Uganda’s and South Sudan’s leadership on the Word of God, prayer, and academic excellence. Our schools in both Gulu and Juba receive kids from all walks of life, religions, and income levels. We strive to maintain a 30:1 student-to-teacher ratio, and the schools have gained a reputation of excellence with some of our students in Uganda scoring the highest in the Gulu district of 160 schools.' },
+  { name: 'Favor Secondary School', href: '/impact/education/secondary/', image: '/images/field-2026/secondary-1.webp', body: 'Our Favor Secondary School opened to the public for the first time in February 2023. We have welcomed 135 registered students from all walks of life, religions, and income levels. We openly teach and practice the Word of God, and these amazing young men and women routinely come to know the love of Jesus as they pray and see God move.' },
+  { name: 'Leadership Training Institute', href: '/impact/education/leadership/', image: '/images/about-leadership-training.jpg', body: 'Favor’s Leadership Training Institute addresses both in a blend of in-class and hands-on instruction tailored to produce powerful ministers of spiritual and cultural transformation. All our indigenous staff participate in constant training including Bible training, prayer, marriage enrichment, household finances, small business entrepreneurship, and much much more!' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Education"
   description="Village Learning Centers, primary and secondary schools, and leadership training: Favor International's education pillar."
 >
@@ -42,94 +39,66 @@ const depth = [
 
   <section class="band band--white">
     <div class="container">
-      <div class="video-feature">
-        <div class="video-feature__copy">
-          <p class="label">From the field</p>
-          <h2>Watch a Favor school.</h2>
-          <p>Educated for the Kingdom. See what a Christ-centered classroom looks like in Gulu and Juba, taught by Ugandan and South Sudanese staff.</p>
-        </div>
-        <div class="video-feature__player">
-          <VideoEmbed id="DEydcLqBQW0" title="Favor's Primary Schools" />
-        </div>
+      <LeafHeading
+        label="From the field"
+        title="Watch a Favor school."
+        intro="Educated for the Kingdom. See what a Christ-centered classroom looks like in Gulu and Juba, taught by Ugandan and South Sudanese staff."
+      />
+      <div class="rd-video">
+        <VideoEmbed id="DEydcLqBQW0" title="Favor's Primary Schools" />
       </div>
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/field-2026/vlc-4.webp"
     imageAlt="A village learning center class in Jondoru"
     eyebrow="On the ground"
     heading="A real classroom, in a real village."
     side="left"
+    background="cream"
   >
     <p>Every student photo in this section is from a real classroom in northern Uganda, South Sudan, or Ethiopia. The field teams publish a new field report most weeks. Each one is a named teacher, a named village, and an outcome they can stand behind.</p>
     <p><a href="/stories/">See stories from the field &rarr;</a></p>
-  </OverlayFeature>
+  </RdFeature>
 
-  <section class="band band--cream">
+  <section class="band band--white">
     <div class="container">
-      <header class="ed-head">
-        <p class="label">Next generation leadership</p>
-        <h2>From letters to leaders, program by program.</h2>
-      </header>
-      <div class="acard-grid acard-grid--2">
+      <LeafHeading label="Next generation leadership" title="From letters to leaders, program by program." />
+      <div class="rd-grid rd-grid--2">
         {depth.map((d) => (
-          <a class="acard acard--link has-texture" href={d.href}>
-            <span class="acard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={d.icon}></svg></span>
-            <h3>{d.name}</h3>
-            <p>{d.body}</p>
-            <span class="acard__more">Learn more &rarr;</span>
+          <a class="rd-tile" href={d.href}>
+            <div class="rd-tile__img" style={`background-image:url('${d.image}')`} role="img" aria-label={d.name}></div>
+            <div class="rd-tile__meta">
+              <h3>{d.name}</h3>
+              <p>{d.body}</p>
+              <span class="rd-more">Learn more &rarr;</span>
+            </div>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="band band--white">
+  <section class="band band--greenlight">
     <div class="container">
-      <header class="band__header">
-        <p class="label">From the field</p>
-        <h2>Real classrooms, real children.</h2>
-      </header>
-      <div class="field-gallery">
-        {gallery.map((g) => (
-          <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
-            <figcaption>{g.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
+      <LeafHeading label="From the field" title="Real classrooms, real children." leaves={false} />
+      <RdGallery items={gallery} />
     </div>
   </section>
 
-  <StoryStrip tags={['Children/Youth', 'Skills Development']} heading="Stories from the classrooms." background="cream" />
+  <RdStoryStrip tags={['Children/Youth', 'Skills Development']} heading="Stories from the classrooms." background="cream" />
 
-  <CtaBand
+  <RdCta
     heading="Stand with the schools."
     body="Favor Partners make Village Learning Centers and the primary and secondary schools possible every month. Pick the tier that fits."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
-    image="/images/field-2026/baptism-2.webp"
-    imageAlt="Children in a Favor program"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .ed-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
-  .acard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  .acard-grid--2 { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 860px) { .acard-grid, .acard-grid--2 { grid-template-columns: 1fr; } }
-  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
-  .acard__icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: color-mix(in srgb, var(--accent, var(--color-gold)) 14%, var(--color-white)); color: var(--accent, var(--color-green)); margin-bottom: var(--space-4); }
-  .acard__icon svg { width: 26px; height: 26px; }
-  .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.2rem; }
-  .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
-  .acard--link { text-decoration: none; color: inherit; transition: transform 180ms, box-shadow 180ms; display: block; }
-  .acard--link:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
-  .acard__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
-  .acard--link:hover .acard__more { color: var(--color-green); }
-  .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .acard:nth-child(4n+4) { --accent: var(--color-sage); }
+  .rd-video { max-width: 940px; margin: 0 auto; }
+  .rd-more { display: inline-block; margin-top: var(--space-3); color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); }
+  .rd-tile:hover .rd-more { color: var(--color-green); }
 </style>
