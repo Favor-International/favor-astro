@@ -35,9 +35,7 @@ const statsJson = JSON.stringify(stats);
   <!-- Pinned scroller (enabled by JS) -->
   <div class="rd-nums__track" data-track hidden>
     <div class="rd-nums__pin" data-pin>
-      <svg class="rd-nums__dome" data-dome viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
-        <path data-domepath d="M0 220 C 360 40 1080 40 1440 220 L1440 220 L0 220 Z" fill="#faf7f1" />
-      </svg>
+      <div class="rd-nums__wave" data-wave aria-hidden="true"></div>
       <div class="rd-nums__inner container">
         {label && <p class="label">{label}</p>}
         <h2>{heading}</h2>
@@ -55,7 +53,9 @@ const statsJson = JSON.stringify(stats);
 </section>
 
 <script>
-  const COLORS = ['#ffffff', '#faf7f1', '#eef4ec', '#faf7f1', '#ffffff', '#eef4ec'];
+  /* Alternating cream/white only — the wave wipe is the show, not the colors.
+     Starts cream to match the section above it on the page. */
+  const COLORS = ['#faf7f1', '#ffffff', '#faf7f1', '#ffffff', '#faf7f1', '#ffffff'];
 
   function parseVal(v: string) {
     const m = v.match(/([\d][\d,.]*)/);
@@ -84,8 +84,7 @@ const statsJson = JSON.stringify(stats);
     const numEl = root.querySelector('[data-num]') as HTMLElement;
     const capEl = root.querySelector('[data-cap]') as HTMLElement;
     const srcEl = root.querySelector('[data-src]') as HTMLElement;
-    const dome = root.querySelector('[data-dome]') as SVGElement;
-    const domePath = root.querySelector('[data-domepath]') as SVGPathElement;
+    const wave = root.querySelector('[data-wave]') as HTMLElement;
     const dots = Array.from(root.querySelectorAll('.rd-nums__dot'));
     const staticEl = root.querySelector('[data-static]') as HTMLElement;
 
@@ -115,7 +114,10 @@ const statsJson = JSON.stringify(stats);
       if (i !== lastI) {
         capEl.textContent = stats[i].label;
         srcEl.textContent = stats[i].source || '';
+        /* The wave covered the screen with this color; swap the background
+           underneath it and drop the wave back below — invisible seam. */
         pin.style.background = COLORS[i % COLORS.length];
+        wave.style.transform = 'translateY(105%)';
         statEl.classList.remove('is-in');
         void statEl.offsetWidth; /* restart entry animation */
         statEl.classList.add('is-in');
@@ -127,13 +129,11 @@ const statsJson = JSON.stringify(stats);
       const eased = 1 - Math.pow(1 - t, 3);
       numEl.textContent = parsed[i] ? fmt(parsed[i], eased) : stats[i].value;
 
+      /* The next color physically slides up over the current one. */
       if (i < N - 1) {
-        const d = Math.max(0, (frac - 0.62) / 0.38);
-        domePath.setAttribute('fill', COLORS[(i + 1) % COLORS.length]);
-        dome.style.transform = `translateY(${100 - d * 100}%)`;
-        dome.style.opacity = d > 0 ? '1' : '0';
-      } else {
-        dome.style.opacity = '0';
+        const w = Math.max(0, (frac - 0.55) / 0.45);
+        wave.style.background = COLORS[(i + 1) % COLORS.length];
+        wave.style.transform = `translateY(${105 - w * 105}%)`;
       }
     }
 
@@ -165,10 +165,23 @@ const statsJson = JSON.stringify(stats);
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: #ffffff;
-    transition: background 600ms ease;
+    background: #faf7f1;
   }
-  .rd-nums__inner { text-align: center; }
+  /* The incoming color: a full panel with a domed crest that slides up over
+     the current background as you scroll (no fades). */
+  .rd-nums__wave {
+    position: absolute;
+    left: -4%;
+    right: -4%;
+    bottom: 0;
+    height: 114%;
+    border-radius: 50% 50% 0 0 / 150px;
+    transform: translateY(105%);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+  }
+  .rd-nums__inner { position: relative; z-index: 2; text-align: center; }
   .rd-nums__inner h2 { margin: 0 0 clamp(40px, 6vh, 72px); }
 
   .rd-nums__stat { display: block; min-height: 9rem; }
@@ -198,16 +211,6 @@ const statsJson = JSON.stringify(stats);
     color: var(--color-ink);
   }
   .rd-nums__src { display: block; margin-top: var(--space-3); font-size: var(--rd-fs-small); color: var(--color-sage); }
-
-  .rd-nums__dome {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    width: 100%;
-    height: clamp(120px, 24vh, 220px);
-    transform: translateY(100%);
-    opacity: 0;
-    pointer-events: none;
-  }
 
   .rd-nums__dots { display: flex; gap: var(--space-3); justify-content: center; margin-top: clamp(40px, 6vh, 64px); }
   .rd-nums__dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(31, 58, 26, 0.18); transition: background 300ms, transform 300ms; }

@@ -34,7 +34,6 @@ import RdCta from '../../components/redesign/RdCta.astro';
     eyebrow="2007 onward"
     heading="The expansion."
     side="right"
-    background="greenlight"
   >
     <p>In 2007, the Lord led Carole to begin extending the work into Sudan before liberation. National prayer gatherings were mobilized in Juba, the capital of South Sudan, in 2015 and again in 2019, to see enough peace for the Gospel to extend to the farthest regions of the nation and into the most remote tribes and villages. In 2014, FAMI was birthed as a sister organization to FOGM in Northern Uganda, with the same vision, prayer foundation, and indigenous leadership development in each country.</p>
     <p class="our-vision-line">The vision: every tribe and language reaching their own people, and beyond, with the power of God's Word.</p>
@@ -53,13 +52,16 @@ import RdCta from '../../components/redesign/RdCta.astro';
     </div>
   </section>
 
-  <section class="band band--cream band--tight today-band">
-    <div class="container container--narrow">
-      <LeafHeading label="Today" title="Indigenous-led, across East Africa." leaves={false} />
-      <p class="today-body">Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
-      <p class="today-link"><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
-    </div>
-  </section>
+  <RdFeature
+    image="/images/field-2026/missionaries-5.webp"
+    imageAlt="Favor field and office leaders together"
+    eyebrow="Today"
+    heading="Indigenous-led, across East Africa."
+    side="right"
+  >
+    <p>Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
+    <p class="today-link"><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
+  </RdFeature>
 
   <section class="band band--white">
     <div class="container container--narrow">
@@ -143,9 +145,6 @@ import RdCta from '../../components/redesign/RdCta.astro';
   }
 
   .our-vision-line { font-style: italic; color: var(--color-green); font-weight: 600; }
-  .today-band { text-align: center; }
-  .today-band :global(.band__header) { margin-bottom: var(--space-8); }
-  .today-body { color: var(--color-ink-soft); line-height: 1.8; max-width: 58ch; margin: 0 auto; }
   .today-link { margin-top: var(--space-8); }
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 

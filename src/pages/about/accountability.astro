@@ -92,7 +92,6 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     eyebrow="Stewardship"
     heading="What we promise."
     side="right"
-    background="greenlight"
   >
     <p><strong>89 cents of every dollar went to program in FY2024.</strong> The remainder covers U.S. operations, audit, and donor care. (Source: ECFA-filed audited financials.)</p>
     <p>Restricted gifts honor the restriction. We will refund a restricted gift before we redirect one.</p>
@@ -103,36 +102,50 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   <SavannaBand>
     <div class="exp">
       <LeafHeading label="Expenses accountability" title="Where 2024 went." leaves={false} />
-      <div class="exp-grid">
-        <div class="exp-item rd-card exp-item--program">
-          <span class="exp-pct">89.3%</span>
-          <span class="exp-amt">$6,671,668</span>
-          <span class="exp-cat">Program</span>
+      <div class="exp-layout">
+        <div class="exp-breakdown">
+          <div class="exp-row exp-row--program">
+            <span class="exp-pct">89.3%</span>
+            <div class="exp-detail">
+              <span class="exp-cat">Program</span>
+              <span class="exp-amt">$6,671,668</span>
+            </div>
+          </div>
+          <div class="exp-row">
+            <span class="exp-pct">6.2%</span>
+            <div class="exp-detail">
+              <span class="exp-cat">General</span>
+              <span class="exp-amt">$464,178</span>
+            </div>
+          </div>
+          <div class="exp-row">
+            <span class="exp-pct">4.5%</span>
+            <div class="exp-detail">
+              <span class="exp-cat">Fundraising</span>
+              <span class="exp-amt">$341,235</span>
+            </div>
+          </div>
+          <div class="exp-bar" aria-hidden="true">
+            <span class="exp-bar__seg exp-bar__seg--program" style="width:89.3%"></span>
+            <span class="exp-bar__seg exp-bar__seg--general" style="width:6.2%"></span>
+            <span class="exp-bar__seg exp-bar__seg--fundraising" style="width:4.5%"></span>
+          </div>
         </div>
-        <div class="exp-item rd-card">
-          <span class="exp-pct">6.2%</span>
-          <span class="exp-amt">$464,178</span>
-          <span class="exp-cat">General</span>
+        <div class="exp-gme rd-prose">
+          <p>We take great pride in our financial efficiency, maximizing every dollar we receive. We use the great multiplier effect (GME) to get the best outcome.</p>
+          <p>The GME is our way of developing, training, and empowering indigenous faith leaders. These leaders in turn transform their villages and communities. There is no limit to what they can do.</p>
         </div>
-        <div class="exp-item rd-card">
-          <span class="exp-pct">4.5%</span>
-          <span class="exp-amt">$341,235</span>
-          <span class="exp-cat">Fundraising</span>
-        </div>
-      </div>
-      <div class="exp-gme">
-        <p>We take great pride in our financial efficiency, maximizing every dollar we receive. We use the great multiplier effect (GME) to get the best outcome.</p>
-        <p>The GME is our way of developing, training, and empowering indigenous faith leaders. These leaders in turn transform their villages and communities. There is no limit to what they can do.</p>
       </div>
     </div>
   </SavannaBand>
 
-  <section class="band band--white">
+  <section class="band band--cream">
     <div class="container">
       <LeafHeading
         label="Reports"
         title="Impact reports."
         intro="Quarterly and annual reports from the field, published since 2020."
+        leaves={false}
       />
       <div class="doc-grid">
         {impactReports.map((r) => (
@@ -157,7 +170,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     </div>
   </section>
 
-  <section class="band band--white band--tight">
+  <section class="band band--cream band--tight">
     <div class="container">
       <div class="acct-quote-wrap">
         <blockquote class="acct-quote">
@@ -173,6 +186,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     body={`Email ${SITE.emailGeneral} and we will send the financial packet within one business day.`}
     ctaLabel="Request the financial packet"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Financial packet request`}
+    background="cream"
   />
 </RedesignLayout>
 
@@ -201,7 +215,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   }
   .doc-card:hover { transform: translateY(-2px); border-color: var(--color-gold); box-shadow: 0 6px 18px rgba(31, 58, 26, 0.09); }
   .doc-card__icon { flex: 0 0 auto; color: var(--color-gold-deep); }
-  .acct-ein { margin-top: var(--space-10); font-size: var(--rd-fs-small); color: var(--color-sage); text-align: center; }
+  .acct-ein { margin-top: clamp(56px, 7vw, 80px); font-size: var(--rd-fs-small); color: var(--color-sage); text-align: center; }
 
   /* Stewardship intro (verbatim from live: 1 Cor 4:2 + finance statement) */
   .steward__verse { margin: 0 0 var(--space-8); border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: var(--rd-fs-title); line-height: 1.35; color: var(--color-green-deep); }
@@ -209,23 +223,59 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   .steward__body { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
   .steward__body a { color: var(--color-green-deep); font-weight: 600; }
 
-  /* 2024 Expenses breakdown + GME (verbatim figures from live) */
-  .exp { text-align: center; }
-  .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); max-width: 960px; margin-inline: auto; }
-  @media (max-width: 640px) { .exp-grid { grid-template-columns: 1fr; } }
-  .exp-item { padding: clamp(40px, 5vw, 64px) var(--space-6); }
-  .exp-item--program { box-shadow: 0 14px 44px color-mix(in srgb, var(--color-gold) 26%, transparent); }
-  .exp-pct { display: block; font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-title); line-height: 1; letter-spacing: -0.02em; color: var(--color-green-deep); }
-  .exp-amt { display: block; margin-top: var(--space-4); font-weight: 700; color: var(--color-ink); }
-  .exp-cat { display: block; margin-top: var(--space-2); font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .exp-gme { max-width: 58ch; margin: clamp(48px, 6vw, 72px) auto 0; color: var(--color-ink-soft); line-height: 1.8; }
-  .exp-gme p { margin: 0 0 var(--space-4); }
+  /* 2024 Expenses breakdown + GME (verbatim figures from live).
+     Typographic rows + one stacked bar; the GME copy sits beside the
+     numbers so nothing floats alone. */
+  .exp-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(48px, 7vw, 110px);
+    align-items: center;
+    max-width: 1040px;
+    margin-inline: auto;
+  }
+  @media (max-width: 860px) { .exp-layout { grid-template-columns: 1fr; gap: var(--space-12); } }
+  .exp-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-6);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid rgba(31, 58, 26, 0.10);
+  }
+  .exp-row:first-child { padding-top: 0; }
+  .exp-pct {
+    flex: 0 0 150px;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: var(--rd-fs-title);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-ink-soft);
+  }
+  .exp-row--program .exp-pct { color: var(--color-green-deep); }
+  .exp-detail { display: flex; flex-direction: column; gap: var(--space-1); }
+  .exp-cat { font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .exp-amt { font-weight: 700; color: var(--color-ink); }
+  .exp-bar {
+    display: flex;
+    height: 12px;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    margin-top: var(--space-8);
+  }
+  .exp-bar__seg--program { background: var(--color-green); }
+  .exp-bar__seg--general { background: var(--color-gold); }
+  .exp-bar__seg--fundraising { background: var(--color-tan); }
+  .exp-gme { color: var(--color-ink-soft); line-height: 1.8; }
+  .exp-gme p { margin: 0 0 var(--space-5); }
   .exp-gme p:last-child { margin-bottom: 0; }
 
-  /* Carole Ward pull-quote: a quiet light-green moment, no dark slab. */
+  /* Carole Ward pull-quote: a quiet white moment on the cream band. */
   .acct-quote-wrap {
-    background: var(--rd-bg-green);
+    background: var(--color-white);
+    border: 1px solid rgba(31, 58, 26, 0.08);
     border-radius: calc(var(--rd-radius) + 8px);
+    box-shadow: 0 2px 10px rgba(31, 58, 26, 0.04);
     padding: clamp(56px, 8vw, 104px) clamp(24px, 6vw, 96px);
     text-align: center;
   }

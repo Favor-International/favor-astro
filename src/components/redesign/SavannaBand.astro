@@ -1,58 +1,86 @@
 ---
-// Savanna section: cream at the top easing into a faint brownish tone at the
-// bottom, with low-opacity acacia silhouettes on the horizon. Per Daniel:
-// "it gives me the feeling, but it's not bothering my eyes, it's not asking
-// for my attention." One per page, maximum.
+// Savanna section: cream easing into a faint brownish tone, with a layered
+// illustrated savanna along the bottom — full-canopy acacias, bushes, a
+// grass strip, and faint hills. Flat-illustration style per Daniel's refs,
+// monochrome and low-opacity so it never asks for attention.
 export interface Props {
   tight?: boolean;
 }
 const { tight = false } = Astro.props as Props;
 ---
 <section class={`band rd-savanna ${tight ? 'band--tight' : ''}`}>
-  <svg class="rd-savanna__scene" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+  <svg class="rd-savanna__scene" viewBox="0 0 1440 340" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
     <defs>
-      <g id="rd-acacia">
-        <!-- trunk + branches -->
+      <g id="rd-sv-acacia">
+        <!-- curving trunk + branches, forking high -->
         <g stroke="currentColor" fill="none" stroke-linecap="round">
-          <path d="M0 0 C2 -34 -2 -62 -14 -92" stroke-width="5.5" />
-          <path d="M-4 -50 C10 -72 26 -86 46 -97" stroke-width="3.5" />
-          <path d="M-7 -62 C-22 -80 -36 -90 -54 -100" stroke-width="3" />
-          <path d="M-11 -80 C-4 -90 4 -98 14 -104" stroke-width="2.5" />
+          <path d="M-8 0 C-10 -40 -2 -80 18 -118" stroke-width="7" />
+          <path d="M6 0 C0 -36 -16 -72 -40 -104" stroke-width="5" />
+          <path d="M-2 -56 C12 -78 30 -94 52 -106" stroke-width="4" />
+          <path d="M-22 -70 C-34 -82 -46 -90 -60 -96" stroke-width="3.5" />
         </g>
-        <!-- flat-topped canopy, irregular edges -->
+        <!-- clustered, flat-topped crown -->
         <g fill="currentColor">
-          <path d="M-122 -110 C-106 -125 -78 -134 -52 -135 C-35 -146 -3 -150 19 -142 C45 -149 81 -142 99 -129 C113 -121 117 -112 111 -106 C96 -99 76 -96 54 -94 C58 -90 56 -86 48 -84 C30 -80 8 -81 -6 -86 C-30 -84 -58 -86 -80 -92 C-102 -97 -118 -103 -122 -110 Z" />
-          <path d="M62 -100 C80 -106 104 -104 118 -97 C112 -88 88 -84 68 -88 C60 -91 58 -96 62 -100 Z" />
+          <path d="M-96 -120 C-90 -140 -64 -152 -34 -152 C-20 -164 16 -166 36 -156 C64 -162 96 -152 106 -136 C118 -124 112 -110 96 -106 C110 -100 108 -88 92 -84 C70 -78 44 -80 24 -86 C8 -78 -20 -78 -38 -86 C-64 -80 -92 -88 -100 -102 C-106 -112 -104 -118 -96 -120 Z" />
+          <path d="M-78 -62 C-70 -76 -48 -80 -32 -73 C-24 -66 -28 -54 -44 -50 C-62 -48 -76 -52 -78 -62 Z" />
+          <path d="M44 -74 C54 -86 76 -88 88 -79 C94 -70 86 -60 70 -58 C56 -58 46 -64 44 -74 Z" />
         </g>
       </g>
-      <g id="rd-bush" fill="currentColor">
-        <path d="M-34 0 C-30 -10 -18 -17 -2 -18 C14 -19 28 -13 33 -4 C34 -2 33 0 30 0 Z" />
+      <!-- rounded bush cluster (after his bush ref) -->
+      <g id="rd-sv-bush" fill="currentColor">
+        <path d="M0 0 C2 -12 12 -21 24 -21 C28 -32 42 -36 52 -29 C58 -38 74 -38 81 -29 C93 -31 103 -22 103 -12 C105 -5 100 0 94 0 Z" />
+      </g>
+      <!-- spiky grass clump (after his grass ref) -->
+      <g id="rd-sv-grass" fill="currentColor">
+        <path d="M0 0 C4 -10 8 -24 10 -38 C14 -22 16 -12 19 -4 C24 -20 30 -40 35 -56 C38 -36 41 -20 45 -8 C50 -26 58 -44 65 -54 C66 -36 68 -22 73 -10 C78 -24 86 -38 95 -46 C94 -30 96 -16 101 -6 C107 -16 113 -24 119 -29 C118 -18 119 -8 121 0 Z" />
       </g>
     </defs>
 
-    <!-- distant horizon line, slightly uneven -->
-    <path d="M0 303 C 220 299 440 304 720 302 C 1000 300 1240 304 1440 301" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.8" />
+    <!-- faint hills behind the horizon -->
+    <path d="M150 320 C 300 232 560 232 710 320 Z" fill="currentColor" opacity="0.22" />
+    <path d="M860 320 C 1010 252 1270 252 1420 320 Z" fill="currentColor" opacity="0.18" />
 
-    <!-- far pair, small and lighter -->
-    <use href="#rd-acacia" transform="translate(884 301) scale(0.34)" opacity="0.5" />
-    <use href="#rd-acacia" transform="translate(972 300) scale(0.26) scale(-1 1)" opacity="0.45" />
+    <!-- horizon -->
+    <path d="M0 321 C 240 317 480 322 720 320 C 960 318 1200 322 1440 319" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7" />
+
+    <!-- far trees -->
+    <use href="#rd-sv-acacia" transform="translate(866 318) scale(0.3)" opacity="0.5" />
+    <use href="#rd-sv-acacia" transform="translate(984 317) scale(0.22) scale(-1 1)" opacity="0.42" />
 
     <!-- midground tree, right -->
-    <use href="#rd-acacia" transform="translate(1244 302) scale(-0.78 0.78)" opacity="0.8" />
+    <use href="#rd-sv-acacia" transform="translate(1238 319) scale(-0.72 0.72)" opacity="0.85" />
 
     <!-- foreground tree, left -->
-    <use href="#rd-acacia" transform="translate(176 303) scale(1.18)" />
+    <use href="#rd-sv-acacia" transform="translate(190 321) scale(1.25)" />
 
     <!-- bushes -->
-    <use href="#rd-bush" transform="translate(560 302) scale(1.1)" opacity="0.7" />
-    <use href="#rd-bush" transform="translate(1080 302) scale(0.8) scale(-1 1)" opacity="0.6" />
+    <use href="#rd-sv-bush" transform="translate(520 320) scale(1.15)" opacity="0.75" />
+    <use href="#rd-sv-bush" transform="translate(1060 320) scale(0.85) scale(-1 1)" opacity="0.6" />
+    <use href="#rd-sv-bush" transform="translate(736 319) scale(0.6)" opacity="0.5" />
 
-    <!-- grass tufts -->
-    <g stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.75">
-      <path d="M420 302 c-3 -8 -5 -12 -9 -16 M424 302 c0 -10 1 -14 2 -19 M429 302 c3 -7 6 -10 10 -13" />
-      <path d="M742 301 c-3 -7 -4 -10 -8 -13 M746 301 c0 -8 1 -12 2 -16 M751 301 c3 -6 5 -8 8 -11" />
-      <path d="M1010 302 c-3 -8 -5 -11 -9 -15 M1014 302 c0 -9 1 -13 2 -17 M1019 302 c3 -7 5 -9 9 -12" />
-      <path d="M300 303 c-2 -6 -4 -9 -7 -12 M304 303 c0 -8 0 -11 1 -14" />
+    <!-- back grass layer, staggered -->
+    <g opacity="0.32">
+      <use href="#rd-sv-grass" transform="translate(-30 322) scale(1.1 0.8)" />
+      <use href="#rd-sv-grass" transform="translate(120 322) scale(1.3 0.7) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(300 322) scale(1.2 0.75)" />
+      <use href="#rd-sv-grass" transform="translate(470 322) scale(1.05 0.8) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(640 322) scale(1.25 0.7)" />
+      <use href="#rd-sv-grass" transform="translate(820 322) scale(1.1 0.78) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(990 322) scale(1.3 0.72)" />
+      <use href="#rd-sv-grass" transform="translate(1170 322) scale(1.15 0.8) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(1330 322) scale(1.2 0.75)" />
+    </g>
+    <!-- front grass layer -->
+    <g opacity="0.6">
+      <use href="#rd-sv-grass" transform="translate(-50 340) scale(1.45 1)" />
+      <use href="#rd-sv-grass" transform="translate(130 340) scale(1.2 0.9) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(280 340) scale(1.5 1.05)" />
+      <use href="#rd-sv-grass" transform="translate(480 340) scale(1.3 0.95) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(620 340) scale(1.45 1)" />
+      <use href="#rd-sv-grass" transform="translate(810 340) scale(1.25 0.9) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(950 340) scale(1.5 1.05)" />
+      <use href="#rd-sv-grass" transform="translate(1150 340) scale(1.35 0.95) scale(-1 1)" />
+      <use href="#rd-sv-grass" transform="translate(1310 340) scale(1.45 1)" />
     </g>
   </svg>
   <div class="container rd-savanna__content">
@@ -74,12 +102,12 @@ const { tight = false } = Astro.props as Props;
     right: 0;
     bottom: -2px;
     width: 100%;
-    height: clamp(150px, 24vw, 310px);
+    height: clamp(170px, 27vw, 350px);
     color: #5a4c36;
-    opacity: 0.11;
+    opacity: 0.12;
     pointer-events: none;
     z-index: 0;
   }
-  .rd-savanna__content { position: relative; z-index: 1; padding-bottom: clamp(120px, 16vw, 220px); }
+  .rd-savanna__content { position: relative; z-index: 1; padding-bottom: clamp(140px, 18vw, 250px); }
   .rd-savanna.band { padding-bottom: clamp(40px, 5vw, 64px); }
 </style>

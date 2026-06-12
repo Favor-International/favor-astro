@@ -29,26 +29,21 @@ const traits = [
     imageAlt="A Favor prayer gathering"
   />
 
-  <section class="band band--white">
-    <div class="container container--narrow mv-vision">
-      <p class="label">Our vision</p>
-      <p class="vision">{SITE.vision}</p>
-    </div>
-  </section>
-
-  <section class="band band--cream band--tight mv-mission">
-    <div class="container container--narrow">
-      <p class="label">Our mission</p>
-      <p class="mission-body">{SITE.mission}</p>
-    </div>
-  </section>
+  <RdFeature
+    image="/images/field-2026/prayer-gathering-2.webp"
+    imageAlt="A Favor field gathering in prayer"
+    eyebrow="Our mission"
+    side="left"
+  >
+    <p class="mission-lede">{SITE.mission}</p>
+  </RdFeature>
 
   <RdFeature
     image="/images/field-2026/baptism-1.webp"
     imageAlt="New believers gathered in the field"
     eyebrow="Why we exist"
     heading="A spiritual army from the broken, lost, and impoverished."
-    side="left"
+    side="right"
   >
     <p>
       God has raised Favor up to mobilize a spiritual army from the broken, lost, and
@@ -73,8 +68,7 @@ const traits = [
     imageAlt="A Favor leadership training session"
     eyebrow="How we do it"
     heading="National leaders, on the front lines."
-    side="right"
-    background="greenlight"
+    side="left"
   >
     <p>
       Our passion is to mobilize national leaders in front-line battlegrounds to align their
@@ -110,6 +104,7 @@ const traits = [
     eyebrow="The Gospel comes first"
     heading="The Gospel goes first, then everything follows."
     side="right"
+    background="cream"
   >
     <p>
       <strong>Favor gets the Gospel out to unreached areas where few others go, and we lead
@@ -133,26 +128,21 @@ const traits = [
     body="Becoming a Favor Partner is the simplest way to put this mission into motion every month."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
+    background="cream"
   />
 </RedesignLayout>
 
 <style>
-  .mv-vision, .mv-mission { text-align: center; }
-  .vision {
+  /* The mission statement reads as the feature's display text, anchored to
+     the photo beside it (no orphan title-and-text sections). */
+  .mission-lede {
     font-family: var(--font-display);
-    font-size: var(--rd-fs-display);
+    font-size: var(--rd-fs-sub);
+    line-height: 1.55;
     color: var(--color-green-deep);
-    margin: var(--space-5) 0 0;
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    text-wrap: balance;
-  }
-  .mission-body {
-    font-size: var(--rd-fs-body);
-    line-height: 1.8;
-    color: var(--color-ink);
-    margin: var(--space-4) auto 0;
-    max-width: 64ch;
+    letter-spacing: -0.005em;
+    margin: 0;
+    text-wrap: pretty;
   }
   .mv-sow {
     margin: clamp(48px, 6vw, 80px) auto 0;
