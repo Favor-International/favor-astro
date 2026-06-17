@@ -302,24 +302,28 @@ const fruitStats = [
     document.querySelectorAll('.tl').forEach((tl) => {
       const svg = tl.querySelector('.tl-line');
       const path = svg && svg.querySelector('path');
+      const items = Array.from(tl.querySelectorAll('.tl-item'));
       const dots = Array.from(tl.querySelectorAll('.tl-dot'));
-      if (!path || dots.length < 2) return;
+      if (!path || items.length < 1) return;
       const r = tl.getBoundingClientRect();
       svg.setAttribute('viewBox', `0 0 ${Math.round(r.width)} ${Math.round(r.height)}`);
-      const pts = dots.map((d) => {
-        const b = d.getBoundingClientRect();
-        return { x: +(b.left + b.width / 2 - r.left).toFixed(1), y: +(b.top + b.height / 2 - r.top).toFixed(1) };
-      });
-      // Smooth S-curves between dots (vertical tangents at each dot so the
-      // segments join seamlessly), with short tails above the first dot and
-      // below the last so the line doesn't start or stop abruptly.
-      let d = `M ${pts[0].x} ${(pts[0].y - 30).toFixed(1)} L ${pts[0].x} ${pts[0].y}`;
-      for (let i = 1; i < pts.length; i++) {
-        const midY = ((pts[i - 1].y + pts[i].y) / 2).toFixed(1);
-        d += ` C ${pts[i - 1].x} ${midY}, ${pts[i].x} ${midY}, ${pts[i].x} ${pts[i].y}`;
+      // x = the inner edge (from the dot); top = dot center; bottom = the
+      // content's bottom (inner block) so the curve happens in the gap below.
+      const x = dots.map((d) => { const b = d.getBoundingClientRect(); return +(b.left + b.width / 2 - r.left).toFixed(1); });
+      const top = dots.map((d) => { const b = d.getBoundingClientRect(); return +(b.top + b.height / 2 - r.top).toFixed(1); });
+      const bottom = items.map((it) => { const inner = it.querySelector('.tl-item__inner') || it; return +(inner.getBoundingClientRect().bottom - r.top).toFixed(1); });
+      // Straight down beside each entry (clear of the text), a smooth S-curve
+      // across the empty gap to the next entry. Short tails top and bottom.
+      let d = `M ${x[0]} ${(top[0] - 30).toFixed(1)}`;
+      for (let i = 0; i < items.length; i++) {
+        d += ` L ${x[i]} ${bottom[i]}`;
+        if (i < items.length - 1) {
+          const cp = ((bottom[i] + top[i + 1]) / 2).toFixed(1);
+          d += ` C ${x[i]} ${cp}, ${x[i + 1]} ${cp}, ${x[i + 1]} ${top[i + 1]}`;
+        }
       }
-      const last = pts[pts.length - 1];
-      d += ` L ${last.x} ${(last.y + 30).toFixed(1)}`;
+      const li = items.length - 1;
+      d += ` L ${x[li]} ${(bottom[li] + 30).toFixed(1)}`;
       path.setAttribute('d', d);
     });
   }
