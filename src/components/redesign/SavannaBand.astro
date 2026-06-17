@@ -90,20 +90,22 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    /* Cream up top easing to the savanna "ground" tone at the bottom, so a
-       ground-colored band placed right below meets it seamlessly. */
-    background: linear-gradient(180deg, var(--color-cream) 0%, #f1e7d4 46%, var(--rd-savanna-ground) 100%);
+    /* A light cream sky held most of the way down so the silhouette reads as a
+       crisp solid shape against it, easing to the savanna tone only at the very
+       bottom — so the silhouette's base and a ground-colored band placed right
+       below meet seamlessly. */
+    background: linear-gradient(180deg, var(--color-cream) 0%, #f4ecdb 64%, var(--rd-savanna-ground) 100%);
   }
   /* Real silhouette image (transparent PNG): the full scene spans the width
      and sits along the bottom; its own transparent sky shows the warm band
      above, so it reads "transparent on top, silhouette on the bottom". */
-  /* Masked fill: the silhouette is a solid soft gray-tan everywhere (a distinct
-     "bit of gray", not just a darker shade of the cream behind it). It blends
-     into the ground band at the bottom and reads softly against the cream up top. */
+  /* Masked fill: the silhouette is one solid tone everywhere (no transparency),
+     the exact color of the ground band below — so it stands crisp against the
+     light cream sky up top and its base dissolves into that band. */
   .rd-savanna__photo {
     position: absolute;
     inset: 0;
-    background-color: #cdc3ae;
+    background-color: var(--rd-savanna-ground);
     -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
     -webkit-mask-size: 100% auto; mask-size: 100% auto;
     -webkit-mask-position: center bottom; mask-position: center bottom;

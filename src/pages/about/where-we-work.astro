@@ -4,7 +4,6 @@ import PageHero from '../../components/band/PageHero.astro';
 import AfricaMap from '../../components/global/AfricaMap.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
-import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
 const countries = [
@@ -67,17 +66,19 @@ const moreCountries = countries.filter((c) => !c.image);
     </div>
   </section>
 
-  <SavannaBand image="/images/savanna-silhouette.png" imageAlt="An African savanna silhouette: acacia trees, elephants, and a giraffe">
-    <LeafHeading title="Also serving across the region" leaves={false} />
-    <ul class="country-list">
-      {moreCountries.map((c) => (
-        <li class="rd-card reveal">
-          <strong>{c.name}</strong>
-          <span>{c.focus}</span>
-        </li>
-      ))}
-    </ul>
-  </SavannaBand>
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading title="Also serving across the region" leaves={false} />
+      <ul class="country-list">
+        {moreCountries.map((c) => (
+          <li class="rd-card reveal">
+            <strong>{c.name}</strong>
+            <span>{c.focus}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   <RdCta
     heading="Pray for a specific country."

@@ -28,10 +28,10 @@
   /* The third background (with white + cream): a quiet leaf green. */
   --rd-bg-green: #eef4ec;
 
-  /* The savanna "ground" tone — the color the silhouette reads as. A band of
-     this color placed right under a savanna band lets the silhouette dissolve
-     into it smoothly. */
-  --rd-savanna-ground: #cdbfa8;
+  /* The savanna silhouette tone. The silhouette fill, the savanna band's
+     bottom, and the ground text band all use this exact color, so the scene
+     dissolves seamlessly into the band that holds the closing statement. */
+  --rd-savanna-ground: #cdc3ae;
 
   --rd-radius: 22px;
   --rd-shadow: 0 10px 36px rgba(31, 58, 26, 0.08);
@@ -119,12 +119,20 @@
    closing statement in strong-contrast deep green ---------- */
 .rd .savanna-ground { background: var(--rd-savanna-ground); }
 .rd .ground-statement {
-  max-width: 62ch; margin: 0 auto; text-align: center;
-  font-family: var(--font-display); font-size: var(--rd-fs-sub);
-  line-height: 1.6; color: var(--color-green-deep); text-wrap: pretty;
+  max-width: 19em; margin: 0 auto; text-align: center;
+  font-family: var(--font-display); font-size: clamp(1.7rem, 2.9vw, 2.4rem);
+  font-weight: 600; line-height: 1.34; color: var(--color-green-deep); text-wrap: balance;
 }
 .rd .ground-statement p { margin: 0 0 0.8em; }
 .rd .ground-statement p:last-child { margin-bottom: 0; }
+/* Prose variant: for a longer, multi-paragraph statement (e.g. an explanation
+   rather than a single closing line) — same deep-green serif voice, dialed to a
+   readable scale so it doesn't become a wall of oversized type. */
+.rd .ground-statement--prose {
+  max-width: 30ch; font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 500; line-height: 1.5;
+}
+.rd .ground-statement--prose p { margin: 0 0 0.7em; }
 
 /* ---------- Reveal-on-scroll, pure CSS (scroll-driven). Progressive
    enhancement: only browsers that support scroll-driven animations animate;
