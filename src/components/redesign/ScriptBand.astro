@@ -1,0 +1,68 @@
+---
+// Full-bleed cinematic photo band carrying one short script-font phrase,
+// centered, over a green scrim. The "breathing" / emotional-punctuation
+// device between substantive sections (after the Humane League reference's
+// "be the change" full-bleed moments, in Favor's nature palette).
+// Phrases are VERBATIM from Favor's content — never invented slogans.
+export interface Props {
+  image: string;
+  imageAlt: string;
+  phrase: string;
+  cite?: string;
+  label?: string;
+  objectPosition?: string;
+}
+const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%' } = Astro.props as Props;
+---
+<section class="rd-script">
+  <div class="rd-script__media" style={`background-image:url('${image}'); background-position:${objectPosition};`} role="img" aria-label={imageAlt}></div>
+  <div class="rd-script__scrim" aria-hidden="true"></div>
+  <div class="container rd-script__inner">
+    {label && <p class="label label--inverse">{label}</p>}
+    <blockquote class="rd-script__phrase">{phrase}</blockquote>
+    {cite && <p class="rd-script__cite">{cite}</p>}
+  </div>
+</section>
+
+<style>
+  .rd-script {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(420px, 56vh, 580px);
+    overflow: hidden;
+    color: var(--color-white);
+    text-align: center;
+  }
+  .rd-script__media { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; z-index: 0; }
+  /* Even green darkening with a soft center focus so the script reads clean. */
+  .rd-script__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      radial-gradient(120% 90% at 50% 50%, rgba(20, 30, 18, 0.34) 0%, rgba(20, 30, 18, 0.6) 70%, rgba(20, 30, 18, 0.72) 100%),
+      linear-gradient(180deg, rgba(20, 30, 18, 0.28) 0%, rgba(20, 30, 18, 0.2) 50%, rgba(20, 30, 18, 0.4) 100%);
+  }
+  .rd-script__inner { position: relative; z-index: 2; padding: var(--space-16) 0; }
+  .rd-script__phrase {
+    margin: 0 auto;
+    max-width: 18ch;
+    border: 0;
+    padding: 0;
+    font-family: var(--font-script);
+    font-style: normal;
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.12;
+    color: var(--color-white);
+    text-wrap: balance;
+    text-shadow: 0 2px 24px rgba(10, 16, 8, 0.45);
+  }
+  .rd-script__cite {
+    margin: var(--space-6) 0 0;
+    color: var(--color-gold-light);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: var(--rd-fs-small);
+  }
+</style>
