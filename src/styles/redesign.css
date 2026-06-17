@@ -109,6 +109,11 @@
   color: var(--color-sage);
 }
 
+/* ---------- Inline "story" links (gold-underlined) ---------- */
+.rd .story-link { transition: color 140ms ease, border-color 140ms ease; }
+.rd .story-link:hover,
+.rd .story-link:focus-visible { color: var(--color-gold-deep); border-bottom-color: var(--color-gold-deep); }
+
 /* ---------- Roomy grids ---------- */
 .rd .rd-grid { display: grid; gap: clamp(40px, 5vw, 72px) clamp(28px, 3vw, 48px); }
 .rd .rd-grid--2 { grid-template-columns: repeat(2, 1fr); }

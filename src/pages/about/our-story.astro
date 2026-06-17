@@ -78,7 +78,9 @@ const fruitStats = [
       <LeafHeading label="The story, year by year" title="How the work grew." leaves={false} />
 
       <div class="tl">
+        <svg class="tl-line" preserveAspectRatio="none" aria-hidden="true"><path d=""></path></svg>
         <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
           <div class="tl-item__inner rd-prose">
             <span class="tl-year">2004</span>
             <div class="tl-photo" style="background-image:url('/images/field-2026/carole-2.webp')" role="img" aria-label="The original House of Prayer in Gulu"></div>
@@ -88,6 +90,7 @@ const fruitStats = [
         </div>
 
         <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
           <div class="tl-item__inner rd-prose">
             <span class="tl-year">2005</span>
             <div class="tl-photo" style="background-image:url('/images/field-2026/prayer-2.webp')" role="img" aria-label="The National Prayer Gathering in Gulu, 2005"></div>
@@ -97,6 +100,7 @@ const fruitStats = [
         </div>
 
         <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
           <div class="tl-item__inner rd-prose">
             <span class="tl-year">2007 to 2014</span>
             <div class="tl-photo" style="background-image:url('/images/field-2026/education-1.webp')" role="img" aria-label="Graduates celebrating in DR Congo"></div>
@@ -105,6 +109,7 @@ const fruitStats = [
         </div>
 
         <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
           <div class="tl-item__inner rd-prose">
             <span class="tl-year">2015 to now</span>
             <div class="tl-photo" style="background-image:url('/images/field/prayer-gathering-chad.webp')" role="img" aria-label="A national prayer gathering in Chad"></div>
@@ -198,27 +203,28 @@ const fruitStats = [
 </RedesignLayout>
 
 <style>
-  /* Alternating timeline: a center line, entries stepping left / right /
-     left / right down the page for a gentle zigzag. Same content size. */
-  .tl { position: relative; max-width: 1140px; margin: clamp(40px, 5vw, 72px) auto 0; }
-  .tl::before { content: ''; position: absolute; left: 50%; top: 8px; bottom: 8px; width: 2px; transform: translateX(-50%); background: var(--color-sage-light); }
-  .tl-item { position: relative; width: 50%; box-sizing: border-box; padding-bottom: clamp(56px, 7vw, 104px); }
-  .tl-item:nth-child(odd) { left: 0; padding-right: clamp(36px, 4vw, 64px); }
-  .tl-item:nth-child(even) { left: 50%; padding-left: clamp(36px, 4vw, 64px); }
+  /* Meandering timeline: wide entries (kept large), alternating left / right.
+     A weaving line (drawn by script through the dots) hugs the inner edge of
+     each entry and cuts across to the next — down the right, jog left, down
+     the left, jog right. */
+  .tl { position: relative; max-width: 1080px; margin: clamp(48px, 6vw, 80px) auto 0; }
+  .tl-line { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+  .tl-line path { fill: none; stroke: var(--color-sage-light); stroke-width: 2; stroke-linejoin: round; }
+  .tl-item { position: relative; z-index: 1; width: 64%; box-sizing: border-box; padding-bottom: clamp(56px, 7vw, 104px); }
+  .tl-item:nth-of-type(odd) { margin-right: auto; padding-right: clamp(28px, 3vw, 52px); }
+  .tl-item:nth-of-type(even) { margin-left: auto; padding-left: clamp(28px, 3vw, 52px); }
   .tl-item:last-child { padding-bottom: 0; }
-  /* Dot sitting on the center line at the start of each entry. */
-  .tl-item::after { content: ''; position: absolute; top: 6px; width: 15px; height: 15px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 4px var(--color-cream); z-index: 1; }
-  .tl-item:nth-child(odd)::after { right: -8px; }
-  .tl-item:nth-child(even)::after { left: -8px; }
+  .tl-dot { position: absolute; top: 4px; width: 15px; height: 15px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 4px var(--color-cream); z-index: 2; }
+  .tl-item:nth-of-type(odd) .tl-dot { right: -7px; }
+  .tl-item:nth-of-type(even) .tl-dot { left: -7px; }
   .tl-year { display: block; font-family: var(--font-display); font-weight: 700; font-size: var(--rd-fs-title); color: var(--color-gold-deep); line-height: 1; margin-bottom: var(--space-5); }
   .tl-photo { aspect-ratio: 16 / 9; background-size: cover; background-position: center 35%; border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); margin: 0 0 var(--space-6); }
   .tl-item__inner p { margin: 0 0 var(--space-5); }
   .tl-item__inner p:last-child { margin-bottom: 0; }
   @media (max-width: 820px) {
     .tl { max-width: 640px; }
-    .tl::before { left: 7px; transform: none; }
-    .tl-item { width: 100%; left: 0 !important; padding-left: 44px !important; padding-right: 0 !important; }
-    .tl-item::after { left: 0 !important; right: auto !important; }
+    .tl-item { width: 100%; margin: 0 !important; padding-left: 44px !important; padding-right: 0 !important; }
+    .tl-item .tl-dot { left: 0 !important; right: auto !important; }
   }
 
   /* Emphasized opening sentence on a feature. */
@@ -263,8 +269,9 @@ const fruitStats = [
   .fruit-cell--feature .fruit-cell__icon { background: color-mix(in srgb, var(--color-white) 14%, transparent); color: var(--color-gold); }
   .fruit-cell--feature .fruit-cell__num { color: var(--color-gold); font-size: clamp(2.8rem, 4.6vw, 4.2rem); }
   .fruit-cell--feature .fruit-cell__label { color: color-mix(in srgb, var(--color-white) 85%, transparent); font-size: var(--rd-fs-sub); }
-  /* Milestone cells (no number): the label carries the verbatim line. */
-  .fruit-cell--milestone { background: var(--color-cream); box-shadow: none; border: 1px solid rgba(31,58,26,0.10); }
+  /* Milestone cells (no number): wider (two columns) since there is room. */
+  .fruit-cell--milestone { grid-column: span 2; flex-direction: row; align-items: center; gap: var(--space-5); background: var(--color-cream); box-shadow: none; border: 1px solid rgba(31,58,26,0.10); }
+  @media (max-width: 440px) { .fruit-cell--milestone { grid-column: span 1; } }
   .fruit-cell--milestone .fruit-cell__label { font-family: var(--font-display); font-weight: 700; color: var(--color-green); font-size: var(--rd-fs-sub); line-height: 1.25; }
 
   /* Carole video: a large featured player (with a leaf behind it) beside
@@ -286,3 +293,30 @@ const fruitStats = [
 
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 </style>
+
+<script>
+  // Draw the timeline's weaving line through the dots: down one side, a
+  // horizontal cut across, down the other side. Recomputed on resize/load
+  // so it always matches the real entry heights.
+  function drawTimeline() {
+    document.querySelectorAll('.tl').forEach((tl) => {
+      const svg = tl.querySelector('.tl-line');
+      const path = svg && svg.querySelector('path');
+      const dots = Array.from(tl.querySelectorAll('.tl-dot'));
+      if (!path || dots.length < 2) return;
+      const r = tl.getBoundingClientRect();
+      svg.setAttribute('viewBox', `0 0 ${Math.round(r.width)} ${Math.round(r.height)}`);
+      const pts = dots.map((d) => {
+        const b = d.getBoundingClientRect();
+        return { x: +(b.left + b.width / 2 - r.left).toFixed(1), y: +(b.top + b.height / 2 - r.top).toFixed(1) };
+      });
+      let d = `M ${pts[0].x} ${pts[0].y}`;
+      for (let i = 1; i < pts.length; i++) d += ` V ${pts[i].y} H ${pts[i].x}`;
+      path.setAttribute('d', d);
+    });
+  }
+  drawTimeline();
+  window.addEventListener('resize', drawTimeline);
+  window.addEventListener('load', drawTimeline);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawTimeline);
+</script>
