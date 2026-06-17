@@ -102,42 +102,45 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   <SavannaBand image="/images/savanna-silhouette.png" imageAlt="An African savanna silhouette: acacia trees, elephants, and a giraffe">
     <div class="exp">
       <LeafHeading label="Expenses accountability" title="Where 2024 went." leaves={false} />
-      <div class="exp-layout">
-        <div class="exp-breakdown">
-          <div class="exp-row exp-row--program">
-            <span class="exp-pct">89.3%</span>
-            <div class="exp-detail">
-              <span class="exp-cat">Program</span>
-              <span class="exp-amt">$6,671,668</span>
-            </div>
-          </div>
-          <div class="exp-row">
-            <span class="exp-pct">6.2%</span>
-            <div class="exp-detail">
-              <span class="exp-cat">General</span>
-              <span class="exp-amt">$464,178</span>
-            </div>
-          </div>
-          <div class="exp-row">
-            <span class="exp-pct">4.5%</span>
-            <div class="exp-detail">
-              <span class="exp-cat">Fundraising</span>
-              <span class="exp-amt">$341,235</span>
-            </div>
-          </div>
-          <div class="exp-bar" aria-hidden="true">
-            <span class="exp-bar__seg exp-bar__seg--program" style="width:89.3%"></span>
-            <span class="exp-bar__seg exp-bar__seg--general" style="width:6.2%"></span>
-            <span class="exp-bar__seg exp-bar__seg--fundraising" style="width:4.5%"></span>
+      <div class="exp-breakdown">
+        <div class="exp-row exp-row--program">
+          <span class="exp-pct">89.3%</span>
+          <div class="exp-detail">
+            <span class="exp-cat">Program</span>
+            <span class="exp-amt">$6,671,668</span>
           </div>
         </div>
-        <div class="exp-gme rd-prose">
-          <p>We take great pride in our financial efficiency, maximizing every dollar we receive. We use the great multiplier effect (GME) to get the best outcome.</p>
-          <p>The GME is our way of developing, training, and empowering indigenous faith leaders. These leaders in turn transform their villages and communities. There is no limit to what they can do.</p>
+        <div class="exp-row">
+          <span class="exp-pct">6.2%</span>
+          <div class="exp-detail">
+            <span class="exp-cat">General</span>
+            <span class="exp-amt">$464,178</span>
+          </div>
+        </div>
+        <div class="exp-row">
+          <span class="exp-pct">4.5%</span>
+          <div class="exp-detail">
+            <span class="exp-cat">Fundraising</span>
+            <span class="exp-amt">$341,235</span>
+          </div>
+        </div>
+        <div class="exp-bar" aria-hidden="true">
+          <span class="exp-bar__seg exp-bar__seg--program" style="width:89.3%"></span>
+          <span class="exp-bar__seg exp-bar__seg--general" style="width:6.2%"></span>
+          <span class="exp-bar__seg exp-bar__seg--fundraising" style="width:4.5%"></span>
         </div>
       </div>
     </div>
   </SavannaBand>
+
+  <section class="band savanna-ground">
+    <div class="container container--narrow">
+      <div class="ground-statement">
+        <p>We take great pride in our financial efficiency, maximizing every dollar we receive. We use the great multiplier effect (GME) to get the best outcome.</p>
+        <p>The GME is our way of developing, training, and empowering indigenous faith leaders. These leaders in turn transform their villages and communities. There is no limit to what they can do.</p>
+      </div>
+    </div>
+  </section>
 
   <section class="band band--cream">
     <div class="container">
@@ -225,18 +228,9 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   .steward__body { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
   .steward__body a { color: var(--color-green-deep); font-weight: 600; }
 
-  /* 2024 Expenses breakdown + GME (verbatim figures from live).
-     Typographic rows + one stacked bar; the GME copy sits beside the
-     numbers so nothing floats alone. */
-  .exp-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(48px, 7vw, 110px);
-    align-items: center;
-    max-width: 1040px;
-    margin-inline: auto;
-  }
-  @media (max-width: 860px) { .exp-layout { grid-template-columns: 1fr; gap: var(--space-12); } }
+  /* 2024 Expenses breakdown (verbatim figures from live): typographic rows +
+     one stacked bar, centered. The GME copy moved to the ground band below. */
+  .exp-breakdown { max-width: 560px; margin-inline: auto; }
   .exp-row {
     display: flex;
     align-items: baseline;
@@ -268,9 +262,6 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   .exp-bar__seg--program { background: var(--color-green); }
   .exp-bar__seg--general { background: var(--color-gold); }
   .exp-bar__seg--fundraising { background: var(--color-tan); }
-  .exp-gme { color: var(--color-ink-soft); line-height: 1.8; }
-  .exp-gme p { margin: 0 0 var(--space-5); }
-  .exp-gme p:last-child { margin-bottom: 0; }
 
   /* Carole Ward pull-quote: a quiet white moment on the cream band. */
   .acct-quote-wrap {

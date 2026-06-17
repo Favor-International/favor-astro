@@ -93,7 +93,7 @@ const traits = [
     <LeafHeading title="What we instill in the leaders we train" leaves={false} />
     <ul class="trait-list">
       {traits.map((t) => (
-        <li class="rd-card trait">
+        <li class="rd-card trait reveal">
           <span class="trait__icon" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={LEAF}></svg></span>
           <strong class="trait-list__title">{t.title}</strong>
           <span class="trait-list__desc">{t.desc}</span>
@@ -170,19 +170,7 @@ const traits = [
     margin: 0;
     text-wrap: pretty;
   }
-  /* Ground band: same tone as the silhouette, so the savanna scene dissolves
-     into it. The closing statement reads here with strong contrast. */
-  .savanna-ground { background: var(--rd-savanna-ground); }
-  .ground-statement {
-    max-width: 60ch;
-    margin: 0 auto;
-    text-align: center;
-    font-family: var(--font-display);
-    font-size: var(--rd-fs-sub);
-    line-height: 1.6;
-    color: var(--color-green-deep);
-    text-wrap: pretty;
-  }
+  /* (.savanna-ground / .ground-statement are global in redesign.css) */
   .trait-list {
     list-style: none;
     padding: 0;

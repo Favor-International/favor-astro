@@ -114,27 +114,4 @@ const moreCountries = countries.filter((c) => !c.image);
   .country-list li:hover { transform: translateY(-5px); box-shadow: var(--rd-shadow-lift); }
   .country-list strong { color: var(--color-green); font-size: var(--rd-fs-body); font-weight: 800; }
   .country-list span { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
-
-  /* Gentle reveal-on-scroll (only active once the script opts in). */
-  .rv .reveal { opacity: 0; transform: translateY(28px); transition: opacity 600ms ease, transform 600ms ease; }
-  .rv .reveal.is-in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .rv .reveal { opacity: 1; transform: none; } }
 </style>
-
-<script>
-  // Fade/rise elements in as they enter the viewport. Gated by adding `rv` to
-  // the document element so that with no JS everything is simply visible.
-  (function () {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const els = Array.from(document.querySelectorAll('.reveal'));
-    if (!els.length) return;
-    if (reduce || !('IntersectionObserver' in window)) return;
-    document.documentElement.classList.add('rv');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
-      });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-    els.forEach((el, i) => { el.style.transitionDelay = `${Math.min(i % 4, 3) * 70}ms`; io.observe(el); });
-  })();
-</script>

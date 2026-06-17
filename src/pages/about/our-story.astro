@@ -132,7 +132,7 @@ const fruitStats = [
       <div class="fruit-grid">
         {fruitStats.map((s) => (
           <article
-            class={`fruit-cell ${s.feature ? 'fruit-cell--feature' : ''} ${!s.num ? 'fruit-cell--milestone' : ''}`}
+            class={`fruit-cell reveal ${s.feature ? 'fruit-cell--feature' : ''} ${!s.num ? 'fruit-cell--milestone' : ''}`}
             data-tip={s.tip}
             tabindex={s.tip ? 0 : undefined}
           >
@@ -369,7 +369,7 @@ const fruitStats = [
         const el = e.target; io.unobserve(el);
         const target = parseInt(el.getAttribute('data-count'), 10);
         if (!target) return;
-        const finalText = el.textContent;
+        const finalText = el.textContent;        // exact label, e.g. "1 million+"
         const plus = /\+/.test(finalText) ? '+' : '';
         const dur = 1400; let start = null;
         function step(ts) {
@@ -378,11 +378,11 @@ const fruitStats = [
           const eased = 1 - Math.pow(1 - p, 3);
           el.textContent = Math.round(target * eased).toLocaleString('en-US') + plus;
           if (p < 1) requestAnimationFrame(step);
-          else el.textContent = finalText;
+          else el.textContent = finalText;       // restore exact label
         }
         requestAnimationFrame(step);
       });
-    }, { threshold: 0.45 });
+    }, { threshold: 0.3 });
     nums.forEach((n) => io.observe(n));
   }
   countUp();

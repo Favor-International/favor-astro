@@ -114,6 +114,36 @@
   color: var(--color-sage);
 }
 
+/* ---------- Savanna ground band: a solid band of the silhouette tone placed
+   right under a savanna band, so the scene dissolves into it; carries the
+   closing statement in strong-contrast deep green ---------- */
+.rd .savanna-ground { background: var(--rd-savanna-ground); }
+.rd .ground-statement {
+  max-width: 62ch; margin: 0 auto; text-align: center;
+  font-family: var(--font-display); font-size: var(--rd-fs-sub);
+  line-height: 1.6; color: var(--color-green-deep); text-wrap: pretty;
+}
+.rd .ground-statement p { margin: 0 0 0.8em; }
+.rd .ground-statement p:last-child { margin-bottom: 0; }
+
+/* ---------- Reveal-on-scroll, pure CSS (scroll-driven). Progressive
+   enhancement: only browsers that support scroll-driven animations animate;
+   everywhere else the content is simply visible. No JS, so content can never
+   get stuck hidden. ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .rd .reveal {
+      animation: rd-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 48%;
+    }
+    @keyframes rd-reveal {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+}
+
 /* ---------- Inline "story" links (gold-underlined) ---------- */
 .rd .story-link { transition: color 140ms ease, border-color 140ms ease; }
 .rd .story-link:hover,
