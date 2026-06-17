@@ -90,8 +90,9 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    /* Cream up top easing to a warm dusk tone toward the ground. */
-    background: linear-gradient(180deg, var(--color-cream) 0%, #f5ecdb 48%, #ecdcc2 100%);
+    /* Cream up top easing to the savanna "ground" tone at the bottom, so a
+       ground-colored band placed right below meets it seamlessly. */
+    background: linear-gradient(180deg, var(--color-cream) 0%, #f1e7d4 46%, var(--rd-savanna-ground) 100%);
   }
   /* Real silhouette image (transparent PNG): the full scene spans the width
      and sits along the bottom; its own transparent sky shows the warm band

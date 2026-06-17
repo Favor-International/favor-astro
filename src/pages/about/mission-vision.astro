@@ -100,12 +100,17 @@ const traits = [
         </li>
       ))}
     </ul>
-    <p class="mv-sow">
-      Transformation takes time and commitment. Investing in national leadership and
-      discipleship has proven to be the most fruitful way to administer transformation. Our
-      ministry is committed to not just give temporary relief and then leave.
-    </p>
   </SavannaBand>
+
+  <section class="band savanna-ground">
+    <div class="container container--narrow">
+      <p class="ground-statement">
+        Transformation takes time and commitment. Investing in national leadership and
+        discipleship has proven to be the most fruitful way to administer transformation. Our
+        ministry is committed to not just give temporary relief and then leave.
+      </p>
+    </div>
+  </section>
 
   <ScriptBand
     image="/images/field/country-uganda.webp"
@@ -165,12 +170,18 @@ const traits = [
     margin: 0;
     text-wrap: pretty;
   }
-  .mv-sow {
-    margin: clamp(48px, 6vw, 80px) auto 0;
-    max-width: 58ch;
+  /* Ground band: same tone as the silhouette, so the savanna scene dissolves
+     into it. The closing statement reads here with strong contrast. */
+  .savanna-ground { background: var(--rd-savanna-ground); }
+  .ground-statement {
+    max-width: 60ch;
+    margin: 0 auto;
     text-align: center;
-    color: var(--color-ink-soft);
-    line-height: 1.8;
+    font-family: var(--font-display);
+    font-size: var(--rd-fs-sub);
+    line-height: 1.6;
+    color: var(--color-green-deep);
+    text-wrap: pretty;
   }
   .trait-list {
     list-style: none;

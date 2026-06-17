@@ -28,6 +28,11 @@
   /* The third background (with white + cream): a quiet leaf green. */
   --rd-bg-green: #eef4ec;
 
+  /* The savanna "ground" tone — the color the silhouette reads as. A band of
+     this color placed right under a savanna band lets the silhouette dissolve
+     into it smoothly. */
+  --rd-savanna-ground: #cdbfa8;
+
   --rd-radius: 22px;
   --rd-shadow: 0 10px 36px rgba(31, 58, 26, 0.08);
   --rd-shadow-lift: 0 22px 56px rgba(31, 58, 26, 0.13);
