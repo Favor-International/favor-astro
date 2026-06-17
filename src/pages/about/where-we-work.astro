@@ -53,10 +53,10 @@ const moreCountries = countries.filter((c) => !c.image);
   <section class="band band--white">
     <div class="container">
       <LeafHeading label="The fourteen" title="Where Favor Partners are funding work today." />
-      <div class="rd-grid rd-grid--2">
+      <div class="rd-grid rd-grid--2 ww-tiles">
         {withImage.map((c) => (
-          <div class="rd-tile">
-            <div class="rd-tile__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div>
+          <div class="rd-tile reveal">
+            <div class="rd-tile__frame"><div class="rd-tile__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div></div>
             <div class="rd-tile__meta">
               <h3>{c.name}</h3>
               <p>{c.focus}</p>
@@ -71,7 +71,7 @@ const moreCountries = countries.filter((c) => !c.image);
     <LeafHeading title="Also serving across the region" leaves={false} />
     <ul class="country-list">
       {moreCountries.map((c) => (
-        <li class="rd-card">
+        <li class="rd-card reveal">
           <strong>{c.name}</strong>
           <span>{c.focus}</span>
         </li>
@@ -90,18 +90,51 @@ const moreCountries = countries.filter((c) => !c.image);
 </RedesignLayout>
 
 <style>
+  /* The fourteen: bigger tiles, more air, and interactive on hover. */
+  .ww-tiles { gap: clamp(56px, 7vw, 104px) clamp(40px, 4vw, 72px); margin-top: clamp(40px, 5vw, 72px); }
+  .ww-tiles .rd-tile__frame { border-radius: var(--rd-radius); overflow: hidden; box-shadow: var(--rd-shadow); transition: transform 280ms ease, box-shadow 280ms ease; }
+  .ww-tiles .rd-tile__img { aspect-ratio: 3 / 2; border-radius: 0; box-shadow: none; transition: transform 600ms ease; }
+  .ww-tiles .rd-tile h3 { transition: color 180ms ease; }
+  .ww-tiles .rd-tile:hover .rd-tile__frame { transform: translateY(-8px); box-shadow: var(--rd-shadow-lift); }
+  .ww-tiles .rd-tile:hover .rd-tile__img { transform: scale(1.06); }
+  .ww-tiles .rd-tile:hover h3 { color: var(--color-gold-deep); }
+
   .country-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
-    max-width: 960px;
+    gap: clamp(20px, 2vw, 28px);
+    max-width: 980px;
     margin-inline: auto;
   }
   @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
-  .country-list li { display: flex; flex-direction: column; gap: var(--space-2); }
+  .country-list li { display: flex; flex-direction: column; gap: var(--space-2); transition: transform 220ms ease, box-shadow 220ms ease; }
+  .country-list li:hover { transform: translateY(-5px); box-shadow: var(--rd-shadow-lift); }
   .country-list strong { color: var(--color-green); font-size: var(--rd-fs-body); font-weight: 800; }
   .country-list span { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
+
+  /* Gentle reveal-on-scroll (only active once the script opts in). */
+  .rv .reveal { opacity: 0; transform: translateY(28px); transition: opacity 600ms ease, transform 600ms ease; }
+  .rv .reveal.is-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .rv .reveal { opacity: 1; transform: none; } }
 </style>
+
+<script>
+  // Fade/rise elements in as they enter the viewport. Gated by adding `rv` to
+  // the document element so that with no JS everything is simply visible.
+  (function () {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = Array.from(document.querySelectorAll('.reveal'));
+    if (!els.length) return;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    document.documentElement.classList.add('rv');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    els.forEach((el, i) => { el.style.transitionDelay = `${Math.min(i % 4, 3) * 70}ms`; io.observe(el); });
+  })();
+</script>
