@@ -14,7 +14,7 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
 ---
 <section class={`band rd-savanna ${tight ? 'band--tight' : ''}`}>
   {image && (
-    <div class="rd-savanna__photo" style={`background-image:url('${image}')`} role="img" aria-label={imageAlt}></div>
+    <div class="rd-savanna__photo" style={`-webkit-mask-image:url('${image}');mask-image:url('${image}')`} role="img" aria-label={imageAlt}></div>
   )}
   {!image && (
   <svg class="rd-savanna__scene" viewBox="0 0 1440 380" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -97,19 +97,22 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
   /* Real silhouette image (transparent PNG): the full scene spans the width
      and sits along the bottom; its own transparent sky shows the warm band
      above, so it reads "transparent on top, silhouette on the bottom". */
+  /* Masked fill: the silhouette is a solid soft gray-tan everywhere (a distinct
+     "bit of gray", not just a darker shade of the cream behind it). It blends
+     into the ground band at the bottom and reads softly against the cream up top. */
   .rd-savanna__photo {
     position: absolute;
     inset: 0;
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position: center bottom;
-    opacity: 0.12;
+    background-color: #cdc3ae;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-size: 100% auto; mask-size: 100% auto;
+    -webkit-mask-position: center bottom; mask-position: center bottom;
     pointer-events: none;
     z-index: 0;
   }
   @media (max-width: 760px) {
     /* zoom the scene so it still reads at phone widths */
-    .rd-savanna__photo { background-size: 180% auto; }
+    .rd-savanna__photo { -webkit-mask-size: 180% auto; mask-size: 180% auto; }
   }
   /* Drawn silhouette: a dusk-toned scene that fades in toward the bottom. */
   .rd-savanna__scene {

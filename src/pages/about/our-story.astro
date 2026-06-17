@@ -168,6 +168,7 @@ const fruitStats = [
             </g>
           </svg>
           <VideoEmbed id="g2fB1RwyHNM" title="The Carole Ward Story" />
+          <span class="film__hint" aria-hidden="true">Watch the film</span>
         </div>
         <div class="film__copy rd-prose">
           <p class="label">In her own words</p>
@@ -304,6 +305,21 @@ const fruitStats = [
   @media (max-width: 860px) { .film { grid-template-columns: 1fr; gap: var(--space-12); } }
   .film__video { position: relative; }
   .film__video :global(.video-embed) { position: relative; z-index: 1; }
+  /* A prompt that pops up over the video on hover/focus. */
+  .film__hint {
+    position: absolute; z-index: 2; top: var(--space-5); left: var(--space-5);
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    padding: 9px 16px; border-radius: var(--radius-pill);
+    background: var(--color-gold); color: var(--color-ink);
+    font-weight: 800; font-size: var(--rd-fs-small); letter-spacing: 0.06em; text-transform: uppercase;
+    box-shadow: var(--rd-shadow-lift);
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+  .film__hint::before { content: '\25B6'; font-size: 0.7em; }
+  .film__video:hover .film__hint,
+  .film__video:focus-within .film__hint { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .film__hint { transition: opacity 220ms ease; transform: none; } }
   .film__leaf {
     position: absolute; z-index: 0; width: clamp(200px, 46%, 320px); height: auto;
     left: clamp(-100px, -12%, -60px); bottom: clamp(-84px, -11%, -52px);
