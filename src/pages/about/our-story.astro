@@ -27,14 +27,15 @@ const ICONS: Record<string, string> = {
   radio: '<rect x="3" y="9" width="18" height="11" rx="2"/><path d="M8 9 17 4M8 14.5h.01M16 14a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z"/>',
   landmark: '<path d="M3 21h18M4 10h16M12 3 4 7h16l-8-4ZM6 10v8M10 10v8M14 10v8M18 10v8"/>',
 };
+// value = count-up target; tip = the verbatim source line (fuller context).
 const fruitStats = [
-  { icon: 'crusade', num: '1 million+', label: 'gathered at Gospel crusades', feature: true },
-  { icon: 'book', num: '80,000+', label: 'Bibles distributed' },
-  { icon: 'people', num: '7,000+', label: 'pastors trained' },
-  { icon: 'heart', num: '50,000+', label: 'reached through trauma counseling' },
-  { icon: 'medical', num: '8,000+', label: 'patients at mobile medical clinics' },
-  { icon: 'cap', num: '500+', label: 'graduated from a Bible college' },
-  { icon: 'school', num: '400', label: 'attending a school they built' },
+  { icon: 'crusade', num: '1 million+', value: 1000000, label: 'gathered at Gospel crusades', tip: 'Held crusades with 1 million+ attending', feature: true },
+  { icon: 'book', num: '80,000+', value: 80000, label: 'Bibles distributed', tip: 'Distributed 80,000+ Bibles' },
+  { icon: 'people', num: '7,000+', value: 7000, label: 'pastors trained', tip: 'Trained 7,000+ pastors' },
+  { icon: 'heart', num: '50,000+', value: 50000, label: 'reached through trauma counseling', tip: 'Reached 50,000+ through trauma counseling' },
+  { icon: 'medical', num: '8,000+', value: 8000, label: 'patients at mobile medical clinics', tip: 'Conducted mobile medical clinics for 8,000+ patients' },
+  { icon: 'cap', num: '500+', value: 500, label: 'graduated from a Bible college', tip: 'Graduated 500+ leaders from a Bible college' },
+  { icon: 'school', num: '400', value: 400, label: 'attending a school they built', tip: 'Built a school with 400 attending' },
   { icon: 'radio', num: '', label: 'Built the first Christian radio station' },
   { icon: 'landmark', num: '', label: 'Trained government leaders' },
 ];
@@ -130,12 +131,17 @@ const fruitStats = [
       </header>
       <div class="fruit-grid">
         {fruitStats.map((s) => (
-          <article class={`fruit-cell ${s.feature ? 'fruit-cell--feature' : ''} ${!s.num ? 'fruit-cell--milestone' : ''}`}>
+          <article
+            class={`fruit-cell ${s.feature ? 'fruit-cell--feature' : ''} ${!s.num ? 'fruit-cell--milestone' : ''}`}
+            data-tip={s.tip}
+            tabindex={s.tip ? 0 : undefined}
+          >
             <span class="fruit-cell__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[s.icon]}></svg>
             </span>
-            {s.num && <span class="fruit-cell__num">{s.num}</span>}
+            {s.num && <span class="fruit-cell__num" data-count={s.value}>{s.num}</span>}
             <span class="fruit-cell__label">{s.label}</span>
+            {s.tip && <span class="fruit-cell__tip" role="tooltip">{s.tip}</span>}
           </article>
         ))}
       </div>
@@ -242,6 +248,7 @@ const fruitStats = [
   @media (max-width: 900px) { .fruit-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 440px) { .fruit-grid { grid-template-columns: 1fr; } }
   .fruit-cell {
+    position: relative;
     display: flex; flex-direction: column; align-items: flex-start;
     gap: var(--space-3);
     background: var(--color-white);
@@ -249,6 +256,23 @@ const fruitStats = [
     box-shadow: var(--rd-shadow);
     padding: clamp(24px, 2.4vw, 36px);
   }
+  .fruit-cell[tabindex] { cursor: help; }
+  /* Tooltip with the fuller (verbatim) context, on hover/focus. */
+  .fruit-cell__tip {
+    position: absolute; left: 50%; bottom: calc(100% + 12px);
+    transform: translateX(-50%) translateY(6px);
+    width: max-content; max-width: 250px;
+    background: var(--color-green-deep); color: var(--color-white);
+    font-size: var(--rd-fs-small); font-weight: 600; line-height: 1.45; text-align: center;
+    padding: 10px 14px; border-radius: 12px; box-shadow: var(--rd-shadow-lift);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+    z-index: 6;
+  }
+  .fruit-cell__tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 7px solid transparent; border-top-color: var(--color-green-deep); }
+  .fruit-cell:hover .fruit-cell__tip,
+  .fruit-cell:focus-visible .fruit-cell__tip,
+  .fruit-cell:focus-within .fruit-cell__tip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
   .fruit-cell__icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: 46px; height: 46px; border-radius: 12px;
@@ -331,4 +355,35 @@ const fruitStats = [
   window.addEventListener('resize', drawTimeline);
   window.addEventListener('load', drawTimeline);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawTimeline);
+
+  // Count the fruit numbers up from 0 when they scroll into view, then snap
+  // back to the exact label (so "1 million+" and "400" read correctly).
+  // No-JS / reduced-motion just shows the final numbers.
+  function countUp() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nums = Array.from(document.querySelectorAll('.fruit-cell__num[data-count]'));
+    if (!nums.length || reduce || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target; io.unobserve(el);
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        if (!target) return;
+        const finalText = el.textContent;
+        const plus = /\+/.test(finalText) ? '+' : '';
+        const dur = 1400; let start = null;
+        function step(ts) {
+          if (start === null) start = ts;
+          const p = Math.min((ts - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased).toLocaleString('en-US') + plus;
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = finalText;
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.45 });
+    nums.forEach((n) => io.observe(n));
+  }
+  countUp();
 </script>
