@@ -93,18 +93,22 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
     /* Cream up top easing to a warm dusk tone toward the ground. */
     background: linear-gradient(180deg, var(--color-cream) 0%, #f5ecdb 48%, #ecdcc2 100%);
   }
-  /* Real silhouette photo (optional): invisible at the top, easing in below. */
+  /* Real silhouette image (transparent PNG): the full scene spans the width
+     and sits along the bottom; its own transparent sky shows the warm band
+     above, so it reads "transparent on top, silhouette on the bottom". */
   .rd-savanna__photo {
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: clamp(240px, 34vw, 460px);
-    background-size: cover;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
     background-position: center bottom;
     opacity: 0.9;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 45%, #000 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 45%, #000 100%);
     pointer-events: none;
     z-index: 0;
+  }
+  @media (max-width: 760px) {
+    /* zoom the scene so it still reads at phone widths */
+    .rd-savanna__photo { background-size: 180% auto; }
   }
   /* Drawn silhouette: a dusk-toned scene that fades in toward the bottom. */
   .rd-savanna__scene {
