@@ -25,6 +25,8 @@ export interface Props {
   // (2026-06-12) the hero ends in a clean straight line, not a wave.
   wave?: 1 | 2 | 3;
   waveColor?: 'white' | 'cream';
+  // Optional subtle "scroll to begin" cue at the bottom of the hero.
+  scrollCue?: boolean;
 }
 const {
   label, title, promise, image, imageAlt,
@@ -32,6 +34,7 @@ const {
   objectPosition = 'center 30%',
   pattern = false,
   video,
+  scrollCue = false,
 } = Astro.props as Props;
 ---
 <section class="page-hero">
@@ -55,6 +58,11 @@ const {
       )}
     </div>
   </div>
+  {scrollCue && (
+    <div class="page-hero__cue" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+    </div>
+  )}
 </section>
 {pattern && <PatternDivider variant="cream" height="90px" />}
 <style>
@@ -97,6 +105,13 @@ const {
     border-bottom: 2px solid var(--color-gold); padding-bottom: 4px;
   }
   .page-hero__secondary:hover { color: var(--color-gold); }
+  .page-hero__cue {
+    position: absolute; left: 50%; bottom: var(--space-6); z-index: 3;
+    transform: translateX(-50%); color: color-mix(in srgb, var(--color-white) 80%, transparent);
+    animation: page-hero-bob 1.8s ease-in-out infinite;
+  }
+  @keyframes page-hero-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+  @media (prefers-reduced-motion: reduce) { .page-hero__cue { animation: none; } }
   @media (max-width: 760px) {
     .page-hero__scrim {
       background: linear-gradient(180deg,

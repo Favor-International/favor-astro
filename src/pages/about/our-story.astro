@@ -7,19 +7,48 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
 
-// The fruit of the first 90 national leaders (verbatim from the live story,
-// see the 2004 entry below). `pre` + `num` + `post` reproduces each line
-// exactly; `num` is only pulled out for visual emphasis.
-const fruit = [
-  { pre: 'Distributed ', num: '80,000+', post: ' Bibles' },
-  { pre: 'Trained ', num: '7,000+', post: ' pastors' },
-  { pre: 'Graduated ', num: '500+', post: ' leaders from a Bible college' },
-  { pre: 'Reached ', num: '50,000+', post: ' through trauma counseling' },
-  { pre: 'Held crusades with ', num: '1 million+', post: ' attending' },
-  { pre: 'Conducted mobile medical clinics for ', num: '8,000+', post: ' patients' },
-  { pre: 'Built a school with ', num: '400', post: ' attending' },
-  { pre: '', num: '', post: 'Built the first Christian radio station' },
-  { pre: '', num: '', post: 'Trained government leaders' },
+// The fruit of the first 90 national leaders, VERBATIM from the live story
+// (see the 2004 entry), grouped into the domains the work touched so the
+// numbers carry meaning, each with a photo from that kind of work.
+// pre + num + post reproduces each line exactly; num is only enlarged inline.
+const fruitGroups = [
+  {
+    theme: 'Bibles and pastors',
+    image: '/images/field-2026/bibles-2.webp',
+    imageAlt: 'National leaders holding Bibles for distribution',
+    items: [
+      { pre: 'Distributed ', num: '80,000+', post: ' Bibles' },
+      { pre: 'Trained ', num: '7,000+', post: ' pastors' },
+    ],
+  },
+  {
+    theme: 'Crusades and radio',
+    image: '/images/field-2026/crusade-2.webp',
+    imageAlt: 'A crowd worshipping at a Favor crusade',
+    items: [
+      { pre: 'Held crusades with ', num: '1 million+', post: ' attending' },
+      { pre: '', num: '', post: 'Built the first Christian radio station' },
+      { pre: '', num: '', post: 'Trained government leaders' },
+    ],
+  },
+  {
+    theme: 'Schools and training',
+    image: '/images/field-2026/education-2.webp',
+    imageAlt: 'A teacher with students in a Favor school',
+    items: [
+      { pre: 'Graduated ', num: '500+', post: ' leaders from a Bible college' },
+      { pre: 'Built a school with ', num: '400', post: ' attending' },
+    ],
+  },
+  {
+    theme: 'Counseling and medical care',
+    image: '/images/field-2026/medical-1.webp',
+    imageAlt: 'A Favor mobile medical clinic in a hospital ward',
+    items: [
+      { pre: 'Reached ', num: '50,000+', post: ' through trauma counseling' },
+      { pre: 'Conducted mobile medical clinics for ', num: '8,000+', post: ' patients' },
+    ],
+  },
 ];
 ---
 <RedesignLayout
@@ -32,6 +61,7 @@ const fruit = [
     promise="How one woman's prayer grew into an indigenous missions movement across East and Central Africa."
     image="/images/story-historic-prayer.jpg"
     imageAlt="A national prayer gathering in northern Uganda"
+    scrollCue
   />
 
   <RdFeature
@@ -41,7 +71,7 @@ const fruit = [
     heading="The beginning."
     side="left"
   >
-    <p>Carole Ward moved to Uganda in 2002 during a 20-year horrific war, serving and training African leaders from all backgrounds to pray. Together they saw the war end, and she began equipping them to reach their own people with the power of the Gospel.</p>
+    <p class="rd-lede">Carole Ward moved to Uganda in 2002 during a 20-year horrific war, serving and training African leaders from all backgrounds to pray. Together they saw the war end, and she began equipping them to reach their own people with the power of the Gospel.</p>
     <p>After six months of prayer, Ugandans came to her with desperate visions for reaching their own people with Bibles, discipleship, education, and evangelism. In 2004, Carole formed Favour of God Ministries and began training indigenous missionaries to run that vision.</p>
   </RdFeature>
 
@@ -97,18 +127,28 @@ const fruit = [
     </div>
   </section>
 
-  <section class="band rd-fruit-band">
+  <section class="band band--cream">
     <div class="container">
-      <p class="label label--inverse rd-fruit-band__eyebrow">The fruit</p>
-      <p class="rd-fruit-band__lead">The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
-      <ul class="rd-fruit-grid">
-        {fruit.map((f) => (
-          <li class={f.num ? 'rd-fruit-stat' : 'rd-fruit-stat rd-fruit-stat--text'}>
-            {f.num && <span class="rd-fruit-stat__num">{f.num}</span>}
-            <span class="rd-fruit-stat__cap">{f.num ? `${f.pre.trim()} ${f.post.trim()}` : f.post}</span>
-          </li>
+      <header class="band__header fruit-head">
+        <p class="label">The fruit</p>
+        <h2>What ninety leaders did.</h2>
+        <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
+      </header>
+      <div class="fruit-grid">
+        {fruitGroups.map((g) => (
+          <article class="fruit-card">
+            <div class="fruit-card__img" style={`background-image:url('${g.image}')`} role="img" aria-label={g.imageAlt}></div>
+            <div class="fruit-card__body">
+              <p class="rd-kicker">{g.theme}</p>
+              <ul class="fruit-card__list">
+                {g.items.map((it) => (
+                  <li>{it.pre}{it.num && <strong class="fruit-num">{it.num}</strong>}{it.post}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
@@ -118,14 +158,27 @@ const fruit = [
     label="The vision"
     phrase="Every tribe and language reaching their own people, and beyond, with the power of God's Word."
     font="serif"
+    tall
     objectPosition="center 40%"
   />
 
   <section class="band band--white">
-    <div class="container container--narrow founder-film">
-      <LeafHeading label="In her own words" title="Hear the story from Carole." />
-      <VideoEmbed id="g2fB1RwyHNM" title="The Carole Ward Story" />
-      <p class="founder-film__link"><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
+    <div class="container">
+      <div class="film">
+        <div class="film__video">
+          <VideoEmbed id="g2fB1RwyHNM" title="The Carole Ward Story" />
+        </div>
+        <div class="film__copy rd-prose">
+          <p class="label">In her own words</p>
+          <h2>Hear the story from Carole.</h2>
+          <p>Carole Ward is a missionary, leader, and teacher fostering an indigenous missions movement in Northern Uganda and South Sudan. She moved to Uganda in 2002 during a 20-year horrific war, where she served and trained African leaders from all backgrounds to pray.</p>
+          <ul class="film__more">
+            <li><a href="https://www.youtube.com/watch?v=Y5pWE0AX97M" target="_blank" rel="noopener"><span class="film__more-play" aria-hidden="true">&#9654;</span> Reigniting a Passion for Prayer</a></li>
+            <li><a href="https://www.youtube.com/watch?v=5oUghxzqGXU" target="_blank" rel="noopener"><span class="film__more-play" aria-hidden="true">&#9654;</span> Nations Media Podcast with Carole Ward</a></li>
+          </ul>
+          <p><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -163,36 +216,43 @@ const fruit = [
   .tl-photo { aspect-ratio: 16 / 8; background-size: cover; background-position: center 35%; border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); margin: 0 0 var(--space-8); }
   .tl-content p { margin: 0 0 var(--space-5); }
 
-  /* The fruit of the 90 leaders: its own deep-green proof band, big gold
-     numbers, generous grid (verbatim copy via the data split). */
-  .rd-fruit-band { background: var(--color-green-deep); color: var(--color-white); text-align: center; }
-  .rd-fruit-band__eyebrow { display: block; }
-  .rd-fruit-band__lead {
-    max-width: 44ch; margin: var(--space-2) auto 0;
-    font-family: var(--font-display); font-weight: 700;
-    font-size: var(--rd-fs-sub); line-height: 1.35; color: var(--color-white);
-    text-wrap: balance;
-  }
-  .rd-fruit-grid {
-    list-style: none; padding: 0;
-    margin: clamp(48px, 6vw, 80px) auto 0; max-width: 1000px;
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: clamp(36px, 4vw, 56px) var(--space-8);
-  }
-  @media (max-width: 760px) { .rd-fruit-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 440px) { .rd-fruit-grid { grid-template-columns: 1fr; } }
-  .rd-fruit-stat { display: flex; flex-direction: column; gap: var(--space-2); align-items: center; }
-  .rd-fruit-stat__num {
-    font-family: var(--font-sans); font-weight: 800;
-    font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -0.02em;
-    color: var(--color-gold);
-  }
-  .rd-fruit-stat__cap { font-size: var(--rd-fs-small); letter-spacing: 0.04em; color: color-mix(in srgb, var(--color-white) 80%, transparent); line-height: 1.4; }
-  .rd-fruit-stat--text { justify-content: center; }
-  .rd-fruit-stat--text .rd-fruit-stat__cap { font-family: var(--font-display); font-size: var(--rd-fs-body); font-weight: 700; color: var(--color-gold-light); }
+  /* Emphasized opening sentence on the "beginning" feature. */
+  .rd-lede { font-size: var(--rd-fs-sub); line-height: 1.5; color: var(--color-ink) !important; }
 
-  .founder-film { text-align: center; }
-  .founder-film :global(.video-embed) { max-width: 820px; margin-inline: auto; }
-  .founder-film__link { margin-top: var(--space-8); }
+  /* The fruit of the 90 leaders: grouped into domains, each with a photo so
+     the numbers carry meaning. Verbatim lines, number enlarged inline. */
+  .fruit-head p:not(.label) { font-weight: 600; }
+  .fruit-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: clamp(28px, 3vw, 44px);
+    align-items: start;
+  }
+  @media (max-width: 1000px) { .fruit-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .fruit-grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; } }
+  .fruit-card__img {
+    aspect-ratio: 4 / 3; border-radius: var(--rd-radius);
+    background-size: cover; background-position: center;
+    background-color: var(--color-sage-light); box-shadow: var(--rd-shadow);
+  }
+  .fruit-card__body { margin-top: var(--space-5); }
+  .fruit-card__body .rd-kicker { margin-bottom: var(--space-4); color: var(--color-gold-deep); }
+  .fruit-card__list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-4); }
+  .fruit-card__list li { color: var(--color-ink-soft); line-height: 1.4; font-size: var(--rd-fs-body); }
+  .fruit-num {
+    display: block; font-family: var(--font-sans); font-weight: 800;
+    font-size: clamp(2.2rem, 3.4vw, 2.9rem); line-height: 1; letter-spacing: -0.02em;
+    color: var(--color-green); margin-bottom: 2px;
+  }
+
+  /* Carole video: video beside framing copy + more talks, so the section
+     fills its width instead of a lone centered player. */
+  .film { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(40px, 5vw, 80px); align-items: center; }
+  @media (max-width: 860px) { .film { grid-template-columns: 1fr; gap: var(--space-10); } }
+  .film__copy h2 { margin: var(--space-3) 0 var(--space-5); }
+  .film__more { list-style: none; padding: 0; margin: var(--space-6) 0; display: grid; gap: var(--space-3); }
+  .film__more a { color: var(--color-green); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-3); }
+  .film__more a:hover { color: var(--color-gold-deep); }
+  .film__more-play { color: var(--color-gold-deep); font-size: 0.7rem; }
+
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
 </style>

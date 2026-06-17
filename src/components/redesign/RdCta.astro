@@ -50,28 +50,28 @@ const {
     box-shadow: var(--rd-shadow-lift);
     padding: clamp(72px, 9vw, 132px) clamp(24px, 6vw, 96px);
   }
-  /* The photo: nothing at the top (pure green), then the image eases in,
-     low-opacity and green-tinted, only along the bottom edge. */
+  /* The photo fills the whole card, kept faint and green-tinted so it reads
+     as a green moment with the image showing through (per Daniel). */
   .rd-cta__photo {
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 72%;
+    inset: 0;
     background-size: cover;
-    background-position: center bottom;
+    background-position: center;
     opacity: 0.5;
     mix-blend-mode: luminosity;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.8) 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.8) 100%);
     pointer-events: none;
     z-index: 0;
   }
-  /* A green wash over the photo so the revealed edges stay green, not full-color. */
+  /* Green wash over the whole image: a touch denser behind the heading for
+     text contrast, easing off toward the bottom so the image reads more there. */
   .rd-cta::after {
     content: '';
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 72%;
-    background: linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-green-deep) 55%, transparent) 100%);
+    inset: 0;
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--color-green-deep) 80%, transparent) 0%,
+      color-mix(in srgb, var(--color-green-deep) 62%, transparent) 55%,
+      color-mix(in srgb, var(--color-green-deep) 45%, transparent) 100%);
     pointer-events: none;
     z-index: 1;
   }

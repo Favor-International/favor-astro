@@ -15,10 +15,12 @@ export interface Props {
   // don't all read the same: 'script' (handwritten, for quotes/prayers),
   // 'serif' (Playfair display), or 'sans' (heavy Montserrat).
   font?: 'script' | 'serif' | 'sans';
+  // Taller band (more vertical presence than a standard photo crop).
+  tall?: boolean;
 }
-const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%', font = 'script' } = Astro.props as Props;
+const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%', font = 'script', tall = false } = Astro.props as Props;
 ---
-<section class={`rd-script rd-script--${font}`}>
+<section class={`rd-script rd-script--${font} ${tall ? 'rd-script--tall' : ''}`}>
   <div class="rd-script__media" style={`background-image:url('${image}'); background-position:${objectPosition};`} role="img" aria-label={imageAlt}></div>
   <div class="rd-script__scrim" aria-hidden="true"></div>
   <div class="container rd-script__inner">
@@ -39,6 +41,7 @@ const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%', fon
     color: var(--color-white);
     text-align: center;
   }
+  .rd-script--tall { min-height: clamp(560px, 78vh, 780px); }
   .rd-script__media { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; z-index: 0; }
   /* Even green darkening with a soft center focus so the script reads clean. */
   .rd-script__scrim {
