@@ -2,10 +2,14 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import { SITE } from '../../lib/site';
+
+// Small leaf marker shared by the trait cards.
+const LEAF = '<path d="M5 21c0-7 4-12 14-13C18 15 13 19 6 19c5 0 9-3 12-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
 
 const traits = [
   { title: 'Strong prayer life', desc: 'Everything begins on the knees. Leaders are formed in prayer before they are ever sent out.' },
@@ -27,6 +31,7 @@ const traits = [
     promise="Favor International serves and trains indigenous African leaders to advance the Gospel into the unreached."
     image="/images/hero-prayer-recent.jpg"
     imageAlt="A Favor prayer gathering"
+    scrollCue
   />
 
   <RdFeature
@@ -34,6 +39,7 @@ const traits = [
     imageAlt="A Favor field gathering in prayer"
     eyebrow="Our mission"
     side="left"
+    decor="leaf"
   >
     <p class="mission-lede">{SITE.mission}</p>
   </RdFeature>
@@ -87,16 +93,28 @@ const traits = [
     <LeafHeading title="What we instill in the leaders we train" leaves={false} />
     <ul class="trait-list">
       {traits.map((t) => (
-        <li class="rd-card"><strong class="trait-list__title">{t.title}</strong><span class="trait-list__desc">{t.desc}</span></li>
+        <li class="rd-card trait">
+          <span class="trait__icon" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={LEAF}></svg></span>
+          <strong class="trait-list__title">{t.title}</strong>
+          <span class="trait-list__desc">{t.desc}</span>
+        </li>
       ))}
     </ul>
     <p class="mv-sow">
       Transformation takes time and commitment. Investing in national leadership and
       discipleship has proven to be the most fruitful way to administer transformation. Our
-      ministry is committed to not just give temporary relief and then leave. We are here to
-      sow for a lifetime.
+      ministry is committed to not just give temporary relief and then leave.
     </p>
   </SavannaBand>
+
+  <ScriptBand
+    image="/images/field/country-uganda.webp"
+    imageAlt="A vision-trip team with Karamojong villagers in the savanna"
+    label="The long view"
+    phrase="We are here to sow for a lifetime."
+    font="serif"
+    objectPosition="center 40%"
+  />
 
   <RdFeature
     image="/images/evangelism-discipleship.jpg"
@@ -105,6 +123,7 @@ const traits = [
     heading="The Gospel goes first, then everything follows."
     side="right"
     background="cream"
+    decor="leaf"
   >
     <p>
       <strong>Favor gets the Gospel out to unreached areas where few others go, and we lead
@@ -165,6 +184,8 @@ const traits = [
   }
   @media (max-width: 640px) { .trait-list { grid-template-columns: 1fr; } }
   .trait-list li { display: flex; flex-direction: column; gap: var(--space-2); }
+  .trait__icon { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: var(--rd-bg-green); color: var(--color-green); margin-bottom: var(--space-2); }
+  .trait__icon svg { width: 22px; height: 22px; }
   .trait-list__title { color: var(--color-green); font-weight: 800; font-size: var(--rd-fs-body); line-height: 1.3; }
   .trait-list__desc { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
 </style>
