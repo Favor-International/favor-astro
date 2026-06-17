@@ -5,10 +5,20 @@
 // monochrome and low-opacity so it never asks for attention.
 export interface Props {
   tight?: boolean;
+  // Optional real silhouette photo along the bottom: invisible at the top,
+  // easing in toward the bottom edge (per Daniel). When set, it replaces the
+  // drawn illustration. Drop a licensed savanna-silhouette image in /images
+  // and pass its path here.
+  image?: string;
+  imageAlt?: string;
 }
-const { tight = false } = Astro.props as Props;
+const { tight = false, image, imageAlt = '' } = Astro.props as Props;
 ---
 <section class={`band rd-savanna ${tight ? 'band--tight' : ''}`}>
+  {image && (
+    <div class="rd-savanna__photo" style={`background-image:url('${image}')`} role="img" aria-label={imageAlt}></div>
+  )}
+  {!image && (
   <svg class="rd-savanna__scene" viewBox="0 0 1440 340" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
     <defs>
       <g id="rd-sv-acacia">
@@ -83,6 +93,7 @@ const { tight = false } = Astro.props as Props;
       <use href="#rd-sv-grass" transform="translate(1310 340) scale(1.45 1)" />
     </g>
   </svg>
+  )}
   <div class="container rd-savanna__content">
     <slot />
   </div>
@@ -95,6 +106,19 @@ const { tight = false } = Astro.props as Props;
     overflow: hidden;
     /* Cream up top, a touch brownish toward the ground. Easy on the eyes. */
     background: linear-gradient(180deg, var(--color-cream) 0%, #f6efe1 52%, #efe4cd 100%);
+  }
+  /* Real silhouette photo: invisible at the top, easing in toward the bottom. */
+  .rd-savanna__photo {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: clamp(220px, 32vw, 420px);
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.85;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 45%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 45%, #000 100%);
+    pointer-events: none;
+    z-index: 0;
   }
   .rd-savanna__scene {
     position: absolute;
