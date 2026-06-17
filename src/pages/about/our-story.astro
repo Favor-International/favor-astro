@@ -65,16 +65,6 @@ const fruit = [
             <div class="tl-photo" style="background-image:url('/images/field-2026/carole-2.webp')" role="img" aria-label="The original House of Prayer in Gulu"></div>
             <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
             <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
-            <p class="tl-fruit-lead">The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
-            <ul class="tl-fruit">
-              {fruit.map((f) => (
-                <li>
-                  {f.num
-                    ? <span class="tl-fruit__line"><span class="tl-fruit__num">{f.num}</span><span class="tl-fruit__cap">{f.pre.trim()} {f.post.trim()}</span></span>
-                    : <span class="tl-fruit__line tl-fruit__line--text"><span class="tl-fruit__cap">{f.post}</span></span>}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
@@ -107,11 +97,27 @@ const fruit = [
     </div>
   </section>
 
+  <section class="band rd-fruit-band">
+    <div class="container">
+      <p class="label label--inverse rd-fruit-band__eyebrow">The fruit</p>
+      <p class="rd-fruit-band__lead">The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
+      <ul class="rd-fruit-grid">
+        {fruit.map((f) => (
+          <li class={f.num ? 'rd-fruit-stat' : 'rd-fruit-stat rd-fruit-stat--text'}>
+            {f.num && <span class="rd-fruit-stat__num">{f.num}</span>}
+            <span class="rd-fruit-stat__cap">{f.num ? `${f.pre.trim()} ${f.post.trim()}` : f.post}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <ScriptBand
-    image="/images/field-2026/villages-3.webp"
-    imageAlt="An indigenous missionary teaching in a remote village"
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
     label="The vision"
     phrase="Every tribe and language reaching their own people, and beyond, with the power of God's Word."
+    font="serif"
     objectPosition="center 40%"
   />
 
@@ -140,6 +146,8 @@ const fruit = [
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
     background="cream"
+    image="/images/field/country-uganda.webp"
+    imageAlt="A vision-trip team with Karamojong villagers in the savanna"
   />
 </RedesignLayout>
 
@@ -155,16 +163,33 @@ const fruit = [
   .tl-photo { aspect-ratio: 16 / 8; background-size: cover; background-position: center 35%; border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); margin: 0 0 var(--space-8); }
   .tl-content p { margin: 0 0 var(--space-5); }
 
-  /* The fruit of the 90 leaders as designed stat callouts (verbatim copy). */
-  .tl-fruit-lead { font-weight: 700; color: var(--color-ink); margin-top: var(--space-6); }
-  .tl-fruit { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5) var(--space-6); }
-  @media (max-width: 720px) { .tl-fruit { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 420px) { .tl-fruit { grid-template-columns: 1fr; } }
-  .tl-fruit__line { display: flex; flex-direction: column; gap: var(--space-1); }
-  .tl-fruit__num { font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-title); line-height: 1; letter-spacing: -0.02em; color: var(--color-green); }
-  .tl-fruit__cap { font-size: var(--rd-fs-small); color: var(--color-ink-soft); line-height: 1.4; }
-  .tl-fruit__line--text { justify-content: center; min-height: 100%; }
-  .tl-fruit__line--text .tl-fruit__cap { font-size: var(--rd-fs-body); font-weight: 700; color: var(--color-green); }
+  /* The fruit of the 90 leaders: its own deep-green proof band, big gold
+     numbers, generous grid (verbatim copy via the data split). */
+  .rd-fruit-band { background: var(--color-green-deep); color: var(--color-white); text-align: center; }
+  .rd-fruit-band__eyebrow { display: block; }
+  .rd-fruit-band__lead {
+    max-width: 44ch; margin: var(--space-2) auto 0;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: var(--rd-fs-sub); line-height: 1.35; color: var(--color-white);
+    text-wrap: balance;
+  }
+  .rd-fruit-grid {
+    list-style: none; padding: 0;
+    margin: clamp(48px, 6vw, 80px) auto 0; max-width: 1000px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(36px, 4vw, 56px) var(--space-8);
+  }
+  @media (max-width: 760px) { .rd-fruit-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 440px) { .rd-fruit-grid { grid-template-columns: 1fr; } }
+  .rd-fruit-stat { display: flex; flex-direction: column; gap: var(--space-2); align-items: center; }
+  .rd-fruit-stat__num {
+    font-family: var(--font-sans); font-weight: 800;
+    font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -0.02em;
+    color: var(--color-gold);
+  }
+  .rd-fruit-stat__cap { font-size: var(--rd-fs-small); letter-spacing: 0.04em; color: color-mix(in srgb, var(--color-white) 80%, transparent); line-height: 1.4; }
+  .rd-fruit-stat--text { justify-content: center; }
+  .rd-fruit-stat--text .rd-fruit-stat__cap { font-family: var(--font-display); font-size: var(--rd-fs-body); font-weight: 700; color: var(--color-gold-light); }
 
   .founder-film { text-align: center; }
   .founder-film :global(.video-embed) { max-width: 820px; margin-inline: auto; }

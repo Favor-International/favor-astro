@@ -11,10 +11,14 @@ export interface Props {
   cite?: string;
   label?: string;
   objectPosition?: string;
+  // The big phrase font. Mix it up across the page so the cinematic bands
+  // don't all read the same: 'script' (handwritten, for quotes/prayers),
+  // 'serif' (Playfair display), or 'sans' (heavy Montserrat).
+  font?: 'script' | 'serif' | 'sans';
 }
-const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%' } = Astro.props as Props;
+const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%', font = 'script' } = Astro.props as Props;
 ---
-<section class="rd-script">
+<section class={`rd-script rd-script--${font}`}>
   <div class="rd-script__media" style={`background-image:url('${image}'); background-position:${objectPosition};`} role="img" aria-label={imageAlt}></div>
   <div class="rd-script__scrim" aria-hidden="true"></div>
   <div class="container rd-script__inner">
@@ -46,16 +50,33 @@ const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%' } = 
   .rd-script__inner { position: relative; z-index: 2; padding: var(--space-16) 0; }
   .rd-script__phrase {
     margin: 0 auto;
-    max-width: 18ch;
     border: 0;
     padding: 0;
-    font-family: var(--font-script);
-    font-style: normal;
-    font-size: clamp(2.6rem, 6vw, 4.6rem);
-    line-height: 1.12;
     color: var(--color-white);
     text-wrap: balance;
     text-shadow: 0 2px 24px rgba(10, 16, 8, 0.45);
+  }
+  .rd-script--script .rd-script__phrase {
+    font-family: var(--font-script);
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.12;
+    max-width: 18ch;
+  }
+  .rd-script--serif .rd-script__phrase {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    max-width: 20ch;
+  }
+  .rd-script--sans .rd-script__phrase {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
   }
   .rd-script__cite {
     margin: var(--space-6) 0 0;

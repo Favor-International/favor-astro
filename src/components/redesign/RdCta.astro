@@ -1,7 +1,8 @@
 ---
 // Contained CTA: a deep-green rounded container set inside a white or cream
 // band, so the dark moment reads as an element (not a 4th background color).
-// A faint savanna silhouette lives along the bottom edge; one clear action.
+// Optional photo that stays invisible at the top (solid green) and fades in
+// faintly toward the bottom edge, per Daniel — a real image, not a drawn scene.
 export interface Props {
   heading: string;
   body?: string;
@@ -10,58 +11,29 @@ export interface Props {
   secondaryLabel?: string;
   secondaryHref?: string;
   background?: 'white' | 'cream';
+  image?: string;
+  imageAlt?: string;
 }
-const { heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref, background = 'white' } = Astro.props as Props;
+const {
+  heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref,
+  background = 'white', image, imageAlt = '',
+} = Astro.props as Props;
 ---
 <section class={`band band--${background} band--tight`}>
   <div class="container">
     <div class="rd-cta">
-      <svg class="rd-cta__scene" viewBox="0 0 1200 250" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-        <defs>
-          <g id="rd-cta-acacia">
-            <g stroke="currentColor" fill="none" stroke-linecap="round">
-              <path d="M-8 0 C-10 -40 -2 -80 18 -118" stroke-width="7" />
-              <path d="M6 0 C0 -36 -16 -72 -40 -104" stroke-width="5" />
-              <path d="M-2 -56 C12 -78 30 -94 52 -106" stroke-width="4" />
-            </g>
-            <g fill="currentColor">
-              <path d="M-96 -120 C-90 -140 -64 -152 -34 -152 C-20 -164 16 -166 36 -156 C64 -162 96 -152 106 -136 C118 -124 112 -110 96 -106 C110 -100 108 -88 92 -84 C70 -78 44 -80 24 -86 C8 -78 -20 -78 -38 -86 C-64 -80 -92 -88 -100 -102 C-106 -112 -104 -118 -96 -120 Z" />
-              <path d="M-78 -62 C-70 -76 -48 -80 -32 -73 C-24 -66 -28 -54 -44 -50 C-62 -48 -76 -52 -78 -62 Z" />
-              <path d="M44 -74 C54 -86 76 -88 88 -79 C94 -70 86 -60 70 -58 C56 -58 46 -64 44 -74 Z" />
-            </g>
-          </g>
-          <g id="rd-cta-bush" fill="currentColor">
-            <path d="M0 0 C2 -12 12 -21 24 -21 C28 -32 42 -36 52 -29 C58 -38 74 -38 81 -29 C93 -31 103 -22 103 -12 C105 -5 100 0 94 0 Z" />
-          </g>
-          <g id="rd-cta-grass" fill="currentColor">
-            <path d="M0 0 C4 -10 8 -24 10 -38 C14 -22 16 -12 19 -4 C24 -20 30 -40 35 -56 C38 -36 41 -20 45 -8 C50 -26 58 -44 65 -54 C66 -36 68 -22 73 -10 C78 -24 86 -38 95 -46 C94 -30 96 -16 101 -6 C107 -16 113 -24 119 -29 C118 -18 119 -8 121 0 Z" />
-          </g>
-        </defs>
-        <path d="M0 232 C 200 228 420 233 600 231 C 820 229 1040 233 1200 230" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7" />
-        <use href="#rd-cta-acacia" transform="translate(140 232) scale(0.85)" />
-        <use href="#rd-cta-acacia" transform="translate(1052 231) scale(-0.55 0.55)" opacity="0.8" />
-        <use href="#rd-cta-acacia" transform="translate(700 230) scale(0.25)" opacity="0.5" />
-        <use href="#rd-cta-bush" transform="translate(420 231) scale(0.9)" opacity="0.7" />
-        <use href="#rd-cta-bush" transform="translate(880 230) scale(0.7) scale(-1 1)" opacity="0.6" />
-        <g opacity="0.8">
-          <use href="#rd-cta-grass" transform="translate(-40 250) scale(1.3 0.9)" />
-          <use href="#rd-cta-grass" transform="translate(110 250) scale(1.1 0.8) scale(-1 1)" />
-          <use href="#rd-cta-grass" transform="translate(250 250) scale(1.35 0.95)" />
-          <use href="#rd-cta-grass" transform="translate(430 250) scale(1.15 0.85) scale(-1 1)" />
-          <use href="#rd-cta-grass" transform="translate(560 250) scale(1.3 0.9)" />
-          <use href="#rd-cta-grass" transform="translate(730 250) scale(1.2 0.85) scale(-1 1)" />
-          <use href="#rd-cta-grass" transform="translate(860 250) scale(1.35 0.95)" />
-          <use href="#rd-cta-grass" transform="translate(1040 250) scale(1.2 0.85) scale(-1 1)" />
-          <use href="#rd-cta-grass" transform="translate(1170 250) scale(1.3 0.9)" />
-        </g>
-      </svg>
-      <h2>{heading}</h2>
-      {body && <p>{body}</p>}
-      <div class="rd-cta__actions">
-        <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
-        {secondaryLabel && secondaryHref && (
-          <a class="rd-cta__secondary" href={secondaryHref}>{secondaryLabel} &rarr;</a>
-        )}
+      {image && (
+        <div class="rd-cta__photo" style={`background-image:url('${image}')`} role="img" aria-label={imageAlt}></div>
+      )}
+      <div class="rd-cta__body">
+        <h2>{heading}</h2>
+        {body && <p>{body}</p>}
+        <div class="rd-cta__actions">
+          <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
+          {secondaryLabel && secondaryHref && (
+            <a class="rd-cta__secondary" href={secondaryHref}>{secondaryLabel} &rarr;</a>
+          )}
+        </div>
       </div>
     </div>
   </div>
@@ -76,21 +48,34 @@ const { heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref, backgro
     background: var(--color-green-deep);
     border-radius: calc(var(--rd-radius) + 8px);
     box-shadow: var(--rd-shadow-lift);
-    padding: clamp(72px, 9vw, 128px) clamp(24px, 6vw, 96px) clamp(130px, 15vw, 190px);
+    padding: clamp(72px, 9vw, 132px) clamp(24px, 6vw, 96px);
   }
-  .rd-cta__scene {
+  /* The photo: nothing at the top (pure green), then the image eases in,
+     low-opacity and green-tinted, only along the bottom edge. */
+  .rd-cta__photo {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: clamp(120px, 17vw, 210px);
-    color: var(--color-white);
-    opacity: 0.08;
+    left: 0; right: 0; bottom: 0;
+    height: 72%;
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.5;
+    mix-blend-mode: luminosity;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.8) 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.8) 100%);
     pointer-events: none;
     z-index: 0;
   }
-  .rd-cta > :global(*:not(.rd-cta__scene)) { position: relative; z-index: 1; }
+  /* A green wash over the photo so the revealed edges stay green, not full-color. */
+  .rd-cta::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 72%;
+    background: linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-green-deep) 55%, transparent) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .rd-cta__body { position: relative; z-index: 2; }
   .rd-cta h2 { color: var(--color-white); margin: 0 0 var(--space-5); }
   .rd-cta p {
     color: color-mix(in srgb, var(--color-white) 82%, transparent);
