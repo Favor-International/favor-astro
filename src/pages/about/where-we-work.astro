@@ -5,40 +5,57 @@ import AfricaMap from '../../components/global/AfricaMap.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
 
-const countries = [
-  { name: 'Uganda', focus: 'PBS, the GIFT Institute, Village Learning Centers, and Favor FM radio.', image: '/images/field/country-uganda.webp' },
-  { name: 'South Sudan', focus: 'Church planting, trauma counseling, and schools across Lakes State and beyond.', image: '/images/field/country-south-sudan.webp' },
-  { name: 'Chad', focus: 'Field teams, pastor training, wells, and a House of Prayer in N’Djamena.', image: '/images/field/country-chad.webp' },
-  { name: 'Ethiopia', focus: 'The GIFT Institute campus in Bishoftu and Amharic Bible printing.', image: '/images/field/country-ethiopia.webp' },
-  { name: 'Democratic Republic of Congo', focus: 'Portable Bible Schools and church planting in the eastern provinces.', image: '/images/field/country-drc.webp' },
-  { name: 'Kenya', focus: 'Portable Bible Schools, a logistics hub, and the partner network.', image: '/images/field/country-kenya.webp' },
-  { name: 'Sudan', focus: 'Refugee discipleship and Arabic Bible distribution.' },
-  { name: 'Burundi', focus: 'Leadership-training cohorts.' },
-  { name: 'Rwanda', focus: 'Vision-trip routes and partner church visits.' },
-  { name: 'Tanzania', focus: 'Border-region outreach.' },
-  { name: 'Eritrea', focus: 'Underground church support.' },
-  { name: 'Somalia (border regions)', focus: 'Outreach via Kenya and Ethiopia partners.' },
-  { name: 'Central African Republic', focus: 'Pastor support and occasional field visits.' },
-  { name: 'Mozambique', focus: 'Partnership exploration.' },
+// Per Will (2026-06-18): we only speak publicly about our three main fields —
+// Uganda, South Sudan, and Chad. Scale is framed as "14+ nations" with no
+// salvation totals or PBS-location counts. Field films come from the Favor
+// YouTube channel (@favorinternational). Country blurbs are intentionally
+// general; swap for Favor's exact wording when available.
+const fields = [
+  {
+    name: 'Uganda',
+    focus: "Where Favor's work began, and home to the GIFT Institute and Favor FM radio.",
+    videos: [
+      { id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe' },
+      { id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel' },
+    ],
+  },
+  {
+    name: 'South Sudan',
+    focus: 'Church planting and trauma healing among communities affected by war.',
+    videos: [
+      { id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal' },
+      { id: 'Wf_OQ1hAMoI', title: 'From the streets to safety' },
+    ],
+  },
+  {
+    name: 'Chad',
+    focus: 'Training and sending indigenous missionaries to reach unreached villages.',
+    videos: [
+      { id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs' },
+      { id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad' },
+    ],
+  },
 ];
-const withImage = countries.filter((c) => c.image);
-const moreCountries = countries.filter((c) => !c.image);
 ---
 <RedesignLayout
   title="Where We Work"
-  description="The East African nations Favor International serves, the field programs in each, and how we got to each one."
+  description="Favor International's three main fields — Uganda, South Sudan, and Chad — and the indigenous-led work in each."
 >
   <PageHero
     label="Where we work"
     title="East Africa, into the unreached."
-    promise="Each country is led by indigenous leaders. US staff coordinate; the field directs."
+    promise="Each field is led by indigenous leaders. US staff coordinate; the field directs."
     image="/images/ministry-church-planting.jpg"
     imageAlt="Planting a church in the Wedweil refugee camp"
     scrollCue
   />
 
-  <AfricaMap />
+  <AfricaMap showStats={false} />
+  <div class="container">
+    <p class="map-note">Note: this map is a work in progress and is not yet a precise representation of where Favor International works.</p>
+  </div>
 
   <ScriptBand
     image="/images/hero-pastor-preaching.jpg"
@@ -51,32 +68,23 @@ const moreCountries = countries.filter((c) => !c.image);
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="The fourteen" title="Where Favor Partners are funding work today." />
-      <div class="rd-grid rd-grid--2 ww-tiles">
-        {withImage.map((c) => (
-          <div class="rd-tile reveal">
-            <div class="rd-tile__frame"><div class="rd-tile__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div></div>
-            <div class="rd-tile__meta">
+      <LeafHeading
+        title="Our three main fields"
+        intro="Favor Partners fund work across 14+ nations. These three are our main fields today."
+      />
+      <div class="fields">
+        {fields.map((c) => (
+          <div class="field-country reveal">
+            <div class="field-country__head">
               <h3>{c.name}</h3>
               <p>{c.focus}</p>
+            </div>
+            <div class="field-country__videos">
+              {c.videos.map((v) => <VideoEmbed id={v.id} title={v.title} />)}
             </div>
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="band band--cream">
-    <div class="container">
-      <LeafHeading title="Also serving across the region" leaves={false} />
-      <ul class="country-list">
-        {moreCountries.map((c) => (
-          <li class="rd-card reveal">
-            <strong>{c.name}</strong>
-            <span>{c.focus}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -91,28 +99,28 @@ const moreCountries = countries.filter((c) => !c.image);
 </RedesignLayout>
 
 <style>
-  /* The fourteen: bigger tiles, more air, and interactive on hover. */
-  .ww-tiles { gap: clamp(56px, 7vw, 104px) clamp(40px, 4vw, 72px); margin-top: clamp(40px, 5vw, 72px); }
-  .ww-tiles .rd-tile__frame { border-radius: var(--rd-radius); overflow: hidden; box-shadow: var(--rd-shadow); transition: transform 280ms ease, box-shadow 280ms ease; }
-  .ww-tiles .rd-tile__img { aspect-ratio: 3 / 2; border-radius: 0; box-shadow: none; transition: transform 600ms ease; }
-  .ww-tiles .rd-tile h3 { transition: color 180ms ease; }
-  .ww-tiles .rd-tile:hover .rd-tile__frame { transform: translateY(-8px); box-shadow: var(--rd-shadow-lift); }
-  .ww-tiles .rd-tile:hover .rd-tile__img { transform: scale(1.06); }
-  .ww-tiles .rd-tile:hover h3 { color: var(--color-gold-deep); }
+  /* Work-in-progress note directly under the map. */
+  .map-note {
+    max-width: 60ch;
+    margin: clamp(24px, 3vw, 40px) auto 0;
+    text-align: center;
+    font-style: italic;
+    color: var(--color-sage);
+    font-size: var(--rd-fs-small);
+    line-height: 1.6;
+  }
 
-  .country-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  /* Three main fields: a header per country, then its field films. */
+  .fields { display: grid; gap: clamp(56px, 7vw, 100px); }
+  .field-country__head { max-width: 62ch; margin: 0 auto clamp(26px, 3.4vw, 44px); text-align: center; }
+  .field-country__head h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .field-country__head p { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; margin: 0; }
+  .field-country__videos {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(20px, 2vw, 28px);
-    max-width: 980px;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 3vw, 40px);
+    max-width: 920px;
     margin-inline: auto;
   }
-  @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
-  .country-list li { display: flex; flex-direction: column; gap: var(--space-2); transition: transform 220ms ease, box-shadow 220ms ease; }
-  .country-list li:hover { transform: translateY(-5px); box-shadow: var(--rd-shadow-lift); }
-  .country-list strong { color: var(--color-green); font-size: var(--rd-fs-body); font-weight: 800; }
-  .country-list span { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
+  @media (max-width: 640px) { .field-country__videos { grid-template-columns: 1fr; } }
 </style>

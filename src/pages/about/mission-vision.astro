@@ -6,7 +6,18 @@ import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import SavannaBand from '../../components/redesign/SavannaBand.astro';
+import MinistryStructure from '../../components/redesign/MinistryStructure.astro';
+import SixRs from '../../components/redesign/SixRs.astro';
+import VideoGallery from '../../components/redesign/VideoGallery.astro';
 import { SITE } from '../../lib/site';
+
+// Short mission films from Favor's YouTube channel (@favorinternational).
+const movementVideos = [
+  { id: 'LHarkRULU7Q', title: 'Favor International - An Indigenous Missionary Movement' },
+  { id: 'C5VBPhA50Mg', title: 'Evangelism in Africa' },
+  { id: 'xwSVEViFikA', title: "God's Institute for Transformation" },
+  { id: 'cvBVH4UQxIg', title: "Favor's Unique Missionary Model" },
+];
 
 // Small leaf marker shared by the trait cards.
 const LEAF = '<path d="M5 21c0-7 4-12 14-13C18 15 13 19 6 19c5 0 9-3 12-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
@@ -89,6 +100,13 @@ const traits = [
     </p>
   </RdFeature>
 
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How the ministry is built" title="Ministry Structure" />
+      <MinistryStructure />
+    </div>
+  </section>
+
   <SavannaBand image="/images/savanna-silhouette.png" imageAlt="An African savanna silhouette: acacia trees, elephants, and a giraffe">
     <LeafHeading title="What we instill in the leaders we train" leaves={false} />
     <ul class="trait-list">
@@ -147,6 +165,20 @@ const traits = [
     </p>
   </RdFeature>
 
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="On film" title="See the movement" leaves={false} />
+      <VideoGallery videos={movementVideos} />
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="Stewardship" title="The 6 R's" leaves={false} />
+      <SixRs />
+    </div>
+  </section>
+
   <RdCta
     heading="Stand with the mission."
     body="Becoming a Favor Partner is the simplest way to put this mission into motion every month."
@@ -183,6 +215,11 @@ const traits = [
   }
   @media (max-width: 640px) { .trait-list { grid-template-columns: 1fr; } }
   .trait-list li { display: flex; flex-direction: column; gap: var(--space-2); }
+  /* Odd count (7): the last card spans both columns and centers, so the row is
+     filled — no lone orphan card hanging on the left. */
+  .trait-list li:last-child { grid-column: 1 / -1; align-items: center; text-align: center; }
+  .trait-list li:last-child .trait-list__desc { max-width: 56ch; }
+  @media (max-width: 640px) { .trait-list li:last-child { align-items: flex-start; text-align: left; } }
   .trait__icon { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: var(--rd-bg-green); color: var(--color-green); margin-bottom: var(--space-2); }
   .trait__icon svg { width: 22px; height: 22px; }
   .trait-list__title { color: var(--color-green); font-weight: 800; font-size: var(--rd-fs-body); line-height: 1.3; }

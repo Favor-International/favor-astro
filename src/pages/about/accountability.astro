@@ -5,6 +5,7 @@ import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import NumberScroller from '../../components/redesign/NumberScroller.astro';
+import SixRs from '../../components/redesign/SixRs.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE, IMPACT_STATS } from '../../lib/site';
 
@@ -98,6 +99,13 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     <p>Field-level reporting on every project. We tell you what worked and what didn't.</p>
     <p>No anonymous outcomes. Every story we publish has a real name, a real place, and a real outcome.</p>
   </RdFeature>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="How we steward every gift" title="The 6 R's" leaves={false} />
+      <SixRs />
+    </div>
+  </section>
 
   <SavannaBand image="/images/savanna-silhouette.png" imageAlt="An African savanna silhouette: acacia trees, elephants, and a giraffe">
     <div class="exp">

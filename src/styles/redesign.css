@@ -39,10 +39,12 @@
 }
 
 /* ---------- Breathing room ---------- */
-.rd .band { padding: clamp(96px, 11vw, 164px) 0; }
-.rd .band--tight { padding: clamp(56px, 7vw, 96px) 0; }
+/* Section padding (tightened ~15% on 2026-06-18 per Will: Mission & Vision had
+   too much air between sections). Applies to redesigned About pages. */
+.rd .band { padding: clamp(82px, 9.4vw, 140px) 0; }
+.rd .band--tight { padding: clamp(48px, 6vw, 82px) 0; }
 .rd .band--greenlight { background: var(--rd-bg-green); }
-.rd .band__header { margin-bottom: clamp(56px, 7vw, 92px); max-width: 780px; }
+.rd .band__header { margin-bottom: clamp(48px, 6vw, 78px); max-width: 780px; }
 .rd .band__header > p:not(.label) {
   color: var(--color-ink-soft);
   max-width: 58ch;

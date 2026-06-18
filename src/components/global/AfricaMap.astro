@@ -10,6 +10,15 @@
 
 import paths from '../../data/africa-paths.json';
 
+// `showStats` (default true) renders the headline stat bar. The About > Where
+// We Work page passes false: per Will (2026-06-18) the total-salvations and
+// PBS-location figures can't be verified and were scrapped there; scale is
+// stated as "14+ nations" in the page copy instead. Home page keeps stats.
+export interface Props {
+  showStats?: boolean;
+}
+const { showStats = true } = Astro.props as Props;
+
 // Nations where Favor International is actively serving.
 const ACTIVE = new Set<string>([
   'south-sudan',
@@ -130,22 +139,24 @@ const countries = Object.entries(paths) as [string, { name: string; d: string }]
       </aside>
     </div>
 
-    <div class="africa-map__stats">
-      <div class="africa-map__stat">
-        <span class="africa-map__stat-num">524,673</span>
-        <span class="africa-map__stat-label">Total salvations</span>
+    {showStats && (
+      <div class="africa-map__stats">
+        <div class="africa-map__stat">
+          <span class="africa-map__stat-num">524,673</span>
+          <span class="africa-map__stat-label">Total salvations</span>
+        </div>
+        <span class="africa-map__stat-divider" aria-hidden="true"></span>
+        <div class="africa-map__stat">
+          <span class="africa-map__stat-num">3,635</span>
+          <span class="africa-map__stat-label">PBS locations</span>
+        </div>
+        <span class="africa-map__stat-divider" aria-hidden="true"></span>
+        <div class="africa-map__stat">
+          <span class="africa-map__stat-num">14</span>
+          <span class="africa-map__stat-label">Nations served</span>
+        </div>
       </div>
-      <span class="africa-map__stat-divider" aria-hidden="true"></span>
-      <div class="africa-map__stat">
-        <span class="africa-map__stat-num">3,635</span>
-        <span class="africa-map__stat-label">PBS locations</span>
-      </div>
-      <span class="africa-map__stat-divider" aria-hidden="true"></span>
-      <div class="africa-map__stat">
-        <span class="africa-map__stat-num">14</span>
-        <span class="africa-map__stat-label">Nations served</span>
-      </div>
-    </div>
+    )}
   </div>
 </section>
 
