@@ -6,6 +6,17 @@
 > and `redesign-impact` (read-only for us). Push to `redesign` after each round;
 > Cloudflare auto-deploys for Daniel's review.
 
+## Status: SHIPPED (commit e5dcb24, 2026-06-18)
+All round-2 tasks below are done and pushed to `redesign`. New components live in
+`src/components/redesign/`: `MinistryStructure.astro`, `SixRs.astro`, `VideoGallery.astro`.
+`AfricaMap` gained a `showStats` prop (default true; Where We Work passes false).
+Open follow-ups to confirm with Daniel/Will:
+- The three country blurbs (Uganda/South Sudan/Chad) are intentionally general and
+  AI-phrased — swap for Favor's exact wording if they have it.
+- New graphics for Ministry Structure / 6 R's are coming; the HTML/CSS builds are
+  swappable when they arrive.
+- Confirm video selections are the right ones (channel has many more).
+
 ## Where we are
 The first trio (Mission & Vision, Our Story, Where We Work) is built and Will gave
 **positive feedback** — these pages are essentially the locked standard now. This
