@@ -41,10 +41,10 @@
 /* ---------- Breathing room ---------- */
 /* Section padding (tightened ~15% on 2026-06-18 per Will: Mission & Vision had
    too much air between sections). Applies to redesigned About pages. */
-.rd .band { padding: clamp(82px, 9.4vw, 140px) 0; }
-.rd .band--tight { padding: clamp(48px, 6vw, 82px) 0; }
+.rd .band { padding: clamp(58px, 6.6vw, 100px) 0; }
+.rd .band--tight { padding: clamp(38px, 4.6vw, 62px) 0; }
 .rd .band--greenlight { background: var(--rd-bg-green); }
-.rd .band__header { margin-bottom: clamp(48px, 6vw, 78px); max-width: 780px; }
+.rd .band__header { margin-bottom: clamp(36px, 4.4vw, 58px); max-width: 780px; }
 .rd .band__header > p:not(.label) {
   color: var(--color-ink-soft);
   max-width: 58ch;
@@ -172,11 +172,22 @@
    echoing the congregation photo across the bottom of Favor's graphic). ---------- */
 .rd .band--photo-bottom { padding-bottom: 0; }
 .rd .six-photo {
+  position: relative;
   margin-top: clamp(48px, 6vw, 88px);
   height: clamp(240px, 32vw, 460px);
   background-size: cover;
-  background-position: center 30%;
+  background-position: center 28%;
   background-color: var(--color-sage-light);
+}
+/* Fade the section's cream into the top of the photo so the sky blends in
+   seamlessly (no hard seam where the band meets the image). */
+.rd .six-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 30%;
+  background: linear-gradient(to bottom, var(--color-cream) 0%, rgba(250, 247, 241, 0) 100%);
+  pointer-events: none;
 }
 
 /* Work-in-progress caption attached under the Africa map (Where We Work),

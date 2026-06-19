@@ -1,11 +1,8 @@
 ---
-// Ministry Structure — Carole's "house", rebuilt as a single cohesive building
-// to match the original graphic: a green gable roof (cross + Psalm 127:1) sits
-// on a facade of four pillars (Spiritual / Legal / Administration / Financial)
-// framing the nine ministries in connected bays, all standing on a PRAYER
-// foundation. Wording is verbatim from Favor's graphic. Swappable for the new
-// graphic when it lands.
-
+// Ministry Structure — Carole's "house", rendered as a refined HTML/CSS building:
+// a pitched gable roof (gold cross + Psalm 127:1) over a facade where four
+// pillars frame the nine ministries in cream bays, on a PRAYER foundation.
+// Verbatim wording from Favor's graphic; swappable for the new graphic later.
 const pillars = [
   { name: 'Spiritual', sub: 'Strategic Plan' },
   { name: 'Legal', sub: 'NGO' },
@@ -31,11 +28,12 @@ pillars.forEach((p, i) => {
 
   <div class="ms__building reveal">
     <div class="ms__roof">
-      <svg class="ms__cross" viewBox="0 0 24 36" aria-hidden="true"><path d="M10 0h4v12h8v4h-8v20h-4V16H2v-4h8z" fill="currentColor"/></svg>
+      <span class="ms__cross" aria-hidden="true"><i></i><i></i></span>
       <div class="ms__gable"></div>
     </div>
 
     <div class="ms__body">
+      <div class="ms__lintel" aria-hidden="true"></div>
       <div class="ms__facade">
         {colonnade.map((c) => (
           c.type === 'pillar' ? (
@@ -65,6 +63,8 @@ pillars.forEach((p, i) => {
         </div>
       </div>
     </div>
+
+    <div class="ms__ground" aria-hidden="true"></div>
   </div>
 
   <p class="ms__caption">
@@ -75,60 +75,67 @@ pillars.forEach((p, i) => {
 <style>
   .ms { max-width: 960px; margin-inline: auto; }
 
-  /* Psalm lead-in, just above the roof. */
-  .ms__verse { max-width: 42ch; margin: 0 auto clamp(22px, 3vw, 36px); text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-green-deep); line-height: 1.5; }
-  .ms__verse span { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
-  .ms__verse cite { display: block; margin-top: var(--space-2); font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-deep); }
+  /* Psalm lead-in above the roof. */
+  .ms__verse { max-width: 42ch; margin: 0 auto clamp(22px, 3vw, 38px); text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-green-deep); line-height: 1.5; }
+  .ms__verse span { font-size: clamp(1.15rem, 1.9vw, 1.45rem); font-weight: 500; }
+  .ms__verse cite { display: block; margin-top: var(--space-2); font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-gold-deep); }
 
-  /* ---- The building: roof flush on a facade + base, one connected unit ---- */
+  .ms__building { position: relative; }
+
+  /* Roof: a pitched gable with a short fascia skirt, lit gradient, soft shadow. */
   .ms__roof { position: relative; }
-  .ms__cross { width: clamp(20px, 2.4vw, 26px); height: auto; color: var(--color-gold); display: block; margin: 0 auto -1px; position: relative; z-index: 1; }
-  .ms__gable { height: clamp(54px, 7.5vw, 96px); background: var(--color-green); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .ms__cross { position: absolute; left: 50%; top: -22px; transform: translateX(-50%); z-index: 2; display: block; width: 18px; height: 26px; }
+  .ms__cross i { position: absolute; left: 50%; transform: translateX(-50%); background: linear-gradient(160deg, var(--color-gold), var(--color-gold-deep)); border-radius: 2px; }
+  .ms__cross i:first-child { top: 0; width: 4px; height: 26px; }
+  .ms__cross i:last-child { top: 7px; width: 18px; height: 4px; }
+  .ms__gable {
+    height: clamp(124px, 12.5vw, 178px);
+    background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-deep) 100%);
+    clip-path: polygon(50% 0, 100% 82%, 100% 100%, 0 100%, 0 82%);
+    filter: drop-shadow(0 8px 16px rgba(31, 58, 26, 0.18));
+  }
 
-  .ms__body { border-radius: 0 0 16px 16px; overflow: hidden; box-shadow: var(--rd-shadow); }
+  /* Facade + base read as one building; gold lintel separates roof from facade. */
+  .ms__body { position: relative; border-radius: 0 0 18px 18px; overflow: hidden; border: 1px solid rgba(31, 58, 26, 0.06); border-top: 0; box-shadow: 0 16px 44px rgba(31, 58, 26, 0.12); }
+  .ms__lintel { height: 3px; background: linear-gradient(90deg, var(--color-gold), var(--color-gold-deep)); }
 
   .ms__facade {
     display: grid;
     grid-template-columns: var(--pw) 1fr var(--pw) 1fr var(--pw) 1fr var(--pw);
-    --pw: clamp(46px, 5.6vw, 66px);
+    --pw: clamp(56px, 6vw, 72px);
   }
-  /* Pillars: green columns carrying the roof, with upright vertical labels. */
-  .ms__pillar { background: var(--color-green); display: flex; align-items: center; justify-content: center; gap: 5px; padding: 22px 0; }
-  .ms__pillar-name, .ms__pillar-sub { writing-mode: vertical-rl; text-orientation: mixed; white-space: nowrap; }
-  .ms__pillar-name { color: var(--color-cream); font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; font-size: clamp(0.74rem, 1vw, 0.9rem); }
-  .ms__pillar-sub { color: var(--color-gold); font-size: 0.72rem; letter-spacing: 0.03em; opacity: 0.95; }
+  /* Pillars: lit gradient + a darker plinth so they read as load-bearing. */
+  .ms__pillar { background: linear-gradient(180deg, var(--color-green) 0%, #234119 100%); border-bottom: 5px solid #1a3216; display: flex; align-items: center; justify-content: center; gap: 6px; padding: clamp(22px, 2.6vw, 32px) 0; }
+  .ms__pillar-name, .ms__pillar-sub { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+  .ms__pillar-name { color: var(--color-cream); font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(0.78rem, 1vw, 0.92rem); }
+  .ms__pillar-sub { color: var(--color-gold); font-size: 0.7rem; letter-spacing: 0.06em; opacity: 0.95; }
 
-  /* Bays: the white "rooms" between pillars, ministries split by hairlines. */
-  .ms__bay { background: var(--color-white); display: flex; flex-direction: column; }
-  .ms__ministry {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 16px 14px;
-    color: var(--color-green);
-    font-weight: 700;
-    font-size: 0.98rem;
-    line-height: 1.25;
-    border-bottom: 1px solid rgba(31, 58, 26, 0.10);
-  }
-  .ms__bay .ms__ministry:last-child { border-bottom: 0; }
+  /* Bays: warm cream "rooms" with inset hairline separators (not edge-to-edge). */
+  .ms__bay { background: #f3efe6; display: flex; flex-direction: column; }
+  .ms__ministry { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: clamp(16px, 1.9vw, 22px) 14px; color: var(--color-green-deep); font-weight: 600; font-size: clamp(0.9rem, 1.1vw, 1rem); line-height: 1.25; }
+  .ms__ministry + .ms__ministry::before { content: ''; position: absolute; top: 0; left: 16px; right: 16px; height: 1px; background: rgba(31, 58, 26, 0.12); }
 
-  /* Base: the PRAYER foundation the pillars stand on. */
-  .ms__base { background: var(--color-green-deep); text-align: center; padding: clamp(26px, 3.2vw, 42px) clamp(22px, 4vw, 52px); }
-  .ms__base-label { display: block; font-family: var(--font-display); color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.32em; font-size: clamp(1.3rem, 2.4vw, 1.9rem); margin-bottom: clamp(16px, 2.2vw, 26px); }
-  .ms__verses { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 44px); text-align: left; }
+  /* Base: the PRAYER footing — deep green, with gold keylines, kept compact. */
+  .ms__base { position: relative; background: var(--color-green-deep); text-align: center; padding: clamp(22px, 2.6vw, 32px) clamp(22px, 4vw, 52px); }
+  .ms__base::before { content: ''; position: absolute; inset: 0 0 auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(225, 167, 48, 0.55), transparent); }
+  .ms__base-label { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-display); color: var(--color-gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; font-size: clamp(1.3rem, 2.4vw, 1.85rem); margin-bottom: clamp(16px, 2.2vw, 26px); }
+  .ms__base-label::before, .ms__base-label::after { content: ''; width: 26px; height: 1px; background: rgba(225, 167, 48, 0.5); }
+  .ms__verses { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 46px); text-align: left; }
   .ms__verses blockquote { margin: 0; }
-  .ms__verses span { display: block; font-family: var(--font-display); font-style: italic; color: var(--color-cream); font-size: clamp(0.96rem, 1.3vw, 1.1rem); line-height: 1.55; }
-  .ms__verses cite { display: block; margin-top: var(--space-3); font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold); }
+  .ms__verses span { display: block; font-family: var(--font-display); font-style: italic; color: #f3ecde; font-size: clamp(0.92rem, 1.3vw, 1.05rem); line-height: 1.55; }
+  .ms__verses cite { display: block; margin-top: var(--space-3); font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold); }
 
-  .ms__caption { margin: clamp(22px, 3vw, 34px) auto 0; max-width: 54ch; text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-ink-soft); font-size: clamp(1rem, 1.4vw, 1.18rem); line-height: 1.5; }
+  /* A faint ground line lands the house. */
+  .ms__ground { width: 92%; height: 1px; margin: clamp(14px, 2vw, 22px) auto 0; background: linear-gradient(90deg, transparent, rgba(31, 58, 26, 0.22), transparent); }
+
+  .ms__caption { margin: clamp(20px, 2.6vw, 32px) auto 0; max-width: 54ch; text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-ink-soft); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.5; }
   .ms__caption cite { font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); white-space: nowrap; }
 
-  /* ---- Narrow screens: facade stacks into labeled green bands + their rooms ---- */
+  /* Narrow screens: facade stacks into labeled green bands + their rooms. */
   @media (max-width: 820px) {
     .ms__facade { grid-template-columns: 1fr; }
-    .ms__pillar { flex-direction: row; gap: 9px; padding: 13px 20px; }
-    .ms__pillar-name, .ms__pillar-sub { writing-mode: horizontal-tb; }
+    .ms__pillar { flex-direction: row; gap: 10px; padding: 13px 20px; border-bottom: 0; border-left: 5px solid #1a3216; }
+    .ms__pillar-name, .ms__pillar-sub { writing-mode: horizontal-tb; transform: none; }
     .ms__pillar-sub::before { content: '· '; }
     .ms__verses { grid-template-columns: 1fr; gap: clamp(18px, 4vw, 26px); }
   }
