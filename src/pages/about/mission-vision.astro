@@ -6,7 +6,6 @@ import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import SavannaBand from '../../components/redesign/SavannaBand.astro';
-import MinistryStructure from '../../components/redesign/MinistryStructure.astro';
 import SixRs from '../../components/redesign/SixRs.astro';
 import VideoGallery from '../../components/redesign/VideoGallery.astro';
 import { SITE } from '../../lib/site';
@@ -102,8 +101,7 @@ const traits = [
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="How the ministry is built" title="Ministry Structure" />
-      <MinistryStructure />
+      <img class="ministry-graphic reveal" src="/images/ministry-structure.png" width="2000" height="1500" loading="lazy" decoding="async" alt="Favor International Ministry Structure. Unless the Lord builds the house, they labor in vain who build it (Psalm 127:1). Four pillars frame the ministry — Spiritual, Legal, Administration, and Financial — over the ministries: Evangelism & Discipleship, Prayer Ministries, Children's Ministries, Medical Work, School of Ministry, Primary & Secondary Schools, Women's Empowerment, Rehabilitating Street Youth, and Crusades. The foundation is Prayer." />
     </div>
   </section>
 
@@ -177,7 +175,7 @@ const traits = [
       <LeafHeading label="Stewardship" title="The 6 R's" leaves={false} />
       <SixRs />
     </div>
-    <div class="six-photo" style="background-image:url('/images/field-2026/villages-2.webp')" role="img" aria-label="Favor partners and the people they serve, gathered together"></div>
+    <div class="six-photo" style="background-image:url('/images/six-rs-community.jpg')" role="img" aria-label="Favor partners and the people they serve, gathered together"></div>
   </section>
 
   <RdCta
@@ -225,4 +223,6 @@ const traits = [
   .trait__icon svg { width: 22px; height: 22px; }
   .trait-list__title { color: var(--color-green); font-weight: 800; font-size: var(--rd-fs-body); line-height: 1.3; }
   .trait-list__desc { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
+  /* The Ministry Structure graphic (Favor's own artwork), framed as a poster. */
+  .ministry-graphic { display: block; width: 100%; max-width: 1040px; height: auto; margin-inline: auto; border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); }
 </style>

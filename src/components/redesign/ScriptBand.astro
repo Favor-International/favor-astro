@@ -61,14 +61,14 @@ const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%', fon
   }
   .rd-script--script .rd-script__phrase {
     font-family: var(--font-script);
-    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    font-size: var(--rd-fs-display);
     line-height: 1.12;
     max-width: 18ch;
   }
   .rd-script--serif .rd-script__phrase {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+    font-size: var(--rd-fs-display);
     line-height: 1.18;
     letter-spacing: -0.01em;
     max-width: 20ch;
@@ -76,7 +76,7 @@ const { image, imageAlt, phrase, cite, label, objectPosition = 'center 35%', fon
   .rd-script--sans .rd-script__phrase {
     font-family: var(--font-sans);
     font-weight: 800;
-    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-size: var(--rd-fs-display);
     line-height: 1.2;
     letter-spacing: -0.02em;
     max-width: 22ch;
