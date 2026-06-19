@@ -16,8 +16,9 @@ import paths from '../../data/africa-paths.json';
 // stated as "14+ nations" in the page copy instead. Home page keeps stats.
 export interface Props {
   showStats?: boolean;
+  note?: string;
 }
-const { showStats = true } = Astro.props as Props;
+const { showStats = true, note } = Astro.props as Props;
 
 // Nations where Favor International is actively serving.
 const ACTIVE = new Set<string>([
@@ -157,6 +158,8 @@ const countries = Object.entries(paths) as [string, { name: string; d: string }]
         </div>
       </div>
     )}
+
+    {note && <p class="africa-map__note">{note}</p>}
   </div>
 </section>
 

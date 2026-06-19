@@ -1,28 +1,23 @@
 ---
-// The 6 R's — Favor's stewardship framework (Carole's). Six animated cards,
-// verbatim descriptions from the graphic. The page supplies the heading/band.
-const ICONS: Record<string, string> = {
-  relationship: '<path d="M12 21S4 14.5 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5.5-8 12-8 12Z"/>',
-  research: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.3-4.3"/>',
-  receipts: '<path d="M6 2h12v20l-3-2-3 2-3-2-3 2Z"/><path d="M9.5 8h5M9.5 12h5"/>',
-  reports: '<path d="M7 3h7l4 4v14H7Z"/><path d="M14 3v4h4"/><path d="M10 13.5l1.8 1.8L15 11"/>',
-  records: '<rect x="3" y="4" width="18" height="6.5" rx="1.4"/><rect x="3" y="13.5" width="18" height="6.5" rx="1.4"/><path d="M7.5 7.2h3M7.5 16.7h3"/>',
-  results: '<path d="M4 4v16h16"/><rect x="7.5" y="13" width="2.6" height="4.5"/><rect x="12" y="9" width="2.6" height="8.5"/><rect x="16.5" y="5" width="2.6" height="12.5"/>',
-};
+// The 6 R's — Favor's stewardship framework (Carole's), styled after the newer
+// graphic: clean numbered columns, normal sans type, verbatim descriptions. The
+// page wraps this and places the congregation photo flush at the section bottom.
 const items = [
-  { word: 'Relationship', icon: 'relationship', desc: 'All partnering and ministry is built on this foundation.' },
-  { word: 'Research', icon: 'research', desc: "It's important to us to sow where the need is greatest. Before determining where to expand the ministry, we make sure to pray and research the possibilities." },
-  { word: 'Receipts', icon: 'receipts', desc: 'Every receipt is kept for each purchase made or service paid for. They are filed with accurate book keeping in the ministry office and then scanned and emailed back to the partner.' },
-  { word: 'Reports', icon: 'reports', desc: 'Reports are given to ministries and supporters on a regular basis. They include acknowledgment of gifts and thank you notes from the office and recipients of the money. We do this to encourage ongoing relationship with the gift recipients.' },
-  { word: 'Records', icon: 'records', desc: 'Each purchase or service relating to designations is recorded accurately with names of recipients, partners, use of money, date, location, and project or person the money was intended for. These records are available to any partner and ministry affiliated with the area of support.' },
-  { word: 'Results', icon: 'results', desc: 'Results of seeds sown and planted are reviewed and re-evaluated. We want to see seed sown on fertile ground. If results are not evaluated regularly, waste can occur. Our reports will continue to be presented months after gifts are given.' },
+  { word: 'Relationship', desc: 'All partnering and ministry is built on this foundation.' },
+  { word: 'Research', desc: "It's important to us to sow where the need is greatest. Before determining where to expand the ministry, we make sure to pray and research the possibilities." },
+  { word: 'Receipts', desc: 'Every receipt is kept for each purchase made or service paid for. They are filed with accurate book keeping in the ministry office and then scanned and emailed back to the partner.' },
+  { word: 'Reports', desc: 'Reports are given to ministries and supporters on a regular basis. They include acknowledgment of gifts and thank you notes from the office and recipients of the money. We do this to encourage ongoing relationship with the gift recipients.' },
+  { word: 'Records', desc: 'Each purchase or service relating to designations is recorded accurately with names of recipients, partners, use of money, date, location, and project or person the money was intended for. These records are available to any partner and ministry affiliated with the area of support.' },
+  { word: 'Results', desc: 'Results of seeds sown and planted are reviewed and re-evaluated. We want to see seed sown on fertile ground. If results are not evaluated regularly, waste can occur. Our reports will continue to be presented months after gifts are given.' },
 ];
 ---
 <div class="r6">
-  {items.map((it) => (
-    <div class="r6__card reveal">
-      <span class="r6__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[it.icon]}></svg></span>
-      <h3 class="r6__word"><span class="r6__r">R</span>{it.word.slice(1)}</h3>
+  {items.map((it, i) => (
+    <div class="r6__item reveal">
+      <div class="r6__head">
+        <span class="r6__num">{i + 1}</span>
+        <h3 class="r6__word">{it.word}</h3>
+      </div>
       <p class="r6__desc">{it.desc}</p>
     </div>
   ))}
@@ -32,34 +27,27 @@ const items = [
   .r6 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(24px, 2.6vw, 36px);
+    gap: clamp(32px, 3.4vw, 56px) clamp(36px, 4vw, 64px);
   }
-  @media (max-width: 900px) { .r6 { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .r6 { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .r6 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .r6 { grid-template-columns: 1fr; } }
 
-  .r6__card {
-    background: var(--color-white);
-    border-radius: var(--rd-radius);
-    box-shadow: var(--rd-shadow);
-    padding: clamp(26px, 2.8vw, 36px);
-    transition: transform 220ms ease, box-shadow 220ms ease;
+  .r6__item { padding-top: var(--space-4); border-top: 2px solid rgba(184, 132, 36, 0.35); }
+  .r6__head { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-4); }
+  .r6__num {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 2.6vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-gold-deep);
   }
-  .r6__card:hover { transform: translateY(-5px); box-shadow: var(--rd-shadow-lift); }
-
-  .r6__icon {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 54px; height: 54px; border-radius: 14px;
-    background: var(--rd-bg-green); color: var(--color-green);
-    margin-bottom: var(--space-5);
-  }
-  .r6__icon svg { width: 28px; height: 28px; }
-
   .r6__word {
-    color: var(--color-green);
+    margin: 0;
+    color: var(--color-green-deep);
     font-weight: 800;
-    letter-spacing: -0.01em;
-    margin: 0 0 var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--rd-fs-sub);
   }
-  .r6__r { color: var(--color-gold-deep); }
-  .r6__desc { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.65; margin: 0; }
+  .r6__desc { margin: 0; color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.7; }
 </style>

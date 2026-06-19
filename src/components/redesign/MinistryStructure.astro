@@ -1,10 +1,10 @@
 ---
-// Ministry Structure — the "house" Carole teaches, rebuilt as an on-brand,
-// animated HTML/CSS diagram (swappable for the new graphic later). The Lord
-// builds the house (roof + Psalm 127:1); it is framed by four pillars
-// (Spiritual / Legal / Administration / Financial) with the ministries held in
-// the bays between them; the whole house stands on the foundation of PRAYER.
-// All wording is verbatim from Favor's Ministry Structure graphic.
+// Ministry Structure — Carole's "house", rebuilt as a single cohesive building
+// to match the original graphic: a green gable roof (cross + Psalm 127:1) sits
+// on a facade of four pillars (Spiritual / Legal / Administration / Financial)
+// framing the nine ministries in connected bays, all standing on a PRAYER
+// foundation. Wording is verbatim from Favor's graphic. Swappable for the new
+// graphic when it lands.
 
 const pillars = [
   { name: 'Spiritual', sub: 'Strategic Plan' },
@@ -17,7 +17,6 @@ const bays = [
   ['Medical Work', 'School of Ministry', 'Primary & Secondary Schools'],
   ["Women's Empowerment", 'Rehabilitating Street Youth', 'Crusades'],
 ];
-// Interleave pillar, bay, pillar, bay, ... so the colonnade renders in visual order.
 const colonnade: Array<{ type: 'pillar'; name: string; sub: string } | { type: 'bay'; items: string[] }> = [];
 pillars.forEach((p, i) => {
   colonnade.push({ type: 'pillar', name: p.name, sub: p.sub });
@@ -25,41 +24,46 @@ pillars.forEach((p, i) => {
 });
 ---
 <div class="ms">
-  <div class="ms__roof reveal">
-    <svg class="ms__cross" viewBox="0 0 24 36" aria-hidden="true"><path d="M10 0h4v12h8v4h-8v20h-4V16H2v-4h8z" fill="currentColor"/></svg>
-    <div class="ms__pediment"></div>
-    <p class="ms__verse ms__verse--roof">
-      <span>“...unless the Lord builds the house, they labor in vain who build it...”</span>
-      <cite>Psalm 127:1</cite>
-    </p>
-  </div>
+  <p class="ms__verse">
+    <span>“...unless the Lord builds the house, they labor in vain who build it...”</span>
+    <cite>Psalm 127:1</cite>
+  </p>
 
-  <div class="ms__house reveal">
-    {colonnade.map((c) => (
-      c.type === 'pillar' ? (
-        <div class="ms__pillar">
-          <span class="ms__pillar-name">{c.name}</span>
-          {c.sub && <span class="ms__pillar-sub">{c.sub}</span>}
-        </div>
-      ) : (
-        <div class="ms__bay">
-          {c.items.map((m) => <div class="ms__ministry">{m}</div>)}
-        </div>
-      )
-    ))}
-  </div>
+  <div class="ms__building reveal">
+    <div class="ms__roof">
+      <svg class="ms__cross" viewBox="0 0 24 36" aria-hidden="true"><path d="M10 0h4v12h8v4h-8v20h-4V16H2v-4h8z" fill="currentColor"/></svg>
+      <div class="ms__gable"></div>
+    </div>
 
-  <div class="ms__foundation reveal">
-    <span class="ms__foundation-label">Prayer</span>
-    <div class="ms__verses">
-      <blockquote>
-        <span>“Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.”</span>
-        <cite>Philippians 4:6 NIV</cite>
-      </blockquote>
-      <blockquote>
-        <span>“I also say to you that you are Peter, and upon this rock I will build My church; and the gates of Hades will not overpower it.”</span>
-        <cite>Matthew 16:18 NASB 1995</cite>
-      </blockquote>
+    <div class="ms__body">
+      <div class="ms__facade">
+        {colonnade.map((c) => (
+          c.type === 'pillar' ? (
+            <div class="ms__pillar">
+              <span class="ms__pillar-name">{c.name}</span>
+              {c.sub && <span class="ms__pillar-sub">{c.sub}</span>}
+            </div>
+          ) : (
+            <div class="ms__bay">
+              {c.items.map((m) => <div class="ms__ministry">{m}</div>)}
+            </div>
+          )
+        ))}
+      </div>
+
+      <div class="ms__base">
+        <span class="ms__base-label">Prayer</span>
+        <div class="ms__verses">
+          <blockquote>
+            <span>“Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.”</span>
+            <cite>Philippians 4:6 NIV</cite>
+          </blockquote>
+          <blockquote>
+            <span>“I also say to you that you are Peter, and upon this rock I will build My church; and the gates of Hades will not overpower it.”</span>
+            <cite>Matthew 16:18 NASB 1995</cite>
+          </blockquote>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -69,109 +73,64 @@ pillars.forEach((p, i) => {
 </div>
 
 <style>
-  .ms { max-width: 1000px; margin-inline: auto; }
+  .ms { max-width: 960px; margin-inline: auto; }
 
-  /* ---- Roof: pediment + cross + Psalm ---- */
-  .ms__roof { position: relative; text-align: center; }
-  .ms__cross { width: clamp(20px, 2.6vw, 28px); height: auto; color: var(--color-gold); display: block; margin: 0 auto -2px; position: relative; z-index: 1; }
-  .ms__pediment {
-    height: clamp(46px, 7vw, 84px);
-    background: var(--color-green);
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
-    border-radius: 3px;
-  }
-  .ms__verse--roof {
-    margin: clamp(18px, 2.4vw, 28px) auto 0;
-    max-width: 40ch;
-  }
-  .ms__verse {
-    font-family: var(--font-display);
-    color: var(--color-green-deep);
-    font-style: italic;
-    line-height: 1.5;
-  }
-  .ms__verse span { font-size: clamp(1.05rem, 1.7vw, 1.3rem); }
+  /* Psalm lead-in, just above the roof. */
+  .ms__verse { max-width: 42ch; margin: 0 auto clamp(22px, 3vw, 36px); text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-green-deep); line-height: 1.5; }
+  .ms__verse span { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
   .ms__verse cite { display: block; margin-top: var(--space-2); font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-deep); }
 
-  /* ---- House: colonnade of 4 pillars framing 3 bays of ministries ---- */
-  .ms__house {
-    margin-top: clamp(26px, 3.5vw, 44px);
+  /* ---- The building: roof flush on a facade + base, one connected unit ---- */
+  .ms__roof { position: relative; }
+  .ms__cross { width: clamp(20px, 2.4vw, 26px); height: auto; color: var(--color-gold); display: block; margin: 0 auto -1px; position: relative; z-index: 1; }
+  .ms__gable { height: clamp(54px, 7.5vw, 96px); background: var(--color-green); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+  .ms__body { border-radius: 0 0 16px 16px; overflow: hidden; box-shadow: var(--rd-shadow); }
+
+  .ms__facade {
     display: grid;
     grid-template-columns: var(--pw) 1fr var(--pw) 1fr var(--pw) 1fr var(--pw);
-    --pw: clamp(48px, 6vw, 74px);
-    gap: clamp(10px, 1.4vw, 18px);
-    align-items: stretch;
+    --pw: clamp(46px, 5.6vw, 66px);
   }
-  .ms__pillar {
-    background: var(--color-green-deep);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 18px 0;
-    box-shadow: inset 0 0 0 1px rgba(225, 167, 48, 0.22);
-  }
+  /* Pillars: green columns carrying the roof, with upright vertical labels. */
+  .ms__pillar { background: var(--color-green); display: flex; align-items: center; justify-content: center; gap: 5px; padding: 22px 0; }
   .ms__pillar-name, .ms__pillar-sub { writing-mode: vertical-rl; text-orientation: mixed; white-space: nowrap; }
-  .ms__pillar-name { color: var(--color-cream); font-weight: 800; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(0.74rem, 1vw, 0.9rem); }
-  .ms__pillar-sub { color: var(--color-gold); font-size: 0.72rem; letter-spacing: 0.04em; opacity: 0.92; }
+  .ms__pillar-name { color: var(--color-cream); font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; font-size: clamp(0.74rem, 1vw, 0.9rem); }
+  .ms__pillar-sub { color: var(--color-gold); font-size: 0.72rem; letter-spacing: 0.03em; opacity: 0.95; }
 
-  .ms__bay { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); }
+  /* Bays: the white "rooms" between pillars, ministries split by hairlines. */
+  .ms__bay { background: var(--color-white); display: flex; flex-direction: column; }
   .ms__ministry {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     text-align: center;
-    background: var(--color-white);
-    border-radius: 12px;
-    box-shadow: var(--rd-shadow);
-    padding: 14px 12px;
+    padding: 16px 14px;
     color: var(--color-green);
     font-weight: 700;
     font-size: 0.98rem;
     line-height: 1.25;
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    border-bottom: 1px solid rgba(31, 58, 26, 0.10);
   }
-  .ms__ministry:hover { transform: translateY(-3px); box-shadow: var(--rd-shadow-lift); }
+  .ms__bay .ms__ministry:last-child { border-bottom: 0; }
 
-  /* ---- Foundation: PRAYER plinth with the two verses ---- */
-  .ms__foundation {
-    margin-top: clamp(12px, 1.6vw, 20px);
-    background: var(--color-green-deep);
-    border-radius: 14px;
-    padding: clamp(26px, 3.4vw, 44px) clamp(24px, 4vw, 56px);
-    text-align: center;
-  }
-  .ms__foundation-label {
-    display: block;
-    font-family: var(--font-display);
-    color: var(--color-gold);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.34em;
-    font-size: clamp(1.3rem, 2.4vw, 1.9rem);
-    margin-bottom: clamp(18px, 2.4vw, 28px);
-  }
+  /* Base: the PRAYER foundation the pillars stand on. */
+  .ms__base { background: var(--color-green-deep); text-align: center; padding: clamp(26px, 3.2vw, 42px) clamp(22px, 4vw, 52px); }
+  .ms__base-label { display: block; font-family: var(--font-display); color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.32em; font-size: clamp(1.3rem, 2.4vw, 1.9rem); margin-bottom: clamp(16px, 2.2vw, 26px); }
   .ms__verses { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 44px); text-align: left; }
   .ms__verses blockquote { margin: 0; }
-  .ms__verses span { display: block; font-family: var(--font-display); font-style: italic; color: var(--color-cream); font-size: clamp(0.98rem, 1.4vw, 1.12rem); line-height: 1.55; }
+  .ms__verses span { display: block; font-family: var(--font-display); font-style: italic; color: var(--color-cream); font-size: clamp(0.96rem, 1.3vw, 1.1rem); line-height: 1.55; }
   .ms__verses cite { display: block; margin-top: var(--space-3); font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold); }
 
-  .ms__caption { margin: clamp(20px, 2.6vw, 30px) auto 0; max-width: 52ch; text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-ink-soft); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.5; }
+  .ms__caption { margin: clamp(22px, 3vw, 34px) auto 0; max-width: 54ch; text-align: center; font-family: var(--font-display); font-style: italic; color: var(--color-ink-soft); font-size: clamp(1rem, 1.4vw, 1.18rem); line-height: 1.5; }
   .ms__caption cite { font-style: normal; font-family: var(--font-sans); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); white-space: nowrap; }
 
-  /* ---- Reflow on narrow screens: the colonnade stacks into labeled groups
-     (pillar bar, then its bay of ministry chips), text goes horizontal. ---- */
+  /* ---- Narrow screens: facade stacks into labeled green bands + their rooms ---- */
   @media (max-width: 820px) {
-    .ms__house { grid-template-columns: 1fr; gap: clamp(10px, 2vw, 16px); }
-    .ms__pillar { flex-direction: row; gap: 10px; padding: 13px 20px; justify-content: center; }
+    .ms__facade { grid-template-columns: 1fr; }
+    .ms__pillar { flex-direction: row; gap: 9px; padding: 13px 20px; }
     .ms__pillar-name, .ms__pillar-sub { writing-mode: horizontal-tb; }
     .ms__pillar-sub::before { content: '· '; }
-    .ms__bay { gap: clamp(10px, 2vw, 14px); }
     .ms__verses { grid-template-columns: 1fr; gap: clamp(18px, 4vw, 26px); }
   }
-  @media (max-width: 520px) {
-    .ms__verses { text-align: center; }
-  }
+  @media (max-width: 520px) { .ms__verses { text-align: center; } }
 </style>

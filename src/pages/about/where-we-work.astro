@@ -17,24 +17,24 @@ const fields = [
     name: 'Uganda',
     focus: "Where Favor's work began, and home to the GIFT Institute and Favor FM radio.",
     videos: [
-      { id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe' },
-      { id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel' },
+      { id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe', caption: 'A gospel crusade in northern Uganda.' },
+      { id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel', caption: 'Favor FM reaches remote listeners with the Gospel.' },
     ],
   },
   {
     name: 'South Sudan',
     focus: 'Church planting and trauma healing among communities affected by war.',
     videos: [
-      { id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal' },
-      { id: 'Wf_OQ1hAMoI', title: 'From the streets to safety' },
+      { id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal', caption: 'Reaching the displaced in the city of Malakal.' },
+      { id: 'Wf_OQ1hAMoI', title: 'From the streets to safety', caption: "Helping South Sudan's vulnerable girls find safety." },
     ],
   },
   {
     name: 'Chad',
     focus: 'Training and sending indigenous missionaries to reach unreached villages.',
     videos: [
-      { id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs' },
-      { id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad' },
+      { id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs', caption: 'The cost of following Christ in Chad.' },
+      { id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad', caption: 'Training national missionaries to reach their own.' },
     ],
   },
 ];
@@ -52,10 +52,10 @@ const fields = [
     scrollCue
   />
 
-  <AfricaMap showStats={false} />
-  <div class="container">
-    <p class="map-note">Note: this map is a work in progress and is not yet a precise representation of where Favor International works.</p>
-  </div>
+  <AfricaMap
+    showStats={false}
+    note="Note: this map is a work in progress and is not yet a precise representation of where Favor International works."
+  />
 
   <ScriptBand
     image="/images/hero-pastor-preaching.jpg"
@@ -80,7 +80,7 @@ const fields = [
               <p>{c.focus}</p>
             </div>
             <div class="field-country__videos">
-              {c.videos.map((v) => <VideoEmbed id={v.id} title={v.title} />)}
+              {c.videos.map((v) => <VideoEmbed id={v.id} title={v.title} caption={v.caption} />)}
             </div>
           </div>
         ))}
@@ -99,28 +99,22 @@ const fields = [
 </RedesignLayout>
 
 <style>
-  /* Work-in-progress note directly under the map. */
-  .map-note {
-    max-width: 60ch;
-    margin: clamp(24px, 3vw, 40px) auto 0;
-    text-align: center;
-    font-style: italic;
-    color: var(--color-sage);
-    font-size: var(--rd-fs-small);
-    line-height: 1.6;
-  }
-
-  /* Three main fields: a header per country, then its field films. */
-  .fields { display: grid; gap: clamp(56px, 7vw, 100px); }
-  .field-country__head { max-width: 62ch; margin: 0 auto clamp(26px, 3.4vw, 44px); text-align: center; }
-  .field-country__head h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  /* Three main fields: a header per country, then its field films (large). */
+  .fields { display: grid; gap: clamp(64px, 8vw, 112px); }
+  .field-country__head { max-width: 62ch; margin: 0 auto clamp(28px, 3.6vw, 48px); text-align: center; }
+  .field-country__head h3 { color: var(--color-green); font-size: var(--rd-fs-title); margin: 0 0 var(--space-3); }
   .field-country__head p { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; margin: 0; }
   .field-country__videos {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(24px, 3vw, 40px);
-    max-width: 920px;
-    margin-inline: auto;
+    gap: clamp(28px, 3.4vw, 52px);
   }
-  @media (max-width: 640px) { .field-country__videos { grid-template-columns: 1fr; } }
+  /* Centered little description beneath each film. */
+  .field-country__videos :global(.video-embed__cap) {
+    text-align: center;
+    margin-top: var(--space-4);
+    font-size: var(--rd-fs-body);
+    color: var(--color-ink-soft);
+  }
+  @media (max-width: 720px) { .field-country__videos { grid-template-columns: 1fr; gap: clamp(28px, 6vw, 40px); } }
 </style>

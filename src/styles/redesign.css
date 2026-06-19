@@ -167,3 +167,26 @@
 @media (max-width: 1024px) { .rd .rd-grid--4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 900px) { .rd .rd-grid--3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .rd .rd-grid--2, .rd .rd-grid--3, .rd .rd-grid--4 { grid-template-columns: 1fr; } }
+
+/* ---------- A section that ends flush with a full-width photo (the 6 R's,
+   echoing the congregation photo across the bottom of Favor's graphic). ---------- */
+.rd .band--photo-bottom { padding-bottom: 0; }
+.rd .six-photo {
+  margin-top: clamp(48px, 6vw, 88px);
+  height: clamp(240px, 32vw, 460px);
+  background-size: cover;
+  background-position: center 30%;
+  background-color: var(--color-sage-light);
+}
+
+/* Work-in-progress caption attached under the Africa map (Where We Work),
+   so it reads as part of the map graphic rather than a separate section. */
+.rd .africa-map__note {
+  max-width: 62ch;
+  margin: clamp(18px, 2.4vw, 30px) auto 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--color-sage);
+  font-size: var(--rd-fs-small);
+  line-height: 1.6;
+}
