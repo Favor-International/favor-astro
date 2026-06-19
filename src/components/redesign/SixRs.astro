@@ -1,7 +1,7 @@
 ---
-// The 6 R's — Favor's stewardship framework (Carole's), styled after the newer
-// graphic: clean numbered columns, normal sans type, verbatim descriptions. The
-// page wraps this and places the congregation photo flush at the section bottom.
+// The 6 R's — Favor's stewardship framework (Carole's). Numbered columns set
+// OVER the congregation photo (the page makes that photo the section
+// background), matching the original graphic. Verbatim descriptions.
 const items = [
   { word: 'Relationship', desc: 'All partnering and ministry is built on this foundation.' },
   { word: 'Research', desc: "It's important to us to sow where the need is greatest. Before determining where to expand the ministry, we make sure to pray and research the possibilities." },
@@ -27,13 +27,12 @@ const items = [
   .r6 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(32px, 3.4vw, 56px) clamp(36px, 4vw, 64px);
+    gap: clamp(28px, 3vw, 48px) clamp(36px, 4vw, 64px);
   }
   @media (max-width: 860px) { .r6 { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .r6 { grid-template-columns: 1fr; } }
 
-  .r6__item { padding-top: var(--space-4); border-top: 2px solid rgba(184, 132, 36, 0.35); }
-  .r6__head { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-4); }
+  .r6__head { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-3); }
   .r6__num {
     font-family: var(--font-display);
     font-size: var(--rd-fs-title);
@@ -41,13 +40,14 @@ const items = [
     line-height: 1;
     color: var(--color-gold-deep);
   }
+  /* Dark type so it stays legible over the bright sky of the photo behind it. */
   .r6__word {
     margin: 0;
-    color: var(--color-green-deep);
+    color: var(--color-ink);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     font-size: var(--rd-fs-sub);
   }
-  .r6__desc { margin: 0; color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.7; }
+  .r6__desc { margin: 0; color: var(--color-ink); font-size: var(--rd-fs-body); line-height: 1.65; }
 </style>

@@ -168,27 +168,34 @@
 @media (max-width: 900px) { .rd .rd-grid--3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .rd .rd-grid--2, .rd .rd-grid--3, .rd .rd-grid--4 { grid-template-columns: 1fr; } }
 
-/* ---------- A section that ends flush with a full-width photo (the 6 R's,
-   echoing the congregation photo across the bottom of Favor's graphic). ---------- */
-.rd .band--photo-bottom { padding-bottom: 0; }
-.rd .six-photo {
+/* ---------- The 6 R's: Favor's congregation photo IS the section background,
+   with the numbered points set over its open sky (matching the graphic). The
+   tall bottom padding leaves the crowd visible beneath the text. ---------- */
+.rd .six-rs {
   position: relative;
-  margin-top: clamp(48px, 6vw, 88px);
-  height: clamp(240px, 32vw, 460px);
+  isolation: isolate;
   background-size: cover;
-  background-position: center 28%;
+  background-position: center top;
   background-color: var(--color-sage-light);
+  padding-top: clamp(44px, 5vw, 84px);
+  padding-bottom: clamp(230px, 30vw, 470px);
 }
-/* Fade the section's cream into the top of the photo so the sky blends in
-   seamlessly (no hard seam where the band meets the image). */
-.rd .six-photo::before {
+/* A cream wash that's near-opaque over the text (so it reads on a clean, bright
+   field like the graphic's sky) and fades out lower down to reveal the crowd. */
+.rd .six-rs::before {
   content: '';
   position: absolute;
-  inset: 0 0 auto;
-  height: 30%;
-  background: linear-gradient(to bottom, var(--color-cream) 0%, rgba(250, 247, 241, 0) 100%);
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(250, 247, 241, 0.62) 0%,
+    rgba(250, 247, 241, 0.72) 28%,
+    rgba(250, 247, 241, 0.82) 50%,
+    rgba(250, 247, 241, 0.42) 68%,
+    rgba(250, 247, 241, 0) 86%);
+  z-index: 0;
   pointer-events: none;
 }
+.rd .six-rs > .container { position: relative; z-index: 1; }
 
 /* Work-in-progress caption attached under the Africa map (Where We Work),
    so it reads as part of the map graphic rather than a separate section. */
