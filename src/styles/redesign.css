@@ -176,22 +176,22 @@
   isolation: isolate;
   background-size: cover;
   background-position: center top;
-  background-color: var(--color-sage-light);
-  padding-top: clamp(44px, 5vw, 84px);
-  padding-bottom: clamp(230px, 30vw, 470px);
+  background-color: var(--color-cream);
+  padding-top: clamp(48px, 5vw, 88px);
+  padding-bottom: clamp(360px, 46vw, 690px);
 }
-/* A cream wash that's near-opaque over the text (so it reads on a clean, bright
-   field like the graphic's sky) and fades out lower down to reveal the crowd. */
+/* The photo now carries a tall near-white sky, so the points sit on a bright
+   field at the top and the crowd shows in the lower third. A gentle wash keeps
+   text crisp over any cloud and blends in from the cream band above. */
 .rd .six-rs::before {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom,
-    rgba(250, 247, 241, 0.62) 0%,
-    rgba(250, 247, 241, 0.72) 28%,
-    rgba(250, 247, 241, 0.82) 50%,
-    rgba(250, 247, 241, 0.42) 68%,
-    rgba(250, 247, 241, 0) 86%);
+    rgba(250, 247, 241, 0.45) 0%,
+    rgba(250, 247, 241, 0.5) 40%,
+    rgba(250, 247, 241, 0.28) 60%,
+    rgba(250, 247, 241, 0) 78%);
   z-index: 0;
   pointer-events: none;
 }
