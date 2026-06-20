@@ -50,6 +50,11 @@ const delay = (x: number, y: number, span = 1100) =>
     </header>
 
     <figure class="africa-map__board">
+      <ul class="africa-map__key" aria-label="Map key">
+        <li><span class="africa-map__key-dot africa-map__key-dot--pbs"></span>Areas reached by a Portable Bible School</li>
+        <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Mission stations</li>
+        <li><span class="africa-map__key-dot africa-map__key-dot--future"></span>Future mission stations</li>
+      </ul>
       <svg
         class="africa-map__svg"
         viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
@@ -98,12 +103,6 @@ const delay = (x: number, y: number, span = 1100) =>
           {orange.map(([x, y]) => <circle cx={x} cy={y} r={STATION_R} style={`transition-delay:${delay(x, y) + 300}ms`} />)}
         </g>
       </svg>
-
-      <ul class="africa-map__key" aria-label="Map key">
-        <li><span class="africa-map__key-dot africa-map__key-dot--pbs"></span>Areas reached by a Portable Bible School</li>
-        <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Mission stations</li>
-        <li><span class="africa-map__key-dot africa-map__key-dot--future"></span>Future mission stations</li>
-      </ul>
       <figcaption class="africa-map__caption">
         Mission stations and Portable Bible School coverage across Favor's field, 2025.
       </figcaption>
@@ -216,7 +215,7 @@ const delay = (x: number, y: number, span = 1100) =>
   /* Map key */
   .africa-map__key {
     list-style: none;
-    margin: var(--space-5) 0 0 0;
+    margin: 0 0 var(--space-5) 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
