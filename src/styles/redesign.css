@@ -177,21 +177,33 @@
   background-size: cover;
   background-position: center top;
   background-color: var(--color-cream);
-  padding-top: clamp(48px, 5vw, 88px);
-  padding-bottom: clamp(360px, 46vw, 690px);
+  padding-top: clamp(52px, 5.5vw, 96px);
+  padding-bottom: clamp(360px, 46vw, 700px);
 }
-/* The photo now carries a tall near-white sky, so the points sit on a bright
-   field at the top and the crowd shows in the lower third. A gentle wash keeps
-   text crisp over any cloud and blends in from the cream band above. */
+/* The photo carries its real sky up top, so the points sit over the sky; this
+   gentle wash keeps the text crisp over any cloud. */
 .rd .six-rs::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 60%;
   background: linear-gradient(to bottom,
-    rgba(250, 247, 241, 0.45) 0%,
-    rgba(250, 247, 241, 0.5) 40%,
-    rgba(250, 247, 241, 0.28) 60%,
-    rgba(250, 247, 241, 0) 78%);
+    rgba(250, 247, 241, 0.58) 0%,
+    rgba(250, 247, 241, 0.46) 45%,
+    rgba(250, 247, 241, 0) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+/* Fade the crowd down into cream at the very bottom, so the cream CTA that
+   follows flows on smoothly instead of butting against a colourful photo. */
+.rd .six-rs::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26%;
+  background: linear-gradient(to bottom, rgba(250, 247, 241, 0) 0%, var(--color-cream) 92%);
   z-index: 0;
   pointer-events: none;
 }

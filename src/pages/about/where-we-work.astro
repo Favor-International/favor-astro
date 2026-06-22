@@ -5,38 +5,20 @@ import AfricaMap from '../../components/global/AfricaMap.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
-import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import VideoFeature from '../../components/redesign/VideoFeature.astro';
 
 // Per Will (2026-06-18): we only speak publicly about our three main fields —
 // Uganda, South Sudan, and Chad. Scale is framed as "14+ nations" with no
 // salvation totals or PBS-location counts. Field films come from the Favor
-// YouTube channel (@favorinternational). Country blurbs are intentionally
-// general; swap for Favor's exact wording when available.
-const fields = [
-  {
-    name: 'Uganda',
-    focus: "Where Favor's work began, and home to the GIFT Institute and Favor FM radio.",
-    videos: [
-      { id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe', caption: 'A gospel crusade in northern Uganda.' },
-      { id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel', caption: 'Favor FM reaches remote listeners with the Gospel.' },
-    ],
-  },
-  {
-    name: 'South Sudan',
-    focus: 'Church planting and trauma healing among communities affected by war.',
-    videos: [
-      { id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal', caption: 'Reaching the displaced in the city of Malakal.' },
-      { id: 'Wf_OQ1hAMoI', title: 'From the streets to safety', caption: "Helping South Sudan's vulnerable girls find safety." },
-    ],
-  },
-  {
-    name: 'Chad',
-    focus: 'Training and sending indigenous missionaries to reach unreached villages.',
-    videos: [
-      { id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs', caption: 'The cost of following Christ in Chad.' },
-      { id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad', caption: 'Training national missionaries to reach their own.' },
-    ],
-  },
+// YouTube channel (@favorinternational). Copy is intentionally general; swap
+// for Favor's exact wording when available. Films alternate side down the page.
+const films = [
+  { country: 'Uganda', id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe', heading: 'Gospel crusades in Yumbe', desc: "Uganda is where Favor's work began. In Yumbe and across the north, open-air crusades draw whole communities to hear the Gospel for the first time." },
+  { country: 'Uganda', id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel', heading: 'Favor FM carries the Gospel', desc: 'Favor FM puts worship and teaching on the airwaves, reaching listeners in remote villages that are hard to visit in person.' },
+  { country: 'South Sudan', id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal', heading: 'Reaching Malakal', desc: 'In South Sudan, indigenous leaders bring the Gospel and practical care to people displaced by years of war, including the city of Malakal.' },
+  { country: 'South Sudan', id: 'Wf_OQ1hAMoI', title: 'From the streets to safety', heading: 'From the streets to safety', desc: "Favor helps South Sudan's most vulnerable girls find safety, healing, and a future grounded in Christ." },
+  { country: 'Chad', id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs', heading: 'Faith that costs everything', desc: 'In Chad, following Christ can cost everything. Favor stands with the pastors and believers who carry the Gospel into hostile ground.' },
+  { country: 'Chad', id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad', heading: "Training Chad's own missionaries", desc: 'Favor trains and sends indigenous missionaries in Chad to reach unreached villages in their own languages.' },
 ];
 ---
 <RedesignLayout
@@ -64,6 +46,7 @@ const fields = [
     phrase="Where others will not go."
     font="serif"
     objectPosition="center 35%"
+    tall
   />
 
   <section class="band band--white">
@@ -72,19 +55,22 @@ const fields = [
         title="Our three main fields"
         intro="Favor Partners fund work across 14+ nations. These three are our main fields today."
       />
-      <div class="fields">
-        {fields.map((c) => (
-          <div class="field-country reveal">
-            <div class="field-country__head">
-              <h3>{c.name}</h3>
-              <p>{c.focus}</p>
-            </div>
-            <div class="field-country__videos">
-              {c.videos.map((v) => <VideoEmbed id={v.id} title={v.title} caption={v.caption} />)}
-            </div>
-          </div>
-        ))}
-      </div>
+    </div>
+    <div class="container films">
+      {films.map((f, i) => (
+        <div class="reveal">
+          <VideoFeature
+            id={f.id}
+            videoTitle={f.title}
+            eyebrow={f.country}
+            heading={f.heading}
+            side={i % 2 === 0 ? 'left' : 'right'}
+            decor="leaf"
+          >
+            <p>{f.desc}</p>
+          </VideoFeature>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -99,22 +85,6 @@ const fields = [
 </RedesignLayout>
 
 <style>
-  /* Three main fields: a header per country, then its field films (large). */
-  .fields { display: grid; gap: clamp(64px, 8vw, 112px); }
-  .field-country__head { max-width: 62ch; margin: 0 auto clamp(28px, 3.6vw, 48px); text-align: center; }
-  .field-country__head h3 { color: var(--color-green); font-size: var(--rd-fs-title); margin: 0 0 var(--space-3); }
-  .field-country__head p { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; margin: 0; }
-  .field-country__videos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(28px, 3.4vw, 52px);
-  }
-  /* Centered little description beneath each film. */
-  .field-country__videos :global(.video-embed__cap) {
-    text-align: center;
-    margin-top: var(--space-4);
-    font-size: var(--rd-fs-body);
-    color: var(--color-ink-soft);
-  }
-  @media (max-width: 720px) { .field-country__videos { grid-template-columns: 1fr; gap: clamp(28px, 6vw, 40px); } }
+  /* Alternating video + text rows, generous space between them. */
+  .films { display: flex; flex-direction: column; gap: clamp(72px, 9vw, 144px); margin-top: clamp(16px, 3vw, 40px); }
 </style>
