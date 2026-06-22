@@ -3,22 +3,43 @@ import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import AfricaMap from '../../components/global/AfricaMap.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
-import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import VideoFeature from '../../components/redesign/VideoFeature.astro';
 
 // Per Will (2026-06-18): we only speak publicly about our three main fields —
 // Uganda, South Sudan, and Chad. Scale is framed as "14+ nations" with no
-// salvation totals or PBS-location counts. Field films come from the Favor
-// YouTube channel (@favorinternational). Copy is intentionally general; swap
-// for Favor's exact wording when available. Films alternate side down the page.
-const films = [
-  { country: 'Uganda', id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe', heading: 'Gospel crusades in Yumbe', desc: "Uganda is where Favor's work began. In Yumbe and across the north, open-air crusades draw whole communities to hear the Gospel for the first time." },
-  { country: 'Uganda', id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel', heading: 'Favor FM carries the Gospel', desc: 'Favor FM puts worship and teaching on the airwaves, reaching listeners in remote villages that are hard to visit in person.' },
-  { country: 'South Sudan', id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal', heading: 'Reaching Malakal', desc: 'In South Sudan, indigenous leaders bring the Gospel and practical care to people displaced by years of war, including the city of Malakal.' },
-  { country: 'South Sudan', id: 'Wf_OQ1hAMoI', title: 'From the streets to safety', heading: 'From the streets to safety', desc: "Favor helps South Sudan's most vulnerable girls find safety, healing, and a future grounded in Christ." },
-  { country: 'Chad', id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs', heading: 'Faith that costs everything', desc: 'In Chad, following Christ can cost everything. Favor stands with the pastors and believers who carry the Gospel into hostile ground.' },
-  { country: 'Chad', id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad', heading: "Training Chad's own missionaries", desc: 'Favor trains and sends indigenous missionaries in Chad to reach unreached villages in their own languages.' },
+// salvation totals or PBS-location counts. Films come from @favorinternational.
+// Each nation is its own band with an alternating background so it's clear which
+// field you're in; films within a nation alternate side. Copy is general — swap
+// for Favor's exact wording when available.
+const nations = [
+  {
+    name: 'Uganda',
+    bg: 'band--cream',
+    focus: 'Where Favor’s work began, and home to the GIFT Institute and Favor FM radio.',
+    films: [
+      { id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe', heading: 'Gospel crusades in Yumbe', desc: 'Uganda is where Favor’s work began. In Yumbe and across the north, open-air crusades draw whole communities to hear the Gospel for the first time.' },
+      { id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel', heading: 'Favor FM carries the Gospel', desc: 'Favor FM puts worship and teaching on the airwaves, reaching listeners in remote villages that are hard to visit in person.' },
+    ],
+  },
+  {
+    name: 'South Sudan',
+    bg: 'band--greenlight',
+    focus: 'Church planting and trauma healing among communities affected by war.',
+    films: [
+      { id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal', heading: 'Reaching Malakal', desc: 'In South Sudan, indigenous leaders bring the Gospel and practical care to people displaced by years of war, including the city of Malakal.' },
+      { id: 'Wf_OQ1hAMoI', title: 'From the streets to safety', heading: 'From the streets to safety', desc: 'Favor helps South Sudan’s most vulnerable girls find safety, healing, and a future grounded in Christ.' },
+    ],
+  },
+  {
+    name: 'Chad',
+    bg: 'band--cream',
+    focus: 'Training and sending indigenous missionaries to reach unreached villages.',
+    films: [
+      { id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs', heading: 'Faith that costs everything', desc: 'In Chad, following Christ can cost everything. Favor stands with the pastors and believers who carry the Gospel into hostile ground.' },
+      { id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad', heading: 'Training Chad’s own missionaries', desc: 'Favor trains and sends indigenous missionaries in Chad to reach unreached villages in their own languages.' },
+    ],
+  },
 ];
 ---
 <RedesignLayout
@@ -49,42 +70,51 @@ const films = [
     tall
   />
 
-  <section class="band band--white">
-    <div class="container">
-      <LeafHeading
-        title="Our three main fields"
-        intro="Favor Partners fund work across 14+ nations. These three are our main fields today."
-      />
-    </div>
-    <div class="container films">
-      {films.map((f, i) => (
-        <div class="reveal">
-          <VideoFeature
-            id={f.id}
-            videoTitle={f.title}
-            eyebrow={f.country}
-            heading={f.heading}
-            side={i % 2 === 0 ? 'left' : 'right'}
-            decor="leaf"
-          >
-            <p>{f.desc}</p>
-          </VideoFeature>
+  {nations.map((n, ni) => (
+    <section class={`band ${n.bg}`}>
+      <div class="container">
+        {ni === 0 && (
+          <p class="ww-intro">Favor Partners fund work across 14+ nations. These three are our main fields today.</p>
+        )}
+        <header class="ww-nation">
+          <h2>{n.name}</h2>
+          <p>{n.focus}</p>
+        </header>
+        <div class="films">
+          {n.films.map((f, j) => (
+            <div class="reveal">
+              <VideoFeature
+                id={f.id}
+                videoTitle={f.title}
+                heading={f.heading}
+                side={j % 2 === 0 ? 'left' : 'right'}
+                decor="leaf"
+              >
+                <p>{f.desc}</p>
+              </VideoFeature>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </section>
+      </div>
+    </section>
+  ))}
 
   <RdCta
     heading="Pray for a specific country."
     body="The 30-day prayer guide walks you through each nation, one day at a time."
     ctaLabel="Get the 30-Day Guide"
     ctaHref="/pray/30-day-guide/"
+    background="cream"
     image="/images/story-anaka-crusade.jpg"
     imageAlt="A nighttime worship gathering"
   />
 </RedesignLayout>
 
 <style>
+  .ww-intro { text-align: center; max-width: 60ch; margin: 0 auto clamp(40px, 5vw, 72px); color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.7; }
+  .ww-nation { text-align: center; max-width: 62ch; margin: 0 auto clamp(48px, 6vw, 88px); }
+  .ww-nation h2 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .ww-nation p { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; margin: 0; }
   /* Alternating video + text rows, generous space between them. */
-  .films { display: flex; flex-direction: column; gap: clamp(72px, 9vw, 144px); margin-top: clamp(16px, 3vw, 40px); }
+  .films { display: flex; flex-direction: column; gap: clamp(64px, 8vw, 120px); }
 </style>
