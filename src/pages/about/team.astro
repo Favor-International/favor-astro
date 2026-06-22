@@ -2,6 +2,7 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import PersonCard from '../../components/redesign/PersonCard.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
@@ -58,12 +59,21 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
   >
     <p>
       Most international ministries grow a large U.S. headquarters and a smaller field
-      presence. We do the opposite. Favor employs more than 100 indigenous workers across
-      Uganda, South Sudan, Ethiopia, DR Congo, Chad, and the broader region: pastors,
-      teachers, evangelists, midwives, accountants, security staff, and program directors.
-      The U.S. team is a handful of people whose job is to support them well.
+      presence. We do the opposite. Favor employs a large indigenous field team across
+      Uganda, South Sudan, and Chad: pastors, teachers, evangelists, midwives, accountants,
+      security staff, and program directors. The U.S. team is a handful of people whose job
+      is to support them well.
     </p>
   </RdFeature>
+
+  <ScriptBand
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
+    label="National leadership"
+    phrase="National leaders are solving problems others haven't been able to."
+    font="serif"
+    objectPosition="center 35%"
+  />
 
   <RdFeature
     image="/images/pbs-karamoja.jpg"
