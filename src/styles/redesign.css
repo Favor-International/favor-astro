@@ -195,6 +195,17 @@
   z-index: 0;
   pointer-events: none;
 }
+/* Blend the top edge into the cream band above, so the photo's sky eases in
+   from cream instead of starting with a hard line. */
+.rd .six-rs::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 24%;
+  background: linear-gradient(to bottom, var(--color-cream) 0%, rgba(250, 247, 241, 0) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
 .rd .six-rs > .container { position: relative; z-index: 1; }
 
 /* A plain cream gap used to put air between a full-bleed photo section and the
