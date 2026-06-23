@@ -1,17 +1,16 @@
 ---
 // Favor's Ministry Structure graphic, rebuilt as a crisp, responsive inline SVG
 // from Favor's own design export (their exact coordinates, colours, text, and
-// dove mark). A classical "house": a cross, the dove, and a pediment on top;
-// four pillars (Spiritual / Legal / Administration / Financial) framing nine
-// ministries; all resting on a foundation of Prayer. The viewBox is the
-// export's 1200x950 canvas, so the artwork matches 1:1 and stays sharp at any
-// width. No JS, no fixed pixels — it scales with the column.
+// dove mark). Rather than a boxed image, it IS the section: the white band
+// above eases into this section's grey, the temple sits straight on that grey,
+// and the green "PRAYER" foundation is a full-bleed band that floors the
+// section before the next one begins. The SVG carries the temple only (title,
+// roof, cross, dove, verses, four pillars, nine ministry bands); the grey and
+// the foundation are page furniture so they can run edge to edge.
 
 const GREEN = '#2B4D24'; // pillar labels (matches --color-green)
 const TAN = '#E1BF80'; // ministry bands
-const FOUND = '#8A957C'; // foundation
 const INK = '#231F20'; // outlines + dark text
-const BG = '#E9EAE9'; // canvas
 
 // Four pillars: centre x and the type size of the rotated label.
 const pillars = [
@@ -50,102 +49,127 @@ const SHAFT_MID = 519; // (284 + 754) / 2 — vertical centre of the shaft
 const BAND_LH = 23; // band line height
 ---
 
-<figure class="ministry reveal">
-  <svg class="ministry__svg" viewBox="0 0 1200 950" role="img"
-    aria-labelledby="ms-title ms-desc" xmlns="http://www.w3.org/2000/svg">
-    <title id="ms-title">Favor International Ministry Structure</title>
-    <desc id="ms-desc">Unless the Lord builds the house, they labour in vain who build it (Psalm 127:1). Four pillars frame the ministry — Spiritual, Legal, Administration, and Financial — over nine ministries: Evangelism and Discipleship, Prayer Ministries, Children's Ministries, Medical Work, School of Ministry, Primary and Secondary Schools, Women's Empowerment, Rehabilitating Street Youth, and Crusades. The foundation is Prayer.</desc>
+<section class="ministry">
+  <div class="ministry__art reveal">
+    <svg class="ministry__svg" viewBox="0 0 1200 790" role="img"
+      aria-labelledby="ms-title ms-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="ms-title">Favor International Ministry Structure</title>
+      <desc id="ms-desc">Unless the Lord builds the house, they labour in vain who build it (Psalm 127:1). Four pillars frame the ministry — Spiritual, Legal, Administration, and Financial — over nine ministries: Evangelism and Discipleship, Prayer Ministries, Children's Ministries, Medical Work, School of Ministry, Primary and Secondary Schools, Women's Empowerment, Rehabilitating Street Youth, and Crusades. The foundation is Prayer.</desc>
 
-    <!-- canvas -->
-    <rect x="0" y="0" width="1200" height="950" fill={BG} />
+      <!-- ministry bands (drawn before the pillars so the pillars overlap them) -->
+      {bands.map((b) => (
+        <g>
+          <rect x={b.x} y={b.y} width={b.w} height={b.h} fill={TAN} />
+          <text class="ms-band" x={b.x + b.w / 2} text-anchor="middle" dominant-baseline="middle">
+            {b.lines.map((ln, i) => (
+              <tspan x={b.x + b.w / 2} y={b.y + b.h / 2 + (i - (b.lines.length - 1) / 2) * BAND_LH}>{ln}</tspan>
+            ))}
+          </text>
+        </g>
+      ))}
 
-    <!-- foundation: PRAYER -->
-    <rect x="0" y="790" width="1200" height="160" fill={FOUND} />
-    <text class="ms-foundation" x="600" y="888" text-anchor="middle"
-      style="letter-spacing:3px">PRAYER</text>
-    <text class="ms-verse-sm" x="40" y="850" text-anchor="start">
-      <tspan x="40" y="850">&#8220;Do not be anxious about anything, but in</tspan>
-      <tspan x="40" y="871">every situation, by prayer and petition, with</tspan>
-      <tspan x="40" y="892">thanksgiving, present your requests to God.&#8221;</tspan>
-      <tspan class="ms-cite-sm" x="40" y="916">Philippians 4:6</tspan>
-    </text>
-    <text class="ms-verse-sm" x="1160" y="850" text-anchor="end">
-      <tspan x="1160" y="850">&#8220;I also say to you that you are Peter, and</tspan>
-      <tspan x="1160" y="871">upon this rock I will build My church; and</tspan>
-      <tspan x="1160" y="892">the gates of Hades will not overpower it.&#8221;</tspan>
-      <tspan class="ms-cite-sm" x="1160" y="916">Matthew 16:18</tspan>
-    </text>
+      <!-- four pillars -->
+      {pillars.map((p) => (
+        <g>
+          <path d={column(p.x)} fill="#fff" stroke={INK} stroke-width="4" stroke-linejoin="round" />
+          <text class="ms-pillar" x={p.x} y={SHAFT_MID} text-anchor="middle" dominant-baseline="central"
+            transform={`rotate(-90 ${p.x} ${SHAFT_MID})`}
+            style={`font-size:${p.size}px;letter-spacing:1.5px`}>{p.label}</text>
+        </g>
+      ))}
 
-    <!-- ministry bands (drawn before the pillars so the pillars overlap them) -->
-    {bands.map((b) => (
-      <g>
-        <rect x={b.x} y={b.y} width={b.w} height={b.h} fill={TAN} />
-        <text class="ms-band" x={b.x + b.w / 2} text-anchor="middle" dominant-baseline="middle">
-          {b.lines.map((ln, i) => (
-            <tspan x={b.x + b.w / 2} y={b.y + b.h / 2 + (i - (b.lines.length - 1) / 2) * BAND_LH}>{ln}</tspan>
-          ))}
-        </text>
-      </g>
-    ))}
+      <!-- pediment / roof -->
+      <polygon points="90,252 600,95 1110,252" fill="#fff" stroke={INK} stroke-width="6" stroke-linejoin="round" />
 
-    <!-- four pillars -->
-    {pillars.map((p) => (
-      <g>
-        <path d={column(p.x)} fill="#fff" stroke={INK} stroke-width="4" stroke-linejoin="round" />
-        <text class="ms-pillar" x={p.x} y={SHAFT_MID} text-anchor="middle" dominant-baseline="central"
-          transform={`rotate(-90 ${p.x} ${SHAFT_MID})`}
-          style={`font-size:${p.size}px;letter-spacing:1.5px`}>{p.label}</text>
-      </g>
-    ))}
+      <!-- cross -->
+      <rect x="593" y="8" width="14" height="92" rx="2" fill={INK} />
+      <rect x="568" y="32" width="64" height="14" rx="2" fill={INK} />
 
-    <!-- pediment / roof -->
-    <polygon points="90,252 600,95 1110,252" fill="#fff" stroke={INK} stroke-width="6" stroke-linejoin="round" />
+      <!-- dove (Favor's mark) -->
+      <image href="/images/ministry-dove.png" x="572" y="100" width="56" height="49" />
 
-    <!-- cross -->
-    <rect x="593" y="8" width="14" height="92" rx="2" fill={INK} />
-    <rect x="568" y="32" width="64" height="14" rx="2" fill={INK} />
+      <!-- Psalm 127:1, set inside the pediment -->
+      <text class="ms-verse" x="600" y="176" text-anchor="middle">
+        <tspan x="600" y="176">&#8220;...unless the Lord builds</tspan>
+        <tspan x="600" y="201">the house, they labor in vain who build it...&#8221;</tspan>
+        <tspan class="ms-cite" x="600" y="230">Psalm 127:1</tspan>
+      </text>
 
-    <!-- dove (Favor's mark) -->
-    <image href="/images/ministry-dove.png" x="572" y="100" width="56" height="49" />
+      <!-- title -->
+      <text class="ms-title-txt" x="36" y="80" text-anchor="start">
+        <tspan x="36" y="80">Ministry</tspan>
+        <tspan x="36" y="144">Structure</tspan>
+      </text>
 
-    <!-- Psalm 127:1, set inside the pediment -->
-    <text class="ms-verse" x="600" y="176" text-anchor="middle">
-      <tspan x="600" y="176">&#8220;...unless the Lord builds</tspan>
-      <tspan x="600" y="201">the house, they labor in vain who build it...&#8221;</tspan>
-      <tspan class="ms-cite" x="600" y="230">Psalm 127:1</tspan>
-    </text>
+      <!-- Proverbs 24:3 -->
+      <text class="ms-prov" x="1170" y="74" text-anchor="end">
+        <tspan x="1170" y="74">&#8220;By wisdom a house is built, and through</tspan>
+        <tspan x="1170" y="101">understanding it is established...&#8221;</tspan>
+        <tspan class="ms-prov-cite" x="1170" y="132">Proverbs 24:3</tspan>
+      </text>
+    </svg>
+  </div>
 
-    <!-- title -->
-    <text class="ms-title-txt" x="36" y="80" text-anchor="start">
-      <tspan x="36" y="80">Ministry</tspan>
-      <tspan x="36" y="144">Structure</tspan>
-    </text>
-
-    <!-- Proverbs 24:3 -->
-    <text class="ms-prov" x="1170" y="74" text-anchor="end">
-      <tspan x="1170" y="74">&#8220;By wisdom a house is built, and through</tspan>
-      <tspan x="1170" y="101">understanding it is established...&#8221;</tspan>
-      <tspan class="ms-prov-cite" x="1170" y="132">Proverbs 24:3</tspan>
-    </text>
-  </svg>
-</figure>
+  <!-- foundation: the full-bleed floor of the section -->
+  <div class="ministry__foundation">
+    <div class="ministry__found-inner">
+      <p class="ministry__verse ministry__verse--l">
+        &#8220;Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.&#8221;
+        <span>Philippians 4:6</span>
+      </p>
+      <p class="ministry__word">PRAYER</p>
+      <p class="ministry__verse ministry__verse--r">
+        &#8220;I also say to you that you are Peter, and upon this rock I will build My church; and the gates of Hades will not overpower it.&#8221;
+        <span>Matthew 16:18</span>
+      </p>
+    </div>
+  </div>
+</section>
 
 <style>
-  .ministry {
-    margin: 0 auto;
-    max-width: 1040px;
-    border-radius: var(--rd-radius);
-    box-shadow: var(--rd-shadow);
-    overflow: hidden;
+  /* The section's own grey IS the canvas, so the temple sits on the page
+     rather than inside a boxed image. */
+  .ministry { position: relative; background: #E9EAE9; padding-top: clamp(72px, 9vw, 132px); }
+
+  /* White-to-grey blend: the white band above eases into this section. */
+  .ministry::before {
+    content: '';
+    position: absolute; inset: 0 0 auto; height: clamp(56px, 7vw, 104px);
+    background: linear-gradient(to bottom, var(--color-white) 0%, rgba(233, 234, 233, 0) 100%);
+    pointer-events: none;
   }
+
+  .ministry__art { position: relative; max-width: 1140px; margin: 0 auto; padding: 0 var(--space-6); }
   .ministry__svg { display: block; width: 100%; height: auto; font-family: var(--font-sans); }
 
-  /* On narrow screens the whole temple would shrink until the labels are
-     unreadable, so below 640px keep it at a legible width and let the reader
-     swipe across it instead. */
+  /* Full-bleed green foundation — the floor the pillars rest on. */
+  .ministry__foundation { background: #8A957C; }
+  .ministry__found-inner {
+    max-width: 1140px; margin: 0 auto; padding: clamp(26px, 3.4vw, 46px) var(--space-6);
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(18px, 3vw, 52px);
+  }
+  .ministry__word {
+    margin: 0; text-align: center; color: #fff; font-weight: 800;
+    font-size: clamp(2rem, 4.6vw, 3.1rem); letter-spacing: 0.14em; line-height: 1;
+  }
+  .ministry__verse {
+    margin: 0; color: #fff; font-style: italic; font-weight: 500;
+    font-size: var(--rd-fs-small); line-height: 1.55; max-width: 36ch;
+  }
+  .ministry__verse--l { text-align: left; }
+  .ministry__verse--r { text-align: right; margin-left: auto; }
+  .ministry__verse span { display: block; font-style: normal; font-weight: 800; margin-top: 6px; }
+
+  @media (max-width: 760px) {
+    .ministry__found-inner { grid-template-columns: 1fr; gap: var(--space-5); justify-items: center; }
+    .ministry__verse, .ministry__verse--l, .ministry__verse--r { text-align: center; margin: 0 auto; }
+  }
+
+  /* On phones the whole temple would shrink until the labels are unreadable, so
+     keep it at a legible width and let the reader swipe across it. */
   @media (max-width: 640px) {
-    .ministry { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .ministry__svg { min-width: 600px; }
+    .ministry__art { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-inline: 0; }
+    .ministry__svg { min-width: 580px; }
   }
 
   /* text roles — sizes are in the 1200-wide user space, so they scale */
@@ -156,7 +180,4 @@ const BAND_LH = 23; // band line height
   .ms-cite { font-style: normal; font-weight: 800; font-size: 20px; }
   .ms-pillar { font-weight: 800; fill: #2B4D24; }
   .ms-band { font-weight: 800; font-size: 20px; fill: #231F20; letter-spacing: 0.4px; }
-  .ms-foundation { font-weight: 800; font-size: 46px; fill: #fff; }
-  .ms-verse-sm { font-style: italic; font-weight: 500; font-size: 16px; fill: #fff; }
-  .ms-cite-sm { font-style: normal; font-weight: 800; font-size: 16px; }
 </style>
