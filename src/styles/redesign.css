@@ -131,8 +131,8 @@
    rather than a single closing line) — same deep-green serif voice, dialed to a
    readable scale so it doesn't become a wall of oversized type. */
 .rd .ground-statement--prose {
-  font-family: var(--font-sans); max-width: 58ch; font-size: var(--rd-fs-sub);
-  font-weight: 500; line-height: 1.65;
+  font-family: var(--font-sans); max-width: 60ch; font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+  font-weight: 600; line-height: 1.55;
 }
 .rd .ground-statement--prose p { margin: 0 0 0.7em; }
 
