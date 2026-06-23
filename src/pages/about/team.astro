@@ -4,7 +4,7 @@ import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
-import PersonCard from '../../components/redesign/PersonCard.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import directorsData from '../../data/directors.json';
 
@@ -35,17 +35,25 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
         title="The people behind the U.S. team."
         intro="Favor's U.S. office is intentionally small. The role of the U.S. team is to raise prayer and financial support, steward funds with ECFA-grade accountability, and stay out of the field's way. Programs are designed and run by the indigenous leaders who live in each country we serve."
       />
-      <div class="rd-grid rd-grid--3 team-grid">
-        {leadership.map((m) => (
-          <PersonCard
-            href={personHref(m.slug)}
-            image={m.imagePath}
-            name={m.fullName}
-            role={m.position}
-            location={m.location}
-            bio={m.bioIntro}
-          />
-        ))}
+      <div class="leaders">
+        {leadership.map((m, i) => {
+          const first = m.fullName.split(' ')[0];
+          return (
+            <div class="leader reveal" data-side={i % 2 === 0 ? 'left' : 'right'}>
+              <div class="leader__media">
+                <Leaf class="leader__leaf" />
+                <div class="leader__photo"><img src={m.imagePath} alt={m.fullName} width="800" height="800" loading="lazy" /></div>
+              </div>
+              <div class="leader__copy rd-prose">
+                <p class="label">{m.position}</p>
+                <h3>{m.fullName}</h3>
+                <p class="leader__loc">{m.location}</p>
+                <p>{m.bioIntro}</p>
+                <p><a href={personHref(m.slug)} class="leader__link">Read {first}'s {m.slug === 'carole-ward' ? 'story' : 'bio'} &rarr;</a></p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -73,6 +81,7 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
     phrase="National leaders are solving problems others haven't been able to."
     font="serif"
     objectPosition="center 35%"
+    tall
   />
 
   <RdFeature
@@ -100,7 +109,34 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
 </RedesignLayout>
 
 <style>
-  @media (max-width: 900px) {
-    .team-grid { max-width: 480px; margin-inline: auto; }
+  /* Leadership as alternating photo + text rows (square photos so faces are
+     never cropped), each with a soft leaf behind the photo. */
+  .leaders { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 112px); margin-top: clamp(40px, 5vw, 72px); }
+  .leader { display: grid; grid-template-columns: 0.82fr 1fr; gap: clamp(36px, 5vw, 84px); align-items: center; }
+  .leader[data-side='right'] .leader__media { order: 2; }
+  .leader[data-side='right'] .leader__copy { order: 1; }
+  .leader__media { position: relative; }
+  .leader__photo {
+    position: relative; z-index: 1;
+    aspect-ratio: 1 / 1; max-width: 440px;
+    border-radius: var(--rd-radius); overflow: hidden;
+    box-shadow: var(--rd-shadow); background: var(--color-sage-light);
+  }
+  .leader[data-side='left'] .leader__photo { margin-right: auto; }
+  .leader[data-side='right'] .leader__photo { margin-left: auto; }
+  .leader__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .leader__media :global(.leader__leaf) { position: absolute; z-index: 0; width: clamp(170px, 38%, 290px); height: auto; color: #c2d6b6; bottom: clamp(-58px, -10%, -38px); pointer-events: none; }
+  .leader[data-side='left'] :global(.leader__leaf) { left: clamp(-66px, -12%, -40px); transform: rotate(-16deg); }
+  .leader[data-side='right'] :global(.leader__leaf) { right: clamp(-66px, -12%, -40px); transform: rotate(16deg) scaleX(-1); }
+  .leader__copy .label { margin-bottom: var(--space-2); }
+  .leader__copy h3 { color: var(--color-green); font-size: var(--rd-fs-title); margin: 0 0 var(--space-1); }
+  .leader__loc { color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 var(--space-4); }
+  .leader__link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+  .leader__link:hover { color: var(--color-gold-deep); }
+  @media (max-width: 860px) {
+    .leader { grid-template-columns: 1fr; gap: var(--space-8); }
+    .leader[data-side='right'] .leader__media { order: 0; }
+    .leader[data-side='right'] .leader__copy { order: 0; }
+    .leader__photo { max-width: 380px; margin-inline: auto !important; }
   }
 </style>

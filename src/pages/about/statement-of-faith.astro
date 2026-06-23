@@ -2,6 +2,7 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
 // Verbatim from favorintl.org/about/statement-of-faith (14 articles, in the
@@ -24,6 +25,7 @@ const articles = [
   { title: 'Spiritual Authority', body: `We believe that the devil is the prince of demons and darkness, and as the adversary of God is therefore an enemy of the children of God. When Jesus died on the cross, He guaranteed the ultimate triumph of God and His church, over all darkness. He has given believers power and authority for prayer, doing His Word and will, fulfilling His commission, and setting people free from the works of the enemy, in His Name. (Mark 16:16-17, Ephesians 2:2, Colossians 2:13-15, 1 Peter 5:8, and Revelation 20:10.)` },
   { title: 'The Return of Christ', body: `We believe in and eagerly await the second return of this same Jesus Christ, to take the Church to Himself, a Church without spot or wrinkle. This is our driving force in preparing ourselves and the rest of the world, as we 'occupy' until His return.` },
 ];
+const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 ---
 <RedesignLayout
   title="Statement of Faith"
@@ -37,48 +39,35 @@ const articles = [
     imageAlt="Bibles ready for distribution in Uganda"
   />
 
-  <section class="band band--white faith-band">
-    <svg class="faith-leaf faith-leaf--1" viewBox="0 0 220 220" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                 M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                 M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                 M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z" />
-      </g>
-    </svg>
-    <svg class="faith-leaf faith-leaf--2" viewBox="0 0 220 220" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                 M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                 M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                 M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z" />
-      </g>
-    </svg>
-    <svg class="faith-leaf faith-leaf--3" viewBox="0 0 220 220" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                 M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                 M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                 M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z" />
-      </g>
-    </svg>
-    <svg class="faith-leaf faith-leaf--4" viewBox="0 0 220 220" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                 M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                 M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                 M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z" />
-      </g>
-    </svg>
-    <div class="container faith-band__content">
+  <!-- Preamble: frame the confession before the articles. -->
+  <section class="band band--cream sof-preamble">
+    <div class="container">
       <LeafHeading
         label="What we believe"
         title="In one accord, we believe."
-        intro="Every Favor staff member, board member, and field leader affirms this statement of faith."
+        intro="Every Favor staff member, board member, and field leader affirms this statement of faith. These convictions are the foundation under everything we do, in every country we serve."
       />
+      <blockquote class="sof-verse">
+        “One Lord, one faith, one baptism.”
+        <cite>Ephesians 4:5</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- The articles, with a sticky contents rail filling the margin. -->
+  <section class="band band--white sof-band">
+    <div class="container sof-layout">
+      <aside class="sof-contents" aria-label="Articles of faith">
+        <p class="sof-contents__label">The articles</p>
+        <ol>
+          {articles.map((a) => (
+            <li><a href={`#${slug(a.title)}`}>{a.title}</a></li>
+          ))}
+        </ol>
+      </aside>
       <ol class="faith-list">
         {articles.map((a) => (
-          <li>
+          <li id={slug(a.title)}>
             <h3>{a.title}</h3>
             <p>{a.body}</p>
           </li>
@@ -87,49 +76,72 @@ const articles = [
     </div>
   </section>
 
+  <!-- Closing affirmation: the page's own final line, set as a pull-quote. -->
+  <section class="band band--greenlight sof-close">
+    <Leaf class="sof-close__leaf" />
+    <div class="container sof-close__content">
+      <p class="label">In one accord</p>
+      <blockquote class="sof-close__quote">
+        This is our driving force in preparing ourselves and the rest of the world, as we ‘occupy’ until His return.
+      </blockquote>
+    </div>
+  </section>
+
   <RdCta
     heading="Questions on doctrine?"
     body="Email the team. We are happy to discuss what we believe and why."
     ctaLabel="Email the team"
     ctaHref="mailto:info@favorintl.org"
+    background="cream"
     image="/images/hero-pastor-preaching.jpg"
     imageAlt="An indigenous pastor preaching to a crowd under an acacia tree"
   />
 </RedesignLayout>
 
 <style>
-  /* Faint leaves drifting down the margins as you scroll. African touch,
-     never in the reading column, never asking for attention. */
-  .faith-band { position: relative; isolation: isolate; overflow: hidden; }
-  .faith-band__content { position: relative; z-index: 1; }
-  .faith-leaf {
-    position: absolute;
-    width: clamp(150px, 16vw, 230px);
-    height: auto;
-    color: #cfe0c6;
-    opacity: 0.42;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .faith-leaf--1 { top: 16%; left: 3%; transform: rotate(-10deg); }
-  .faith-leaf--2 { top: 38%; right: 4%; transform: rotate(152deg); }
-  .faith-leaf--3 { top: 62%; left: 5%; transform: rotate(8deg); }
-  .faith-leaf--4 { top: 84%; right: 3%; transform: rotate(168deg); }
-  @media (max-width: 1100px) { .faith-leaf { display: none; } }
-
-  /* A confession reads as one quiet column, not a grid of loud boxes.
-     Hierarchy from size, weight, and lightness; air between articles. */
-  .faith-list {
-    list-style: none;
+  /* A guiding verse beneath the preamble. */
+  .sof-verse {
+    margin: clamp(36px, 4vw, 56px) auto 0;
+    max-width: 24ch;
+    text-align: center;
+    border: 0;
     padding: 0;
-    margin: 0 auto;
-    max-width: 720px;
-    counter-reset: faith;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--rd-fs-title);
+    line-height: 1.3;
+    color: var(--color-green-deep);
   }
+  .sof-verse cite {
+    display: block;
+    margin-top: var(--space-4);
+    font-style: normal;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--rd-fs-small);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+  }
+
+  /* Two columns: a sticky contents rail + the confession. */
+  .sof-layout { display: grid; grid-template-columns: 240px 1fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .sof-contents { position: sticky; top: clamp(90px, 12vh, 130px); }
+  .sof-contents__label { font-size: var(--rd-fs-small); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-sage); margin: 0 0 var(--space-4); }
+  .sof-contents ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; display: grid; gap: var(--space-2); }
+  .sof-contents li { counter-increment: toc; }
+  .sof-contents a { display: flex; gap: var(--space-3); color: var(--color-ink-soft); text-decoration: none; font-size: var(--rd-fs-body); line-height: 1.35; transition: color 140ms; }
+  .sof-contents a::before { content: counter(toc, decimal-leading-zero); color: var(--color-gold-deep); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .sof-contents a:hover { color: var(--color-green); }
+  @media (max-width: 900px) { .sof-layout { grid-template-columns: 1fr; } .sof-contents { display: none; } }
+
+  /* A confession reads as one quiet column; hierarchy from size + air. */
+  .faith-list { list-style: none; padding: 0; margin: 0; max-width: 720px; counter-reset: faith; scroll-margin-top: 100px; }
   .faith-list li {
     position: relative;
-    padding: clamp(48px, 6vw, 72px) var(--space-4) clamp(48px, 6vw, 72px) 96px;
+    padding: clamp(40px, 5vw, 64px) var(--space-4) clamp(40px, 5vw, 64px) 84px;
     border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: 110px;
   }
   .faith-list li:first-child { padding-top: 0; }
   .faith-list li:first-child::before { top: 2px; }
@@ -139,19 +151,34 @@ const articles = [
     content: counter(faith, decimal-leading-zero);
     position: absolute;
     left: var(--space-4);
-    top: calc(clamp(48px, 6vw, 72px) + 2px);
+    top: calc(clamp(40px, 5vw, 64px) + 2px);
     font-family: var(--font-display);
-    font-size: var(--rd-fs-body);
-    line-height: 1.3;
+    font-size: var(--rd-fs-sub);
+    line-height: 1.1;
     color: var(--color-gold-deep);
-    opacity: 0.75;
+    opacity: 0.8;
   }
   .faith-list h3 { margin: 0 0 var(--space-4); color: var(--color-green); }
   .faith-list p { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
   @media (max-width: 560px) {
-    .faith-list li { padding-left: var(--space-2); padding-right: var(--space-2); padding-top: var(--space-16); }
-    .faith-list li::before { left: var(--space-2); top: var(--space-8); }
-    .faith-list li:first-child { padding-top: var(--space-10); }
-    .faith-list li:first-child::before { top: 0; }
+    .faith-list li { padding-left: 56px; padding-right: 0; }
+    .faith-list li::before { left: 0; }
+  }
+
+  /* Closing affirmation. */
+  .sof-close { position: relative; isolation: isolate; overflow: hidden; }
+  .sof-close :global(.sof-close__leaf) { position: absolute; right: -60px; bottom: -80px; width: clamp(280px, 30vw, 460px); height: auto; color: var(--color-green); opacity: 0.06; transform: rotate(18deg); pointer-events: none; z-index: 0; }
+  .sof-close__content { position: relative; z-index: 1; text-align: center; }
+  .sof-close__quote {
+    margin: var(--space-5) auto 0;
+    max-width: 30ch;
+    border: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--rd-fs-title);
+    line-height: 1.35;
+    color: var(--color-green-deep);
+    text-wrap: balance;
   }
 </style>

@@ -3,6 +3,7 @@
 // RdFeature, but the media is a VideoEmbed). Alternate `side` down the page;
 // `decor="leaf"` tucks a soft leaf behind the video.
 import VideoEmbed from '../global/VideoEmbed.astro';
+import Leaf from './Leaf.astro';
 export interface Props {
   id: string;
   videoTitle: string;
@@ -15,16 +16,7 @@ const { id, videoTitle, eyebrow, heading, side = 'left', decor } = Astro.props a
 ---
 <div class="rd-vfeat" data-side={side}>
   <div class="rd-vfeat__media">
-    {decor === 'leaf' && (
-      <svg class="rd-vfeat__leaf" viewBox="0 0 220 220" aria-hidden="true">
-        <g fill="currentColor" fill-rule="evenodd">
-          <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                   M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                   M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                   M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z" />
-        </g>
-      </svg>
-    )}
+    {decor === 'leaf' && <Leaf class="rd-vfeat__leaf" />}
     <div class="rd-vfeat__video"><VideoEmbed id={id} title={videoTitle} /></div>
   </div>
   <div class="rd-vfeat__copy rd-prose">
@@ -41,7 +33,7 @@ const { id, videoTitle, eyebrow, heading, side = 'left', decor } = Astro.props a
   .rd-vfeat__media { position: relative; }
   .rd-vfeat__video { position: relative; z-index: 1; }
   /* Soft leaf peeking from behind the video. */
-  .rd-vfeat__leaf {
+  .rd-vfeat__media :global(.rd-vfeat__leaf) {
     position: absolute; z-index: 0;
     width: clamp(200px, 44%, 350px); height: auto;
     left: clamp(-96px, -12%, -56px); bottom: clamp(-72px, -12%, -44px);

@@ -1,6 +1,7 @@
 ---
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import { SITE } from '../../lib/site';
 ---
 <RedesignLayout
@@ -20,7 +21,8 @@ import { SITE } from '../../lib/site';
       <div class="contact-grid">
         <div>
           <p class="label">Direct contact</p>
-          <h2>Talk to us.</h2>
+          <h2>How can we help?</h2>
+          <p class="contact-lede">Whether you want to pray with us, partner with the field, plan a vision trip, or ask exactly where your gift goes, we would love to hear from you. Tell us what is on your heart and we will point you to the right person.</p>
           <ul class="contact-meta">
             <li><strong>General:</strong> <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a></li>
             <li><strong>Prayer:</strong> <a href={`mailto:${SITE.emailPrayer}`}>{SITE.emailPrayer}</a></li>
@@ -68,6 +70,41 @@ import { SITE } from '../../lib/site';
       </div>
     </div>
   </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading
+        label="Where we are"
+        title="Our offices."
+        intro="A small U.S. office in Florida raises support and stewards funds. The work happens on the field, led by indigenous teams."
+        leaves={false}
+      />
+      <div class="offices">
+        <div class="offices__map">
+          <iframe
+            title="Map of Favor International's U.S. office in Valrico, Florida"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-82.35%2C27.86%2C-82.21%2C27.96&layer=mapnik&marker=27.905%2C-82.283"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div class="offices__list">
+          <article class="office">
+            <p class="label">U.S. Headquarters</p>
+            <h3>Valrico, Florida</h3>
+            <p>{SITE.mailing}</p>
+            <p>{SITE.phone}<br />{SITE.hours}</p>
+            <a class="office__link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.mailing)}`} target="_blank" rel="noopener">Open in Google Maps &rarr;</a>
+          </article>
+          <article class="office">
+            <p class="label">On the field</p>
+            <h3>East &amp; Central Africa</h3>
+            <p>Our field offices are led by indigenous teams in Gulu, Uganda; Juba, South Sudan; and N&rsquo;Djamena, Chad.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 </RedesignLayout>
 
 <style>
@@ -93,4 +130,19 @@ import { SITE } from '../../lib/site';
   .contact-social { list-style: none; padding: 0; margin: var(--space-4) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
   .contact-social a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: var(--color-cream); border-radius: 50%; color: var(--color-green); text-decoration: none; box-shadow: var(--rd-shadow); transition: background 140ms, color 140ms, transform 140ms; }
   .contact-social a:hover { background: var(--color-green); color: var(--color-white); transform: translateY(-2px); }
+
+  .contact-lede { margin: var(--space-5) 0 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* Offices: a map of the U.S. HQ + location cards. */
+  .offices { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: stretch; margin-top: clamp(40px, 5vw, 64px); }
+  @media (max-width: 860px) { .offices { grid-template-columns: 1fr; } }
+  .offices__map { border-radius: var(--rd-radius); overflow: hidden; box-shadow: var(--rd-shadow); min-height: 340px; background: var(--color-sage-light); }
+  .offices__map iframe { width: 100%; height: 100%; min-height: 340px; border: 0; display: block; }
+  .offices__list { display: grid; gap: var(--space-6); align-content: start; }
+  .office { background: var(--color-white); border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); padding: clamp(24px, 3vw, 36px); }
+  .office .label { margin: 0 0 var(--space-2); }
+  .office h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .office p { margin: 0 0 var(--space-2); color: var(--color-ink-soft); line-height: 1.6; }
+  .office__link { display: inline-block; margin-top: var(--space-2); color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+  .office__link:hover { color: var(--color-gold-deep); }
 </style>

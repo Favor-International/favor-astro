@@ -6,6 +6,7 @@ import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
 
 // The fruit of the first 90 national leaders. Each figure gets its own
 // container with an icon, the number, and a short label of what it is
@@ -162,11 +163,7 @@ const fruitStats = [
     <div class="container">
       <div class="film">
         <div class="film__video">
-          <svg class="film__leaf" viewBox="0 0 220 220" aria-hidden="true">
-            <g fill="currentColor" fill-rule="evenodd">
-              <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z" />
-            </g>
-          </svg>
+          <Leaf class="film__leaf" />
           <VideoEmbed id="g2fB1RwyHNM" title="The Carole Ward Story" />
           <span class="film__hint" aria-hidden="true">Watch the film</span>
         </div>
@@ -320,7 +317,7 @@ const fruitStats = [
   .film__video:hover .film__hint,
   .film__video:focus-within .film__hint { opacity: 1; transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) { .film__hint { transition: opacity 220ms ease; transform: none; } }
-  .film__leaf {
+  .film__video :global(.film__leaf) {
     position: absolute; z-index: 0; width: clamp(200px, 46%, 320px); height: auto;
     left: clamp(-100px, -12%, -60px); bottom: clamp(-84px, -11%, -52px);
     color: #c2d6b6; transform: rotate(-16deg); pointer-events: none;

@@ -5,6 +5,7 @@ import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import PersonCard from '../../components/redesign/PersonCard.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
 import directorsData from '../../data/directors.json';
 
 // Board of Directors: 9 volunteer board members. Source: Webflow CMS Directors collection.
@@ -29,8 +30,8 @@ const governance = [
     label="Governance"
     title="Board of Directors."
     promise="Volunteer governance. Term-limited. Independent of paid staff per ECFA best practice."
-    image="/images/hero-tot-bishoftu.jpg"
-    imageAlt="A Training of Trainers session"
+    image="/images/field-2026/missionaries-5.webp"
+    imageAlt="Favor field and office leaders together"
   />
 
   <section class="band band--white">
@@ -56,16 +57,7 @@ const governance = [
   </section>
 
   <section class="band band--greenlight gov-band">
-    <svg class="gov-band__leaf" viewBox="0 0 220 220" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                 M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                 M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                 M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z
-                 M148 102 C158 98 168 104 167 114 C166 123 154 126 147 119 C142 113 142 106 148 102 Z" />
-        <path d="M118 196 C116 206 116 212 118 218 L126 218 C123 211 122 204 124 196 Z" opacity="0.8" />
-      </g>
-    </svg>
+    <Leaf class="gov-band__leaf" />
     <svg class="gov-band__bush" viewBox="0 0 110 40" aria-hidden="true">
       <path fill="currentColor" d="M0 40 C2 28 12 19 24 19 C28 8 42 4 52 11 C58 2 74 2 81 11 C93 9 103 18 103 28 C105 35 100 40 94 40 Z" />
     </svg>
@@ -107,7 +99,7 @@ const governance = [
   /* One big, very transparent leaf living behind the governance section.
      A touch of Africa in the background; never competing for attention. */
   .gov-band { position: relative; isolation: isolate; overflow: hidden; }
-  .gov-band__leaf {
+  .gov-band :global(.gov-band__leaf) {
     position: absolute;
     right: -70px;
     bottom: -90px;

@@ -1,0 +1,16 @@
+---
+// A single natural leaf shape (a pointed blade with a central midrib vein),
+// used for every decorative leaf in the redesign. Pass a class for sizing,
+// color, and positioning; the SVG inherits color via currentColor.
+export interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props as Props;
+---
+<svg class={className} viewBox="0 0 220 220" aria-hidden="true">
+  <path
+    d="M110 14 C150 44 168 92 168 132 C168 178 140 202 110 206 C80 202 52 178 52 132 C52 92 70 44 110 14 Z M111 52 C113 100 113 152 110 192 C107 152 107 100 109 52 Z"
+    fill="currentColor"
+    fill-rule="evenodd"
+  />
+</svg>

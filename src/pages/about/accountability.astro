@@ -239,7 +239,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
 
   /* 2024 Expenses breakdown (verbatim figures from live): typographic rows +
      one stacked bar, centered. The GME copy moved to the ground band below. */
-  .exp-breakdown { max-width: 560px; margin-inline: auto; }
+  .exp-breakdown { max-width: 600px; margin-inline: auto; background: var(--color-white); border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); padding: clamp(28px, 4vw, 48px); }
   .exp-row {
     display: flex;
     align-items: baseline;
@@ -270,7 +270,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   }
   .exp-bar__seg--program { background: var(--color-green); }
   .exp-bar__seg--general { background: var(--color-gold); }
-  .exp-bar__seg--fundraising { background: var(--color-tan); }
+  .exp-bar__seg--fundraising { background: var(--color-sage); }
 
   /* Carole Ward pull-quote: a quiet white moment on the cream band. */
   .acct-quote-wrap {

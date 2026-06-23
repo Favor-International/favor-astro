@@ -3,6 +3,7 @@
 // Per Daniel: only on white sections with green titles; semi-transparent,
 // never asking for attention. Leaf style follows his flat-illustration ref
 // (lobed shape with cutout holes).
+import Leaf from './Leaf.astro';
 export interface Props {
   label?: string;
   title: string;
@@ -13,18 +14,7 @@ export interface Props {
 const { label, title, intro, align = 'center', leaves = true } = Astro.props as Props;
 ---
 <header class={`band__header rd-lhead rd-lhead--${align}`}>
-  {leaves && (
-    <svg class="rd-lhead__leaves" viewBox="0 0 220 220" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <path d="M112 18 C70 8 30 30 18 68 C6 106 22 150 54 174 C78 192 104 198 114 193 C109 174 110 154 116 137 C156 144 190 121 198 86 C205 54 186 28 152 18 C138 14 124 15 112 18 Z
-                 M64 64 C74 55 90 59 93 72 C95 84 82 93 70 87 C61 82 58 71 64 64 Z
-                 M132 52 C145 47 158 56 156 69 C154 80 139 84 130 75 C123 68 124 57 132 52 Z
-                 M88 116 C101 111 114 118 112 131 C110 142 95 146 86 137 C79 130 80 121 88 116 Z
-                 M148 102 C158 98 168 104 167 114 C166 123 154 126 147 119 C142 113 142 106 148 102 Z" />
-        <path d="M118 196 C116 206 116 212 118 218 L126 218 C123 211 122 204 124 196 Z" opacity="0.8" />
-      </g>
-    </svg>
-  )}
+  {leaves && <Leaf class="rd-lhead__leaves" />}
   {label && <p class="label">{label}</p>}
   <h2>{title}</h2>
   {intro && <p>{intro}</p>}
@@ -36,7 +26,7 @@ const { label, title, intro, align = 'center', leaves = true } = Astro.props as 
   .rd-lhead--center { text-align: center; margin-left: auto; margin-right: auto; }
   .rd-lhead--left { text-align: left; margin-left: 0; }
   .rd-lhead--left > :global(p:not(.label)) { margin-left: 0 !important; }
-  .rd-lhead__leaves {
+  .rd-lhead > :global(.rd-lhead__leaves) {
     position: absolute;
     top: -64px;
     left: 50%;
@@ -48,9 +38,9 @@ const { label, title, intro, align = 'center', leaves = true } = Astro.props as 
     pointer-events: none;
     z-index: 0;
   }
-  .rd-lhead--left .rd-lhead__leaves { left: -30px; transform: rotate(-14deg); }
+  .rd-lhead--left > :global(.rd-lhead__leaves) { left: -30px; transform: rotate(-14deg); }
   .rd-lhead > :global(*:not(.rd-lhead__leaves)) { position: relative; z-index: 1; }
   @media (max-width: 760px) {
-    .rd-lhead__leaves { top: -44px; width: 110px; }
+    .rd-lhead > :global(.rd-lhead__leaves) { top: -44px; width: 110px; }
   }
 </style>
