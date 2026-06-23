@@ -7,6 +7,7 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import SixRs from '../../components/redesign/SixRs.astro';
+import MinistryStructure from '../../components/redesign/MinistryStructure.astro';
 import VideoGallery from '../../components/redesign/VideoGallery.astro';
 import { SITE } from '../../lib/site';
 
@@ -101,7 +102,7 @@ const traits = [
 
   <section class="band band--white">
     <div class="container">
-      <img class="ministry-graphic reveal" src="/images/ministry-structure.png" width="2000" height="1500" loading="lazy" decoding="async" alt="Favor International Ministry Structure. Unless the Lord builds the house, they labor in vain who build it (Psalm 127:1). Four pillars frame the ministry — Spiritual, Legal, Administration, and Financial — over the ministries: Evangelism & Discipleship, Prayer Ministries, Children's Ministries, Medical Work, School of Ministry, Primary & Secondary Schools, Women's Empowerment, Rehabilitating Street Youth, and Crusades. The foundation is Prayer." />
+      <MinistryStructure />
     </div>
   </section>
 
@@ -224,5 +225,4 @@ const traits = [
   .trait-list__title { color: var(--color-green); font-weight: 800; font-size: var(--rd-fs-body); line-height: 1.3; }
   .trait-list__desc { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
   /* The Ministry Structure graphic (Favor's own artwork), framed as a poster. */
-  .ministry-graphic { display: block; width: 100%; max-width: 1040px; height: auto; margin-inline: auto; border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); }
 </style>
