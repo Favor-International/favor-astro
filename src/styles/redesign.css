@@ -1,0 +1,225 @@
+/* ============================================================
+   REDESIGN SYSTEM (branch: redesign)
+   Scoped under .rd so the homepage and not-yet-redesigned pages
+   keep their exact current look.
+
+   Rules locked with Daniel (2026-06-12):
+   - Backgrounds: max 3 — white (main), cream (highlight),
+     light green (nature accent). The savanna gradient is a
+     cream variant, used sparingly.
+   - Typography: max 4 sizes (display, title, body, small).
+     Weight + lightness do the rest of the hierarchy.
+   - Cards: slight shadow, NO border. Contrast separates.
+   - Uniform cards: rounded image, text below. No offsets,
+     no cramming into boxes.
+   - Breathing room everywhere: sections roughly 1.5–1.75x
+     taller, content gets its own space.
+   ============================================================ */
+
+.rd {
+  /* The font roles (per Daniel: accent/H1, subtitle, text, CTA + small meta).
+     Nothing in a redesigned page uses a size outside these. */
+  --rd-fs-display: clamp(2.7rem, 5.2vw, 4.3rem);
+  --rd-fs-title: clamp(1.95rem, 3.3vw, 2.75rem);
+  --rd-fs-sub: 1.375rem;     /* 22px — H3 / card and article titles */
+  --rd-fs-body: 1.0625rem;   /* 17px */
+  --rd-fs-small: 0.8125rem;  /* 13px */
+
+  /* The third background (with white + cream): a quiet leaf green. */
+  --rd-bg-green: #eef4ec;
+
+  /* The savanna silhouette tone. The silhouette fill, the savanna band's
+     bottom, and the ground text band all use this exact color, so the scene
+     dissolves seamlessly into the band that holds the closing statement. */
+  --rd-savanna-ground: #cdc3ae;
+
+  --rd-radius: 22px;
+  --rd-shadow: 0 10px 36px rgba(31, 58, 26, 0.08);
+  --rd-shadow-lift: 0 22px 56px rgba(31, 58, 26, 0.13);
+}
+
+/* ---------- Breathing room ---------- */
+/* Section padding (tightened ~15% on 2026-06-18 per Will: Mission & Vision had
+   too much air between sections). Applies to redesigned About pages. */
+.rd .band { padding: clamp(58px, 6.6vw, 100px) 0; }
+.rd .band--tight { padding: clamp(38px, 4.6vw, 62px) 0; }
+.rd .band--greenlight { background: var(--rd-bg-green); }
+.rd .band__header { margin-bottom: clamp(36px, 4.4vw, 58px); max-width: 780px; }
+.rd .band__header > p:not(.label) {
+  color: var(--color-ink-soft);
+  max-width: 58ch;
+  margin: var(--space-4) auto 0;
+  line-height: 1.75;
+}
+.rd .band__cta-row { margin-top: clamp(48px, 6vw, 80px); }
+
+/* ---------- Typography: 4 sizes, tight display leading ---------- */
+.rd h1 { font-size: var(--rd-fs-display); letter-spacing: -0.02em; line-height: 1.06; }
+.rd h2 { font-size: var(--rd-fs-title); letter-spacing: -0.02em; line-height: 1.14; text-wrap: balance; }
+.rd h3 { font-size: var(--rd-fs-sub); font-weight: 800; line-height: 1.25; }
+.rd .label { font-size: var(--rd-fs-small); }
+.rd p { line-height: 1.75; }
+.rd .page-hero__promise { font-size: var(--rd-fs-body); }
+
+/* Body copy color discipline: ink for ledes, ink-soft for the rest. */
+.rd .rd-prose p { color: var(--color-ink-soft); margin: 0 0 var(--space-5); }
+.rd .rd-prose p:last-child { margin-bottom: 0; }
+.rd .rd-prose strong { color: var(--color-ink); }
+
+/* ---------- Cards: slight shadow, no border ---------- */
+.rd .rd-card {
+  background: var(--color-white);
+  border-radius: var(--rd-radius);
+  box-shadow: var(--rd-shadow);
+  padding: var(--space-8);
+}
+
+/* Outlined surface (Daniel's pairing rule): when a box needs a clear edge,
+   give it a whisper of a border and keep the shadow SMALL. Big shadow with
+   no border looks blurred; border + small shadow reads crisp. */
+.rd .rd-outline {
+  background: var(--color-white);
+  border: 1px solid rgba(31, 58, 26, 0.12);
+  border-radius: var(--radius-card);
+  box-shadow: 0 2px 10px rgba(31, 58, 26, 0.05);
+}
+
+/* ---------- Uniform tile: rounded image, text below, no box ---------- */
+.rd .rd-tile { display: block; text-decoration: none; color: inherit; }
+.rd .rd-tile__img {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--rd-radius);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-sage-light);
+  box-shadow: var(--rd-shadow);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.rd a.rd-tile:hover .rd-tile__img,
+.rd a.rd-tile:focus-visible .rd-tile__img {
+  transform: translateY(-5px);
+  box-shadow: var(--rd-shadow-lift);
+}
+.rd .rd-tile__meta { margin-top: var(--space-5); }
+.rd .rd-tile__meta .rd-kicker { margin-bottom: var(--space-2); }
+.rd .rd-tile h3 { color: var(--color-green); margin: 0 0 var(--space-2); }
+.rd .rd-tile p { color: var(--color-ink-soft); margin: 0; line-height: 1.6; }
+.rd a.rd-tile:hover h3 { color: var(--color-gold-deep); }
+
+/* Small uppercase meta line (counts as the "small" size). */
+.rd .rd-kicker {
+  display: block;
+  font-size: var(--rd-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-sage);
+}
+
+/* ---------- Savanna ground band: a solid band of the silhouette tone placed
+   right under a savanna band, so the scene dissolves into it; carries the
+   closing statement in strong-contrast deep green ---------- */
+.rd .savanna-ground { background: var(--rd-savanna-ground); }
+.rd .ground-statement {
+  max-width: 19em; margin: 0 auto; text-align: center;
+  font-family: var(--font-display); font-size: var(--rd-fs-title);
+  font-weight: 600; line-height: 1.34; color: var(--color-green-deep); text-wrap: balance;
+}
+.rd .ground-statement p { margin: 0 0 0.8em; }
+.rd .ground-statement p:last-child { margin-bottom: 0; }
+/* Prose variant: for a longer, multi-paragraph statement (e.g. an explanation
+   rather than a single closing line) — same deep-green serif voice, dialed to a
+   readable scale so it doesn't become a wall of oversized type. */
+.rd .ground-statement--prose {
+  font-family: var(--font-sans); max-width: 60ch; font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+  font-weight: 600; line-height: 1.55;
+}
+.rd .ground-statement--prose p { margin: 0 0 0.7em; }
+
+/* ---------- Reveal-on-scroll, pure CSS (scroll-driven). Progressive
+   enhancement: only browsers that support scroll-driven animations animate;
+   everywhere else the content is simply visible. No JS, so content can never
+   get stuck hidden. ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .rd .reveal {
+      animation: rd-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 48%;
+    }
+    @keyframes rd-reveal {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+}
+
+/* ---------- Inline "story" links (gold-underlined) ---------- */
+.rd .story-link { transition: color 140ms ease, border-color 140ms ease; }
+.rd .story-link:hover,
+.rd .story-link:focus-visible { color: var(--color-gold-deep); border-bottom-color: var(--color-gold-deep); }
+
+/* ---------- Roomy grids ---------- */
+.rd .rd-grid { display: grid; gap: clamp(40px, 5vw, 72px) clamp(28px, 3vw, 48px); }
+.rd .rd-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.rd .rd-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.rd .rd-grid--4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1024px) { .rd .rd-grid--4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .rd .rd-grid--3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .rd .rd-grid--2, .rd .rd-grid--3, .rd .rd-grid--4 { grid-template-columns: 1fr; } }
+
+/* ---------- The 6 R's: Favor's congregation photo IS the section background,
+   with the numbered points set over its open sky (matching the graphic). The
+   tall bottom padding leaves the crowd visible beneath the text. ---------- */
+.rd .six-rs {
+  position: relative;
+  isolation: isolate;
+  background-size: cover;
+  background-position: center top;
+  background-color: var(--color-cream);
+  padding-top: clamp(52px, 5.5vw, 96px);
+  padding-bottom: clamp(320px, 40vw, 600px);
+}
+/* Readability wash: a light vertical gradient, brightest over the text at the
+   top and fading to nothing lower down, so the photo stays sharp (no bottom
+   fade — the image just ends at the section edge). */
+.rd .six-rs::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 64%;
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.55) 46%,
+    rgba(255, 255, 255, 0) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+/* Blend the top edge into the cream band above, so the photo's sky eases in
+   from cream instead of starting with a hard line. */
+.rd .six-rs::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 24%;
+  background: linear-gradient(to bottom, var(--color-cream) 0%, rgba(250, 247, 241, 0) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+.rd .six-rs > .container { position: relative; z-index: 1; }
+
+/* A plain cream gap used to put air between a full-bleed photo section and the
+   next one (e.g. the 6 R's photo and the CTA). */
+.rd .rd-spacer { background: var(--color-cream); height: clamp(56px, 7vw, 116px); }
+
+/* Work-in-progress caption attached under the Africa map (Where We Work),
+   so it reads as part of the map graphic rather than a separate section. */
+.rd .africa-map__note {
+  max-width: 62ch;
+  margin: clamp(18px, 2.4vw, 30px) auto 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--color-sage);
+  font-size: var(--rd-fs-small);
+  line-height: 1.6;
+}

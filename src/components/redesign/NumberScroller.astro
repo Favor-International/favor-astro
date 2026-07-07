@@ -1,0 +1,75 @@
+---
+// Impact numbers as a static stat grid (no scroll animation): each figure in
+// its own card with an icon, the big green number, a label, and a source.
+export interface Props {
+  label?: string;
+  heading: string;
+  stats: { value: string; label: string; source?: string; icon?: string }[];
+}
+const { label, heading, stats } = Astro.props as Props;
+const ICONS: Record<string, string> = {
+  money: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5h.01M18 14.5h.01"/>',
+  pie: '<path d="M12 3a9 9 0 1 0 9 9h-9Z"/><path d="M12 3v9h9a9 9 0 0 0-9-9Z"/>',
+  shield: '<path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4.5"/>',
+  star: '<path d="M12 3.5l2.6 5.3 5.9.9-4.25 4.15 1 5.85L12 17.1l-5.25 2.5 1-5.85L3.5 9.7l5.9-.9L12 3.5Z"/>',
+};
+---
+<section class="band band--cream">
+  <div class="container">
+    <header class="band__header">
+      {label && <p class="label">{label}</p>}
+      <h2>{heading}</h2>
+    </header>
+    <div class="rd-nums__grid">
+      {stats.map((s) => (
+        <div class="rd-nums__cell">
+          {s.icon && (
+            <span class="rd-nums__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[s.icon]}></svg>
+            </span>
+          )}
+          <span class="rd-nums__num">{s.value}</span>
+          <span class="rd-nums__cap">{s.label}</span>
+          {s.source && <span class="rd-nums__src">{s.source}</span>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .rd-nums__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(20px, 2vw, 28px);
+  }
+  @media (max-width: 900px) { .rd-nums__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .rd-nums__grid { grid-template-columns: 1fr; } }
+
+  .rd-nums__cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    background: var(--color-white);
+    border-radius: var(--rd-radius);
+    box-shadow: var(--rd-shadow);
+    padding: clamp(26px, 2.8vw, 40px);
+  }
+  .rd-nums__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--rd-bg-green); color: var(--color-green);
+    margin-bottom: var(--space-2);
+  }
+  .rd-nums__icon svg { width: 26px; height: 26px; }
+  .rd-nums__num {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: var(--rd-fs-title);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-green);
+  }
+  .rd-nums__cap { color: var(--color-ink); font-weight: 700; font-size: var(--rd-fs-body); line-height: 1.4; }
+  .rd-nums__src { font-size: var(--rd-fs-small); color: var(--color-sage); line-height: 1.5; }
+</style>

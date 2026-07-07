@@ -1,113 +1,120 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import AfricaMap from '../../components/global/AfricaMap.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import VideoFeature from '../../components/redesign/VideoFeature.astro';
 
-const countries = [
-  { name: 'Uganda', focus: 'PBS, the GIFT Institute, Village Learning Centers, and Favor FM radio.', image: '/images/field/country-uganda.webp' },
-  { name: 'South Sudan', focus: 'Church planting, trauma counseling, and schools across Lakes State and beyond.', image: '/images/field/country-south-sudan.webp' },
-  { name: 'Chad', focus: 'Field teams, pastor training, wells, and a House of Prayer in N’Djamena.', image: '/images/field/country-chad.webp' },
-  { name: 'Ethiopia', focus: 'The GIFT Institute campus in Bishoftu and Amharic Bible printing.', image: '/images/field/country-ethiopia.webp' },
-  { name: 'Democratic Republic of Congo', focus: 'Portable Bible Schools and church planting in the eastern provinces.', image: '/images/field/country-drc.webp' },
-  { name: 'Kenya', focus: 'Portable Bible Schools, a logistics hub, and the partner network.', image: '/images/field/country-kenya.webp' },
-  { name: 'Sudan', focus: 'Refugee discipleship and Arabic Bible distribution.' },
-  { name: 'Burundi', focus: 'Leadership-training cohorts.' },
-  { name: 'Rwanda', focus: 'Vision-trip routes and partner church visits.' },
-  { name: 'Tanzania', focus: 'Border-region outreach.' },
-  { name: 'Eritrea', focus: 'Underground church support.' },
-  { name: 'Somalia (border regions)', focus: 'Outreach via Kenya and Ethiopia partners.' },
-  { name: 'Central African Republic', focus: 'Pastor support and occasional field visits.' },
-  { name: 'Mozambique', focus: 'Partnership exploration.' },
+// Per Will (2026-06-18): we only speak publicly about our three main fields —
+// Uganda, South Sudan, and Chad. Scale is framed as "14+ nations" with no
+// salvation totals or PBS-location counts. Films come from @favorinternational.
+// Each nation is its own band with an alternating background so it's clear which
+// field you're in; films within a nation alternate side. Copy is general — swap
+// for Favor's exact wording when available.
+const nations = [
+  {
+    name: 'Uganda',
+    bg: 'band--cream',
+    focus: 'Where Favor’s work began, and home to the GIFT Institute and Favor FM radio.',
+    films: [
+      { id: 'GqXzE7pd79M', title: 'Gospel Crusade in Yumbe', heading: 'Gospel crusades in Yumbe', desc: 'Uganda is where Favor’s work began. In Yumbe and across the north, open-air crusades draw whole communities to hear the Gospel for the first time.' },
+      { id: 'OpM5UYTWIso', title: 'Favor Radio carries the Gospel', heading: 'Favor FM carries the Gospel', desc: 'Favor FM puts worship and teaching on the airwaves, reaching listeners in remote villages that are hard to visit in person.' },
+    ],
+  },
+  {
+    name: 'South Sudan',
+    bg: 'band--greenlight',
+    focus: 'Church planting and trauma healing among communities affected by war.',
+    films: [
+      { id: 'jKrmDKOGJ08', title: 'The City of Iron Sheets - Malakal', heading: 'Reaching Malakal', desc: 'In South Sudan, indigenous leaders bring the Gospel and practical care to people displaced by years of war, including the city of Malakal.' },
+      { id: 'Wf_OQ1hAMoI', title: 'From the streets to safety', heading: 'From the streets to safety', desc: 'Favor helps South Sudan’s most vulnerable girls find safety, healing, and a future grounded in Christ.' },
+    ],
+  },
+  {
+    name: 'Chad',
+    bg: 'band--cream',
+    focus: 'Training and sending indigenous missionaries to reach unreached villages.',
+    films: [
+      { id: 'q7J30TlLkWg', title: 'Pastors Buried Alive - Chad Martyrs', heading: 'Faith that costs everything', desc: 'In Chad, following Christ can cost everything. Favor stands with the pastors and believers who carry the Gospel into hostile ground.' },
+      { id: 'uQSjKwxCqYk', title: 'Indigenous missionary training in Chad', heading: 'Training Chad’s own missionaries', desc: 'Favor trains and sends indigenous missionaries in Chad to reach unreached villages in their own languages.' },
+    ],
+  },
 ];
-const withImage = countries.filter((c) => c.image);
-const moreCountries = countries.filter((c) => !c.image);
 ---
-<PageLayout
+<RedesignLayout
   title="Where We Work"
-  description="The East African nations Favor International serves, the field programs in each, and how we got to each one."
+  description="Favor International's three main fields — Uganda, South Sudan, and Chad — and the indigenous-led work in each."
 >
   <PageHero
     label="Where we work"
     title="East Africa, into the unreached."
-    promise="Each country is led by indigenous leaders. US staff coordinate; the field directs."
+    promise="Each field is led by indigenous leaders. US staff coordinate; the field directs."
     image="/images/ministry-church-planting.jpg"
     imageAlt="Planting a church in the Wedweil refugee camp"
+    scrollCue
   />
 
-  <AfricaMap />
+  <AfricaMap
+    showStats={false}
+    note="Note: this map is a work in progress and is not yet a precise representation of where Favor International works."
+  />
 
-  <section class="band band--white">
-    <div class="container">
-      <header class="band__header">
-        <p class="label">The fourteen</p>
-        <h2>Where Favor Partners are funding work today.</h2>
-      </header>
-      <div class="country-grid">
-        {withImage.map((c) => (
-          <article class="country-card">
-            <div class="country-card__img" style={`background-image:url('${c.image}')`} role="img" aria-label={c.name}></div>
-            <div class="country-card__body">
-              <h3>{c.name}</h3>
-              <p>{c.focus}</p>
+  <ScriptBand
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching to a crowd under an acacia tree"
+    label="Into the unreached"
+    phrase="Where others will not go."
+    font="serif"
+    objectPosition="center 35%"
+    tall
+  />
+
+  {nations.map((n, ni) => (
+    <section class={`band ${n.bg}`}>
+      <div class="container">
+        {ni === 0 && (
+          <p class="ww-intro">Favor Partners fund work across 14+ nations. These three are our main fields today.</p>
+        )}
+        <header class="ww-nation">
+          <h2>{n.name}</h2>
+          <p>{n.focus}</p>
+        </header>
+        <div class="films">
+          {n.films.map((f, j) => (
+            <div class="reveal">
+              <VideoFeature
+                id={f.id}
+                videoTitle={f.title}
+                heading={f.heading}
+                side={j % 2 === 0 ? 'left' : 'right'}
+                decor="leaf"
+              >
+                <p>{f.desc}</p>
+              </VideoFeature>
             </div>
-          </article>
-        ))}
+          ))}
+        </div>
       </div>
-      <p class="country-more-label">Also serving across the region</p>
-      <ul class="country-list">
-        {moreCountries.map((c) => (
-          <li>
-            <strong>{c.name}</strong>
-            <span>{c.focus}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+    </section>
+  ))}
 
-  <CtaBand
+  <RdCta
     heading="Pray for a specific country."
     body="The 30-day prayer guide walks you through each nation, one day at a time."
     ctaLabel="Get the 30-Day Guide"
     ctaHref="/pray/30-day-guide/"
-    variant="sage"
+    background="cream"
+    image="/images/story-anaka-crusade.jpg"
+    imageAlt="A nighttime worship gathering"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 900px) { .country-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .country-grid { grid-template-columns: 1fr; } }
-  .country-card {
-    background: var(--color-white);
-    border: 1px solid color-mix(in srgb, var(--color-green) 18%, var(--color-white));
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
-  }
-  .country-card__img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-sage-light);
-  }
-  .country-card__body { padding: var(--space-5) var(--space-6) var(--space-6); }
-  .country-card__body h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.2rem; }
-  .country-card__body p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.55; }
-  .country-more-label { text-align: center; margin: var(--space-12) 0 var(--space-6); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; color: var(--color-sage); }
-  .country-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
-  @media (max-width: 700px) { .country-list { grid-template-columns: 1fr; } }
-  .country-list li {
-    display: flex; flex-direction: column; gap: var(--space-1);
-    padding: var(--space-4) var(--space-6);
-    background: var(--color-white);
-    border: 1px solid color-mix(in srgb, var(--color-green) 16%, var(--color-white));
-    border-radius: var(--radius-input);
-  }
-  .country-list strong { color: var(--color-green); font-size: 1.05rem; }
-  .country-list span { color: var(--color-ink-soft); font-size: 0.9rem; }
+  .ww-intro { text-align: center; max-width: 60ch; margin: 0 auto clamp(40px, 5vw, 72px); color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.7; }
+  .ww-nation { text-align: center; max-width: 62ch; margin: 0 auto clamp(48px, 6vw, 88px); }
+  .ww-nation h2 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .ww-nation p { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; margin: 0; }
+  /* Alternating video + text rows, generous space between them. */
+  .films { display: flex; flex-direction: column; gap: clamp(64px, 8vw, 120px); }
 </style>

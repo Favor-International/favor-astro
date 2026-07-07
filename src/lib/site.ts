@@ -238,8 +238,8 @@ export const PARTNER_TIERS = [
 // the publicly filed Form 990. Do not add unverified counts here without a
 // sourced citation. The brand book is explicit: no made-up numbers.
 export const IMPACT_STATS = [
-  { value: '$8.36M', label: 'FY2024 total revenue', source: 'ECFA member profile (audited).' },
-  { value: '89%', label: 'Program expense ratio', source: 'FY2024 audited financials.' },
-  { value: '2019', label: 'ECFA-accredited since', source: 'Accredited September 30, 2019.' },
-  { value: '4★', label: 'Charity Navigator rating', source: 'Highest rating tier.' },
+  { value: '$8.36M', label: 'FY2024 total revenue', source: 'ECFA member profile (audited).', icon: 'money' },
+  { value: '89%', label: 'Program expense ratio', source: 'FY2024 audited financials.', icon: 'pie' },
+  { value: '2019', label: 'ECFA-accredited since', source: 'Accredited September 30, 2019.', icon: 'shield' },
+  { value: '4★', label: 'Charity Navigator rating', source: 'Highest rating tier.', icon: 'star' },
 ];

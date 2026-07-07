@@ -1,167 +1,402 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
+
+// The fruit of the first 90 national leaders. Each figure gets its own
+// container with an icon, the number, and a short label of what it is
+// (per Daniel). `feature` makes a stat span a larger cell. The source lines
+// (verbatim, see the 2004 entry): "Distributed 80,000+ Bibles", "Trained
+// 7,000+ pastors", "Held crusades with 1 million+ attending", "Built the
+// first Christian radio station", "Trained government leaders", "Graduated
+// 500+ leaders from a Bible college", "Built a school with 400 attending",
+// "Reached 50,000+ through trauma counseling", "Conducted mobile medical
+// clinics for 8,000+ patients".
+const ICONS: Record<string, string> = {
+  crusade: '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M14 8a4 4 0 0 1 0 8M16 5a7 7 0 0 1 0 14"/>',
+  book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5V5.5Z"/><path d="M19 18v3H6.5A2.5 2.5 0 0 1 4 18.5"/>',
+  people: '<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 6a3 3 0 0 1 0 6M16.5 14.2A5.5 5.5 0 0 1 20.5 19.5"/>',
+  cap: '<path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11v4c0 1.1 2.7 3 6 3s6-1.9 6-3v-4"/>',
+  school: '<path d="M3 21h18M5 21V8l7-4 7 4v13"/><path d="M10 21v-5h4v5"/>',
+  heart: '<path d="M12 20s-7-4.3-7-9a3.6 3.6 0 0 1 7-1.2A3.6 3.6 0 0 1 19 11c0 4.7-7 9-7 9Z"/>',
+  medical: '<rect x="4" y="6" width="16" height="14" rx="2"/><path d="M12 10v6M9 13h6M9 3h6v3H9z"/>',
+  radio: '<rect x="3" y="9" width="18" height="11" rx="2"/><path d="M8 9 17 4M8 14.5h.01M16 14a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3Z"/>',
+  landmark: '<path d="M3 21h18M4 10h16M12 3 4 7h16l-8-4ZM6 10v8M10 10v8M14 10v8M18 10v8"/>',
+};
+// value = count-up target; tip = the verbatim source line (fuller context).
+const fruitStats = [
+  { icon: 'crusade', num: '1 million+', value: 1000000, label: 'gathered at Gospel crusades', tip: 'Held crusades with 1 million+ attending', feature: true },
+  { icon: 'book', num: '80,000+', value: 80000, label: 'Bibles distributed', tip: 'Distributed 80,000+ Bibles' },
+  { icon: 'people', num: '7,000+', value: 7000, label: 'pastors trained', tip: 'Trained 7,000+ pastors' },
+  { icon: 'heart', num: '50,000+', value: 50000, label: 'reached through trauma counseling', tip: 'Reached 50,000+ through trauma counseling' },
+  { icon: 'medical', num: '8,000+', value: 8000, label: 'patients at mobile medical clinics', tip: 'Conducted mobile medical clinics for 8,000+ patients' },
+  { icon: 'cap', num: '500+', value: 500, label: 'graduated from a Bible college', tip: 'Graduated 500+ leaders from a Bible college' },
+  { icon: 'school', num: '400', value: 400, label: 'attending a school they built', tip: 'Built a school with 400 attending' },
+  { icon: 'radio', num: '', label: 'Built the first Christian radio station' },
+  { icon: 'landmark', num: '', label: 'Trained government leaders' },
+];
 ---
-<PageLayout
+<RedesignLayout
   title="Our Story"
   description="How Favor International started, where the founding conviction came from, and how the work grew across East Africa."
 >
-  <PageHero waveColor="cream"
+  <PageHero
     label="Our story"
     title="The conviction Favor was born from."
     promise="How one woman's prayer grew into an indigenous missions movement across East and Central Africa."
     image="/images/story-historic-prayer.jpg"
     imageAlt="A national prayer gathering in northern Uganda"
+    scrollCue
   />
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/carole-1.webp"
     imageAlt="The original Favor House in northern Uganda"
     eyebrow="2002 to 2004"
     heading="The beginning."
-    layout="image-left"
-    background="cream"
+    side="left"
+    decor="leaf"
   >
-    <p>Carole Ward moved to Uganda in 2002 during a 20-year horrific war, serving and training African leaders from all backgrounds to pray. Together they saw the war end, and she began equipping them to reach their own people with the power of the Gospel.</p>
+    <p class="rd-lede">Carole Ward moved to Uganda in 2002 during a 20-year horrific war, serving and training African leaders from all backgrounds to pray. Together they saw the war end, and she began equipping them to reach their own people with the power of the Gospel.</p>
     <p>After six months of prayer, Ugandans came to her with desperate visions for reaching their own people with Bibles, discipleship, education, and evangelism. In 2004, Carole formed Favour of God Ministries and began training indigenous missionaries to run that vision.</p>
-  </FeatureRow>
+  </RdFeature>
 
-  <FeatureRow
-    image="/images/field-2026/education-1.webp"
-    imageAlt="Graduates celebrating in DR Congo"
-    eyebrow="2007 onward"
-    heading="The expansion."
-    layout="image-right"
-    background="cream"
-  >
-    <p>In 2007, the Lord led Carole to begin extending the work into Sudan before liberation. National prayer gatherings were mobilized in Juba, the capital of South Sudan, in 2015 and again in 2019, to see enough peace for the Gospel to extend to the farthest regions of the nation and into the most remote tribes and villages. In 2014, FAMI was birthed as a sister organization to FOGM in Northern Uganda, with the same vision, prayer foundation, and indigenous leadership development in each country.</p>
-    <p class="our-vision-line">The vision: every tribe and language reaching their own people, and beyond, with the power of God's Word.</p>
-  </FeatureRow>
+  <ScriptBand
+    image="/images/field-2026/carole-4.webp"
+    imageAlt="Carole Ward in prayer in the field"
+    label="The founding prayer"
+    phrase="Lord, send me where no one wants to go, to do what no one wants to do."
+    cite="Carole Ward, Founder"
+    objectPosition="center 30%"
+  />
 
   <section class="band band--cream">
-    <div class="container container--narrow">
-      <div class="founding">
-        <div class="founding__texture" aria-hidden="true"></div>
-        <div class="founding__inner">
-          <p class="label label--inverse">The founding prayer</p>
-          <blockquote class="founding__quote">&ldquo;Lord, send me where no one wants to <span class="founding__hl">GO</span>, to do what no one wants to <span class="founding__hl">DO</span>.&rdquo;</blockquote>
-          <p class="founding__cite">Carole Ward, Founder</p>
+    <div class="container">
+      <LeafHeading label="The story, year by year" title="How the work grew." leaves={false} />
+
+      <div class="tl">
+        <svg class="tl-line" preserveAspectRatio="none" aria-hidden="true"><path d=""></path></svg>
+        <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-item__inner rd-prose">
+            <span class="tl-year">2004</span>
+            <div class="tl-photo" style="background-image:url('/images/field-2026/carole-2.webp')" role="img" aria-label="The original House of Prayer in Gulu"></div>
+            <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
+            <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-item__inner rd-prose">
+            <span class="tl-year">2005</span>
+            <div class="tl-photo" style="background-image:url('/images/field-2026/prayer-2.webp')" role="img" aria-label="The National Prayer Gathering in Gulu, 2005"></div>
+            <p>A real turning point in our story was the National Prayer Gathering in Gulu. The Lord prompted us to organize a gathering in the War Memorial Stadium to unify the tribes, leaders, churches, and regions in Uganda in repentant prayer for the ending of the war. We planned a 77 hour prayer meeting, 11 hours a day for 7 days in December 2005. Radio stations were contacted to spread the news and word spread like wildfire. The day finally approached and over 1,000 people, including political leaders, gathered inside this humble stadium to join in intense, radical, united prayer.</p>
+            <p>As a result, the war stopped and many significant stories of radical transformation followed. Pastors reported that they sensed heaven opening in a new way. Government officials called and testified of a strong sense that the spiritual climate over the area had changed. Miracles were occurring in local churches. It even led to inaugurating the month of January as the month of prayer.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-item__inner rd-prose">
+            <span class="tl-year">2007 to 2014</span>
+            <div class="tl-photo" style="background-image:url('/images/field-2026/education-1.webp')" role="img" aria-label="Graduates celebrating in DR Congo"></div>
+            <p>In 2007, the Lord led Carole to begin extending the work into Sudan before liberation. National prayer gatherings were mobilized in Juba, the capital of South Sudan, in 2015 and again in 2019, to see enough peace for the Gospel to extend to the farthest regions of the nation and into the most remote tribes and villages. In 2014, FAMI was birthed as a sister organization to FOGM in Northern Uganda, with the same vision, prayer foundation, and indigenous leadership development in each country.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-item__inner rd-prose">
+            <span class="tl-year">2015 to now</span>
+            <div class="tl-photo" style="background-image:url('/images/field/prayer-gathering-chad.webp')" role="img" aria-label="A national prayer gathering in Chad"></div>
+            <p>We began to focus more direct efforts to South Sudan in 2007 by sending missionaries and Portable Bible School (PBS) programs. We organized a legal presence in the nation through trusted Portable Bible School graduates and purchased our first office space in Juba in 2015. That same year we hosted a national prayer meeting in Juba, the capital of South Sudan, just as we did in Uganda, to bring God&rsquo;s repentance, revival, and restoration.</p>
+            <p>In the years since, we have continued establishing Houses of Prayer in strategic locations across Uganda and South Sudan. In the early part of 2024, we also established a House of Prayer in N&rsquo;Djamena, the capital city of Chad.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <section class="band band--cream">
-    <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Today</p>
-        <h2>Indigenous-led, across East Africa.</h2>
+    <div class="container">
+      <header class="band__header fruit-head">
+        <p class="label">The fruit</p>
+        <h2>What ninety leaders did.</h2>
+        <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
       </header>
-      <p class="today-body">Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals. The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
-      <p><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
+      <div class="fruit-grid">
+        {fruitStats.map((s) => (
+          <article
+            class={`fruit-cell reveal ${s.feature ? 'fruit-cell--feature' : ''} ${!s.num ? 'fruit-cell--milestone' : ''}`}
+            data-tip={s.tip}
+            tabindex={s.tip ? 0 : undefined}
+          >
+            <span class="fruit-cell__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[s.icon]}></svg>
+            </span>
+            {s.num && <span class="fruit-cell__num" data-count={s.value}>{s.num}</span>}
+            <span class="fruit-cell__label">{s.label}</span>
+            {s.tip && <span class="fruit-cell__tip" role="tooltip">{s.tip}</span>}
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">The story, year by year</p>
-        <h2>How the work grew.</h2>
-      </header>
+  <ScriptBand
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
+    label="The vision"
+    phrase="Every tribe and language reaching their own people, and beyond, with the power of God's Word."
+    font="serif"
+    tall
+    objectPosition="center 40%"
+  />
 
-      <div class="tl-item">
-        <span class="tl-year">2004</span>
-        <div class="tl-content">
-          <div class="tl-photo" style="background-image:url('/images/field-2026/carole-2.webp')" role="img" aria-label="The original House of Prayer in Gulu"></div>
-          <p>In time, after much intercessory prayer, many came to join Carole in the ministry of evangelism, Bible teaching, and caring for the orphans. When the government required registration to continue the work in this dangerous area, Carole formed the ministry in 2004, with two Ugandans. Though the needs were enormous, God told her, &ldquo;Build My house, and I&rsquo;ll build yours!&rdquo; (1 Chronicles 17:10 &amp; 25).</p>
-          <p>Soon after, Favor opened a simple community called the House of Prayer in Gulu, the regional capital in the center of the war. It became a center for a missionary movement that was in part instrumental to end the war through the power of the Gospel.</p>
-          <p>The ministry quickly grew to 90 national leaders in a few years. Those 90 leaders:</p>
-          <ul class="tl-stats">
-            <li>Distributed 80,000+ Bibles,</li>
-            <li>Trained 7,000+ pastors,</li>
-            <li>Built a school with 400 attending,</li>
-            <li>Graduated 500+ leaders from a Bible college,</li>
-            <li>Reached 50,000+ through trauma counseling,</li>
-            <li>Built the first Christian radio station,</li>
-            <li>Held crusades with 1 million+ attending,</li>
-            <li>Trained government leaders,</li>
-            <li>Conducted mobile medical clinics for 8,000+ patients.</li>
+  <section class="band band--white">
+    <div class="container">
+      <div class="film">
+        <div class="film__video">
+          <Leaf class="film__leaf" />
+          <VideoEmbed id="g2fB1RwyHNM" title="The Carole Ward Story" />
+          <span class="film__hint" aria-hidden="true">Watch the film</span>
+        </div>
+        <div class="film__copy rd-prose">
+          <p class="label">In her own words</p>
+          <h2>Hear the story from Carole.</h2>
+          <p>Carole Ward is a missionary, leader, and teacher fostering an indigenous missions movement in Northern Uganda and South Sudan. She moved to Uganda in 2002 during a 20-year horrific war, where she served and trained African leaders from all backgrounds to pray.</p>
+          <ul class="film__more">
+            <li><a href="https://www.youtube.com/watch?v=Y5pWE0AX97M" target="_blank" rel="noopener"><span class="film__more-play" aria-hidden="true">&#9654;</span> Reigniting a Passion for Prayer</a></li>
+            <li><a href="https://www.youtube.com/watch?v=5oUghxzqGXU" target="_blank" rel="noopener"><span class="film__more-play" aria-hidden="true">&#9654;</span> Nations Media Podcast with Carole Ward</a></li>
           </ul>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <span class="tl-year">2005</span>
-        <div class="tl-content">
-          <div class="tl-photo" style="background-image:url('/images/field-2026/prayer-2.webp')" role="img" aria-label="The National Prayer Gathering in Gulu, 2005"></div>
-          <p>A real turning point in our story was the National Prayer Gathering in Gulu. The Lord prompted us to organize a gathering in the War Memorial Stadium to unify the tribes, leaders, churches, and regions in Uganda in repentant prayer for the ending of the war. We planned a 77 hour prayer meeting, 11 hours a day for 7 days in December 2005. Radio stations were contacted to spread the news and word spread like wildfire. The day finally approached and over 1,000 people, including political leaders, gathered inside this humble stadium to join in intense, radical, united prayer.</p>
-          <p>As a result, the war stopped and many significant stories of radical transformation followed. Pastors reported that they sensed heaven opening in a new way. Government officials called and testified of a strong sense that the spiritual climate over the area had changed. Miracles were occurring in local churches. It even led to inaugurating the month of January as the month of prayer.</p>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <span class="tl-year">2015 to now</span>
-        <div class="tl-content">
-          <div class="tl-photo" style="background-image:url('/images/field/prayer-gathering-chad.webp')" role="img" aria-label="A national prayer gathering in Chad"></div>
-          <p>We began to focus more direct efforts to South Sudan in 2007 by sending missionaries and Portable Bible School (PBS) programs. We organized a legal presence in the nation through trusted Portable Bible School graduates and purchased our first office space in Juba in 2015. That same year we hosted a national prayer meeting in Juba, the capital of South Sudan, just as we did in Uganda, to bring God&rsquo;s repentance, revival, and restoration.</p>
-          <p>In the years since, we have continued establishing Houses of Prayer in strategic locations across Uganda and South Sudan. In the early part of 2024, we also established a House of Prayer in N&rsquo;Djamena, the capital city of Chad.</p>
+          <p><a href="/about/our-story/founder/" class="story-link">Read the full founder's story &rarr;</a></p>
         </div>
       </div>
     </div>
   </section>
 
-  <CtaBand
+  <RdFeature
+    image="/images/field-2026/missionaries-5.webp"
+    imageAlt="Favor field and office leaders together"
+    eyebrow="Today"
+    heading="Indigenous-led, across East Africa."
+    side="right"
+    background="cream"
+    decor="leaf"
+  >
+    <p class="rd-lede">Favor International serves and trains indigenous leaders across East Africa. Each field team is led by African nationals.</p>
+    <p>The U.S. team raises support, stewards funds, and provides accountability so the field can do the work it was called to.</p>
+    <p class="today-links"><a href="/about/where-we-work/" class="story-link">See where we work &rarr;</a> <a href="/about/team/" class="story-link">Meet the team &rarr;</a></p>
+  </RdFeature>
+
+  <RdCta
     heading="Be part of the next chapter."
     body="Favor Partners keep this story going. Monthly partnership, any tier, makes the field work possible."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
+    background="cream"
+    image="/images/field/country-uganda.webp"
+    imageAlt="A vision-trip team with Karamojong villagers in the savanna"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  /* Founding prayer: a green rounded container set inside the cream section,
-     so it reads as a distinct framed moment with contrast (not a full slab). */
-  .founding {
-    position: relative; overflow: hidden; text-align: center;
-    background: var(--color-green-deep);
-    border: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
-    border-radius: var(--radius-card);
-    box-shadow: 0 24px 60px rgba(31, 58, 26, 0.18);
-    padding: clamp(var(--space-12), 6vw, var(--space-20));
-  }
-  .founding__texture {
-    position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background-image: url('/images/patterns/texture-mudcloth.webp');
-    background-size: 560px auto; background-repeat: repeat; opacity: 0.06;
-  }
-  .founding__inner { position: relative; z-index: 1; }
-  .founding__quote {
-    margin: var(--space-4) auto 0; max-width: 16ch;
-    font-family: var(--font-script);
-    font-size: clamp(2.4rem, 5.6vw, 4.2rem);
-    line-height: 1.15; color: var(--color-white); font-style: normal; border: 0; padding: 0;
-  }
-  .founding__hl { color: var(--color-gold); }
-  .founding__cite {
-    margin: var(--space-6) 0 0; color: var(--color-gold-light);
-    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.85rem;
+  /* Meandering timeline: wide entries (kept large), alternating left / right.
+     A weaving line (drawn by script through the dots) hugs the inner edge of
+     each entry and cuts across to the next — down the right, jog left, down
+     the left, jog right. */
+  .tl { position: relative; max-width: 1080px; margin: clamp(48px, 6vw, 80px) auto 0; }
+  .tl-line { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+  .tl-line path { fill: none; stroke: var(--color-sage-light); stroke-width: 2; stroke-linejoin: round; }
+  .tl-item { position: relative; z-index: 1; width: 60%; box-sizing: border-box; padding-bottom: clamp(80px, 9vw, 140px); }
+  .tl-item:nth-of-type(odd) { margin-right: auto; padding-right: clamp(44px, 5vw, 84px); }
+  .tl-item:nth-of-type(even) { margin-left: auto; padding-left: clamp(44px, 5vw, 84px); }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; top: 4px; width: 15px; height: 15px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 4px var(--color-cream); z-index: 2; }
+  .tl-item:nth-of-type(odd) .tl-dot { right: -7px; }
+  .tl-item:nth-of-type(even) .tl-dot { left: -7px; }
+  .tl-year { display: block; font-family: var(--font-display); font-weight: 700; font-size: var(--rd-fs-title); color: var(--color-gold-deep); line-height: 1; margin-bottom: var(--space-5); }
+  .tl-photo { aspect-ratio: 16 / 9; background-size: cover; background-position: center 35%; border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); margin: 0 0 var(--space-6); }
+  .tl-item__inner p { margin: 0 0 var(--space-5); }
+  .tl-item__inner p:last-child { margin-bottom: 0; }
+  @media (max-width: 820px) {
+    .tl { max-width: 640px; }
+    .tl-item { width: 100%; margin: 0 !important; padding-left: 44px !important; padding-right: 0 !important; }
+    .tl-item .tl-dot { left: 0 !important; right: auto !important; }
   }
 
-  .our-vision-line { font-style: italic; color: var(--color-gold-light); font-weight: 600; }
-  .today-body { font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-soft); }
+  /* Emphasized opening sentence on a feature. */
+  .rd-lede { font-size: var(--rd-fs-sub); line-height: 1.5; color: var(--color-ink) !important; }
+  .today-links { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-8); margin-top: var(--space-6); }
+
+  /* The fruit of the 90 leaders: each figure its own container with an icon,
+     the number, and a short label of what it is. One feature cell is larger. */
+  .fruit-head p:not(.label) { font-weight: 600; }
+  .fruit-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: clamp(20px, 2vw, 28px);
+    grid-auto-flow: dense;
+  }
+  @media (max-width: 900px) { .fruit-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 440px) { .fruit-grid { grid-template-columns: 1fr; } }
+  .fruit-cell {
+    position: relative;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: var(--space-3);
+    background: var(--color-white);
+    border-radius: var(--rd-radius);
+    box-shadow: var(--rd-shadow);
+    padding: clamp(24px, 2.4vw, 36px);
+  }
+  .fruit-cell[tabindex] { cursor: help; }
+  /* Tooltip with the fuller (verbatim) context, on hover/focus. */
+  .fruit-cell__tip {
+    position: absolute; left: 50%; bottom: calc(100% + 12px);
+    transform: translateX(-50%) translateY(6px);
+    width: max-content; max-width: 250px;
+    background: var(--color-green-deep); color: var(--color-white);
+    font-size: var(--rd-fs-small); font-weight: 600; line-height: 1.45; text-align: center;
+    padding: 10px 14px; border-radius: 12px; box-shadow: var(--rd-shadow-lift);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+    z-index: 6;
+  }
+  .fruit-cell__tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 7px solid transparent; border-top-color: var(--color-green-deep); }
+  .fruit-cell:hover .fruit-cell__tip,
+  .fruit-cell:focus-visible .fruit-cell__tip,
+  .fruit-cell:focus-within .fruit-cell__tip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .fruit-cell__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; border-radius: 12px;
+    background: var(--rd-bg-green); color: var(--color-green);
+  }
+  .fruit-cell__icon svg { width: 24px; height: 24px; }
+  .fruit-cell__num {
+    font-family: var(--font-sans); font-weight: 800; line-height: 1; letter-spacing: -0.02em;
+    font-size: clamp(2.1rem, 3vw, 2.8rem); color: var(--color-green);
+  }
+  .fruit-cell__label { color: var(--color-ink-soft); line-height: 1.45; font-size: var(--rd-fs-body); }
+  /* Feature cell: spans two columns, gold accent, bigger number. */
+  .fruit-cell--feature {
+    grid-column: span 2; background: var(--color-green-deep);
+    justify-content: center;
+  }
+  @media (max-width: 440px) { .fruit-cell--feature { grid-column: span 1; } }
+  .fruit-cell--feature .fruit-cell__icon { background: color-mix(in srgb, var(--color-white) 14%, transparent); color: var(--color-gold); }
+  .fruit-cell--feature .fruit-cell__num { color: var(--color-gold); font-size: clamp(2.8rem, 4.6vw, 4.2rem); }
+  .fruit-cell--feature .fruit-cell__label { color: color-mix(in srgb, var(--color-white) 85%, transparent); font-size: var(--rd-fs-sub); }
+  /* Milestone cells (no number): wider (two columns) since there is room. */
+  .fruit-cell--milestone { grid-column: span 2; flex-direction: row; align-items: center; gap: var(--space-5); background: var(--color-cream); box-shadow: none; border: 1px solid rgba(31,58,26,0.10); }
+  @media (max-width: 440px) { .fruit-cell--milestone { grid-column: span 1; } }
+  .fruit-cell--milestone .fruit-cell__label { font-family: var(--font-display); font-weight: 700; color: var(--color-green); font-size: var(--rd-fs-sub); line-height: 1.25; }
+
+  /* Carole video: a large featured player (with a leaf behind it) beside
+     framing copy + more talks, so the section reads full. */
+  .film { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(40px, 5vw, 80px); align-items: center; }
+  @media (max-width: 860px) { .film { grid-template-columns: 1fr; gap: var(--space-12); } }
+  .film__video { position: relative; }
+  .film__video :global(.video-embed) { position: relative; z-index: 1; }
+  /* A prompt that pops up over the video on hover/focus. */
+  .film__hint {
+    position: absolute; z-index: 2; top: var(--space-5); left: var(--space-5);
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    padding: 9px 16px; border-radius: var(--radius-pill);
+    background: var(--color-gold); color: var(--color-ink);
+    font-weight: 800; font-size: var(--rd-fs-small); letter-spacing: 0.06em; text-transform: uppercase;
+    box-shadow: var(--rd-shadow-lift);
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+  .film__hint::before { content: '\25B6'; font-size: 0.7em; }
+  .film__video:hover .film__hint,
+  .film__video:focus-within .film__hint { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .film__hint { transition: opacity 220ms ease; transform: none; } }
+  .film__video :global(.film__leaf) {
+    position: absolute; z-index: 0; width: clamp(200px, 46%, 320px); height: auto;
+    left: clamp(-100px, -12%, -60px); bottom: clamp(-84px, -11%, -52px);
+    color: #c2d6b6; transform: rotate(-16deg); pointer-events: none;
+  }
+  .film__copy h2 { margin: var(--space-3) 0 var(--space-5); }
+  .film__more { list-style: none; padding: 0; margin: var(--space-6) 0; display: grid; gap: var(--space-3); }
+  .film__more a { color: var(--color-green); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-3); }
+  .film__more a:hover { color: var(--color-gold-deep); }
+  .film__more-play { color: var(--color-gold-deep); font-size: 0.7rem; }
+
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
-
-  /* Vertical timeline */
-  .tl-item { position: relative; padding-left: 64px; padding-bottom: var(--space-12); }
-  .tl-item::after { content: ''; position: absolute; left: 11px; top: 6px; bottom: 0; width: 2px; background: var(--color-sage-light); }
-  .tl-item:last-child::after { background: linear-gradient(var(--color-sage-light), transparent); }
-  .tl-item::before { content: ''; position: absolute; left: 4px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 4px var(--color-white); z-index: 1; }
-  .tl-year { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.6rem); color: var(--color-gold-deep); line-height: 1; margin-bottom: var(--space-4); }
-  .tl-photo { aspect-ratio: 16 / 8; background-size: cover; background-position: center 35%; border-radius: var(--radius-card); box-shadow: var(--shadow-card); margin: 0 0 var(--space-5); }
-  .tl-content p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
-  .tl-stats { margin: var(--space-2) 0 0; padding-left: var(--space-6); display: grid; gap: var(--space-1); color: var(--color-ink-soft); }
-  .tl-stats li { line-height: 1.5; }
-  @media (max-width: 640px) { .tl-item { padding-left: 48px; } }
 </style>
+
+<script>
+  // Draw the timeline's weaving line through the dots: down one side, a
+  // horizontal cut across, down the other side. Recomputed on resize/load
+  // so it always matches the real entry heights.
+  function drawTimeline() {
+    document.querySelectorAll('.tl').forEach((tl) => {
+      const svg = tl.querySelector('.tl-line');
+      const path = svg && svg.querySelector('path');
+      const items = Array.from(tl.querySelectorAll('.tl-item'));
+      const dots = Array.from(tl.querySelectorAll('.tl-dot'));
+      if (!path || items.length < 1) return;
+      const r = tl.getBoundingClientRect();
+      svg.setAttribute('viewBox', `0 0 ${Math.round(r.width)} ${Math.round(r.height)}`);
+      // x = the inner edge (from the dot); top = dot center; bottom = the
+      // content's bottom (inner block) so the curve happens in the gap below.
+      const x = dots.map((d) => { const b = d.getBoundingClientRect(); return +(b.left + b.width / 2 - r.left).toFixed(1); });
+      const top = dots.map((d) => { const b = d.getBoundingClientRect(); return +(b.top + b.height / 2 - r.top).toFixed(1); });
+      const bottom = items.map((it) => { const inner = it.querySelector('.tl-item__inner') || it; return +(inner.getBoundingClientRect().bottom - r.top).toFixed(1); });
+      // Straight down beside each entry (clear of the text), a smooth S-curve
+      // across the empty gap to the next entry. Short tails top and bottom.
+      let d = `M ${x[0]} ${(top[0] - 30).toFixed(1)}`;
+      for (let i = 0; i < items.length; i++) {
+        d += ` L ${x[i]} ${bottom[i]}`;
+        if (i < items.length - 1) {
+          const cp = ((bottom[i] + top[i + 1]) / 2).toFixed(1);
+          d += ` C ${x[i]} ${cp}, ${x[i + 1]} ${cp}, ${x[i + 1]} ${top[i + 1]}`;
+        }
+      }
+      const li = items.length - 1;
+      d += ` L ${x[li]} ${(bottom[li] + 30).toFixed(1)}`;
+      path.setAttribute('d', d);
+    });
+  }
+  drawTimeline();
+  window.addEventListener('resize', drawTimeline);
+  window.addEventListener('load', drawTimeline);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawTimeline);
+
+  // Count the fruit numbers up from 0 when they scroll into view, then snap
+  // back to the exact label (so "1 million+" and "400" read correctly).
+  // No-JS / reduced-motion just shows the final numbers.
+  function countUp() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nums = Array.from(document.querySelectorAll('.fruit-cell__num[data-count]'));
+    if (!nums.length || reduce || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target; io.unobserve(el);
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        if (!target) return;
+        const finalText = el.textContent;        // exact label, e.g. "1 million+"
+        const plus = /\+/.test(finalText) ? '+' : '';
+        const dur = 1400; let start = null;
+        function step(ts) {
+          if (start === null) start = ts;
+          const p = Math.min((ts - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased).toLocaleString('en-US') + plus;
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = finalText;       // restore exact label
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.3 });
+    nums.forEach((n) => io.observe(n));
+  }
+  countUp();
+</script>

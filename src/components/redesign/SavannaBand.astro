@@ -1,0 +1,136 @@
+---
+// Savanna section: cream easing into a warm tone, with a layered savanna
+// SILHOUETTE along the bottom — a rolling ground line, a dense distant tree
+// line, full acacias of varying sizes, bushes and grass. Rendered dark and
+// faded transparent-at-top -> solid-at-bottom so it reads like a real
+// silhouette image without ever crowding the content.
+// Pass `image` to use a licensed silhouette photo instead of the drawing.
+export interface Props {
+  tight?: boolean;
+  image?: string;
+  imageAlt?: string;
+}
+const { tight = false, image, imageAlt = '' } = Astro.props as Props;
+---
+<section class={`band rd-savanna ${tight ? 'band--tight' : ''}`}>
+  {image && (
+    <div class="rd-savanna__photo" style={`-webkit-mask-image:url('${image}');mask-image:url('${image}')`} role="img" aria-label={imageAlt}></div>
+  )}
+  {!image && (
+  <svg class="rd-savanna__scene" viewBox="0 0 1440 380" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <!-- detailed acacia (flat-topped) -->
+      <g id="sv2-acacia">
+        <g stroke="currentColor" fill="none" stroke-linecap="round">
+          <path d="M-8 0 C-10 -44 -2 -88 18 -130" stroke-width="8" />
+          <path d="M7 0 C0 -40 -18 -80 -44 -116" stroke-width="6" />
+          <path d="M-2 -62 C14 -86 34 -104 58 -118" stroke-width="4.5" />
+          <path d="M-24 -78 C-38 -92 -52 -100 -68 -108" stroke-width="4" />
+        </g>
+        <g fill="currentColor">
+          <path d="M-108 -132 C-100 -156 -70 -170 -36 -170 C-20 -184 20 -186 42 -174 C74 -182 110 -170 120 -150 C132 -136 126 -120 108 -116 C124 -108 120 -96 102 -92 C78 -86 48 -88 26 -96 C8 -86 -24 -86 -44 -96 C-72 -88 -104 -98 -112 -114 C-118 -126 -116 -132 -108 -132 Z" />
+        </g>
+      </g>
+      <!-- small distant tree (lollipop) -->
+      <g id="sv2-tree" fill="currentColor">
+        <rect x="-2" y="-26" width="4" height="28" />
+        <ellipse cx="0" cy="-34" rx="22" ry="13" />
+      </g>
+      <!-- rounded bush -->
+      <g id="sv2-bush" fill="currentColor">
+        <path d="M0 0 C2 -16 16 -28 32 -28 C38 -42 56 -48 68 -39 C76 -50 98 -50 107 -39 C123 -42 137 -29 137 -16 C140 -6 133 0 124 0 Z" />
+      </g>
+    </defs>
+
+    <!-- soft sun glow low on the horizon -->
+    <circle cx="1080" cy="300" r="120" fill="currentColor" opacity="0.18" />
+
+    <!-- rolling ground silhouette across the bottom -->
+    <path d="M0 318 C 240 300 420 332 660 322 C 900 312 1080 338 1260 326 C 1350 320 1410 326 1440 322 L1440 380 L0 380 Z" fill="currentColor" />
+
+    <!-- dense distant tree line sitting on the ground -->
+    <g opacity="0.85">
+      <use href="#sv2-tree" transform="translate(40 320) scale(0.7)" />
+      <use href="#sv2-tree" transform="translate(120 322) scale(0.55)" />
+      <use href="#sv2-tree" transform="translate(190 320) scale(0.8)" />
+      <use href="#sv2-tree" transform="translate(270 323) scale(0.6)" />
+      <use href="#sv2-tree" transform="translate(470 322) scale(0.7)" />
+      <use href="#sv2-tree" transform="translate(545 323) scale(0.5)" />
+      <use href="#sv2-tree" transform="translate(700 321) scale(0.75)" />
+      <use href="#sv2-tree" transform="translate(780 323) scale(0.55)" />
+      <use href="#sv2-tree" transform="translate(900 322) scale(0.65)" />
+      <use href="#sv2-tree" transform="translate(1180 322) scale(0.7)" />
+      <use href="#sv2-tree" transform="translate(1260 323) scale(0.55)" />
+      <use href="#sv2-tree" transform="translate(1380 321) scale(0.75)" />
+    </g>
+
+    <!-- bushes -->
+    <use href="#sv2-bush" transform="translate(330 322) scale(1.1)" />
+    <use href="#sv2-bush" transform="translate(960 322) scale(0.9) scale(-1 1)" />
+    <use href="#sv2-bush" transform="translate(620 323) scale(0.7)" />
+
+    <!-- foreground acacias, varied sizes -->
+    <use href="#sv2-acacia" transform="translate(205 324) scale(1.05)" />
+    <use href="#sv2-acacia" transform="translate(1230 324) scale(-0.82 0.82)" />
+    <use href="#sv2-acacia" transform="translate(820 322) scale(0.42)" opacity="0.9" />
+
+    <!-- a couple of grazing silhouettes for life -->
+    <g fill="currentColor" opacity="0.9">
+      <path d="M500 322 c0 -10 3 -16 9 -18 c2 -5 7 -5 8 0 c5 1 8 6 8 12 l-3 0 l-1 -6 l-2 6 l-6 0 l-1 -7 l-2 7 c-6 0 -10 -1 -10 -1 Z" />
+    </g>
+  </svg>
+  )}
+  <div class="container rd-savanna__content">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .rd-savanna {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    /* A light cream sky held most of the way down so the silhouette reads as a
+       crisp solid shape against it, easing to the savanna tone only at the very
+       bottom — so the silhouette's base and a ground-colored band placed right
+       below meet seamlessly. */
+    background: linear-gradient(180deg, var(--color-cream) 0%, #f4ecdb 64%, var(--rd-savanna-ground) 100%);
+  }
+  /* Real silhouette image (transparent PNG): the full scene spans the width
+     and sits along the bottom; its own transparent sky shows the warm band
+     above, so it reads "transparent on top, silhouette on the bottom". */
+  /* Masked fill: the silhouette is one solid tone everywhere (no transparency),
+     the exact color of the ground band below — so it stands crisp against the
+     light cream sky up top and its base dissolves into that band. */
+  .rd-savanna__photo {
+    position: absolute;
+    inset: 0;
+    background-color: var(--rd-savanna-ground);
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-size: 100% auto; mask-size: 100% auto;
+    -webkit-mask-position: center bottom; mask-position: center bottom;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @media (max-width: 760px) {
+    /* zoom the scene so it still reads at phone widths */
+    .rd-savanna__photo { -webkit-mask-size: 180% auto; mask-size: 180% auto; }
+  }
+  /* Drawn silhouette: a dusk-toned scene that fades in toward the bottom. */
+  .rd-savanna__scene {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    width: 100%;
+    height: clamp(240px, 34vw, 460px);
+    color: #4f4634;
+    opacity: 0.4;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 42%, #000 88%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 42%, #000 88%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .rd-savanna__content { position: relative; z-index: 1; padding-bottom: clamp(200px, 24vw, 360px); }
+  .rd-savanna.band { padding-top: clamp(96px, 12vw, 168px); padding-bottom: clamp(48px, 6vw, 72px); }
+</style>

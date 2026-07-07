@@ -1,0 +1,53 @@
+---
+// The 6 R's — Favor's stewardship framework (Carole's). Numbered columns set
+// OVER the congregation photo (the page makes that photo the section
+// background), matching the original graphic. Verbatim descriptions.
+const items = [
+  { word: 'Relationship', desc: 'All partnering and ministry is built on this foundation.' },
+  { word: 'Research', desc: "It's important to us to sow where the need is greatest. Before determining where to expand the ministry, we make sure to pray and research the possibilities." },
+  { word: 'Receipts', desc: 'Every receipt is kept for each purchase made or service paid for. They are filed with accurate book keeping in the ministry office and then scanned and emailed back to the partner.' },
+  { word: 'Reports', desc: 'Reports are given to ministries and supporters on a regular basis. They include acknowledgment of gifts and thank you notes from the office and recipients of the money. We do this to encourage ongoing relationship with the gift recipients.' },
+  { word: 'Records', desc: 'Each purchase or service relating to designations is recorded accurately with names of recipients, partners, use of money, date, location, and project or person the money was intended for. These records are available to any partner and ministry affiliated with the area of support.' },
+  { word: 'Results', desc: 'Results of seeds sown and planted are reviewed and re-evaluated. We want to see seed sown on fertile ground. If results are not evaluated regularly, waste can occur. Our reports will continue to be presented months after gifts are given.' },
+];
+---
+<div class="r6">
+  {items.map((it, i) => (
+    <div class="r6__item reveal">
+      <div class="r6__head">
+        <span class="r6__num">{i + 1}</span>
+        <h3 class="r6__word">{it.word}</h3>
+      </div>
+      <p class="r6__desc">{it.desc}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .r6 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(28px, 3vw, 48px) clamp(36px, 4vw, 64px);
+  }
+  @media (max-width: 860px) { .r6 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .r6 { grid-template-columns: 1fr; } }
+
+  .r6__head { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-3); }
+  .r6__num {
+    font-family: var(--font-display);
+    font-size: var(--rd-fs-title);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-gold-deep);
+  }
+  /* Dark type so it stays legible over the bright sky of the photo behind it. */
+  .r6__word {
+    margin: 0;
+    color: var(--color-ink);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--rd-fs-sub);
+  }
+  .r6__desc { margin: 0; color: var(--color-ink); font-size: var(--rd-fs-body); line-height: 1.65; }
+</style>

@@ -1,0 +1,49 @@
+---
+// A feature row with a video on one side and copy on the other (mirrors
+// RdFeature, but the media is a VideoEmbed). Alternate `side` down the page;
+// `decor="leaf"` tucks a soft leaf behind the video.
+import VideoEmbed from '../global/VideoEmbed.astro';
+import Leaf from './Leaf.astro';
+export interface Props {
+  id: string;
+  videoTitle: string;
+  eyebrow?: string;
+  heading?: string;
+  side?: 'left' | 'right';
+  decor?: 'leaf';
+}
+const { id, videoTitle, eyebrow, heading, side = 'left', decor } = Astro.props as Props;
+---
+<div class="rd-vfeat" data-side={side}>
+  <div class="rd-vfeat__media">
+    {decor === 'leaf' && <Leaf class="rd-vfeat__leaf" />}
+    <div class="rd-vfeat__video"><VideoEmbed id={id} title={videoTitle} /></div>
+  </div>
+  <div class="rd-vfeat__copy rd-prose">
+    {eyebrow && <p class="label">{eyebrow}</p>}
+    {heading && <h3>{heading}</h3>}
+    <slot />
+  </div>
+</div>
+
+<style>
+  .rd-vfeat { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 92px); align-items: center; }
+  .rd-vfeat[data-side='right'] .rd-vfeat__media { order: 2; }
+  .rd-vfeat[data-side='right'] .rd-vfeat__copy { order: 1; }
+  .rd-vfeat__media { position: relative; }
+  .rd-vfeat__video { position: relative; z-index: 1; }
+  /* Soft leaf peeking from behind the video. */
+  .rd-vfeat__media :global(.rd-vfeat__leaf) {
+    position: absolute; z-index: 0;
+    width: clamp(200px, 44%, 350px); height: auto;
+    left: clamp(-96px, -12%, -56px); bottom: clamp(-72px, -12%, -44px);
+    color: #c2d6b6; transform: rotate(-16deg); pointer-events: none;
+  }
+  .rd-vfeat__copy .label { margin-bottom: var(--space-3); }
+  .rd-vfeat__copy h3 { color: var(--color-green); font-size: var(--rd-fs-title); margin: 0 0 var(--space-4); }
+  @media (max-width: 860px) {
+    .rd-vfeat { grid-template-columns: 1fr; gap: var(--space-8); }
+    .rd-vfeat[data-side='right'] .rd-vfeat__media { order: 0; }
+    .rd-vfeat[data-side='right'] .rd-vfeat__copy { order: 0; }
+  }
+</style>

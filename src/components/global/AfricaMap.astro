@@ -36,6 +36,15 @@ const maxDist = Math.max(...dots.map((d) => Math.hypot(d[0] - fx, d[1] - fy)));
 const delay = (x: number, y: number, span = 1100) =>
   Math.round((Math.hypot(x - fx, y - fy) / maxDist) * span);
 
+// Optional props default to the home-page behaviour, so the home page is
+// unchanged. About > Where We Work passes showStats={false} to hide the
+// headline stat bar and a note to caption the map as a work in progress.
+export interface Props {
+  showStats?: boolean;
+  note?: string;
+}
+const { showStats = true, note } = Astro.props as Props;
+
 ---
 
 <section class="africa-map" aria-label="Where your partnership reaches across Africa">
@@ -108,22 +117,25 @@ const delay = (x: number, y: number, span = 1100) =>
       </figcaption>
     </figure>
 
-    <div class="africa-map__stats">
-      <div class="africa-map__stat">
-        <span class="africa-map__stat-num">524,673</span>
-        <span class="africa-map__stat-label">Total salvations</span>
+    {showStats && (
+      <div class="africa-map__stats">
+        <div class="africa-map__stat">
+          <span class="africa-map__stat-num">524,673</span>
+          <span class="africa-map__stat-label">Total salvations</span>
+        </div>
+        <span class="africa-map__stat-divider" aria-hidden="true"></span>
+        <div class="africa-map__stat">
+          <span class="africa-map__stat-num">3,635</span>
+          <span class="africa-map__stat-label">PBS locations</span>
+        </div>
+        <span class="africa-map__stat-divider" aria-hidden="true"></span>
+        <div class="africa-map__stat">
+          <span class="africa-map__stat-num">14</span>
+          <span class="africa-map__stat-label">Nations served</span>
+        </div>
       </div>
-      <span class="africa-map__stat-divider" aria-hidden="true"></span>
-      <div class="africa-map__stat">
-        <span class="africa-map__stat-num">3,635</span>
-        <span class="africa-map__stat-label">PBS locations</span>
-      </div>
-      <span class="africa-map__stat-divider" aria-hidden="true"></span>
-      <div class="africa-map__stat">
-        <span class="africa-map__stat-num">14</span>
-        <span class="africa-map__stat-label">Nations served</span>
-      </div>
-    </div>
+    )}
+    {note && <p class="africa-map__note">{note}</p>}
   </div>
 </section>
 

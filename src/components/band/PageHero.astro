@@ -21,12 +21,12 @@ export interface Props {
   // Optional short muted background loop (compressed local mp4). The image
   // remains the poster/fallback; hidden for prefers-reduced-motion.
   video?: string;
-  // Wave shape divider at the hero's bottom edge (per Daniel 2026-06-10): the
-  // photo ends in a soft wave instead of a hard horizontal cut. Variant is
-  // derived from the title so different pages get different angles; override
-  // with wave={1|2|3}. waveColor must match the FIRST section below the hero.
+  // wave/waveColor: accepted for backward-compat and IGNORED. Per Daniel
+  // (2026-06-12) the hero ends in a clean straight line, not a wave.
   wave?: 1 | 2 | 3;
   waveColor?: 'white' | 'cream';
+  // Optional subtle "scroll to begin" cue at the bottom of the hero.
+  scrollCue?: boolean;
 }
 const {
   label, title, promise, image, imageAlt,
@@ -34,17 +34,8 @@ const {
   objectPosition = 'center 30%',
   pattern = false,
   video,
-  wave,
-  waveColor = 'white',
+  scrollCue = false,
 } = Astro.props as Props;
-// Deterministic variety: pages get different wave angles without per-page wiring.
-const waveVariant = wave ?? ((title.length % 3) + 1) as 1 | 2 | 3;
-const WAVES: Record<number, string> = {
-  1: 'M0,64 C240,96 480,16 720,40 C960,64 1200,112 1440,72 L1440,120 L0,120 Z',
-  2: 'M0,80 C300,32 560,104 880,64 C1140,32 1300,72 1440,48 L1440,120 L0,120 Z',
-  3: 'M0,48 C200,88 520,24 800,56 C1080,88 1280,40 1440,80 L1440,120 L0,120 Z',
-};
-const waveFill = waveColor === 'cream' ? 'var(--color-cream)' : 'var(--color-white)';
 ---
 <section class="page-hero">
   <div class="page-hero__media" style={`background-image: url(${image}); background-position: ${objectPosition};`} role="img" aria-label={imageAlt}></div>
@@ -54,11 +45,6 @@ const waveFill = waveColor === 'cream' ? 'var(--color-cream)' : 'var(--color-whi
     </video>
   )}
   <div class="page-hero__scrim" aria-hidden="true"></div>
-  {!pattern && (
-    <svg class="page-hero__wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-      <path d={WAVES[waveVariant]} style={`fill: ${waveFill};`}></path>
-    </svg>
-  )}
   <div class="container page-hero__inner">
     <div class="page-hero__copy">
       {label && <p class="label label--inverse">{label}</p>}
@@ -72,6 +58,11 @@ const waveFill = waveColor === 'cream' ? 'var(--color-cream)' : 'var(--color-whi
       )}
     </div>
   </div>
+  {scrollCue && (
+    <div class="page-hero__cue" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+    </div>
+  )}
 </section>
 {pattern && <PatternDivider variant="cream" height="90px" />}
 <style>
@@ -82,11 +73,6 @@ const waveFill = waveColor === 'cream' ? 'var(--color-cream)' : 'var(--color-whi
     min-height: clamp(480px, 60vh, 640px);
     overflow: hidden;
     color: var(--color-white);
-  }
-  /* The photo finishes in a soft wave instead of a hard horizontal cut. */
-  .page-hero__wave {
-    position: absolute; left: 0; right: 0; bottom: -1px; width: 100%;
-    height: clamp(40px, 7vw, 96px); z-index: 1; pointer-events: none; display: block;
   }
   .page-hero__media { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; z-index: 0; }
   .page-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
@@ -119,6 +105,13 @@ const waveFill = waveColor === 'cream' ? 'var(--color-cream)' : 'var(--color-whi
     border-bottom: 2px solid var(--color-gold); padding-bottom: 4px;
   }
   .page-hero__secondary:hover { color: var(--color-gold); }
+  .page-hero__cue {
+    position: absolute; left: 50%; bottom: var(--space-6); z-index: 3;
+    transform: translateX(-50%); color: color-mix(in srgb, var(--color-white) 80%, transparent);
+    animation: page-hero-bob 1.8s ease-in-out infinite;
+  }
+  @keyframes page-hero-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+  @media (prefers-reduced-motion: reduce) { .page-hero__cue { animation: none; } }
   @media (max-width: 760px) {
     .page-hero__scrim {
       background: linear-gradient(180deg,

@@ -1,0 +1,44 @@
+---
+// A simple, uniform gallery of YouTube videos built on the existing VideoEmbed
+// (poster + lightbox, no iframe until played). The page supplies the heading /
+// band background; this just lays out one optional large "lead" film and a
+// responsive grid of the rest. Cards reveal on scroll via the global .reveal.
+import VideoEmbed from '../global/VideoEmbed.astro';
+
+export interface Props {
+  videos: { id: string; title: string; caption?: string }[];
+  featured?: boolean;
+  cols?: 2 | 3;
+}
+const { videos, featured = true, cols = 3 } = Astro.props as Props;
+const lead = featured ? videos[0] : null;
+const grid = featured ? videos.slice(1) : videos;
+---
+<div class={`vg vg--cols-${cols}`}>
+  {lead && (
+    <div class="vg__lead reveal">
+      <VideoEmbed id={lead.id} title={lead.title} caption={lead.caption} />
+    </div>
+  )}
+  {grid.length > 0 && (
+    <div class="vg__grid">
+      {grid.map((v) => (
+        <div class="vg__cell reveal">
+          <VideoEmbed id={v.id} title={v.title} caption={v.caption} />
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+  .vg__lead { max-width: 920px; margin: 0 auto clamp(28px, 4vw, 56px); }
+  .vg__grid {
+    display: grid;
+    gap: clamp(24px, 3vw, 40px);
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .vg--cols-2 .vg__grid { grid-template-columns: repeat(2, 1fr); max-width: 920px; margin-inline: auto; }
+  @media (max-width: 900px) { .vg__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .vg__grid { grid-template-columns: 1fr; } }
+</style>

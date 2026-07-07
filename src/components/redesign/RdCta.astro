@@ -1,0 +1,95 @@
+---
+// Contained CTA: a deep-green rounded container set inside a white or cream
+// band, so the dark moment reads as an element (not a 4th background color).
+// Optional photo that stays invisible at the top (solid green) and fades in
+// faintly toward the bottom edge, per Daniel — a real image, not a drawn scene.
+export interface Props {
+  heading: string;
+  body?: string;
+  ctaLabel: string;
+  ctaHref: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  background?: 'white' | 'cream';
+  image?: string;
+  imageAlt?: string;
+}
+const {
+  heading, body, ctaLabel, ctaHref, secondaryLabel, secondaryHref,
+  background = 'white', image, imageAlt = '',
+} = Astro.props as Props;
+---
+<section class={`band band--${background} band--tight`}>
+  <div class="container">
+    <div class="rd-cta">
+      {image && (
+        <div class="rd-cta__photo" style={`background-image:url('${image}')`} role="img" aria-label={imageAlt}></div>
+      )}
+      <div class="rd-cta__body">
+        <h2>{heading}</h2>
+        {body && <p>{body}</p>}
+        <div class="rd-cta__actions">
+          <a class="btn btn--primary btn--large" href={ctaHref}>{ctaLabel}</a>
+          {secondaryLabel && secondaryHref && (
+            <a class="rd-cta__secondary" href={secondaryHref}>{secondaryLabel} &rarr;</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rd-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+    background: var(--color-green-deep);
+    border-radius: calc(var(--rd-radius) + 8px);
+    box-shadow: var(--rd-shadow-lift);
+    padding: clamp(72px, 9vw, 132px) clamp(24px, 6vw, 96px);
+  }
+  /* The photo fills the whole card, kept faint and green-tinted so it reads
+     as a green moment with the image showing through (per Daniel). */
+  .rd-cta__photo {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    mix-blend-mode: luminosity;
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* Green wash over the whole image: a touch denser behind the heading for
+     text contrast, easing off toward the bottom so the image reads more there. */
+  .rd-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--color-green-deep) 80%, transparent) 0%,
+      color-mix(in srgb, var(--color-green-deep) 62%, transparent) 55%,
+      color-mix(in srgb, var(--color-green-deep) 45%, transparent) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .rd-cta__body { position: relative; z-index: 2; }
+  .rd-cta h2 { color: var(--color-white); margin: 0 0 var(--space-5); }
+  .rd-cta p {
+    color: color-mix(in srgb, var(--color-white) 82%, transparent);
+    max-width: 56ch;
+    margin: 0 auto var(--space-8);
+    line-height: 1.75;
+  }
+  .rd-cta__actions { display: flex; gap: var(--space-8); align-items: center; justify-content: center; flex-wrap: wrap; }
+  .rd-cta__secondary {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 3px;
+  }
+  .rd-cta__secondary:hover { color: var(--color-gold); }
+</style>

@@ -1,10 +1,26 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import SavannaBand from '../../components/redesign/SavannaBand.astro';
+import SixRs from '../../components/redesign/SixRs.astro';
+import MinistryStructure from '../../components/redesign/MinistryStructure.astro';
+import VideoGallery from '../../components/redesign/VideoGallery.astro';
 import { SITE } from '../../lib/site';
+
+// Short mission films from Favor's YouTube channel (@favorinternational).
+const movementVideos = [
+  { id: 'LHarkRULU7Q', title: 'Favor International - An Indigenous Missionary Movement' },
+  { id: 'C5VBPhA50Mg', title: 'Evangelism in Africa' },
+  { id: 'xwSVEViFikA', title: "God's Institute for Transformation" },
+  { id: 'cvBVH4UQxIg', title: "Favor's Unique Missionary Model" },
+];
+
+// Small leaf marker shared by the trait cards.
+const LEAF = '<path d="M5 21c0-7 4-12 14-13C18 15 13 19 6 19c5 0 9-3 12-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
 
 const traits = [
   { title: 'Strong prayer life', desc: 'Everything begins on the knees. Leaders are formed in prayer before they are ever sent out.' },
@@ -16,38 +32,35 @@ const traits = [
   { title: 'Developed vision, calling, and gifts from God', desc: 'Clarity about how God has uniquely equipped them, and the courage to walk in it.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Mission & Vision"
   description="The verbatim mission, vision, and founding convictions of Favor International."
 >
-  <PageHero waveColor="cream"
+  <PageHero
     label="Mission & Vision"
     title="Transformed Hearts Transform Nations"
     promise="Favor International serves and trains indigenous African leaders to advance the Gospel into the unreached."
     image="/images/hero-prayer-recent.jpg"
     imageAlt="A Favor prayer gathering"
+    scrollCue
   />
 
-  <section class="band band--cream">
-    <div class="container container--narrow mv-vision">
-      <p class="label">Our vision</p>
-      <p class="vision">{SITE.vision}</p>
-    </div>
-  </section>
+  <RdFeature
+    image="/images/field-2026/prayer-gathering-2.webp"
+    imageAlt="A Favor field gathering in prayer"
+    eyebrow="Our mission"
+    side="left"
+    decor="leaf"
+  >
+    <p class="mission-lede">{SITE.mission}</p>
+  </RdFeature>
 
-  <section class="band band--cream mv-mission">
-    <div class="container container--narrow">
-      <p class="label">Our mission</p>
-      <p class="mission-body">{SITE.mission}</p>
-    </div>
-  </section>
-
-  <OverlayFeature
+  <RdFeature
     image="/images/field-2026/baptism-1.webp"
     imageAlt="New believers gathered in the field"
     eyebrow="Why we exist"
     heading="A spiritual army from the broken, lost, and impoverished."
-    side="left"
+    side="right"
   >
     <p>
       God has raised Favor up to mobilize a spiritual army from the broken, lost, and
@@ -65,17 +78,16 @@ const traits = [
       traffickers, poverty shrinking, and darkness driven away by the power of the Gospel in
       action.
     </p>
-  </OverlayFeature>
+  </RdFeature>
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/evangelism-3.webp"
     imageAlt="A Favor leadership training session"
     eyebrow="How we do it"
     heading="National leaders, on the front lines."
-    layout="image-right"
-    background="cream"
+    side="left"
   >
-    <p class="lede">
+    <p>
       Our passion is to mobilize national leaders in front-line battlegrounds to align their
       communities with the purposes of God in every aspect of life.
     </p>
@@ -86,33 +98,50 @@ const traits = [
       they need to multiply and accelerate individual and national transformation. National
       leadership is one of our core principles in Favor.
     </p>
-  </FeatureRow>
+  </RdFeature>
 
-  <section class="band band--cream mv-traits">
+  <MinistryStructure />
+
+  <SavannaBand image="/images/savanna-silhouette.png" imageAlt="An African savanna silhouette: acacia trees, elephants, and a giraffe">
+    <LeafHeading title="What we instill in the leaders we train" leaves={false} />
+    <ul class="trait-list">
+      {traits.map((t) => (
+        <li class="rd-card trait reveal">
+          <span class="trait__icon" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={LEAF}></svg></span>
+          <strong class="trait-list__title">{t.title}</strong>
+          <span class="trait-list__desc">{t.desc}</span>
+        </li>
+      ))}
+    </ul>
+  </SavannaBand>
+
+  <section class="band savanna-ground">
     <div class="container container--narrow">
-      <header class="band__header">
-        <h2>What we instill in the leaders we train</h2>
-      </header>
-      <ul class="trait-list">
-        {traits.map((t) => (
-          <li><strong class="trait-list__title">{t.title}</strong><span class="trait-list__desc">{t.desc}</span></li>
-        ))}
-      </ul>
-      <p class="mv-sow">
+      <p class="ground-statement">
         Transformation takes time and commitment. Investing in national leadership and
         discipleship has proven to be the most fruitful way to administer transformation. Our
-        ministry is committed to not just give temporary relief and then leave. We are here to
-        sow for a lifetime.
+        ministry is committed to not just give temporary relief and then leave.
       </p>
     </div>
   </section>
 
-  <OverlayFeature
+  <ScriptBand
+    image="/images/field/country-uganda.webp"
+    imageAlt="A vision-trip team with Karamojong villagers in the savanna"
+    label="The long view"
+    phrase="We are here to sow for a lifetime."
+    font="serif"
+    objectPosition="center 40%"
+  />
+
+  <RdFeature
     image="/images/evangelism-discipleship.jpg"
     imageAlt="Indigenous evangelism and discipleship in the field"
     eyebrow="The Gospel comes first"
     heading="The Gospel goes first, then everything follows."
     side="right"
+    background="cream"
+    decor="leaf"
   >
     <p>
       <strong>Favor gets the Gospel out to unreached areas where few others go, and we lead
@@ -129,55 +158,67 @@ const traits = [
       rest of the body of Christ, establish national leaders of all walks of life to disciple
       other national leaders, to further establish the Kingdom of God.</strong>
     </p>
-  </OverlayFeature>
+  </RdFeature>
 
-  <CtaBand
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="On film" title="See the movement" leaves={false} />
+      <VideoGallery videos={movementVideos} />
+    </div>
+  </section>
+
+  <section class="six-rs" style="background-image:url('/images/six-rs-community.jpg')" aria-label="The 6 R's, over a photo of the people Favor serves">
+    <div class="container">
+      <SixRs />
+    </div>
+  </section>
+
+  <div class="rd-spacer" aria-hidden="true"></div>
+
+  <RdCta
     heading="Stand with the mission."
     body="Becoming a Favor Partner is the simplest way to put this mission into motion every month."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
+    background="cream"
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching to a crowd under an acacia tree"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .mv-vision, .mv-mission { text-align: center; }
-  .vision {
+  /* The mission statement reads as the feature's display text, anchored to
+     the photo beside it (no orphan title-and-text sections). */
+  .mission-lede {
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 4.8vw, 3.6rem);
-    color: var(--color-green-deep);
-    margin: var(--space-3) 0 0;
-    line-height: 1.12;
-    letter-spacing: -0.015em;
-  }
-  .mv-mission { padding-top: 0; }
-  .mission-body {
-    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
-    line-height: 1.7;
-    color: var(--color-ink);
-    margin: 0;
-    max-width: 760px;
-  }
-  .lede {
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--color-gold-light);
+    font-size: var(--rd-fs-sub);
     line-height: 1.55;
+    color: var(--color-green-deep);
+    letter-spacing: -0.005em;
+    margin: 0;
+    text-wrap: pretty;
   }
-  .mv-sow { margin-top: var(--space-8); max-width: 640px; }
-  .trait-list { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
-  @media (max-width: 600px) { .trait-list { grid-template-columns: 1fr; } }
-  .trait-list li {
-    display: flex; flex-direction: column; gap: 5px;
-    padding: var(--space-5) var(--space-6);
-    background: var(--color-white);
-    border: 2px solid var(--accent, var(--color-gold));
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-soft);
+  /* (.savanna-ground / .ground-statement are global in redesign.css) */
+  .trait-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    max-width: 960px;
+    margin-inline: auto;
   }
-  .trait-list__title { color: var(--color-green); font-weight: 800; font-size: 1.02rem; line-height: 1.25; }
-  .trait-list__desc { color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.5; }
-  .trait-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
-  .trait-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
-  .trait-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
-  .trait-list li:nth-child(4n+4) { --accent: var(--color-sage); }
+  @media (max-width: 640px) { .trait-list { grid-template-columns: 1fr; } }
+  .trait-list li { display: flex; flex-direction: column; gap: var(--space-2); }
+  /* Odd count (7): the last card spans both columns and centers, so the row is
+     filled — no lone orphan card hanging on the left. */
+  .trait-list li:last-child { grid-column: 1 / -1; align-items: center; text-align: center; }
+  .trait-list li:last-child .trait-list__desc { max-width: 56ch; }
+  @media (max-width: 640px) { .trait-list li:last-child { align-items: flex-start; text-align: left; } }
+  .trait__icon { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: var(--rd-bg-green); color: var(--color-green); margin-bottom: var(--space-2); }
+  .trait__icon svg { width: 22px; height: 22px; }
+  .trait-list__title { color: var(--color-green); font-weight: 800; font-size: var(--rd-fs-body); line-height: 1.3; }
+  .trait-list__desc { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
+  /* The Ministry Structure graphic (Favor's own artwork), framed as a poster. */
 </style>
