@@ -3,7 +3,34 @@ import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+
+// Logistics without fabricated deadlines: Favor has no published cohort
+// calendar, so timing is stated honestly (a season of months, planned around
+// the intern's own calendar) instead of invented application windows.
+const logistics = [
+  { title: 'When', body: 'A season of months, timed around your calendar. Semesters and summers fit naturally; start the conversation before your season begins.' },
+  { title: 'Where', body: 'Remote from anywhere in the US, at the Riverview, FL office, or both.' },
+  { title: 'How it starts', body: 'One note through the contact form: who you are, your skills, and the months you have.' },
+];
+
+// What an intern walks away with. Kept to what the operation really is (the
+// roster runs these functions daily); no invented systems or certifications.
+const takeaways = [
+  { title: 'Real nonprofit operations', body: 'Hands-on experience inside a working international ministry: administration, records, and the day-to-day that keeps an ECFA-accredited organization running.' },
+  { title: 'Storytelling with real stakes', body: 'Media, newsletters, and social content built from real field material, for a real audience of partners.' },
+  { title: 'How indigenous missions work', body: 'A close-up view of how a US office serves indigenous field teams across Uganda, South Sudan, and Chad.' },
+];
+
+// FAQ: process-honest answers only. Credit, funding, and housing are shaped
+// in the planning conversation - no promises Favor has not published.
+const faqs = [
+  { q: 'When should I ask?', a: 'Before the season you have in mind - ahead of your semester or summer. The earlier the conversation starts, the better the internship fits.' },
+  { q: 'Can I get academic or seminary credit?', a: 'If your school offers internship credit, bring its requirements to the planning conversation and the US team will work with them.' },
+  { q: 'Can I intern while working or studying part-time?', a: 'Internships are shaped around your season and your schedule, and remote work is normal. Tell us what your months actually look like.' },
+  { q: 'Is fundraising required? What about housing?', a: 'It depends on the shape of your internship. Support and any housing or travel details are worked out with the US team during planning, before you commit.' },
+];
 
 // Internships as their own page (per Daniel 2026-07-08: the menu has both an
 // Internships link and a Careers link, so they are two different things).
@@ -66,6 +93,20 @@ const steps = [
 
   <section class="band band--cream">
     <div class="container">
+      <LeafHeading label="The logistics" title="Plain answers up front." leaves={false} />
+      <div class="logi">
+        {logistics.map((l) => (
+          <div class="logi__col reveal">
+            <h3>{l.title}</h3>
+            <p>{l.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
       <LeafHeading label="The work" title="Where interns serve." leaves={false} />
       <div class="areas">
         {areas.map((a) => (
@@ -81,6 +122,31 @@ const steps = [
     </div>
   </section>
 
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="What you'll take with you" title="A season that counts twice." intro="Interns leave with real experience, not a stack of coffee runs." leaves={false} />
+      <div class="gains">
+        {takeaways.map((t, i) => (
+          <div class="gains__col reveal">
+            <span class="gains__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{t.title}</h3>
+            <p>{t.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScriptBand
+    image="/images/field-2026/prayer-7.webp"
+    imageAlt="A Favor team praying together"
+    label="The spiritual core"
+    phrase="Prayer is not optional but necessary if you want to live. That's how we treat prayer and the Word of God here."
+    cite="Carole Ward, to young visitors at the mission - Lord Send Us Where No One Wants to Go"
+    font="serif"
+    tall
+  />
+
   <section class="band band--white">
     <div class="container">
       <LeafHeading label="How it works" title="Three steps to a season that counts." leaves={false} />
@@ -93,6 +159,20 @@ const steps = [
           </li>
         ))}
       </ol>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading label="Questions, answered" title="Before you ask." leaves={false} />
+      <div class="faq">
+        {faqs.map((f) => (
+          <details class="faq__item rd-outline">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -162,6 +242,43 @@ const steps = [
   }
   .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* Logistics: three plain columns, hairline separated. */
+  .logi { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(36px, 4.4vw, 58px); }
+  .logi__col { padding: var(--space-2) clamp(20px, 2.6vw, 44px); text-align: center; }
+  .logi__col + .logi__col { border-left: 1px solid rgba(31, 58, 26, 0.14); }
+  .logi__col h3 { color: var(--color-gold-deep); font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 var(--space-3); }
+  .logi__col p { margin: 0 auto; color: var(--color-ink); line-height: 1.7; max-width: 34ch; font-weight: 500; }
+  @media (max-width: 860px) {
+    .logi { grid-template-columns: 1fr; row-gap: var(--space-6); }
+    .logi__col + .logi__col { border-left: 0; border-top: 1px solid rgba(31, 58, 26, 0.14); padding-top: var(--space-6); }
+  }
+
+  /* Takeaways: gold-ruled numbered columns. */
+  .gains { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 4vw, 56px); margin-top: clamp(36px, 4.4vw, 58px); }
+  @media (max-width: 860px) { .gains { grid-template-columns: 1fr; } }
+  .gains__col { border-top: 2px solid color-mix(in srgb, var(--color-gold) 55%, transparent); padding-top: var(--space-5); }
+  .gains__num { font-family: var(--font-display); font-weight: 700; color: var(--color-gold-deep); letter-spacing: 0.08em; }
+  .gains__col h3 { color: var(--color-green); margin: var(--space-3) 0; font-size: var(--rd-fs-sub); }
+  .gains__col p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* FAQ accordion (house idiom). */
+  .faq { display: flex; flex-direction: column; gap: var(--space-3); margin-top: clamp(36px, 4.4vw, 58px); }
+  .faq__item { padding: 0; overflow: hidden; }
+  .faq__item summary {
+    cursor: pointer; list-style: none; position: relative;
+    padding: var(--space-5) var(--space-12) var(--space-5) var(--space-6);
+    font-weight: 700; color: var(--color-ink);
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary::after {
+    content: '+'; position: absolute; right: var(--space-6); top: 50%; transform: translateY(-50%);
+    color: var(--color-green); font-weight: 700; font-size: 1.3rem; line-height: 1;
+    transition: transform 160ms ease;
+  }
+  .faq__item[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .faq__item summary:hover { color: var(--color-green); }
+  .faq__item p { margin: 0; padding: 0 var(--space-6) var(--space-5); color: var(--color-ink-soft); line-height: 1.7; }
 
   /* The two doors next to this one. */
   .also { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
