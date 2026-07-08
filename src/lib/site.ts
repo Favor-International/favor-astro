@@ -99,8 +99,8 @@ export const MEGA_NAV: MegaMenu[] = [
         { label: 'Legacy Giving', href: '/give/legacy/' },
         { label: 'Stocks, Crypto, Non-Cash', href: '/give/non-cash/' },
       ] },
-      { label: 'Churches & Organizations', href: '/give/church-partnership/', desc: 'A dedicated path for pastors and foundations', children: [
-        { label: 'Church Partnership', href: '/give/church-partnership/' },
+      { label: 'Churches & Organizations', href: '/go/church-partnerships/', desc: 'A dedicated path for pastors and foundations', children: [
+        { label: 'Church Partnership', href: '/go/church-partnerships/' },
         { label: 'Foundation Giving', href: '/give/foundation/' },
       ] },
     ],
@@ -121,10 +121,8 @@ export const MEGA_NAV: MegaMenu[] = [
       { label: 'Volunteer from Home', href: '/go/volunteer/', desc: 'Serve from anywhere in the US' },
       { label: 'Internships', href: '/go/internships/', desc: 'Months alongside the US team' },
       { label: 'Careers', href: '/go/careers/', desc: 'Full-time positions with Favor' },
-      // Ambassadors: program content is still on Will's gather list; until it
-      // lands, this points at the volunteer page's ambassador invitation.
-      { label: 'Ambassadors', href: '/go/volunteer/#ambassadors', desc: 'Represent Favor where you live' },
-      { label: 'Church Partnerships', href: '/give/church-partnership/', desc: 'Mobilize your church around a field team' },
+      { label: 'Ambassadors', href: '/go/ambassadors/', desc: 'Represent Favor where you live' },
+      { label: 'Church Partnerships', href: '/go/church-partnerships/', desc: 'Mobilize your church around a field team' },
     ],
     featured: {
       image: '/images/field-2026/street-outreach-7.webp',

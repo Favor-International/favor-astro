@@ -91,19 +91,6 @@ const steps = [
     </div>
   </section>
 
-  <div id="ambassadors" class="vol-anchor" aria-hidden="true"></div>
-  <section class="band band--white">
-    <div class="container container--narrow">
-      <LeafHeading
-        label="Ambassadors"
-        title="Represent Favor where you live."
-        intro="Ambassadors connect their church and community to the field: introductions, prayer, and presence where you are. Ask us about becoming one and the US team will walk you through it."
-        leaves={false}
-      />
-      <p class="band__cta-row vol-amb-cta"><a class="btn btn--secondary" href="/about/contact/?topic=ambassador">Ask about being an ambassador</a></p>
-    </div>
-  </section>
-
   <div id="internships" class="vol-anchor" aria-hidden="true"></div>
   <RdFeature
     image="/images/field-2026/street-outreach-5.webp"
@@ -194,7 +181,6 @@ const steps = [
   /* Anchor target for /go/volunteer/#internships (RdFeature owns its own
      section tag, so the id lives on a zero-height marker above it). */
   .vol-anchor { position: relative; top: -80px; height: 0; }
-  .vol-amb-cta { text-align: center; margin-top: var(--space-2); }
 
   /* Work from anywhere / visit the office. */
   .vol-where { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 3vw, 48px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
