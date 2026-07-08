@@ -5,69 +5,41 @@ import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
-// Country Director posting, verbatim from favorintl.org/positions/country-director.
-const cdResponsibilities = [
-  { group: 'Leadership', items: [
-    'Participate with the ID/Founder and the Board of Directors in developing a vision and strategic plan to guide the organization within the country',
-    'Identify, assess, and inform the ID/Founder and the Board of Directors of internal and external issues that affect the organization',
-    'Foster effective teamwork with the Board and the ID/Founder and between the ID/Founder and staff',
-    'Act as a spokesperson for the organization and its programs',
-  ] },
-  { group: 'Operations', items: [
-    'Ensure that the operation of the organization meets the expectations of its clients, Board, and Funders',
-    'Oversee the efficient and effective day-to-day operation of the organization’s operations in Country',
-    'Draft policies for the approval of the ID/Founder and prepare procedures to implement the organizational policies; review existing policies on an annual basis and recommend changes to the ID/Founder as appropriate',
-    'Provide support to the ID/Founder by preparing meeting agenda and supporting materials and copy her on minutes of such meetings',
-  ] },
-  { group: 'Programs', items: [
-    "Oversee the planning, implementation, and evaluation of the organization's programs",
-    "Ensure that the programs offered by the organization contribute to the organization's mission and reflect the priorities of the Board",
-    'Monitor the day-to-day delivery of the programs of the organization to maintain or improve quality',
-    'Oversee the planning, implementation, execution, and evaluation of special projects',
-  ] },
-  { group: 'Finances', items: [
-    'Oversee all financial aspects of the organization, including the development of, and adherence to, the annual budget',
-    'Ensure that sound bookkeeping and accounting procedures are followed',
-    'Administer the funds of the organization according to the approved budget and processes regarding the monthly cash flow of the organization',
-    'Provide the ID/Founder and the Board with comprehensive, regular reports on the revenues and expenditure of the organization',
-    'Work with the Board to secure adequate funding for the operation of the organization via grants, fundraising, and partnerships',
-  ] },
-  { group: 'Development and Fundraising', items: [
-    'Research funding sources, oversee the development of fundraising plans, and write funding proposals to increase the revenue of the organization',
-    'Maintain and expand revenue generating and fundraising activities to support existing program operations and planned expansions, including fundraising campaigns and donor management activities',
-    'Establish good working relationships and collaborative arrangements with funders, donors, potential donors, and other organizations to help achieve the goals of the organization',
-  ] },
-  { group: 'Communications and Marketing', items: [
-    'Deepen and refine all aspects of communications, from web presence to external relations, with the goal of creating a stronger brand',
-    'Maintain, enhance, and implement internal and external communication strategies',
-    'Communicate with stakeholders to keep them informed of the work of the organization and to identify changes in the community served by the organization',
-    'Use external presence and relationships to garner new opportunities',
-  ] },
-  { group: 'Human Resources', items: [
-    'Responsible for hiring, supervising, and evaluating Favor staff, including interns',
-    'Oversee all management functions, including but not limited to employment contracts, legal issues, and insurance concerns',
-  ] },
+// "Serve from Home" is now exactly that (per Daniel, 2026-07-08): remote and
+// US-side serving only. The Country Director posting moved to /go/careers/;
+// the short-term mission trips section moved to /go/vision-trips/. The core
+// copy here stays verbatim from Favor's material.
+//
+// The skill areas below are the ones Favor's own text names ("From media, to
+// accounting, to mailing and other administrative assistance") plus prayer,
+// which is the ministry's stated foundation.
+const skills = [
+  { icon: 'pray', title: 'Prayer & intercession', body: 'Stand with the field in prayer. Pray through the Nations Prayer Guide and lift up the requests the teams send back.' },
+  { icon: 'media', title: 'Media & creative', body: 'Help with the media work that keeps partners connected to the field: video, design, and social content.' },
+  { icon: 'admin', title: 'Accounting & administrative', body: 'Accounting help and administrative assistance that keep the US operation running.' },
+  { icon: 'mail', title: 'Mailing & partner care', body: 'Mailing and the behind-the-scenes care that ensure all our partners are honored.' },
 ];
-const cdQualifications = [
-  'Prior executive level experience as a successful leader, including a proven track record of growing organizational capacity and programmatic impact.',
-  'A Master’s degree in public, nonprofit, or business administration or management, behavioral health or another related field preferred. Bachelor’s degree required.',
-  'Experience building multi-year strategic plans and prioritizing initiatives that lead to measurable results',
-  'Demonstrated success in building relationships with public sector officials (local government officials), private sector partners, funders, NGO partners operating in Country, and other diverse stakeholders to foster broad community support.',
-  'Experience managing projects across multiple different departments and stakeholders',
-  'Experience in fostering an environment of mutual accountability and collaboration, healthy work relationships and partnerships, and inclusivity among organizational staff in order to maintain a positive and collaborative work environment.',
-  'Proven abilities and experience in fiscal oversight and working with the Directors and Boards to develop and approve complex budgets',
-  'Excellent written and verbal communication skills',
-  'Commitment to the mission, values, and Statement of Faith of Favor International',
+const SKILL_ICONS: Record<string, string> = {
+  pray: '<path d="M12 3v3M8 5l1.5 2M16 5l-1.5 2"/><path d="M12 21c-3.5-1.6-5.5-4.2-5.5-7.5V9l5.5 2.5L17.5 9v4.5c0 3.3-2 5.9-5.5 7.5Z"/>',
+  media: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5 21 7v10l-5-3.5"/>',
+  admin: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+};
+
+const steps = [
+  { n: '1', title: 'Inquire', body: 'Share who you are, your skills, and your availability through the contact form.' },
+  { n: '2', title: 'Match', body: 'The US team pairs you with work that actually needs doing.' },
+  { n: '3', title: 'Serve', body: 'Work from anywhere, on your schedule. You are welcome to visit Favor’s office too.' },
 ];
 ---
 <RedesignLayout
   title="Serve from Home"
-  description="Volunteer with Favor International from the United States. Short-term mission trips, internships, and US-team volunteering."
+  description="Volunteer with Favor International from anywhere in the US: prayer, media, accounting, mailing, and administrative help. Internships too."
 >
   <PageHero
     label="Volunteer"
     title="Serve from home."
-    promise="Short-term mission trips, internships, and US-team volunteering. You don't have to fly to be useful."
+    promise="Volunteer roles and internships with the US team. You don't have to fly to be useful."
     image="/images/hero-volunteer-action.jpg"
     imageAlt="Volunteer team gathering"
     ctaLabel="Sign up"
@@ -86,76 +58,46 @@ const cdQualifications = [
     <p>If you have a heart for giving your time and talent to God, as expressed through this ministry, you have an opportunity with Favor International to go on a short-term 2-week mission trip or a months long internship that will change your life.</p>
     <p>Favor&rsquo;s US team is greatly supported by volunteer team members to keep operations going. From media, to accounting, to mailing and other administrative assistance, there are people who keep the vision running and ensure all our partners are honored. Volunteers can work from anywhere but are welcome to visit Favor&rsquo;s office.</p>
     <p>You must be a self-starter and finisher, yet able to work under authority and initiating to get the idea done. Constant communication is key. Are you one of these people?</p>
-    <h3 id="positions">Open position</h3>
-    <p><strong>Country Director.</strong> Full-time, living in country (Uganda or South Sudan). The full posting is below.</p>
-    <p class="band__cta-row"><a class="btn btn--secondary" href="#country-director">See the full posting</a></p>
   </RdFeature>
 
   <section class="band band--white">
-    <div class="container container--narrow trips">
-      <LeafHeading
-        label="Short-term mission trips"
-        title="Two weeks that change your life."
-        intro="See the many ministries that Favor is involved in and see where you could make the greatest impact in 2 weeks! Some examples of past team ministry that has left lasting results include:"
-      />
-      <ul class="trips__list">
-        <li>Basketball sports camp teaching &lsquo;speak life&rsquo; for former street youth</li>
-        <li>Mobile medical clinics in rural areas</li>
-        <li>Pastors conference</li>
-        <li>Discipleship with the former street youth</li>
-        <li>Crafts and hands on workshops with youth</li>
-        <li>Children&rsquo;s ministry</li>
-        <li>Rural evangelism</li>
-        <li>Women&rsquo;s Empowerment in villages</li>
-        <li>Prison ministry</li>
-        <li>Radio presentations</li>
-        <li>&hellip;and much more!</li>
-      </ul>
-      <p class="trips__closer">Come and see what God is doing in real people, in real places, and in real time!</p>
-      <p class="band__cta-row"><a class="btn btn--primary" href="/about/contact/?topic=volunteer">Request an application</a></p>
+    <div class="container">
+      <LeafHeading label="Where you fit" title="Pick your skillset." intro="Every role below supports the field from the US side." leaves={false} />
+      <div class="skills">
+        {skills.map((s) => (
+          <div class="skills__col reveal">
+            <span class="skills__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={SKILL_ICONS[s.icon]}></svg>
+            </span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="band band--greenlight" id="country-director">
+  <section class="band band--greenlight">
     <div class="container container--narrow">
-      <LeafHeading label="Open position" title="Country Director" leaves={false} />
-      <img class="cd-lead" src="/images/field-2026/missionaries-2.webp" alt="Indigenous Favor leaders in South Sudan" width="1600" height="900" loading="lazy" />
-      <dl class="cd-meta">
-        <div><dt>Status</dt><dd>Full-time</dd></div>
-        <div><dt>Compensation</dt><dd>Commensurate with experience</dd></div>
-        <div><dt>Location</dt><dd>Africa (Uganda and/or South Sudan)</dd></div>
-      </dl>
+      <p class="vol-statement">
+        &ldquo;There are people who keep the vision running and ensure all our partners are honored.&rdquo;
+      </p>
+      <p class="vol-statement__note">That is what serving from home does: it keeps the US side strong so the field can stay focused on the field.</p>
+    </div>
+  </section>
 
-      <div class="cd-body">
-        <h3>Overview</h3>
-        <p>The Country Director (CD) will have overall strategic and operational responsibility for Favor&rsquo;s staff, programs, and execution of its mission in the country where he/she is posted. The CD is responsible for overseeing the administration, programs, and implementation of the mission and vision of the organization. Other key duties include developing strategic partnerships, fundraising, marketing, and communications.</p>
-
-        <h3>Accountability</h3>
-        <p>The Country Director is a full-time position, living full-time in the country he/she is responsible for and reports directly to the International Director (ID)/Founder and the Board of Directors of Favor International.</p>
-
-        <h3>Relationships</h3>
-        <p>The Country Director serves with the International Director/Founder and the Board of Directors to develop and maintain relationships characterized by vision, trust, transparency, education, dignity, cooperation, and openness. These relationships extend to the partners, stakeholders, clients, students, employees, and contractors of Favor International both in country and abroad.</p>
-
-        <h3>Location</h3>
-        <p>The Uganda Country Director position is based in Gulu, Uganda. The South Sudan Country Director position is based in Juba, South Sudan. There will be in-country travel required plus potential opportunities for international travel.</p>
-
-        <h3>Responsibilities</h3>
-        {cdResponsibilities.map((r) => (
-          <div class="cd-respo">
-            <h4>{r.group}</h4>
-            <ul>{r.items.map((i) => <li>{i}</li>)}</ul>
-          </div>
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How it works" title="Three steps, on your schedule." leaves={false} />
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="rd-card steps__item reveal">
+            <span class="steps__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
         ))}
-
-        <h3>Qualifications</h3>
-        <p>The candidate must have a passion for the mission and vision of Favor International, integrity, a strong sense of accountability, and a long-term perspective. The ideal candidate has a track record of exercising good judgment, and has a practical ability to get things done. He/she brings a fair and thoughtful approach to management, combined with the flexibility and courage to shift direction and experiment with new initiatives. Essential qualifications also include:</p>
-        <ul>{cdQualifications.map((q) => <li>{q}</li>)}</ul>
-
-        <h3>Compensation</h3>
-        <p>Compensation will be fairly based on experience. Compensation may increase as the organization grows.</p>
-      </div>
-
-      <p class="band__cta-row"><a class="btn btn--primary" href="/about/contact/?topic=country-director">Request an application</a></p>
+      </ol>
     </div>
   </section>
 
@@ -164,30 +106,54 @@ const cdQualifications = [
     body="One short form tells us your time, your skills, and your context."
     ctaLabel="Sign up"
     ctaHref="/about/contact/?topic=volunteer"
+    background="cream"
     image="/images/field-2026/street-outreach-7.webp"
     imageAlt="A Favor street outreach team"
   />
 </RedesignLayout>
 
 <style>
+  /* Skillsets: open columns with icon medallions (matches the who-for
+     treatment on Vision Trips - no box grid). */
+  .skills { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(36px, 4.4vw, 58px); }
+  .skills__col { padding: var(--space-2) clamp(18px, 2.2vw, 36px); text-align: center; }
+  .skills__col + .skills__col { border-left: 1px solid rgba(31, 58, 26, 0.14); }
+  .skills__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: color-mix(in srgb, var(--color-gold) 16%, var(--color-white));
+    color: var(--color-gold-deep);
+    margin-bottom: var(--space-5);
+  }
+  .skills__icon svg { width: 28px; height: 28px; }
+  .skills__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); font-size: var(--rd-fs-sub); }
+  .skills__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; font-size: var(--rd-fs-body); max-width: 30ch; }
+  @media (max-width: 1024px) {
+    .skills { grid-template-columns: repeat(2, 1fr); row-gap: var(--space-8); }
+    .skills__col:nth-child(3) { border-left: 0; }
+  }
+  @media (max-width: 560px) {
+    .skills { grid-template-columns: 1fr; row-gap: var(--space-6); }
+    .skills__col + .skills__col { border-left: 0; border-top: 1px solid rgba(31, 58, 26, 0.14); padding-top: var(--space-6); }
+  }
 
-  .trips__list { columns: 2; column-gap: var(--space-12); list-style: none; padding: 0; margin: 0 auto var(--space-6); max-width: 680px; }
-  .trips__list li { position: relative; padding: var(--space-2) 0 var(--space-2) var(--space-6); color: var(--color-ink-soft); line-height: 1.55; break-inside: avoid; }
-  .trips__list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-green-bright); font-weight: 800; }
-  @media (max-width: 600px) { .trips__list { columns: 1; } }
-  .trips__closer { text-align: center; color: var(--color-green); font-weight: 700; font-size: 1.15rem; margin: var(--space-10) 0 0; }
+  /* The why-it-matters statement: Favor's own line, large. */
+  .vol-statement {
+    margin: 0 auto var(--space-5); max-width: 22em; text-align: center;
+    font-family: var(--font-display); font-size: var(--rd-fs-title);
+    font-weight: 600; line-height: 1.35; color: var(--color-green-deep); text-wrap: balance;
+  }
+  .vol-statement__note { margin: 0 auto; max-width: 52ch; text-align: center; color: var(--color-ink-soft); line-height: 1.7; }
 
-  .cd-lead { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-card); margin: var(--space-8) 0 0; box-shadow: var(--shadow-card); }
-  .cd-meta { display: flex; flex-wrap: wrap; gap: var(--space-4); margin: var(--space-10) 0 var(--space-16); padding: 0; }
-  .cd-meta div { flex: 1 1 200px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: var(--space-4) var(--space-5); }
-  .cd-meta dt { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .cd-meta dd { margin: var(--space-2) 0 0; font-weight: 600; color: var(--color-green); }
-  .cd-body h3 { margin: var(--space-14, 3.5rem) 0 var(--space-4); color: var(--color-green); font-size: 1.3rem; }
-  .cd-body > p { color: var(--color-ink-soft); line-height: 1.75; margin: 0 0 var(--space-4); }
-  .cd-body > ul { margin: 0 0 var(--space-4); padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.7; }
-  .cd-body > ul li { margin-bottom: var(--space-2); }
-  .cd-respo { margin: var(--space-8) 0 var(--space-6); }
-  .cd-respo h4 { margin: 0 0 var(--space-3); color: var(--color-gold-deep); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-  .cd-respo ul { margin: 0; padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.7; }
-  .cd-respo ul li { margin-bottom: var(--space-2); }
+  /* Steps (same idiom as Vision Trips). */
+  .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps__n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--rd-bg-green); color: var(--color-green);
+    font-weight: 800; font-size: 1.15rem; margin-bottom: var(--space-4);
+  }
+  .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
 </style>
