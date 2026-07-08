@@ -15,6 +15,38 @@ const leadership = leadershipSlugs
   .map(slug => directorsData.find(d => d.slug === slug))
   .filter(Boolean);
 const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
+
+// The full U.S. roster, per Will (2026-07-07). Source: Favor Staff Directory
+// 2026 (Telephone List). Names + titles only; the directory's phones, home
+// addresses, and birthdays are private and must never be published. The three
+// directors above are excluded here since they are featured already.
+const roster = [
+  { name: 'Bradley Cutsinger', title: 'Regional Development Director' },
+  { name: 'Brian Carr', title: 'Regional Development Director' },
+  { name: 'Celeste Paul', title: 'Volunteer' },
+  { name: 'Crystal Hall', title: 'Grants Management Specialist' },
+  { name: 'Crystal Moux', title: 'Administrative Assistant' },
+  { name: 'Daniel Casella', title: 'IT & Communications Consultant' },
+  { name: 'Danny Avila', title: 'Social Media Manager' },
+  { name: 'David Morton', title: 'Sr. Regional Development Director' },
+  { name: 'Emma Stewart', title: 'Administrative Assistant (Marketing/Support Team)' },
+  { name: 'Grace Morris', title: 'Executive Administrative Assistant' },
+  { name: 'Gregory Phipps', title: 'Grants Specialist' },
+  { name: 'Jennifer Morris', title: 'Partner Care Manager' },
+  { name: 'Jerry Christian', title: 'Volunteer' },
+  { name: 'Joe Krol', title: 'Assistant Director of Grant Services' },
+  { name: 'Jordan Abbott', title: 'Administrative Assistant (Grant Dept.)' },
+  { name: 'Josh Milliron', title: 'National Director of Church Engagement' },
+  { name: 'Megan Respass', title: 'Direct Marketing Associate' },
+  { name: 'Michael Hinton', title: 'Operations Manager' },
+  { name: 'Morgan Mason', title: 'Executive Administrative Assistant' },
+  { name: 'Nathan Bril', title: 'Director of Media' },
+  { name: 'Rachel Cox', title: 'Executive Assistant' },
+  { name: 'Richard Brown', title: 'Regional Development Director' },
+  { name: 'Stephanie Brady', title: 'Regional Development Director' },
+  { name: 'Val Spillane', title: 'Partner Care Associate' },
+  { name: 'William Hamilton', title: 'Marketing Consultant' },
+];
 ---
 <RedesignLayout
   title="Our Team"
@@ -55,6 +87,24 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
           );
         })}
       </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading
+        label="The full U.S. roster"
+        title="The whole U.S. team."
+        leaves={false}
+      />
+      <ul class="roster">
+        {roster.map((p) => (
+          <li class="roster__cell reveal">
+            <strong class="roster__name">{p.name}</strong>
+            <span class="roster__title">{p.title}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -139,4 +189,22 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
     .leader[data-side='right'] .leader__copy { order: 0; }
     .leader__photo { max-width: 380px; margin-inline: auto !important; }
   }
+
+  /* Full U.S. roster: a quiet masthead-style directory. Text cells with a
+     hairline top rule (no cards; 25 shadowed boxes would be heavy). */
+  .roster {
+    list-style: none; padding: 0;
+    margin: clamp(36px, 4.4vw, 58px) 0 0;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(26px, 3vw, 40px) clamp(32px, 4vw, 56px);
+  }
+  .roster__cell {
+    display: flex; flex-direction: column; gap: var(--space-1);
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(31, 58, 26, 0.14);
+  }
+  .roster__name { color: var(--color-ink); font-weight: 700; font-size: var(--rd-fs-body); }
+  .roster__title { color: var(--color-sage); font-size: var(--rd-fs-small); font-weight: 600; letter-spacing: 0.02em; }
+  @media (max-width: 900px) { .roster { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .roster { grid-template-columns: 1fr; } }
 </style>
