@@ -87,15 +87,22 @@ export const MEGA_NAV: MegaMenu[] = [
   {
     label: 'Give',
     href: '/give/',
+    // Reorganized 2026-07-08 per Will/Danny: personal giving and
+    // church/organization giving are two different categories, so the panel
+    // now renders them as two labeled columns (children -> columns layout).
     items: [
-      { label: 'Become a Favor Partner', href: '/give/partner-monthly/', badge: 'featured' },
-      { label: 'Give Once', href: '/give/one-time/' },
-      { label: 'Specific Project', href: '/give/specific-project/' },
-      { label: 'Church Partnership', href: '/give/church-partnership/' },
-      { label: 'Foundation Giving', href: '/give/foundation/' },
-      { label: 'International Giving', href: '/give/international/' },
-      { label: 'Legacy Giving', href: '/give/legacy/' },
-      { label: 'Stocks, Crypto, Non-Cash', href: '/give/non-cash/' },
+      { label: 'Ways to Give', href: '/give/', desc: 'Personal giving, monthly or one-time', children: [
+        { label: 'Become a Favor Partner', href: '/give/partner-monthly/' },
+        { label: 'Give a One-Time Gift', href: '/give/one-time/' },
+        { label: 'Specific Project', href: '/give/specific-project/' },
+        { label: 'International Giving', href: '/give/international/' },
+        { label: 'Legacy Giving', href: '/give/legacy/' },
+        { label: 'Stocks, Crypto, Non-Cash', href: '/give/non-cash/' },
+      ] },
+      { label: 'Churches & Organizations', href: '/give/church-partnership/', desc: 'A dedicated path for pastors and foundations', children: [
+        { label: 'Church Partnership', href: '/give/church-partnership/' },
+        { label: 'Foundation Giving', href: '/give/foundation/' },
+      ] },
     ],
     featured: {
       image: '/images/field-2026/baptism-4.webp',
@@ -110,20 +117,21 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'Go',
     href: '/go/',
     items: [
-      { label: 'Vision Trips', href: '/go/vision-trips/' },
-      { label: 'Volunteer from Home', href: '/go/volunteer/' },
-      // Fixed 2026-07-08 per Daniel: these two pointed at the bare /go/ hub
-      // from before the pages existed; each now has its own page.
-      { label: 'Internships', href: '/go/internships/' },
-      { label: 'Careers', href: '/go/careers/' },
-      { label: 'Church Partnerships', href: '/give/church-partnership/' },
+      { label: 'Vision Trips', href: '/go/vision-trips/', desc: 'Small-team mission trips to the field' },
+      { label: 'Volunteer from Home', href: '/go/volunteer/', desc: 'Serve from anywhere in the US' },
+      { label: 'Internships', href: '/go/internships/', desc: 'Months alongside the US team' },
+      { label: 'Careers', href: '/go/careers/', desc: 'Full-time positions with Favor' },
+      // Ambassadors: program content is still on Will's gather list; until it
+      // lands, this points at the volunteer page's ambassador invitation.
+      { label: 'Ambassadors', href: '/go/volunteer/#ambassadors', desc: 'Represent Favor where you live' },
+      { label: 'Church Partnerships', href: '/give/church-partnership/', desc: 'Mobilize your church around a field team' },
     ],
     featured: {
       image: '/images/field-2026/street-outreach-7.webp',
-      eyebrow: 'Spring + Fall 2026',
+      eyebrow: 'See it firsthand',
       title: 'Walk a village with a Favor field leader',
-      body: 'Small-team vision trips to Uganda, South Sudan, and Ethiopia.',
-      ctaLabel: 'See open trips',
+      body: 'Small-team mission trips to Uganda, South Sudan, and Chad, planned with you.',
+      ctaLabel: 'Explore vision trips',
       ctaHref: '/go/vision-trips/',
     },
   },
@@ -156,7 +164,6 @@ export const MEGA_NAV: MegaMenu[] = [
       ] },
       { label: 'Stories from the Field', href: '/stories/' },
       { label: 'Past Newsletters', href: '/newsletter/archive/' },
-      { label: 'Impact Reports & 990s', href: '/about/accountability/' },
     ],
     featured: {
       image: '/images/field-2026/pbs-5.webp',
@@ -174,7 +181,7 @@ export const MEGA_NAV: MegaMenu[] = [
       { label: 'Mission & Vision', href: '/about/mission-vision/' },
       { label: 'Our Story', href: '/about/our-story/' },
       { label: 'Where We Work', href: '/about/where-we-work/' },
-      { label: 'Team', href: '/about/team/' },
+      { label: 'US Team & Field Leaders', href: '/about/team/' },
       { label: 'Board of Directors', href: '/about/board/' },
       { label: 'Statement of Faith', href: '/about/statement-of-faith/' },
       { label: 'Accountability & Financials', href: '/about/accountability/' },
