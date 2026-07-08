@@ -3,24 +3,70 @@ import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
-import Gallery from '../../components/global/Gallery.astro';
+import VideoFeature from '../../components/redesign/VideoFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import directorsData from '../../data/directors.json';
 
-// Fact-audit note (2026-07-08): the earlier trip calendar (destinations,
-// dates, named leaders, costs), the "Jennifer M." testimonial, and the
-// application deadlines were UNSOURCED and are removed. No trip specifics go
-// on this page until Favor publishes them. Trips are arranged through the
-// contact form.
-const tripGallery = [
-  { src: '/images/field/crusade-south-sudan.webp', caption: 'An evening crusade, South Sudan', desc: 'Hundreds gather at dusk to hear the Gospel preached in their own language. On a trip you stand in the middle of it.', alt: 'An outdoor evening crusade gathering in South Sudan' },
-  { src: '/images/field/primary-school-south-sudan.webp', caption: 'A Favor primary school, South Sudan', desc: 'A hall full of children learning to read with the Word of God at the center.', alt: 'Students gathered in a Favor primary school hall' },
-  { src: '/images/field/well-uganda.webp', caption: 'A new village well, Uganda', desc: 'Clean water from a borehole Favor helped fund.', alt: 'Villagers at a new water well in Uganda' },
+// Fact-audit rules for this page (docs/06-reference/about-fact-audit-2026-07-08.md):
+// no invented trip calendars, costs, deadlines, testimonials, or safety
+// protocols. Every specific below is either Favor's own material, a documented
+// program/activity, or an honest "planned with you" process answer.
+// Testimonials are deliberately absent until Favor supplies real traveler
+// quotes (name + city).
+
+// What you'll witness: the three field scenes, now as alternating rows.
+const witness = [
+  { src: '/images/field/crusade-south-sudan.webp', caption: 'An evening crusade, South Sudan', alt: 'An outdoor evening crusade gathering in South Sudan', body: 'Hundreds gather at dusk to hear the Gospel preached in their own language. On a trip you stand in the middle of it.' },
+  { src: '/images/field/primary-school-south-sudan.webp', caption: 'A Favor primary school, South Sudan', alt: 'Students gathered in a Favor primary school hall', body: 'A hall full of children learning to read with the Word of God at the center.' },
+  { src: '/images/field/well-uganda.webp', caption: 'A new village well, Uganda', alt: 'Villagers at a new water well in Uganda', body: 'Clean water from a borehole Favor helped fund, and the village that gathers around it.' },
+];
+
+// Films from Favor's YouTube channel (titles and captions match the channel).
+const films = [
+  { id: '25f290un21o', title: 'They Once Met Under Trees', eyebrow: 'Church planting', heading: 'They once met under trees. Now they have a church.', body: 'The kind of congregation a vision trip walks into: villages where the church was planted by leaders who grew up there.' },
+  { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', eyebrow: 'Medical work', heading: 'Inside Favor’s medical center in Africa.', body: 'Mobile clinics and medical care are part of the daily work you can see up close on the ground.' },
+];
+
+// Hosts: the field leadership, straight from the directors data (photos and
+// bios are Favor's own). First sentence of each bio, verbatim.
+const hostSlugs = ['carole-ward', 'terry-lynne-goodman'];
+const hosts = hostSlugs.map((slug) => directorsData.find((d) => d.slug === slug)).filter(Boolean);
+const hostHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
+const hostLine = (bio) => bio.split('. ').slice(0, 1).join('. ') + '.';
+
+// A typical day's rhythm. Every activity here is a documented Favor practice
+// (morning devotions and prayer-first days per Carole's books; the programs
+// per the Impact pages). Loose rhythm, not an invented hour-by-hour schedule.
+const rhythm = [
+  { when: 'Morning', what: 'The day begins the way every Favor day begins: in prayer and morning devotions with the team.' },
+  { when: 'Midday', what: 'The work itself: Portable Bible Schools, the primary schools, and whichever ministries are running that week where you are.' },
+  { when: 'Afternoon', what: 'Time in the villages with the local church: walking, listening, and praying with the people the work serves.' },
+  { when: 'Evening', what: 'Evenings can end at an open-air crusade, where whole communities gather at dusk to hear the Gospel.' },
+];
+
+// Who trips are for (framing provided by the client, 2026-07-08).
+const audiences = [
+  { title: 'Church leaders & pastors', body: 'Exploring what a ministry partnership could look like, and wanting to see the training of local pastors up close.' },
+  { title: 'Supporters & partners', body: 'Wanting to stand in the places your giving reaches: the schools, the wells, the churches.' },
+  { title: 'Everyday believers', body: 'Looking to deepen your personal faith and serve on the front lines of African missions.' },
 ];
 
 const steps = [
   { n: '1', title: 'Inquire', body: 'Send a note through the contact form with who you are and when you could travel.' },
   { n: '2', title: 'Plan with the US team', body: 'Trip timing, length, destination, and costs are worked out with you directly. Nothing is one-size-fits-all.' },
   { n: '3', title: 'Go', body: 'You travel in a small team, hosted on the ground by Favor field leadership.' },
+];
+
+// FAQ: honest process answers only. No dollar figures, protocols, or
+// requirements Favor has not published; each answer routes to the planning
+// conversation where the real specifics live.
+const faqs = [
+  { q: 'What does a trip cost?', a: 'Cost depends on the destination, the length, and the size of your team, so it is worked out with you when the trip is planned. The US team can also talk through fundraising with you.' },
+  { q: 'Where will I stay and what will I eat?', a: 'Arrangements depend on the field you visit. Lodging and meals are organized with the team before you travel, and you will know exactly what to expect before you commit.' },
+  { q: 'Is it safe to go?', a: 'You travel with Favor’s field leadership, who live and serve in these nations year-round. Current conditions on the ground are part of the planning conversation for every trip.' },
+  { q: 'What about passports, visas, and vaccinations?', a: 'Requirements depend on the destination nation. The US team walks you through every document and health requirement during planning.' },
+  { q: 'Who can go?', a: 'Small teams: pastors and church leaders, longtime partners, and everyday believers. If you are unsure whether you fit, send a note and ask.' },
+  { q: 'How do I start?', a: 'Use the contact form and tell us who you are and when you could travel. The US team takes it from there.' },
 ];
 ---
 <RedesignLayout
@@ -60,6 +106,86 @@ const steps = [
 
   <section class="band band--cream">
     <div class="container">
+      <LeafHeading label="What you'll witness" title="Days you won't forget." intro="Every vision trip walks you into real ministry, not a tour." leaves={false} />
+      <div class="witness">
+        {witness.map((w, i) => (
+          <div class="witness__row reveal" data-side={i % 2 === 0 ? 'left' : 'right'}>
+            <figure class="witness__media">
+              <img src={w.src} alt={w.alt} loading="lazy" width="1200" height="800" />
+            </figure>
+            <div class="witness__copy rd-prose">
+              <h3>{w.caption}</h3>
+              <p>{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="From the field" title="See it before you go." />
+      <div class="vrows">
+        {films.map((f, i) => (
+          <VideoFeature id={f.id} videoTitle={f.title} eyebrow={f.eyebrow} heading={f.heading} side={i % 2 === 0 ? 'left' : 'right'} decor="leaf">
+            <p>{f.body}</p>
+          </VideoFeature>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="Your hosts on the ground" title="You travel with the leadership." intro="A vision trip is hosted by the leaders who live and serve on the field." leaves={false} />
+      <div class="hosts">
+        {hosts.map((h) => (
+          <a class="host rd-card reveal" href={hostHref(h.slug)}>
+            <div class="host__photo"><img src={h.imagePath} alt={h.fullName} width="600" height="600" loading="lazy" /></div>
+            <div class="host__copy">
+              <p class="label">{h.position}</p>
+              <h3>{h.fullName}</h3>
+              <p class="host__loc">{h.location}</p>
+              <p class="host__bio">{hostLine(h.bioIntro)}</p>
+              <span class="host__link">Meet {h.fullName.split(' ')[0]} &rarr;</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="A day with the team" title="What a day can hold." intro="Every trip is planned with you, so no two are identical. A typical day moves like this." leaves={false} />
+      <ol class="rhythm">
+        {rhythm.map((r) => (
+          <li class="rhythm__item reveal">
+            <span class="rhythm__when">{r.when}</span>
+            <p class="rhythm__what">{r.what}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="Is this trip for you?" title="Who vision trips are for." leaves={false} />
+      <div class="who">
+        {audiences.map((a) => (
+          <article class="rd-card who__card reveal">
+            <h3>{a.title}</h3>
+            <p>{a.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
       <LeafHeading label="How it works" title="Three steps, no fine print." leaves={false} />
       <ol class="steps">
         {steps.map((s) => (
@@ -73,29 +199,84 @@ const steps = [
     </div>
   </section>
 
-  <Gallery
-    eyebrow="What you'll witness"
-    heading="Days you won't forget."
-    description="Every vision trip walks you into real ministry, not a tour. Tap any photo to look closer."
-    background="white"
-    columns={3}
-    items={tripGallery}
-  />
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading label="Questions, answered" title="Before you ask." leaves={false} />
+      <div class="faq">
+        {faqs.map((f) => (
+          <details class="faq__item rd-outline">
+            <summary>{f.q}</summary>
+            <p>{f.a} {f.q === 'How do I start?' && <a class="story-link" href="/about/contact/?topic=vision-trip">Start here</a>}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <RdCta
     heading="Inquire about a vision trip."
     body="Tell us who you are and when you could travel. The US team will plan the rest with you."
     ctaLabel="Inquire"
     ctaHref="/about/contact/?topic=vision-trip"
+    background="cream"
     image="/images/field-2026/gift-4.webp"
     imageAlt="A Favor gathering in the field"
   />
 </RedesignLayout>
 
 <style>
+  /* What you'll witness: alternating photo + text rows. */
+  .witness { display: flex; flex-direction: column; gap: clamp(48px, 6vw, 88px); margin-top: clamp(40px, 5vw, 64px); }
+  .witness__row { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(36px, 5vw, 84px); align-items: center; }
+  .witness__row[data-side='right'] .witness__media { order: 2; }
+  .witness__row[data-side='right'] .witness__copy { order: 1; }
+  .witness__media { margin: 0; }
+  .witness__media img {
+    display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover;
+    border-radius: var(--rd-radius); box-shadow: var(--rd-shadow);
+  }
+  .witness__copy h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .witness__copy p { margin: 0; color: var(--color-ink-soft); }
+  @media (max-width: 860px) {
+    .witness__row { grid-template-columns: 1fr; gap: var(--space-6); }
+    .witness__row[data-side='right'] .witness__media { order: 0; }
+    .witness__row[data-side='right'] .witness__copy { order: 0; }
+  }
+
+  /* Video rows share the WWW spacing. */
+  .vrows { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 100px); margin-top: clamp(40px, 5vw, 64px); }
+
+  /* Hosts: two cards, photo + intro, linking to their pages. */
+  .hosts { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(24px, 3vw, 40px); margin-top: clamp(40px, 5vw, 64px); }
+  @media (max-width: 860px) { .hosts { grid-template-columns: 1fr; } }
+  .host { display: grid; grid-template-columns: 132px 1fr; gap: var(--space-6); align-items: start; text-decoration: none; color: inherit; }
+  @media (max-width: 460px) { .host { grid-template-columns: 1fr; } }
+  .host__photo { border-radius: var(--rd-radius); overflow: hidden; aspect-ratio: 1 / 1; background: var(--color-sage-light); }
+  .host__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+  .host__copy .label { margin-bottom: var(--space-1); }
+  .host__copy h3 { color: var(--color-green); margin: 0 0 var(--space-1); }
+  .host__loc { color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 var(--space-3); }
+  .host__bio { margin: 0 0 var(--space-3); color: var(--color-ink-soft); line-height: 1.65; }
+  .host__link { color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
+  .host:hover .host__link { color: var(--color-gold-deep); }
+
+  /* A day's rhythm: quiet timeline list. */
+  .rhythm { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) auto 0; max-width: 640px; display: flex; flex-direction: column; }
+  .rhythm__item { display: grid; grid-template-columns: 110px 1fr; gap: var(--space-6); padding: var(--space-6) 0; border-top: 1px solid rgba(31, 58, 26, 0.14); }
+  .rhythm__item:last-child { border-bottom: 1px solid rgba(31, 58, 26, 0.14); }
+  .rhythm__when { font-weight: 800; color: var(--color-green); font-size: var(--rd-fs-small); letter-spacing: 0.1em; text-transform: uppercase; padding-top: 4px; }
+  .rhythm__what { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+  @media (max-width: 520px) { .rhythm__item { grid-template-columns: 1fr; gap: var(--space-2); } }
+
+  /* Who it's for: three uniform cards. */
+  .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); }
+  @media (max-width: 860px) { .who { grid-template-columns: 1fr; } }
+  .who__card h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .who__card p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* Steps (as before). */
   .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
   @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
-  .steps__item { position: relative; }
   .steps__n {
     display: inline-flex; align-items: center; justify-content: center;
     width: 44px; height: 44px; border-radius: 50%;
@@ -104,4 +285,22 @@ const steps = [
   }
   .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* FAQ: native accordion, outlined rows. */
+  .faq { display: flex; flex-direction: column; gap: var(--space-3); margin-top: clamp(36px, 4.4vw, 58px); }
+  .faq__item { padding: 0; overflow: hidden; }
+  .faq__item summary {
+    cursor: pointer; list-style: none; position: relative;
+    padding: var(--space-5) var(--space-12) var(--space-5) var(--space-6);
+    font-weight: 700; color: var(--color-ink);
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary::after {
+    content: '+'; position: absolute; right: var(--space-6); top: 50%; transform: translateY(-50%);
+    color: var(--color-green); font-weight: 700; font-size: 1.3rem; line-height: 1;
+    transition: transform 160ms ease;
+  }
+  .faq__item[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .faq__item summary:hover { color: var(--color-green); }
+  .faq__item p { margin: 0; padding: 0 var(--space-6) var(--space-5); color: var(--color-ink-soft); line-height: 1.7; }
 </style>
