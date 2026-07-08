@@ -82,7 +82,7 @@ const ways = [
   </section>
 
   <section class="voice" aria-label="Invitation to share: be a voice to the vision">
-    <div class="container voice__grid">
+    <div class="voice__grid">
       <div class="voice__copy rd-prose">
         <p class="label">Invitation to share</p>
         <h2>Be a voice to the vision.</h2>
@@ -94,7 +94,7 @@ const ways = [
           <li>Schedule a physical visit for one of our team members to present to your group in person.</li>
         </ul>
       </div>
-      <div class="voice__circle" role="img" aria-label="A Favor evangelist sharing with a family in a rural settlement"></div>
+      <div class="voice__media" role="img" aria-label="A Favor evangelist sharing with a family in a rural settlement" style="background-image:url('/images/field/street-outreach-south-sudan.webp')"></div>
     </div>
   </section>
 
@@ -128,28 +128,31 @@ const ways = [
   .church-way__more { display: block; margin-top: auto; padding-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); }
   .church-way:hover .church-way__more { color: var(--color-green); }
 
-  /* Be a voice to the vision (Daniel, 2026-07-08): cream surface continuing
-     the section above; text left and the photo as a full circle on the
-     right, sized to balance the text like the original split layout. */
-  .voice { background: var(--color-cream); padding: clamp(58px, 6.6vw, 110px) 0; }
+  /* Be a voice to the vision: text and image share one white surface; the
+     image bleeds to the right edge with rounded left corners so it reads as
+     part of the same composition (per Daniel, 2026-07-08). */
+  .voice { background: var(--color-white); padding: clamp(58px, 6.6vw, 100px) 0; }
   .voice__grid {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: clamp(36px, 5vw, 88px); align-items: center;
+    gap: clamp(36px, 5vw, 80px); align-items: center;
+  }
+  .voice__copy {
+    padding-left: max(var(--space-6), calc((100vw - var(--content-max)) / 2 + var(--space-6)));
+    padding-right: var(--space-4);
   }
   .voice__copy .label { margin-bottom: var(--space-2); }
   .voice__copy h2 { color: var(--color-green); font-size: var(--rd-fs-title); margin: 0 0 var(--space-5); font-family: var(--font-display); font-weight: 600; }
   .voice__copy ul { margin: 0; padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.75; }
   .voice__copy ul li { margin-bottom: var(--space-2); }
-  .voice__circle {
-    width: min(100%, 640px); aspect-ratio: 1 / 1;
-    justify-self: end; align-self: center;
-    border-radius: 50%;
-    background-image: url('/images/field/street-outreach-south-sudan.webp');
-    background-size: cover; background-position: center 30%;
-    box-shadow: var(--rd-shadow-lift);
+  .voice__media {
+    min-height: clamp(380px, 42vw, 620px);
+    background-size: cover; background-position: center;
+    border-radius: var(--rd-radius) 0 0 var(--rd-radius);
+    box-shadow: var(--rd-shadow);
   }
   @media (max-width: 900px) {
-    .voice__grid { grid-template-columns: 1fr; gap: var(--space-8); }
-    .voice__circle { width: min(88%, 420px); justify-self: center; }
+    .voice__grid { grid-template-columns: 1fr; gap: var(--space-6); }
+    .voice__copy { padding: 0 var(--space-6); }
+    .voice__media { min-height: 300px; border-radius: var(--rd-radius) 0 0 var(--rd-radius); margin-left: var(--space-6); }
   }
 </style>
