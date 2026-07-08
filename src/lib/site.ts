@@ -131,7 +131,7 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'Impact',
     href: '/impact/',
     items: [
-      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/', desc: "Mobilization of heaven's agenda", children: [
+      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/', desc: "Mobilization of Heaven's agenda", children: [
         { label: 'Portable Bible Schools', href: '/impact/evangelism-discipleship/portable-bible-schools/' },
         { label: 'GIFT', href: '/impact/evangelism-discipleship/gift-institute/' },
         { label: 'House of Prayer', href: '/pray/' },

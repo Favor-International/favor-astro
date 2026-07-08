@@ -2,7 +2,16 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+
+// Hiring, honestly: no invented timelines or HR machinery. Both steps route
+// to the same application conversation the posting names.
+const hiring = [
+  { n: '1', title: 'Request the application', body: 'Use the contact form and tell us which position you are asking about.' },
+  { n: '2', title: 'A real conversation', body: 'The US team talks through your calling, your experience, and the mission and Statement of Faith of Favor International.' },
+  { n: '3', title: 'Decide together', body: 'If it is a fit on both sides, you will know what comes next before you commit.' },
+];
 
 // Careers page: full-time field positions, split out of "Serve from Home"
 // per Daniel (2026-07-08) - a field career in Africa does not belong on a
@@ -71,8 +80,8 @@ const cdQualifications = [
     label="Careers"
     title="Work with Favor."
     promise="Full-time positions with the ministry, on the field and alongside it."
-    image="/images/field-2026/missionaries-2.webp"
-    imageAlt="Indigenous Favor leaders in South Sudan"
+    image="/images/field-2026/pbs-6.webp"
+    imageAlt="A line of commissioned Favor leaders holding Bibles outside their village"
     ctaLabel="Request an application"
     ctaHref="/about/contact/?topic=country-director"
     scrollCue
@@ -85,7 +94,7 @@ const cdQualifications = [
         title="Country Director"
         intro="Full-time, living in country (Uganda or South Sudan). The Country Director (CD) will have overall strategic and operational responsibility for Favor's staff, programs, and execution of its mission in the country where he/she is posted."
       />
-      <img class="cd-lead" src="/images/field-2026/missionaries-2.webp" alt="Indigenous Favor leaders in South Sudan" width="1600" height="900" loading="lazy" />
+      <img class="cd-lead" src="/images/field-2026/evangelism-7.webp" alt="A Favor leader addressing a gathered village community" width="1600" height="900" loading="lazy" />
       <dl class="cd-meta">
         <div><dt>Status</dt><dd>Full-time</dd></div>
         <div><dt>Compensation</dt><dd>Commensurate with experience</dd></div>
@@ -139,13 +148,59 @@ const cdQualifications = [
     </div>
   </section>
 
+  <ScriptBand
+    image="/images/field-2026/prayer-1.webp"
+    imageAlt="Favor leaders kneeling in fervent prayer"
+    label="Who Favor hires for"
+    phrase="Unlike the world, He doesn't call the qualified, but qualifies the called."
+    cite="Carole Ward, Lord Send Us Where No One Wants to Go"
+    font="serif"
+    tall
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How hiring works" title="Three steps, both directions." leaves={false} />
+      <ol class="steps">
+        {hiring.map((s) => (
+          <li class="rd-card steps__item reveal">
+            <span class="steps__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="Not full-time?" title="Two doors right next to this one." leaves={false} />
+      <div class="also">
+        <a class="also__card rd-card reveal" href="/go/internships/">
+          <p class="label">A season</p>
+          <h3>Internships</h3>
+          <p>Months alongside the US team, on the real operations that carry the field.</p>
+          <span class="also__link">See internships &rarr;</span>
+        </a>
+        <a class="also__card rd-card reveal" href="/go/volunteer/">
+          <p class="label">Ongoing, from home</p>
+          <h3>Volunteer</h3>
+          <p>Serve the US team from anywhere, on your own schedule: prayer, media, accounting, mailing, and partner care.</p>
+          <span class="also__link">Serve from home &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <RdCta
-    heading="Not looking for a full-time role?"
-    body="Volunteers and interns keep the US operation running. Serve from home, on your schedule."
-    ctaLabel="See volunteer roles"
-    ctaHref="/go/volunteer/"
-    image="/images/field-2026/street-outreach-7.webp"
-    imageAlt="A Favor street outreach team"
+    heading="Request an application."
+    body="Tell us which position you are asking about. The US team takes it from there."
+    ctaLabel="Request an application"
+    ctaHref="/about/contact/?topic=country-director"
+    background="greenlight"
+    image="/images/field-2026/pbs-6.webp"
+    imageAlt="A line of commissioned Favor leaders holding Bibles"
   />
 </RedesignLayout>
 
@@ -177,4 +232,26 @@ const cdQualifications = [
   .cd-acc__body p:last-child { margin-bottom: 0; }
   .cd-acc__body ul { margin: 0; padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.7; }
   .cd-acc__body ul li { margin-bottom: var(--space-2); }
+
+  /* Hiring steps (house idiom). */
+  .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps__n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--rd-bg-green); color: var(--color-green);
+    font-weight: 800; font-size: 1.15rem; margin-bottom: var(--space-4);
+  }
+  .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* The two doors next to this one. */
+  .also { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
+  @media (max-width: 700px) { .also { grid-template-columns: 1fr; } }
+  .also__card { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .also__card .label { margin-bottom: var(--space-2); }
+  .also__card h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .also__card p:not(.label) { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .also__link { margin-top: auto; color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; width: fit-content; }
+  .also__card:hover .also__link { color: var(--color-gold-deep); }
 </style>
