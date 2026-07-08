@@ -1,0 +1,175 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+
+// Internships as their own page (per Daniel 2026-07-08: the menu has both an
+// Internships link and a Careers link, so they are two different things).
+// Content stays inside Favor's verbatim material: "a months long internship
+// that will change your life" and the operational areas Favor's own text
+// names (media, accounting, mailing, administrative assistance). No invented
+// eligibility, stipends, or start dates - all of that is shaped in the
+// planning conversation.
+const areas = [
+  { icon: 'media', title: 'Media & creative', body: 'Video, design, newsletters, and the social content that keeps partners connected to the field.' },
+  { icon: 'admin', title: 'Administration & operations', body: 'The office work that carries the ministry: records, data, and day-to-day operations support.' },
+  { icon: 'mail', title: 'Partner care & mailings', body: 'The mailings, notes, and receipts that ensure all our partners are honored.' },
+  { icon: 'pray', title: 'Prayer at the center', body: 'Whatever your track, prayer is part of the rhythm. Every Favor day begins there.' },
+];
+const AREA_ICONS: Record<string, string> = {
+  media: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5 21 7v10l-5-3.5"/>',
+  admin: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  pray: '<path d="M12 3v3M8 5l1.5 2M16 5l-1.5 2"/><path d="M12 21c-3.5-1.6-5.5-4.2-5.5-7.5V9l5.5 2.5L17.5 9v4.5c0 3.3-2 5.9-5.5 7.5Z"/>',
+};
+
+const steps = [
+  { n: '1', title: 'Inquire', body: 'Tell us who you are, what you can do, and the months you have.' },
+  { n: '2', title: 'Shape it together', body: 'The US team builds the internship around your skills and season. Nothing is one-size-fits-all.' },
+  { n: '3', title: 'Serve for a season', body: 'Months alongside the US team, on the real operations that carry the field.' },
+];
+---
+<RedesignLayout
+  title="Internships"
+  description="Months-long internships with Favor International, alongside the US team: media, administration, and partner care. In Favor's words, an internship that will change your life."
+>
+  <PageHero
+    label="Internships"
+    title="A season that changes your life."
+    promise="Months-long internships alongside the US team, on the work that carries the field."
+    image="/images/field-2026/vlc-3.webp"
+    imageAlt="A Village Learning Center class in session"
+    ctaLabel="Ask about internships"
+    ctaHref="/about/contact/?topic=internship"
+    scrollCue
+  />
+
+  <RdFeature
+    image="/images/field-2026/street-outreach-5.webp"
+    imageAlt="A Favor team serving together in the field"
+    eyebrow="What an internship is"
+    heading="Real responsibility, for a season."
+    side="right"
+  >
+    <p>
+      In Favor&rsquo;s own words: a months long internship that will change your life. This is
+      not coffee runs. Interns serve alongside the US team on the operations that carry the
+      field: media, administration, and partner care.
+    </p>
+    <p>
+      You bring your skills and your season; the US team shapes the internship with you. You
+      can work remotely, and you are welcome at Favor&rsquo;s office in Riverview, Florida.
+    </p>
+  </RdFeature>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="The work" title="Where interns serve." leaves={false} />
+      <div class="areas">
+        {areas.map((a) => (
+          <div class="areas__col reveal">
+            <span class="areas__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={AREA_ICONS[a.icon]}></svg>
+            </span>
+            <h3>{a.title}</h3>
+            <p>{a.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How it works" title="Three steps to a season that counts." leaves={false} />
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="rd-card steps__item reveal">
+            <span class="steps__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="Not an internship?" title="Two doors right next to this one." leaves={false} />
+      <div class="also">
+        <a class="also__card rd-card reveal" href="/go/volunteer/">
+          <p class="label">Ongoing, from home</p>
+          <h3>Volunteer</h3>
+          <p>Serve the US team from anywhere, on your own schedule: prayer, media, accounting, mailing, and partner care.</p>
+          <span class="also__link">Serve from home &rarr;</span>
+        </a>
+        <a class="also__card rd-card reveal" href="/go/careers/">
+          <p class="label">Full-time</p>
+          <h3>Careers</h3>
+          <p>Open positions with the ministry, starting with the Country Director posting for Uganda and South Sudan.</p>
+          <span class="also__link">See open positions &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <RdCta
+    heading="Ask about an internship."
+    body="Tell us who you are and the months you have. The US team takes it from there."
+    ctaLabel="Ask about internships"
+    ctaHref="/about/contact/?topic=internship"
+    background="greenlight"
+    image="/images/field-2026/vlc-3.webp"
+    imageAlt="A Village Learning Center class in session"
+  />
+</RedesignLayout>
+
+<style>
+  /* Where interns serve: open columns with gold medallions (house idiom). */
+  .areas { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(36px, 4.4vw, 58px); }
+  .areas__col { padding: var(--space-2) clamp(18px, 2.2vw, 36px); text-align: center; }
+  .areas__col + .areas__col { border-left: 1px solid rgba(31, 58, 26, 0.14); }
+  .areas__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: color-mix(in srgb, var(--color-gold) 16%, var(--color-white));
+    color: var(--color-gold-deep);
+    margin-bottom: var(--space-5);
+  }
+  .areas__icon svg { width: 28px; height: 28px; }
+  .areas__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); font-size: var(--rd-fs-sub); }
+  .areas__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; font-size: var(--rd-fs-body); max-width: 30ch; }
+  @media (max-width: 1024px) {
+    .areas { grid-template-columns: repeat(2, 1fr); row-gap: var(--space-8); }
+    .areas__col:nth-child(3) { border-left: 0; }
+  }
+  @media (max-width: 560px) {
+    .areas { grid-template-columns: 1fr; row-gap: var(--space-6); }
+    .areas__col + .areas__col { border-left: 0; border-top: 1px solid rgba(31, 58, 26, 0.14); padding-top: var(--space-6); }
+  }
+
+  /* Steps (house idiom). */
+  .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps__n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--rd-bg-green); color: var(--color-green);
+    font-weight: 800; font-size: 1.15rem; margin-bottom: var(--space-4);
+  }
+  .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* The two doors next to this one. */
+  .also { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
+  @media (max-width: 700px) { .also { grid-template-columns: 1fr; } }
+  .also__card { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .also__card .label { margin-bottom: var(--space-2); }
+  .also__card h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .also__card p:not(.label) { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .also__link { margin-top: auto; color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; width: fit-content; }
+  .also__card:hover .also__link { color: var(--color-gold-deep); }
+</style>
