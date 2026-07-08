@@ -1,0 +1,172 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+
+// Ambassadors as their own page (per Daniel 2026-07-08: same standing as
+// Internships and Careers). The core content is Favor's verbatim "Invitation
+// to Share" (favorintl.org): resources, a video call, or an in-person visit.
+// The formal ambassador program details are still on Will's gather list, so
+// this page invites and routes to a conversation without inventing program
+// specifics (no invented kits, quotas, or titles).
+const ways = [
+  { icon: 'speak', title: 'Share the story', body: 'Present Favor to your church, Bible study, prayer group, or team of colleagues, with resources we provide.' },
+  { icon: 'pray', title: 'Gather prayer', body: 'Carry the Nations Prayer Guide into your community and pray with us for the nations Favor serves.' },
+  { icon: 'link', title: 'Connect your church', body: 'Open the door for a deeper church partnership: presentations, giving together, and sending your people.' },
+];
+const WAY_ICONS: Record<string, string> = {
+  speak: '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M14 8a4 4 0 0 1 0 8M16 5a7 7 0 0 1 0 14"/>',
+  pray: '<path d="M12 3v3M8 5l1.5 2M16 5l-1.5 2"/><path d="M12 21c-3.5-1.6-5.5-4.2-5.5-7.5V9l5.5 2.5L17.5 9v4.5c0 3.3-2 5.9-5.5 7.5Z"/>',
+  link: '<path d="M9 12h6"/><path d="M10 7H7a5 5 0 0 0 0 10h3"/><path d="M14 7h3a5 5 0 0 1 0 10h-3"/>',
+};
+
+const steps = [
+  { n: '1', title: 'Ask', body: 'Send a note through the contact form: who you are and the group you have in mind.' },
+  { n: '2', title: 'Get equipped', body: 'The US team provides resources, schedules a video call, or plans an in-person visit, whatever fits your group.' },
+  { n: '3', title: 'Be the voice', body: 'Share what God is doing and connect your community to the field.' },
+];
+---
+<RedesignLayout
+  title="Ambassadors"
+  description="Represent Favor International where you live: share the story with your church or group, gather prayer, and connect your community to the field."
+>
+  <PageHero
+    label="Ambassadors"
+    title="Be a voice to the vision."
+    promise="Represent Favor where you live: your church, your group, your community."
+    image="/images/field-2026/prayer-gathering-3.webp"
+    imageAlt="Worshippers singing at a Favor gathering"
+    ctaLabel="Ask about being an ambassador"
+    ctaHref="/about/contact/?topic=ambassador"
+    scrollCue
+  />
+
+  <RdFeature
+    image="/images/field/street-outreach-south-sudan.webp"
+    imageAlt="A Favor evangelist sharing with a family in a rural settlement"
+    eyebrow="Invitation to share"
+    heading="Revival is happening. Carry the story."
+    side="right"
+  >
+    <p>
+      Revival is happening and the testimonies about what God is doing abound! Whether you
+      found us through Carole&rsquo;s book, or via word of mouth, or you heard Carole speak, or
+      just stumbled across us on the internet&hellip; if your heart is connected with us as an
+      organization and the work that we&rsquo;re doing, then we invite you to be a voice to
+      the vision.
+    </p>
+    <p>
+      Depending on the circumstances and what makes the most sense, we may be able to provide
+      you with resources to present to your group, schedule a video call in which one of our
+      team members shares about the organization, or schedule a physical visit to present to
+      your group in person.
+    </p>
+  </RdFeature>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="What ambassadors do" title="Three ways to carry it." leaves={false} />
+      <div class="amb">
+        {ways.map((w) => (
+          <div class="amb__col reveal">
+            <span class="amb__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={WAY_ICONS[w.icon]}></svg>
+            </span>
+            <h3>{w.title}</h3>
+            <p>{w.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How it works" title="Three steps to your first share." leaves={false} />
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="rd-card steps__item reveal">
+            <span class="steps__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="Nearby paths" title="Two doors right next to this one." leaves={false} />
+      <div class="also">
+        <a class="also__card rd-card reveal" href="/go/volunteer/">
+          <p class="label">Ongoing, from home</p>
+          <h3>Volunteer</h3>
+          <p>Serve the US team from anywhere: prayer, media, accounting, mailing, and partner care.</p>
+          <span class="also__link">Serve from home &rarr;</span>
+        </a>
+        <a class="also__card rd-card reveal" href="/go/church-partnerships/">
+          <p class="label">For your whole church</p>
+          <h3>Church Partnerships</h3>
+          <p>Presentations for your congregation, church giving, and sending your people to the field.</p>
+          <span class="also__link">Church partnerships &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <RdCta
+    heading="Ask about being an ambassador."
+    body="Tell us who you are and the group you have in mind. The US team takes it from there."
+    ctaLabel="Ask about being an ambassador"
+    ctaHref="/about/contact/?topic=ambassador"
+    background="greenlight"
+    image="/images/field-2026/prayer-gathering-3.webp"
+    imageAlt="Worshippers singing at a Favor gathering"
+  />
+</RedesignLayout>
+
+<style>
+  /* Three ways: open columns with gold medallions (house idiom). */
+  .amb { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(36px, 4.4vw, 58px); }
+  .amb__col { padding: var(--space-2) clamp(20px, 2.6vw, 44px); text-align: center; }
+  .amb__col + .amb__col { border-left: 1px solid rgba(31, 58, 26, 0.14); }
+  .amb__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: color-mix(in srgb, var(--color-gold) 16%, var(--color-white));
+    color: var(--color-gold-deep);
+    margin-bottom: var(--space-5);
+  }
+  .amb__icon svg { width: 28px; height: 28px; }
+  .amb__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); font-size: var(--rd-fs-sub); }
+  .amb__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; max-width: 32ch; }
+  @media (max-width: 860px) {
+    .amb { grid-template-columns: 1fr; row-gap: var(--space-6); }
+    .amb__col + .amb__col { border-left: 0; border-top: 1px solid rgba(31, 58, 26, 0.14); padding-top: var(--space-6); }
+  }
+
+  /* Steps (house idiom). */
+  .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps__n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--rd-bg-green); color: var(--color-green);
+    font-weight: 800; font-size: 1.15rem; margin-bottom: var(--space-4);
+  }
+  .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* Two doors (house idiom). */
+  .also { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
+  @media (max-width: 700px) { .also { grid-template-columns: 1fr; } }
+  .also__card { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .also__card .label { margin-bottom: var(--space-2); }
+  .also__card h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .also__card p:not(.label) { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .also__link { margin-top: auto; color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; width: fit-content; }
+  .also__card:hover .also__link { color: var(--color-gold-deep); }
+</style>
