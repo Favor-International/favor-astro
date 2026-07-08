@@ -89,8 +89,9 @@ const faqs = [
     label="Vision trips"
     title="Walk a village with a Favor field leader."
     promise="Small teams, hosted on the ground by the leaders who live there."
-    image="/images/field-2026/jesus-film-1.webp"
-    imageAlt="An outdoor Jesus Film screening in Chad"
+    image="/videos/vision-trips-hero-poster.jpg"
+    imageAlt="A village congregation gathered for worship, from the film They Once Met Under Trees"
+    video="/videos/vision-trips-hero.mp4"
     ctaLabel="Inquire about a trip"
     ctaHref="/about/contact/?topic=vision-trip"
     scrollCue
@@ -216,6 +217,32 @@ const faqs = [
           </li>
         ))}
       </ol>
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container container--narrow">
+      <LeafHeading
+        label="Go longer"
+        title="Two weeks that change your life."
+        intro="See the many ministries that Favor is involved in and see where you could make the greatest impact in 2 weeks! Some examples of past team ministry that has left lasting results include:"
+        leaves={false}
+      />
+      <ul class="trips__list">
+        <li>Basketball sports camp teaching &lsquo;speak life&rsquo; for former street youth</li>
+        <li>Mobile medical clinics in rural areas</li>
+        <li>Pastors conference</li>
+        <li>Discipleship with the former street youth</li>
+        <li>Crafts and hands on workshops with youth</li>
+        <li>Children&rsquo;s ministry</li>
+        <li>Rural evangelism</li>
+        <li>Women&rsquo;s Empowerment in villages</li>
+        <li>Prison ministry</li>
+        <li>Radio presentations</li>
+        <li>&hellip;and much more!</li>
+      </ul>
+      <p class="trips__closer">Come and see what God is doing in real people, in real places, and in real time!</p>
+      <p class="band__cta-row trips__cta"><a class="btn btn--primary" href="/about/contact/?topic=vision-trip">Request an application</a></p>
     </div>
   </section>
 
@@ -345,6 +372,15 @@ const faqs = [
   }
   .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  /* Short-term trips checklist (verbatim old-site content, moved here from
+     the volunteer page). */
+  .trips__list { columns: 2; column-gap: var(--space-12); list-style: none; padding: 0; margin: clamp(32px, 4vw, 48px) auto var(--space-6); max-width: 680px; }
+  .trips__list li { position: relative; padding: var(--space-2) 0 var(--space-2) var(--space-6); color: var(--color-ink-soft); line-height: 1.55; break-inside: avoid; }
+  .trips__list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-green); font-weight: 800; }
+  @media (max-width: 600px) { .trips__list { columns: 1; } }
+  .trips__closer { text-align: center; color: var(--color-green); font-weight: 700; font-size: var(--rd-fs-sub); margin: var(--space-8) 0 0; }
+  .trips__cta { text-align: center; }
 
   /* FAQ: native accordion, outlined rows. */
   .faq { display: flex; flex-direction: column; gap: var(--space-3); margin-top: clamp(36px, 4.4vw, 58px); }

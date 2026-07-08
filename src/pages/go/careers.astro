@@ -1,0 +1,180 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+
+// Careers page: full-time field positions, split out of "Serve from Home"
+// per Daniel (2026-07-08) - a field career in Africa does not belong on a
+// remote-volunteering page. The Country Director posting below is verbatim
+// from favorintl.org/positions/country-director; the dense sections are
+// collapsed into accordions.
+const cdResponsibilities = [
+  { group: 'Leadership', items: [
+    'Participate with the ID/Founder and the Board of Directors in developing a vision and strategic plan to guide the organization within the country',
+    'Identify, assess, and inform the ID/Founder and the Board of Directors of internal and external issues that affect the organization',
+    'Foster effective teamwork with the Board and the ID/Founder and between the ID/Founder and staff',
+    'Act as a spokesperson for the organization and its programs',
+  ] },
+  { group: 'Operations', items: [
+    'Ensure that the operation of the organization meets the expectations of its clients, Board, and Funders',
+    'Oversee the efficient and effective day-to-day operation of the organization’s operations in Country',
+    'Draft policies for the approval of the ID/Founder and prepare procedures to implement the organizational policies; review existing policies on an annual basis and recommend changes to the ID/Founder as appropriate',
+    'Provide support to the ID/Founder by preparing meeting agenda and supporting materials and copy her on minutes of such meetings',
+  ] },
+  { group: 'Programs', items: [
+    "Oversee the planning, implementation, and evaluation of the organization's programs",
+    "Ensure that the programs offered by the organization contribute to the organization's mission and reflect the priorities of the Board",
+    'Monitor the day-to-day delivery of the programs of the organization to maintain or improve quality',
+    'Oversee the planning, implementation, execution, and evaluation of special projects',
+  ] },
+  { group: 'Finances', items: [
+    'Oversee all financial aspects of the organization, including the development of, and adherence to, the annual budget',
+    'Ensure that sound bookkeeping and accounting procedures are followed',
+    'Administer the funds of the organization according to the approved budget and processes regarding the monthly cash flow of the organization',
+    'Provide the ID/Founder and the Board with comprehensive, regular reports on the revenues and expenditure of the organization',
+    'Work with the Board to secure adequate funding for the operation of the organization via grants, fundraising, and partnerships',
+  ] },
+  { group: 'Development and Fundraising', items: [
+    'Research funding sources, oversee the development of fundraising plans, and write funding proposals to increase the revenue of the organization',
+    'Maintain and expand revenue generating and fundraising activities to support existing program operations and planned expansions, including fundraising campaigns and donor management activities',
+    'Establish good working relationships and collaborative arrangements with funders, donors, potential donors, and other organizations to help achieve the goals of the organization',
+  ] },
+  { group: 'Communications and Marketing', items: [
+    'Deepen and refine all aspects of communications, from web presence to external relations, with the goal of creating a stronger brand',
+    'Maintain, enhance, and implement internal and external communication strategies',
+    'Communicate with stakeholders to keep them informed of the work of the organization and to identify changes in the community served by the organization',
+    'Use external presence and relationships to garner new opportunities',
+  ] },
+  { group: 'Human Resources', items: [
+    'Responsible for hiring, supervising, and evaluating Favor staff, including interns',
+    'Oversee all management functions, including but not limited to employment contracts, legal issues, and insurance concerns',
+  ] },
+];
+const cdQualifications = [
+  'Prior executive level experience as a successful leader, including a proven track record of growing organizational capacity and programmatic impact.',
+  'A Master’s degree in public, nonprofit, or business administration or management, behavioral health or another related field preferred. Bachelor’s degree required.',
+  'Experience building multi-year strategic plans and prioritizing initiatives that lead to measurable results',
+  'Demonstrated success in building relationships with public sector officials (local government officials), private sector partners, funders, NGO partners operating in Country, and other diverse stakeholders to foster broad community support.',
+  'Experience managing projects across multiple different departments and stakeholders',
+  'Experience in fostering an environment of mutual accountability and collaboration, healthy work relationships and partnerships, and inclusivity among organizational staff in order to maintain a positive and collaborative work environment.',
+  'Proven abilities and experience in fiscal oversight and working with the Directors and Boards to develop and approve complex budgets',
+  'Excellent written and verbal communication skills',
+  'Commitment to the mission, values, and Statement of Faith of Favor International',
+];
+---
+<RedesignLayout
+  title="Careers"
+  description="Open positions with Favor International, starting with the Country Director posting for Uganda and South Sudan."
+>
+  <PageHero
+    label="Careers"
+    title="Work with Favor."
+    promise="Full-time positions with the ministry, on the field and alongside it."
+    image="/images/field-2026/missionaries-2.webp"
+    imageAlt="Indigenous Favor leaders in South Sudan"
+    ctaLabel="Request an application"
+    ctaHref="/about/contact/?topic=country-director"
+    scrollCue
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading
+        label="Open position"
+        title="Country Director"
+        intro="Full-time, living in country (Uganda or South Sudan). The Country Director (CD) will have overall strategic and operational responsibility for Favor's staff, programs, and execution of its mission in the country where he/she is posted."
+      />
+      <img class="cd-lead" src="/images/field-2026/missionaries-2.webp" alt="Indigenous Favor leaders in South Sudan" width="1600" height="900" loading="lazy" />
+      <dl class="cd-meta">
+        <div><dt>Status</dt><dd>Full-time</dd></div>
+        <div><dt>Compensation</dt><dd>Commensurate with experience</dd></div>
+        <div><dt>Location</dt><dd>Africa (Uganda and/or South Sudan)</dd></div>
+      </dl>
+
+      <div class="cd-acc">
+        <details class="cd-acc__item rd-outline" open>
+          <summary>Overview</summary>
+          <div class="cd-acc__body">
+            <p>The Country Director (CD) will have overall strategic and operational responsibility for Favor&rsquo;s staff, programs, and execution of its mission in the country where he/she is posted. The CD is responsible for overseeing the administration, programs, and implementation of the mission and vision of the organization. Other key duties include developing strategic partnerships, fundraising, marketing, and communications.</p>
+          </div>
+        </details>
+        <details class="cd-acc__item rd-outline">
+          <summary>Accountability &amp; relationships</summary>
+          <div class="cd-acc__body">
+            <p>The Country Director is a full-time position, living full-time in the country he/she is responsible for and reports directly to the International Director (ID)/Founder and the Board of Directors of Favor International.</p>
+            <p>The Country Director serves with the International Director/Founder and the Board of Directors to develop and maintain relationships characterized by vision, trust, transparency, education, dignity, cooperation, and openness. These relationships extend to the partners, stakeholders, clients, students, employees, and contractors of Favor International both in country and abroad.</p>
+          </div>
+        </details>
+        <details class="cd-acc__item rd-outline">
+          <summary>Location</summary>
+          <div class="cd-acc__body">
+            <p>The Uganda Country Director position is based in Gulu, Uganda. The South Sudan Country Director position is based in Juba, South Sudan. There will be in-country travel required plus potential opportunities for international travel.</p>
+          </div>
+        </details>
+        {cdResponsibilities.map((r) => (
+          <details class="cd-acc__item rd-outline">
+            <summary>Responsibilities: {r.group}</summary>
+            <div class="cd-acc__body">
+              <ul>{r.items.map((i) => <li>{i}</li>)}</ul>
+            </div>
+          </details>
+        ))}
+        <details class="cd-acc__item rd-outline">
+          <summary>Qualifications</summary>
+          <div class="cd-acc__body">
+            <p>The candidate must have a passion for the mission and vision of Favor International, integrity, a strong sense of accountability, and a long-term perspective. The ideal candidate has a track record of exercising good judgment, and has a practical ability to get things done. He/she brings a fair and thoughtful approach to management, combined with the flexibility and courage to shift direction and experiment with new initiatives. Essential qualifications also include:</p>
+            <ul>{cdQualifications.map((q) => <li>{q}</li>)}</ul>
+          </div>
+        </details>
+        <details class="cd-acc__item rd-outline">
+          <summary>Compensation</summary>
+          <div class="cd-acc__body">
+            <p>Compensation will be fairly based on experience. Compensation may increase as the organization grows.</p>
+          </div>
+        </details>
+      </div>
+
+      <p class="band__cta-row"><a class="btn btn--primary" href="/about/contact/?topic=country-director">Request an application</a></p>
+    </div>
+  </section>
+
+  <RdCta
+    heading="Not looking for a full-time role?"
+    body="Volunteers and interns keep the US operation running. Serve from home, on your schedule."
+    ctaLabel="See volunteer roles"
+    ctaHref="/go/volunteer/"
+    image="/images/field-2026/street-outreach-7.webp"
+    imageAlt="A Favor street outreach team"
+  />
+</RedesignLayout>
+
+<style>
+  .cd-lead { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--rd-radius); margin: clamp(32px, 4vw, 48px) 0 0; box-shadow: var(--rd-shadow); }
+  .cd-meta { display: flex; flex-wrap: wrap; gap: var(--space-4); margin: var(--space-8) 0 clamp(40px, 5vw, 64px); padding: 0; }
+  .cd-meta div { flex: 1 1 200px; background: var(--color-cream); border: 1px solid rgba(31, 58, 26, 0.12); border-radius: var(--radius-card); padding: var(--space-4) var(--space-5); }
+  .cd-meta dt { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .cd-meta dd { margin: var(--space-2) 0 0; font-weight: 600; color: var(--color-green); }
+
+  /* The posting as an accordion: title-only rows, expand on click. */
+  .cd-acc { display: flex; flex-direction: column; gap: var(--space-3); }
+  .cd-acc__item { padding: 0; overflow: hidden; }
+  .cd-acc__item summary {
+    cursor: pointer; list-style: none; position: relative;
+    padding: var(--space-5) var(--space-12) var(--space-5) var(--space-6);
+    font-weight: 700; color: var(--color-ink);
+  }
+  .cd-acc__item summary::-webkit-details-marker { display: none; }
+  .cd-acc__item summary::after {
+    content: '+'; position: absolute; right: var(--space-6); top: 50%; transform: translateY(-50%);
+    color: var(--color-green); font-weight: 700; font-size: 1.3rem; line-height: 1;
+    transition: transform 160ms ease;
+  }
+  .cd-acc__item[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .cd-acc__item summary:hover { color: var(--color-green); }
+  .cd-acc__body { padding: 0 var(--space-6) var(--space-5); }
+  .cd-acc__body p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.75; }
+  .cd-acc__body p:last-child { margin-bottom: 0; }
+  .cd-acc__body ul { margin: 0; padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.7; }
+  .cd-acc__body ul li { margin-bottom: var(--space-2); }
+</style>
