@@ -48,12 +48,19 @@ const films = [
   { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', eyebrow: 'Medical work', heading: 'Inside Favor’s medical center in Africa.', body: 'Mobile clinics and medical care are part of the daily work you can see up close on the ground.' },
 ];
 
-// Who trips are for (framing provided by the client, 2026-07-08).
+// Who trips are for (framing provided by the client, 2026-07-08). Each gets
+// a line icon so the section reads differently from the numbered steps below:
+// a church, a map pin (stand in the places your giving reaches), a compass.
 const audiences = [
-  { title: 'Church leaders & pastors', body: 'Exploring what a ministry partnership could look like, and wanting to see the training of local pastors up close.' },
-  { title: 'Supporters & partners', body: 'Wanting to stand in the places your giving reaches: the schools, the wells, the churches.' },
-  { title: 'Everyday believers', body: 'Looking to deepen your personal faith and serve on the front lines of African missions.' },
+  { icon: 'church', title: 'Church leaders & pastors', body: 'Exploring what a ministry partnership could look like, and wanting to see the training of local pastors up close.' },
+  { icon: 'pin', title: 'Supporters & partners', body: 'Wanting to stand in the places your giving reaches: the schools, the wells, the churches.' },
+  { icon: 'compass', title: 'Everyday believers', body: 'Looking to deepen your personal faith and serve on the front lines of African missions.' },
 ];
+const WHO_ICONS: Record<string, string> = {
+  church: '<path d="M12 3v4M10 5h4"/><path d="M4 21v-8l8-5 8 5v8"/><path d="M10 21v-5a2 2 0 0 1 4 0v5"/><path d="M3 21h18"/>',
+  pin: '<path d="M12 21s-6.2-5.4-6.2-10.2a6.2 6.2 0 1 1 12.4 0C18.2 15.6 12 21 12 21Z"/><circle cx="12" cy="10.6" r="2.4"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-1.8 5.2-5.2 1.8 1.8-5.2 5.2-1.8Z"/>',
+};
 
 const steps = [
   { n: '1', title: 'Inquire', body: 'Send a note through the contact form with who you are and when you could travel.' },
@@ -185,10 +192,13 @@ const faqs = [
       <LeafHeading label="Is this trip for you?" title="Who vision trips are for." leaves={false} />
       <div class="who">
         {audiences.map((a) => (
-          <article class="rd-card who__card reveal">
+          <div class="who__col reveal">
+            <span class="who__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={WHO_ICONS[a.icon]}></svg>
+            </span>
             <h3>{a.title}</h3>
             <p>{a.body}</p>
-          </article>
+          </div>
         ))}
       </div>
     </div>
@@ -302,11 +312,27 @@ const faqs = [
   /* Video rows share the WWW spacing. */
   .vrows { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 100px); margin-top: clamp(40px, 5vw, 64px); }
 
-  /* Who it's for: three uniform cards. */
-  .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); }
-  @media (max-width: 860px) { .who { grid-template-columns: 1fr; } }
-  .who__card h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
-  .who__card p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+  /* Who it's for: open columns with gold icon medallions and hairline
+     separators. Deliberately NOT boxed cards, so it reads nothing like the
+     numbered "How it works" cards below. */
+  .who { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(36px, 4.4vw, 58px); }
+  .who__col { padding: var(--space-2) clamp(24px, 3vw, 48px); text-align: center; }
+  .who__col + .who__col { border-left: 1px solid rgba(31, 58, 26, 0.14); }
+  .who__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: color-mix(in srgb, var(--color-gold) 16%, var(--color-white));
+    color: var(--color-gold-deep);
+    margin-bottom: var(--space-5);
+  }
+  .who__icon svg { width: 30px; height: 30px; }
+  .who__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .who__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; max-width: 34ch; }
+  @media (max-width: 860px) {
+    .who { grid-template-columns: 1fr; gap: var(--space-8); }
+    .who__col { padding: 0; }
+    .who__col + .who__col { border-left: 0; border-top: 1px solid rgba(31, 58, 26, 0.14); padding-top: var(--space-8); }
+  }
 
   /* Steps. */
   .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
