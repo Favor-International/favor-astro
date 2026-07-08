@@ -112,8 +112,11 @@ export const MEGA_NAV: MegaMenu[] = [
     items: [
       { label: 'Vision Trips', href: '/go/vision-trips/' },
       { label: 'Volunteer from Home', href: '/go/volunteer/' },
-      { label: 'Internships', href: '/go/' },
-      { label: 'Careers', href: '/go/' },
+      // Fixed 2026-07-08 per Daniel: these two pointed at the bare /go/ hub
+      // from before the pages existed. Internships lives on the volunteer
+      // page (anchored section); Careers has its own page.
+      { label: 'Internships', href: '/go/volunteer/#internships' },
+      { label: 'Careers', href: '/go/careers/' },
       { label: 'Church Partnerships', href: '/give/church-partnership/' },
     ],
     featured: {
