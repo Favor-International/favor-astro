@@ -1,106 +1,107 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import Gallery from '../../components/global/Gallery.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 
+// Fact-audit note (2026-07-08): the earlier trip calendar (destinations,
+// dates, named leaders, costs), the "Jennifer M." testimonial, and the
+// application deadlines were UNSOURCED and are removed. No trip specifics go
+// on this page until Favor publishes them. Trips are arranged through the
+// contact form.
 const tripGallery = [
   { src: '/images/field/crusade-south-sudan.webp', caption: 'An evening crusade, South Sudan', desc: 'Hundreds gather at dusk to hear the Gospel preached in their own language. On a trip you stand in the middle of it.', alt: 'An outdoor evening crusade gathering in South Sudan' },
-  { src: '/images/field/primary-school-south-sudan.webp', caption: 'A Favor primary school, South Sudan', desc: 'A hall full of children who would otherwise never see a classroom, learning to read with the Word of God at the center.', alt: 'Students gathered in a Favor primary school hall' },
-  { src: '/images/field/well-uganda.webp', caption: 'A new village well, Uganda', desc: 'Clean water from a borehole Favor helped fund, often the first the village has ever had.', alt: 'Villagers at a new water well in Uganda' },
+  { src: '/images/field/primary-school-south-sudan.webp', caption: 'A Favor primary school, South Sudan', desc: 'A hall full of children learning to read with the Word of God at the center.', alt: 'Students gathered in a Favor primary school hall' },
+  { src: '/images/field/well-uganda.webp', caption: 'A new village well, Uganda', desc: 'Clean water from a borehole Favor helped fund.', alt: 'Villagers at a new water well in Uganda' },
 ];
 
-const trips = [
-  { dest: 'Gulu and Karamoja, Uganda', dates: 'Spring 2026', length: '10 days', leader: 'Pastor Daniel and the Favor Uganda team', cost: '~$3,400 + airfare' },
-  { dest: 'Juba and Lakes State, South Sudan', dates: 'Fall 2026', length: '12 days', leader: 'Juba field office leadership', cost: '~$4,200 + airfare' },
-  { dest: 'Addis and Bishoftu, Ethiopia', dates: 'Winter 2027', length: '9 days', leader: 'GIFT Institute team', cost: '~$3,100 + airfare' },
+const steps = [
+  { n: '1', title: 'Inquire', body: 'Send a note through the contact form with who you are and when you could travel.' },
+  { n: '2', title: 'Plan with the US team', body: 'Trip timing, length, destination, and costs are worked out with you directly. Nothing is one-size-fits-all.' },
+  { n: '3', title: 'Go', body: 'You travel in a small team, hosted on the ground by Favor field leadership.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Vision Trips"
-  description="Walk a village with a Favor field leader. 7–14 day vision trips to Uganda, South Sudan, and Ethiopia."
+  description="Walk the field with the Favor leaders who live there. Small-team vision trips, planned with you through the US team."
   image="/images/field/hero-jesusfilm-chad.webp"
 >
   <PageHero
     label="Vision trips"
     title="Walk a village with a Favor field leader."
-    promise="7–14 day trips. Small teams. Real ministry, not voluntourism. You will come home different."
+    promise="Small teams, hosted on the ground by the leaders who live there."
     image="/images/field-2026/jesus-film-1.webp"
     imageAlt="An outdoor Jesus Film screening in Chad"
-    ctaLabel="Apply for a trip"
+    ctaLabel="Inquire about a trip"
     ctaHref="/about/contact/?topic=vision-trip"
+    scrollCue
   />
 
-  <section class="band band--white">
+  <RdFeature
+    image="/images/story-vision-trip-team.jpg"
+    imageAlt="A vision-trip team with villagers in the field"
+    eyebrow="What a vision trip is"
+    heading="See the work with your own eyes."
+    side="right"
+  >
+    <p>
+      A vision trip is not a tour and not voluntourism. You travel with a small team and walk
+      the actual work: the schools, the crusades, the Houses of Prayer, the villages, with the
+      indigenous leaders who run them.
+    </p>
+    <p>
+      The ministries you could witness are the ones Favor runs every day across Uganda, South
+      Sudan, and Chad. See <a class="story-link" href="/about/where-we-work/">where we work</a>
+      for what the work looks like in each nation.
+    </p>
+  </RdFeature>
+
+  <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Open trips</p>
-        <h2>The 2026–27 calendar.</h2>
-      </header>
-      <ul class="trip-list">
-        {trips.map((t) => (
-          <li>
-            <div>
-              <h3>{t.dest}</h3>
-              <p>Led by {t.leader}.</p>
-            </div>
-            <dl>
-              <dt>Window</dt><dd>{t.dates}</dd>
-              <dt>Length</dt><dd>{t.length}</dd>
-              <dt>Cost</dt><dd>{t.cost}</dd>
-            </dl>
-            <a class="btn btn--secondary" href="/about/contact/?topic=vision-trip">Inquire about this trip</a>
+      <LeafHeading label="How it works" title="Three steps, no fine print." leaves={false} />
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="rd-card steps__item reveal">
+            <span class="steps__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
-
-  <OverlayFeature
-    image="/images/field-2026/gift-4.webp"
-    imageAlt="A Favor vision trip team in the field"
-    eyebrow="Jennifer M. &middot; Tampa, FL"
-    heading="&ldquo;I thought I was going to give. I came back having received more than I deposited.&rdquo;"
-    side="left"
-  >
-    <p>Returned from her first vision trip and brought four new Favor Partners home with her.</p>
-  </OverlayFeature>
 
   <Gallery
     eyebrow="What you'll witness"
     heading="Days you won't forget."
     description="Every vision trip walks you into real ministry, not a tour. Tap any photo to look closer."
-    background="cream"
+    background="white"
     columns={3}
     items={tripGallery}
   />
 
-  <CtaBand
-    heading="Apply for a vision trip."
-    body="Application closes 60 days before each trip. We will call you back within a week."
-    ctaLabel="Apply"
+  <RdCta
+    heading="Inquire about a vision trip."
+    body="Tell us who you are and when you could travel. The US team will plan the rest with you."
+    ctaLabel="Inquire"
     ctaHref="/about/contact/?topic=vision-trip"
-    variant="green"
+    image="/images/field-2026/gift-4.webp"
+    imageAlt="A Favor gathering in the field"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
-  .trip-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-6); }
-  .trip-list li {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr auto;
-    gap: var(--space-8);
-    align-items: center;
-    padding: var(--space-6);
-    background: var(--color-cream);
-    border: 2px solid var(--color-gold);
-    border-radius: var(--radius-input);
+  .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps__item { position: relative; }
+  .steps__n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--rd-bg-green); color: var(--color-green);
+    font-weight: 800; font-size: 1.15rem; margin-bottom: var(--space-4);
   }
-  @media (max-width: 900px) { .trip-list li { grid-template-columns: 1fr; } }
-  .trip-list h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.2rem; }
-  .trip-list p { margin: 0; color: var(--color-ink-soft); font-size: 0.92rem; }
-  dl { display: grid; grid-template-columns: auto 1fr; gap: 4px var(--space-3); margin: 0; font-size: 0.9rem; }
-  dt { font-weight: 700; color: var(--color-sage); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em; align-self: center; }
-  dd { margin: 0; color: var(--color-ink-soft); }
+  .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
 </style>
