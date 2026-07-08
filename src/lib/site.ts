@@ -112,8 +112,10 @@ export const MEGA_NAV: MegaMenu[] = [
     items: [
       { label: 'Vision Trips', href: '/go/vision-trips/' },
       { label: 'Volunteer from Home', href: '/go/volunteer/' },
-      { label: 'Internships', href: '/go/' },
-      { label: 'Careers', href: '/go/' },
+      // Fixed 2026-07-08 per Daniel: these two pointed at the bare /go/ hub
+      // from before the pages existed; each now has its own page.
+      { label: 'Internships', href: '/go/internships/' },
+      { label: 'Careers', href: '/go/careers/' },
       { label: 'Church Partnerships', href: '/give/church-partnership/' },
     ],
     featured: {
@@ -129,7 +131,7 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'Impact',
     href: '/impact/',
     items: [
-      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/', desc: "Mobilization of heaven's agenda", children: [
+      { label: 'Evangelism & Discipleship', href: '/impact/evangelism-discipleship/', desc: "Mobilization of Heaven's agenda", children: [
         { label: 'Portable Bible Schools', href: '/impact/evangelism-discipleship/portable-bible-schools/' },
         { label: 'GIFT', href: '/impact/evangelism-discipleship/gift-institute/' },
         { label: 'House of Prayer', href: '/pray/' },

@@ -67,7 +67,7 @@ const tiers = [
   { amount: '$100',   label: 'Educate',   line: 'A child’s schooling, meals, and Gospel teaching.' },
   { amount: '$250',   label: 'Heal',      line: 'Trauma counseling for a community recovering from war.' },
   { amount: '$500',   label: 'Transform', line: 'A Portable Bible School session for 20+ church planters.' },
-  { amount: '$1,000', label: 'Movement',  line: 'Launches a church plant in an unreached village.' },
+  { amount: '$1,000', label: 'Launch',    line: 'Plants a church so new believers can thrive.' },
 ];
 ---
 <BaseLayout
@@ -99,7 +99,7 @@ const tiers = [
         <div class="hero__copy">
           <p class="hero__eyebrow">Become a sender</p>
           <h1 class="hero__h1">You can send the Gospel where no one else will go.</h1>
-          <p class="hero__sub">Favor equips indigenous missionaries to plant churches in the hardest places on earth, across 14 nations of East and Central Africa. Your $50 a month keeps one of them on the trail.</p>
+          <p class="hero__sub">Favor equips indigenous missionaries to share Jesus in the hardest places on earth, across 14 nations of East and Central Africa. Your monthly $50 gift keeps one of them on the trail.</p>
           <div class="hero__cta">
             <a class="btn btn--primary btn--large hero__primary" href="/give/partner-monthly/">Send a missionary for $50/month <span aria-hidden="true">&rarr;</span></a>
             <a class="hero__secondary" href="/give/one-time/">Or give a one-time gift</a>
@@ -130,7 +130,7 @@ const tiers = [
           </div>
         </div>
         <p class="proof__line">
-          Audited by three independent watchdogs.
+          Trusted and accredited by ECFA, Charity Navigator, and Candid.
           <a href="/about/accountability/">See the financials &rarr;</a>
         </p>
         <ul class="proof__badges" aria-label="Accountability">
@@ -141,7 +141,20 @@ const tiers = [
       </div>
     </section>
 
-    <PatternDivider variant="cream" height="110px" />
+    <!-- ====================================================
+         2b. MISSION - "the clear message of what we do," per
+         Danny's review (2026-07-08), placed between the stats
+         and the map. Tagline and mission statement are Favor's
+         own, verbatim (site.ts).
+         ==================================================== -->
+    <section class="mission" aria-label="The mission of Favor International">
+      <div class="container mission__inner">
+        <p class="eyebrow eyebrow--gold">Our mission</p>
+        <h2 class="mission__h2">{SITE.tagline}</h2>
+        <p class="mission__text">{SITE.mission}</p>
+        <a class="mission__link" href="/about/mission-vision/">Our mission &amp; vision &rarr;</a>
+      </div>
+    </section>
 
     <!-- ====================================================
          3. AFRICA MAP
@@ -189,7 +202,7 @@ const tiers = [
           <figcaption class="missionary__caption">{missionary.name} &middot; {missionary.country}</figcaption>
         </figure>
         <div class="missionary__copy">
-          <p class="eyebrow eyebrow--gold">A missionary your partnership supports</p>
+          <p class="eyebrow eyebrow--gold">A missionary sent through your partnership</p>
           <h2 class="missionary__h2">Before he was a pastor, he was a cattle warrior.</h2>
           <p class="missionary__lede">
             {missionary.before} Today, Daniel leads Portable Bible Schools across South Sudan,
@@ -709,10 +722,11 @@ const tiers = [
   }
   .missionary__carole-quote {
     margin: 0 0 var(--space-3) 0;
-    font-family: var(--font-script);
+    font-family: var(--font-display);
+    font-style: italic;
     font-weight: 600;
-    font-size: clamp(1.2rem, 2.4vw, 1.7rem);
-    line-height: 1.2;
+    font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+    line-height: 1.3;
     color: var(--color-green-deep);
   }
   .missionary__carole-attr {
@@ -896,6 +910,19 @@ const tiers = [
     padding-bottom: 1px;
     margin-left: var(--space-3);
   }
+  /* ---------- 2b. Mission ---------- */
+  .mission { background: var(--color-cream); padding: clamp(var(--space-16), 10vw, var(--space-20)) 0; }
+  .mission__inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .mission__h2 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2.1rem, 4.8vw, 3.4rem); line-height: 1.08;
+    color: var(--color-green-deep); letter-spacing: -0.018em; text-wrap: balance;
+  }
+  .mission__text { margin: 0 auto var(--space-6); max-width: 72ch; color: var(--color-ink-soft); line-height: 1.8; }
+  .mission__link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
+  .mission__link:hover { color: var(--color-gold-deep); }
+
   .give__fdacs {
     margin: 0 auto;
     max-width: 920px;
