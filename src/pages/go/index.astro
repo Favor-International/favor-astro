@@ -1,23 +1,27 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import PostCard from '../../components/band/PostCard.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import ScriptBand from '../../components/redesign/ScriptBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 
+// Five ways to go. Descriptions are navigational only - no trip frequencies,
+// role lists, or program specifics that Favor has not published (fact-audit
+// rule, see docs/06-reference/about-fact-audit-2026-07-08.md).
 const paths = [
-  { href: '/go/vision-trips/', label: 'Vision Trips', desc: 'Walk a village with a Favor field leader. 7–14 day trips, 2–4 times a year.', image: '/images/story-vision-trip-team.jpg' },
-  { href: '/go/volunteer/', label: 'Volunteer in the US', desc: 'Ambassadors, prayer warriors, intercession teams. The field needs you wherever you are.', image: '/images/field-2026/street-outreach-3.webp' },
-  { href: '/go/volunteer/', label: 'Internships', desc: 'Field and US-side internships for college students and recent grads.', image: '/images/field-2026/vlc-3.webp' },
-  { href: '/go/volunteer/#positions', label: 'Career Opportunities', desc: 'Open roles on the US team and on the field. Director, partner care, comms.', image: '/images/field-2026/street-outreach-2.webp' },
+  { href: '/go/vision-trips/', label: 'Vision Trips', desc: 'Walk the field with the leaders who live there, in a small team.', image: '/images/story-vision-trip-team.jpg' },
+  { href: '/go/volunteer/', label: 'Volunteer', desc: 'Serve the US team from anywhere: media, accounting, mailing, and administrative help.', image: '/images/field-2026/street-outreach-3.webp' },
+  { href: '/go/volunteer/', label: 'Internships', desc: 'Months-long internships alongside the US team and the field.', image: '/images/field-2026/vlc-3.webp' },
+  { href: '/go/volunteer/#country-director', label: 'Careers', desc: 'Open positions with Favor, starting with the Country Director posting.', image: '/images/field-2026/street-outreach-2.webp' },
   { href: '/give/church-partnership/', label: 'Church Partnerships', desc: 'Mobilize your church around an indigenous Favor field team.', image: '/images/field-2026/evangelism-6.webp' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Go"
-  description="Walk the field. Volunteer from home. Lead a vision trip. Five paths to go with Favor International."
+  description="Walk the field. Volunteer from home. Intern, serve, or mobilize your church. Five paths to go with Favor International."
   image="/images/field-2026/missionaries-1.webp"
 >
-  <PageHero waveColor="cream"
+  <PageHero
     label="Go"
     title="Travel with us. Or send someone in your place."
     promise="Five ways to go: vision trips, volunteering, internships, careers, and church partnerships."
@@ -27,47 +31,42 @@ const paths = [
     ctaHref="/go/vision-trips/"
     secondaryLabel="Serve from home"
     secondaryHref="/go/volunteer/"
+    scrollCue
   />
 
-  <section class="band band--cream">
+  <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Five paths</p>
-        <h2>Pick how you go.</h2>
-      </header>
-      <div class="go-grid">
+      <LeafHeading label="Five paths" title="Pick how you go." />
+      <div class="rd-grid rd-grid--3">
         {paths.map((p) => (
-          <PostCard
-            href={p.href}
-            image={p.image}
-            imageAlt={p.label}
-            title={p.label}
-            desc={p.desc}
-            actionLabel="See the details"
-          />
+          <a class="rd-tile" href={p.href}>
+            <div class="rd-tile__img" style={`background-image:url('${p.image}')`} role="img" aria-label={p.label}></div>
+            <div class="rd-tile__meta">
+              <h3>{p.label}</h3>
+              <p>{p.desc}</p>
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <CtaBand
+  <ScriptBand
+    image="/images/field-2026/missionaries-1.webp"
+    imageAlt="Favor's indigenous missionaries gathered in the field"
+    label="The prayer of Favor's indigenous missionaries"
+    phrase="Lord, send us where no one else wants to go. Send us! We will go!"
+    cite="From Lord Send Us Where No One Wants to Go (2025)"
+    font="serif"
+    tall
+  />
+
+  <RdCta
     heading="Not sure which fits?"
     body="Email us a one-line note about your time and your context. We will point you to the right path."
     ctaLabel="Email the Go team"
     ctaHref="/about/contact/?topic=go"
-    variant="green"
+    image="/images/field-2026/evangelism-5.webp"
+    imageAlt="Favor leadership at a training session"
   />
-</PageLayout>
-
-<style>
-  .go-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
-  @media (max-width: 1024px) { .go-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .go-grid { grid-template-columns: 1fr; } }
-  .go-tile { background: var(--color-white); border-radius: var(--radius-card); box-shadow: var(--shadow-soft); overflow: hidden; text-decoration: none; color: inherit; transition: transform 160ms, box-shadow 160ms; display: flex; flex-direction: column; }
-  .go-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
-  .go-tile__photo { aspect-ratio: 4 / 3; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
-  .go-tile__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
-  .go-tile h3 { margin: 0; color: var(--color-green); font-size: 1.15rem; }
-  .go-tile p { margin: 0; font-size: 0.92rem; color: var(--color-ink-soft); }
-  .go-tile__cta { margin-top: auto; padding-top: var(--space-2); font-weight: 700; color: var(--color-gold); font-size: 0.85rem; }
-</style>
+</RedesignLayout>
