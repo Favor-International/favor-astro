@@ -8,18 +8,27 @@ import RdCta from '../../components/redesign/RdCta.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
 import directorsData from '../../data/directors.json';
 
-// Board of Directors: 9 volunteer board members. Source: Webflow CMS Directors collection.
-const board = directorsData
-  .filter(d => /board/i.test(d.type))
-  .sort((a, b) => (a.order || 999) - (b.order || 999));
+// Board of Directors: the CURRENT board only, verified 2026-07-07 against
+// Favor's live directors page (favorintl.org/about/directors) and the FY2024
+// Form 990 (EIN 47-5225697), which list the same six people. directors.json
+// still holds three FORMER members from the old Webflow export (Lisa Coggin,
+// last on the FY2022 990; Rev. Louis Kayatin, removed from the live site fall
+// 2024; Dr. Vilma Vega, last on the FY2021 990) - do not render them here.
+// Full audit: docs/06-reference/about-fact-audit-2026-07-08.md
+const CURRENT_BOARD = ['carole-ward', 'jared-buswell', 'michael-blickensderfer', 'alexander-kramer', 'david-blandford', 'martha-mott'];
+const board = CURRENT_BOARD
+  .map(slug => directorsData.find(d => d.slug === slug))
+  .filter(Boolean);
 const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
 
+// Every line below is backed by a named source (see the audit doc): the live
+// directors page, the FY2024 Form 990 (Part VI/VII, Schedule O), or the
+// published audits on favorintl.org/about/ecfa-accountability.
 const governance = [
-  { title: 'Term limits', body: 'Board members serve renewable three-year terms, with a maximum tenure that keeps fresh perspective and continuity in balance.' },
   { title: 'Volunteer service', body: 'Board service is fully volunteer. No board member receives any compensation for their role.' },
-  { title: 'Independence', body: 'A majority of the board is independent of paid staff, and the board reviews the executive team’s compensation every year.' },
-  { title: 'Annual audit', body: 'Favor is audited every year by an independent firm. The audited financials are filed with the IRS as Form 990 and reviewed by ECFA.' },
-  { title: 'Conflict-of-interest policy', body: 'A written conflict-of-interest policy is signed by every board member each year and reviewed by counsel.' },
+  { title: 'Independence', body: 'A majority of the board is independent of paid staff, and independent board members review the Executive Director’s compensation annually.' },
+  { title: 'Annual audit', body: 'Favor is audited every year by an independent firm. The audits and the public IRS Form 990s are published on the accountability page.' },
+  { title: 'Conflict-of-interest policy', body: 'A written conflict-of-interest policy is in place, and board members are required to disclose potential conflicts annually.' },
 ];
 ---
 <RedesignLayout
@@ -29,7 +38,7 @@ const governance = [
   <PageHero
     label="Governance"
     title="Board of Directors."
-    promise="Volunteer governance. Term-limited. Independent of paid staff per ECFA best practice."
+    promise="The board of directors are volunteers who give time and wisdom to oversee the ministry."
     image="/images/field-2026/missionaries-5.webp"
     imageAlt="Favor field and office leaders together"
   />
@@ -39,7 +48,7 @@ const governance = [
       <LeafHeading
         label="The Board"
         title="The volunteers who govern Favor."
-        intro="Favor International's Board of Directors meets quarterly and is responsible for governance, financial oversight, executive review, and strategic direction. Each member serves without compensation. The board is independent of paid staff and operates under the conflict-of-interest and best-practice standards required for ECFA accreditation."
+        intro="The board of directors are volunteers who give time and wisdom to oversee the ministry. The majority are independent members and have no potential family/financial ties to the decisions of the board."
       />
       <div class="rd-grid rd-grid--3">
         {board.map((m) => (
@@ -82,7 +91,7 @@ const governance = [
     side="right"
   >
     <p>Favor International is accredited by the <strong>Evangelical Council for Financial Accountability (ECFA)</strong> and audited every year by an independent firm.</p>
-    <p>Our audited financials are filed with the IRS as a public Form 990, rated by Charity Navigator, and listed on Candid. The board reviews them, along with executive compensation, every year.</p>
+    <p>The annual audits and the public IRS Form 990s are published on our accountability page. Favor holds a 4-star Charity Navigator rating and is listed on Candid. The board oversees the audit, and independent board members review the Executive Director&rsquo;s compensation annually.</p>
   </RdFeature>
 
   <RdCta
@@ -132,7 +141,6 @@ const governance = [
     margin-inline: auto;
   }
   @media (max-width: 700px) { .gov-grid { grid-template-columns: 1fr; } }
-  .gov-grid article:last-child { grid-column: 1 / -1; }
   .gov-grid h3 { margin: 0 0 var(--space-3); color: var(--color-green); }
   .gov-grid p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
 </style>

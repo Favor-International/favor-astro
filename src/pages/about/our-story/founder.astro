@@ -3,8 +3,64 @@ import RedesignLayout from '../../../layouts/RedesignLayout.astro';
 import PageHero from '../../../components/band/PageHero.astro';
 import RdFeature from '../../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../../components/redesign/LeafHeading.astro';
+import ScriptBand from '../../../components/redesign/ScriptBand.astro';
 import RdCta from '../../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../../components/global/VideoEmbed.astro';
+
+// Carole's full story, drawn from the two books Favor provided: "Send Me
+// Where No One Wants to Go" (2017, Barbara H. Martin - largely built from
+// Carole's own newsletters) and "Lord Send Us Where No One Wants to Go"
+// (2025, Carole Ward). Every quote is verbatim from the books; every fact is
+// traceable to a book page. Full reading notes with page references:
+// docs/06-reference/book-dossier-send-me.md and book-dossier-lord-send-us.md.
+const chapters = [
+  {
+    era: 'A missionary line',
+    heading: 'The baton was passed early.',
+    quote: { text: 'Honey, I’m passing on the baton to you.', cite: 'Carole’s grandmother' },
+    body: [
+      'Carole was born into four generations of missionaries. Her mother was born in China, where Carole’s grandparents served for thirty years before the family was imprisoned in Shanghai and released as exchange prisoners of war. In 1960 her parents took the family into the Philippine jungle, where they served as missionaries for 48 years and Bible translators for 60.',
+      'Her grandmother, a New York intercessor, took young Carole street-witnessing and handed her the calling that would shape everything: prayer first.',
+    ],
+  },
+  {
+    era: 'Before Africa',
+    heading: 'A whole life, laid down.',
+    body: [
+      'Back in the United States, Carole married, earned a nursing degree, raised three daughters, spent twenty years as a therapeutic foster parent, opened a nursing center for Alzheimer’s patients, and served on her church staff.',
+      'In 2002, a three-week mission trip to Kampala, Uganda changed the direction of her life. By the end of 2003 she was principal of a Bible training center overseeing portable Bible schools across East Africa, praying the same prayer every night.',
+    ],
+    quote: { text: 'Send me, so Your love can bring light into this horrible darkness. I know I am only one woman, but You are a big God and I don’t need anything but Your anointing to change this nation.', cite: 'Carole’s nightly prayer in Kampala' },
+  },
+  {
+    era: '2004',
+    heading: 'Ten said no. Two said go.',
+    body: [
+      'When Carole set her heart on the war zone of northern Uganda, the US Embassy warned her: “There is no chance for you to return to this country except in a body bag.” Ten organizations refused to send her. Her pastor answered differently: “What would Paul have done? Go. We will lay hands on you and send you in the Name of the Lord.”',
+      'Two widows pledged her monthly support. At the airport, her oldest daughter slipped a verse into her hand that she carries in her Bible to this day: “I was not disobedient to the vision from heaven” (Acts 26:19).',
+      'She moved to Gulu in 2004, in the middle of Joseph Kony’s war, the only Westerner in the region.',
+    ],
+  },
+  {
+    era: 'The war years',
+    heading: 'Bibles instead of bullets.',
+    quote: { text: 'Give them Bibles instead of bullets.', cite: 'What Carole heard God say during a night rebel attack on Gulu' },
+    body: [
+      'In Gulu she opened a House of Prayer, 7am and 7pm, seven days a week, and trained teams that carried the Gospel into the displacement camps of the North, where some fifteen thousand children walked into town each night to sleep under army protection.',
+      'She took the first four orphaned sisters into her own house. The children’s home that followed grew to thirty-three, with hundreds more helped outside it. Many of the children rescued from that war, now grown and healed, serve on Favor’s ministry staff today.',
+      'In December 2005, after forty days of mobilized prayer chains, more than a thousand people gathered in Gulu’s War Memorial Stadium for days of united, repentant prayer. Government officials later credited that gathering with paving the way to the end of the war. A former commander testified: “That is the exact time Kony came to me and told me the power had left him.”',
+    ],
+  },
+  {
+    era: 'The multiplication',
+    heading: 'One woman was never the plan.',
+    quote: { text: 'He impressed me that if I go into one village, He will be there, but if I train one hundred to go, soon He will be everywhere.', cite: 'Carole Ward' },
+    body: [
+      'From the beginning, the vision was never one missionary. It was an indigenous army. Favor’s work spread through trained national leaders: into Sudan from 2007, with national prayer gatherings in Juba in 2015 and 2019, and on into Chad and the surrounding nations.',
+      'The indigenous missionaries Carole trained now pray the prayer that titled her second book: “Lord, send us where no one else wants to go. Despite tribal wars, terrorism, bloodshed, and hazardous journeys, lead us to touch unreached people groups wherever they may be. Send us! We will go!”',
+    ],
+  },
+];
 
 // Carole's videos, verified against the Favor International YouTube channel
 // (titles match the channel exactly). The old playlist link was dead, so the
@@ -15,7 +71,7 @@ const videos = [
   { id: 'Y5pWE0AX97M', title: 'Reigniting a Passion for Prayer', desc: 'Carole on returning to the prayer that everything in Favor flows from.' },
   { id: 'XRrQ9Da3ToI', title: 'Breakthrough Prayer with Carole Ward, Part 1', desc: 'A teaching on the kind of praying that has marked Favor from the start.' },
   { id: 'l3jtHXnJnjc', title: 'A Brief Introduction to Favor', desc: 'Carole introduces the ministry and its mission, in brief.' },
-  { id: 'Hvd0ksY3ruU', title: 'Jeff Crilley Show: Carole Ward Interview', desc: 'A television interview about the story behind the ministry.' },
+  { id: 'Hvd0ksY3ruU', title: 'Jeff Crilley Show: Carole Ward Interview', desc: 'An interview about the story behind the ministry.' },
 ];
 const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?query=carole%20ward';
 ---
@@ -55,6 +111,40 @@ const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?quer
     </div>
   </section>
 
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading label="The full story" title="From a prayer to a movement." intro="Her story, from the two books written about the work. Every quote is her own words." leaves={false} />
+      <div class="cstory">
+        {chapters.map((c) => (
+          <article class="cstory__chapter reveal">
+            <p class="label">{c.era}</p>
+            <h3>{c.heading}</h3>
+            {c.quote && (
+              <blockquote class="cstory__quote">
+                &ldquo;{c.quote.text}&rdquo;
+                <cite>{c.quote.cite}</cite>
+              </blockquote>
+            )}
+            <div class="rd-prose">
+              {c.body.map((p) => <p>{p}</p>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ScriptBand
+    image="/images/field-2026/carole-4.webp"
+    imageAlt="Carole Ward in prayer in the field"
+    label="In her words"
+    phrase="When I asked God to send me where no one wants to go, He took me at my word."
+    cite="Carole Ward"
+    font="serif"
+    objectPosition="center 30%"
+    tall
+  />
+
   <section class="band band--white">
     <div class="container founder-more">
       <LeafHeading label="In her own words" title="Get to know Carole&rsquo;s story more." />
@@ -71,8 +161,8 @@ const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?quer
         <a class="btn btn--secondary" href={CAROLE_YOUTUBE} target="_blank" rel="noopener">More talks and interviews on YouTube</a>
       </p>
       <div class="founder-book rd-card">
-        <h3>The Carole Ward Story</h3>
-        <p>Get a free copy of either or each of Carole&rsquo;s books today. Her story of how Favor began, in her own words.</p>
+        <h3>Read the whole story.</h3>
+        <p>Two books tell it in full: <em>Send Me Where No One Wants to Go</em> (2017), the Carole Ward story, and <em>Lord Send Us Where No One Wants to Go</em> (2025), the story of the indigenous missionary army that followed. Get a free copy of either or each today.</p>
         <a class="btn btn--primary" href="/about/contact/?topic=book">Request a free copy</a>
       </div>
     </div>
@@ -102,6 +192,21 @@ const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?quer
   }
   .founder-back { margin-top: var(--space-10); }
   .story-link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+
+  /* The full story: chaptered narrative from the books. Quiet, readable,
+     quote-forward. */
+  .cstory { display: flex; flex-direction: column; gap: clamp(52px, 6.4vw, 88px); margin-top: clamp(40px, 5vw, 64px); }
+  .cstory__chapter .label { margin-bottom: var(--space-2); }
+  .cstory__chapter h3 { color: var(--color-green); font-size: var(--rd-fs-title); font-family: var(--font-display); font-weight: 600; margin: 0 0 var(--space-5); }
+  .cstory__quote {
+    margin: 0 0 var(--space-6); padding: var(--space-5) var(--space-7);
+    border-left: 3px solid var(--color-gold);
+    background: var(--color-white); border-radius: 0 var(--rd-radius) var(--rd-radius) 0;
+    box-shadow: 0 2px 10px rgba(31, 58, 26, 0.05);
+    font-family: var(--font-display); font-style: italic;
+    font-size: var(--rd-fs-sub); line-height: 1.55; color: var(--color-green-deep);
+  }
+  .cstory__quote cite { display: block; margin-top: var(--space-3); font-family: var(--font-sans); font-style: normal; font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-sage); }
 
   .founder-videos {
     display: grid;

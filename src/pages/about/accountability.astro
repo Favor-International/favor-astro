@@ -78,7 +78,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
 
   <section class="band band--cream band--tight">
     <div class="container">
-      <p class="acct-lede">Every number above is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
+      <p class="acct-lede">Every number above is sourced from Favor's ECFA member profile and the FY2024 audited financials. No estimates. No projections.</p>
       <div class="acct-badges">
         <a href={SITE.trust.ecfa} target="_blank" rel="noopener" aria-label="ECFA Accredited"><img src="/images/trust/ecfa.png" alt="ECFA Accredited" width="92" height="92" /></a>
         <a href={SITE.trust.charityNavigator} target="_blank" rel="noopener" aria-label="Charity Navigator Four-Star"><img src="/images/trust/charity-navigator.svg" alt="Charity Navigator Four-Star" width="92" height="92" /></a>
@@ -113,12 +113,12 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     <div class="exp">
       <LeafHeading label="Expenses accountability" title="Where 2024 went." leaves={false} />
       <div class="exp-breakdown">
-        <div class="exp-pie" role="img" aria-label="Program 89.3 percent, General 6.2 percent, Fundraising 4.5 percent"></div>
+        <div class="exp-pie" role="img" aria-label="Program 89.2 percent, General 6.2 percent, Fundraising 4.5 percent"></div>
         <ul class="exp-legend">
           <li class="exp-row">
             <span class="exp-dot exp-dot--program" aria-hidden="true"></span>
             <div class="exp-detail"><span class="exp-cat">Program</span><span class="exp-amt">$6,671,668</span></div>
-            <span class="exp-pct">89.3%</span>
+            <span class="exp-pct">89.2%</span>
           </li>
           <li class="exp-row">
             <span class="exp-dot exp-dot--general" aria-hidden="true"></span>
@@ -188,7 +188,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
 
   <RdCta
     heading="Need anything else for due diligence?"
-    body={`Email ${SITE.emailGeneral} and we will send the financial packet within one business day.`}
+    body={`Email ${SITE.emailGeneral} and we will send the financial packet.`}
     ctaLabel="Request the financial packet"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Financial packet request`}
     background="cream"
@@ -241,7 +241,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   @media (max-width: 600px) { .exp-breakdown { grid-template-columns: 1fr; justify-items: center; } }
   .exp-pie {
     width: clamp(180px, 24vw, 230px); aspect-ratio: 1; border-radius: 50%; position: relative;
-    background: conic-gradient(var(--color-green) 0 89.3%, var(--color-gold) 89.3% 95.5%, var(--color-sage) 95.5% 100%);
+    background: conic-gradient(var(--color-green) 0 89.2%, var(--color-gold) 89.2% 95.4%, var(--color-sage) 95.4% 100%);
   }
   .exp-pie::after { content: ''; position: absolute; inset: 27%; background: var(--color-white); border-radius: 50%; }
   .exp-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); width: 100%; }
