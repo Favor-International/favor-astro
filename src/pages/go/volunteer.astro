@@ -4,6 +4,7 @@ import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import { SITE } from '../../lib/site';
 
 // "Serve from Home" is now exactly that (per Daniel, 2026-07-08): remote and
 // US-side serving only. The Country Director posting moved to /go/careers/;
@@ -14,10 +15,10 @@ import RdCta from '../../components/redesign/RdCta.astro';
 // accounting, to mailing and other administrative assistance") plus prayer,
 // which is the ministry's stated foundation.
 const skills = [
-  { icon: 'pray', title: 'Prayer & intercession', body: 'Stand with the field in prayer. Pray through the Nations Prayer Guide and lift up the requests the teams send back.' },
-  { icon: 'media', title: 'Media & creative', body: 'Help with the media work that keeps partners connected to the field: video, design, and social content.' },
-  { icon: 'admin', title: 'Accounting & administrative', body: 'Accounting help and administrative assistance that keep the US operation running.' },
-  { icon: 'mail', title: 'Mailing & partner care', body: 'Mailing and the behind-the-scenes care that ensure all our partners are honored.' },
+  { icon: 'pray', title: 'Prayer & intercession', body: 'Stand with the field in prayer, from wherever you are.', looks: ['Pray through the Nations Prayer Guide', 'Lift up the requests the field teams send back', 'Pray over the stories and praise reports as they come in'] },
+  { icon: 'media', title: 'Media & creative', body: 'Help with the media work that keeps partners connected to the field.', looks: ['Video clips and social content from field footage', 'Newsletter and design help', 'Organizing photos from the field library'] },
+  { icon: 'admin', title: 'Accounting & administrative', body: 'The office work that keeps the US operation running.', looks: ['Bookkeeping help alongside the operations team', 'Data entry and record keeping', 'General administrative support'] },
+  { icon: 'mail', title: 'Mailing & partner care', body: 'The behind-the-scenes care that ensures all our partners are honored.', looks: ['Mailings that go out to partners', 'Notes and receipts that honor every gift', 'Care for the people who carry the work'] },
 ];
 const SKILL_ICONS: Record<string, string> = {
   pray: '<path d="M12 3v3M8 5l1.5 2M16 5l-1.5 2"/><path d="M12 21c-3.5-1.6-5.5-4.2-5.5-7.5V9l5.5 2.5L17.5 9v4.5c0 3.3-2 5.9-5.5 7.5Z"/>',
@@ -71,6 +72,10 @@ const steps = [
             </span>
             <h3>{s.title}</h3>
             <p>{s.body}</p>
+            <p class="skills__looks-label">What it can look like</p>
+            <ul class="skills__looks">
+              {s.looks.map((l) => <li>{l}</li>)}
+            </ul>
           </div>
         ))}
       </div>
@@ -83,6 +88,42 @@ const steps = [
         &ldquo;There are people who keep the vision running and ensure all our partners are honored.&rdquo;
       </p>
       <p class="vol-statement__note">That is what serving from home does: it keeps the US side strong so the field can stay focused on the field.</p>
+    </div>
+  </section>
+
+  <div id="internships" class="vol-anchor" aria-hidden="true"></div>
+  <RdFeature
+    image="/images/field-2026/street-outreach-5.webp"
+    imageAlt="A Favor team serving together in the field"
+    eyebrow="Internships"
+    heading="Months that change your life."
+    side="left"
+  >
+    <p>
+      In Favor&rsquo;s own words: a months long internship that will change your life. Interns
+      serve alongside the US team on the real operations that carry the field: media,
+      administration, partner care, and more.
+    </p>
+    <p>
+      Tell us who you are and the months you have. The US team will shape the internship
+      with you.
+    </p>
+    <p class="band__cta-row"><a class="btn btn--secondary" href="/about/contact/?topic=internship">Ask about internships</a></p>
+  </RdFeature>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="Where you'll work" title="Anywhere. Or with us." leaves={false} />
+      <div class="vol-where">
+        <div class="vol-where__col reveal">
+          <h3>Work from anywhere</h3>
+          <p>Volunteers can work from anywhere. You serve on your own schedule, with the US team a message away.</p>
+        </div>
+        <div class="vol-where__col reveal">
+          <h3>Or visit the office</h3>
+          <p>You are welcome to visit Favor&rsquo;s office: {SITE.mailing}. Reach us at {SITE.phone}, {SITE.hours}.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -128,6 +169,25 @@ const steps = [
   .skills__icon svg { width: 28px; height: 28px; }
   .skills__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); font-size: var(--rd-fs-sub); }
   .skills__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; font-size: var(--rd-fs-body); max-width: 30ch; }
+  .skills__looks-label {
+    margin: var(--space-5) auto var(--space-2) !important;
+    font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--color-gold-deep) !important;
+  }
+  .skills__looks { list-style: none; padding: 0; margin: 0 auto; max-width: 30ch; text-align: left; display: flex; flex-direction: column; gap: var(--space-2); }
+  .skills__looks li { position: relative; padding-left: var(--space-5); color: var(--color-ink-soft); font-size: var(--rd-fs-small); line-height: 1.55; }
+  .skills__looks li::before { content: '·'; position: absolute; left: var(--space-2); color: var(--color-gold-deep); font-weight: 800; }
+
+  /* Anchor target for /go/volunteer/#internships (RdFeature owns its own
+     section tag, so the id lives on a zero-height marker above it). */
+  .vol-anchor { position: relative; top: -80px; height: 0; }
+
+  /* Work from anywhere / visit the office. */
+  .vol-where { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 3vw, 48px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
+  @media (max-width: 700px) { .vol-where { grid-template-columns: 1fr; } }
+  .vol-where__col { border-top: 2px solid color-mix(in srgb, var(--color-gold) 55%, transparent); padding-top: var(--space-5); }
+  .vol-where__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .vol-where__col p { margin: 0; color: var(--color-ink-soft); line-height: 1.75; }
   @media (max-width: 1024px) {
     .skills { grid-template-columns: repeat(2, 1fr); row-gap: var(--space-8); }
     .skills__col:nth-child(3) { border-left: 0; }

@@ -5,15 +5,71 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
-// Five ways to go. Descriptions are navigational only - no trip frequencies,
-// role lists, or program specifics that Favor has not published (fact-audit
-// rule, see docs/06-reference/about-fact-audit-2026-07-08.md).
+// Five paths as full vertical sections (per Daniel 2026-07-08): image or
+// video on one side, expanded copy on the other, alternating down the page.
+// Every claim comes from the destination page it links to (which is itself
+// fact-audited); no trip specifics, role lists, or program claims beyond
+// what those pages state.
 const paths = [
-  { href: '/go/vision-trips/', label: 'Vision Trips', desc: 'Walk the field with the leaders who live there, in a small team.', image: '/images/story-vision-trip-team.jpg' },
-  { href: '/go/volunteer/', label: 'Volunteer', desc: 'Serve the US team from anywhere: media, accounting, mailing, and administrative help.', image: '/images/field-2026/street-outreach-3.webp' },
-  { href: '/go/volunteer/', label: 'Internships', desc: 'Months-long internships alongside the US team and the field.', image: '/images/field-2026/vlc-3.webp' },
-  { href: '/go/careers/', label: 'Careers', desc: 'Open positions with Favor, starting with the Country Director posting.', image: '/images/field-2026/street-outreach-2.webp' },
-  { href: '/give/church-partnership/', label: 'Church Partnerships', desc: 'Mobilize your church around an indigenous Favor field team.', image: '/images/field-2026/evangelism-6.webp' },
+  {
+    key: 'vision-trips', href: '/go/vision-trips/', label: 'Vision Trips',
+    title: 'Walk the field with the leaders who live there.',
+    video: '/videos/vision-trips-hero.mp4', poster: '/videos/vision-trips-hero-poster.jpg',
+    imageAlt: 'A village congregation gathered for worship, from the film They Once Met Under Trees',
+    body: [
+      'A vision trip is not a tour and not voluntourism. You travel in a small team and walk the actual work: the schools, the crusades, the Houses of Prayer, the villages, with the indigenous leaders who run them.',
+      'Every trip is planned with you through the US team. Timing, length, destination, and costs are worked out directly, nothing one-size-fits-all.',
+    ],
+    points: ['Small teams, hosted on the ground by field leadership', 'The work across Uganda, South Sudan, and Chad', 'Three steps: inquire, plan with the US team, go'],
+    cta: 'Explore vision trips',
+  },
+  {
+    key: 'volunteer', href: '/go/volunteer/', label: 'Volunteer',
+    title: 'Serve from home.',
+    image: '/images/field-2026/street-outreach-3.webp',
+    imageAlt: 'A Favor street outreach team serving',
+    body: [
+      'Favor’s US team is greatly supported by volunteer team members to keep operations going. From media, to accounting, to mailing and other administrative assistance, there are people who keep the vision running and ensure all our partners are honored.',
+      'Volunteers can work from anywhere but are welcome to visit Favor’s office.',
+    ],
+    points: ['Prayer & intercession', 'Media & creative', 'Accounting & administrative', 'Mailing & partner care'],
+    cta: 'See volunteer roles',
+  },
+  {
+    key: 'internships', href: '/go/volunteer/#internships', label: 'Internships',
+    title: 'Months that change your life.',
+    image: '/images/field-2026/vlc-3.webp',
+    imageAlt: 'A Village Learning Center class in session',
+    body: [
+      'A months-long internship alongside the US team, working on the real operations that carry the field: media, administration, partner care, and more.',
+      'In Favor’s own words: an opportunity to go on a months long internship that will change your life.',
+    ],
+    points: ['Months-long, alongside the US team', 'Real responsibility on real operations'],
+    cta: 'Ask about internships',
+  },
+  {
+    key: 'careers', href: '/go/careers/', label: 'Careers',
+    title: 'Work with Favor full-time.',
+    image: '/images/field-2026/missionaries-2.webp',
+    imageAlt: 'Indigenous Favor leaders in South Sudan',
+    body: [
+      'Open positions with the ministry, starting with the Country Director posting: full-time, living in country, based in Gulu, Uganda or Juba, South Sudan.',
+      'The full posting, responsibilities, and qualifications are on the careers page.',
+    ],
+    points: ['Country Director: Uganda or South Sudan', 'Reports to the Founder and the Board'],
+    cta: 'See open positions',
+  },
+  {
+    key: 'church', href: '/give/church-partnership/', label: 'Church Partnerships',
+    title: 'Mobilize your church around a field team.',
+    image: '/images/field-2026/evangelism-6.webp',
+    imageAlt: 'A Favor evangelism gathering',
+    body: [
+      'Point your congregation at an indigenous Favor field team: pray together as a church, partner together, and send a team on a vision trip to see the work firsthand.',
+    ],
+    points: ['Church-wide prayer and partnership', 'A field team your church can know by name'],
+    cta: 'Church partnerships',
+  },
 ];
 ---
 <RedesignLayout
@@ -37,27 +93,41 @@ const paths = [
   <section class="band band--white">
     <div class="container">
       <LeafHeading label="Five paths" title="Pick how you go." />
-      <div class="rd-grid rd-grid--3">
-        {paths.map((p) => (
-          <a class="rd-tile" href={p.href}>
-            <div class="rd-tile__img" style={`background-image:url('${p.image}')`} role="img" aria-label={p.label}></div>
-            <div class="rd-tile__meta">
-              <h3>{p.label}</h3>
-              <p>{p.desc}</p>
+      <div class="paths">
+        {paths.map((p, i) => (
+          <article class="path reveal" data-side={i % 2 === 0 ? 'left' : 'right'} id={p.key}>
+            <div class="path__media">
+              {p.video ? (
+                <video class="path__video" autoplay muted loop playsinline preload="metadata" poster={p.poster} aria-label={p.imageAlt}>
+                  <source src={p.video} type="video/mp4" />
+                </video>
+              ) : (
+                <img src={p.image} alt={p.imageAlt} loading="lazy" width="1200" height="900" />
+              )}
             </div>
-          </a>
+            <div class="path__copy">
+              <p class="label">{p.label}</p>
+              <h3>{p.title}</h3>
+              {p.body.map((b) => <p class="path__p">{b}</p>)}
+              <ul class="path__points">
+                {p.points.map((pt) => <li>{pt}</li>)}
+              </ul>
+              <a class="btn btn--primary path__btn" href={p.href}>{p.cta} <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
   <ScriptBand
-    image="/images/field-2026/missionaries-1.webp"
-    imageAlt="Favor's indigenous missionaries gathered in the field"
+    image="/images/field-2026/crusade-2.webp"
+    imageAlt="People praying with raised hands at an open-air gathering at dusk"
     label="The prayer of Favor's indigenous missionaries"
     phrase="Lord, send us where no one else wants to go. Send us! We will go!"
     cite="From Lord Send Us Where No One Wants to Go (2025)"
     font="serif"
+    objectPosition="center 25%"
     tall
   />
 
@@ -70,3 +140,31 @@ const paths = [
     imageAlt="Favor leadership at a training session"
   />
 </RedesignLayout>
+
+<style>
+  /* Five paths as full alternating sections: big media, expanded copy. */
+  .paths { display: flex; flex-direction: column; gap: clamp(64px, 8vw, 128px); margin-top: clamp(48px, 6vw, 80px); }
+  .path { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(36px, 5vw, 88px); align-items: center; }
+  .path[data-side='right'] .path__media { order: 2; }
+  .path[data-side='right'] .path__copy { order: 1; }
+  .path__media img,
+  .path__video {
+    display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+    border-radius: var(--rd-radius); box-shadow: var(--rd-shadow);
+  }
+  .path__copy .label { margin-bottom: var(--space-2); }
+  .path__copy h3 {
+    color: var(--color-green); font-family: var(--font-display); font-weight: 600;
+    font-size: var(--rd-fs-title); line-height: 1.16; margin: 0 0 var(--space-5); text-wrap: balance;
+  }
+  .path__p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.75; }
+  .path__points { list-style: none; padding: 0; margin: var(--space-5) 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+  .path__points li { position: relative; padding-left: var(--space-6); color: var(--color-ink); font-weight: 600; line-height: 1.5; }
+  .path__points li::before { content: '✓'; position: absolute; left: 0; color: var(--color-gold-deep); font-weight: 800; }
+  .path__btn { display: inline-flex; align-items: center; gap: 8px; }
+  @media (max-width: 900px) {
+    .path { grid-template-columns: 1fr; gap: var(--space-6); }
+    .path[data-side='right'] .path__media { order: 0; }
+    .path[data-side='right'] .path__copy { order: 0; }
+  }
+</style>
