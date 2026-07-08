@@ -5,11 +5,15 @@ import RdFeature from '../../../components/redesign/RdFeature.astro';
 import RdCta from '../../../components/redesign/RdCta.astro';
 import directorsData from '../../../data/directors.json';
 
-// Profile pages for every director/leader except Carole Ward, who has a
-// dedicated founder page at /about/our-story/founder/. Source: Directors data.
+// Profile pages for every CURRENT director/leader except Carole Ward, who has
+// a dedicated founder page at /about/our-story/founder/. Source: Directors
+// data. Former board members in the data (Coggin, Kayatin, Vega - verified
+// against the live directors page + FY2024 Form 990, see
+// docs/06-reference/about-fact-audit-2026-07-08.md) get no page.
 export function getStaticPaths() {
+  const FORMER = ['lisa-coggin', 'rev-louis-kayatin', 'dr-vilma-vega'];
   return directorsData
-    .filter((d) => d.slug !== 'carole-ward')
+    .filter((d) => d.slug !== 'carole-ward' && !FORMER.includes(d.slug))
     .map((d) => ({ params: { slug: d.slug }, props: { person: d } }));
 }
 
