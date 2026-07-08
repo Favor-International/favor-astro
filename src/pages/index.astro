@@ -159,12 +159,13 @@ const tiers = [
     <section class="pillars" aria-label="How the movement works: the four pillars">
       <div class="container">
         <header class="pillars__head">
-          <p class="eyebrow eyebrow--gold">How the movement works</p>
-          <h2 class="pillars__h2">Every program stands on one of four pillars.</h2>
+          <p class="eyebrow eyebrow--gold">The four pillars</p>
+          <h2 class="pillars__h2">How the movement works.</h2>
+          <p class="pillars__lede">Every program on the field belongs to one of four pillars.</p>
         </header>
-        <div class="pillars__grid">
+        <div class="pillars__row">
           {PILLARS.map((p) => (
-            <a class="pillars__card" href={`/impact/${p.slug}/`}>
+            <a class="pillars__col" href={`/impact/${p.slug}/`}>
               <span class="pillars__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={PILLAR_ICONS[p.slug]}></svg>
               </span>
@@ -244,7 +245,8 @@ const tiers = [
          (Lord Send Us Where No One Wants to Go, 2025).
          ==================================================== -->
     <section class="whyind" aria-label="Why indigenous leadership">
-      <div class="container">
+      <div class="whyind__photo" aria-hidden="true"></div>
+      <div class="container whyind__inner">
         <header class="whyind__head">
           <p class="eyebrow eyebrow--gold-on-dark">Why indigenous leadership</p>
           <h2 class="whyind__h2">National leaders are solving problems others haven&rsquo;t been able to.</h2>
@@ -271,26 +273,24 @@ const tiers = [
          side by side, right before the give section.
          ==================================================== -->
     <section class="onramps" aria-label="Pray with us or go see the field">
-      <div class="container onramps__grid">
-        <a class="onramp" href="/pray/30-day-guide/">
-          <div class="onramp__photo" style="background-image:url('/images/field-2026/prayer-7.webp')" role="img" aria-label="A Favor prayer gathering"></div>
-          <div class="onramp__body">
-            <p class="eyebrow eyebrow--gold">Pray</p>
-            <h2>Join the prayer movement.</h2>
-            <p>Favor&rsquo;s work begins in prayer. The Nations Prayer Guide walks you through the nations we serve, one specific request per day.</p>
-            <span class="onramp__cta">Open the Prayer Guide &rarr;</span>
-          </div>
-        </a>
-        <a class="onramp" href="/go/vision-trips/">
-          <div class="onramp__photo" style="background-image:url('/images/story-vision-trip-team.jpg')" role="img" aria-label="A vision-trip team with villagers in the field"></div>
-          <div class="onramp__body">
-            <p class="eyebrow eyebrow--gold">Go</p>
-            <h2>See it firsthand.</h2>
-            <p>Small-team vision trips, hosted on the ground by Favor&rsquo;s field leadership. Walk the schools, the crusades, and the villages.</p>
-            <span class="onramp__cta">Explore vision trips &rarr;</span>
-          </div>
-        </a>
-      </div>
+      <a class="onramp" href="/pray/30-day-guide/" style="background-image:url('/images/field-2026/prayer-7.webp')">
+        <div class="onramp__scrim" aria-hidden="true"></div>
+        <div class="onramp__body">
+          <p class="onramp__eyebrow">Pray</p>
+          <h2>Join the prayer movement.</h2>
+          <p>The Nations Prayer Guide walks you through the nations we serve, one specific request per day.</p>
+          <span class="onramp__cta">Open the Prayer Guide <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="onramp" href="/go/vision-trips/" style="background-image:url('/images/story-vision-trip-team.jpg')">
+        <div class="onramp__scrim" aria-hidden="true"></div>
+        <div class="onramp__body">
+          <p class="onramp__eyebrow">Go</p>
+          <h2>See it firsthand.</h2>
+          <p>Small-team vision trips, hosted on the ground by Favor&rsquo;s field leadership.</p>
+          <span class="onramp__cta">Explore vision trips <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
     </section>
 
     <PatternDivider variant="green" height="140px" />
@@ -354,13 +354,11 @@ const tiers = [
         </header>
         <div class="field-feed__grid">
           {latestStories.map((s) => (
-            <a class="field-feed__card" href={`/stories/${s.slug}/`}>
+            <a class="field-feed__tile" href={`/stories/${s.slug}/`}>
               <div class="field-feed__photo" style={`background-image:url('${s.image}')`} role="img" aria-label={s.title}></div>
-              <div class="field-feed__body">
-                <p class="field-feed__date">{s.date}{s.category ? ` · ${s.category}` : ''}</p>
-                <h3>{s.title}</h3>
-                <span class="field-feed__more">Read the story &rarr;</span>
-              </div>
+              <p class="field-feed__date">{s.date}{s.category ? ` · ${s.category}` : ''}</p>
+              <h3>{s.title}</h3>
+              <span class="field-feed__more">Read the story &rarr;</span>
             </a>
           ))}
         </div>
@@ -907,113 +905,153 @@ const tiers = [
     text-align: center;
   }
 
-  /* ---------- 3b. The four pillars ---------- */
-  .pillars { background: var(--color-cream); padding: clamp(var(--space-16), 9vw, var(--space-20)) 0; }
-  .pillars__head { text-align: center; max-width: 720px; margin: 0 auto clamp(var(--space-10), 6vw, var(--space-14)); }
+  /* ---------- 3b. The four pillars: open columns, hairline separators,
+       green icon medallions. No boxes. ---------- */
+  .pillars { background: var(--color-white); padding: clamp(var(--space-16), 10vw, var(--space-24)) 0; }
+  .pillars__head { text-align: center; max-width: 640px; margin: 0 auto clamp(56px, 6vw, 88px); }
   .pillars__h2 {
-    margin: var(--space-3) 0 0;
+    margin: var(--space-4) 0 var(--space-4);
     font-family: var(--font-display); font-weight: 700;
-    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.1;
+    font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.08;
     color: var(--color-green-deep); letter-spacing: -0.018em;
   }
-  .pillars__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(var(--space-5), 2.4vw, var(--space-8)); }
-  @media (max-width: 1024px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .pillars__grid { grid-template-columns: 1fr; } }
-  .pillars__card {
-    display: flex; flex-direction: column;
-    background: var(--color-white); border-radius: 16px;
-    padding: var(--space-8) var(--space-6);
-    box-shadow: 0 10px 32px rgba(11, 64, 36, 0.08);
+  .pillars__lede { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+  .pillars__row { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .pillars__col {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: var(--space-2) clamp(20px, 2.4vw, 40px);
     text-decoration: none; color: inherit;
-    transition: transform 200ms ease, box-shadow 200ms ease;
   }
-  .pillars__card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(11, 64, 36, 0.14); }
+  .pillars__col + .pillars__col { border-left: 1px solid rgba(11, 64, 36, 0.12); }
   .pillars__icon {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 52px; height: 52px; border-radius: 14px;
-    background: color-mix(in srgb, var(--color-green) 10%, var(--color-white));
-    color: var(--color-green); margin-bottom: var(--space-5);
+    width: 64px; height: 64px; border-radius: 50%;
+    background: color-mix(in srgb, var(--color-green) 9%, var(--color-white));
+    color: var(--color-green);
+    margin-bottom: var(--space-5);
+    transition: background 200ms ease, color 200ms ease;
   }
-  .pillars__icon svg { width: 26px; height: 26px; }
-  .pillars__card h3 { margin: 0 0 var(--space-3); font-size: 1.1rem; color: var(--color-green-deep); line-height: 1.3; }
-  .pillars__card p { margin: 0 0 var(--space-5); font-size: 0.92rem; line-height: 1.65; color: var(--color-ink-soft); }
+  .pillars__col:hover .pillars__icon { background: var(--color-green); color: var(--color-white); }
+  .pillars__icon svg { width: 28px; height: 28px; }
+  .pillars__col h3 { margin: 0 0 var(--space-3); font-size: 1.08rem; color: var(--color-green-deep); line-height: 1.3; }
+  .pillars__col p { margin: 0 0 var(--space-4); font-size: 0.92rem; line-height: 1.65; color: var(--color-ink-soft); max-width: 30ch; }
   .pillars__more { margin-top: auto; font-weight: 700; font-size: 0.85rem; color: var(--color-gold-deep); }
-  .pillars__card:hover .pillars__more { color: var(--color-green); }
+  .pillars__col:hover .pillars__more { color: var(--color-green); }
+  @media (max-width: 1024px) {
+    .pillars__row { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
+    .pillars__col:nth-child(3) { border-left: 0; }
+  }
+  @media (max-width: 560px) {
+    .pillars__row { grid-template-columns: 1fr; row-gap: var(--space-8); }
+    .pillars__col + .pillars__col { border-left: 0; border-top: 1px solid rgba(11, 64, 36, 0.12); padding-top: var(--space-8); }
+  }
 
-  /* ---------- 4c. Why indigenous leadership (deep green breakout) ---------- */
-  .whyind { background: var(--color-green-deep); padding: clamp(var(--space-16), 10vw, var(--space-24)) 0; }
-  .whyind__head { max-width: 780px; margin: 0 auto clamp(var(--space-10), 6vw, var(--space-14)); text-align: center; }
+  /* ---------- 4c. Why indigenous leadership: deep green with a night
+       crusade photo blended underneath. ---------- */
+  .whyind { position: relative; isolation: isolate; background: var(--color-green-deep); padding: clamp(var(--space-16), 11vw, var(--space-24)) 0; overflow: hidden; }
+  .whyind__photo {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url('/images/story-anaka-crusade.jpg');
+    background-size: cover; background-position: center;
+    opacity: 0.38; mix-blend-mode: luminosity;
+    pointer-events: none;
+  }
+  .whyind::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--color-green-deep) 88%, transparent),
+      color-mix(in srgb, var(--color-green-deep) 62%, transparent) 55%,
+      color-mix(in srgb, var(--color-green-deep) 88%, transparent));
+  }
+  .whyind__inner { position: relative; z-index: 2; }
+  .whyind__head { max-width: 780px; margin: 0 auto clamp(56px, 6vw, 88px); text-align: center; }
   .whyind__h2 {
-    margin: var(--space-3) 0 var(--space-5);
+    margin: var(--space-4) 0 var(--space-5);
     font-family: var(--font-display); font-weight: 700;
-    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.12;
+    font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.1;
     color: var(--color-white); letter-spacing: -0.018em; text-wrap: balance;
   }
-  .whyind__lede { margin: 0 auto; max-width: 56ch; color: color-mix(in srgb, var(--color-white) 78%, transparent); line-height: 1.7; }
-  .whyind__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(var(--space-8), 4vw, var(--space-12)); }
-  @media (max-width: 860px) { .whyind__grid { grid-template-columns: 1fr; } }
-  .whyind__point { border-top: 2px solid color-mix(in srgb, var(--color-gold) 55%, transparent); padding-top: var(--space-5); }
+  .whyind__lede { margin: 0 auto; max-width: 56ch; color: color-mix(in srgb, var(--color-white) 80%, transparent); line-height: 1.7; }
+  .whyind__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 4.5vw, 56px); max-width: 1060px; margin: 0 auto; }
+  @media (max-width: 860px) { .whyind__grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .whyind__point { border-top: 2px solid color-mix(in srgb, var(--color-gold) 60%, transparent); padding-top: var(--space-5); }
   .whyind__num { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--color-gold); letter-spacing: 0.08em; }
   .whyind__point h3 { margin: var(--space-3) 0; color: var(--color-white); font-size: 1.15rem; }
-  .whyind__point p { margin: 0; color: color-mix(in srgb, var(--color-white) 74%, transparent); line-height: 1.7; font-size: 0.97rem; }
-  .whyind__quote { margin: clamp(var(--space-12), 7vw, var(--space-16)) auto 0; max-width: 640px; text-align: center; }
+  .whyind__point p { margin: 0; color: color-mix(in srgb, var(--color-white) 76%, transparent); line-height: 1.7; font-size: 0.97rem; }
+  .whyind__quote { margin: clamp(48px, 8vw, 72px) auto 0; max-width: 680px; text-align: center; }
   .whyind__quote p {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-5);
     font-family: var(--font-script); font-weight: 600;
-    font-size: clamp(1.5rem, 3.2vw, 2.2rem); line-height: 1.25;
+    font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1.25;
     color: var(--color-gold);
   }
-  .whyind__quote footer { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--color-white) 60%, transparent); }
+  .whyind__quote footer { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--color-white) 62%, transparent); }
 
-  /* ---------- 4d. Pray or Go on-ramps ---------- */
-  .onramps { background: var(--color-white); padding: clamp(var(--space-16), 9vw, var(--space-20)) 0; }
-  .onramps__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--space-6), 3vw, var(--space-10)); }
-  @media (max-width: 860px) { .onramps__grid { grid-template-columns: 1fr; } }
+  /* ---------- 4d. Pray or Go: full-bleed photo diptych, text over the
+       image. No cards. ---------- */
+  .onramps { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 860px) { .onramps { grid-template-columns: 1fr; } }
   .onramp {
-    display: flex; flex-direction: column;
-    border-radius: 18px; overflow: hidden;
-    background: var(--color-cream);
-    box-shadow: 0 14px 40px rgba(11, 64, 36, 0.10);
-    text-decoration: none; color: inherit;
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    position: relative; isolation: isolate; display: flex; align-items: flex-end;
+    min-height: clamp(420px, 46vw, 560px);
+    background-size: cover; background-position: center;
+    text-decoration: none; color: var(--color-white);
+    overflow: hidden;
   }
-  .onramp:hover { transform: translateY(-4px); box-shadow: 0 22px 52px rgba(11, 64, 36, 0.16); }
-  .onramp__photo { aspect-ratio: 16 / 8; background-size: cover; background-position: center; }
-  .onramp__body { padding: var(--space-8); }
+  .onramp::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background: inherit; background-size: cover; background-position: center;
+  }
+  .onramp__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top,
+      rgba(10, 24, 8, 0.86) 0%,
+      rgba(10, 24, 8, 0.45) 45%,
+      rgba(10, 24, 8, 0.18) 100%);
+    transition: background 250ms ease;
+  }
+  .onramp:hover .onramp__scrim { background: linear-gradient(to top, rgba(10, 24, 8, 0.92) 0%, rgba(10, 24, 8, 0.55) 45%, rgba(10, 24, 8, 0.25) 100%); }
+  .onramp__body { position: relative; z-index: 2; padding: clamp(32px, 4.5vw, 56px); max-width: 560px; }
+  .onramp__eyebrow { margin: 0 0 var(--space-3); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-gold); }
   .onramp__body h2 {
-    margin: var(--space-2) 0 var(--space-4);
+    margin: 0 0 var(--space-3);
     font-family: var(--font-display); font-weight: 700;
-    font-size: clamp(1.5rem, 2.6vw, 2rem); color: var(--color-green-deep); letter-spacing: -0.015em;
+    font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.015em; color: var(--color-white);
   }
-  .onramp__body p { margin: 0 0 var(--space-5); color: var(--color-ink-soft); line-height: 1.7; max-width: 46ch; }
-  .onramp__cta { font-weight: 700; color: var(--color-gold-deep); }
-  .onramp:hover .onramp__cta { color: var(--color-green); }
+  .onramp__body p { margin: 0 0 var(--space-5); line-height: 1.65; color: color-mix(in srgb, var(--color-white) 85%, transparent); max-width: 44ch; }
+  .onramp__cta {
+    display: inline-block; font-weight: 700;
+    color: var(--color-white);
+    border-bottom: 2px solid var(--color-gold); padding-bottom: 3px;
+    transition: color 160ms ease;
+  }
+  .onramp:hover .onramp__cta { color: var(--color-gold); }
 
-  /* ---------- 6. Live from the field ---------- */
-  .field-feed { background: var(--color-cream); padding: clamp(var(--space-16), 9vw, var(--space-20)) 0; }
-  .field-feed__head { text-align: center; margin: 0 auto clamp(var(--space-10), 6vw, var(--space-14)); }
+  /* ---------- 6. Live from the field: open tiles (photo + meta below),
+       no boxes. ---------- */
+  .field-feed { background: var(--color-cream); padding: clamp(var(--space-16), 10vw, var(--space-24)) 0; }
+  .field-feed__head { text-align: center; max-width: 640px; margin: 0 auto clamp(56px, 6vw, 88px); }
   .field-feed__h2 {
-    margin: var(--space-3) 0 0;
+    margin: var(--space-4) 0 0;
     font-family: var(--font-display); font-weight: 700;
-    font-size: clamp(1.9rem, 4vw, 2.9rem); color: var(--color-green-deep); letter-spacing: -0.018em;
+    font-size: clamp(2rem, 4.4vw, 3.2rem); color: var(--color-green-deep); letter-spacing: -0.018em;
   }
-  .field-feed__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(var(--space-5), 2.4vw, var(--space-8)); }
+  .field-feed__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(var(--space-8), 3.5vw, var(--space-12)); }
   @media (max-width: 900px) { .field-feed__grid { grid-template-columns: 1fr; } }
-  .field-feed__card {
-    display: flex; flex-direction: column;
-    background: var(--color-white); border-radius: 16px; overflow: hidden;
-    box-shadow: 0 10px 32px rgba(11, 64, 36, 0.08);
-    text-decoration: none; color: inherit;
-    transition: transform 200ms ease, box-shadow 200ms ease;
+  .field-feed__tile { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .field-feed__photo {
+    aspect-ratio: 4 / 3; border-radius: 18px;
+    background-size: cover; background-position: center; background-color: var(--color-sage-light);
+    box-shadow: 0 12px 34px rgba(11, 64, 36, 0.14);
+    margin-bottom: var(--space-5);
+    transition: transform 220ms ease, box-shadow 220ms ease;
   }
-  .field-feed__card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(11, 64, 36, 0.14); }
-  .field-feed__photo { aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
-  .field-feed__body { display: flex; flex-direction: column; padding: var(--space-6); flex: 1; }
+  .field-feed__tile:hover .field-feed__photo { transform: translateY(-5px); box-shadow: 0 20px 46px rgba(11, 64, 36, 0.2); }
   .field-feed__date { margin: 0 0 var(--space-2); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .field-feed__body h3 { margin: 0 0 var(--space-4); font-size: 1.12rem; line-height: 1.35; color: var(--color-green-deep); }
-  .field-feed__more { margin-top: auto; font-weight: 700; font-size: 0.85rem; color: var(--color-gold-deep); }
-  .field-feed__card:hover .field-feed__more { color: var(--color-green); }
-  .field-feed__all { margin: clamp(var(--space-8), 5vw, var(--space-12)) 0 0; text-align: center; }
+  .field-feed__tile h3 { margin: 0 0 var(--space-3); font-size: 1.2rem; line-height: 1.35; color: var(--color-green-deep); }
+  .field-feed__tile:hover h3 { color: var(--color-green); }
+  .field-feed__more { font-weight: 700; font-size: 0.85rem; color: var(--color-gold-deep); }
+  .field-feed__all { margin: clamp(40px, 6vw, 56px) 0 0; text-align: center; }
   .field-feed__all a { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
   .field-feed__all a:hover { color: var(--color-gold-deep); }
 </style>
