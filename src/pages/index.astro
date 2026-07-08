@@ -4,7 +4,32 @@ import SiteHeader from '../components/global/SiteHeader.astro';
 import SiteFooter from '../components/global/SiteFooter.astro';
 import PatternDivider from '../components/global/PatternDivider.astro';
 import AfricaMap from '../components/global/AfricaMap.astro';
-import { SITE } from '../lib/site';
+import { SITE, PILLARS } from '../lib/site';
+import storiesData from '../data/stories.json';
+
+// The four pillars come verbatim from site.ts (locked to favorintl.org's own
+// names and program lists). Icons are simple outlines, one per pillar.
+const PILLAR_ICONS: Record<string, string> = {
+  'evangelism-discipleship': '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M14 8a4 4 0 0 1 0 8M16 5a7 7 0 0 1 0 14"/>',
+  'education': '<path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11v4c0 1.1 2.7 3 6 3s6-1.9 6-3v-4"/>',
+  'community-development': '<path d="M12 20s-7-4.3-7-9a3.6 3.6 0 0 1 7-1.2A3.6 3.6 0 0 1 19 11c0 4.7-7 9-7 9Z"/>',
+  'economic-empowerment': '<path d="M12 21v-8"/><path d="M12 13c0-3.2-2.6-5.4-5.6-5.4 0 3.2 2.6 5.4 5.6 5.4Z"/><path d="M12 13c0-3.2 2.6-5.4 5.6-5.4 0 3.2-2.6 5.4-5.6 5.4Z"/>',
+};
+
+// Why indigenous leadership: the intro line is verbatim from Favor's own
+// mission-vision material; the pull quote is Carole's, verbatim from Lord
+// Send Us Where No One Wants to Go (2025), p.17.
+const INDIGENOUS_POINTS = [
+  { title: 'No learning curve', body: 'Native leaders already speak the languages and live the culture. There is no barrier to cross before the work begins.' },
+  { title: 'Support goes further', body: 'Partnership sustains leaders who already live on the field, instead of funding relocation from the West.' },
+  { title: 'They stay', body: 'When crisis comes, indigenous leaders do not evacuate. They live there, and the work keeps going.' },
+];
+
+// Live from the field: the three most recent real stories from the field
+// (real titles, dates, and photos from stories.json).
+const latestStories = [...storiesData]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 3);
 
 // =====================================================================
 // NOTE: the old "demo mode" (inert links for the executive-director
@@ -126,6 +151,33 @@ const tiers = [
     <PatternDivider variant="cream" height="110px" />
 
     <!-- ====================================================
+         3b. THE FOUR PILLARS — how the movement works. Names,
+         blurbs, and program lists verbatim from site.ts/PILLARS
+         (locked to favorintl.org). Each tile links to its
+         Impact page.
+         ==================================================== -->
+    <section class="pillars" aria-label="How the movement works: the four pillars">
+      <div class="container">
+        <header class="pillars__head">
+          <p class="eyebrow eyebrow--gold">How the movement works</p>
+          <h2 class="pillars__h2">Every program stands on one of four pillars.</h2>
+        </header>
+        <div class="pillars__grid">
+          {PILLARS.map((p) => (
+            <a class="pillars__card" href={`/impact/${p.slug}/`}>
+              <span class="pillars__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={PILLAR_ICONS[p.slug]}></svg>
+              </span>
+              <h3>{p.label}</h3>
+              <p>{p.blurb}</p>
+              <span class="pillars__more">See the work &rarr;</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
          4. ONE MISSIONARY STORY — Daniel Kidia, anchor of the page.
          Carole's voice lives inside this band as the spiritual anchor.
          ==================================================== -->
@@ -185,6 +237,62 @@ const tiers = [
       </div>
     </section>
 
+    <!-- ====================================================
+         4c. WHY INDIGENOUS LEADERSHIP — the model, on a deep
+         green breakout. Intro sentence verbatim from Favor's
+         mission-vision material; quote verbatim from Carole
+         (Lord Send Us Where No One Wants to Go, 2025).
+         ==================================================== -->
+    <section class="whyind" aria-label="Why indigenous leadership">
+      <div class="container">
+        <header class="whyind__head">
+          <p class="eyebrow eyebrow--gold-on-dark">Why indigenous leadership</p>
+          <h2 class="whyind__h2">National leaders are solving problems others haven&rsquo;t been able to.</h2>
+          <p class="whyind__lede">They are willing to work harder, more self-sacrificially, and more effectively for their people and nation than we ever could.</p>
+        </header>
+        <div class="whyind__grid">
+          {INDIGENOUS_POINTS.map((pt, i) => (
+            <div class="whyind__point">
+              <span class="whyind__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{pt.title}</h3>
+              <p>{pt.body}</p>
+            </div>
+          ))}
+        </div>
+        <blockquote class="whyind__quote">
+          <p>&ldquo;Even as others are moving out, we are moving in!&rdquo;</p>
+          <footer>Carole Ward &middot; Lord Send Us Where No One Wants to Go</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         4d. PRAY OR GO — the two non-financial on-ramps,
+         side by side, right before the give section.
+         ==================================================== -->
+    <section class="onramps" aria-label="Pray with us or go see the field">
+      <div class="container onramps__grid">
+        <a class="onramp" href="/pray/30-day-guide/">
+          <div class="onramp__photo" style="background-image:url('/images/field-2026/prayer-7.webp')" role="img" aria-label="A Favor prayer gathering"></div>
+          <div class="onramp__body">
+            <p class="eyebrow eyebrow--gold">Pray</p>
+            <h2>Join the prayer movement.</h2>
+            <p>Favor&rsquo;s work begins in prayer. The Nations Prayer Guide walks you through the nations we serve, one specific request per day.</p>
+            <span class="onramp__cta">Open the Prayer Guide &rarr;</span>
+          </div>
+        </a>
+        <a class="onramp" href="/go/vision-trips/">
+          <div class="onramp__photo" style="background-image:url('/images/story-vision-trip-team.jpg')" role="img" aria-label="A vision-trip team with villagers in the field"></div>
+          <div class="onramp__body">
+            <p class="eyebrow eyebrow--gold">Go</p>
+            <h2>See it firsthand.</h2>
+            <p>Small-team vision trips, hosted on the ground by Favor&rsquo;s field leadership. Walk the schools, the crusades, and the villages.</p>
+            <span class="onramp__cta">Explore vision trips &rarr;</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
     <PatternDivider variant="green" height="140px" />
 
     <!-- ====================================================
@@ -230,6 +338,33 @@ const tiers = [
         <p class="give__fdacs">
           A copy of the official registration and financial information for Favor International, Inc. (CH57842) may be obtained from the Florida Division of Consumer Services by visiting fdacs.gov or calling toll-free 1-800-HELP-FLA (1-800-435-7352) within the state. Registration does not imply endorsement, approval, or recommendation by the State. EIN {SITE.ein}.
         </p>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         6. LIVE FROM THE FIELD — the three newest real stories
+         (titles, dates, photos straight from stories.json).
+         Proof the work is happening right now.
+         ==================================================== -->
+    <section class="field-feed" aria-label="The latest stories from the field">
+      <div class="container">
+        <header class="field-feed__head">
+          <p class="eyebrow eyebrow--gold">From the field</p>
+          <h2 class="field-feed__h2">The latest stories from the ground.</h2>
+        </header>
+        <div class="field-feed__grid">
+          {latestStories.map((s) => (
+            <a class="field-feed__card" href={`/stories/${s.slug}/`}>
+              <div class="field-feed__photo" style={`background-image:url('${s.image}')`} role="img" aria-label={s.title}></div>
+              <div class="field-feed__body">
+                <p class="field-feed__date">{s.date}{s.category ? ` · ${s.category}` : ''}</p>
+                <h3>{s.title}</h3>
+                <span class="field-feed__more">Read the story &rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <p class="field-feed__all"><a href="/stories/">All stories from the field &rarr;</a></p>
       </div>
     </section>
 
@@ -771,4 +906,114 @@ const tiers = [
     color: color-mix(in srgb, var(--color-white) 55%, transparent);
     text-align: center;
   }
+
+  /* ---------- 3b. The four pillars ---------- */
+  .pillars { background: var(--color-cream); padding: clamp(var(--space-16), 9vw, var(--space-20)) 0; }
+  .pillars__head { text-align: center; max-width: 720px; margin: 0 auto clamp(var(--space-10), 6vw, var(--space-14)); }
+  .pillars__h2 {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.1;
+    color: var(--color-green-deep); letter-spacing: -0.018em;
+  }
+  .pillars__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(var(--space-5), 2.4vw, var(--space-8)); }
+  @media (max-width: 1024px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .pillars__grid { grid-template-columns: 1fr; } }
+  .pillars__card {
+    display: flex; flex-direction: column;
+    background: var(--color-white); border-radius: 16px;
+    padding: var(--space-8) var(--space-6);
+    box-shadow: 0 10px 32px rgba(11, 64, 36, 0.08);
+    text-decoration: none; color: inherit;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .pillars__card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(11, 64, 36, 0.14); }
+  .pillars__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 14px;
+    background: color-mix(in srgb, var(--color-green) 10%, var(--color-white));
+    color: var(--color-green); margin-bottom: var(--space-5);
+  }
+  .pillars__icon svg { width: 26px; height: 26px; }
+  .pillars__card h3 { margin: 0 0 var(--space-3); font-size: 1.1rem; color: var(--color-green-deep); line-height: 1.3; }
+  .pillars__card p { margin: 0 0 var(--space-5); font-size: 0.92rem; line-height: 1.65; color: var(--color-ink-soft); }
+  .pillars__more { margin-top: auto; font-weight: 700; font-size: 0.85rem; color: var(--color-gold-deep); }
+  .pillars__card:hover .pillars__more { color: var(--color-green); }
+
+  /* ---------- 4c. Why indigenous leadership (deep green breakout) ---------- */
+  .whyind { background: var(--color-green-deep); padding: clamp(var(--space-16), 10vw, var(--space-24)) 0; }
+  .whyind__head { max-width: 780px; margin: 0 auto clamp(var(--space-10), 6vw, var(--space-14)); text-align: center; }
+  .whyind__h2 {
+    margin: var(--space-3) 0 var(--space-5);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.12;
+    color: var(--color-white); letter-spacing: -0.018em; text-wrap: balance;
+  }
+  .whyind__lede { margin: 0 auto; max-width: 56ch; color: color-mix(in srgb, var(--color-white) 78%, transparent); line-height: 1.7; }
+  .whyind__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(var(--space-8), 4vw, var(--space-12)); }
+  @media (max-width: 860px) { .whyind__grid { grid-template-columns: 1fr; } }
+  .whyind__point { border-top: 2px solid color-mix(in srgb, var(--color-gold) 55%, transparent); padding-top: var(--space-5); }
+  .whyind__num { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--color-gold); letter-spacing: 0.08em; }
+  .whyind__point h3 { margin: var(--space-3) 0; color: var(--color-white); font-size: 1.15rem; }
+  .whyind__point p { margin: 0; color: color-mix(in srgb, var(--color-white) 74%, transparent); line-height: 1.7; font-size: 0.97rem; }
+  .whyind__quote { margin: clamp(var(--space-12), 7vw, var(--space-16)) auto 0; max-width: 640px; text-align: center; }
+  .whyind__quote p {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-script); font-weight: 600;
+    font-size: clamp(1.5rem, 3.2vw, 2.2rem); line-height: 1.25;
+    color: var(--color-gold);
+  }
+  .whyind__quote footer { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--color-white) 60%, transparent); }
+
+  /* ---------- 4d. Pray or Go on-ramps ---------- */
+  .onramps { background: var(--color-white); padding: clamp(var(--space-16), 9vw, var(--space-20)) 0; }
+  .onramps__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(var(--space-6), 3vw, var(--space-10)); }
+  @media (max-width: 860px) { .onramps__grid { grid-template-columns: 1fr; } }
+  .onramp {
+    display: flex; flex-direction: column;
+    border-radius: 18px; overflow: hidden;
+    background: var(--color-cream);
+    box-shadow: 0 14px 40px rgba(11, 64, 36, 0.10);
+    text-decoration: none; color: inherit;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .onramp:hover { transform: translateY(-4px); box-shadow: 0 22px 52px rgba(11, 64, 36, 0.16); }
+  .onramp__photo { aspect-ratio: 16 / 8; background-size: cover; background-position: center; }
+  .onramp__body { padding: var(--space-8); }
+  .onramp__body h2 {
+    margin: var(--space-2) 0 var(--space-4);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.5rem, 2.6vw, 2rem); color: var(--color-green-deep); letter-spacing: -0.015em;
+  }
+  .onramp__body p { margin: 0 0 var(--space-5); color: var(--color-ink-soft); line-height: 1.7; max-width: 46ch; }
+  .onramp__cta { font-weight: 700; color: var(--color-gold-deep); }
+  .onramp:hover .onramp__cta { color: var(--color-green); }
+
+  /* ---------- 6. Live from the field ---------- */
+  .field-feed { background: var(--color-cream); padding: clamp(var(--space-16), 9vw, var(--space-20)) 0; }
+  .field-feed__head { text-align: center; margin: 0 auto clamp(var(--space-10), 6vw, var(--space-14)); }
+  .field-feed__h2 {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.9rem); color: var(--color-green-deep); letter-spacing: -0.018em;
+  }
+  .field-feed__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(var(--space-5), 2.4vw, var(--space-8)); }
+  @media (max-width: 900px) { .field-feed__grid { grid-template-columns: 1fr; } }
+  .field-feed__card {
+    display: flex; flex-direction: column;
+    background: var(--color-white); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 10px 32px rgba(11, 64, 36, 0.08);
+    text-decoration: none; color: inherit;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .field-feed__card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(11, 64, 36, 0.14); }
+  .field-feed__photo { aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
+  .field-feed__body { display: flex; flex-direction: column; padding: var(--space-6); flex: 1; }
+  .field-feed__date { margin: 0 0 var(--space-2); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .field-feed__body h3 { margin: 0 0 var(--space-4); font-size: 1.12rem; line-height: 1.35; color: var(--color-green-deep); }
+  .field-feed__more { margin-top: auto; font-weight: 700; font-size: 0.85rem; color: var(--color-gold-deep); }
+  .field-feed__card:hover .field-feed__more { color: var(--color-green); }
+  .field-feed__all { margin: clamp(var(--space-8), 5vw, var(--space-12)) 0 0; text-align: center; }
+  .field-feed__all a { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
+  .field-feed__all a:hover { color: var(--color-gold-deep); }
 </style>
