@@ -13,6 +13,52 @@ const { title, description, image, noindex } = Astro.props as Props;
 const fullTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
 const ogImage = image || '/images/og-default.jpg';
 const canonical = new URL(Astro.url.pathname, SITE.url).toString();
+
+// Every fact here comes from SITE (verified against Favor's own published
+// material); do not add fields that aren't verifiable from those sources.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'NonprofitOrganization',
+  '@id': `${SITE.url}/#organization`,
+  name: 'Favor International, Inc.',
+  alternateName: SITE.name,
+  url: SITE.url,
+  logo: new URL('/images/favor-logo-color.png', SITE.url).toString(),
+  slogan: SITE.tagline,
+  description: SITE.mission,
+  nonprofitStatus: 'https://schema.org/Nonprofit501c3',
+  taxID: SITE.ein,
+  email: SITE.emailGeneral,
+  telephone: SITE.phoneTel,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '11268 Winthrop Main Street #102',
+    addressLocality: 'Riverview',
+    addressRegion: 'FL',
+    postalCode: '33578',
+    addressCountry: 'US',
+  },
+  areaServed: ['Uganda', 'South Sudan', 'Chad'],
+  sameAs: [
+    SITE.social.facebook,
+    SITE.social.instagram,
+    SITE.social.youtube,
+    SITE.social.twitter,
+    SITE.social.linkedin,
+    SITE.trust.ecfa,
+    SITE.trust.candid,
+    SITE.trust.charityNavigator,
+  ],
+};
+
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  name: SITE.name,
+  url: SITE.url,
+  publisher: { '@id': `${SITE.url}/#organization` },
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -41,6 +87,9 @@ const canonical = new URL(Astro.url.pathname, SITE.url).toString();
     {description && <meta property="og:description" content={description} />}
     <meta property="og:image" content={new URL(ogImage, SITE.url).toString()} />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>

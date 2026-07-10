@@ -18,8 +18,20 @@ const pageUrl = `${SITE.url}/stories/${story.slug}/`;
 const shareFb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
 const shareX = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(story.title)}`;
 const shareMail = `mailto:?subject=${encodeURIComponent(story.title)}&body=${encodeURIComponent('A story from Favor International: ' + pageUrl)}`;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: story.title,
+  datePublished: new Date(story.date).toISOString().slice(0, 10),
+  image: new URL(story.image, SITE.url).toString(),
+  url: pageUrl,
+  publisher: { '@id': `${SITE.url}/#organization` },
+  author: { '@id': `${SITE.url}/#organization` },
+};
 ---
 <PageLayout title={story.title} description={desc}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <section class="story-banner">
     <div class="story-banner__photo" style={`background-image: url(${story.image})`} role="img" aria-label={story.title}></div>
     <div class="story-banner__scrim" aria-hidden="true"></div>
