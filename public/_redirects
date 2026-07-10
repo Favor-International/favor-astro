@@ -13,12 +13,10 @@
 /5yearplan2025 / 301
 /about/board / 301
 /about/directors /about/board/ 301
-/about/directors/(.*) / 301
 /about/documents /about/accountability/ 301
 /about/ecfa-accountability /about/accountability/ 301
 /about/foundational-principles / 301
 /about/media / 301
-/about/our%-team/(.*) / 301
 /about/our-story/founder /about/our-story/ 301
 /about/our-story/where-we-work /impact/ 301
 /about/vision / 301
@@ -60,7 +58,6 @@
 /christmasgive23 / 301
 /churchgive23 / 301
 /claiborne / 301
-/connect%-support/positions/(.*) / 301
 /connect-support /go/ 301
 /connect-support/donate-now /give/ 301
 /connect-support/positions /about/contact/ 301
@@ -124,7 +121,6 @@
 /kb2023 / 301
 /ki2023 / 301
 /kickoff2025 / 301
-/kingdom%-is%-here/(.*) / 301
 /kingdom-is-here / 301
 /kingdom-is-here/community-development-reports/church-construction / 301
 /kingdom-is-here/community-development-reports/church-planting / 301
@@ -212,7 +208,6 @@
 /streetkids / 301
 /streetyouth / 301
 /support2026 / 301
-/testimonies%-updates/stories%-of%-transformation/(.*) / 301
 /testimonies-updates /impact/ 301
 /testimonies-updates/impact-reports /about/accountability/ 301
 /testimonies-updates/impact-reports/2020-annual /about/accountability/ 301
