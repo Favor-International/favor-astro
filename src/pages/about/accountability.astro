@@ -10,37 +10,37 @@ import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE, IMPACT_STATS } from '../../lib/site';
 
 const impactReports = [
-  { label: '2025 Q1 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/67f8fb06a27063a36a26d893_Impact%20Report%202025.pdf' },
-  { label: '2024 Annual Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/679e8757459b553c8139cd68_Annual%20Report%202024%20.pdf' },
-  { label: '2024 Q3 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/6712aa5698186f3c16b908b7_Favor%20Q3%20Impact%20Report%202024.pdf' },
-  { label: '2024 Q2 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/669678d504deb0d992ef5a58_Q2%202024%20Impact%20Report.pdf' },
-  { label: '2024 Q1 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/679e86c02439d38e1e5915f6_FAVOR%20Q1%20IMPACT%20REPORT%202024.pdf' },
-  { label: '2023 Annual Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/679e8468daf348cccd1ebff7_Annual%20Impact%20Report%202023.pdf' },
-  { label: '2023 Q3 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/65397e8ad81200f382d3b2d1_Q3%20Impact%20Report%202023%20-%20V2.pdf' },
-  { label: '2023 Q2 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/65397e65c8de24acbce19141_8th%20Draft%20-%20Q2%20Impact%20Report%202023.pdf' },
-  { label: '2023 Q1 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/646fb51c44f4f022ea4f8359_Q1%20Impact%20Report%202023%20FINAL.pdf' },
-  { label: '2022 Annual Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/647e51a33462782bd45eda60_Annual%20Report%20Final%20-%202022.pdf' },
-  { label: '2022 Q3 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/64542c2a1a2f50cc3f9886ca_Q3%20REPORT%20Draft%20Five.pdf' },
-  { label: '2022 Q2 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/64542bd0101e245f20073754_MAILOUT%20-%20Q2%20Impact%20Report%20Summary%20FINAL%20wCROP%20(1).pdf' },
-  { label: '2022 Q1 Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/6454299e694e0e1eb22af91b_Impact%20Report%20Quarter%20One.pdf' },
-  { label: '2021 Annual Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/647e4e462c127232051125fa_2021%20annual%20report.pdf' },
-  { label: '2020 Annual Report', url: 'https://cdn.prod.website-files.com/62cda51656823c14ac1caf02/647e52962c1272320515fd25_2020%20Annual%20Report.pdf' },
+  { label: '2025 Q1 Report', url: '/documents/impact-report-2025.pdf' },
+  { label: '2024 Annual Report', url: '/documents/annual-report-2024-.pdf' },
+  { label: '2024 Q3 Report', url: '/documents/favor-q3-impact-report-2024.pdf' },
+  { label: '2024 Q2 Report', url: '/documents/q2-2024-impact-report.pdf' },
+  { label: '2024 Q1 Report', url: '/documents/favor-q1-impact-report-2024.pdf' },
+  { label: '2023 Annual Report', url: '/documents/annual-impact-report-2023.pdf' },
+  { label: '2023 Q3 Report', url: '/documents/q3-impact-report-2023-v2.pdf' },
+  { label: '2023 Q2 Report', url: '/documents/8th-draft-q2-impact-report-2023.pdf' },
+  { label: '2023 Q1 Report', url: '/documents/q1-impact-report-2023-final.pdf' },
+  { label: '2022 Annual Report', url: '/documents/annual-report-final-2022.pdf' },
+  { label: '2022 Q3 Report', url: '/documents/q3-report-draft-five.pdf' },
+  { label: '2022 Q2 Report', url: '/documents/mailout-q2-impact-report-summary-final-wcrop-1-.pdf' },
+  { label: '2022 Q1 Report', url: '/documents/impact-report-quarter-one.pdf' },
+  { label: '2021 Annual Report', url: '/documents/2021-annual-report.pdf' },
+  { label: '2020 Annual Report', url: '/documents/2020-annual-report.pdf' },
 ];
 const form990s = [
-  { label: '2024 Form 990', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/6825484c388346ab982d5f46_Favor%202024%20Form%20990.pdf' },
-  { label: '2023 Form 990', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/672a9c1581eff2daa4f208d1_Favor%20International%202023%20Form%20990%20Final.pdf' },
-  { label: '2022 Form 990', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/64c509c8ef257386b3c251ab_Favor%202022%20Form%20990.pdf' },
-  { label: '2021 Form 990', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/642b4c63d932d73e6fc3f5c5_990%202021%20Final.pdf' },
-  { label: '2020 Form 990', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/64aed0169ebfb17d7c02bc73_Copy%20of%20Favor%20PUBLIC%20Federal%20Tax%20Form%20990%202020%20final%20(1).pdf' },
+  { label: '2024 Form 990', url: '/documents/favor-2024-form-990.pdf' },
+  { label: '2023 Form 990', url: '/documents/favor-international-2023-form-990-final.pdf' },
+  { label: '2022 Form 990', url: '/documents/favor-2022-form-990.pdf' },
+  { label: '2021 Form 990', url: '/documents/990-2021-final.pdf' },
+  { label: '2020 Form 990', url: '/documents/copy-of-favor-public-federal-tax-form-990-2020-final-1-.pdf' },
 ];
 const audits = [
-  { label: '2024 Audited Financials', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/6825484c23dbe25d0e658940_Favor%202024%20Audited%20Fiancial%20Statements.pdf' },
-  { label: '2023 Audited Financials', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/672bdc8c698a012b9e25527c_FINAL%20audit%20-%20Favor%202023.pdf' },
-  { label: '2022 Audited Financials', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/64a2f854c1475cfd3aa52438_Favor%20Intl%20-%202022%20audit%20-%20FINAL.pdf' },
-  { label: '2021 Audited Financials', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/642b4c63b08ad1197cb8bbc6_2021%20US%20Favor%20Intl%20Audit.pdf' },
-  { label: '2020 Audited Financials', url: 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/64aed008527fc7445992037b_Favor%20-%202020%20audit.pdf' },
+  { label: '2024 Audited Financials', url: '/documents/favor-2024-audited-fiancial-statements.pdf' },
+  { label: '2023 Audited Financials', url: '/documents/final-audit-favor-2023.pdf' },
+  { label: '2022 Audited Financials', url: '/documents/favor-intl-2022-audit-final.pdf' },
+  { label: '2021 Audited Financials', url: '/documents/2021-us-favor-intl-audit.pdf' },
+  { label: '2020 Audited Financials', url: '/documents/favor-2020-audit.pdf' },
 ];
-const irsLetter = 'https://cdn.prod.website-files.com/62cda51656823c41dd1caeeb/65562b9562e1a1a1d733b585_IRS%20determination%20letter%20updated%20address.pdf';
+const irsLetter = '/documents/irs-determination-letter-updated-address.pdf';
 
 const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter }, ...form990s, ...audits];
 ---

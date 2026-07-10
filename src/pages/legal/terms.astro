@@ -1,0 +1,42 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import { SITE } from '../../lib/site';
+
+// Minimal terms page: the old site has no terms of use, so this page keeps
+// to plain facts (ownership, contact, the standing Florida disclosure) and
+// points to the Privacy & Donor Policy. FLAG: Favor's counsel should review
+// and expand this page before launch - we do not author legal terms.
+---
+<RedesignLayout
+  title="Terms of Use"
+  description="Terms of use for the Favor International website."
+>
+  <PageHero
+    label="Legal"
+    title="Terms of Use."
+    promise="The basics of using this site."
+    image="/images/field-2026/bibles-1.webp"
+    imageAlt="Bibles ready for distribution"
+  />
+  <section class="band band--white">
+    <div class="container container--narrow legal">
+      <h2>Who we are</h2>
+      <p>This website is operated by Favor International, Inc. (&ldquo;Favor&rdquo;), a registered 501(c)(3) nonprofit organization, EIN {SITE.ein}. You can reach us at <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> or {SITE.phone}, and by mail at {SITE.mailing}.</p>
+      <h2>Content</h2>
+      <p>The content of this site, including text, photographs, video, and graphics, belongs to Favor International or is used with permission. Please contact us before reproducing site content.</p>
+      <h2>Donations</h2>
+      <p>Donations made through this site are governed by our <a href="/legal/privacy/">Privacy &amp; Donor Policy</a>, which describes how donor information is gathered, used, and protected.</p>
+      <h2>Florida registration disclosure</h2>
+      <p>A copy of the official registration and financial information for Favor International, Inc. (CH57842) may be obtained from the Florida Division of Consumer Services by visiting fdacs.gov or calling toll-free 1-800-HELP-FLA (1-800-435-7352) within the state. Registration does not imply endorsement, approval, or recommendation by the State.</p>
+      <h2>Questions</h2>
+      <p>If you have questions about these terms or anything on this site, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
+    </div>
+  </section>
+</RedesignLayout>
+
+<style>
+  .legal h2 { color: var(--color-green); font-size: var(--rd-fs-sub); margin: var(--space-8) 0 var(--space-4); }
+  .legal p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-4); }
+  .legal a { color: var(--color-green); font-weight: 600; }
+</style>

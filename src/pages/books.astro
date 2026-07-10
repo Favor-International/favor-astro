@@ -1,0 +1,113 @@
+---
+import RedesignLayout from '../layouts/RedesignLayout.astro';
+import PageHero from '../components/band/PageHero.astro';
+import LeafHeading from '../components/redesign/LeafHeading.astro';
+import RdCta from '../components/redesign/RdCta.astro';
+
+// The book shop, matching the old site's /books page: both of Carole's books
+// with the verbatim free-copy offer ("Get a FREE copy of either or each of
+// Carole's books by filling out the form below!"). Covers rescued from the
+// Webflow CDN. Requests route through the contact form; the old site
+// collected a mailing address the same way.
+const books = [
+  {
+    slug: 'send-me',
+    title: 'Send Me Where No One Wants to Go',
+    subtitle: 'The Carole Ward Story',
+    author: 'By Barbara H. Martin',
+    year: '2017',
+    cover: '/images/books/send-me-cover.jpeg',
+    body: 'The story of how Favor began: Carole’s calling, the embassy warnings, the war years in northern Uganda, and the God who kept His word. Much of the book is drawn from Carole’s own newsletters, in her own voice.',
+    extra: { label: 'Also on Audible', href: 'https://www.amazon.com/Send-Me-Where-One-Wants/dp/B0FN8KCLYH' },
+  },
+  {
+    slug: 'lord-send-us',
+    title: 'Lord Send Us Where No One Wants to Go',
+    subtitle: 'The indigenous missionary army',
+    author: 'By Carole Ward',
+    year: '2025',
+    cover: '/images/books/lord-send-us-cover.png',
+    body: 'The story of the movement that followed: the indigenous missionaries whose prayer titles the book. “Lord, send us where no one else wants to go. Despite tribal wars, terrorism, bloodshed, and hazardous journeys, lead us to touch unreached people groups wherever they may be. Send us! We will go!”',
+  },
+];
+---
+<RedesignLayout
+  title="Books"
+  description="Get a free copy of either or each of Carole Ward's books: Send Me Where No One Wants to Go (2017) and Lord Send Us Where No One Wants to Go (2025)."
+>
+  <PageHero
+    label="The Carole Ward Story"
+    title="Two books. One movement."
+    promise="Get a FREE copy of either or each of Carole's books."
+    image="/images/field-2026/carole-4.webp"
+    imageAlt="Carole Ward in prayer in the field"
+    ctaLabel="Request a free copy"
+    ctaHref="/about/contact/?topic=book"
+    objectPosition="center 30%"
+    scrollCue
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading
+        label="Free copies"
+        title="Her story, in her own words."
+        intro="Get a FREE copy of either or each of Carole's books. Request one and the US team will mail it to you."
+        leaves={false}
+      />
+      <div class="books">
+        {books.map((b) => (
+          <article class="book reveal">
+            <div class="book__cover">
+              <img src={b.cover} alt={`Cover of ${b.title}`} loading="lazy" width="600" height="900" />
+            </div>
+            <div class="book__body">
+              <p class="label">{b.author} &middot; {b.year}</p>
+              <h3>{b.title}</h3>
+              <p class="book__subtitle">{b.subtitle}</p>
+              <p class="book__desc">{b.body}</p>
+              <div class="book__actions">
+                <a class="btn btn--primary" href={`/about/contact/?topic=book&which=${b.slug}`}>Request a free copy</a>
+                {b.extra && <a class="book__extra" href={b.extra.href} target="_blank" rel="noopener">{b.extra.label} &rarr;</a>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <RdCta
+    heading="Read the story behind the books."
+    body="Carole's full story, from the prayer that started it to the movement it became."
+    ctaLabel="Meet Carole"
+    ctaHref="/about/our-story/founder/"
+    image="/images/field-2026/carole-5.webp"
+    imageAlt="Carole Ward preaching at a pulpit in the field"
+  />
+</RedesignLayout>
+
+<style>
+  .books { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 100px); margin-top: clamp(40px, 5vw, 64px); }
+  .book { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: clamp(32px, 4.5vw, 72px); align-items: center; }
+  .book:nth-child(even) .book__cover { order: 2; }
+  .book:nth-child(even) .book__body { order: 1; }
+  @media (max-width: 760px) {
+    .book { grid-template-columns: 1fr; }
+    .book:nth-child(even) .book__cover { order: 0; }
+    .book:nth-child(even) .book__body { order: 0; }
+    .book__cover { max-width: 260px; margin-inline: auto; }
+  }
+  .book__cover img {
+    display: block; width: 100%; height: auto;
+    border-radius: 10px;
+    box-shadow: 0 24px 60px rgba(31, 58, 26, 0.22);
+  }
+  .book__body .label { margin-bottom: var(--space-2); }
+  .book__body h3 { color: var(--color-green); font-family: var(--font-display); font-weight: 600; font-size: var(--rd-fs-title); line-height: 1.15; margin: 0 0 var(--space-2); }
+  .book__subtitle { color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 var(--space-4); }
+  .book__desc { color: var(--color-ink-soft); line-height: 1.75; margin: 0 0 var(--space-6); max-width: 56ch; }
+  .book__actions { display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap; }
+  .book__extra { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
+  .book__extra:hover { color: var(--color-gold-deep); }
+</style>
