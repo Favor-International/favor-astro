@@ -17,4 +17,27 @@ const props = Astro.props as Props;
 ---
 <PageLayout {...props}>
   <div class="rd"><Breadcrumbs /><slot /></div>
+  <script>
+    const initializeFaqAccordions = () => {
+      document.querySelectorAll<HTMLElement>('.faq').forEach((group) => {
+        const items = Array.from(group.querySelectorAll<HTMLDetailsElement>(':scope > details'));
+        if (items.length === 0 || group.dataset.accordionReady === 'true') return;
+
+        group.dataset.accordionReady = 'true';
+        if (!items.some((item) => item.open)) items[0].open = true;
+
+        items.forEach((item) => {
+          item.addEventListener('toggle', () => {
+            if (!item.open) return;
+            items.forEach((other) => {
+              if (other !== item) other.open = false;
+            });
+          });
+        });
+      });
+    };
+
+    initializeFaqAccordions();
+    document.addEventListener('astro:page-load', initializeFaqAccordions);
+  </script>
 </PageLayout>
