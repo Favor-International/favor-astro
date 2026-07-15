@@ -67,14 +67,17 @@ const assetFaqs = [
   </section>
 
   <section class="band band--cream">
-    <div class="container container--narrow">
-      <LeafHeading label="Before you transfer" title="Three steps protect you and the ministry." leaves={false} />
-      <ol class="asset-steps">
-        <li><strong>Ask.</strong><span>Contact Favor to confirm that the asset can be accepted and receive the current routing instructions.</span></li>
-        <li><strong>Review.</strong><span>Consult your own tax, legal, or financial adviser about valuation and treatment.</span></li>
-        <li><strong>Identify.</strong><span>Tell Favor when the transfer is initiated so the team can identify and acknowledge the gift.</span></li>
-      </ol>
-      <p class="asset-disclaimer">Favor does not provide legal, tax, or financial advice. The donor and the donor's advisers are responsible for valuation and personal tax decisions.</p>
+    <div class="container asset-prep">
+      <div class="asset-prep__copy">
+        <LeafHeading label="Before you transfer" title="Three steps protect you and the ministry." align="left" leaves={false} />
+        <ol class="asset-steps">
+          <li><strong>Ask.</strong><span>Contact Favor to confirm that the asset can be accepted and receive the current routing instructions.</span></li>
+          <li><strong>Review.</strong><span>Consult your own tax, legal, or financial adviser about valuation and treatment.</span></li>
+          <li><strong>Identify.</strong><span>Tell Favor when the transfer is initiated so the team can identify and acknowledge the gift.</span></li>
+        </ol>
+        <p class="asset-disclaimer">Favor does not provide legal, tax, or financial advice. The donor and the donor's advisers are responsible for valuation and personal tax decisions.</p>
+      </div>
+      <img class="asset-prep__image" src="/images/field-2026/agriculture-5.webp" alt="A Favor sustainability project supported through careful stewardship" loading="lazy" />
     </div>
   </section>
 
@@ -106,14 +109,19 @@ const assetFaqs = [
   .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
   .acard:nth-child(4n+4) { --accent: var(--color-sage); }
+  .asset-prep { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:clamp(44px,7vw,104px); align-items:center; }
+  .asset-prep__image { display:block; width:100%; min-height:620px; height:100%; object-fit:cover; border-radius:var(--rd-radius); }
   .asset-steps { list-style: none; padding: 0; margin: var(--space-8) 0; display: grid; gap: var(--space-4); }
-  .asset-steps li { display: grid; grid-template-columns: 110px 1fr; gap: var(--space-5); padding: var(--space-5); background: var(--color-white); border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); }
+  .asset-steps { counter-reset:asset-step; }
+  .asset-steps li { counter-increment:asset-step; display:grid; grid-template-columns:44px 90px 1fr; gap:var(--space-4); align-items:start; padding:var(--space-5); background:var(--color-white); border-radius:var(--rd-radius); box-shadow:var(--rd-shadow); }
+  .asset-steps li::before { content:'0' counter(asset-step); display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:var(--color-green); color:var(--color-gold-light); font-size:.75rem; font-weight:900; }
   .asset-steps strong { color: var(--color-green); }
   .asset-steps span, .asset-disclaimer { color: var(--color-ink-soft); line-height: 1.65; }
-  .asset-disclaimer { font-size: .9rem; text-align: center; }
+  .asset-disclaimer { font-size:.9rem; text-align:left; max-width:68ch; }
   .asset-faq { display: grid; gap: var(--space-3); }
   .asset-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); }
   .asset-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
   .asset-faq p { color: var(--color-ink-soft); margin: var(--space-4) 0 0; line-height: 1.65; }
-  @media (max-width: 560px) { .asset-steps li { grid-template-columns: 1fr; gap: var(--space-2); } }
+  @media (max-width: 900px) { .asset-prep { grid-template-columns:1fr; } .asset-prep__image { min-height:0; aspect-ratio:16/10; order:-1; } }
+  @media (max-width: 560px) { .asset-steps li { grid-template-columns:40px 1fr; gap:var(--space-3); } .asset-steps li span { grid-column:2; } }
 </style>
