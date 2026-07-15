@@ -23,14 +23,19 @@ function excerpt(paras: string[], n = 130) {
   const t = paras && paras[0] ? paras[0] : '';
   return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t;
 }
-function displayImage(story: any) {
+function displayImage(story: any, index: number) {
   if (!story.image?.includes('/stories/scraped/')) return story.image;
   const tags = story.tags || [];
-  if (tags.some((t: string) => ['Children/Youth', 'Education'].includes(t))) return '/images/field-2026/vlc-2.webp';
-  if (tags.some((t: string) => ['Women', 'Skills Development', 'Stewardship'].includes(t))) return '/images/field-2026/women-3.webp';
-  if (tags.some((t: string) => ['Physical Healing', 'Emotional Healing'].includes(t))) return '/images/field-2026/medical-2.webp';
-  if (tags.some((t: string) => ['Discipleship', 'New Believers', 'Salvation'].includes(t))) return '/images/field-2026/evangelism-4.webp';
-  return '/images/field-2026/prayer-8.webp';
+  const pool = tags.some((t: string) => ['Children/Youth', 'Education'].includes(t))
+    ? ['/images/field-2026/vlc-2.webp','/images/field-2026/education-4.webp','/images/field-2026/vlc-5.webp']
+    : tags.some((t: string) => ['Women', 'Skills Development', 'Stewardship'].includes(t))
+      ? ['/images/field-2026/women-1.webp','/images/field-2026/vocation-2.webp','/images/field-2026/agriculture-3.webp']
+      : tags.some((t: string) => ['Physical Healing', 'Emotional Healing'].includes(t))
+        ? ['/images/field-2026/medical-2.webp','/images/field-2026/trauma-3.webp','/images/field-2026/medical-4.webp']
+        : tags.some((t: string) => ['Discipleship', 'New Believers', 'Salvation'].includes(t))
+          ? ['/images/field-2026/evangelism-4.webp','/images/field-2026/baptism-5.webp','/images/field-2026/bibles-4.webp']
+          : ['/images/field-2026/prayer-8.webp','/images/field-2026/villages-2.webp','/images/field-2026/church-4.webp'];
+  return pool[index % pool.length];
 }
 ---
 {matches.length > 0 && (
@@ -41,10 +46,10 @@ function displayImage(story: any) {
         <h2>{heading}</h2>
       </header>
       <div class="story-strip">
-        {matches.map((s: any) => (
+        {matches.map((s: any, index: number) => (
           <PostCard
             href={`/stories/${s.slug}/`}
-            image={displayImage(s)}
+            image={displayImage(s, index)}
             imageAlt={s.title}
             chip={(s.tags || [])[0]}
             title={s.title}
