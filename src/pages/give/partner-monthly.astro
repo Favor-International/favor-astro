@@ -4,7 +4,6 @@ import DonationBlock from '../../components/band/DonationBlock.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
 import { PARTNER_TIERS } from '../../lib/site';
 import storiesData from '../../data/stories.json';
 
@@ -44,7 +43,7 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
     imageAlt="Graduates celebrating in DR Congo"
     eyebrow="What your partnership does"
     heading="Where your monthly gift goes."
-    side="left"
+    side="right"
     background="cream"
     decor="leaf"
   >
@@ -61,13 +60,18 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
     <div class="giving-paths"><article class="rd-card"><h3>Monthly partnership</h3><p>Recurring, unrestricted support helps field leadership plan and respond across the full ministry. This is the primary path for donors who want to sustain Favor’s ongoing work.</p></article><article class="rd-card"><h3>One-time giving</h3><p>A single unrestricted gift supports the work where leadership identifies the greatest current need without creating a recurring commitment.</p></article><article class="rd-card"><h3>Designated project</h3><p>A restricted gift begins with confirmation from the Favor team so the project name, active need, funding status, and designation instructions are current.</p></article></div>
   </div></section>
 
-  <ProofBlock
-    name="The Women of Puranga"
-    place="Uganda"
-    outcome="A Women's Empowerment cohort finished a year of training and received two goats each. The herds pay for school fees, food, and medical care across the village."
-    quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
+  <RdFeature
     image="/images/stories/goats-for-women.jpg"
-  />
+    imageAlt="Women in Puranga, Uganda participating in an empowerment program"
+    eyebrow="The Women of Puranga · Uganda"
+    heading="Training became a practical path forward."
+    side="left"
+    background="cream"
+    decor="leaf"
+  >
+    <p>A Women’s Empowerment cohort completed a year of training and received two goats for each member. Growing herds can help households meet school, food, and medical costs.</p>
+    <blockquote>“They praised and worshiped God as they waited to receive two goats for each member of their Women’s Empowerment group.”</blockquote>
+  </RdFeature>
 
   {partnerStory && (
     <RdFeature image={partnerStory.image} imageAlt={partnerStory.title} eyebrow={`${partnerStory.category} · ${partnerStory.date}`} heading={partnerStory.title} side="right" background="white" decor="leaf">
@@ -89,6 +93,7 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
   </section>
 
   <RdCta
+    background="cream"
     heading="Start your partnership today."
     body="Pick an amount above, or choose your own. Your first gift processes immediately and you will receive a tax-deductible receipt by email."
     ctaLabel="Become a Favor Partner"

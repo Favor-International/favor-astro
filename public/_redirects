@@ -1,8 +1,6 @@
 # 301 map: old favorintl.org URLs -> new routes.
 # Generated from docs/06-reference/existing-site-scrape/urls.csv with
 # targets validated against the built site; splats catch the long tail.
-/give/church-partnership/ /go/church-partnerships/ 301
-/give/church-partnership /go/church-partnerships/ 301
 /2023report /about/accountability/ 301
 /2024report /about/accountability/ 301
 /2025q1 /about/accountability/ 301

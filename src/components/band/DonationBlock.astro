@@ -2,7 +2,7 @@
 // Donation block copied from the "Help Children Reach Their Full Potential"
 // reference layout, in Favor's colors. Left: heading + body + amount input
 // (with currency) + preset buttons + full-width Donate button. Right: image
-// with a share button, then a % progress bar and Goal / Raised / To-go.
+// followed by an optional % progress bar and Goal / Raised / To-go.
 export interface Props {
   eyebrow?: string;
   heading: string;
@@ -56,9 +56,6 @@ const money = (n: number) => '$' + n.toLocaleString();
         <div class="donation__right">
           <div class="donation__media">
             <div class="donation__photo" style={`background-image: url(${image})`} role="img" aria-label={imageAlt}></div>
-            <a class="donation__share" href={formBase} aria-label="Share or give">
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92Z"/></svg>
-            </a>
           </div>
 
           {hasProgress && (
@@ -132,9 +129,6 @@ const money = (n: number) => '$' + n.toLocaleString();
 
   .donation__media { position: relative; flex: 1; min-height: 380px; }
   .donation__photo { height: 100%; min-height: 380px; background-size: cover; background-position: center 30%; border-radius: 20px; box-shadow: 0 18px 44px rgba(31, 58, 26, 0.16); }
-  .donation__share { position: absolute; top: var(--space-4); right: var(--space-4); width: 44px; height: 44px; border-radius: 12px; background: var(--color-white); color: var(--color-green); display: inline-flex; align-items: center; justify-content: center; box-shadow: var(--shadow-card); }
-  .donation__share:hover { color: var(--color-gold-deep); }
-
   .donation__progress { margin-top: var(--space-8); }
   .donation__cause { text-align: center; margin: 0 0 var(--space-3); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-sage); }
   .donation__pct { text-align: center; margin: 0 0 var(--space-2); font-weight: 800; color: var(--color-green-deep); }

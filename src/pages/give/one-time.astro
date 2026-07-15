@@ -36,13 +36,13 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     <div class="container container--narrow">
       <LeafHeading label="More ways to give once" title="Choose the route that works for you." intro="Never email bank, card, or brokerage account numbers. Contact the team first for wire or asset-transfer instructions." leaves={false} />
       <ul class="give-methods">
-        <li><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</li>
-        <li><strong>Zelle.</strong> Send to admin@favorintl.org.</li>
-        <li><strong>CashApp.</strong> Send to the CashTag $FavorInternational.</li>
-        <li><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</li>
-        <li><strong>Stock and securities.</strong> Give appreciated stock with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>.</li>
-        <li><strong>PayPal, ACH, and credit card.</strong> All available through our online giving portal.</li>
-        <li><strong>Designate or dedicate.</strong> Designate your gift, write a note, or honor someone with a dedicated gift through the online giving portal.</li>
+        <li><span class="method-icon" aria-hidden="true">✉</span><span><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</span></li>
+        <li><span class="method-icon method-icon--zelle" aria-hidden="true">Z</span><span><strong>Zelle.</strong> Send to admin@favorintl.org.</span></li>
+        <li><span class="method-icon method-icon--cash" aria-hidden="true">$</span><span><strong>Cash App.</strong> Send to the CashTag $FavorInternational.</span></li>
+        <li><span class="method-icon" aria-hidden="true">↔</span><span><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</span></li>
+        <li><span class="method-icon" aria-hidden="true">↗</span><span><strong>Stock and securities.</strong> Give appreciated stock with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>.</span></li>
+        <li><span class="method-icon method-icon--paypal" aria-hidden="true">P</span><span><strong>PayPal, ACH, and credit card.</strong> All available through our online giving portal.</span></li>
+        <li><span class="method-icon" aria-hidden="true">♥</span><span><strong>Designate or dedicate.</strong> Designate your gift, write a note, or honor someone with a dedicated gift through the online giving portal.</span></li>
       </ul>
     </div>
   </section>
@@ -76,6 +76,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
   </section>
 
   <RdCta
+    background="cream"
     heading="Prefer to give every month?"
     body="Favor Partners keep indigenous missionaries on the trail all year. Any tier, cancel anytime."
     ctaLabel="Become a Favor Partner"
@@ -86,9 +87,14 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
 </RedesignLayout>
 
 <style>
-  .give-methods { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; gap: var(--space-3); }
-  .give-methods li { padding: var(--space-4) var(--space-6); background: var(--color-cream); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.55; }
+  .give-methods { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  .give-methods li { display: grid; grid-template-columns: 52px 1fr; gap: var(--space-4); align-items: start; padding: var(--space-2) 0 var(--space-5); border-bottom: 1px solid var(--color-border); color: var(--color-ink-soft); line-height: 1.6; }
   .give-methods strong { color: var(--color-green); }
+  .method-icon { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--color-sage-light); color: var(--color-green); font-size: 1.2rem; font-weight: 900; }
+  .method-icon--zelle { background: #6d1ed4; color: white; }
+  .method-icon--cash { background: #00c244; color: white; }
+  .method-icon--paypal { background: #073b9a; color: white; font-style: italic; }
+  @media (max-width: 720px) { .give-methods { grid-template-columns: 1fr; } }
 
   .faq { margin-top: var(--space-6); display: grid; gap: var(--space-3); }
   .faq details {

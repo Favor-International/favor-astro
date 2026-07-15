@@ -1,7 +1,6 @@
 ---
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import PostCard from '../../components/band/PostCard.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
@@ -44,15 +43,15 @@ const projectFaqs = [
       <LeafHeading label="Areas you can support" title="Start with the work God has put on your heart." intro="Project needs and funding balances change in the field. These established ministry areas are the starting point for a current, verified project conversation." />
       <div class="proj-grid">
         {projects.map((p) => (
-          <PostCard
-            href="/about/contact/?topic=specific-project"
-            image={p.image}
-            imageAlt={p.name}
-            chip={p.category}
-            title={p.name}
-            desc={p.summary}
-            actionLabel="Ask about current needs"
-          />
+          <a class="project-tile reveal" href="/about/contact/?topic=specific-project">
+            <img src={p.image} alt={p.name} loading="lazy" />
+            <div class="project-tile__copy">
+              <span class="project-tile__category">{p.category}</span>
+              <h3>{p.name}</h3>
+              <p>{p.summary}</p>
+              <span class="project-tile__action">Ask about current needs <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
         ))}
       </div>
     </div>
@@ -87,42 +86,14 @@ const projectFaqs = [
 <style>
   .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
   @media (max-width: 800px) { .proj-grid { grid-template-columns: 1fr; } }
-  .proj-card {
-    display: flex; flex-direction: column;
-    background: var(--color-white);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-soft);
-    overflow: hidden;
-    text-decoration: none; color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
-  }
-  .proj-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
-  .proj-card__photo { position: relative; aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--color-sage-light); }
-  .proj-card__chip {
-    position: absolute; top: var(--space-3); left: var(--space-3);
-    background: color-mix(in srgb, var(--color-white) 92%, transparent);
-    color: var(--color-green-deep);
-    padding: 6px 14px; border-radius: var(--radius-pill);
-    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
-    backdrop-filter: blur(2px);
-  }
-  .proj-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
-  .proj-card h3 { margin: 0; font-size: 1.4rem; color: var(--color-green); line-height: 1.2; }
-  .proj-card p { margin: 0; font-size: 0.95rem; color: var(--color-ink-soft); }
-  .proj-card__progress { height: 8px; background: var(--color-sage-light); border-radius: 999px; overflow: hidden; }
-  .proj-card__bar { height: 100%; width: var(--pct); background: var(--color-gold); border-radius: 999px; }
-  .proj-card__foot { margin-top: auto; padding-top: var(--space-2); display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
-  .proj-card__meta { display: flex; flex-direction: column; line-height: 1.2; }
-  .proj-card__meta-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-sage); font-weight: 700; }
-  .proj-card__meta strong { color: var(--color-green); font-size: 1.25rem; }
-  .proj-card__goal { font-size: 0.78rem; color: var(--color-sage); }
-  .proj-card__btn {
-    background: var(--color-green); color: var(--color-white);
-    padding: 11px 20px; border-radius: var(--radius-pill);
-    font-weight: 700; font-size: 0.85rem; white-space: nowrap;
-    transition: background 140ms;
-  }
-  .proj-card:hover .proj-card__btn { background: var(--color-green-deep); }
+  .project-tile { display: block; color: inherit; text-decoration: none; }
+  .project-tile img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--rd-radius); transition: transform 220ms ease; }
+  .project-tile:hover img { transform: translateY(-4px); }
+  .project-tile__copy { padding: var(--space-5) var(--space-1) 0; }
+  .project-tile__category { display: block; margin-bottom: var(--space-2); color: var(--color-gold-deep); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .project-tile h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: clamp(1.3rem, 2vw, 1.6rem); }
+  .project-tile p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.65; }
+  .project-tile__action { color: var(--color-green); font-weight: 800; }
   .project-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
   .project-steps span { color: var(--color-gold-deep); font-weight: 800; }
   .project-steps h3 { color: var(--color-green); margin: var(--space-4) 0 var(--space-3); }
