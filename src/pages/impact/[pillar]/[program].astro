@@ -347,7 +347,8 @@ const programFaqs = [
 
   .prog-quote-band { text-align: center; }
   .prog-quote-wrap { padding-block: clamp(44px, 6vw, 84px); }
-  .prog-quote-band { max-width:min(1120px,calc(100% - 32px)); padding:clamp(52px,7vw,88px) clamp(24px,7vw,88px); border-radius:clamp(24px,3vw,42px); background:var(--color-green); }
+  .prog-quote-band { position:relative; overflow:hidden; max-width:min(1120px,calc(100% - 32px)); padding:clamp(52px,7vw,88px) clamp(24px,7vw,88px); border-radius:clamp(24px,3vw,42px); background:var(--color-green); isolation:isolate; }
+  .prog-quote-band::before { content:''; position:absolute; inset:0; z-index:-1; background:url('/images/patterns/texture-mudcloth-green.webp') center/cover; opacity:.09; mix-blend-mode:soft-light; pointer-events:none; }
   .prog-quote {
     margin: 0 auto; max-width: 820px; border: 0; padding: 0;
     font-family: var(--font-sans); font-style: normal; font-weight:650;
