@@ -95,9 +95,14 @@ const projectFaqs = [
   .project-tile p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.65; }
   .project-tile__action { color: var(--color-green); font-weight: 800; }
   .project-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
-  .project-steps span { color: var(--color-gold-deep); font-weight: 800; }
-  .project-steps h3 { color: var(--color-green); margin: var(--space-4) 0 var(--space-3); }
-  .project-steps p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .project-steps li { position:relative; min-height:330px; overflow:hidden; border:0; color:white; }
+  .project-steps li:nth-child(1){background:var(--color-green-deep)}
+  .project-steps li:nth-child(2){background:color-mix(in srgb,var(--color-sage) 78%,var(--color-green-deep))}
+  .project-steps li:nth-child(3){background:color-mix(in srgb,var(--color-gold-deep) 88%,var(--color-green-deep))}
+  .project-steps li:nth-child(4){background:color-mix(in srgb,var(--color-terracotta) 82%,var(--color-green-deep))}
+  .project-steps span { position:absolute; right:18px; top:8px; color:rgba(255,255,255,.2); font-weight:900; font-size:clamp(4rem,7vw,6.5rem); line-height:1; }
+  .project-steps h3 { color:white; margin:clamp(90px,9vw,120px) 0 var(--space-4); font-size:1.55rem; }
+  .project-steps p { color:rgba(255,255,255,.9); margin:0; line-height:1.65; }
   .project-faq { display: grid; gap: var(--space-3); }
   .project-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); }
   .project-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
