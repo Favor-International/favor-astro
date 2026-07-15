@@ -72,9 +72,25 @@ const videoByProgram: Record<string, { id: string; title: string; heading: strin
   women: { id:'JCjHdG0NnLQ', title:'To Reach a Village, Reach a Woman', heading:'To reach a village, reach a woman.', body:'Watch how women’s empowerment can multiply through households and communities.' },
 };
 const programVideo = videoByProgram[program.slug];
-const splitLead = (text: string) => {
+const emphasisByProgram: Record<string, string[][]> = {
+  counseling: [
+    ['written by Christ-believing psychologists from Australia', 'peer-reviewed through publications at Boston University'],
+    ['immense demand and need for trauma counseling', 'brutal oppression and injustice'],
+  ],
+};
+const emphasizeText = (text: string, blockIndex: number) => {
+  const explicitPhrases = emphasisByProgram[program.slug]?.[blockIndex] || [];
+  if (explicitPhrases.length > 0) {
+    return explicitPhrases.reduce((html, phrase) => html.replace(phrase, `<strong>${phrase}</strong>`), text);
+  }
+
+  // A short opening statement can carry emphasis. Long sentences should not
+  // become one large highlighted wall of text.
   const point = text.indexOf('. ');
-  return point > 24 ? [text.slice(0, point + 1), text.slice(point + 1)] : ['', text];
+  const lead = point > 0 ? text.slice(0, point + 1) : '';
+  return lead && lead.split(/\s+/).length <= 12
+    ? `<strong>${lead}</strong>${text.slice(point + 1)}`
+    : text;
 };
 
 const pillarLens: Record<string, { title: string; body: string }[]> = {
@@ -151,7 +167,7 @@ const programFaqs = [
               <div>
                 <h3>{index === 0 ? 'The field-led response' : 'The work continues'}</h3>
                 {b.type === 'p'
-                  ? <p>{splitLead(b.text)[0] && <strong>{splitLead(b.text)[0]}</strong>}{splitLead(b.text)[1]}</p>
+                  ? <p set:html={emphasizeText(b.text, index)}></p>
                   : <>{b.intro && <p>{b.intro}</p>}<ul>{b.items.map((i) => <li>{i}</li>)}</ul></>}
               </div>
             </li>
