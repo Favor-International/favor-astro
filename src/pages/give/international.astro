@@ -80,9 +80,12 @@ const internationalFaqs = [
     <p>Favor International is ECFA-accredited and independently audited every year. See the <a href="/about/accountability/">audited financials</a> any time.</p>
   </RdFeature>
 
-  <section class="band band--cream"><div class="container container--narrow">
-    <LeafHeading label="Before you give" title="Confirm the route in three places." intro="International charitable treatment changes by jurisdiction, so verify the portal, your receipt eligibility, and your own tax position." />
-    <ol class="intl-steps"><li><strong>Portal</strong><span>Confirm that Favor International is the selected beneficiary and review the payment options displayed.</span></li><li><strong>Receipt</strong><span>Check what organization will issue the receipt and whether it applies in the country where you file taxes.</span></li><li><strong>Advice</strong><span>For a material gift, ask a qualified local adviser how the contribution is treated in your circumstances.</span></li></ol>
+  <section class="band band--cream"><div class="container intl-confirm">
+    <img class="intl-confirm__image" src="/images/field-2026/missionaries-5.webp" alt="Favor field leaders serving across nations" loading="lazy" />
+    <div class="intl-confirm__copy">
+      <LeafHeading label="Before you give" title="Confirm the route in three places." intro="International charitable treatment changes by jurisdiction, so verify the portal, your receipt eligibility, and your own tax position." align="left" leaves={false} />
+      <ol class="intl-steps"><li><strong>Portal</strong><span>Confirm that Favor International is the selected beneficiary and review the payment options displayed.</span></li><li><strong>Receipt</strong><span>Check what organization will issue the receipt and whether it applies in the country where you file taxes.</span></li><li><strong>Advice</strong><span>For a material gift, ask a qualified local adviser how the contribution is treated in your circumstances.</span></li></ol>
+    </div>
   </div></section>
 
   <section class="band band--white"><div class="container container--narrow">
@@ -125,6 +128,8 @@ const internationalFaqs = [
   .intl-card:hover .intl-card__cta { color: var(--color-green); }
   .intl-grid + .intl-note { display: block; margin: clamp(40px, 5vw, 64px) auto 0; padding-inline: var(--space-4); max-width: 680px; text-align: center; color: var(--color-ink-soft); }
   .intl-note a { color: var(--color-gold-deep); font-weight: 700; }
+  .intl-confirm { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(44px,7vw,104px); align-items:center; }
+  .intl-confirm__image { display:block; width:100%; min-height:620px; height:100%; object-fit:cover; border-radius:var(--rd-radius); }
   .intl-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-4); }
   .intl-steps li { display: grid; grid-template-columns: 100px 1fr; gap: var(--space-5); padding: var(--space-5); border-radius: var(--rd-radius); background: var(--color-white); box-shadow: var(--rd-shadow); }
   .intl-steps strong { color: var(--color-green); }
@@ -133,5 +138,6 @@ const internationalFaqs = [
   .intl-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); }
   .intl-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
   .intl-faq p { margin: var(--space-4) 0 0; }
+  @media (max-width: 860px) { .intl-confirm { grid-template-columns:1fr; } .intl-confirm__image { min-height:0; aspect-ratio:16/10; } }
   @media (max-width: 560px) { .intl-steps li { grid-template-columns: 1fr; gap: var(--space-2); } }
 </style>
