@@ -7,6 +7,7 @@ import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
+import storiesData from '../../data/stories.json';
 
 const pillarImages: Record<string, string> = {
   'evangelism-discipleship': '/images/field-2026/evangelism-9.webp',
@@ -19,6 +20,19 @@ const deeper = [
   { href: '/about/accountability/', image: '/images/field-2026/evangelism-2.webp', title: 'Impact reports', desc: 'Quarterly and annual PDFs with audited numbers.', action: 'View reports' },
   { href: '/stories/', image: '/images/field-2026/prayer-8.webp', title: 'Stories of transformation', desc: 'Real names, real places, real outcomes.', action: 'Read stories' },
 ];
+const movement = [
+  { n: '01', title: 'Prayer goes first.', body: 'Favor began as a prayer movement. Prayer remains the foundation beneath field decisions, outreach, training, and care.' },
+  { n: '02', title: 'A heart encounters the Gospel.', body: 'Indigenous evangelists carry Scripture into communities in languages and cultural contexts they already understand.' },
+  { n: '03', title: 'Disciples become leaders.', body: 'Bible training, schools, counseling, vocational instruction, and ongoing mentorship prepare people to serve others.' },
+  { n: '04', title: 'Local leadership multiplies.', body: 'The work continues through pastors, teachers, parents, students, and community leaders who remain rooted where they serve.' },
+];
+const impactFaqs = [
+  { q: 'Why does Favor organize the work into four pillars?', a: 'The pillars make a wide ministry easier to understand, but field programs overlap. A church may host a learning center; counseling may prepare a community for discipleship; vocational training may help a family keep children in school.' },
+  { q: 'Who leads the work in Africa?', a: 'Favor centers indigenous leadership. National staff, pastors, teachers, counselors, broadcasters, and ministry leaders carry the day-to-day work in their own nations and communities.' },
+  { q: 'How does Favor report impact?', a: 'Favor publishes field stories, financial statements, Form 990 filings, and external accountability profiles. Time-sensitive program totals should always be read with their reporting year and source.' },
+  { q: 'Where should I start?', a: 'Explore the pillar that most interests you, read the field stories connected to it, and review Favor’s accountability record. You can then pray, become a monthly partner, or ask about a current project.' },
+];
+const impactStory = storiesData.find((s) => s.slug === 'full-circle-transformation');
 ---
 <RedesignLayout
   title="Impact"
@@ -80,11 +94,38 @@ const deeper = [
   </section>
 
   <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How transformation moves" title="The work is connected from the beginning." intro="Programs are not isolated services. They form a field-led path from prayer and first response to mature local leadership." />
+      <ol class="movement-grid">
+        {movement.map((item) => (
+          <li class="rd-card movement-card reveal">
+            <span>{item.n}</span><h3>{item.title}</h3><p>{item.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {impactStory && (
+    <RdFeature image={impactStory.image} imageAlt={impactStory.title} eyebrow={`${impactStory.category} · ${impactStory.date}`} heading={impactStory.title} side="right" background="cream" decor="leaf">
+      {impactStory.paragraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+      <p><a class="story-link" href={`/stories/${impactStory.slug}/`}>Read the complete field story &rarr;</a></p>
+    </RdFeature>
+  )}
+
+  <section class="band band--white">
     <div class="container"><LeafHeading label="Go deeper" title="Reports, stories, and the field record." intro="Follow the evidence behind the work and hear directly from the people living it." /></div>
     <div class="container grid grid-3">
       {deeper.map((d) => (
         <PostCard href={d.href} image={d.image} imageAlt={d.title} title={d.title} desc={d.desc} actionLabel={d.action} />
       ))}
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading label="Questions" title="Understanding Favor’s impact model." leaves={false} />
+      <div class="faq impact-faq">{impactFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
     </div>
   </section>
 
@@ -116,4 +157,14 @@ const deeper = [
   .pillar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); margin-top: var(--space-10); }
   @media (max-width: 680px) { .pillar-grid { grid-template-columns: 1fr; } }
   .grid-3 { margin-top: var(--space-10); }
+  .movement-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  .movement-card span { color: var(--color-gold-deep); font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: .14em; }
+  .movement-card h3 { color: var(--color-green); margin: var(--space-5) 0 var(--space-3); }
+  .movement-card p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .impact-faq { display: grid; gap: var(--space-3); }
+  .impact-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); background: var(--color-white); }
+  .impact-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
+  .impact-faq p { color: var(--color-ink-soft); margin: var(--space-4) 0 0; line-height: 1.7; }
+  @media (max-width: 960px) { .movement-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .movement-grid { grid-template-columns: 1fr; } }
 </style>

@@ -5,6 +5,7 @@ import StoryStrip from '../../components/band/StoryStrip.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import storiesData from '../../data/stories.json';
 
 // Card copy is verbatim sentences from the live program sub-pages
 // (src/data/programs.ts holds the full verbatim pages these link to).
@@ -13,6 +14,19 @@ const programs = [
   { name: 'Women Empowerment', href: '/impact/economic-empowerment/women/', image: '/images/field-2026/women-4.webp', alt: 'A Women Empowerment group meeting', desc: 'Favor’s Women Empowerment ministry equips women to generate their own income through training in skills, trauma healing, entrepreneurship, parenting, and financial management.' },
   { name: 'Vocational Program', href: '/impact/economic-empowerment/vocation/', image: '/images/field-2026/vocation-3.webp', alt: 'Vocational Program students at work', desc: 'Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice.' },
 ];
+const pathway = [
+  { n: '1', title: 'Train', body: 'Participants build practical knowledge in skills, trauma healing, entrepreneurship, parenting, financial management, or a chosen vocation.' },
+  { n: '2', title: 'Practice', body: 'Training moves into hands-on work through shared projects, vocational experience, farming, fisheries, animal husbandry, and other locally relevant activities.' },
+  { n: '3', title: 'Begin', body: 'Women and young adults use the structure, skills, certificates, or starter project provided through the program to begin producing income.' },
+  { n: '4', title: 'Follow up', body: 'Favor’s published model includes accountability and continuing support as participants implement what they have learned and build confidence.' },
+];
+const empowermentFaqs = [
+  { q: 'Is economic empowerment separate from discipleship?', a: 'No. Favor describes practical work and spiritual formation as connected. Training includes Biblical teaching and is intended to form people who can serve their families, communities, and marketplaces.' },
+  { q: 'Does every participant receive the same project?', a: 'No. Favor publishes several approaches, including women’s group projects, vocational disciplines, agriculture, fisheries, poultry, and other hands-on work. Current options depend on the field and should be confirmed with the team.' },
+  { q: 'What does sustainability mean here?', a: 'The goal is not permanent relief. Favor’s published programs emphasize skills, income, local accountability, and projects that can continue supporting families or ministry after the initial investment.' },
+  { q: 'How can a donor support a current empowerment need?', a: 'Monthly partners support the overall field. For a designated opportunity, contact Favor to confirm which project is active, its location, and its current funding status before giving.' },
+];
+const empowermentStory = storiesData.find((s) => s.slug === 'goats-for-women');
 ---
 <RedesignLayout
   title="Economic Empowerment"
@@ -53,12 +67,33 @@ const programs = [
     </div>
   </section>
 
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="The pathway" title="Training becomes practice, then ownership." intro="The details vary by program, but the published model moves participants from instruction toward locally sustained work." />
+      <ol class="ee-pathway">{pathway.map((item) => <li class="rd-card reveal"><span>{item.n}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
+    </div>
+  </section>
+
   <RdFeature image="/images/field-2026/villages-4.webp" imageAlt="Women and families gathered in a village in Uganda" eyebrow="The Women of Puranga · Uganda" heading="A gift designed to keep multiplying." side="left" decor="leaf">
     <p>After a year of training, each member of a Women Empowerment cohort received two goats. The herds can grow into school fees, food, and medical care for families across the village.</p>
     <blockquote>“They praised and worshiped God as they waited to receive two goats for each member of their Women Empowerment group.”</blockquote>
   </RdFeature>
 
   <StoryStrip tags={['Women', 'Skills Development', 'Stewardship']} heading="Stories of empowerment." background="white" />
+
+  {empowermentStory && (
+    <RdFeature image={empowermentStory.image} imageAlt={empowermentStory.title} eyebrow={`${empowermentStory.category} · ${empowermentStory.date}`} heading={empowermentStory.title} side="right" background="cream" decor="leaf">
+      {empowermentStory.paragraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+      <p><a class="story-link" href={`/stories/${empowermentStory.slug}/`}>Read the complete field story &rarr;</a></p>
+    </RdFeature>
+  )}
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="Questions" title="How economic empowerment works." leaves={false} />
+      <div class="faq ee-faq">{empowermentFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
+    </div>
+  </section>
 
   <RdCta
     heading="Fund a cohort that funds itself."
@@ -89,4 +124,14 @@ const programs = [
   .ee-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
   .ee-prog__more { display: block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; text-align: center; }
   .ee-prog:hover .ee-prog__more { color: var(--color-green); }
+  .ee-pathway { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  .ee-pathway span { color: var(--color-gold-deep); font-weight: 800; }
+  .ee-pathway h3 { color: var(--color-green); margin: var(--space-4) 0 var(--space-3); }
+  .ee-pathway p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .ee-faq { display: grid; gap: var(--space-3); }
+  .ee-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); background: var(--color-white); }
+  .ee-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
+  .ee-faq p { color: var(--color-ink-soft); margin: var(--space-4) 0 0; }
+  @media (max-width: 960px) { .ee-pathway { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .ee-pathway { grid-template-columns: 1fr; } }
 </style>

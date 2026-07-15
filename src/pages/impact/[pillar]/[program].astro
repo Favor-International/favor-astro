@@ -6,6 +6,7 @@ import LeafHeading from '../../../components/redesign/LeafHeading.astro';
 import RdCta from '../../../components/redesign/RdCta.astro';
 import { PROGRAMS, PILLAR_TAGLINES, programsByPillar, type Program } from '../../../data/programs';
 import { PILLARS } from '../../../lib/site';
+import storiesData from '../../../data/stories.json';
 
 // One template for every program sub-page. Content is verbatim from the live
 // site (see src/data/programs.ts). Mirrors the live site's What We Do tree that
@@ -23,6 +24,55 @@ const siblings = programsByPillar(program.pillar).filter((p) => p.slug !== progr
 const introBlock = program.blocks[0];
 const featureBlocks = program.blocks.slice(1, 3);
 const restBlocks = program.blocks.slice(3);
+
+const storyByProgram: Record<string, string> = {
+  'portable-bible-schools': 'a-generational-shift',
+  'gift-institute': 'gift-girl-graduate-turns-trainer',
+  radio: 'man-listens-to-favour-fm-receives-sight-from-god',
+  centers: 'i-want-the-little-children-to-come-to-me',
+  leadership: 'training-for-the-harvest',
+  primary: 'student-on-a-mission',
+  secondary: 'the-next-generations-leaders',
+  counseling: 'trauma-counseling-heals-a-former-warrior',
+  medical: 'medical-center-salvations',
+  'church-planting': 'rapid-church-transformation',
+  construction: 'strong-foundations-in-rural-areas',
+  sustainability: 'full-circle-transformation',
+  vocation: 'streets-to-school',
+  women: 'goats-for-women',
+};
+const fieldStory = storiesData.find((s) => s.slug === storyByProgram[program.slug]);
+
+const pillarLens: Record<string, { title: string; body: string }[]> = {
+  'evangelism-discipleship': [
+    { title: 'The need', body: 'Distance, conflict, language, and persecution can keep people from sustained Bible teaching even after they first hear the Gospel.' },
+    { title: 'Favor’s approach', body: 'National leaders carry prayer, Scripture, training, and follow-up into the communities they already understand and can continue serving.' },
+    { title: 'What comes next', body: 'The aim is multiplication: believers equipped to disciple others, strengthen congregations, and carry the Gospel further outward.' },
+  ],
+  education: [
+    { title: 'The need', body: 'Poverty, distance, limited classrooms, and crowded schools leave many children and emerging leaders without a dependable path to learn.' },
+    { title: 'Favor’s approach', body: 'Learning begins close to home, continues through Christ-centered schools, and grows into training for teachers, ministers, and community leaders.' },
+    { title: 'What comes next', body: 'Education is designed to form people who can serve their families, lead with character, and teach the generation following them.' },
+  ],
+  'community-development': [
+    { title: 'The need', body: 'War and poverty affect the whole person: physical health, emotional strength, family life, faith, and the places where a community gathers.' },
+    { title: 'Favor’s approach', body: 'Field teams pair practical care with prayer, discipleship, trained local leadership, and a healthy church rooted in the community.' },
+    { title: 'What comes next', body: 'Immediate care opens a longer path toward reconciliation, stable congregations, local service, and community-led restoration.' },
+  ],
+  'economic-empowerment': [
+    { title: 'The need', body: 'A lack of training, tools, and access to income can keep families dependent and leave young people vulnerable to exploitation.' },
+    { title: 'Favor’s approach', body: 'Participants receive practical instruction, discipleship, hands-on experience, and follow-up as they build skills or begin a shared project.' },
+    { title: 'What comes next', body: 'Income can support food, health care, education, and locally led ministry while experience and skills continue multiplying.' },
+  ],
+};
+const lens = pillarLens[program.pillar];
+
+const programFaqs = [
+  { q: `Who carries ${program.name} on the ground?`, a: 'Favor’s field programs are led and delivered by indigenous staff, teachers, pastors, counselors, and ministry leaders who live in the nations and communities they serve.' },
+  { q: `How does ${program.name} connect to the rest of Favor’s work?`, a: `It belongs to the ${pillar.label} pillar, but it does not stand alone. Favor’s programs are designed to reinforce prayer, discipleship, local leadership, and the long-term health of a community.` },
+  { q: 'Are the details identical in every location?', a: 'No. Language, facilities, local leadership, and immediate needs vary by nation and community. This page describes Favor’s published model; current field details should be confirmed with the Favor team.' },
+  { q: 'How can I support this work?', a: 'Favor Partners provide dependable, unrestricted support that field leadership can direct where it is most needed. You can also contact the team to ask whether a current designated project is available.' },
+];
 ---
 <RedesignLayout
   title={`${program.name} | ${pillar.label}`}
@@ -63,6 +113,21 @@ const restBlocks = program.blocks.slice(3);
     )}
   </RdFeature>
 
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="The ministry in context" title="A need, a field-led response, and a path forward." intro={`See how ${program.name} fits Favor’s wider approach to transformation.`} />
+      <div class="prog-lens">
+        {lens.map((item, index) => (
+          <article class="rd-card prog-lens__item reveal">
+            <span class="prog-lens__number" aria-hidden="true">0{index + 1}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   {restBlocks.length > 0 && (
     <section class="band band--white">
       <div class="container container--narrow prog-body">
@@ -88,6 +153,35 @@ const restBlocks = program.blocks.slice(3);
       </div>
     </section>
   )}
+
+  {fieldStory && (
+    <RdFeature
+      image={fieldStory.image}
+      imageAlt={fieldStory.title}
+      eyebrow={`${fieldStory.category} · ${fieldStory.date}`}
+      heading={fieldStory.title}
+      side="left"
+      background="cream"
+      decor="leaf"
+    >
+      {fieldStory.paragraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+      <p><a class="story-link" href={`/stories/${fieldStory.slug}/`}>Read the complete field story &rarr;</a></p>
+    </RdFeature>
+  )}
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="Questions" title={`Understanding ${program.name}.`} intro="What to know before you explore, pray, or give." leaves={false} />
+      <div class="faq prog-faq">
+        {programFaqs.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section class="band band--white">
     <div class="container container--narrow">
@@ -122,6 +216,19 @@ const restBlocks = program.blocks.slice(3);
 <style>
   .prog-intro { text-align: center; }
   .prog-intro h2 { margin: 0 auto var(--space-5); max-width: 16ch; }
+  .prog-lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .prog-lens__item { position: relative; overflow: hidden; }
+  .prog-lens__number { display: block; margin-bottom: var(--space-5); color: var(--color-gold-deep); font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: .16em; }
+  .prog-lens__item h3 { margin: 0 0 var(--space-3); color: var(--color-green); }
+  .prog-lens__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
+  .prog-faq { display: grid; gap: var(--space-3); }
+  .prog-faq details { background: var(--color-white); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); padding: var(--space-5) var(--space-6); box-shadow: 0 2px 10px rgba(31,58,26,.05); }
+  .prog-faq summary { cursor: pointer; list-style: none; color: var(--color-green); font-weight: 800; display: flex; justify-content: space-between; gap: var(--space-4); }
+  .prog-faq summary::-webkit-details-marker { display: none; }
+  .prog-faq summary::after { content: '+'; color: var(--color-gold-deep); font-size: 1.35rem; font-weight: 400; }
+  .prog-faq details[open] summary::after { content: '–'; }
+  .prog-faq p { margin: var(--space-4) 0 0; color: var(--color-ink-soft); line-height: 1.7; }
+  @media (max-width: 820px) { .prog-lens { grid-template-columns: 1fr; } }
   .prog-intro__lede { margin: 0 auto; max-width: 68ch; color: var(--color-ink-soft); line-height: 1.85; font-size: 1.08rem; }
   .prog-body p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
   .prog-body p:last-child { margin-bottom: 0; }

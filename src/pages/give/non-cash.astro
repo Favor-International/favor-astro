@@ -7,6 +7,15 @@ import { SITE } from '../../lib/site';
 
 // Real downloadable form from favorintl.org/connect-support/donate-now
 const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-transfer-form-2022-updated-10.25-.pdf';
+const assetFaqs = [
+  { q: 'Should I sell the asset before giving it?', a: 'Do not make that decision from this page alone. Giving an asset and selling it first can have different tax consequences. Ask your qualified adviser which approach fits your circumstances.' },
+  { q: 'Who determines the value of a non-cash gift?', a: 'Valuation requirements depend on the asset and applicable law. The donor is responsible for obtaining any required appraisal and tax advice; Favor cannot establish the donor’s deductible value.' },
+  { q: 'Can Favor accept every real-estate or vehicle gift?', a: 'No acceptance should be assumed. Complex assets require review for ownership, condition, liabilities, marketability, restrictions, and the cost of receiving or disposing of the asset.' },
+  { q: 'How will Favor identify my stock transfer?', a: 'Brokerage transfers may arrive without complete donor information. Notify Favor through a non-sensitive channel when the transfer is initiated, but do not email account numbers or private credentials.' },
+  { q: 'Will I receive a receipt?', a: 'Favor can acknowledge an accepted contribution, but the contents and tax treatment of the receipt depend on the asset and transaction. Confirm documentation requirements with the team and your adviser.' },
+  { q: 'Can I restrict a non-cash gift to one project?', a: 'A restriction must be accepted by Favor before the transfer. Confirm that the project is active and that the asset can be used or liquidated in a way that fulfills the proposed purpose.' },
+  { q: 'What if Favor cannot accept the asset?', a: 'Do not transfer it. The team may be able to identify another giving vehicle, but neither Favor nor the donor should assume that every complex asset can be received.' },
+];
 ---
 <RedesignLayout
   title="Stocks, Crypto, and Non-Cash Giving"
@@ -57,6 +66,11 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     </div>
   </section>
 
+  <section class="band band--white"><div class="container container--narrow">
+    <LeafHeading label="Questions" title="Before transferring an asset." leaves={false} />
+    <div class="faq asset-faq">{assetFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
+  </div></section>
+
   <RdCta
     heading="Start the non-cash gift."
     body="Email the executive team to confirm whether the asset can be accepted and request the current routing form."
@@ -83,5 +97,9 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
   .asset-steps strong { color: var(--color-green); }
   .asset-steps span, .asset-disclaimer { color: var(--color-ink-soft); line-height: 1.65; }
   .asset-disclaimer { font-size: .9rem; text-align: center; }
+  .asset-faq { display: grid; gap: var(--space-3); }
+  .asset-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); }
+  .asset-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
+  .asset-faq p { color: var(--color-ink-soft); margin: var(--space-4) 0 0; line-height: 1.65; }
   @media (max-width: 560px) { .asset-steps li { grid-template-columns: 1fr; gap: var(--space-2); } }
 </style>

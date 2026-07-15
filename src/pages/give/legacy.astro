@@ -8,6 +8,13 @@ import { SITE } from '../../lib/site';
 
 // Real downloadable form from favorintl.org/connect-support/donate-now
 const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-form.docx.pdf';
+const legacyFaqs = [
+  { q: 'Do I need to tell Favor that it is included in my plans?', a: 'Notification is not required for a revocable gift, but it can help Favor confirm its legal name and organizational information and understand the donor’s intent.' },
+  { q: 'Can I change a legacy commitment?', a: 'Many wills and beneficiary designations can be changed during the donor’s lifetime, but the answer depends on the document and gift structure. Review changes with your own attorney or plan administrator.' },
+  { q: 'Can a legacy gift support a specific program?', a: 'Restrictions should be discussed before documents are finalized. Programs and field needs may change over time, so flexible language can help preserve the purpose of the gift.' },
+  { q: 'What information will my adviser need?', a: `Your adviser may request Favor’s legal name, address, EIN ${SITE.ein}, tax-exempt status, and a contact person. Confirm current organizational details with Favor before signing final documents.` },
+  { q: 'Is the Legacy Circle form legally binding?', a: 'The form communicates intent and helps Favor understand planned support; it does not replace a will, beneficiary designation, trust document, or professional legal advice.' },
+];
 ---
 <RedesignLayout
   title="Legacy Giving"
@@ -52,6 +59,16 @@ const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-for
     <p class="legacy-note">The information on this page is educational and is not legal, tax, or financial advice. Please consult your own qualified advisers.</p>
   </RdFeature>
 
+  <section class="band band--white"><div class="container container--narrow">
+    <LeafHeading label="Prepare the conversation" title="Information to confirm with Favor and your adviser." intro="Before final documents are signed, make sure the organization, purpose, and contact details are current." />
+    <ul class="legacy-checklist"><li>Favor International’s current legal name and mailing address.</li><li>Federal tax identification number: {SITE.ein}.</li><li>The type of gift and whether it is a fixed amount, percentage, remainder, or beneficiary designation.</li><li>Whether the gift is unrestricted or carries an agreed purpose.</li><li>Who your executor, trustee, plan administrator, or adviser should contact.</li></ul>
+  </div></section>
+
+  <section class="band band--cream"><div class="container container--narrow">
+    <LeafHeading label="Questions" title="Planning a legacy gift." leaves={false} />
+    <div class="faq legacy-faq">{legacyFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
+  </div></section>
+
   <RdCta
     heading="Begin a confidential legacy conversation."
     body="If you have named Favor in your estate—or are considering it—the team can provide organizational details and the Legacy Circle form."
@@ -73,4 +90,11 @@ const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-for
   .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
   .acard:nth-child(4n+4) { --accent: var(--color-sage); }
+  .legacy-checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
+  .legacy-checklist li { position: relative; padding: var(--space-4) var(--space-5) var(--space-4) 52px; border-radius: var(--rd-radius); background: var(--color-cream); color: var(--color-ink-soft); line-height: 1.6; }
+  .legacy-checklist li::before { content: '✓'; position: absolute; left: 20px; color: var(--color-green); font-weight: 900; }
+  .legacy-faq { display: grid; gap: var(--space-3); }
+  .legacy-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); background: var(--color-white); }
+  .legacy-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
+  .legacy-faq p { color: var(--color-ink-soft); margin: var(--space-4) 0 0; line-height: 1.65; }
 </style>

@@ -21,6 +21,19 @@ const facts = [
   { icon: '🏛️', title: '501(c)(3) determination', body: 'IRS determination letter available for your files.', cta: 'Download the letter', href: IRS_LETTER },
   { icon: '↗', title: 'DAF-ready', body: 'Donor-advised fund routing through TrustBridge and DAF Direct.', cta: 'International & DAF routes', href: '/give/international/' },
 ];
+const grantPath = [
+  { title: 'Orient', body: 'Review Favor’s mission, four program pillars, geographic work, leadership, and published accountability documents.' },
+  { title: 'Discuss fit', body: 'Tell the team your foundation’s priorities, geography, grant range, restrictions, and required application format.' },
+  { title: 'Confirm scope', body: 'Favor can identify a current program or project that fits, then clarify the budget, timing, outcomes, and reporting available.' },
+  { title: 'Complete diligence', body: 'Use the public financials and request any additional organizational documents your board or adviser requires.' },
+];
+const foundationFaqs = [
+  { q: 'Does Favor accept restricted grants?', a: 'Restricted opportunities may be available when a current program or approved project matches the foundation’s intent. The scope and reporting expectations should be agreed before the grant is issued.' },
+  { q: 'Can a donor-advised fund recommend a grant?', a: 'The page links to Favor’s published DAF and international routes. Confirm the current beneficiary and processing details with the sponsoring organization before submitting a recommendation.' },
+  { q: 'What financial records are public?', a: 'Favor publishes audited financial statements and IRS Form 990 filings, along with links to ECFA, Charity Navigator, and Candid profiles on the accountability page.' },
+  { q: 'What should an initial inquiry include?', a: 'Include the foundation name, program interests, geographic priorities, approximate grant range, timing, restrictions, and the documents required for review.' },
+  { q: 'Does Favor publish a standard reporting schedule?', a: 'Reporting should be matched to the approved grant scope. Ask the team what financial and program reporting can be supported before including a schedule in an agreement.' },
+];
 ---
 <RedesignLayout
   title="Foundation Giving"
@@ -72,6 +85,18 @@ const facts = [
     <p>Foundation officers, family-office staff, and DAF advisors can email the executive team directly at <strong>{SITE.emailGeneral}</strong> or call {SITE.phone}. We will respond with the packet you need.</p>
   </RdFeature>
 
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="A practical grant path" title="From first review to a defined scope." intro="Favor can support a responsible diligence process without inventing a one-size-fits-all grant package." />
+      <ol class="grant-path">{grantPath.map((item, index) => <li class="rd-card reveal"><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="band band--white"><div class="container container--narrow">
+    <LeafHeading label="Questions" title="Foundation and DAF inquiries." leaves={false} />
+    <div class="faq fnd-faq">{foundationFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
+  </div></section>
+
   <RdCta
     heading="Start the conversation."
     body="Tell us what your board needs to see. We will send the foundation packet and answer directly."
@@ -107,4 +132,14 @@ const facts = [
   .fnd-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; font-size: 0.95rem; }
   .fnd-card__cta { margin-top: var(--space-2); color: var(--color-gold-deep); font-weight: 700; font-size: 0.88rem; }
   .fnd-card:hover .fnd-card__cta { color: var(--color-green); }
+  .grant-path { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  .grant-path span { color: var(--color-gold-deep); font-size: var(--rd-fs-small); font-weight: 800; }
+  .grant-path h3 { color: var(--color-green); margin: var(--space-4) 0 var(--space-3); }
+  .grant-path p, .fnd-faq p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .fnd-faq { display: grid; gap: var(--space-3); }
+  .fnd-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); }
+  .fnd-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
+  .fnd-faq details p { margin-top: var(--space-4); }
+  @media (max-width: 960px) { .grant-path { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grant-path { grid-template-columns: 1fr; } }
 </style>

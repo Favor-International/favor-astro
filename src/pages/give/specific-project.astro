@@ -11,6 +11,20 @@ const projects = [
   { category: 'Community', name: 'Medical care and trauma healing', image: '/images/field-2026/medical-2.webp', summary: 'Help field teams meet physical and emotional needs through clinics and contextualized counseling.' },
   { category: 'Empowerment', name: 'Women and vocational programs', image: '/images/field-2026/women-4.webp', summary: 'Equip women and young adults with training, practical skills, and tools that can produce lasting income.' },
 ];
+const projectSteps = [
+  { n: '1', title: 'Choose an area', body: 'Start with the ministry area you want to support: evangelism, education, community care, or economic empowerment.' },
+  { n: '2', title: 'Confirm the current need', body: 'Ask the Favor team which project is active, where it is located, and what remains to be funded.' },
+  { n: '3', title: 'Receive the giving route', body: 'The team can provide the correct designation language and secure giving path for that project.' },
+  { n: '4', title: 'Follow the work', body: 'Ask what reporting or field updates are available and how gifts are handled if the original need becomes fully funded.' },
+];
+const projectFaqs = [
+  { q: 'Why are live project balances not published here?', a: 'Field needs and received gifts can change quickly. Favor should confirm the current balance before a donor relies on a progress figure or makes a restricted gift.' },
+  { q: 'Can I designate a gift to one program?', a: 'Designated giving may be available when Favor has an active approved project. Contact the team for the current project name and the correct way to record the designation.' },
+  { q: 'What if the project becomes fully funded?', a: 'Ask Favor how excess designated funds would be handled before giving. The answer may depend on the project and the language used in the gift agreement.' },
+  { q: 'Can a foundation or church fund a project?', a: 'Yes, those conversations can begin through the foundation or church-partnership pathways. The team can provide the appropriate documentation and current project information.' },
+  { q: 'What if I do not need the gift restricted?', a: 'An unrestricted one-time gift or monthly partnership gives field leadership more flexibility to address changing needs without being limited to one project budget.' },
+  { q: 'Will every project provide the same reporting?', a: 'No. Reporting depends on the project, grant agreement, duration, and information available from the field. Confirm expectations before making a material designated gift.' },
+];
 ---
 <RedesignLayout
   title="Specific Project"
@@ -41,6 +55,20 @@ const projects = [
           />
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="How designation works" title="Four steps keep the project clear." intro="A short conversation before giving protects both the donor’s intent and the field team’s ability to report accurately." />
+      <ol class="project-steps">{projectSteps.map((item) => <li class="rd-card reveal"><span>{item.n}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="Questions" title="Before you designate a gift." leaves={false} />
+      <div class="faq project-faq">{projectFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
     </div>
   </section>
 
@@ -95,4 +123,14 @@ const projects = [
     transition: background 140ms;
   }
   .proj-card:hover .proj-card__btn { background: var(--color-green-deep); }
+  .project-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  .project-steps span { color: var(--color-gold-deep); font-weight: 800; }
+  .project-steps h3 { color: var(--color-green); margin: var(--space-4) 0 var(--space-3); }
+  .project-steps p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .project-faq { display: grid; gap: var(--space-3); }
+  .project-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); }
+  .project-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }
+  .project-faq p { color: var(--color-ink-soft); margin: var(--space-4) 0 0; }
+  @media (max-width: 900px) { .project-steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .project-steps { grid-template-columns: 1fr; } }
 </style>

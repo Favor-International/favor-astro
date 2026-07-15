@@ -6,8 +6,15 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import ProofBlock from '../../components/band/ProofBlock.astro';
 import { PARTNER_TIERS } from '../../lib/site';
+import storiesData from '../../data/stories.json';
 
 const amounts = PARTNER_TIERS.map((t) => t.amount);
+const partnerReasons = [
+  { title: 'The field can plan.', body: 'Dependable monthly support helps leadership prepare for recurring ministry needs instead of rebuilding the funding base every month.' },
+  { title: 'Leaders can respond.', body: 'Unrestricted partnership gives field leadership flexibility to respond across evangelism, education, community development, and economic empowerment.' },
+  { title: 'The relationship continues.', body: 'Partnership connects a recurring gift to ongoing field stories, prayer needs, financial reporting, and the long work of forming indigenous leaders.' },
+];
+const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
 ---
 <RedesignLayout
   title="Become a Favor Partner"
@@ -24,6 +31,13 @@ const amounts = PARTNER_TIERS.map((t) => t.amount);
     formBase="/give/donate/"
     donateLabel="Become a Partner"
   />
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="Why monthly" title="Consistency gives field leaders room to lead." intro="A Favor Partner does more than repeat a transaction. Dependable support strengthens the work between major campaigns and urgent appeals." />
+      <div class="partner-reasons">{partnerReasons.map((item) => <article class="rd-card reveal"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+    </div>
+  </section>
 
   <RdFeature
     image="/images/field-2026/education-2.webp"
@@ -42,6 +56,11 @@ const amounts = PARTNER_TIERS.map((t) => t.amount);
     <p>Source: FY2024 audited financials filed with ECFA and IRS Form 990, available at <a href="/about/accountability/">accountability</a>.</p>
   </RdFeature>
 
+  <section class="band band--white"><div class="container">
+    <LeafHeading label="Choose the right giving path" title="Monthly, one-time, and designated gifts serve different needs." intro="The best path depends on whether you want to strengthen the whole field, make a single unrestricted gift, or support a confirmed project." />
+    <div class="giving-paths"><article class="rd-card"><h3>Monthly partnership</h3><p>Recurring, unrestricted support helps field leadership plan and respond across the full ministry. This is the primary path for donors who want to sustain Favor’s ongoing work.</p></article><article class="rd-card"><h3>One-time giving</h3><p>A single unrestricted gift supports the work where leadership identifies the greatest current need without creating a recurring commitment.</p></article><article class="rd-card"><h3>Designated project</h3><p>A restricted gift begins with confirmation from the Favor team so the project name, active need, funding status, and designation instructions are current.</p></article></div>
+  </div></section>
+
   <ProofBlock
     name="The Women of Puranga"
     place="Uganda"
@@ -49,6 +68,13 @@ const amounts = PARTNER_TIERS.map((t) => t.amount);
     quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
     image="/images/stories/goats-for-women.jpg"
   />
+
+  {partnerStory && (
+    <RdFeature image={partnerStory.image} imageAlt={partnerStory.title} eyebrow={`${partnerStory.category} · ${partnerStory.date}`} heading={partnerStory.title} side="right" background="white" decor="leaf">
+      {partnerStory.paragraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+      <p><a class="story-link" href={`/stories/${partnerStory.slug}/`}>Read Daniel’s complete story &rarr;</a></p>
+    </RdFeature>
+  )}
 
   <section class="band band--cream">
     <div class="container container--narrow">
@@ -78,4 +104,11 @@ const amounts = PARTNER_TIERS.map((t) => t.amount);
   .breakdown { list-style: none; padding: 0; margin: var(--space-5) 0; display: grid; gap: var(--space-3); }
   .breakdown li { padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.5; }
   .breakdown strong { color: var(--color-green); display: inline-block; min-width: 52px; font-weight: 800; }
+  .partner-reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .partner-reasons h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .partner-reasons p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .giving-paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .giving-paths h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .giving-paths p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  @media (max-width: 800px) { .partner-reasons, .giving-paths { grid-template-columns: 1fr; } }
 </style>
