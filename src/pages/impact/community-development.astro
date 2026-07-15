@@ -1,11 +1,11 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
 
 const gallery = [
   { src: '/images/field/medical-uganda.webp', caption: 'A Favor medical clinic in Uganda' },
@@ -20,7 +20,7 @@ const programs = [
   { name: 'Church Construction', href: '/impact/community-development/construction/', image: '/images/field-2026/construction-3.webp', alt: 'A church construction project underway', body: 'Favor partners with International Cooperating Ministries (ICM) to fund new church construction. These churches don’t belong to Favor but to the community of believers and their leadership from that local church.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Community Development"
   description="Trauma counseling, medical services, and church planting: Favor International's community development pillar."
 >
@@ -49,24 +49,21 @@ const programs = [
     </div>
   </section>
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/church-3.webp"
     imageAlt="A church dedication in the field"
     eyebrow="Transforming communities"
     heading="The whole community, transformed."
-    layout="image-left"
+    side="left"
     background="white"
   >
     <p>Favor's community development model has been informed by almost 20 years of work and recognizes the church as the hub of the community and the Word of God as center of sustainable, ongoing community development. Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. Community development starts with nothing less than transformed lives surrendered to Jesus and then extends to holistic transformation of the entire community.</p>
     <p>We could comfort those in emotional pain. We could bandage every wound. We could build beautiful buildings. We could even pass out thousands of Bibles, but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do. Our foremost mission is guiding hearts to Jesus, but we also recognize that without a demonstration of God's love in meeting people where they are at emotionally, physically, and spiritually, as Jesus did, the former won't happen.</p>
-  </FeatureRow>
+  </RdFeature>
 
   <section class="band band--cream">
     <div class="container">
-      <header class="cd-head">
-        <p class="label">Holistic transformation by the Word</p>
-        <h2>Bringing healing to the whole person.</h2>
-      </header>
+      <LeafHeading label="Holistic transformation by the Word" title="Bringing healing to the whole person." intro="Care meets immediate needs while the local church and trained community leaders carry restoration forward." />
       <div class="cd-grid">
         {programs.map((p) => (
           <a class="cd-card cd-card--link" href={p.href}>
@@ -83,7 +80,7 @@ const programs = [
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/hero-trauma-counseling.jpg"
     imageAlt="A trauma counseling session in the field"
     eyebrow="Trauma counseling"
@@ -93,14 +90,11 @@ const programs = [
     <p>Our trauma healing program has two parts. The first section focuses on developing emotional strength, and the second teaches about forgiveness. Throughout the program, the counselors teach people how to connect to one another and counter stress with positive activity.</p>
     <p>The original Trauma Counseling curriculum that we use was <strong>written by Christ-believing psychologists from Australia, peer-reviewed through publications at Boston University</strong>, and for many years has been adapted and contextualized for the many people groups we serve throughout South Sudan and Uganda.</p>
     <p><a href="/impact/community-development/counseling/">Read about Trauma Counseling &rarr;</a></p>
-  </OverlayFeature>
+  </RdFeature>
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">From the field</p>
-        <h2>Healing, planting, baptizing.</h2>
-      </header>
+      <LeafHeading label="From the field" title="Healing, planting, baptizing." />
       <div class="field-gallery">
         {gallery.map((g) => (
           <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
@@ -113,7 +107,7 @@ const programs = [
 
   <StoryStrip tags={['Emotional Healing', 'Physical Healing', 'Community Transformation']} heading="Stories of healing." background="cream" />
 
-  <CtaBand
+  <RdCta
     heading="Help carry the cost of healing."
     body="Trauma counseling, medical clinics, and church planting are field-led. Favor Partners keep them funded."
     ctaLabel="Become a Favor Partner"
@@ -121,7 +115,7 @@ const programs = [
     image="/images/field-2026/medical-2.webp"
     imageAlt="A Favor community gathering"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .cd-head { text-align: center; max-width: 720px; margin: 0 auto var(--space-12); }

@@ -10,7 +10,7 @@ import storiesData from '../data/stories.json';
 // themselves, so this list stays in sync automatically. Noindexed.
 
 const people = directorsData
-  .filter((d) => d.slug !== 'carole-ward')
+  .filter((d) => d.slug !== 'carole-ward' && !['lisa-coggin', 'rev-louis-kayatin', 'dr-vilma-vega'].includes(d.slug))
   .map((d) => ({ href: `/about/people/${d.slug}/`, label: d.fullName, sub: d.position }));
 
 const stories = storiesData.map((s) => ({ href: `/stories/${s.slug}/`, label: s.title, sub: s.date }));

@@ -1,11 +1,12 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import Figure from '../../components/global/Figure.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
 
 // Card copy is verbatim sentences from the live program sub-pages (see
 // src/data/programs.ts). Each card links to its full program page.
@@ -23,7 +24,7 @@ const gallery = [
   { src: '/images/field-2026/education-3.webp', caption: 'Portable Bible School graduates, DR Congo' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Evangelism & Discipleship"
   description="Portable Bible Schools, GIFT Leadership Institute, House of Prayer, and Favor FM: the four programs by which Favor International equips indigenous pastors to evangelize and disciple across East Africa."
 >
@@ -35,7 +36,7 @@ const gallery = [
     imageAlt="Portable Bible School mobilization in the field"
     objectPosition="center 18%"
     ctaLabel="Fund a pastor"
-    ctaHref="/give/specific-project/gift-dormitory/"
+    ctaHref="/give/specific-project/"
   />
 
   <section class="band band--white">
@@ -66,10 +67,7 @@ const gallery = [
 
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Mobilization of heaven's agenda</p>
-        <h2>The four programs.</h2>
-      </header>
+      <LeafHeading label="Mobilization of heaven's agenda" title="Four programs carry one Gospel outward." intro="Prayer forms the foundation; training, discipleship, and radio carry the message into places conventional ministry cannot reach." />
       <div class="ed-programs">
         {programs.map((p) => (
           <a class="ed-prog" href={p.href}>
@@ -85,7 +83,7 @@ const gallery = [
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/stories/daniel-kidia.jpg"
     imageAlt="Daniel Kidia, a Favor field pastor in South Sudan"
     eyebrow="Daniel Kidia &middot; South Sudan"
@@ -93,14 +91,11 @@ const gallery = [
     side="left"
   >
     <p>A former Mundari cattle warrior, now a Favor field pastor leading Portable Bible School classes among his own people.</p>
-  </OverlayFeature>
+  </RdFeature>
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">The programs in depth</p>
-        <h2>How the work happens on the ground.</h2>
-      </header>
+      <LeafHeading label="The programs in depth" title="How the work happens on the ground." leaves={false} />
       <div class="faq ed-depth">
         <details open>
           <summary>Portable Bible Schools (PBS)</summary>
@@ -121,10 +116,7 @@ const gallery = [
 
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">From the field</p>
-        <h2>Real people, real places.</h2>
-      </header>
+      <LeafHeading label="From the field" title="Real people, real places." />
       <div class="ed-gallery">
         {gallery.map((g) => (
           <figure class="ed-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
@@ -137,16 +129,15 @@ const gallery = [
 
   <StoryStrip tags={['New Believers', 'Salvation', 'Discipleship']} heading="Stories of salvation and discipleship." background="white" />
 
-  <CtaBand
+  <RdCta
     heading="Send a pastor into the unreached."
     body="Fund a PBS cohort, sponsor a GIFT student, or become a Favor Partner to keep all four programs going."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
     image="/images/field-2026/crusade-2.webp"
     imageAlt="A field gathering in northern Uganda"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .ed-video { display: block; text-align: center; }

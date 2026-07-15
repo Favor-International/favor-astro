@@ -1,26 +1,25 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import PostCard from '../../components/band/PostCard.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 
 const projects = [
-  { slug: 'gulu-primary-school', category: 'Education', name: 'Primary school in Gulu, Uganda', goal: 80000, raised: 47200, image: '/images/field-2026/church-1.webp', summary: 'A new primary school building serving 220 students. Two classrooms ready, four to go.' },
-  { slug: 'gift-dormitory', category: 'Care', name: 'GIFT Institute dormitory', goal: 65000, raised: 51800, image: '/images/gift-bishoftu-tot.jpg', summary: 'Beds and study rooms for the next cohort of pastor-trainees. Doors open Q3.' },
-  { slug: 'arabic-bible-curriculum', category: 'Evangelism', name: 'Arabic-translated Bible curriculum', goal: 18000, raised: 12400, image: '/images/hero-pbs-graduation.jpg', summary: 'Translating the PBS curriculum into Arabic for Sudan and Chad field teams.' },
-  { slug: 'solar-radio', category: 'Community', name: 'Solar power for two radio stations', goal: 22000, raised: 9100, image: '/images/pillar-community.jpg', summary: 'Off-grid solar arrays for Favor FM radio sites. Keeps the Gospel on air through the dry season.' },
+  { category: 'Evangelism', name: 'Portable Bible Schools', image: '/images/hero-pbs-graduation.jpg', summary: 'Help carry discipleship training and Bible teaching into rural villages and unreached tribes.' },
+  { category: 'Education', name: 'Schools and learning centers', image: '/images/field-2026/education-5.webp', summary: 'Support Village Learning Centers, primary and secondary schools, and leadership training.' },
+  { category: 'Community', name: 'Medical care and trauma healing', image: '/images/field-2026/medical-2.webp', summary: 'Help field teams meet physical and emotional needs through clinics and contextualized counseling.' },
+  { category: 'Empowerment', name: 'Women and vocational programs', image: '/images/field-2026/women-4.webp', summary: 'Equip women and young adults with training, practical skills, and tools that can produce lasting income.' },
 ];
-
-function pct(raised: number, goal: number) { return Math.min(100, Math.round((raised / goal) * 100)); }
 ---
-<PageLayout
+<RedesignLayout
   title="Specific Project"
   description="Fund a specific Favor International project directly. School buildings, dormitories, Bible curriculum, off-grid power."
 >
   <PageHero
     label="Specific project"
     title="Fund the exact thing the field needs."
-    promise="Pick a project. Watch the progress bar. Receive direct field updates from the team you funded."
+    promise="Tell the team which area of the work you want to support, and confirm the current field need before you give."
     image="/images/field/hero-construction-uganda.webp"
     imageAlt="A Favor church under construction in Uganda"
     variant="split"
@@ -28,39 +27,34 @@ function pct(raised: number, goal: number) { return Math.min(100, Math.round((ra
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Active projects</p>
-        <h2>What's open today.</h2>
-      </header>
+      <LeafHeading label="Areas you can support" title="Start with the work God has put on your heart." intro="Project needs and funding balances change in the field. These established ministry areas are the starting point for a current, verified project conversation." />
       <div class="proj-grid">
         {projects.map((p) => (
           <PostCard
-            href={`/give/specific-project/${p.slug}/`}
+            href="/about/contact/?topic=specific-project"
             image={p.image}
             imageAlt={p.name}
             chip={p.category}
             title={p.name}
             desc={p.summary}
-            progress={pct(p.raised, p.goal)}
-            metaLabel="Reached"
-            metaValue={`$${p.raised.toLocaleString()}`}
-            actionLabel="Fund this project"
+            actionLabel="Ask about current needs"
           />
         ))}
       </div>
     </div>
   </section>
 
-  <CtaBand
-    heading="Not seeing what you want to fund?"
-    body="Email info@favorintl.org. We will route your gift to the field team most likely to use it well."
-    ctaLabel="Email the team"
-    ctaHref="mailto:info@favorintl.org"
+  <RdCta
+    heading="Confirm the need before you designate the gift."
+    body="The team will share the current project, location, funding status, and appropriate giving route so your designation is clear."
+    ctaLabel="Ask about a project"
+    ctaHref="/about/contact/?topic=specific-project"
+    secondaryLabel="Give where most needed"
+    secondaryHref="/give/one-time/"
     image="/images/field-2026/education-5.webp"
     imageAlt="A Favor school under construction"
-    variant="sage"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }

@@ -1,15 +1,16 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import DonationBlock from '../../components/band/DonationBlock.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 
 // Real downloadable forms from favorintl.org/connect-support/donate-now
 const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-transfer-form-2022-updated-10.25-.pdf';
 ---
-<PageLayout
+<RedesignLayout
   title="Give Once"
-  description="A one-time gift to Favor International. Any amount. Direct to Blackbaud. Tax-deductible. Real, recurring impact on the field."
+  description="Make a secure one-time gift to Favor International. Any amount. Tax-deductible. Support indigenous missionaries and field-led programs."
 >
   <DonationBlock
     eyebrow="One-time gift"
@@ -21,17 +22,11 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     defaultAmount={60}
     formBase="/give/donate/"
     donateLabel="Give now"
-    goal={80000}
-    raised={47200}
-    causeLabel="Current need · Primary school in Gulu, Uganda"
   />
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Where your gift goes</p>
-        <h2>Straight to the field.</h2>
-      </header>
+      <LeafHeading label="Where your gift goes" title="Field-led and independently accountable." />
       <p>One-time gifts route through Blackbaud and are received the same day. You will receive a tax-deductible receipt by email immediately. 89 cents of every dollar went to program in FY2024 (audited).</p>
       <p>Favor International is a 501(c)(3) public charity, EIN {SITE.ein}, and an <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited member</a>. Prefer to give every month? <a href="/give/partner-monthly/">Become a Favor Partner</a>.</p>
     </div>
@@ -39,10 +34,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">More ways to give once</p>
-        <h2>Check, Zelle, CashApp, wire, stock, and PayPal.</h2>
-      </header>
+      <LeafHeading label="More ways to give once" title="Choose the route that works for you." intro="Never email bank, card, or brokerage account numbers. Contact the team first for wire or asset-transfer instructions." leaves={false} />
       <ul class="give-methods">
         <li><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</li>
         <li><strong>Zelle.</strong> Send to admin@favorintl.org.</li>
@@ -57,10 +49,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Questions</p>
-        <h2>Common questions about giving.</h2>
-      </header>
+      <LeafHeading label="Questions" title="Common questions about giving." />
       <div class="faq">
         <details>
           <summary>Is my gift tax-deductible?</summary>
@@ -86,7 +75,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     </div>
   </section>
 
-  <CtaBand
+  <RdCta
     heading="Prefer to give every month?"
     body="Favor Partners keep indigenous missionaries on the trail all year. Any tier, cancel anytime."
     ctaLabel="Become a Favor Partner"
@@ -94,7 +83,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     image="/images/field-2026/crusade-1.webp"
     imageAlt="A Favor field gathering"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .give-methods { list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; gap: var(--space-3); }

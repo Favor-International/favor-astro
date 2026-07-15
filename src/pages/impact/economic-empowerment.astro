@@ -1,9 +1,10 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import ProofBlock from '../../components/band/ProofBlock.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 
 // Card copy is verbatim sentences from the live program sub-pages
 // (src/data/programs.ts holds the full verbatim pages these link to).
@@ -13,7 +14,7 @@ const programs = [
   { name: 'Vocational Program', href: '/impact/economic-empowerment/vocation/', image: '/images/field-2026/vocation-3.webp', alt: 'Vocational Program students at work', desc: 'Favor seeks to equip and empower youth in their late teens and early twenties with the opportunity to choose and study a vocation of their choice.' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Economic Empowerment"
   description="Sustainability projects, women's empowerment, and vocational programs: Favor International's economic empowerment ministry."
 >
@@ -29,18 +30,14 @@ const programs = [
 
   <section class="band band--white">
     <div class="container container--narrow ee-intro">
-      <p class="label">Independence built on freedom in Christ</p>
-      <h2>The Gospel is the foundation of healthy economies.</h2>
+      <LeafHeading label="Independence built on freedom in Christ" title="The Gospel is the foundation of healthy economies." leaves={false} />
       <p>And healthy economies help lay new foundations of the Gospel to be shared freely. We strongly believe in self-sustained economic development that can take communities from poverty to productivity. Our model of education, empowerment, and investment enables the most marginalized people to bring themselves and their communities out of poverty.</p>
     </div>
   </section>
 
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">The three programs</p>
-        <h2>From relief to self-reliance.</h2>
-      </header>
+      <LeafHeading label="The three programs" title="From relief to self-reliance." intro="Training, practical tools, and local leadership help families build income that continues long after a project begins." />
       <div class="ee-programs">
         {programs.map((p) => (
           <a class="ee-prog" href={p.href}>
@@ -56,26 +53,22 @@ const programs = [
     </div>
   </section>
 
-  <ProofBlock
-    name="The Women of Puranga"
-    place="Uganda"
-    outcome="A Women's Empowerment cohort received two goats each after a year of training. The herds pay for school fees, food, and medical care across the village."
-    quote="They praised and worshiped God as they waited to receive two goats for each member of their Women's Empowerment group."
-    image="/images/field-2026/villages-4.webp"
-  />
+  <RdFeature image="/images/field-2026/villages-4.webp" imageAlt="Women and families gathered in a village in Uganda" eyebrow="The Women of Puranga · Uganda" heading="A gift designed to keep multiplying." side="left" decor="leaf">
+    <p>After a year of training, each member of a Women Empowerment cohort received two goats. The herds can grow into school fees, food, and medical care for families across the village.</p>
+    <blockquote>“They praised and worshiped God as they waited to receive two goats for each member of their Women Empowerment group.”</blockquote>
+  </RdFeature>
 
   <StoryStrip tags={['Women', 'Skills Development', 'Stewardship']} heading="Stories of empowerment." background="white" />
 
-  <CtaBand
+  <RdCta
     heading="Fund a cohort that funds itself."
     body="Sustainability tools, vocational training, and women’s programs are built to multiply. Favor Partners get them started."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
     image="/images/field/women-empowerment-uganda.webp"
     imageAlt="Women receiving livestock at a Favor empowerment cohort in Uganda"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .ee-intro { text-align: center; }

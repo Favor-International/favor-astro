@@ -1,8 +1,9 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 
 // TrustBridge is real: it is in the Site Map v2.1 instructions and on the live
@@ -17,7 +18,7 @@ const routes = [
   { flag: '🇦🇺', country: 'Australia', route: 'DGR via partner foundation', cta: 'Email the team', href: `mailto:${SITE.emailGeneral}?subject=Australia giving` },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="International Giving"
   description="UK, Canada, EU, and Australia partners can give to Favor International with tax-receipt routes via TrustBridge Global."
 >
@@ -41,10 +42,7 @@ const routes = [
 
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Country routes</p>
-        <h2>Pick your country.</h2>
-      </header>
+      <LeafHeading label="Country routes" title="Start with the country where you file taxes." intro="Tax treatment depends on your country and personal situation. Confirm eligibility in the giving portal or with your local adviser before relying on a charitable deduction." />
       <div class="intl-grid">
         {routes.map((r) => (
           <a class="intl-card" href={r.href} target="_blank" rel="noopener">
@@ -59,26 +57,27 @@ const routes = [
     </div>
   </section>
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/pbs-9.webp"
     imageAlt="Portable Bible School students"
     eyebrow="Where it goes"
     heading="Same field. Same accountability."
-    layout="image-left"
+    side="left"
     background="white"
   >
     <p>International gifts fund the same work as US gifts: Portable Bible Schools, GIFT homes, schools, medical care, and women&rsquo;s empowerment across the nations Favor serves.</p>
     <p>Favor International is ECFA-accredited and independently audited every year. See the <a href="/about/accountability/">audited financials</a> any time.</p>
-  </FeatureRow>
+  </RdFeature>
 
-  <CtaBand
+  <RdCta
     heading="One step closer to the field."
     body="Pick your country route and give with a tax receipt where you live."
     ctaLabel="Give via TrustBridge"
     ctaHref={TRUSTBRIDGE_PORTAL}
-    variant="green"
+    image="/images/field-2026/pbs-8.webp"
+    imageAlt="Portable Bible School graduates in the field"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .intl-intro { text-align: center; }

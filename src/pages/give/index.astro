@@ -1,13 +1,16 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import OverlayCard from '../../components/global/OverlayCard.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { PARTNER_TIERS, SITE } from '../../lib/site';
 
 const tiles = [
   { slug: 'partner-monthly', label: 'Become a Favor Partner', desc: 'Monthly partnership. The lead path. Pick a tier.', featured: true, image: '/images/highlight-crowd.jpg' },
-  { slug: 'one-time', label: 'Give Once', desc: 'Any amount, any time. Direct to Blackbaud.', image: '/images/field-2026/bibles-3.webp' },
+  { slug: 'one-time', label: 'Give Once', desc: 'Make a secure, tax-deductible gift in the amount you choose.', image: '/images/field-2026/bibles-3.webp' },
   { slug: 'specific-project', label: 'Specific Project', desc: 'Choose a current project to fund directly.', image: '/images/school-construction.jpg' },
   { slug: 'foundation', label: 'Foundation Giving', desc: 'Grants and DAFs. We will send the package.', image: '/images/field-2026/pbs-6.webp' },
   { slug: 'church-partnership', label: 'Church Partnership', desc: 'Mobilize your church around an indigenous team.', image: '/images/field-2026/gift-3.webp' },
@@ -18,7 +21,7 @@ const tiles = [
 
 const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 ---
-<PageLayout
+<RedesignLayout
   title="Give"
   description="Every giving pathway powered by Blackbaud. ECFA-accredited. Tax-deductible. Choose how you stand with Favor International: monthly partnership, one-time, foundation, DAF, or international."
   image="/images/partner-with-us.jpg"
@@ -35,12 +38,23 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
     secondaryHref="/give/one-time/"
   />
 
+  <RdFeature
+    image="/images/stories/daniel-kidia.jpg"
+    imageAlt="Daniel Kidia, a Favor field pastor in South Sudan"
+    eyebrow="What partnership makes possible"
+    heading="Before he was a pastor, Daniel was a cattle warrior."
+    side="right"
+    background="white"
+    decor="leaf"
+  >
+    <p>Today Daniel leads Portable Bible Schools across South Sudan, training other former warriors to carry the Gospel into their own villages.</p>
+    <p>Your generosity supports indigenous leaders who already speak the language, understand the culture, and remain when conditions become difficult.</p>
+    <p><a class="story-link" href="/stories/daniel-kidia/">Read Daniel's story &rarr;</a></p>
+  </RdFeature>
+
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">Pick your path</p>
-        <h2>Eight ways to stand with Favor.</h2>
-      </header>
+      <LeafHeading label="Pick your path" title="Start with the way you want to give." intro="Monthly partnership and one-time gifts are the simplest paths. Specialized options remain available for churches, foundations, estates, and non-cash assets." />
       <div class="give-grid">
         {tiles.map((t) => (
           t.featured ? (
@@ -57,10 +71,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Why give through Favor</p>
-        <h2>Your gift goes further here.</h2>
-      </header>
+      <LeafHeading label="Why give through Favor" title="Your gift joins a movement already on the ground." leaves={false} />
       <div class="why-grid">
         <div class="why-card"><h3>Indigenous-led</h3><p>Every program on the field is run by African nationals who live where they serve.</p></div>
         <div class="why-card"><h3>Prayer-birthed</h3><p>Favor began as a prayer movement, and prayer still comes before everything else.</p></div>
@@ -72,11 +83,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Featured tiers</p>
-        <h2>Favor Partner monthly amounts.</h2>
-        <p>Custom amounts welcome. These are the suggested tiers from the v2.1 partnership model.</p>
-      </header>
+      <LeafHeading label="Monthly partnership" title="Choose a level that fits your life." intro="Custom amounts are always welcome. Monthly gifts give field leaders dependable support and the flexibility to respond where needs are greatest." />
       <ul class="tier-list">
         {PARTNER_TIERS.map((t) => (
           <li class:list={[t.featured && 'tier-list--featured']}>
@@ -93,11 +100,8 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--sage">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Other ways to give</p>
-        <h2>Stocks, crypto, non-cash, employer match.</h2>
-        <p>If a non-cash gift fits your situation better, we have a route. Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will send the right form.</p>
-      </header>
+      <LeafHeading label="Other ways to give" title="Stocks, crypto, non-cash, and employer matching." intro="If a non-cash gift fits your situation better, we will help you find the appropriate route." leaves={false} />
+      <p class="other-intro">Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> to begin a conversation. Do not send account numbers or other sensitive financial information by email.</p>
       <ul class="other-ways">
         {otherWays.map((w) => <li>{w}</li>)}
       </ul>
@@ -109,10 +113,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Questions</p>
-        <h2>Common questions about giving.</h2>
-      </header>
+      <LeafHeading label="Questions" title="Common questions about giving." />
       <div class="faq">
         <details><summary>Is my gift tax-deductible?</summary><p>Yes. Favor International is a registered 501(c)(3) public charity (EIN {SITE.ein}). You receive a tax-deductible receipt by email.</p></details>
         <details><summary>How much of my gift reaches the field?</summary><p>In FY2024, 89 cents of every dollar went to program work. The figures are audited and filed with ECFA and on IRS Form 990. See the <a href="/about/accountability/">accountability page</a>.</p></details>
@@ -135,7 +136,18 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
       </div>
     </div>
   </section>
-</PageLayout>
+
+  <RdCta
+    heading="Put a missionary on the trail."
+    body="Choose monthly partnership for dependable support, or make a one-time gift today."
+    ctaLabel="Become a Favor Partner"
+    ctaHref="/give/partner-monthly/"
+    secondaryLabel="Give one time"
+    secondaryHref="/give/one-time/"
+    image="/images/field-2026/evangelism-9.webp"
+    imageAlt="An indigenous Favor missionary serving in the field"
+  />
+</RedesignLayout>
 
 <style>
   .give-grid {
@@ -174,6 +186,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
   }
 
   .other-ways { display: flex; gap: var(--space-3); flex-wrap: wrap; justify-content: center; padding: 0; margin: var(--space-6) 0; list-style: none; }
+  .other-intro { max-width: 62ch; margin: 0 auto var(--space-6); text-align: center; color: var(--color-ink-soft); line-height: 1.7; }
   .other-ways li {
     padding: var(--space-3) var(--space-6);
     background: var(--color-white);

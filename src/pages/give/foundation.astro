@@ -1,8 +1,9 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 
 // Rebuilt 2026-06-10. The previous "Due diligence on day one" cards carried
@@ -21,7 +22,7 @@ const facts = [
   { icon: '↗', title: 'DAF-ready', body: 'Donor-advised fund routing through TrustBridge and DAF Direct.', cta: 'International & DAF routes', href: '/give/international/' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Foundation Giving"
   description="Foundation, donor-advised fund, and grant-maker inquiries. Audited financials, public 990s, ECFA accreditation, and direct access to the Favor International team."
 >
@@ -45,10 +46,7 @@ const facts = [
 
   <section class="band band--cream">
     <div class="container">
-      <header class="band__header">
-        <p class="label">On the record</p>
-        <h2>Six things you can verify today.</h2>
-      </header>
+      <LeafHeading label="On the record" title="Six things your due-diligence process can verify today." />
       <div class="fnd-grid">
         {facts.map((f) => (
           <a class="fnd-card" href={f.href} target={f.href.startsWith('http') ? '_blank' : undefined} rel={f.href.startsWith('http') ? 'noopener' : undefined}>
@@ -62,28 +60,27 @@ const facts = [
     </div>
   </section>
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/vlc-5.webp"
     imageAlt="Children at a Favor Village Learning Center"
     eyebrow="What grants fund"
     heading="Programs run by the people who live there."
-    layout="image-right"
+    side="right"
     background="white"
   >
     <p>Every Favor program on the field is run by indigenous leaders: Portable Bible Schools, GIFT children&rsquo;s homes, primary and secondary schools, medical care, trauma counseling, and women&rsquo;s empowerment across the nations Favor serves.</p>
     <p>Foundation officers, family-office staff, and DAF advisors can email the executive team directly at <strong>{SITE.emailGeneral}</strong> or call {SITE.phone}. We will respond with the packet you need.</p>
-  </FeatureRow>
+  </RdFeature>
 
-  <CtaBand
+  <RdCta
     heading="Start the conversation."
     body="Tell us what your board needs to see. We will send the foundation packet and answer directly."
     ctaLabel="Email the executive team"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Foundation inquiry`}
     image="/images/field-2026/pbs-4.webp"
     imageAlt="A PBS graduation cohort in South Sudan"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .fnd-intro { text-align: center; }

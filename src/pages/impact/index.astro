@@ -1,10 +1,11 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import PostCard from '../../components/band/PostCard.astro';
 import OverlayCard from '../../components/global/OverlayCard.astro';
-import FeatureRow from '../../components/band/FeatureRow.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { PILLARS, IMPACT_STATS } from '../../lib/site';
 
 const pillarImages: Record<string, string> = {
@@ -19,7 +20,7 @@ const deeper = [
   { href: '/stories/', image: '/images/field-2026/prayer-8.webp', title: 'Stories of transformation', desc: 'Real names, real places, real outcomes.', action: 'Read stories' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Impact"
   description="Four ministry pillars across East Africa. Field reports, real stories, and the indigenous leaders behind the work."
   image="/images/field-2026/baptism-3.webp"
@@ -32,24 +33,20 @@ const deeper = [
     imageAlt="PBS graduates with certificates"
   />
 
-  <FeatureRow
+  <RdFeature
     image="/images/field-2026/evangelism-10.webp"
     imageAlt="Indigenous missionaries evangelizing in the field"
     eyebrow="What we do"
     heading="A non-denominational missionary movement."
-    layout="image-left"
+    side="left"
     background="cream"
   >
     <p>Founded in northern Uganda and also operating in neighboring South Sudan, Favor International serves and trains war-torn victims into purpose-driven Christian missionaries, equipped to advance the Gospel in villages and mobilized to advance the Kingdom in nations.</p>
     <p>Prayer is the fuel and engine of everything Favor does. We started as a prayer movement. Today we start with prayer, we go with prayer, and we end with prayer. From that foundation, the work flows through four departments: evangelism and discipleship, education, community development, and economic empowerment.</p>
-  </FeatureRow>
+  </RdFeature>
 
   <section class="band band--white">
-    <div class="container impact-head">
-      <p class="label">Audited financials</p>
-      <h2>The numbers behind the work.</h2>
-      <p class="impact-lede">Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections.</p>
-    </div>
+    <div class="container"><LeafHeading label="Audited financials" title="The numbers behind the work." intro="Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections." /></div>
     <div class="container impact-stats">
       {IMPACT_STATS.map((s) => (
         <div class="impact-stat">
@@ -67,10 +64,7 @@ const deeper = [
   </section>
 
   <section class="band band--cream">
-    <div class="container impact-head">
-      <p class="label">The pillars</p>
-      <h2>How the work breaks down.</h2>
-    </div>
+    <div class="container"><LeafHeading label="The pillars" title="One movement. Four expressions of transformation." intro="The work begins in prayer, reaches a heart with the Gospel, and continues until people and communities can flourish and lead." leaves={false} /></div>
     <div class="container pillar-grid">
       {PILLARS.map((p) => (
         <OverlayCard
@@ -86,10 +80,7 @@ const deeper = [
   </section>
 
   <section class="band band--white">
-    <div class="container impact-head">
-      <p class="label">Deeper</p>
-      <h2>Reports, stories, and the field record.</h2>
-    </div>
+    <div class="container"><LeafHeading label="Go deeper" title="Reports, stories, and the field record." intro="Follow the evidence behind the work and hear directly from the people living it." /></div>
     <div class="container grid grid-3">
       {deeper.map((d) => (
         <PostCard href={d.href} image={d.image} imageAlt={d.title} title={d.title} desc={d.desc} actionLabel={d.action} />
@@ -97,13 +88,17 @@ const deeper = [
     </div>
   </section>
 
-  <CtaBand
-    heading="Want the field report in your inbox?"
-    body="One email a month. The team's honest take on what worked and what didn't."
-    ctaLabel="Send Me the Field Report"
+  <RdCta
+    heading="See what transformation looks like month by month."
+    body="Receive field reports, stories, and prayer needs from the teams carrying the work."
+    ctaLabel="Send me the field report"
     ctaHref="/newsletter/"
+    secondaryLabel="Fund the work"
+    secondaryHref="/give/partner-monthly/"
+    image="/images/field-2026/prayer-8.webp"
+    imageAlt="Favor leaders praying together in the field"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .impact-head { text-align: center; max-width: 760px; margin-left: auto; margin-right: auto; }

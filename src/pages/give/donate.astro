@@ -1,5 +1,6 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
 import { SITE } from '../../lib/site';
 
 // The REAL Favor International donation form: the same Blackbaud donor-form
@@ -11,13 +12,14 @@ import { SITE } from '../../lib/site';
 // 2446db74-94fe-4197-8a40-03b10341c4e2.)
 const BB_FORM_ID = '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b';
 ---
-<PageLayout
+<RedesignLayout
   title="Give Online"
   description="Give to Favor International online by credit card, ACH, or PayPal. Designate your gift, write a note, or honor someone with a dedicated gift. Tax-deductible."
 >
   <section class="band band--cream donate-head">
     <div class="container container--narrow">
       <header class="band__header">
+        <Leaf class="donate-leaf" />
         <p class="label">Instant giving</p>
         <h1>Give online.</h1>
         <p class="donate-sub">Credit card, ACH, PayPal&hellip; it&rsquo;s all here. Designate your gift, write a note, or honor someone with a dedicated gift.</p>
@@ -35,7 +37,7 @@ const BB_FORM_ID = '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b';
       <p class="donate-alt">Prefer another way? <a href="/give/one-time/">Check, Zelle, CashApp, wire, or stock</a> &middot; <a href="/give/partner-monthly/">Become a monthly Favor Partner</a></p>
     </div>
   </section>
-</PageLayout>
+</RedesignLayout>
 
 <script src="https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js" is:inline></script>
 <script is:inline define:vars={{ BB_FORM_ID }}>
@@ -45,6 +47,7 @@ const BB_FORM_ID = '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b';
 
 <style>
   .donate-head { padding-bottom: var(--space-8); }
+  .donate-head :global(.donate-leaf) { width: 120px; margin: 0 auto -48px; color: #cfe0c6; opacity: .55; transform: rotate(-12deg); }
   .donate-head h1 { color: var(--color-green); }
   .donate-sub { color: var(--color-ink-soft); max-width: 56ch; margin: 0 auto; line-height: 1.7; }
   .donate-form-band { padding-top: var(--space-8); }

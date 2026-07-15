@@ -1,20 +1,21 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 
 // Real downloadable form from favorintl.org/connect-support/donate-now
 const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-transfer-form-2022-updated-10.25-.pdf';
 ---
-<PageLayout
+<RedesignLayout
   title="Stocks, Crypto, and Non-Cash Giving"
   description="Donate appreciated stock, cryptocurrency, real estate, or other non-cash assets to Favor International."
 >
   <PageHero
     label="Non-cash giving"
     title="Stocks. Crypto. Real estate. Vehicles."
-    promise="Non-cash gifts are often the most tax-efficient way to give. We will route them with care."
+    promise="A non-cash gift may fit your financial plan. Confirm the asset and current transfer route with the team before you send it."
     image="/images/ministry-medical-clinic.jpg"
     imageAlt="Partners gathering"
     variant="split"
@@ -22,14 +23,11 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
 
   <section class="band band--white">
     <div class="container">
-      <header class="nc-head">
-        <p class="label">Asset types we accept</p>
-        <h2>How to send each.</h2>
-      </header>
+      <LeafHeading label="Asset types" title="Start with the asset, then confirm the route." intro="Complex gifts are reviewed individually. Contact the team before transferring an asset and never email account numbers, private keys, or other sensitive financial information." />
       <div class="acard-grid">
         <article class="acard has-texture">
           <h3>Appreciated stock</h3>
-          <p>Give appreciated stock and avoid capital gains while deducting full market value. Use our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a> to start.</p>
+          <p>Appreciated stock may offer tax advantages depending on your circumstances. Review the gift with your adviser and use our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a> to begin.</p>
         </article>
         <article class="acard has-texture">
           <h3>Cryptocurrency</h3>
@@ -47,16 +45,27 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     </div>
   </section>
 
-  <CtaBand
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading label="Before you transfer" title="Three steps protect you and the ministry." leaves={false} />
+      <ol class="asset-steps">
+        <li><strong>Ask.</strong><span>Contact Favor to confirm that the asset can be accepted and receive the current routing instructions.</span></li>
+        <li><strong>Review.</strong><span>Consult your own tax, legal, or financial adviser about valuation and treatment.</span></li>
+        <li><strong>Identify.</strong><span>Tell Favor when the transfer is initiated so the team can identify and acknowledge the gift.</span></li>
+      </ol>
+      <p class="asset-disclaimer">Favor does not provide legal, tax, or financial advice. The donor and the donor's advisers are responsible for valuation and personal tax decisions.</p>
+    </div>
+  </section>
+
+  <RdCta
     heading="Start the non-cash gift."
-    body="Email the executive team. We will reply within one business day with the right routing form."
+    body="Email the executive team to confirm whether the asset can be accepted and request the current routing form."
     ctaLabel="Start the gift"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Non-cash gift`}
     image="/images/field-2026/bibles-2.webp"
     imageAlt="Bibles staged for distribution"
-    variant="gold"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .nc-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
@@ -69,4 +78,10 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
   .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
   .acard:nth-child(4n+4) { --accent: var(--color-sage); }
+  .asset-steps { list-style: none; padding: 0; margin: var(--space-8) 0; display: grid; gap: var(--space-4); }
+  .asset-steps li { display: grid; grid-template-columns: 110px 1fr; gap: var(--space-5); padding: var(--space-5); background: var(--color-white); border-radius: var(--rd-radius); box-shadow: var(--rd-shadow); }
+  .asset-steps strong { color: var(--color-green); }
+  .asset-steps span, .asset-disclaimer { color: var(--color-ink-soft); line-height: 1.65; }
+  .asset-disclaimer { font-size: .9rem; text-align: center; }
+  @media (max-width: 560px) { .asset-steps li { grid-template-columns: 1fr; gap: var(--space-2); } }
 </style>

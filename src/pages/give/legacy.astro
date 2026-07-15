@@ -1,13 +1,15 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 
 // Real downloadable form from favorintl.org/connect-support/donate-now
 const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-form.docx.pdf';
 ---
-<PageLayout
+<RedesignLayout
   title="Legacy Giving"
   description="Plan your estate to keep the field moving. Wills, beneficiary designations, and charitable trusts."
 >
@@ -22,10 +24,7 @@ const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-for
 
   <section class="band band--white">
     <div class="container">
-      <header class="lg-head">
-        <p class="label">Three common paths</p>
-        <h2>How most Favor legacy partners give.</h2>
-      </header>
+      <LeafHeading label="Common paths" title="A future gift can take several forms." intro="Begin with the option that fits your estate plan, then review the details with your attorney or financial adviser." />
       <div class="acard-grid">
         <article class="acard has-texture">
           <h3>Bequest by will</h3>
@@ -33,7 +32,7 @@ const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-for
         </article>
         <article class="acard has-texture">
           <h3>Beneficiary designation</h3>
-          <p>Name Favor International as a beneficiary on an IRA, 401(k), or life-insurance policy. Often the most tax-efficient route.</p>
+          <p>Name Favor International as a beneficiary on an IRA, 401(k), or life-insurance policy. Your adviser can explain the tax treatment for your circumstances.</p>
         </article>
         <article class="acard has-texture">
           <h3>Charitable trust</h3>
@@ -47,16 +46,21 @@ const LEGACY_FORM = '/documents/favor-international-legacy-circle-membership-for
     </div>
   </section>
 
-  <CtaBand
-    heading="Send us your intent."
-    body="If you have already named Favor in your estate, please tell us. We will keep it confidential."
+  <RdFeature image="/images/field-2026/evangelism-8.webp" imageAlt="Training the next generation of indigenous leaders" eyebrow="A legacy that keeps moving" heading="Prepare leaders you may never meet." side="right" background="cream" decor="leaf">
+    <p>A legacy gift can help future indigenous pastors, teachers, and missionaries carry the Gospel in their own nations.</p>
+    <p>Favor International is a 501(c)(3) public charity. Legal name and EIN information can be confirmed with the team before documents are finalized.</p>
+    <p class="legacy-note">The information on this page is educational and is not legal, tax, or financial advice. Please consult your own qualified advisers.</p>
+  </RdFeature>
+
+  <RdCta
+    heading="Begin a confidential legacy conversation."
+    body="If you have named Favor in your estate—or are considering it—the team can provide organizational details and the Legacy Circle form."
     ctaLabel="Email the legacy team"
     ctaHref={`mailto:${SITE.emailGeneral}?subject=Legacy gift intent`}
     image="/images/field-2026/evangelism-8.webp"
     imageAlt="Training the next generation of leaders"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .lg-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }

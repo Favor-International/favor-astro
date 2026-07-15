@@ -1,10 +1,11 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import OverlayFeature from '../../components/band/OverlayFeature.astro';
+import RdFeature from '../../components/redesign/RdFeature.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
 import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
 
 const gallery = [
   { src: '/images/field-2026/pbs-10.webp', caption: 'Students in class in Gulu, Uganda' },
@@ -26,7 +27,7 @@ const depth = [
   { name: 'Leadership Training Institute', href: '/impact/education/leadership/', icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>', body: 'Favor’s Leadership Training Institute addresses both in a blend of in-class and hands-on instruction tailored to produce powerful ministers of spiritual and cultural transformation. All our indigenous staff participate in constant training including Bible training, prayer, marriage enrichment, household finances, small business entrepreneurship, and much much more!' },
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Education"
   description="Village Learning Centers, primary and secondary schools, and leadership training: Favor International's education pillar."
 >
@@ -37,7 +38,7 @@ const depth = [
     image="/images/pillar-education.jpg"
     imageAlt="Village learning center in South Sudan"
     ctaLabel="Sponsor a student"
-    ctaHref="/give/specific-project/gulu-primary-school/"
+    ctaHref="/give/specific-project/"
   />
 
   <section class="band band--white">
@@ -55,7 +56,7 @@ const depth = [
     </div>
   </section>
 
-  <OverlayFeature
+  <RdFeature
     image="/images/field-2026/vlc-4.webp"
     imageAlt="A village learning center class in Jondoru"
     eyebrow="On the ground"
@@ -64,14 +65,11 @@ const depth = [
   >
     <p>Every student photo in this section is from a real classroom in northern Uganda, South Sudan, or Ethiopia. The field teams publish a new field report most weeks. Each one is a named teacher, a named village, and an outcome they can stand behind.</p>
     <p><a href="/stories/">See stories from the field &rarr;</a></p>
-  </OverlayFeature>
+  </RdFeature>
 
   <section class="band band--cream">
     <div class="container">
-      <header class="ed-head">
-        <p class="label">Next generation leadership</p>
-        <h2>From letters to leaders, program by program.</h2>
-      </header>
+      <LeafHeading label="Next generation leadership" title="From first letters to leaders." intro="A connected pathway brings learning within walking distance, carries students through school, and prepares indigenous leaders to teach the next generation." />
       <div class="acard-grid acard-grid--2">
         {depth.map((d) => (
           <a class="acard acard--link has-texture" href={d.href}>
@@ -87,10 +85,7 @@ const depth = [
 
   <section class="band band--white">
     <div class="container">
-      <header class="band__header">
-        <p class="label">From the field</p>
-        <h2>Real classrooms, real children.</h2>
-      </header>
+      <LeafHeading label="From the field" title="Real classrooms, real children." />
       <div class="field-gallery">
         {gallery.map((g) => (
           <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
@@ -103,16 +98,15 @@ const depth = [
 
   <StoryStrip tags={['Children/Youth', 'Skills Development']} heading="Stories from the classrooms." background="cream" />
 
-  <CtaBand
+  <RdCta
     heading="Stand with the schools."
     body="Favor Partners make Village Learning Centers and the primary and secondary schools possible every month. Pick the tier that fits."
     ctaLabel="Become a Favor Partner"
     ctaHref="/give/partner-monthly/"
     image="/images/field-2026/baptism-2.webp"
     imageAlt="Children in a Favor program"
-    variant="green"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
   .ed-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
