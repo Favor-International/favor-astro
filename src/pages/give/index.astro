@@ -59,7 +59,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
         {tiles.map((t) => (
           t.featured ? (
             <div class="give-grid__feature">
-              <OverlayCard href={`/give/${t.slug}/`} image={t.image} kicker="Recommended" title={t.label} desc={t.desc} cta="Start your partnership" ratio="16 / 9" />
+              <OverlayCard href={`/give/${t.slug}/`} image={t.image} kicker="Recommended" title={t.label} desc={t.desc} cta="Start your partnership" ratio="4 / 3" />
             </div>
           ) : (
             <OverlayCard href={`/give/${t.slug}/`} image={t.image} title={t.label} desc={t.desc} cta="Learn the details" ratio="4 / 3" />
@@ -152,12 +152,12 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
 <style>
   .give-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-6);
   }
   @media (max-width: 860px) { .give-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .give-grid { grid-template-columns: 1fr; } }
-  .give-grid__feature { grid-column: span 2; }
+  .give-grid__feature { grid-column: span 1; }
   .give-grid__feature :global(.ocard) { height: 100%; }
   @media (max-width: 540px) { .give-grid__feature { grid-column: span 1; } }
 
