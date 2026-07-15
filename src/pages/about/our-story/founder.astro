@@ -88,6 +88,24 @@ const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?quer
     objectPosition="center 22%"
   />
 
+  <section class="band band--white">
+    <div class="container founder-more">
+      <LeafHeading label="In her own words" title="Get to know Carole&rsquo;s story more." />
+      <div class="founder-videos">
+        {videos.map((v) => (
+          <div class="founder-video">
+            <VideoEmbed id={v.id} title={v.title} />
+            <h3>{v.title}</h3>
+            <p>{v.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="band__cta-row">
+        <a class="btn btn--secondary" href={CAROLE_YOUTUBE} target="_blank" rel="noopener">More talks and interviews on YouTube</a>
+      </p>
+    </div>
+  </section>
+
   <RdFeature
     image="/images/field-2026/carole-3.webp"
     imageAlt="Carole Ward, Founder of Favor International"
@@ -147,19 +165,6 @@ const CAROLE_YOUTUBE = 'https://www.youtube.com/c/FavorInternational/search?quer
 
   <section class="band band--white">
     <div class="container founder-more">
-      <LeafHeading label="In her own words" title="Get to know Carole&rsquo;s story more." />
-      <div class="founder-videos">
-        {videos.map((v) => (
-          <div class="founder-video">
-            <VideoEmbed id={v.id} title={v.title} />
-            <h3>{v.title}</h3>
-            <p>{v.desc}</p>
-          </div>
-        ))}
-      </div>
-      <p class="band__cta-row">
-        <a class="btn btn--secondary" href={CAROLE_YOUTUBE} target="_blank" rel="noopener">More talks and interviews on YouTube</a>
-      </p>
       <div class="founder-book rd-card">
         <h3>Read the whole story.</h3>
         <p>Two books tell it in full: <em>Send Me Where No One Wants to Go</em> (2017), the Carole Ward story, and <em>Lord Send Us Where No One Wants to Go</em> (2025), the story of the indigenous missionary army that followed. Get a free copy of either or each today.</p>
