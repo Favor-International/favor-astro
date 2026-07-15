@@ -36,13 +36,13 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     <div class="container container--narrow">
       <LeafHeading label="More ways to give once" title="Choose the route that works for you." intro="Never email bank, card, or brokerage account numbers. Contact the team first for wire or asset-transfer instructions." leaves={false} />
       <ul class="give-methods">
-        <li><span class="method-icon" aria-hidden="true">✉</span><span><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</span></li>
+        <li><span class="method-icon method-icon--check" aria-hidden="true">✉</span><span><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</span></li>
         <li><span class="method-icon method-icon--zelle" aria-hidden="true">Z</span><span><strong>Zelle.</strong> Send to admin@favorintl.org.</span></li>
         <li><span class="method-icon method-icon--cash" aria-hidden="true">$</span><span><strong>Cash App.</strong> Send to the CashTag $FavorInternational.</span></li>
-        <li><span class="method-icon" aria-hidden="true">↔</span><span><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</span></li>
-        <li><span class="method-icon" aria-hidden="true">↗</span><span><strong>Stock and securities.</strong> Give appreciated stock with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>.</span></li>
+        <li><span class="method-icon method-icon--wire" aria-hidden="true">↔</span><span><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</span></li>
+        <li><span class="method-icon method-icon--stock" aria-hidden="true">↗</span><span><strong>Stock and securities.</strong> Give appreciated stock with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>.</span></li>
         <li><span class="method-icon method-icon--paypal" aria-hidden="true">P</span><span><strong>PayPal, ACH, and credit card.</strong> All available through our online giving portal.</span></li>
-        <li><span class="method-icon" aria-hidden="true">♥</span><span><strong>Designate or dedicate.</strong> Designate your gift, write a note, or honor someone with a dedicated gift through the online giving portal.</span></li>
+        <li><span class="method-icon method-icon--dedicate" aria-hidden="true">♥</span><span><strong>Designate or dedicate.</strong> Designate your gift, write a note, or honor someone with a dedicated gift through the online giving portal.</span></li>
       </ul>
     </div>
   </section>
@@ -94,6 +94,10 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
   .method-icon--zelle { background: #6d1ed4; color: white; }
   .method-icon--cash { background: #00c244; color: white; }
   .method-icon--paypal { background: #073b9a; color: white; font-style: italic; }
+  .method-icon--check { background: #e4a62a; color: #173d20; }
+  .method-icon--wire { background: #287a68; color: white; }
+  .method-icon--stock { background: #c6603d; color: white; }
+  .method-icon--dedicate { background: #b74f72; color: white; }
   @media (max-width: 720px) { .give-methods { grid-template-columns: 1fr; } }
 
   .faq { margin-top: var(--space-6); display: grid; gap: var(--space-3); }
