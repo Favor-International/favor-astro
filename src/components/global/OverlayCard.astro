@@ -28,12 +28,12 @@ const Tag = href ? 'a' : 'div';
   </span>
 </Tag>
 <style>
-  .ocard { display: flex; flex-direction: column; height: 100%; overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-card); text-decoration: none; color: inherit; background: var(--color-white); transition: transform 220ms ease, box-shadow 220ms ease; }
-  a.ocard:hover { transform: translateY(-5px); box-shadow: 0 22px 52px rgba(31, 58, 26, .14); }
-  .ocard__media { position: relative; display: block; aspect-ratio: var(--ocard-ratio); overflow: hidden; background: var(--color-sage-light); }
+  .ocard { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; background: transparent; transition: transform 220ms ease; }
+  a.ocard:hover { transform: translateY(-5px); }
+  .ocard__media { position: relative; display: block; aspect-ratio: var(--ocard-ratio); overflow: hidden; border-radius:var(--rd-radius); background: var(--color-sage-light); }
   .ocard__img { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; transition: transform 320ms ease; }
   a.ocard:hover .ocard__img { transform: scale(1.05); }
-  .ocard__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: var(--space-3); padding: var(--space-6); }
+  .ocard__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: var(--space-3); padding: var(--space-5) var(--space-1) 0; }
   .ocard__kicker { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-light); }
   .ocard__kicker--photo { position: absolute; left: var(--space-4); top: var(--space-4); padding: 7px 13px; border-radius: var(--radius-pill); background: rgba(31,58,26,.86); color: var(--color-white); backdrop-filter: blur(4px); }
   .ocard__title { font-family: var(--font-sans); font-weight: 800; font-size: 1.2rem; line-height: 1.25; color: var(--color-green); }

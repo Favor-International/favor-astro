@@ -13,7 +13,7 @@ import StoryStrip from '../../components/band/StoryStrip.astro';
 const programs = [
   { name: 'Portable Bible Schools (PBS)', href: '/impact/evangelism-discipleship/portable-bible-schools/', image: '/images/field-2026/pbs-7.webp', desc: 'Favor’s Portable Bible Schools mobilize new disciple-makers into physical and spiritual war zones. Two-month discipleship training that Favor brings to rural villages, always moving further outward into the unreached tribes.' },
   { name: 'God’s Institute for Transformation (GIFT)', href: '/impact/evangelism-discipleship/gift-institute/', image: '/images/field-2026/street-outreach-5.webp', desc: 'A home and family for youth who need Jesus with skin on. A 24/7 family and a holistic solution to a total need: mentoring, food, shelter, medical, clothing, education, vocational skills and opportunities, salvation and discipleship.' },
-  { name: 'House of Prayer', href: '/pray/', image: '/images/ministry-house-of-prayer.jpg', desc: 'Our Houses of Prayer in Gulu, Uganda, and in Juba, South Sudan were our first operational centers. Prayer always comes first and then everything else follows.' },
+  { name: 'House of Prayer', href: '#house-of-prayer', image: '/images/ministry-house-of-prayer.jpg', desc: 'Our Houses of Prayer in Gulu, Uganda, and in Juba, South Sudan were our first operational centers. Prayer always comes first and then everything else follows.' },
   { name: 'Favor FM (Christian Radio)', href: '/impact/evangelism-discipleship/radio/', image: '/images/ministry-radio.jpg', desc: 'Favor operates two radio stations that cover Gulu, Uganda, and Juba, South Sudan, reaching people in the right place at the right time. We have become one of the highest preferred radio stations in the regions of both nations.' },
 ];
 
@@ -54,8 +54,8 @@ const gallery = [
     </div>
   </section>
 
-  <section class="band band--green wd-motto">
-    <div class="container">
+  <section class="band band--white wd-motto-wrap">
+    <div class="container wd-motto">
       <p class="wd-motto__tag">Bibles instead of bullets</p>
       <p class="wd-motto__body">In South Sudan, we have the motto "Bibles instead of bullets", and as was the case in Uganda, God's Word helps stop violence, child abductions, cattle raiding, and many times has been our protection.</p>
       <blockquote class="wd-motto__verse">
@@ -93,7 +93,7 @@ const gallery = [
     <p>A former Mundari cattle warrior, now a Favor field pastor leading Portable Bible School classes among his own people.</p>
   </RdFeature>
 
-  <section class="band band--white">
+  <section class="band band--white" id="house-of-prayer">
     <div class="container container--narrow">
       <LeafHeading label="The programs in depth" title="How the work happens on the ground." leaves={false} />
       <div class="faq ed-depth">
@@ -148,10 +148,10 @@ const gallery = [
 
   .ed-programs { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
   @media (max-width: 760px) { .ed-programs { grid-template-columns: 1fr; } }
-  .ed-prog { background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform 180ms, box-shadow 180ms; }
-  .ed-prog:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
-  .ed-prog :global(.figure__img) { border-radius: 0; box-shadow: none; }
-  .ed-prog__body { padding: var(--space-6); }
+  .ed-prog { display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform 180ms; }
+  .ed-prog:hover { transform: translateY(-4px); }
+  .ed-prog :global(.figure__img) { box-shadow: none; }
+  .ed-prog__body { padding: var(--space-5) var(--space-1) 0; }
   .ed-prog__body h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
   .ed-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
   .ed-prog__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
@@ -168,10 +168,11 @@ const gallery = [
   .ed-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); max-width: 1040px; margin: 0 auto; }
   @media (max-width: 560px) { .ed-gallery { grid-template-columns: 1fr; } }
   .ed-tile { position: relative; margin: 0; aspect-ratio: 3 / 2; background-size: cover; background-position: center 30%; border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); }
-  .ed-tile figcaption { position: absolute; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); display: flex; align-items: center; min-height: 52px; padding: 12px 16px; border-radius: 12px; background: rgba(20,30,18,.78); color: #fff; font-weight: 700; font-size: 1rem; line-height: 1.35; text-shadow: 0 1px 8px rgba(0,0,0,.4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+  .ed-tile::after { content: ''; position: absolute; inset: 38% 0 0; background: linear-gradient(transparent, rgba(13,28,12,.82)); }
+  .ed-tile figcaption { position: absolute; z-index: 1; left: var(--space-5); right: var(--space-5); bottom: var(--space-5); color: #fff; font-weight: 700; font-size: 1rem; line-height: 1.35; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
 
-  .wd-motto { text-align: center; }
-  .wd-motto .container { max-width: 820px; }
+  .wd-motto-wrap { padding-block: clamp(44px, 6vw, 84px); }
+  .wd-motto { max-width: min(1120px, calc(100% - 32px)); padding: clamp(56px, 7vw, 96px) clamp(24px, 7vw, 96px); border-radius: clamp(24px, 3vw, 42px); background: var(--color-green); text-align: center; }
   .wd-motto__tag { font-family: var(--font-sans); font-weight: 800; font-size: clamp(1.8rem, 4.5vw, 2.8rem); letter-spacing: -0.01em; color: var(--color-gold-light); margin: 0; }
   .wd-motto__body { margin: var(--space-6) auto 0; max-width: 64ch; line-height: 1.8; color: color-mix(in srgb, var(--color-white) 88%, transparent); }
   .wd-motto__verse { margin: var(--space-8) auto 0; border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: clamp(1.15rem, 2.6vw, 1.5rem); line-height: 1.5; color: var(--color-white); }

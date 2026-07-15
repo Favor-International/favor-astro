@@ -35,20 +35,32 @@ const assetFaqs = [
       <LeafHeading label="Asset types" title="Start with the asset, then confirm the route." intro="Complex gifts are reviewed individually. Contact the team before transferring an asset and never email account numbers, private keys, or other sensitive financial information." />
       <div class="acard-grid">
         <article class="acard has-texture">
+          <img src="/images/field-2026/education-5.webp" alt="A long-term investment in Favor's field work" loading="lazy" />
+          <div class="acard__body">
           <h3>Appreciated stock</h3>
           <p>Appreciated stock may offer tax advantages depending on your circumstances. Review the gift with your adviser and use our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a> to begin.</p>
+          </div>
         </article>
         <article class="acard has-texture">
+          <img src="/images/field-2026/radio-3.webp" alt="Technology carrying Favor's work further" loading="lazy" />
+          <div class="acard__body">
           <h3>Cryptocurrency</h3>
           <p>Email {SITE.emailGeneral} for current instructions to give cryptocurrency.</p>
+          </div>
         </article>
         <article class="acard has-texture">
+          <img src="/images/field-2026/church-6.webp" alt="A building supporting ministry in the field" loading="lazy" />
+          <div class="acard__body">
           <h3>Real estate, vehicles, equipment</h3>
           <p>Non-cash assets are handled case-by-case. Start with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>, or email {SITE.emailGeneral} first.</p>
+          </div>
         </article>
         <article class="acard has-texture">
+          <img src="/images/field-2026/gift-4.webp" alt="Partners multiplying their impact together" loading="lazy" />
+          <div class="acard__body">
           <h3>Matching gifts</h3>
           <p>Most large employers will match charitable gifts. Search your benefits portal for "Favor International" and EIN {SITE.ein}.</p>
+          </div>
         </article>
       </div>
     </div>
@@ -85,7 +97,9 @@ const assetFaqs = [
   .nc-head { max-width: 720px; margin: 0 auto var(--space-10); text-align: center; }
   .acard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
   @media (max-width: 760px) { .acard-grid { grid-template-columns: 1fr; } }
-  .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .acard { background:transparent; }
+  .acard img { display:block; width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:var(--rd-radius); }
+  .acard__body { padding:var(--space-5) var(--space-1) 0; }
   .acard h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
   .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
   .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }

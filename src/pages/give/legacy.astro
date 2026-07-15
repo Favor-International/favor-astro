@@ -34,18 +34,22 @@ const legacyFaqs = [
       <LeafHeading label="Common paths" title="A future gift can take several forms." intro="Begin with the option that fits your estate plan, then review the details with your attorney or financial adviser." />
       <div class="acard-grid">
         <article class="acard has-texture">
+          <span class="acard__icon" aria-hidden="true">✎</span>
           <h3>Bequest by will</h3>
           <p>A specific dollar amount or a percentage of your estate, named in your will. Most common, easiest to set up. Talk to your attorney.</p>
         </article>
         <article class="acard has-texture">
+          <span class="acard__icon" aria-hidden="true">◎</span>
           <h3>Beneficiary designation</h3>
           <p>Name Favor International as a beneficiary on an IRA, 401(k), or life-insurance policy. Your adviser can explain the tax treatment for your circumstances.</p>
         </article>
         <article class="acard has-texture">
+          <span class="acard__icon" aria-hidden="true">⌂</span>
           <h3>Charitable trust</h3>
           <p>Charitable remainder or lead trusts can provide income to you or family and route the remainder to Favor. Talk to a CFP first.</p>
         </article>
         <article class="acard has-texture">
+          <span class="acard__icon" aria-hidden="true">∞</span>
           <h3>The Legacy Circle</h3>
           <p>Tell us your plans and join the Legacy Circle. Download the <a href={LEGACY_FORM} target="_blank" rel="noopener">Legacy Circle Membership Form</a> to get started.</p>
         </article>
@@ -59,9 +63,14 @@ const legacyFaqs = [
     <p class="legacy-note">The information on this page is educational and is not legal, tax, or financial advice. Please consult your own qualified advisers.</p>
   </RdFeature>
 
-  <section class="band band--white"><div class="container container--narrow">
-    <LeafHeading label="Prepare the conversation" title="Information to confirm with Favor and your adviser." intro="Before final documents are signed, make sure the organization, purpose, and contact details are current." />
-    <ul class="legacy-checklist"><li>Favor International’s current legal name and mailing address.</li><li>Federal tax identification number: {SITE.ein}.</li><li>The type of gift and whether it is a fixed amount, percentage, remainder, or beneficiary designation.</li><li>Whether the gift is unrestricted or carries an agreed purpose.</li><li>Who your executor, trustee, plan administrator, or adviser should contact.</li></ul>
+  <section class="band band--white"><div class="container legacy-prep">
+    <img src="/images/hero-legacy-history.jpg" alt="Generations gathered in Favor's ministry history" loading="lazy" />
+    <div>
+      <p class="label">Prepare the conversation</p>
+      <h2>Information to confirm with Favor and your adviser.</h2>
+      <p class="legacy-prep__intro">Before final documents are signed, make sure the organization, purpose, and contact details are current.</p>
+      <ul class="legacy-checklist"><li><strong>Legal identity:</strong> Favor International’s current legal name and mailing address.</li><li><strong>Tax identification:</strong> Federal EIN {SITE.ein}.</li><li><strong>Gift structure:</strong> Fixed amount, percentage, remainder, or beneficiary designation.</li><li><strong>Purpose:</strong> Whether the gift is unrestricted or carries an agreed purpose.</li><li><strong>Contact:</strong> Who your executor, trustee, plan administrator, or adviser should contact.</li></ul>
+    </div>
   </div></section>
 
   <section class="band band--cream"><div class="container container--narrow">
@@ -85,15 +94,22 @@ const legacyFaqs = [
   .acard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
   @media (max-width: 600px) { .acard-grid { grid-template-columns: 1fr; } }
   .acard { background: var(--color-white); border-radius: var(--radius-card); padding: var(--space-6); border: 2px solid var(--accent, var(--color-gold)); box-shadow: var(--shadow-soft); }
+  .acard__icon { display:grid; place-items:center; width:48px; height:48px; margin-bottom:var(--space-5); border-radius:14px; background:var(--color-sage-light); color:var(--color-green); font-size:1.35rem; font-weight:900; }
   .acard h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.1rem; }
   .acard p { margin: 0; color: var(--color-ink-soft); line-height: 1.6; }
   .acard:nth-child(4n+1) { --accent: var(--color-gold-deep); }
   .acard:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .acard:nth-child(4n+3) { --accent: var(--color-terracotta); }
   .acard:nth-child(4n+4) { --accent: var(--color-sage); }
-  .legacy-checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
-  .legacy-checklist li { position: relative; padding: var(--space-4) var(--space-5) var(--space-4) 52px; border-radius: var(--rd-radius); background: var(--color-cream); color: var(--color-ink-soft); line-height: 1.6; }
-  .legacy-checklist li::before { content: '✓'; position: absolute; left: 20px; color: var(--color-green); font-weight: 900; }
+  .legacy-prep { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(36px,6vw,84px); align-items:center; }
+  .legacy-prep > img { display:block; width:100%; height:100%; min-height:560px; object-fit:cover; border-radius:var(--rd-radius); }
+  .legacy-prep h2 { margin:0 0 var(--space-4); color:var(--color-green); }
+  .legacy-prep__intro { color:var(--color-ink-soft); line-height:1.7; }
+  .legacy-checklist { list-style: none; padding: 0; margin:var(--space-6) 0 0; display: grid; gap: var(--space-3); }
+  .legacy-checklist li { position: relative; padding: var(--space-3) 0 var(--space-3) 38px; border-bottom:1px solid var(--color-border); color: var(--color-ink-soft); line-height: 1.6; }
+  .legacy-checklist li::before { content: '✓'; position: absolute; left:0; color: var(--color-green); font-weight: 900; }
+  .legacy-checklist strong { color:var(--color-green); }
+  @media(max-width:820px){.legacy-prep{grid-template-columns:1fr}.legacy-prep > img{min-height:0;aspect-ratio:16/10}}
   .legacy-faq { display: grid; gap: var(--space-3); }
   .legacy-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); background: var(--color-white); }
   .legacy-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }

@@ -41,10 +41,13 @@ const internationalFaqs = [
   />
 
   <section class="band band--white">
-    <div class="container container--narrow intl-intro">
-      <p class="label">Beyond the United States</p>
-      <h2>The Gospel crosses borders. So can your gift.</h2>
-      <p>Favor International is a registered beneficiary with TrustBridge Global, a giving network that lets partners outside the United States give with a tax receipt in their own country. Pick your route below; your gift reaches the same field teams in Uganda, South Sudan, Chad, and beyond.</p>
+    <div class="container intl-intro">
+      <img src="/images/field-2026/pbs-10.webp" alt="Favor leaders gathered from across nations" loading="lazy" />
+      <div>
+        <p class="label">Beyond the United States</p>
+        <h2>The Gospel crosses borders. So can your gift.</h2>
+        <p>Favor International is a registered beneficiary with TrustBridge Global, a giving network that lets partners outside the United States give with a tax receipt in their own country. Pick your route below; your gift reaches the same field teams in Uganda, South Sudan, Chad, and beyond.</p>
+      </div>
     </div>
   </section>
 
@@ -98,8 +101,11 @@ const internationalFaqs = [
 </RedesignLayout>
 
 <style>
-  .intl-intro { text-align: center; }
-  .intl-intro p:last-child { margin: var(--space-5) auto 0; color: var(--color-ink-soft); line-height: 1.8; max-width: 64ch; }
+  .intl-intro { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:clamp(36px,6vw,84px); align-items:center; }
+  .intl-intro img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:var(--rd-radius); }
+  .intl-intro h2 { margin:0 0 var(--space-5); }
+  .intl-intro p:last-child { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
+  @media (max-width:760px){.intl-intro{grid-template-columns:1fr}.intl-intro img{aspect-ratio:16/10}}
 
   .intl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 1100px; margin: 0 auto; }
   @media (max-width: 1000px) { .intl-grid { grid-template-columns: repeat(2, 1fr); } }

@@ -126,14 +126,13 @@ const programs = [
   .cd-intro p:last-child { margin-bottom: 0; }
   .cd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
   @media (max-width: 860px) { .cd-grid { grid-template-columns: 1fr; } }
-  .cd-card { background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
-  .cd-card__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; }
-  .cd-card__body { display: block; padding: var(--space-6); }
-  .cd-card h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; text-align: center; }
-  .cd-card__more { display: block; text-align: center; }
+  .cd-card { display: flex; flex-direction: column; }
+  .cd-card__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; border-radius:var(--rd-radius); }
+  .cd-card__body { display: block; padding: var(--space-5) var(--space-1) 0; }
+  .cd-card h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
   .cd-card p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
-  .cd-card--link { text-decoration: none; color: inherit; display: block; transition: transform 180ms, box-shadow 180ms; }
-  .cd-card--link:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
+  .cd-card--link { text-decoration: none; color: inherit; display: block; transition: transform 180ms; }
+  .cd-card--link:hover { transform: translateY(-4px); }
   .cd-card__more { display: inline-block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
   .cd-card--link:hover .cd-card__more { color: var(--color-green); }
   .cd-cta-row { text-align: center; margin-top: var(--space-16); }
