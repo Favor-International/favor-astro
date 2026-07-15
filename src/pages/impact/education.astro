@@ -8,10 +8,10 @@ import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
 
 const gallery = [
-  { src: '/images/field-2026/pbs-10.webp', caption: 'Students in class in Gulu, Uganda' },
-  { src: '/images/field-2026/education-6.webp', caption: 'A new Favor school under construction' },
-  { src: '/images/stories/student-on-a-mission.jpg', caption: 'A Favor student carrying the Gospel' },
-  { src: '/images/field-2026/education-7.webp', caption: 'Graduation day for a Bible-school cohort' },
+  { src: '/images/field-2026/pbs-10.webp', caption: 'Students in class in Gulu, Uganda', position: 'center 32%' },
+  { src: '/images/field-2026/education-6.webp', caption: 'A new Favor school under construction', position: 'center 38%' },
+  { src: '/images/stories/student-on-a-mission.jpg', caption: 'A Favor student carrying the Gospel', position: 'center 34%' },
+  { src: '/images/field-2026/education-7.webp', caption: 'Graduation day for a Bible-school cohort', position: 'center 35%' },
 ];
 
 const programs = [
@@ -88,7 +88,7 @@ const depth = [
       <LeafHeading label="From the field" title="Real classrooms, real children." />
       <div class="field-gallery">
         {gallery.map((g) => (
-          <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
+          <figure class="field-tile" style={`background-image:url(${g.src});background-position:${g.position}`} role="img" aria-label={g.caption}>
             <figcaption>{g.caption}</figcaption>
           </figure>
         ))}

@@ -62,7 +62,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
               <OverlayCard href={`/give/${t.slug}/`} image={t.image} kicker="Recommended" title={t.label} desc={t.desc} cta="Start your partnership" ratio="16 / 9" />
             </div>
           ) : (
-            <OverlayCard href={`/give/${t.slug}/`} image={t.image} title={t.label} desc={t.desc} cta="Learn the details" ratio="4 / 5" />
+            <OverlayCard href={`/give/${t.slug}/`} image={t.image} title={t.label} desc={t.desc} cta="Learn the details" ratio="4 / 3" />
           )
         ))}
       </div>
@@ -158,10 +158,8 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
   @media (max-width: 860px) { .give-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .give-grid { grid-template-columns: 1fr; } }
   .give-grid__feature { grid-column: span 2; }
-  /* Let the featured card fill its row height so it lines up with the taller
-     4/5 card beside it instead of sitting short. */
-  .give-grid__feature :global(.ocard) { aspect-ratio: auto !important; height: 100%; min-height: 100%; }
-  @media (max-width: 540px) { .give-grid__feature { grid-column: span 1; } .give-grid__feature :global(.ocard) { aspect-ratio: 4 / 5 !important; } }
+  .give-grid__feature :global(.ocard) { height: 100%; }
+  @media (max-width: 540px) { .give-grid__feature { grid-column: span 1; } }
 
   .tier-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
   .tier-list li {

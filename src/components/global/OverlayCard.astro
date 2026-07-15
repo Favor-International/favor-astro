@@ -16,35 +16,28 @@ export interface Props {
 const { href, image, imageAlt = '', kicker, title, desc, cta, ratio = '4 / 3', objectPosition = 'center 30%' } = Astro.props as Props;
 const Tag = href ? 'a' : 'div';
 ---
-<Tag class="ocard" href={href} style={`aspect-ratio:${ratio};`} aria-label={href ? `${title}` : undefined}>
-  <span class="ocard__img" style={`background-image:url(${image}); background-position:${objectPosition};`} role="img" aria-label={imageAlt || title}></span>
-  <span class="ocard__scrim" aria-hidden="true"></span>
-  <span class="ocard__frost" aria-hidden="true"></span>
+<Tag class="ocard" href={href} style={`--ocard-ratio:${ratio};`} aria-label={href ? `${title}` : undefined}>
+  <span class="ocard__media">
+    <span class="ocard__img" style={`background-image:url(${image}); background-position:${objectPosition};`} role="img" aria-label={imageAlt || title}></span>
+    {kicker && <span class="ocard__kicker ocard__kicker--photo">{kicker}</span>}
+  </span>
   <span class="ocard__body">
-    {kicker && <span class="ocard__kicker">{kicker}</span>}
     <span class="ocard__title">{title}</span>
     {desc && <span class="ocard__desc">{desc}</span>}
     {cta && <span class="ocard__cta">{cta} <span aria-hidden="true">&rarr;</span></span>}
   </span>
 </Tag>
 <style>
-  .ocard { position: relative; display: block; overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-card); text-decoration: none; color: #fff; background: var(--color-green-deep); }
+  .ocard { display: flex; flex-direction: column; height: 100%; overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-card); text-decoration: none; color: inherit; background: var(--color-white); transition: transform 220ms ease, box-shadow 220ms ease; }
+  a.ocard:hover { transform: translateY(-5px); box-shadow: 0 22px 52px rgba(31, 58, 26, .14); }
+  .ocard__media { position: relative; display: block; aspect-ratio: var(--ocard-ratio); overflow: hidden; background: var(--color-sage-light); }
   .ocard__img { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; transition: transform 320ms ease; }
   a.ocard:hover .ocard__img { transform: scale(1.05); }
-  .ocard__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,30,18,0) 22%, rgba(20,30,18,0.42) 55%, rgba(20,30,18,0.82) 85%, rgba(20,30,18,0.92) 100%); }
-  /* Progressive blur under the text so captions read on any photo. */
-  .ocard__frost {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 64%;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.15) 34%, rgba(0,0,0,0.5) 60%, black 90%);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.15) 34%, rgba(0,0,0,0.5) 60%, black 90%);
-    pointer-events: none;
-  }
-  .ocard__body { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 4px; padding: var(--space-6) var(--space-6) var(--space-5); }
+  .ocard__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: var(--space-3); padding: var(--space-6); }
   .ocard__kicker { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-light); }
-  .ocard__title { font-family: var(--font-sans); font-weight: 800; font-size: 1.2rem; line-height: 1.2; color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,0.45); }
-  .ocard__desc { font-size: 0.92rem; line-height: 1.45; color: color-mix(in srgb, #fff 88%, transparent); }
-  .ocard__cta { margin-top: var(--space-2); font-weight: 800; font-size: 0.85rem; color: var(--color-gold); }
-  a.ocard:hover .ocard__cta { color: var(--color-gold-light); }
+  .ocard__kicker--photo { position: absolute; left: var(--space-4); top: var(--space-4); padding: 7px 13px; border-radius: var(--radius-pill); background: rgba(31,58,26,.86); color: var(--color-white); backdrop-filter: blur(4px); }
+  .ocard__title { font-family: var(--font-sans); font-weight: 800; font-size: 1.2rem; line-height: 1.25; color: var(--color-green); }
+  .ocard__desc { font-size: 0.95rem; line-height: 1.6; color: var(--color-ink-soft); }
+  .ocard__cta { margin-top: auto; padding-top: var(--space-2); font-weight: 800; font-size: 0.85rem; color: var(--color-gold-deep); }
+  a.ocard:hover .ocard__cta { color: var(--color-green); }
 </style>

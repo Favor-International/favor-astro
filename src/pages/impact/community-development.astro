@@ -8,10 +8,10 @@ import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import StoryStrip from '../../components/band/StoryStrip.astro';
 
 const gallery = [
-  { src: '/images/field/medical-uganda.webp', caption: 'A Favor medical clinic in Uganda' },
-  { src: '/images/field/baptism-south-sudan.webp', caption: 'A baptism on the water in South Sudan' },
-  { src: '/images/field/church-dedication-uganda.webp', caption: 'A church gathered for dedication in Uganda' },
-  { src: '/images/field-2026/church-2.webp', caption: 'Believers gathering where a church was planted' },
+  { src: '/images/field/medical-uganda.webp', caption: 'A Favor medical clinic in Uganda', position: 'center 28%' },
+  { src: '/images/field/baptism-south-sudan.webp', caption: 'A baptism on the water in South Sudan', position: 'center 28%' },
+  { src: '/images/field/church-dedication-uganda.webp', caption: 'A church gathered for dedication in Uganda', position: 'center 30%' },
+  { src: '/images/field-2026/church-2.webp', caption: 'Believers gathering where a church was planted', position: 'center 28%' },
 ];
 
 const programs = [
@@ -97,7 +97,7 @@ const programs = [
       <LeafHeading label="From the field" title="Healing, planting, baptizing." />
       <div class="field-gallery">
         {gallery.map((g) => (
-          <figure class="field-tile" style={`background-image:url(${g.src})`} role="img" aria-label={g.caption}>
+          <figure class="field-tile" style={`background-image:url(${g.src});background-position:${g.position}`} role="img" aria-label={g.caption}>
             <figcaption>{g.caption}</figcaption>
           </figure>
         ))}
