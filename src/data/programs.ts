@@ -229,8 +229,8 @@ export const PROGRAMS: Program[] = [
       text: '"So then neither he who plants is anything, nor he who waters, but God who gives the increase. Now he who plants and he who waters are one, and each one will receive his own reward according to his own labor. For we are God’s fellow workers; you are God’s field, you are God’s building."',
       attribution: 'The Apostle Paul, 1 Corinthians 3:7-9, NKJV',
     },
-    bodyImage: '/images/field-2026/church-6.webp',
-    bodyAlt: 'Believers gathered for worship',
+    bodyImage: '/images/field-2026/church-3.webp',
+    bodyAlt: 'The interior of a community church under construction',
   },
   {
     pillar: 'community-development',
