@@ -214,8 +214,8 @@ const programFaqs = [
     <section class="band band--cream">
       <div class="container">
         <LeafHeading label="In the field" title={`${program.name}, seen up close.`} intro="More than one frame is needed to understand the people, places, and daily work behind this ministry." />
-        <div class="prog-gallery">
-          {sectionGallery.map((image, index) => <figure class:list={['prog-gallery__item', index === 0 && 'prog-gallery__item--wide']}><img src={image} alt={`${program.name} field moment ${index + 1}`} loading="lazy" /></figure>)}
+        <div class:list={['prog-gallery', sectionGallery.length === 2 && 'prog-gallery--two']}>
+          {sectionGallery.map((image, index) => <figure class:list={['prog-gallery__item', sectionGallery.length !== 2 && index === 0 && 'prog-gallery__item--wide']}><img src={image} alt={`${program.name} field moment ${index + 1}`} loading="lazy" /></figure>)}
         </div>
       </div>
     </section>
@@ -324,7 +324,11 @@ const programFaqs = [
   .prog-gallery__item--wide { grid-column:span 2; grid-row:span 2; }
   .prog-gallery img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 300ms ease; }
   .prog-gallery__item:hover img { transform:scale(1.03); }
-  @media(max-width:720px){.prog-gallery{grid-template-columns:1fr;grid-auto-rows:auto}.prog-gallery__item--wide{grid-column:auto;grid-row:auto}.prog-gallery img{aspect-ratio:16/10}}
+  .prog-gallery--two { grid-template-columns:repeat(12,1fr); grid-auto-rows:auto; gap:0; align-items:start; }
+  .prog-gallery--two .prog-gallery__item { aspect-ratio:16/10; }
+  .prog-gallery--two .prog-gallery__item:first-child { grid-column:1 / 8; }
+  .prog-gallery--two .prog-gallery__item:last-child { grid-column:6 / 13; margin-top:clamp(72px,8vw,124px); }
+  @media(max-width:720px){.prog-gallery{grid-template-columns:1fr;grid-auto-rows:auto}.prog-gallery__item--wide{grid-column:auto;grid-row:auto}.prog-gallery img{aspect-ratio:16/10}.prog-gallery--two{display:grid;gap:var(--space-5)}.prog-gallery--two .prog-gallery__item:first-child,.prog-gallery--two .prog-gallery__item:last-child{grid-column:1;margin-top:0}.prog-gallery--two .prog-gallery__item{aspect-ratio:auto}}
   .prog-faq { display: grid; gap: var(--space-3); }
   .prog-faq details { background: var(--color-white); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); padding: var(--space-5) var(--space-6); box-shadow: 0 2px 10px rgba(31,58,26,.05); }
   .prog-faq summary { cursor: pointer; list-style: none; color: var(--color-green); font-weight: 800; display: flex; justify-content: space-between; gap: var(--space-4); }
