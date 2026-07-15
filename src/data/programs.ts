@@ -203,7 +203,7 @@ export const PROGRAMS: Program[] = [
       text: '"He who has pity on the poor lends to the Lord, and He will pay back what he has given.... Whoever shuts his ears to the cry of the poor will also cry himself and not be heard."',
       attribution: 'Proverbs 19:17 & 21:13, NKJV',
     },
-    bodyImage: '/images/field-2026/medical-3.webp',
+    bodyImage: '/images/ministry-medical-clinic.jpg',
     bodyAlt: 'Favor medical staff at work',
   },
   {

@@ -52,14 +52,17 @@ const galleryByProgram: Record<string, string[]> = {
   primary: ['/images/field-2026/education-1.webp','/images/field-2026/education-4.webp','/images/field-2026/education-8.webp','/images/field-2026/vlc-2.webp'],
   secondary: ['/images/field-2026/secondary-1.webp','/images/field-2026/secondary-2.webp','/images/field-2026/secondary-3.webp','/images/field-2026/education-7.webp'],
   counseling: ['/images/field-2026/trauma-1.webp','/images/field-2026/trauma-3.webp','/images/field-2026/prayer-4.webp','/images/field-2026/villages-2.webp'],
-  medical: ['/images/field-2026/medical-1.webp','/images/field-2026/medical-2.webp','/images/field-2026/medical-4.webp','/images/field-2026/villages-3.webp'],
+  medical: ['/images/field-2026/medical-2.webp','/images/field/medical-uganda.webp','/images/stories/scraped/medical-center-salvations.jpg','/images/field-2026/villages-3.webp'],
   'church-planting': ['/images/field-2026/church-1.webp','/images/field-2026/church-3.webp','/images/field-2026/church-6.webp','/images/field-2026/baptism-4.webp'],
   construction: ['/images/field-2026/construction-1.webp','/images/field-2026/construction-2.webp','/images/field-2026/construction-3.webp','/images/field-2026/church-7.webp'],
   sustainability: ['/images/field-2026/agriculture-1.webp','/images/field-2026/agriculture-2.webp','/images/field-2026/agriculture-4.webp','/images/field-2026/villages-1.webp'],
   vocation: ['/images/field-2026/vocation-1.webp','/images/field-2026/vocation-2.webp','/images/field-2026/vocation-3.webp','/images/field-2026/education-9.webp'],
   women: ['/images/field-2026/women-1.webp','/images/field-2026/women-2.webp','/images/field-2026/women-3.webp','/images/field-2026/women-4.webp'],
 };
-const programGallery = galleryByProgram[program.slug] || [];
+const programGallery = [...new Set(galleryByProgram[program.slug] || [])]
+  .filter((image) => image !== program.heroImage && image !== program.bodyImage);
+const pathGallery = programGallery.slice(0, 2);
+const sectionGallery = programGallery.slice(2);
 const videoByProgram: Record<string, { id: string; title: string; heading: string; body: string }> = {
   'gift-institute': { id:'xwSVEViFikA', title:"God's Institute for Transformation", heading:'See GIFT leadership training in the field.', body:'Meet the young people and indigenous leaders at the center of this ministry.' },
   centers: { id:'DEydcLqBQW0', title:"Favor's Primary Schools", heading:'See a Favor classroom in motion.', body:'A field film shows the learning environment, teachers, and children more fully than a single photograph can.' },
@@ -156,8 +159,8 @@ const programFaqs = [
       <div class="prog-path">
         <div class="prog-path__media">
           <img src={program.bodyImage} alt={program.bodyAlt} loading="lazy" />
-          {programGallery[0] && <img src={programGallery[0]} alt={`${program.name} in the field`} loading="lazy" />}
-          {programGallery[1] && <img src={programGallery[1]} alt={`${program.name} community moment`} loading="lazy" />}
+          {pathGallery[0] && <img src={pathGallery[0]} alt={`${program.name} in the field`} loading="lazy" />}
+          {pathGallery[1] && <img src={pathGallery[1]} alt={`${program.name} community moment`} loading="lazy" />}
           <span>How it works</span>
         </div>
         <ol class="prog-path__steps">
@@ -207,12 +210,12 @@ const programFaqs = [
     </section>
   )}
 
-  {programGallery.length > 0 && (
+  {sectionGallery.length > 0 && (
     <section class="band band--cream">
       <div class="container">
         <LeafHeading label="In the field" title={`${program.name}, seen up close.`} intro="More than one frame is needed to understand the people, places, and daily work behind this ministry." />
         <div class="prog-gallery">
-          {programGallery.slice(2).map((image, index) => <figure class:list={['prog-gallery__item', index === 0 && 'prog-gallery__item--wide']}><img src={image} alt={`${program.name} field moment ${index + 1}`} loading="lazy" /></figure>)}
+          {sectionGallery.map((image, index) => <figure class:list={['prog-gallery__item', index === 0 && 'prog-gallery__item--wide']}><img src={image} alt={`${program.name} field moment ${index + 1}`} loading="lazy" /></figure>)}
         </div>
       </div>
     </section>
@@ -231,7 +234,7 @@ const programFaqs = [
 
   {fieldStory && (
     <RdFeature
-      image={programGallery[1] || fieldStory.image}
+      image={fieldStory.image}
       imageAlt={fieldStory.title}
       eyebrow={`${fieldStory.category} · ${fieldStory.date}`}
       heading={fieldStory.title}
