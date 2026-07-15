@@ -5,6 +5,7 @@ import StoryStrip from '../../components/band/StoryStrip.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import VideoFeature from '../../components/redesign/VideoFeature.astro';
 import storiesData from '../../data/stories.json';
 
 // Card copy is verbatim sentences from the live program sub-pages
@@ -49,14 +50,21 @@ const empowermentStory = storiesData.find((s) => s.slug === 'goats-for-women');
     </div>
   </section>
 
+  <section class="band band--cream"><div class="container">
+    <VideoFeature id="JCjHdG0NnLQ" videoTitle="To Reach a Village, Reach a Woman" eyebrow="Watch the work" heading="To reach a village, reach a woman." side="left" decor="leaf">
+      <p>See how training, practical tools, discipleship, and local follow-up can multiply through a household and into the wider community.</p>
+    </VideoFeature>
+  </div></section>
+
   <section class="band band--cream">
     <div class="container">
       <LeafHeading label="The three programs" title="From relief to self-reliance." intro="Training, practical tools, and local leadership help families build income that continues long after a project begins." />
       <div class="ee-programs">
-        {programs.map((p) => (
+        {programs.map((p, index) => (
           <a class="ee-prog" href={p.href}>
             <span class="ee-prog__photo" style={`background-image:url(${p.image})`} role="img" aria-label={p.alt}></span>
             <span class="ee-prog__body">
+              <span class="label">Program 0{index + 1}</span>
               <h3>{p.name}</h3>
               <p>{p.desc}</p>
               <span class="ee-prog__more">Learn more &rarr;</span>
@@ -109,25 +117,26 @@ const empowermentStory = storiesData.find((s) => s.slug === 'goats-for-women');
   .ee-intro { text-align: center; }
   .ee-intro p:last-child { margin: var(--space-5) auto 0; color: var(--color-ink-soft); line-height: 1.8; max-width: 64ch; }
 
-  .ee-programs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
-  @media (max-width: 900px) { .ee-programs { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+  .ee-programs { display:grid; gap:clamp(64px,9vw,120px); }
   .ee-prog {
-    display: flex; flex-direction: column;
-    background: var(--color-white); border-radius: var(--radius-card); overflow: hidden;
-    box-shadow: var(--shadow-card); text-decoration: none; color: inherit;
-    transition: transform 180ms, box-shadow 180ms;
+    display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(36px,6vw,84px); align-items:center;
+    text-decoration: none; color: inherit; transition:transform 180ms;
   }
-  .ee-prog:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.15); }
-  .ee-prog__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; }
-  .ee-prog__body { display: block; padding: var(--space-6); }
-  .ee-prog__body h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; text-align: center; }
+  .ee-prog:nth-child(even) .ee-prog__photo { order:2; }
+  .ee-prog:hover { transform: translateY(-4px); }
+  .ee-prog__photo { display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center 30%; border-radius:var(--rd-radius); }
+  .ee-prog__body { display: block; padding:var(--space-4); }
+  .ee-prog__body h3 { margin: var(--space-2) 0 var(--space-4); color: var(--color-green); font-size:clamp(1.65rem,3vw,2.4rem); }
   .ee-prog__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.65; }
-  .ee-prog__more { display: block; margin-top: var(--space-4); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; text-align: center; }
+  .ee-prog__more { display: block; margin-top: var(--space-5); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
   .ee-prog:hover .ee-prog__more { color: var(--color-green); }
+  @media(max-width:800px){.ee-prog{grid-template-columns:1fr;gap:var(--space-5)}.ee-prog:nth-child(even) .ee-prog__photo{order:0}.ee-prog__body{padding:var(--space-3) var(--space-1)}}
   .ee-pathway { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
-  .ee-pathway span { color: var(--color-gold-deep); font-weight: 800; }
-  .ee-pathway h3 { color: var(--color-green); margin: var(--space-4) 0 var(--space-3); }
-  .ee-pathway p { color: var(--color-ink-soft); margin: 0; line-height: 1.65; }
+  .ee-pathway li { position:relative; min-height:330px; overflow:hidden; border:0; color:white; }
+  .ee-pathway li:nth-child(1){background:#265b3b}.ee-pathway li:nth-child(2){background:#316b80}.ee-pathway li:nth-child(3){background:#b37a19}.ee-pathway li:nth-child(4){background:#6a527c}
+  .ee-pathway span { position:absolute; right:18px; top:8px; color:rgba(255,255,255,.2); font-weight:900; font-size:clamp(4rem,7vw,6.5rem); line-height:1; }
+  .ee-pathway h3 { color:white; margin:clamp(90px,9vw,120px) 0 var(--space-4); font-size:1.55rem; }
+  .ee-pathway p { color:rgba(255,255,255,.9); margin: 0; line-height: 1.65; }
   .ee-faq { display: grid; gap: var(--space-3); }
   .ee-faq details { padding: var(--space-5) var(--space-6); border: 1px solid rgba(31,58,26,.12); border-radius: var(--rd-radius); background: var(--color-white); }
   .ee-faq summary { cursor: pointer; color: var(--color-green); font-weight: 800; }

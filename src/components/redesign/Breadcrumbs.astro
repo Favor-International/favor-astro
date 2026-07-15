@@ -1,0 +1,38 @@
+---
+const segments = Astro.url.pathname.split('/').filter(Boolean);
+const labels: Record<string, string> = {
+  impact: 'Impact', give: 'Give', go: 'Go', about: 'About', pray: 'Pray',
+  'evangelism-discipleship': 'Evangelism & Discipleship', education: 'Education',
+  'community-development': 'Community Development', 'economic-empowerment': 'Economic Empowerment',
+  'partner-monthly': 'Become a Favor Partner', 'one-time': 'Give Once', 'specific-project': 'Specific Project',
+  'non-cash': 'Non-Cash Giving', international: 'International Giving', legacy: 'Legacy Giving',
+  centers: 'Village Learning Centers', leadership: 'Leadership Training Institute', primary: 'Favor Primary School',
+  secondary: 'Favor Secondary School', counseling: 'Trauma Counseling', medical: 'Medical',
+  'church-planting': 'Church Planting', construction: 'Construction', sustainability: 'Sustainability Projects',
+  vocation: 'Vocational Program', women: 'Women Empowerment', 'portable-bible-schools': 'Portable Bible Schools',
+  'gift-institute': 'GIFT Institute', radio: 'Favor FM', foundation: 'Foundation Giving',
+  'church-partnership': 'Church Partnership', 'church-partnerships': 'Church Partnerships',
+};
+const crumbs = segments.map((segment, index) => ({
+  label: labels[segment] || segment.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+  href: segment === 'people' ? '/about/team/' : segment === 'legal' ? undefined : '/' + segments.slice(0, index + 1).join('/') + '/',
+}));
+---
+{segments.length >= 2 && (
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <div class="container crumbs__inner">
+      <a href="/">Home</a><span aria-hidden="true">/</span>
+      {crumbs.map((crumb, index) => index === crumbs.length - 1
+        ? <span aria-current="page">{crumb.label}</span>
+        : <>{crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span>{crumb.label}</span>}<span aria-hidden="true">/</span></>)}
+    </div>
+  </nav>
+)}
+<style>
+  .crumbs { background:var(--color-white); border-bottom:1px solid var(--color-border); }
+  .crumbs__inner { display:flex; align-items:center; gap:10px; min-height:48px; overflow-x:auto; white-space:nowrap; font-size:.78rem; }
+  .crumbs a { color:var(--color-green); font-weight:700; text-decoration:none; }
+  .crumbs a:hover { color:var(--color-gold-deep); }
+  .crumbs span[aria-hidden] { color:var(--color-sage); }
+  .crumbs span[aria-current] { color:var(--color-ink-soft); }
+</style>

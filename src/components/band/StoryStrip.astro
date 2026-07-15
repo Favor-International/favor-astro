@@ -23,6 +23,15 @@ function excerpt(paras: string[], n = 130) {
   const t = paras && paras[0] ? paras[0] : '';
   return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t;
 }
+function displayImage(story: any) {
+  if (!story.image?.includes('/stories/scraped/')) return story.image;
+  const tags = story.tags || [];
+  if (tags.some((t: string) => ['Children/Youth', 'Education'].includes(t))) return '/images/field-2026/vlc-2.webp';
+  if (tags.some((t: string) => ['Women', 'Skills Development', 'Stewardship'].includes(t))) return '/images/field-2026/women-3.webp';
+  if (tags.some((t: string) => ['Physical Healing', 'Emotional Healing'].includes(t))) return '/images/field-2026/medical-2.webp';
+  if (tags.some((t: string) => ['Discipleship', 'New Believers', 'Salvation'].includes(t))) return '/images/field-2026/evangelism-4.webp';
+  return '/images/field-2026/prayer-8.webp';
+}
 ---
 {matches.length > 0 && (
   <section class:list={['band', background === 'cream' ? 'band--cream' : 'band--white']}>
@@ -35,7 +44,7 @@ function excerpt(paras: string[], n = 130) {
         {matches.map((s: any) => (
           <PostCard
             href={`/stories/${s.slug}/`}
-            image={s.image}
+            image={displayImage(s)}
             imageAlt={s.title}
             chip={(s.tags || [])[0]}
             title={s.title}

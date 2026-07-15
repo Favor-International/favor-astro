@@ -49,17 +49,23 @@ const programs = [
     </div>
   </section>
 
-  <RdFeature
-    image="/images/field-2026/church-3.webp"
-    imageAlt="A church dedication in the field"
-    eyebrow="Transforming communities"
-    heading="The whole community, transformed."
-    side="left"
-    background="white"
-  >
-    <p>Favor's community development model has been informed by almost 20 years of work and recognizes the church as the hub of the community and the Word of God as center of sustainable, ongoing community development. Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. Community development starts with nothing less than transformed lives surrendered to Jesus and then extends to holistic transformation of the entire community.</p>
-    <p>We could comfort those in emotional pain. We could bandage every wound. We could build beautiful buildings. We could even pass out thousands of Bibles, but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do. Our foremost mission is guiding hearts to Jesus, but we also recognize that without a demonstration of God's love in meeting people where they are at emotionally, physically, and spiritually, as Jesus did, the former won't happen.</p>
-  </RdFeature>
+  <section class="band band--white community-story">
+    <div class="container community-story__grid">
+      <div class="community-story__images">
+        <img src="/images/field-2026/church-3.webp" alt="A church dedication in the field" loading="lazy" />
+        <img src="/images/field-2026/medical-2.webp" alt="Medical care serving a community" loading="lazy" />
+        <img src="/images/field-2026/villages-3.webp" alt="Families gathered in a village" loading="lazy" />
+      </div>
+      <div class="community-story__copy">
+        <p class="label">Transforming communities</p>
+        <h2>The whole community, transformed.</h2>
+        <p>Favor's community development model has been informed by almost 20 years of work and recognizes <strong>the church as the hub of the community</strong> and <strong>the Word of God as the center</strong> of sustainable, ongoing community development.</p>
+        <p>Full community development includes a crusade, discipleship, trauma healing, a Portable Bible School, a church building, women's empowerment, a village learning center, a well, and mobile medical clinics. It starts with <strong>transformed lives surrendered to Jesus</strong> and extends to holistic transformation of the entire community.</p>
+        <p>We could comfort those in emotional pain, bandage every wound, build beautiful buildings, and pass out thousands of Bibles—but if not one heart is baptized in the love of Christ, then we have not accomplished what we came to do.</p>
+        <p>Our foremost mission is guiding hearts to Jesus while <strong>demonstrating God's love by meeting people emotionally, physically, and spiritually</strong>, as Jesus did.</p>
+      </div>
+    </div>
+  </section>
 
   <section class="band band--cream">
     <div class="container">
@@ -124,6 +130,15 @@ const programs = [
   .cd-intro .cd-head { margin-bottom: var(--space-8); }
   .cd-intro p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
   .cd-intro p:last-child { margin-bottom: 0; }
+  .community-story__grid { display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr); gap:clamp(40px,7vw,96px); align-items:center; }
+  .community-story__images { display:grid; gap:var(--space-5); }
+  .community-story__images img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:var(--rd-radius); }
+  .community-story__images img:nth-child(2) { width:88%; margin-left:auto; }
+  .community-story__images img:nth-child(3) { width:82%; }
+  .community-story__copy h2 { margin:0 0 var(--space-6); color:var(--color-green); }
+  .community-story__copy p:not(.label) { color:var(--color-ink-soft); line-height:1.8; }
+  .community-story__copy strong { color:var(--color-green-deep); font-weight:800; box-shadow:inset 0 -.38em color-mix(in srgb,var(--color-gold) 30%,transparent); }
+  @media(max-width:820px){.community-story__grid{grid-template-columns:1fr}.community-story__images{grid-template-columns:repeat(3,1fr)}.community-story__images img,.community-story__images img:nth-child(2),.community-story__images img:nth-child(3){width:100%;height:100%;aspect-ratio:3/4;margin:0}}
   .cd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
   @media (max-width: 860px) { .cd-grid { grid-template-columns: 1fr; } }
   .cd-card { display: flex; flex-direction: column; }

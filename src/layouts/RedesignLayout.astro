@@ -1,5 +1,6 @@
 ---
 import PageLayout from './PageLayout.astro';
+import Breadcrumbs from '../components/redesign/Breadcrumbs.astro';
 import '../styles/redesign.css';
 
 // Redesign-branch layout: identical to PageLayout but wraps the page in .rd,
@@ -15,5 +16,5 @@ export interface Props {
 const props = Astro.props as Props;
 ---
 <PageLayout {...props}>
-  <div class="rd"><slot /></div>
+  <div class="rd"><Breadcrumbs /><slot /></div>
 </PageLayout>
