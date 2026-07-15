@@ -1,7 +1,8 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
-import CtaBand from '../../components/band/CtaBand.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
 
 const week1 = [
   ['Day 1', 'Uganda', 'Gulu region pastors and PBS trainers.'],
@@ -22,7 +23,7 @@ const week2 = [
   ['Day 14', 'Sabbath', 'Pray for protection over every Favor partner family.'],
 ];
 ---
-<PageLayout
+<RedesignLayout
   title="Nations Prayer Guide"
   description="One focus per day across the fourteen nations Favor International serves. Specific villages, specific pastors, specific battles."
 >
@@ -37,12 +38,18 @@ const week2 = [
     variant="split"
   />
 
+  <section class="band band--white guide-intro"><div class="container">
+    <LeafHeading label="A daily rhythm" title="Name the nation. Name the need. Pray specifically." intro="Use one focus each day on your own, around the family table, or with a church prayer group." />
+    <div class="guide-collage">
+      <img src="/images/field-2026/prayer-6.webp" alt="A Favor prayer gathering" loading="lazy" />
+      <img src="/images/field-2026/prayer-8.webp" alt="Favor leaders praying together" loading="lazy" />
+      <img src="/images/field-2026/prayer-gathering-1.webp" alt="A national prayer gathering" loading="lazy" />
+    </div>
+  </div></section>
+
   <section class="band band--cream">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Week one</p>
-        <h2>The work in East Africa.</h2>
-      </header>
+      <LeafHeading label="Week one" title="The work in East Africa." leaves={false} />
       <ol class="prayer-list">
         {week1.map(([day, where, ask]) => (
           <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
@@ -53,34 +60,32 @@ const week2 = [
 
   <section class="band band--cream prayer-week2">
     <div class="container container--narrow">
-      <header class="band__header">
-        <p class="label">Week two</p>
-        <h2>Equipping leaders, opening closed doors.</h2>
-      </header>
+      <LeafHeading label="Week two" title="Equipping leaders, opening closed doors." leaves={false} />
       <ol class="prayer-list prayer-list--tail" start={8}>
         {week2.map(([day, where, ask]) => (
           <li><span class="prayer-list__day">{day}</span><span class="prayer-list__ask"><strong class="prayer-list__where">{where}:</strong> {ask}</span></li>
         ))}
-        <li class="prayer-ghost" aria-hidden="true"><span class="prayer-list__day">Day 15</span><span class="prayer-list__ask"><span class="ghost-bar" style="width: 76%"></span></span></li>
-        <li class="prayer-ghost prayer-ghost--far" aria-hidden="true"><span class="prayer-list__day">Day 16</span><span class="prayer-list__ask"><span class="ghost-bar" style="width: 58%"></span></span></li>
       </ol>
-      <p class="prayer-continues">The guide continues, day by day.</p>
-      <p class="prayer-download"><button class="btn btn--primary btn--large" type="button" onclick="window.print()">Print the full guide</button></p>
+      <p class="prayer-download"><button class="btn btn--primary btn--large" type="button" onclick="window.print()">Print this guide</button></p>
     </div>
   </section>
 
-  <CtaBand
+  <RdCta
     heading="Send a prayer request to our team."
     body="Email prayer@favorintl.org. A real person reads it. Real field leaders pray over it."
     ctaLabel="Email a prayer request"
     ctaHref="mailto:prayer@favorintl.org"
     image="/images/field/worship-uganda.webp"
     imageAlt="Hands raised in worship at a Favor house of prayer in Uganda"
-    variant="sage"
+    background="cream"
   />
-</PageLayout>
+</RedesignLayout>
 
 <style>
+  .guide-collage { display:grid; grid-template-columns:1.2fr .8fr; grid-template-rows:repeat(2,220px); gap:var(--space-5); margin-top:var(--space-10); }
+  .guide-collage img { width:100%; height:100%; object-fit:cover; border-radius:var(--rd-radius); }
+  .guide-collage img:first-child { grid-row:span 2; }
+  @media(max-width:700px){.guide-collage{grid-template-columns:1fr;grid-template-rows:auto}.guide-collage img,.guide-collage img:first-child{grid-row:auto;aspect-ratio:16/10}}
   .prayer-list {
     list-style: none; padding: 0; margin: var(--space-8) 0 0;
     display: grid; gap: var(--space-3);
@@ -90,28 +95,18 @@ const week2 = [
     grid-template-columns: 96px 1fr;
     gap: var(--space-4);
     padding: var(--space-4) var(--space-6);
-    background: var(--color-white);
-    border-radius: var(--radius-card);
-    border: 2px solid var(--accent, var(--color-gold));
-    box-shadow: var(--shadow-soft);
+    position:relative; background:var(--color-white); border-radius:var(--rd-radius); border:0;
   }
   .prayer-list li:nth-child(4n+1) { --accent: var(--color-gold-deep); }
   .prayer-list li:nth-child(4n+2) { --accent: var(--color-green-bright); }
   .prayer-list li:nth-child(4n+3) { --accent: var(--color-terracotta); }
   .prayer-list li:nth-child(4n+4) { --accent: var(--color-sage); }
-  .prayer-list__day { font-weight: 800; color: var(--accent, var(--color-gold-deep)); letter-spacing: 0.04em; font-size: 0.85rem; text-transform: uppercase; align-self: start; padding-top: 3px; }
+  .prayer-list__day { display:grid; place-items:center; width:72px; min-height:42px; border-radius:var(--radius-pill); background:var(--accent,var(--color-gold)); color:var(--color-white); font-weight: 800; letter-spacing: 0.04em; font-size: 0.76rem; text-transform: uppercase; align-self: start; }
   .prayer-list__ask { color: var(--color-ink-soft); line-height: 1.6; }
   .prayer-list__where { color: var(--color-green); font-weight: 800; }
   .prayer-download { text-align: center; margin: var(--space-12) 0 0; }
   @media (max-width: 600px) {
     .prayer-list li { grid-template-columns: 1fr; gap: var(--space-1); }
   }
-  /* The list visibly continues: the tail fades and ghost rows hint at more. */
-  .prayer-list--tail li:nth-last-child(4) { opacity: 0.92; }
-  .prayer-list--tail li:nth-last-child(3) { opacity: 0.74; }
-  .prayer-ghost { opacity: 0.38; filter: blur(1px); pointer-events: none; }
-  .prayer-ghost--far { opacity: 0.16; filter: blur(2px); }
-  .ghost-bar { display: inline-block; height: 0.85em; border-radius: 6px; background: var(--color-sage-light); vertical-align: middle; }
-  .prayer-continues { text-align: center; margin: var(--space-6) 0 0; color: var(--color-sage); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; }
   .prayer-download { text-align: center; margin-top: var(--space-4); }
 </style>

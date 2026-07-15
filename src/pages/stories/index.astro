@@ -120,15 +120,13 @@ function excerpt(paras: string[], n = 150) {
   /* Featured latest story: editorial split card. */
   .story-featured {
     display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
-    background: var(--color-white); border: 1px solid var(--color-border);
-    border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-card);
+    background: transparent;
     text-decoration: none; color: inherit; margin-bottom: var(--space-16);
-    transition: box-shadow 200ms;
+    gap:clamp(var(--space-8),5vw,var(--space-16));
   }
-  .story-featured:hover { box-shadow: 0 22px 48px rgba(31, 58, 26, 0.18); }
-  .story-featured__photo { min-height: 340px; background-size: cover; background-position: center 30%; transition: transform 400ms ease; }
-  .story-featured:hover .story-featured__photo { transform: scale(1.03); }
-  .story-featured__body { display: flex; flex-direction: column; justify-content: center; gap: var(--space-3); padding: clamp(var(--space-8), 4vw, var(--space-12)); text-align: center; align-items: center; }
+  .story-featured__photo { min-height: 380px; background-size: cover; background-position: center 30%; border-radius:24px; transition: transform 300ms ease; }
+  .story-featured:hover .story-featured__photo { transform: translateY(-4px); }
+  .story-featured__body { display: flex; flex-direction: column; justify-content: center; gap: var(--space-3); padding:clamp(var(--space-4),3vw,var(--space-8)); align-items:flex-start; }
   .story-featured__kicker { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-gold-deep); }
   .story-featured__body h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.2rem); }
   .story-featured__body p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; max-width: 48ch; }
@@ -143,7 +141,6 @@ function excerpt(paras: string[], n = 150) {
   .story-filter { padding: 10px 2px 14px; border: 0; border-bottom: 3px solid transparent; background: none; font-weight: 700; font-size: 0.85rem; color: var(--color-sage); cursor: pointer; transition: color 140ms, border-color 140ms; margin-bottom: -1px; }
   .story-filter:hover { color: var(--color-green); }
   .story-filter[aria-pressed="true"] { color: var(--color-green); border-bottom-color: var(--color-gold); }
-  .stories-grid :global(.post-card) { border-radius: 12px; }
   .stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
   @media (max-width: 900px) { .stories-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .stories-grid { grid-template-columns: 1fr; } }

@@ -30,7 +30,7 @@ const Tag = href ? 'a' : 'div';
 <style>
   .ocard { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; background: transparent; transition: transform 220ms ease; }
   a.ocard:hover { transform: translateY(-5px); }
-  .ocard__media { position: relative; display: block; aspect-ratio: var(--ocard-ratio); overflow: hidden; border-radius:var(--rd-radius); background: var(--color-sage-light); }
+  .ocard__media { position: relative; display: block; aspect-ratio: var(--ocard-ratio); overflow: hidden; border-radius:var(--rd-radius, 22px); background: var(--color-sage-light); }
   .ocard__img { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; transition: transform 320ms ease; }
   a.ocard:hover .ocard__img { transform: scale(1.05); }
   .ocard__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: var(--space-3); padding: var(--space-5) var(--space-1) 0; }
