@@ -1,0 +1,54 @@
+---
+// Compact clickable boxes pointing to every other giving path, shown under
+// the donation form so a donor who needs a different route (DAF, stock,
+// international, church, foundation, legacy, projects) finds it in one tap.
+export interface Props {
+  /** Slug of the current page, excluded from the list. */
+  exclude?: string;
+  heading?: string;
+}
+const { exclude, heading = 'Other ways to give' } = Astro.props as Props;
+
+const WAYS = [
+  { slug: 'specific-project', href: '/give/specific-project/', label: 'Specific Project', desc: 'Fund a current field project directly.' },
+  { slug: 'international', href: '/give/international/', label: 'International Giving', desc: 'UK, Canada, and EU tax-receipt routes through TrustBridge.' },
+  { slug: 'non-cash', href: '/give/non-cash/', label: 'Stocks, Crypto & DAF', desc: 'Appreciated assets and donor-advised funds.' },
+  { slug: 'legacy', href: '/give/legacy/', label: 'Legacy Giving', desc: 'Wills, estates, and charitable trusts.' },
+  { slug: 'church-partnership', href: '/go/church-partnerships/', label: 'Church Partnership', desc: 'Mobilize your church around a field team.' },
+  { slug: 'foundation', href: '/give/foundation/', label: 'Foundation Giving', desc: 'Grants and DAFs; we send the full package.' },
+  { slug: 'one-time', href: '/give/one-time/', label: 'Check, Zelle & Wire', desc: 'Every offline route, no processing fees.' },
+];
+const ways = WAYS.filter((w) => w.slug !== exclude);
+---
+<section class="band band--white other-ways-band">
+  <div class="container container--narrow">
+    <p class="label other-ways-label">{heading}</p>
+    <div class="other-ways-grid">
+      {ways.map((w) => (
+        <a class="oway" href={w.href}>
+          <span class="oway__label">{w.label}</span>
+          <span class="oway__desc">{w.desc}</span>
+          <span class="oway__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .other-ways-band { padding-top: 0; }
+  .other-ways-label { text-align: center; margin-bottom: var(--space-6); }
+  .other-ways-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+  @media (max-width: 860px) { .other-ways-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .other-ways-grid { grid-template-columns: 1fr; } }
+  .oway {
+    position: relative; display: block; padding: var(--space-4) var(--space-5);
+    padding-right: 44px; background: var(--color-cream); border: 1px solid transparent;
+    border-radius: var(--radius-input); text-decoration: none;
+    transition: border-color 140ms, background 140ms, transform 140ms;
+  }
+  .oway:hover { background: var(--color-white); border-color: var(--color-gold); transform: translateY(-1px); }
+  .oway__label { display: block; font-weight: 800; color: var(--color-green); margin-bottom: 2px; }
+  .oway__desc { display: block; font-size: 0.85rem; color: var(--color-ink-soft); line-height: 1.5; }
+  .oway__arrow { position: absolute; right: var(--space-4); top: 50%; transform: translateY(-50%); color: var(--color-gold-deep); font-weight: 800; }
+</style>

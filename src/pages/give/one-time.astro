@@ -2,6 +2,7 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import DonationBlock from '../../components/band/DonationBlock.astro';
 import DonationForm from '../../components/give/DonationForm.astro';
+import OtherWaysToGive from '../../components/give/OtherWaysToGive.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
@@ -35,6 +36,8 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
       </div>
     </div>
   </section>
+
+  <OtherWaysToGive exclude="one-time" />
 
   <section class="band band--cream">
     <div class="container container--narrow">

@@ -2,6 +2,7 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
 import DonationForm from '../../components/give/DonationForm.astro';
+import OtherWaysToGive from '../../components/give/OtherWaysToGive.astro';
 import { SITE } from '../../lib/site';
 
 // Native Blackbaud SKY API giving (2026-07-21). The old page embedded the
@@ -30,9 +31,10 @@ import { SITE } from '../../lib/site';
       <DonationForm />
       <noscript><p>The donation form needs JavaScript. You can also give by check (payable to Favor Intl., {SITE.mailing}), Zelle (admin@favorintl.org), or CashApp ($FavorInternational).</p></noscript>
       <p class="donate-trust">Favor International is a 501(c)(3) public charity, EIN {SITE.ein} &middot; <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a> &middot; Tax-deductible &middot; <a href="/about/accountability/">See the financials</a></p>
-      <p class="donate-alt">Prefer another way? <a href="/give/one-time/">Check, Zelle, CashApp, wire, or stock</a> &middot; <a href="/give/partner-monthly/">Become a monthly Favor Partner</a></p>
     </div>
   </section>
+
+  <OtherWaysToGive />
 </RedesignLayout>
 
 <style>

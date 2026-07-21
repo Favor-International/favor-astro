@@ -48,16 +48,20 @@ const money = (n: number) => '$' + n.toLocaleString();
           <h1 class="donation__title">{heading}</h1>
           <p class="donation__body">{body}</p>
 
-          <p class="donation__amount-label">Donation Amount</p>
-          <div class="donation__input">
-            <span class="donation__sym">$</span>
-            <input class="donation__field" type="number" min="1" value={defaultAmount} aria-label="Donation amount" />
-            <span class="donation__currency">{currency} <span aria-hidden="true">&#9662;</span></span>
-          </div>
+          {!inlineTarget && (
+            <>
+              <p class="donation__amount-label">Donation Amount</p>
+              <div class="donation__input">
+                <span class="donation__sym">$</span>
+                <input class="donation__field" type="number" min="1" value={defaultAmount} aria-label="Donation amount" />
+                <span class="donation__currency">{currency} <span aria-hidden="true">&#9662;</span></span>
+              </div>
 
-          <div class="donation__presets" role="group" aria-label="Choose an amount">
-            {amounts.map((a) => <button type="button" class="donation__preset" data-amount={a} aria-pressed={a === defaultAmount ? 'true' : 'false'}>${a}</button>)}
-          </div>
+              <div class="donation__presets" role="group" aria-label="Choose an amount">
+                {amounts.map((a) => <button type="button" class="donation__preset" data-amount={a} aria-pressed={a === defaultAmount ? 'true' : 'false'}>${a}</button>)}
+              </div>
+            </>
+          )}
 
           <a class="donation__cta" href={inlineTarget ?? formBase} data-form-base={formBase} data-frequency={frequency} data-inline-target={inlineTarget}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
         </div>

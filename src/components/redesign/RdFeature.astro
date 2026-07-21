@@ -73,6 +73,9 @@ const bandClass = background === 'cream' ? 'band--cream' : background === 'green
   @media (max-width: 860px) {
     .rd-feat { grid-template-columns: 1fr; gap: var(--space-10); }
     .rd-feat[data-side='right'] .rd-feat__media { order: 0; }
+    /* Stacked layout: the leaf's overhang would paint over the copy below
+       the photo (unreadable eyebrow text on phones). No room for decor. */
+    .rd-feat__media :global(.rd-feat__leaf) { display: none; }
     .rd-feat[data-side='right'] .rd-feat__copy { order: 0; }
   }
 </style>
