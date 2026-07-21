@@ -10,6 +10,11 @@ export default defineConfig({
     // Church partnerships moved under /go/ (2026-07-08) so the GO menu
     // highlights correctly when visiting it.
   },
-  integrations: [sitemap(), mdx()],
+  integrations: [
+    // /give/thank-you/ is a post-gift confirmation (noindex); keep it out
+    // of the sitemap too.
+    sitemap({ filter: (page) => !page.includes('/give/thank-you/') }),
+    mdx(),
+  ],
   build: { inlineStylesheets: 'auto' },
 });

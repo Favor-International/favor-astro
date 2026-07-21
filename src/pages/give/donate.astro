@@ -1,20 +1,18 @@
 ---
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
+import DonationForm from '../../components/give/DonationForm.astro';
 import { SITE } from '../../lib/site';
 
-// The REAL Favor International donation form: the same Blackbaud donor-form
-// embed the live site uses on /connect-support/donate-now (captured
-// 2026-06-10): BBDonorFormLoader.newBlackbaudDonationFormZoned('renxt',
-// 'p-5_k5FlbubEyEQnUJw7C9Rw', mainFormID, 'usa'). Gifts made here go to Favor
-// through their production Blackbaud account. (Their PayPal variant form is
-// c2cfae15-d047-481b-a548-95e3c3fc60fb; their bbox email-signup form is
-// 2446db74-94fe-4197-8a40-03b10341c4e2.)
-const BB_FORM_ID = '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b';
+// Native Blackbaud SKY API giving (2026-07-21). The old page embedded the
+// hosted BBDonorFormLoader form; this one is Favor's own three-step form.
+// Card capture stays inside Blackbaud Checkout (PCI with Blackbaud), then
+// Pages Functions charge the authorization and write the gift to Raiser's
+// Edge NXT. See docs/04-tech/integrations/blackbaud-implementation.md.
 ---
 <RedesignLayout
   title="Give Online"
-  description="Give to Favor International online by credit card, ACH, or PayPal. Designate your gift, write a note, or honor someone with a dedicated gift. Tax-deductible."
+  description="Give to Favor International online by credit or debit card. One-time or monthly, designated where you choose. Tax-deductible, ECFA-accredited."
 >
   <section class="band band--cream donate-head">
     <div class="container container--narrow">
@@ -22,28 +20,20 @@ const BB_FORM_ID = '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b';
         <Leaf class="donate-leaf" />
         <p class="label">Instant giving</p>
         <h1>Give online.</h1>
-        <p class="donate-sub">Credit card, ACH, PayPal&hellip; it&rsquo;s all here. Designate your gift, write a note, or honor someone with a dedicated gift.</p>
+        <p class="donate-sub">One time or monthly. Choose your amount, designate your gift, and finish in Blackbaud&rsquo;s secure checkout in under a minute.</p>
       </header>
     </div>
   </section>
 
   <section class="band band--white donate-form-band">
     <div class="container container--narrow">
-      <div class="donate-form-card">
-        <div id={`blackbaud-donation-form_${BB_FORM_ID}`}></div>
-        <noscript><p>The donation form needs JavaScript. You can also give by check (payable to Favor Intl., {SITE.mailing}), Zelle (admin@favorintl.org), or CashApp ($FavorInternational).</p></noscript>
-      </div>
+      <DonationForm />
+      <noscript><p>The donation form needs JavaScript. You can also give by check (payable to Favor Intl., {SITE.mailing}), Zelle (admin@favorintl.org), or CashApp ($FavorInternational).</p></noscript>
       <p class="donate-trust">Favor International is a 501(c)(3) public charity, EIN {SITE.ein} &middot; <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a> &middot; Tax-deductible &middot; <a href="/about/accountability/">See the financials</a></p>
-      <p class="donate-alt">Prefer another way? <a href="/give/one-time/">Check, Zelle, CashApp, wire, or stock</a>. For a monthly gift, choose the recurring option in the secure form above.</p>
+      <p class="donate-alt">Prefer another way? <a href="/give/one-time/">Check, Zelle, CashApp, wire, or stock</a> &middot; <a href="/give/partner-monthly/">Become a monthly Favor Partner</a></p>
     </div>
   </section>
 </RedesignLayout>
-
-<script src="https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js" is:inline></script>
-<script is:inline define:vars={{ BB_FORM_ID }}>
-  // Same loader call the live favorintl.org donate page uses.
-  BBDonorFormLoader.newBlackbaudDonationFormZoned('renxt', 'p-5_k5FlbubEyEQnUJw7C9Rw', BB_FORM_ID, 'usa');
-</script>
 
 <style>
   .donate-head { padding-bottom: var(--space-8); }
@@ -51,14 +41,6 @@ const BB_FORM_ID = '80ce9859-0be9-48ad-a3cb-cce9c5d4e00b';
   .donate-head h1 { color: var(--color-green); }
   .donate-sub { color: var(--color-ink-soft); max-width: 56ch; margin: 0 auto; line-height: 1.7; }
   .donate-form-band { padding-top: var(--space-8); }
-  .donate-form-card {
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-    padding: clamp(var(--space-4), 3vw, var(--space-10));
-    min-height: 420px;
-  }
   .donate-trust { text-align: center; margin: var(--space-8) 0 0; font-size: 0.9rem; color: var(--color-sage); }
   .donate-trust a { color: var(--color-gold-deep); font-weight: 700; }
   .donate-alt { text-align: center; margin: var(--space-3) 0 0; font-size: 0.9rem; color: var(--color-ink-soft); }

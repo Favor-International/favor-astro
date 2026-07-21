@@ -1,6 +1,7 @@
 ---
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import DonationBlock from '../../components/band/DonationBlock.astro';
+import DonationForm from '../../components/give/DonationForm.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
@@ -18,9 +19,22 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     body="A single gift goes straight to the field, where indigenous missionaries are planting churches in the hardest places on earth. You will receive a tax-deductible receipt by email immediately."
     image="/images/education-vlc-jondoru.jpg"
     imageAlt="Children at a Favor Village Learning Center"
+    amounts={[25, 50, 100, 150, 250]}
+    defaultAmount={60}
     formBase="/give/donate/"
+    frequency="once"
+    inlineTarget="#give-form"
     donateLabel="Give now"
   />
+
+  <section class="band band--cream" id="give-form">
+    <div class="container container--narrow">
+      <LeafHeading label="Give now" title="Make your gift." intro="Choose your amount, tell us where to send the receipt, and finish in Blackbaud's secure checkout." />
+      <div class="give-form-card">
+        <DonationForm defaultFrequency="once" />
+      </div>
+    </div>
+  </section>
 
   <section class="band band--cream">
     <div class="container container--narrow">
@@ -117,4 +131,11 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
   .faq summary::after { content: '+'; color: var(--color-gold); font-size: 1.5rem; line-height: 1; font-weight: 400; }
   .faq details[open] summary::after { content: '–'; }
   .faq details p { margin: var(--space-4) 0 0; color: var(--color-ink-soft); line-height: 1.6; }
+  .give-form-card {
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    padding: clamp(var(--space-5), 3.5vw, var(--space-10));
+    margin-top: var(--space-8);
+    scroll-margin-top: 96px;
+  }
 </style>

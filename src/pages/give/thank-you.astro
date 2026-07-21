@@ -1,0 +1,88 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import Leaf from '../../components/redesign/Leaf.astro';
+
+// Post-gift confirmation. Reads amount/frequency/name from the query string
+// client-side (the page is static). Blackbaud emails the official receipt.
+---
+<RedesignLayout
+  title="Thank You"
+  description="Your gift to Favor International is complete."
+  noindex={true}
+>
+  <section class="band band--cream ty-head">
+    <div class="container container--narrow">
+      <header class="band__header">
+        <Leaf class="ty-leaf" />
+        <p class="label">Gift complete</p>
+        <h1 data-ty-heading>Your gift is on the trail.</h1>
+        <p class="ty-sub" data-ty-line>
+          Thank you. Your generosity puts indigenous missionaries on the ground in places others will not go.
+        </p>
+      </header>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container container--narrow ty-body">
+      <div class="ty-card">
+        <h2>What happens now</h2>
+        <ol>
+          <li>Blackbaud emails your tax receipt to the address you gave. It usually arrives within minutes.</li>
+          <li>Your gift is recorded with Favor&rsquo;s donor team the same day.</li>
+          <li data-ty-monthly hidden>Your monthly partnership begins today. Future gifts process automatically each month, and you can change or cancel anytime by emailing <a href="mailto:info@favorintl.org">info@favorintl.org</a>.</li>
+          <li>The field teams put it to work: evangelism, education, trauma counseling, and economic empowerment across East and Central Africa.</li>
+        </ol>
+      </div>
+
+      <div class="ty-next">
+        <h2>Take the next step: pray.</h2>
+        <p>Prayer comes before everything Favor does. Take one nation, one request, one day at a time.</p>
+        <p class="band__cta-row">
+          <a class="btn btn--primary btn--large" href="/pray/30-day-guide/">Open the Nations Prayer Guide</a>
+        </p>
+        <p class="ty-alt" data-ty-upsell>
+          Want your gift to go further? <a href="/give/partner-monthly/">Become a monthly Favor Partner.</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</RedesignLayout>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const amount = Number(params.get('amount'));
+  const monthly = params.get('frequency') === 'monthly';
+  const name = (params.get('name') || '').slice(0, 40);
+
+  const money = (n: number) =>
+    n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: n % 1 ? 2 : 0 });
+
+  const heading = document.querySelector('[data-ty-heading]');
+  const line = document.querySelector('[data-ty-line]');
+  if (heading && name) heading.textContent = `${name}, your gift is on the trail.`;
+  if (line && amount >= 1) {
+    line.textContent = monthly
+      ? `Thank you. Your ${money(amount)} monthly partnership keeps indigenous missionaries on the ground in places others will not go.`
+      : `Thank you. Your ${money(amount)} gift puts indigenous missionaries on the ground in places others will not go.`;
+  }
+  if (monthly) {
+    document.querySelector<HTMLElement>('[data-ty-monthly]')?.removeAttribute('hidden');
+    document.querySelector<HTMLElement>('[data-ty-upsell]')?.setAttribute('hidden', '');
+  }
+</script>
+
+<style>
+  .ty-head { padding-bottom: var(--space-8); }
+  .ty-head :global(.ty-leaf) { width: 120px; margin: 0 auto -48px; color: #cfe0c6; opacity: .55; transform: rotate(8deg); }
+  .ty-head h1 { color: var(--color-green); }
+  .ty-sub { color: var(--color-ink-soft); max-width: 58ch; margin: 0 auto; line-height: 1.7; }
+  .ty-body { display: grid; gap: var(--space-8); }
+  .ty-card { background: var(--color-cream); border-radius: var(--radius-card); padding: clamp(var(--space-5), 3vw, var(--space-8)); }
+  .ty-card h2, .ty-next h2 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .ty-card ol { margin: 0; padding-left: 1.2em; line-height: 1.9; color: var(--color-ink); }
+  .ty-card a { color: var(--color-gold-deep); font-weight: 700; }
+  .ty-next { text-align: center; }
+  .ty-next p { color: var(--color-ink-soft); max-width: 56ch; margin: 0 auto var(--space-4); }
+  .ty-alt a { color: var(--color-green); font-weight: 700; }
+</style>

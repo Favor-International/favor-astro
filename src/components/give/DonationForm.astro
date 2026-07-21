@@ -1,0 +1,694 @@
+---
+// The canonical Blackbaud-integrated donation form (docs/03-design
+// component-library: DonationForm). Three steps, no framework, one island
+// script. Card capture happens inside Blackbaud Checkout (PCI stays with
+// Blackbaud); our Pages Functions charge the authorization and record the
+// gift in Raiser's Edge NXT.
+//
+// Deep links: ?frequency=once|monthly & amount=100 & designation=<fund_id>
+// Same-page embeds (partner-monthly, one-time) can drive it through the
+// `favor:give-intent` CustomEvent (see DonationBlock's inlineTarget).
+import { SITE } from '../../lib/site';
+
+export interface Props {
+  /** Monthly is the lead path site-wide; pages can override. */
+  defaultFrequency?: 'once' | 'monthly';
+}
+const { defaultFrequency = 'monthly' } = Astro.props as Props;
+
+const ONE_TIME_PRESETS = [50, 100, 250, 500, 1000, 2500];
+const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
+---
+
+<div class="dform" id="donation-form" data-ready="false" data-default-frequency={defaultFrequency}>
+  <!-- Loading -->
+  <div class="dform__state dform__loading" data-panel="loading">
+    <p>Loading secure giving&hellip;</p>
+  </div>
+
+  <!-- Fallback when the Blackbaud connection is not configured yet -->
+  <div class="dform__state dform__fallback" data-panel="fallback" hidden>
+    <h2>Give today, another way.</h2>
+    <p>
+      Online card giving is briefly offline. Your gift still reaches the field today through any of
+      these routes:
+    </p>
+    <ul>
+      <li><strong>Check:</strong> payable to Favor Intl., {SITE.mailing}</li>
+      <li><strong>Zelle:</strong> admin@favorintl.org</li>
+      <li><strong>CashApp:</strong> $FavorInternational</li>
+      <li><strong>Stock, DAF, or wire:</strong> <a href="/give/non-cash/">non-cash giving</a></li>
+    </ul>
+    <p>Questions? Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
+  </div>
+
+  <!-- The form -->
+  <form class="dform__form" data-panel="form" hidden novalidate>
+    <ol class="dform__steps" aria-label="Progress">
+      <li data-step-dot="1" class="is-active"><span class="dform__step-num">1</span><span class="dform__step-label">Amount</span></li>
+      <li data-step-dot="2"><span class="dform__step-num">2</span><span class="dform__step-label">Your info</span></li>
+      <li data-step-dot="3"><span class="dform__step-num">3</span><span class="dform__step-label">Give</span></li>
+    </ol>
+
+    <!-- STEP 1: amount + frequency -->
+    <fieldset class="dform__step" data-step="1">
+      <legend class="sr-only">Gift amount and frequency</legend>
+
+      <div class="dform__freq" role="radiogroup" aria-label="Frequency">
+        <label class="dform__freq-opt">
+          <input type="radio" name="frequency" value="monthly" />
+          <span>Monthly <em class="dform__freq-badge">Favor Partner</em></span>
+        </label>
+        <label class="dform__freq-opt">
+          <input type="radio" name="frequency" value="once" />
+          <span>Give once</span>
+        </label>
+      </div>
+      <p class="dform__freq-line" data-freq-line>Monthly partnership keeps indigenous missionaries on the trail every single month.</p>
+
+      <div class="dform__amounts" data-presets-once role="group" aria-label="One-time amounts" hidden>
+        {ONE_TIME_PRESETS.map((a) => (
+          <button type="button" class="dform__amount" data-amount={a}>${a.toLocaleString()}</button>
+        ))}
+      </div>
+      <div class="dform__amounts" data-presets-monthly role="group" aria-label="Monthly amounts" hidden>
+        {MONTHLY_PRESETS.map((a) => (
+          <button type="button" class="dform__amount" data-amount={a}>${a.toLocaleString()}<span>/mo</span></button>
+        ))}
+      </div>
+
+      <div class="dform__custom">
+        <span class="dform__sym">$</span>
+        <input
+          type="number"
+          inputmode="decimal"
+          min="1"
+          max="250000"
+          step="1"
+          name="amount"
+          aria-label="Gift amount in US dollars"
+          placeholder="Other amount"
+        />
+        <span class="dform__per" data-per hidden>/month</span>
+      </div>
+
+      <label class="dform__field dform__designation" data-designation-wrap hidden>
+        <span>Designate your gift</span>
+        <select name="designation"></select>
+      </label>
+
+      <p class="dform__error" data-error="1" role="alert" hidden></p>
+      <div class="dform__nav dform__nav--single">
+        <button type="button" class="dform__next btn btn--primary btn--large" data-next="1">Continue</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 2: donor info -->
+    <fieldset class="dform__step" data-step="2" hidden>
+      <legend class="sr-only">Your information</legend>
+
+      <div class="dform__grid">
+        <label class="dform__field"><span>First name <em class="dform__req" aria-hidden="true">*</em></span>
+          <input type="text" name="first" autocomplete="given-name" maxlength="50" required />
+        </label>
+        <label class="dform__field"><span>Last name <em class="dform__req" aria-hidden="true">*</em></span>
+          <input type="text" name="last" autocomplete="family-name" maxlength="100" required />
+        </label>
+      </div>
+      <label class="dform__field"><span>Email <em class="dform__req" aria-hidden="true">*</em></span>
+        <input type="email" name="email" autocomplete="email" maxlength="254" required />
+      </label>
+      <label class="dform__field"><span>Phone</span>
+        <input type="tel" name="phone" autocomplete="tel" maxlength="25" />
+      </label>
+      <label class="dform__field"><span>Note or dedication</span>
+        <textarea name="note" rows="2" maxlength="400"></textarea>
+      </label>
+
+      <div class="dform__connect">
+        <p class="dform__connect-title">Stay connected</p>
+        <label class="dform__check">
+          <input type="checkbox" name="email_optin" />
+          <span>Email me stories and updates from the field</span>
+        </label>
+        <label class="dform__check dform__check--stacked">
+          <input type="checkbox" name="sms_optin" />
+          <span>Text me occasional field updates<small>A few texts a year. Message and data rates may apply.</small></span>
+        </label>
+      </div>
+
+      <p class="dform__error" data-error="2" role="alert" hidden></p>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back="2">&larr; Back</button>
+        <button type="button" class="dform__next btn btn--primary btn--large" data-next="2">Continue</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 3: review + payment -->
+    <fieldset class="dform__step" data-step="3" hidden>
+      <legend class="sr-only">Review and give</legend>
+
+      <dl class="dform__summary">
+        <div><dt>Gift</dt><dd data-sum="gift"></dd></div>
+        <div><dt>Designation</dt><dd data-sum="designation"></dd></div>
+        <div><dt>Receipt to</dt><dd data-sum="email"></dd></div>
+      </dl>
+
+      <label class="dform__check">
+        <input type="checkbox" name="cover_fees" />
+        <span data-fee-label>Add a little to help cover card processing fees</span>
+      </label>
+      <label class="dform__check">
+        <input type="checkbox" name="anonymous" />
+        <span>Keep my gift anonymous</span>
+      </label>
+
+      <p class="dform__total">Total today: <strong data-total></strong><span data-total-monthly hidden>, then <strong data-total-next></strong> monthly</span></p>
+
+      <p class="dform__disclosure" data-disclosure hidden>
+        You authorize Favor International to charge this card monthly until you cancel. Cancel
+        anytime by emailing <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.
+      </p>
+
+      <div class="dform__turnstile" data-turnstile></div>
+
+      <p class="dform__error" data-error="3" role="alert" hidden></p>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back="3">&larr; Back</button>
+        <button type="button" class="dform__pay btn btn--primary btn--large" data-pay>
+          <span data-pay-label>Give securely</span>
+        </button>
+      </div>
+      <p class="dform__secure">Card details are entered in Blackbaud&rsquo;s secure checkout. Favor never sees or stores your card number.</p>
+    </fieldset>
+
+    <!-- Processing overlay -->
+    <div class="dform__processing" data-panel="processing" hidden aria-live="polite">
+      <span class="dform__spinner" aria-hidden="true"></span>
+      <p><strong>Completing your gift&hellip;</strong></p>
+      <p>Keep this page open. This takes a few seconds.</p>
+    </div>
+  </form>
+</div>
+
+<script>
+  type Designation = { fund_id: string; label: string };
+  type GiveConfig = {
+    connected: boolean;
+    setup_incomplete?: boolean;
+    public_key?: string;
+    payment_configuration_id?: string;
+    process_mode?: string;
+    designations?: Designation[];
+    fee_rate?: number;
+    fee_fixed?: number;
+    turnstile_site_key?: string | null;
+  };
+
+  declare global {
+    interface Window {
+      Blackbaud_OpenPaymentForm?: (data: Record<string, unknown>) => void;
+      turnstile?: {
+        render: (el: Element, opts: Record<string, unknown>) => string;
+        reset: (id?: string) => void;
+        getResponse: (id?: string) => string | undefined;
+      };
+    }
+  }
+
+  const money = (n: number) =>
+    n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: n % 1 ? 2 : 0 });
+
+  // Blackbaud Checkout dispatches document-level events. Register exactly one
+  // pair of listeners per page load and delegate to the active form instance,
+  // so client-side navigation can never stack handlers (stacked handlers
+  // would mean duplicate gift submissions).
+  type CheckoutHandlers = {
+    onComplete: (transactionToken: string) => void;
+    onError: (message: string) => void;
+  };
+  let activeCheckout: CheckoutHandlers | null = null;
+  document.addEventListener('checkoutComplete', (e) => {
+    const detail = (e as CustomEvent).detail as { transactionToken?: string } | undefined;
+    if (detail?.transactionToken) activeCheckout?.onComplete(detail.transactionToken);
+    else activeCheckout?.onError('Checkout finished without a transaction token. Your card was not charged; please try again.');
+  });
+  document.addEventListener('checkoutError', (e) => {
+    const detail = (e as CustomEvent).detail as { errorText?: string } | undefined;
+    activeCheckout?.onError(detail?.errorText || 'The payment could not be processed. Nothing was charged; please try again.');
+  });
+
+  function initDonationForm() {
+    const root = document.getElementById('donation-form');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector(sel) as T | null;
+    const qa = <T extends Element = HTMLElement>(sel: string) => Array.from(root.querySelectorAll(sel)) as T[];
+
+    const panels = {
+      loading: q('[data-panel="loading"]')!,
+      fallback: q('[data-panel="fallback"]')!,
+      form: q<HTMLFormElement>('[data-panel="form"]')!,
+      processing: q('[data-panel="processing"]')!,
+    };
+    const showPanel = (name: keyof typeof panels) => {
+      panels.loading.hidden = name !== 'loading';
+      panels.fallback.hidden = name !== 'fallback';
+      panels.form.hidden = name !== 'form' && name !== 'processing';
+      panels.processing.hidden = name !== 'processing';
+      if (name === 'processing') qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = true));
+    };
+
+    let config: GiveConfig | null = null;
+    let idempotencyKey: string | null = null;
+    let checkoutToken: string | null = null;
+    let cardToken: string | null = null;
+    let turnstileWidget: string | undefined;
+    let turnstileRendered = false;
+    let submitting = false;
+
+    const params = new URLSearchParams(location.search);
+
+    // ---- state readers -----------------------------------------------------
+    const form = panels.form;
+    const freq = () =>
+      (form.querySelector('input[name="frequency"]:checked') as HTMLInputElement)?.value === 'once'
+        ? 'once'
+        : 'monthly';
+    const setFreq = (value: 'once' | 'monthly') => {
+      const el = form.querySelector(`input[name="frequency"][value="${value}"]`) as HTMLInputElement | null;
+      if (el) el.checked = true;
+    };
+    const amountInput = q<HTMLInputElement>('input[name="amount"]')!;
+    const amount = () => Math.round((Number(amountInput.value) || 0) * 100) / 100;
+    const designationSelect = q<HTMLSelectElement>('select[name="designation"]')!;
+    const checkbox = (name: string) => (form.querySelector(`input[name="${name}"]`) as HTMLInputElement | null)?.checked ?? false;
+    const field = (name: string) => (form.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value.trim() ?? '';
+
+    const total = () => {
+      const a = amount();
+      if (!config || !checkbox('cover_fees')) return a;
+      const rate = config.fee_rate ?? 0.029;
+      const fixed = config.fee_fixed ?? 0.3;
+      return Math.round((a + a * rate + fixed) * 100) / 100;
+    };
+
+    // ---- step navigation ---------------------------------------------------
+    const showError = (n: number, msg: string) => {
+      const el = q(`[data-error="${n}"]`)!;
+      el.textContent = msg;
+      el.hidden = !msg;
+      if (msg) {
+        const r = el.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > innerHeight) el.scrollIntoView({ block: 'center', behavior: 'auto' });
+      }
+    };
+
+    const alignCardTop = () => {
+      const r = root.getBoundingClientRect();
+      // Only pull the viewport when the card top is off screen; never push
+      // the reader down the page.
+      if (r.top < 0) window.scrollTo({ top: window.scrollY + r.top - 96, behavior: 'auto' });
+    };
+
+    const goTo = (n: number) => {
+      if (n < 3) {
+        // Leaving the payment step invalidates any pending checkout attempt:
+        // amount or details may change, so a stale authorization must never
+        // be resubmitted.
+        checkoutToken = null;
+        idempotencyKey = null;
+      }
+      qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== String(n)));
+      qa('[data-step-dot]').forEach((d) =>
+        d.classList.toggle('is-active', Number((d as HTMLElement).dataset.stepDot) <= n)
+      );
+      showError(1, ''); showError(2, ''); showError(3, '');
+      if (n === 3) {
+        refreshSummary();
+        ensureTurnstile();
+      }
+      alignCardTop();
+    };
+
+    const refreshPresets = () => {
+      const monthly = freq() === 'monthly';
+      q('[data-presets-once]')!.hidden = monthly;
+      q('[data-presets-monthly]')!.hidden = !monthly;
+      q('[data-per]')!.hidden = !monthly;
+      q('[data-freq-line]')!.textContent = monthly
+        ? 'Monthly partnership keeps indigenous missionaries on the trail every single month.'
+        : 'A single gift, put to work on the field right away.';
+      qa<HTMLButtonElement>('.dform__amount').forEach((b) =>
+        b.setAttribute('aria-pressed', String(Number(b.dataset.amount) === amount()))
+      );
+    };
+
+    const refreshSummary = () => {
+      const monthly = freq() === 'monthly';
+      q('[data-sum="gift"]')!.textContent = `${money(amount())} ${monthly ? 'every month' : 'one time'}`;
+      q('[data-sum="designation"]')!.textContent =
+        designationSelect.options[designationSelect.selectedIndex]?.text ?? '';
+      q('[data-sum="email"]')!.textContent = field('email');
+      q('[data-total]')!.textContent = money(total());
+      const monthlyBits = q('[data-total-monthly]')!;
+      monthlyBits.hidden = !monthly;
+      q('[data-total-next]')!.textContent = money(total());
+      q('[data-disclosure]')!.hidden = !monthly;
+      q('[data-pay-label]')!.textContent = monthly
+        ? `Start my ${money(total())} monthly gift`
+        : `Give ${money(total())} securely`;
+      const rate = config?.fee_rate ?? 0.029;
+      const fixed = config?.fee_fixed ?? 0.3;
+      const fee = Math.round((amount() * rate + fixed) * 100) / 100;
+      q('[data-fee-label]')!.textContent = `Add ${money(fee)} to help cover card processing fees`;
+    };
+
+    // ---- Turnstile (rendered on demand so the token is always fresh) -------
+    const ensureTurnstile = () => {
+      if (!config?.turnstile_site_key || !window.turnstile) return;
+      if (turnstileRendered) return;
+      turnstileRendered = true;
+      turnstileWidget = window.turnstile.render(q('[data-turnstile]')!, {
+        sitekey: config.turnstile_site_key,
+        theme: 'light',
+        'expired-callback': () => window.turnstile?.reset(turnstileWidget),
+        'error-callback': () => {
+          turnstileRendered = false;
+        },
+      });
+    };
+
+    // ---- wiring ------------------------------------------------------------
+    qa<HTMLButtonElement>('.dform__amount').forEach((b) =>
+      b.addEventListener('click', () => {
+        amountInput.value = String(b.dataset.amount);
+        refreshPresets();
+      })
+    );
+    amountInput.addEventListener('input', refreshPresets);
+    qa<HTMLInputElement>('input[name="frequency"]').forEach((r) =>
+      r.addEventListener('change', refreshPresets)
+    );
+    q<HTMLInputElement>('input[name="cover_fees"]')?.addEventListener('change', refreshSummary);
+
+    q('[data-next="1"]')!.addEventListener('click', () => {
+      if (!(amount() >= 1)) return showError(1, 'Choose or enter a gift amount of at least $1.');
+      if (amount() > 250000) return showError(1, 'For gifts over $250,000, email info@favorintl.org and we will handle it personally.');
+      goTo(2);
+    });
+    q('[data-next="2"]')!.addEventListener('click', () => {
+      if (!field('first') || !field('last')) return showError(2, 'Your first and last name are required for the receipt.');
+      const email = field('email');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showError(2, 'A valid email is required so your tax receipt can reach you.');
+      goTo(3);
+    });
+    qa<HTMLButtonElement>('[data-back]').forEach((b) =>
+      b.addEventListener('click', () => goTo(Number(b.dataset.back) - 1))
+    );
+
+    // Same-page giving blocks (partner-monthly, one-time) hand their chosen
+    // amount and frequency to the form through this event.
+    document.addEventListener('favor:give-intent', (e) => {
+      const d = (e as CustomEvent).detail as { amount?: number; frequency?: 'once' | 'monthly' } | undefined;
+      if (!d) return;
+      if (d.frequency) setFreq(d.frequency);
+      if (d.amount && d.amount >= 1) amountInput.value = String(d.amount);
+      refreshPresets();
+      goTo(1);
+    });
+
+    // ---- Blackbaud Checkout ------------------------------------------------
+    const openCheckout = () => {
+      if (!window.Blackbaud_OpenPaymentForm || !config?.public_key) {
+        showError(3, 'The secure checkout script did not load. Reload the page and try again.');
+        return;
+      }
+      const monthly = freq() === 'monthly';
+      const t = total();
+      const data: Record<string, unknown> = {
+        key: config.public_key,
+        payment_configuration_id: config.payment_configuration_id,
+        amount: Number(t.toFixed(2)),
+        billing_address_first_name: field('first'),
+        billing_address_last_name: field('last'),
+        billing_address_email: field('email'),
+        client_app_name: 'favorintl.org giving',
+        description: monthly ? 'Favor Partner monthly gift (first month)' : 'Gift to Favor International',
+        primary_color: '#2b4d24',
+        is_email_required: true,
+        use_apple_pay: false,
+      };
+      const phone = field('phone');
+      if (phone) data.billing_address_phone = phone;
+      if (monthly) {
+        cardToken = crypto.randomUUID();
+        data.card_token = cardToken;
+      } else {
+        cardToken = null;
+      }
+      idempotencyKey = crypto.randomUUID();
+      window.Blackbaud_OpenPaymentForm(data);
+    };
+
+    // One code path on the pay button: after a failed submission the same
+    // checkout token + idempotency key are resubmitted (never a second
+    // charge); otherwise a fresh checkout opens.
+    q<HTMLButtonElement>('[data-pay]')!.addEventListener('click', () => {
+      if (submitting) return;
+      if (checkoutToken && idempotencyKey) {
+        void submitGift();
+        return;
+      }
+      if (config?.turnstile_site_key && window.turnstile) {
+        const token = window.turnstile.getResponse(turnstileWidget);
+        if (!token) {
+          window.turnstile.reset(turnstileWidget);
+          return showError(3, 'One second while we confirm you are human, then press the button again.');
+        }
+      }
+      openCheckout();
+    });
+
+    activeCheckout = {
+      onComplete: (transactionToken) => {
+        checkoutToken = transactionToken;
+        void submitGift();
+      },
+      onError: (message) => showError(3, message),
+    };
+
+    async function submitGift() {
+      if (submitting || !checkoutToken || !idempotencyKey) return;
+      submitting = true;
+      showPanel('processing');
+      alignCardTop();
+
+      const monthly = freq() === 'monthly';
+      const body: Record<string, unknown> = {
+        idempotency_key: idempotencyKey,
+        amount: amount(),
+        cover_fees: checkbox('cover_fees'),
+        designation_fund_id: designationSelect.value,
+        donor: {
+          first: field('first'),
+          last: field('last'),
+          email: field('email'),
+          phone: field('phone') || undefined,
+        },
+        anonymous: checkbox('anonymous'),
+        email_optin: checkbox('email_optin'),
+        sms_optin: checkbox('sms_optin'),
+        note: field('note') || undefined,
+        checkout: { transaction_token: checkoutToken },
+        turnstile_token:
+          config?.turnstile_site_key && window.turnstile ? window.turnstile.getResponse(turnstileWidget) : undefined,
+      };
+      if (monthly) body.card_token = cardToken;
+
+      try {
+        const res = await fetch(monthly ? '/api/give/donate-recurring' : '/api/give/donate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = (await res.json()) as { ok?: boolean; message?: string; amount?: number; designation?: string };
+        if (!res.ok || !data.ok) throw new Error(data.message || 'The gift could not be completed.');
+        const dest = new URLSearchParams({
+          amount: String(data.amount ?? total()),
+          frequency: monthly ? 'monthly' : 'once',
+          designation: data.designation ?? '',
+          name: field('first'),
+        });
+        location.assign('/give/thank-you/?' + dest.toString());
+      } catch (err) {
+        submitting = false;
+        showPanel('form');
+        goTo(3);
+        // Turnstile tokens are single-use; arm a fresh one for the retry.
+        if (window.turnstile && turnstileWidget) window.turnstile.reset(turnstileWidget);
+        showError(
+          3,
+          (err instanceof Error ? err.message : 'The gift could not be completed.') +
+            ' Your card was not charged. Press the button to try again, or email info@favorintl.org and we will finish it with you.'
+        );
+        q('[data-pay-label]')!.textContent = 'Try again';
+      }
+    }
+
+    // ---- bootstrap -----------------------------------------------------------
+    (async () => {
+      try {
+        const res = await fetch('/api/give/config');
+        config = (await res.json()) as GiveConfig;
+      } catch {
+        config = null;
+      }
+      if (!config?.connected || config.setup_incomplete || !config.public_key || !(config.designations ?? []).length) {
+        showPanel('fallback');
+        return;
+      }
+
+      // designations
+      const wrap = q('[data-designation-wrap]')!;
+      designationSelect.innerHTML = '';
+      for (const d of config.designations!) {
+        const opt = document.createElement('option');
+        opt.value = d.fund_id;
+        opt.textContent = d.label;
+        designationSelect.appendChild(opt);
+      }
+      wrap.hidden = config.designations!.length < 2;
+
+      // defaults + deep links
+      setFreq(root.dataset.defaultFrequency === 'once' ? 'once' : 'monthly');
+      const pFreq = params.get('frequency');
+      if (pFreq === 'once' || pFreq === 'monthly') setFreq(pFreq);
+      const pAmount = Number(params.get('amount'));
+      if (pAmount >= 1) amountInput.value = String(pAmount);
+      const pDesignation = params.get('designation');
+      if (pDesignation && config.designations!.some((d) => d.fund_id === pDesignation)) {
+        designationSelect.value = pDesignation;
+      }
+      refreshPresets();
+
+      // turnstile script loads early; the widget renders when step 3 opens so
+      // its token is fresh at the moment of payment
+      if (config.turnstile_site_key) {
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        s.async = true;
+        document.head.appendChild(s);
+      }
+
+      showPanel('form');
+    })();
+  }
+
+  initDonationForm();
+  document.addEventListener('astro:page-load', initDonationForm);
+</script>
+
+<script src="https://payments.blackbaud.com/Checkout/bbCheckout.2.0.js" is:inline defer></script>
+
+<style>
+  .dform { max-width: 680px; margin: 0 auto; }
+  /* Author display values (grid/flex) must never beat the hidden attribute. */
+  .dform [hidden], .dform__form[hidden] { display: none !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  .dform__state { text-align: center; padding: var(--space-8) 0; color: var(--color-ink-soft); }
+  .dform__fallback { text-align: left; }
+  .dform__fallback h2 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .dform__fallback ul { line-height: 2; }
+  .dform__fallback a { color: var(--color-gold-deep); font-weight: 700; }
+
+  /* Numbered progress */
+  .dform__steps { list-style: none; display: flex; align-items: flex-start; justify-content: center; gap: 0; padding: 0; margin: 0 0 clamp(28px, 4vw, 44px); }
+  .dform__steps li { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; min-width: 110px; }
+  .dform__steps li + li::before {
+    content: ''; position: absolute; top: 17px; right: calc(50% + 24px); width: calc(100% - 48px); height: 2px;
+    background: var(--color-border);
+  }
+  .dform__steps li.is-active + li.is-active::before { background: var(--color-gold); }
+  .dform__step-num {
+    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 800; font-size: 0.95rem; background: var(--color-cream); color: var(--color-sage);
+    border: 2px solid var(--color-border); transition: all 160ms;
+  }
+  .dform__steps li.is-active .dform__step-num { background: var(--color-green); color: var(--color-white); border-color: var(--color-green); }
+  .dform__step-label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-sage); }
+  .dform__steps li.is-active .dform__step-label { color: var(--color-green-deep); }
+  @media (max-width: 480px) { .dform__steps li { min-width: 84px; } }
+
+  .dform__step { border: 0; padding: 0; margin: 0; }
+
+  .dform__freq { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--color-cream); padding: 8px; border-radius: 999px; }
+  .dform__freq-opt { position: relative; }
+  .dform__freq-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .dform__freq-opt span { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 10px; border-radius: 999px; font-weight: 800; color: var(--color-green); transition: background 160ms, color 160ms, box-shadow 160ms; }
+  .dform__freq-opt input:checked + span { background: var(--color-green); color: var(--color-white); box-shadow: var(--shadow-soft); }
+  .dform__freq-opt input:focus-visible + span { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+  .dform__freq-badge { font-style: normal; font-size: 0.64rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; background: var(--color-gold); color: var(--color-green-deep); padding: 3px 9px; border-radius: var(--radius-pill); }
+  .dform__freq-line { text-align: center; color: var(--color-ink-soft); font-size: 0.92rem; margin: var(--space-3) 0 var(--space-5); }
+
+  .dform__amounts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-3); }
+  @media (max-width: 540px) { .dform__amounts { grid-template-columns: repeat(2, 1fr); } }
+  .dform__amount { font: inherit; font-weight: 800; font-size: 1.05rem; color: var(--color-green); background: var(--color-white); border: 2px solid var(--color-border); border-radius: var(--radius-input); padding: 16px 8px; cursor: pointer; transition: border-color 140ms, background 140ms, color 140ms, transform 140ms; }
+  .dform__amount span { font-size: 0.75em; font-weight: 700; color: var(--color-sage); }
+  .dform__amount:hover { border-color: var(--color-gold); transform: translateY(-1px); }
+  .dform__amount[aria-pressed='true'] { background: var(--color-green); color: var(--color-white); border-color: var(--color-green); }
+  .dform__amount[aria-pressed='true'] span { color: var(--color-gold); }
+
+  .dform__custom { display: flex; align-items: center; gap: var(--space-2); border: 2px solid var(--color-border); border-radius: var(--radius-input); padding: 4px 4px 4px var(--space-4); background: var(--color-white); margin-bottom: var(--space-4); transition: border-color 140ms; }
+  .dform__custom:focus-within { border-color: var(--color-gold); }
+  .dform__sym { color: var(--color-sage); font-weight: 700; }
+  .dform__custom input { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 1.15rem; font-weight: 800; color: var(--color-green-deep); padding: 13px 0; background: transparent; -moz-appearance: textfield; }
+  .dform__custom input::-webkit-outer-spin-button, .dform__custom input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .dform__per { color: var(--color-sage); font-weight: 700; padding-right: var(--space-3); }
+
+  .dform__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  @media (max-width: 540px) { .dform__grid { grid-template-columns: 1fr; } }
+  .dform__field { display: block; margin-bottom: var(--space-3); }
+  .dform__field span { display: block; font-size: 0.85rem; font-weight: 700; color: var(--color-green-deep); margin-bottom: 6px; }
+  .dform__req { color: var(--color-gold-deep); font-style: normal; }
+  .dform__field input, .dform__field select, .dform__field textarea {
+    width: 100%; box-sizing: border-box; font: inherit; padding: 13px 14px;
+    border: 1.5px solid var(--color-border); border-radius: var(--radius-input);
+    background: var(--color-white); color: var(--color-ink); transition: border-color 140ms;
+  }
+  .dform__field input:focus-visible, .dform__field select:focus-visible, .dform__field textarea:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.18); }
+
+  .dform__connect { margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--color-border); display: grid; gap: 12px; }
+  .dform__connect-title { margin: 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-sage); }
+  .dform__check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.95rem; margin: 6px 0; }
+  .dform__check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--color-green); flex-shrink: 0; }
+  .dform__check small { display: block; color: var(--color-sage); font-size: 0.78rem; margin-top: 2px; font-weight: 400; }
+
+  .dform__summary { margin: 0 0 var(--space-4); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: grid; gap: 10px; }
+  .dform__summary div { display: flex; justify-content: space-between; gap: var(--space-4); }
+  .dform__summary dt { color: var(--color-sage); font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .dform__summary dd { margin: 0; font-weight: 700; color: var(--color-green-deep); text-align: right; overflow-wrap: anywhere; }
+
+  .dform__total { font-size: 1.1rem; color: var(--color-ink); margin: var(--space-3) 0; }
+  .dform__total strong { color: var(--color-green); }
+  .dform__disclosure { font-size: 0.85rem; color: var(--color-ink-soft); background: var(--color-cream); padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); }
+  .dform__disclosure a { color: var(--color-gold-deep); }
+
+  .dform__turnstile { margin: var(--space-3) 0; min-height: 0; }
+
+  .dform__nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-5); }
+  .dform__nav--single { justify-content: center; }
+  .dform__nav--single .dform__next { margin: 0 auto; min-width: 220px; }
+  .dform__back { background: none; border: 0; font: inherit; font-weight: 700; color: var(--color-sage); cursor: pointer; padding: 12px 0; }
+  .dform__back:hover { color: var(--color-green); }
+  .dform__nav:not(.dform__nav--single) .dform__next, .dform__pay { margin-left: auto; }
+
+  .dform__error { color: #a03123; background: #fdf0ee; border: 1px solid #efc7c0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); font-size: 0.92rem; }
+  .dform__secure { font-size: 0.8rem; color: var(--color-sage); text-align: center; margin-top: var(--space-4); }
+
+  .dform__processing { text-align: center; padding: var(--space-10) 0; color: var(--color-green-deep); }
+  .dform__spinner { display: inline-block; width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--color-cream); border-top-color: var(--color-gold); animation: dform-spin 800ms linear infinite; margin-bottom: var(--space-3); }
+  @keyframes dform-spin { to { transform: rotate(360deg); } }
+</style>

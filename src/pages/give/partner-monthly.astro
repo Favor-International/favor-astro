@@ -1,9 +1,11 @@
 ---
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import DonationBlock from '../../components/band/DonationBlock.astro';
+import DonationForm from '../../components/give/DonationForm.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import { PARTNER_TIERS } from '../../lib/site';
 import storiesData from '../../data/stories.json';
 const partnerReasons = [
   { title: 'The field can plan.', body: 'Dependable monthly support helps leadership prepare for recurring ministry needs instead of rebuilding the funding base every month.' },
@@ -22,9 +24,22 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
     body="One monthly gift keeps indigenous missionaries on the trail, Bibles in villages, and pastors in training. Choose an amount, or give a custom amount that fits your family."
     image="/images/hero-women-celebrating.jpg"
     imageAlt="Favor Partners gathered at a field event"
+    amounts={PARTNER_TIERS.map((t) => t.amount)}
+    defaultAmount={50}
     formBase="/give/donate/"
+    frequency="monthly"
+    inlineTarget="#give-form"
     donateLabel="Become a Partner"
   />
+
+  <section class="band band--cream" id="give-form">
+    <div class="container container--narrow">
+      <LeafHeading label="Start today" title="Begin your partnership." intro="Pick your monthly amount, tell us where to send the receipt, and finish in Blackbaud's secure checkout." />
+      <div class="give-form-card">
+        <DonationForm defaultFrequency="monthly" />
+      </div>
+    </div>
+  </section>
 
   <section class="band band--white">
     <div class="container">
@@ -91,8 +106,8 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
     background="cream"
     heading="Start your partnership today."
     body="Pick an amount above, or choose your own. Your first gift processes immediately and you will receive a tax-deductible receipt by email."
-    ctaLabel="Open the giving form"
-    ctaHref="/give/donate/"
+    ctaLabel="Start your partnership"
+    ctaHref="#give-form"
     secondaryLabel="Review accountability"
     secondaryHref="/about/accountability/"
     image="/images/field-2026/crusade-2.webp"
@@ -101,6 +116,13 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
 </RedesignLayout>
 
 <style>
+  .give-form-card {
+    background: var(--color-white);
+    border-radius: var(--radius-card);
+    padding: clamp(var(--space-5), 3.5vw, var(--space-10));
+    margin-top: var(--space-8);
+    scroll-margin-top: 96px;
+  }
   .breakdown { list-style: none; padding: 0; margin: var(--space-5) 0; display: grid; gap: var(--space-3); }
   .breakdown li { padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-input); color: var(--color-ink-soft); line-height: 1.5; }
   .breakdown strong { color: var(--color-green); display: inline-block; min-width: 52px; font-weight: 800; }
