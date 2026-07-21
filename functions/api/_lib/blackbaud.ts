@@ -23,7 +23,10 @@ export interface Env {
   BLACKBAUD_TOKENS: KVNamespace;
   BLACKBAUD_CLIENT_ID: string;
   BLACKBAUD_CLIENT_SECRET: string;
+  /** Subscription key for the Standard APIs product (constituent/gift/fundraising). */
   BLACKBAUD_SUBSCRIPTION_KEY: string;
+  /** Subscription key for the Payments API product. Falls back to the standard key if unset. */
+  BLACKBAUD_PAYMENTS_SUBSCRIPTION_KEY?: string;
   /** Shared secret that guards the admin endpoints (/api/blackbaud/*). */
   BLACKBAUD_SETUP_KEY?: string;
   /** Pin a specific BBMS payment configuration id. Otherwise auto-select. */
@@ -202,6 +205,14 @@ export async function getAccessToken(env: Env, forceRefresh = false): Promise<st
   return fresh.access_token;
 }
 
+/** Blackbaud issues one subscription key per product; route by API path. */
+function subscriptionKeyFor(env: Env, path: string): string {
+  if (path.startsWith('/payments/')) {
+    return env.BLACKBAUD_PAYMENTS_SUBSCRIPTION_KEY ?? env.BLACKBAUD_SUBSCRIPTION_KEY;
+  }
+  return env.BLACKBAUD_SUBSCRIPTION_KEY;
+}
+
 /** Authenticated SKY API fetch with one automatic retry on 401/429. */
 export async function bbFetch(env: Env, path: string, init: RequestInit = {}): Promise<Response> {
   let token = await getAccessToken(env);
@@ -210,7 +221,7 @@ export async function bbFetch(env: Env, path: string, init: RequestInit = {}): P
       ...init,
       headers: {
         Authorization: `Bearer ${bearer}`,
-        'Bb-Api-Subscription-Key': env.BLACKBAUD_SUBSCRIPTION_KEY,
+        'Bb-Api-Subscription-Key': subscriptionKeyFor(env, path),
         'Content-Type': 'application/json',
         ...(init.headers ?? {}),
       },

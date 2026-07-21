@@ -7,8 +7,10 @@
 BLACKBAUD_CLIENT_ID=
 BLACKBAUD_CLIENT_SECRET=
 
-# From https://developer.blackbaud.com/subscriptions (primary access key)
+# From https://developer.blackbaud.com/subscriptions (primary access keys).
+# Blackbaud issues one key per product: Standard APIs and Payments API.
 BLACKBAUD_SUBSCRIPTION_KEY=
+BLACKBAUD_PAYMENTS_SUBSCRIPTION_KEY=
 
 # Any long random string; guards /api/blackbaud/auth, /status, /funds
 BLACKBAUD_SETUP_KEY=

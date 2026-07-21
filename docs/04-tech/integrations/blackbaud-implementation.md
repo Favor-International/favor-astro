@@ -74,8 +74,13 @@ Safety rails:
      security role instead.
    - Note the **Application ID** (OAuth client_id) and **Application
      secret** (client_secret).
-2. **Subscription key**: developer.blackbaud.com/subscriptions, primary
-   access key of the developer account that owns the app.
+2. **Subscription keys**: developer.blackbaud.com/subscriptions. Two
+   products, two keys (done 2026-07-21): Standard APIs primary key goes
+   in `BLACKBAUD_SUBSCRIPTION_KEY`, Payments API primary key goes in
+   `BLACKBAUD_PAYMENTS_SUBSCRIPTION_KEY`. The client routes
+   `/payments/*` calls to the payments key automatically. Standard APIs
+   Free tier allows 1,000 calls/day (roughly 250+ donations/day); the
+   Upgrade button on that page lifts it if ever needed.
 3. **Environment admin**: Daniel (Blackbaud admin) approves/connects the
    application for Favor's environment (Marketplace > Manage > Connect
    application, app ID above) if it is not already connected.
@@ -84,7 +89,8 @@ Safety rails:
      project as `BLACKBAUD_TOKENS` (Production and Preview).
    - Set env vars (Production and Preview): `BLACKBAUD_CLIENT_ID`,
      `BLACKBAUD_CLIENT_SECRET` (secret), `BLACKBAUD_SUBSCRIPTION_KEY`
-     (secret), `BLACKBAUD_SETUP_KEY` (secret, any long random string),
+     (secret), `BLACKBAUD_PAYMENTS_SUBSCRIPTION_KEY` (secret),
+     `BLACKBAUD_SETUP_KEY` (secret, any long random string),
      `BLACKBAUD_DEFAULT_FUND_ID` (after step 6), optionally
      `GIVING_DESIGNATIONS`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`.
 5. **Connect OAuth once**: as a Blackbaud user in Favor's environment
@@ -149,6 +155,38 @@ npm run build && npx wrangler pages dev dist --kv BLACKBAUD_TOKENS --port 8788
 
 The three `BLACKBAUD_*_URL/BASE` overrides exist for this harness only.
 Never set them on the Cloudflare Pages project.
+
+## PCI DSS posture
+
+The integration is designed so favorintl.org qualifies for the lightest
+merchant scope (SAQ A: all cardholder data functions fully outsourced
+to a PCI DSS validated provider):
+
+- **No card fields exist on our pages.** Card number, expiry, and CVV
+  are entered only inside Blackbaud Checkout, which Blackbaud (a PCI
+  DSS Level 1 validated service provider via Blackbaud Merchant
+  Services) renders and controls from payments.blackbaud.com.
+- **Our origin never receives cardholder data.** The browser hands the
+  server an opaque transaction token (UUID); the charge executes inside
+  Blackbaud. Tokens are held in memory for the request only.
+- **Nothing sensitive is stored or logged**: no PAN, no CVV, no tokens
+  at rest; idempotency records hold gift id + amount only; function
+  logs never print donor payloads; API error bodies stay server-side.
+- **Transport is TLS-only** (Cloudflare Pages; Checkout requires HTTPS
+  pages in production).
+- **Hardened headers** ship via `public/_headers` (nosniff, frame
+  denial, referrer and permissions policies), and `/api/*` is
+  `no-store`.
+- **Secrets live in Cloudflare env vars / `.dev.vars` (gitignored)**,
+  never in this public repository.
+
+What remains organizational, not code: Favor attests SAQ A annually
+(their acquirer or the Blackbaud Merchant Services portal drives
+this), and keeps Blackbaud's Attestation of Compliance on file.
+Blackbaud publishes its PCI documentation in the BBMS Web Portal.
+If anyone ever proposes adding a raw card field to the site, the
+answer is no; that single change would drag the whole site into
+SAQ A-EP/D scope.
 
 ## Operational notes
 

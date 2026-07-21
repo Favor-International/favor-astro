@@ -1,3 +1,11 @@
-# Cloudflare Pages headers. API responses must never be cached.
+# Cloudflare Pages headers (per docs/04-tech/deployment.md).
+# Card data never touches this origin: Blackbaud Checkout hosts all payment
+# fields. These headers keep the surrounding pages hardened (SAQ A posture).
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
 /api/*
   Cache-Control: no-store
