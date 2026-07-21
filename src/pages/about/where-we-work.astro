@@ -7,8 +7,8 @@ import RdCta from '../../components/redesign/RdCta.astro';
 import VideoFeature from '../../components/redesign/VideoFeature.astro';
 
 // Per Will (2026-06-18): we only speak publicly about our three main fields —
-// Uganda, South Sudan, and Chad. Scale is framed as "14+ nations" with no
-// salvation totals or PBS-location counts. Films come from @favorinternational.
+// Uganda, South Sudan, and Chad. No other operating locations are named
+// publicly. Films come from @favorinternational.
 // Each nation is its own band with an alternating background so it's clear which
 // field you're in; films within a nation alternate side. Copy is general — swap
 // for Favor's exact wording when available.
@@ -48,7 +48,7 @@ const nations = [
 >
   <PageHero
     label="Where we work"
-    title="East Africa, into the unreached."
+    title="Uganda, South Sudan, and Chad."
     promise="Uganda, South Sudan, and Chad. How we got to each nation, and what the work looks like there."
     image="/images/ministry-church-planting.jpg"
     imageAlt="Planting a church in the Wedweil refugee camp"
@@ -74,7 +74,7 @@ const nations = [
     <section class={`band ${n.bg}`}>
       <div class="container">
         {ni === 0 && (
-          <p class="ww-intro">Favor Partners fund work across 14+ nations. These three are our main fields today.</p>
+          <p class="ww-intro">These are the three country fields Favor identifies publicly today.</p>
         )}
         <header class="ww-nation">
           <h2>{n.name}</h2>

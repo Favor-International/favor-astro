@@ -9,7 +9,7 @@ import RdCta from '../../components/redesign/RdCta.astro';
 import { PARTNER_TIERS, SITE } from '../../lib/site';
 
 const tiles = [
-  { slug: 'partner-monthly', label: 'Become a Favor Partner', desc: 'Monthly partnership. The lead path. Pick a tier.', featured: true, image: '/images/highlight-crowd.jpg' },
+  { slug: 'donate', label: 'Give Online', desc: 'Open the secure form and choose monthly or one-time giving.', featured: true, image: '/images/highlight-crowd.jpg' },
   { slug: 'one-time', label: 'Give Once', desc: 'Make a secure, tax-deductible gift in the amount you choose.', image: '/images/field-2026/bibles-3.webp' },
   { slug: 'specific-project', label: 'Specific Project', desc: 'Choose a current project to fund directly.', image: '/images/school-construction.jpg' },
   { slug: 'foundation', label: 'Foundation Giving', desc: 'Grants and DAFs. We will send the package.', image: '/images/field-2026/pbs-6.webp' },
@@ -32,8 +32,8 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
     promise="Every giving pathway powered by Blackbaud. ECFA-accredited. Tax-deductible. Pick your path."
     image="/images/field-2026/street-outreach-1.webp"
     imageAlt="A Favor Partner gathering"
-    ctaLabel="Become a Favor Partner"
-    ctaHref="/give/partner-monthly/"
+    ctaLabel="Open the giving form"
+    ctaHref="/give/donate/"
     secondaryLabel="Give a one-time gift"
     secondaryHref="/give/one-time/"
   />
@@ -59,7 +59,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
         {tiles.map((t) => (
           t.featured ? (
             <div class="give-grid__feature">
-              <OverlayCard href={`/give/${t.slug}/`} image={t.image} kicker="Recommended" title={t.label} desc={t.desc} cta="Start your partnership" ratio="4 / 3" />
+              <OverlayCard href={`/give/${t.slug}/`} image={t.image} kicker="Recommended" title={t.label} desc={t.desc} cta="Give securely" ratio="4 / 3" />
             </div>
           ) : (
             <OverlayCard href={`/give/${t.slug}/`} image={t.image} title={t.label} desc={t.desc} cta="Learn the details" ratio="4 / 3" />
@@ -76,7 +76,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
         <div class="why-card"><h3>Indigenous-led</h3><p>Every program on the field is run by African nationals who live where they serve.</p></div>
         <div class="why-card"><h3>Prayer-birthed</h3><p>Favor began as a prayer movement, and prayer still comes before everything else.</p></div>
         <div class="why-card"><h3>Accountable</h3><p>ECFA-accredited and independently audited every year. 89 cents of every dollar went to program in FY2024.</p></div>
-        <div class="why-card"><h3>Where others will not go</h3><p>Favor's teams reach the hardest, most unreached places across East and Central Africa.</p></div>
+        <div class="why-card"><h3>Where others will not go</h3><p>Favor&rsquo;s teams reach hard and underserved places in Uganda, South Sudan, and Chad.</p></div>
       </div>
     </div>
   </section>
@@ -93,7 +93,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
         ))}
       </ul>
       <p class="band__cta-row">
-        <a class="btn btn--primary btn--large" href="/give/partner-monthly/">Become a Favor Partner</a>
+        <a class="btn btn--primary btn--large" href="/give/donate/">Start a monthly gift</a>
       </p>
     </div>
   </section>
@@ -117,7 +117,7 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
       <div class="faq">
         <details><summary>Is my gift tax-deductible?</summary><p>Yes. Favor International is a registered 501(c)(3) public charity (EIN {SITE.ein}). You receive a tax-deductible receipt by email.</p></details>
         <details><summary>How much of my gift reaches the field?</summary><p>In FY2024, 89 cents of every dollar went to program work. The figures are audited and filed with ECFA and on IRS Form 990. See the <a href="/about/accountability/">accountability page</a>.</p></details>
-        <details><summary>Can I give monthly?</summary><p>Yes. <a href="/give/partner-monthly/">Become a Favor Partner</a> and choose a tier or a custom amount.</p></details>
+        <details><summary>Can I give monthly?</summary><p>Yes. <a href="/give/donate/">Open the secure giving form</a> and choose the recurring option.</p></details>
         <details><summary>What are all the ways I can give?</summary><p>Online card and ACH, monthly partnership, check, Zelle (admin@favorintl.org), CashApp ($FavorInternational), appreciated stock, donor-advised funds, and international routes. See <a href="/give/non-cash/">non-cash giving</a>.</p></details>
         <details><summary>Can I give to a specific project?</summary><p>Yes. Choose a current project on the <a href="/give/specific-project/">specific projects</a> page and your gift is directed there.</p></details>
       </div>
@@ -140,8 +140,8 @@ const otherWays = ['Stocks', 'Crypto', 'Non-Cash', 'Matching Gifts'];
   <RdCta
     heading="Put a missionary on the trail."
     body="Choose monthly partnership for dependable support, or make a one-time gift today."
-    ctaLabel="Become a Favor Partner"
-    ctaHref="/give/partner-monthly/"
+    ctaLabel="Open the giving form"
+    ctaHref="/give/donate/"
     secondaryLabel="Give one time"
     secondaryHref="/give/one-time/"
     image="/images/field-2026/evangelism-9.webp"

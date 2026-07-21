@@ -4,6 +4,7 @@ import { PILLARS } from '../lib/site';
 import { PROGRAMS } from '../data/programs';
 import directorsData from '../data/directors.json';
 import storiesData from '../data/stories.json';
+import { isPublicFieldStory } from '../lib/publicContent';
 
 // Human-friendly sitemap of every page on the site, for working without the
 // menu. Dynamic routes are built from the same data files as the pages
@@ -13,7 +14,7 @@ const people = directorsData
   .filter((d) => d.slug !== 'carole-ward' && !['lisa-coggin', 'rev-louis-kayatin', 'dr-vilma-vega'].includes(d.slug))
   .map((d) => ({ href: `/about/people/${d.slug}/`, label: d.fullName, sub: d.position }));
 
-const stories = storiesData.map((s) => ({ href: `/stories/${s.slug}/`, label: s.title, sub: s.date }));
+const stories = storiesData.filter(isPublicFieldStory).map((s) => ({ href: `/stories/${s.slug}/`, label: s.title, sub: s.date }));
 
 const pillarSections = PILLARS.map((p) => ({
   href: `/impact/${p.slug}/`,
