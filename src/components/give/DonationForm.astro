@@ -125,18 +125,15 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         <textarea name="note" rows="2" maxlength="400"></textarea>
       </label>
 
-      <div class="dform__optins">
+      <div class="dform__connect">
+        <p class="dform__connect-title">Stay connected</p>
         <label class="dform__check">
           <input type="checkbox" name="email_optin" />
           <span>Email me stories and updates from the field</span>
         </label>
-        <label class="dform__check">
+        <label class="dform__check dform__check--stacked">
           <input type="checkbox" name="sms_optin" />
-          <span>Text me occasional field updates</span>
-        </label>
-        <label class="dform__check">
-          <input type="checkbox" name="anonymous" />
-          <span>Keep my gift anonymous</span>
+          <span>Text me occasional field updates<small>A few texts a year. Message and data rates may apply.</small></span>
         </label>
       </div>
 
@@ -160,6 +157,10 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       <label class="dform__check">
         <input type="checkbox" name="cover_fees" />
         <span data-fee-label>Add a little to help cover card processing fees</span>
+      </label>
+      <label class="dform__check">
+        <input type="checkbox" name="anonymous" />
+        <span>Keep my gift anonymous</span>
       </label>
 
       <p class="dform__total">Total today: <strong data-total></strong><span data-total-monthly hidden>, then <strong data-total-next></strong> monthly</span></p>
@@ -623,10 +624,10 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
   .dform__step { border: 0; padding: 0; margin: 0; }
 
-  .dform__freq { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--color-cream); padding: 6px; border-radius: var(--radius-pill); }
+  .dform__freq { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--color-cream); padding: 8px; border-radius: 999px; }
   .dform__freq-opt { position: relative; }
   .dform__freq-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
-  .dform__freq-opt span { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 10px; border-radius: var(--radius-pill); font-weight: 800; color: var(--color-green); transition: background 160ms, color 160ms, box-shadow 160ms; }
+  .dform__freq-opt span { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 10px; border-radius: 999px; font-weight: 800; color: var(--color-green); transition: background 160ms, color 160ms, box-shadow 160ms; }
   .dform__freq-opt input:checked + span { background: var(--color-green); color: var(--color-white); box-shadow: var(--shadow-soft); }
   .dform__freq-opt input:focus-visible + span { outline: 2px solid var(--color-gold); outline-offset: 2px; }
   .dform__freq-badge { font-style: normal; font-size: 0.64rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; background: var(--color-gold); color: var(--color-green-deep); padding: 3px 9px; border-radius: var(--radius-pill); }
@@ -659,9 +660,11 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   }
   .dform__field input:focus-visible, .dform__field select:focus-visible, .dform__field textarea:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.18); }
 
-  .dform__optins { margin-top: var(--space-4); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: grid; gap: 10px; }
-  .dform__check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.95rem; }
+  .dform__connect { margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--color-border); display: grid; gap: 12px; }
+  .dform__connect-title { margin: 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-sage); }
+  .dform__check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.95rem; margin: 6px 0; }
   .dform__check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--color-green); flex-shrink: 0; }
+  .dform__check small { display: block; color: var(--color-sage); font-size: 0.78rem; margin-top: 2px; font-weight: 400; }
 
   .dform__summary { margin: 0 0 var(--space-4); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: grid; gap: 10px; }
   .dform__summary div { display: flex; justify-content: space-between; gap: var(--space-4); }
