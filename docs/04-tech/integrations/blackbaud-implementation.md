@@ -65,6 +65,7 @@ Safety rails:
    - Redirect URIs, exact strings:
      - `https://favorintl.org/api/blackbaud/callback`
      - `https://favor-astro.pages.dev/api/blackbaud/callback`
+     - `https://feature-blackbaud-giving.favor-astro.pages.dev/api/blackbaud/callback` (branch preview, for pre-merge testing; prune after merge)
      - `http://localhost:8788/api/blackbaud/callback`
    - Scopes (Limited access): the integration needs
      read + write on Constituent, Gift, Fundraising (read), and
@@ -113,6 +114,8 @@ npm install
 cp .dev.vars.example .dev.vars   # fill in credentials
 npm run build
 npx wrangler pages dev dist --kv BLACKBAUD_TOKENS --port 8788
+# if workerd rejects today's compatibility date, pin one:
+#   ... --compatibility-date=2026-07-15
 # visit http://localhost:8788/give/donate/
 ```
 
