@@ -4,6 +4,7 @@
 // pillar pages, give pages, and hubs.
 import PostCard from './PostCard.astro';
 import storiesData from '../../data/stories.json';
+import { isPublicFieldStory } from '../../lib/publicContent';
 
 export interface Props {
   tags: string[];          // match stories carrying ANY of these live tags
@@ -14,7 +15,7 @@ export interface Props {
 }
 const { tags, heading = 'Stories from this ministry.', label = 'From the field', count = 3, background = 'cream' } = Astro.props as Props;
 
-const matches = storiesData
+const matches = storiesData.filter(isPublicFieldStory)
   .filter((s: any) => (s.tags || []).some((t: string) => tags.includes(t)))
   .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, count);

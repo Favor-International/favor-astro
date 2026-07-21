@@ -86,20 +86,21 @@ export const MEGA_NAV: MegaMenu[] = [
   },
   {
     label: 'Give',
-    href: '/give/',
+    href: '/give/donate/',
     // Reorganized 2026-07-08 per Will/Danny: personal giving and
     // church/organization giving are two different categories, so the panel
     // now renders them as two labeled columns (children -> columns layout).
     items: [
-      { label: 'Ways to Give', href: '/give/', desc: 'Personal giving, monthly or one-time', children: [
-        { label: 'Become a Favor Partner', href: '/give/partner-monthly/' },
+      { label: 'Ways to Give', href: '/give/donate/', desc: 'Give securely, monthly or one-time', children: [
+        { label: 'Give Online', href: '/give/donate/' },
+        { label: 'Become a Favor Partner', href: '/give/donate/' },
         { label: 'Give a One-Time Gift', href: '/give/one-time/' },
         { label: 'Specific Project', href: '/give/specific-project/' },
         { label: 'International Giving', href: '/give/international/' },
         { label: 'Legacy Giving', href: '/give/legacy/' },
         { label: 'Stocks, Crypto, Non-Cash', href: '/give/non-cash/' },
       ] },
-      { label: 'Churches & Organizations', href: '/go/church-partnerships/', desc: 'A dedicated path for pastors and foundations', children: [
+      { label: 'Churches & Organizations', href: '/give/church-partnership/', desc: 'Giving paths for churches and foundations', children: [
         { label: 'Church Partnership', href: '/go/church-partnerships/' },
         { label: 'Foundation Giving', href: '/give/foundation/' },
       ] },
@@ -108,9 +109,9 @@ export const MEGA_NAV: MegaMenu[] = [
       image: '/images/field-2026/baptism-4.webp',
       eyebrow: 'The lead path',
       title: 'Become a Favor Partner',
-      body: 'Monthly partnership keeps indigenous missionaries on the trail across East Africa.',
-      ctaLabel: 'Start your partnership',
-      ctaHref: '/give/partner-monthly/',
+      body: 'Monthly partnership keeps indigenous missionaries serving in Uganda, South Sudan, and Chad.',
+      ctaLabel: 'Give securely',
+      ctaHref: '/give/donate/',
     },
   },
   {
@@ -127,8 +128,8 @@ export const MEGA_NAV: MegaMenu[] = [
     featured: {
       image: '/images/field-2026/street-outreach-7.webp',
       eyebrow: 'See it firsthand',
-      title: 'Walk a village with a Favor field leader',
-      body: 'Small-team mission trips to Uganda, South Sudan, and Chad, planned with you.',
+      title: 'See the field work up close',
+      body: 'Small-team vision trips individually coordinated through Favor’s US team and local ministry contacts.',
       ctaLabel: 'Explore vision trips',
       ctaHref: '/go/vision-trips/',
     },
@@ -189,7 +190,7 @@ export const MEGA_NAV: MegaMenu[] = [
       image: '/images/field-2026/villages-1.webp',
       eyebrow: 'Indigenous-led',
       title: 'Prayer-birthed. Indigenous-led.',
-      body: 'A 20-year story across East Africa, told by the pastors and field leaders who are living it.',
+      body: 'A 20-year story across Uganda, South Sudan, and Chad, told by the leaders living it.',
       ctaLabel: 'Read our story',
       ctaHref: '/about/our-story/',
     },

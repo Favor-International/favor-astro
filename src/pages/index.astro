@@ -6,6 +6,7 @@ import PatternDivider from '../components/global/PatternDivider.astro';
 import AfricaMap from '../components/global/AfricaMap.astro';
 import { SITE, PILLARS } from '../lib/site';
 import storiesData from '../data/stories.json';
+import { isPublicFieldStory } from '../lib/publicContent';
 
 // The four pillars come verbatim from site.ts (locked to favorintl.org's own
 // names and program lists). Icons are simple outlines, one per pillar.
@@ -27,7 +28,7 @@ const INDIGENOUS_POINTS = [
 
 // Live from the field: the three most recent real stories from the field
 // (real titles, dates, and photos from stories.json).
-const latestStories = [...storiesData]
+const latestStories = storiesData.filter(isPublicFieldStory)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, 3);
 
@@ -74,7 +75,7 @@ const tiers = [
 ---
 <BaseLayout
   title={SITE.name}
-  description="You can send an indigenous missionary where the Gospel has not reached. Favor International equips local church planters across 14+ nations of East and Central Africa. ECFA-accredited."
+  description="You can send an indigenous missionary where the Gospel has not reached. Favor International equips local church planters in Uganda, South Sudan, and Chad. ECFA-accredited."
   image="/images/field-2026/evangelism-1.webp"
 >
   <SiteHeader variant="transparent" />
@@ -101,9 +102,9 @@ const tiers = [
         <div class="hero__copy">
           <p class="hero__eyebrow">Become a partner</p>
           <h1 class="hero__h1">You can send the Gospel where no one else will go.</h1>
-          <p class="hero__sub">Favor equips indigenous missionaries to share Jesus in the hardest places on earth, across 14+ nations of East and Central Africa. Your monthly $50 gift keeps one of them on the trail.</p>
+          <p class="hero__sub">Favor equips indigenous missionaries to share Jesus in the hardest places on earth in Uganda, South Sudan, and Chad. Your monthly $50 gift keeps one of them on the trail.</p>
           <div class="hero__cta">
-            <a class="btn btn--primary btn--large hero__primary" href="/give/partner-monthly/">Send a missionary for $50/month <span aria-hidden="true">&rarr;</span></a>
+            <a class="btn btn--primary btn--large hero__primary" href="/give/donate/">Send a missionary for $50/month <span aria-hidden="true">&rarr;</span></a>
             <a class="hero__secondary" href="/give/one-time/">Or give a one-time gift</a>
           </div>
         </div>
@@ -127,8 +128,8 @@ const tiers = [
           </div>
           <span class="proof__divider" aria-hidden="true"></span>
           <div class="proof__stat">
-            <span class="proof__num">14+</span>
-            <span class="proof__label">Nations served</span>
+            <span class="proof__num">3</span>
+            <span class="proof__label">Public country fields</span>
           </div>
         </div>
         <p class="proof__line">
@@ -218,7 +219,7 @@ const tiers = [
               <span class="missionary__carole-role">Founder &middot; the prayer that started Favor</span>
             </footer>
           </blockquote>
-          <a class="btn btn--primary btn--large missionary__cta" href="/give/partner-monthly/">Send Daniel and missionaries like him <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn--primary btn--large missionary__cta" href="/give/donate/">Send Daniel and missionaries like him <span aria-hidden="true">&rarr;</span></a>
           <a class="missionary__read" href={missionary.href}>Read Daniel&rsquo;s full story &rarr;</a>
         </div>
       </div>
@@ -347,7 +348,7 @@ const tiers = [
           ))}
         </ul>
         <div class="give__final">
-          <a class="btn btn--primary btn--large give__cta" href="/give/partner-monthly/">Become a Favor Partner <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn--primary btn--large give__cta" href="/give/donate/">Become a Favor Partner <span aria-hidden="true">&rarr;</span></a>
           <p class="give__line">Tax-deductible. ECFA-accredited since 2019. <a href="/give/one-time/">Or give a one-time gift &rarr;</a></p>
         </div>
         <p class="give__fdacs">

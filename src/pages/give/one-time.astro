@@ -18,8 +18,6 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     body="A single gift goes straight to the field, where indigenous missionaries are planting churches in the hardest places on earth. You will receive a tax-deductible receipt by email immediately."
     image="/images/education-vlc-jondoru.jpg"
     imageAlt="Children at a Favor Village Learning Center"
-    amounts={[25, 50, 100, 150, 250]}
-    defaultAmount={60}
     formBase="/give/donate/"
     donateLabel="Give now"
   />
@@ -28,7 +26,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     <div class="container container--narrow">
       <LeafHeading label="Where your gift goes" title="Field-led and independently accountable." />
       <p>One-time gifts route through Blackbaud and are received the same day. You will receive a tax-deductible receipt by email immediately. 89 cents of every dollar went to program in FY2024 (audited).</p>
-      <p>Favor International is a 501(c)(3) public charity, EIN {SITE.ein}, and an <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited member</a>. Prefer to give every month? <a href="/give/partner-monthly/">Become a Favor Partner</a>.</p>
+      <p>Favor International is a 501(c)(3) public charity, EIN {SITE.ein}, and an <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited member</a>. Prefer to give every month? <a href="/give/donate/">Open the secure giving form</a>.</p>
     </div>
   </section>
 
@@ -36,7 +34,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     <div class="container container--narrow">
       <LeafHeading label="More ways to give once" title="Choose the route that works for you." intro="Never email bank, card, or brokerage account numbers. Contact the team first for wire or asset-transfer instructions." leaves={false} />
       <ul class="give-methods">
-        <li><span class="method-icon method-icon--check" aria-hidden="true">✉</span><span><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596.</span></li>
+        <li><span class="method-icon method-icon--check" aria-hidden="true">✉</span><span><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, {SITE.mailing}.</span></li>
         <li><span class="method-icon method-icon--zelle" aria-hidden="true">Z</span><span><strong>Zelle.</strong> Send to admin@favorintl.org.</span></li>
         <li><span class="method-icon method-icon--cash" aria-hidden="true">$</span><span><strong>Cash App.</strong> Send to the CashTag $FavorInternational.</span></li>
         <li><span class="method-icon method-icon--wire" aria-hidden="true">↔</span><span><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</span></li>
@@ -61,15 +59,15 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
         </details>
         <details>
           <summary>Can I give monthly instead of once?</summary>
-          <p>Yes. Monthly partners are the engine of the work. <a href="/give/partner-monthly/">Become a Favor Partner</a> and choose a tier or a custom amount.</p>
+          <p>Yes. Monthly partners are the engine of the work. <a href="/give/donate/">Open the secure giving form</a> and choose the recurring option.</p>
         </details>
         <details>
           <summary>Can I give by check, Zelle, CashApp, or stock?</summary>
-          <p>Yes. Make checks payable to Favor Intl. and mail to 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596. We also accept Zelle (admin@favorintl.org), CashApp ($FavorInternational), wire transfer, and appreciated stock. Email {SITE.emailGeneral} for routing details.</p>
+          <p>Yes. Make checks payable to Favor Intl. and mail to {SITE.mailing}. We also accept Zelle (admin@favorintl.org), CashApp ($FavorInternational), wire transfer, and appreciated stock. Email {SITE.emailGeneral} for routing details.</p>
         </details>
         <details>
           <summary>Where does my gift go to work?</summary>
-          <p>Across the nations of East and Central Africa, where Favor equips indigenous missionaries to plant churches, train pastors, run schools, and care for communities. See <a href="/impact/">the work</a>.</p>
+          <p>In Uganda, South Sudan, and Chad, where Favor equips indigenous missionaries to plant churches, train pastors, run schools, and care for communities. See <a href="/impact/">the work</a>.</p>
         </details>
       </div>
     </div>
@@ -80,7 +78,7 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     heading="Prefer to give every month?"
     body="Favor Partners keep indigenous missionaries on the trail all year. Any tier, cancel anytime."
     ctaLabel="Become a Favor Partner"
-    ctaHref="/give/partner-monthly/"
+    ctaHref="/give/donate/"
     image="/images/field-2026/crusade-1.webp"
     imageAlt="A Favor field gathering"
   />

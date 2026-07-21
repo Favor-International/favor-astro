@@ -4,8 +4,9 @@ import PageHero from '../../components/band/PageHero.astro';
 import PostCard from '../../components/band/PostCard.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import storiesData from '../../data/stories.json';
+import { isPublicFieldStory } from '../../lib/publicContent';
 
-const sorted = [...storiesData].sort(
+const sorted = storiesData.filter(isPublicFieldStory).sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 const featured = sorted[0];
@@ -20,7 +21,7 @@ function excerpt(paras: string[], n = 150) {
 ---
 <PageLayout
   title="Stories of Transformation"
-  description="Real transformation stories from the field across East Africa, in the words of the Favor International teams who witnessed them."
+  description="Real transformation stories from Uganda, South Sudan, and Chad, in the words of the Favor International teams who witnessed them."
 >
   <PageHero pattern
     label="Stories"

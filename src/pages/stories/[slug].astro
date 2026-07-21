@@ -4,14 +4,15 @@ import PatternDivider from '../../components/global/PatternDivider.astro';
 import CtaBand from '../../components/band/CtaBand.astro';
 import storiesData from '../../data/stories.json';
 import { SITE } from '../../lib/site';
+import { isPublicFieldStory, PUBLIC_FIELD_LABEL } from '../../lib/publicContent';
 
 export function getStaticPaths() {
-  return storiesData.map((s) => ({ params: { slug: s.slug }, props: { story: s } }));
+  return storiesData.filter(isPublicFieldStory).map((s) => ({ params: { slug: s.slug }, props: { story: s } }));
 }
 const { story } = Astro.props as { story: { slug: string; title: string; date: string; paragraphs: string[]; image: string } };
 const desc = (story.paragraphs[0] || story.title).slice(0, 155);
 
-const all = [...storiesData].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const all = storiesData.filter(isPublicFieldStory).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 const more = all.filter((s) => s.slug !== story.slug).slice(0, 4);
 
 const pageUrl = `${SITE.url}/stories/${story.slug}/`;
@@ -60,7 +61,7 @@ const articleSchema = {
         <div class="side-card">
           <p class="side-card__title">From the field</p>
           <p class="side-meta"><span class="side-meta__k">Published</span><span class="side-meta__v">{story.date}</span></p>
-          <p class="side-meta"><span class="side-meta__k">Where</span><span class="side-meta__v">East &amp; Central Africa</span></p>
+          <p class="side-meta"><span class="side-meta__k">Public fields</span><span class="side-meta__v">{PUBLIC_FIELD_LABEL}</span></p>
         </div>
 
         <div class="side-card">
@@ -102,7 +103,7 @@ const articleSchema = {
     heading="Stand with the next story."
     body="Favor Partners keep these stories coming. Monthly partnership makes the field work possible."
     ctaLabel="Become a Favor Partner"
-    ctaHref="/give/partner-monthly/"
+    ctaHref="/give/donate/"
   />
 </PageLayout>
 
