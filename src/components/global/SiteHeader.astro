@@ -44,7 +44,8 @@ function isCurrent(href: string) {
               </a>
               <div class="mega-panel" role="region" aria-label={`${m.label} menu`}>
                 {hasGroups ? (
-                  <div class="mega-panel__inner mega-panel__inner--columns">
+                  <div class:list={['mega-panel__inner', 'mega-panel__inner--columns', m.label === 'Give' && 'mega-panel__inner--give']}>
+                    <div class="mega-panel__columns-main">
                     <div class="mega-cols">
                       {groups.map((it) => (
                         <div class="mega-col">
@@ -66,6 +67,18 @@ function isCurrent(href: string) {
                           <a class="mega-panel__more-link" href={it.href}>{it.label} <span aria-hidden="true">&rarr;</span></a>
                         ))}
                       </div>
+                    )}
+                    </div>
+                    {m.label === 'Give' && (
+                      <a class="mega-panel__feature mega-panel__feature--give" href={m.featured.ctaHref}>
+                        <div class="mega-panel__feature-photo" style={`background-image: url(${m.featured.image})`} aria-hidden="true"></div>
+                        <div class="mega-panel__feature-body">
+                          <span class="mega-panel__feature-eyebrow">{m.featured.eyebrow}</span>
+                          <p class="mega-panel__feature-title">{m.featured.title}</p>
+                          <p class="mega-panel__feature-body-text">{m.featured.body}</p>
+                          <span class="mega-panel__feature-cta">{m.featured.ctaLabel} →</span>
+                        </div>
+                      </a>
                     )}
                   </div>
                 ) : (
@@ -451,6 +464,16 @@ function isCurrent(href: string) {
     display: block;
     padding: var(--space-8) var(--space-6) var(--space-6);
   }
+  .mega-panel__inner--give {
+    display:grid;
+    grid-template-columns:minmax(0,1.45fr) minmax(340px,.75fr);
+    gap:var(--space-8);
+    align-items:stretch;
+  }
+  .mega-panel__inner--give .mega-cols { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .mega-panel__feature--give { grid-template-columns:1fr; min-height:100%; }
+  .mega-panel__feature--give .mega-panel__feature-photo { min-height:150px; }
+  .mega-panel__feature--give .mega-panel__feature-body { padding:var(--space-5); }
   .mega-cols {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

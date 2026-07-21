@@ -4,10 +4,7 @@ import DonationBlock from '../../components/band/DonationBlock.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
-import { PARTNER_TIERS } from '../../lib/site';
 import storiesData from '../../data/stories.json';
-
-const amounts = PARTNER_TIERS.map((t) => t.amount);
 const partnerReasons = [
   { title: 'The field can plan.', body: 'Dependable monthly support helps leadership prepare for recurring ministry needs instead of rebuilding the funding base every month.' },
   { title: 'Leaders can respond.', body: 'Unrestricted partnership gives field leadership flexibility to respond across evangelism, education, community development, and economic empowerment.' },
@@ -25,8 +22,6 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
     body="One monthly gift keeps indigenous missionaries on the trail, Bibles in villages, and pastors in training. Choose an amount, or give a custom amount that fits your family."
     image="/images/hero-women-celebrating.jpg"
     imageAlt="Favor Partners gathered at a field event"
-    amounts={amounts}
-    defaultAmount={50}
     formBase="/give/donate/"
     donateLabel="Become a Partner"
   />

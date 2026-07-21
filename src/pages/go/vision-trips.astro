@@ -5,7 +5,6 @@ import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import VideoFeature from '../../components/redesign/VideoFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
-import directorsData from '../../data/directors.json';
 
 // Fact-audit rules for this page (docs/06-reference/about-fact-audit-2026-07-08.md):
 // no invented trip calendars, costs, deadlines, testimonials, or safety
@@ -13,13 +12,6 @@ import directorsData from '../../data/directors.json';
 // program/activity, or an honest "planned with you" process answer.
 // Testimonials are deliberately absent until Favor supplies real traveler
 // quotes (name + city).
-
-// Hosts: the field leadership, straight from the directors data (photos and
-// bios are Favor's own). First sentence of each bio, verbatim.
-const hostSlugs = ['carole-ward', 'terry-lynne-goodman'];
-const hosts = hostSlugs.map((slug) => directorsData.find((d) => d.slug === slug)).filter(Boolean);
-const hostHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
-const hostLine = (bio) => bio.split('. ').slice(0, 1).join('. ') + '.';
 
 // A typical day, itinerary-style. Every activity is a documented Favor
 // practice (morning devotions and prayer-first days per Carole's books; the
@@ -65,7 +57,7 @@ const WHO_ICONS: Record<string, string> = {
 const steps = [
   { n: '1', title: 'Inquire', body: 'Send a note through the contact form with who you are and when you could travel.' },
   { n: '2', title: 'Plan with the US team', body: 'Trip timing, length, destination, and costs are worked out with you directly. Nothing is one-size-fits-all.' },
-  { n: '3', title: 'Go', body: 'You travel in a small team, hosted on the ground by Favor field leadership.' },
+  { n: '3', title: 'Go', body: 'You travel in a small team. Favor coordinates the visit with the appropriate local ministry contacts for the approved itinerary.' },
 ];
 
 // FAQ: honest process answers only. No dollar figures, protocols, or
@@ -74,7 +66,7 @@ const steps = [
 const faqs = [
   { q: 'What does a trip cost?', a: 'Cost depends on the destination, the length, and the size of your team, so it is worked out with you when the trip is planned. The US team can also talk through fundraising with you.' },
   { q: 'Where will I stay and what will I eat?', a: 'Arrangements depend on the field you visit. Lodging and meals are organized with the team before you travel, and you will know exactly what to expect before you commit.' },
-  { q: 'Is it safe to go?', a: 'You travel with Favor’s field leadership, who live and serve in these nations year-round. Current conditions on the ground are part of the planning conversation for every trip.' },
+  { q: 'Is it safe to go?', a: 'Current conditions, destination guidance, and the people responsible for the approved itinerary are reviewed during planning. Favor will explain what can responsibly be confirmed before you commit.' },
   { q: 'What about passports, visas, and vaccinations?', a: 'Requirements depend on the destination nation. The US team walks you through every document and health requirement during planning.' },
   { q: 'Who can go?', a: 'Small teams: pastors and church leaders, longtime partners, and everyday believers. If you are unsure whether you fit, send a note and ask.' },
   { q: 'How do I start?', a: 'Use the contact form and tell us who you are and when you could travel. The US team takes it from there.' },
@@ -82,13 +74,13 @@ const faqs = [
 ---
 <RedesignLayout
   title="Vision Trips"
-  description="Walk the field with the Favor leaders who live there. Small-team vision trips, planned with you through the US team."
+  description="Small-team vision trips coordinated through Favor’s US team and local ministry contacts, with each itinerary planned individually."
   image="/images/field/hero-jesusfilm-chad.webp"
 >
   <PageHero
     label="Vision trips"
-    title="Walk a village with a Favor field leader."
-    promise="Small teams, hosted on the ground by the leaders who live there."
+    title="See the field work up close."
+    promise="Small teams, individually planned through Favor’s US team and the appropriate local ministry contacts."
     image="/videos/vision-trips-hero-poster.jpg"
     imageAlt="A village congregation gathered for worship, from the film They Once Met Under Trees"
     video="/videos/vision-trips-hero.mp4"
@@ -105,9 +97,9 @@ const faqs = [
     side="right"
   >
     <p>
-      A vision trip is not a tour and not voluntourism. You travel with a small team and walk
+      A vision trip is not a tour and not voluntourism. You travel with a small team and see
       the actual work: the schools, the crusades, the Houses of Prayer, the villages, with the
-      indigenous leaders who run them.
+      local ministry contacts responsible for the approved itinerary.
     </p>
     <p>
       The ministries you could witness are the ones Favor runs every day across Uganda, South
@@ -115,26 +107,6 @@ const faqs = [
       for what the work looks like in each nation.
     </p>
   </RdFeature>
-
-  <section class="band band--greenlight">
-    <div class="container">
-      <LeafHeading label="Your hosts on the ground" title="You travel with the leadership." intro="A vision trip is hosted by the leaders who live and serve on the field." leaves={false} />
-      <div class="hosts">
-        {hosts.map((h) => (
-          <a class="host rd-card reveal" href={hostHref(h.slug)}>
-            <div class="host__photo"><img src={h.imagePath} alt={h.fullName} width="600" height="600" loading="lazy" /></div>
-            <div class="host__copy">
-              <p class="label">{h.position}</p>
-              <h3>{h.fullName}</h3>
-              <p class="host__loc">{h.location}</p>
-              <p class="host__bio">{hostLine(h.bioIntro)}</p>
-              <span class="host__link">Meet {h.fullName.split(' ')[0]} &rarr;</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <section class="band band--white">
     <div class="container">

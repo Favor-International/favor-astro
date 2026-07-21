@@ -128,8 +128,8 @@ export const MEGA_NAV: MegaMenu[] = [
     featured: {
       image: '/images/field-2026/street-outreach-7.webp',
       eyebrow: 'See it firsthand',
-      title: 'Walk a village with a Favor field leader',
-      body: 'Small-team mission trips to Uganda, South Sudan, and Chad, planned with you.',
+      title: 'See the field work up close',
+      body: 'Small-team vision trips individually coordinated through Favor’s US team and local ministry contacts.',
       ctaLabel: 'Explore vision trips',
       ctaHref: '/go/vision-trips/',
     },

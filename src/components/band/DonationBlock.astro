@@ -1,7 +1,7 @@
 ---
 // Donation block copied from the "Help Children Reach Their Full Potential"
-// reference layout, in Favor's colors. Left: heading + body + amount input
-// (with currency) + preset buttons + full-width Donate button. Right: image
+// reference layout, in Favor's colors. Blackbaud owns the real amount,
+// frequency, and currency inputs, so this component never imitates them.
 // followed by an optional % progress bar and Goal / Raised / To-go.
 export interface Props {
   eyebrow?: string;
@@ -9,9 +9,6 @@ export interface Props {
   body: string;
   image: string;
   imageAlt: string;
-  amounts?: number[];
-  defaultAmount?: number;
-  currency?: string;
   formBase?: string;
   donateLabel?: string;
   goal?: number;
@@ -20,8 +17,6 @@ export interface Props {
 }
 const {
   eyebrow, heading, body, image, imageAlt,
-  amounts = [10, 50, 100, 150, 200],
-  defaultAmount = 60, currency = 'USD',
   formBase = '/give/donate/', donateLabel = 'Donate Now',
   goal, raised, causeLabel,
 } = Astro.props as Props;
@@ -39,17 +34,7 @@ const money = (n: number) => '$' + n.toLocaleString();
           <h1 class="donation__title">{heading}</h1>
           <p class="donation__body">{body}</p>
 
-          <p class="donation__amount-label">Donation Amount</p>
-          <div class="donation__input">
-            <span class="donation__sym">$</span>
-            <input class="donation__field" type="number" min="1" value={defaultAmount} aria-label="Donation amount" />
-            <span class="donation__currency">{currency} <span aria-hidden="true">&#9662;</span></span>
-          </div>
-
-          <div class="donation__presets" role="group" aria-label="Choose an amount">
-            {amounts.map((a) => <button type="button" class="donation__preset" data-amount={a} aria-pressed={a === defaultAmount ? 'true' : 'false'}>${a}</button>)}
-          </div>
-
+          <p class="donation__secure-note"><strong>Choose your amount and frequency in the secure form.</strong> Card and bank-account options are shown there in the currencies currently supported by Favor&rsquo;s giving provider.</p>
           <a class="donation__cta" href={formBase}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
         </div>
 
@@ -75,20 +60,6 @@ const money = (n: number) => '$' + n.toLocaleString();
     </div>
   </div>
 </section>
-<script>
-  // Preset buttons fill the amount field; typing clears the pressed preset.
-  document.querySelectorAll('.donation').forEach((block) => {
-    const field = block.querySelector('.donation__field') as HTMLInputElement | null;
-    const presets = Array.from(block.querySelectorAll('.donation__preset')) as HTMLButtonElement[];
-    presets.forEach((b) => b.addEventListener('click', () => {
-      if (field) field.value = b.dataset.amount || '';
-      presets.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
-    }));
-    field?.addEventListener('input', () => {
-      presets.forEach((x) => x.setAttribute('aria-pressed', x.dataset.amount === field.value ? 'true' : 'false'));
-    });
-  });
-</script>
 <style>
   .donation { background: var(--color-white); }
   /* No card wrapper: the donation content sits directly in the section. */
@@ -100,24 +71,8 @@ const money = (n: number) => '$' + n.toLocaleString();
 
   .donation__title { margin: var(--space-2) 0 var(--space-4); }
   .donation__body { font-size: 1.05rem; line-height: 1.7; color: var(--color-ink-soft); margin: 0 0 var(--space-8); }
-  .donation__amount-label { font-weight: 800; color: var(--color-green-deep); margin: 0 0 var(--space-3); font-size: 1.05rem; }
-
-  .donation__input {
-    display: flex; align-items: center; gap: var(--space-2);
-    width: 100%; max-width: 100%; box-sizing: border-box;
-    background: var(--color-white); border: 1px solid var(--color-border);
-    border-radius: var(--radius-input); padding: 6px 6px 6px var(--space-5);
-    box-shadow: var(--shadow-soft); margin-bottom: var(--space-4);
-  }
-  .donation__sym { color: var(--color-sage); font-weight: 700; }
-  .donation__field { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 1.2rem; font-weight: 700; color: var(--color-green-deep); background: transparent; padding: 12px 0; -moz-appearance: textfield; }
-  .donation__field::-webkit-outer-spin-button, .donation__field::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .donation__currency { display: inline-flex; align-items: center; gap: 4px; background: var(--color-cream); color: var(--color-green); font-weight: 700; font-size: 0.85rem; padding: 12px 16px; border-radius: var(--radius-input); }
-
-  .donation__presets { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-6); }
-  .donation__preset { padding: 12px 22px; border: 1px solid var(--color-border); border-radius: var(--radius-input); background: var(--color-white); color: var(--color-green); font-weight: 700; cursor: pointer; font: inherit; transition: border-color 140ms, color 140ms, background 140ms; }
-  .donation__preset:hover { border-color: var(--color-gold); color: var(--color-gold-deep); }
-  .donation__preset[aria-pressed="true"] { background: var(--color-green); border-color: var(--color-green); color: var(--color-white); }
+  .donation__secure-note { margin:0 0 var(--space-6); padding:var(--space-5) var(--space-6); border-left:4px solid var(--color-gold); border-radius:0 var(--radius-input) var(--radius-input) 0; background:var(--color-cream); color:var(--color-ink-soft); line-height:1.65; }
+  .donation__secure-note strong { display:block; color:var(--color-green-deep); margin-bottom:4px; }
 
   .donation__cta {
     display: flex; align-items: center; justify-content: center; gap: var(--space-2);
