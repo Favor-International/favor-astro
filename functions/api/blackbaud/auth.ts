@@ -5,7 +5,7 @@
 // rights to the APIs the app requests. After consent Blackbaud redirects
 // to /api/blackbaud/callback.
 
-import { AUTHORIZE_URL, createOauthState, requireCredentials, type Env } from '../_lib/blackbaud';
+import { authorizeUrl, createOauthState, requireCredentials, type Env } from '../_lib/blackbaud';
 import { handleError, requireSetupKey } from '../_lib/http';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
@@ -15,7 +15,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const url = new URL(request.url);
     const redirectUri = `${url.origin}/api/blackbaud/callback`;
     const state = await createOauthState(env);
-    const authorize = new URL(AUTHORIZE_URL);
+    const authorize = new URL(authorizeUrl(env));
     authorize.searchParams.set('client_id', env.BLACKBAUD_CLIENT_ID);
     authorize.searchParams.set('response_type', 'code');
     authorize.searchParams.set('redirect_uri', redirectUri);

@@ -39,11 +39,15 @@ export interface Env {
   GIVE_FEE_FIXED?: string;
   TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
+  /** Integration-test overrides ONLY (.dev.vars against a local mock). Never set in production. */
+  BLACKBAUD_API_BASE?: string;
+  BLACKBAUD_TOKEN_URL?: string;
+  BLACKBAUD_AUTHORIZE_URL?: string;
 }
 
-export const API_BASE = 'https://api.sky.blackbaud.com';
-export const TOKEN_URL = 'https://oauth2.sky.blackbaud.com/token';
-export const AUTHORIZE_URL = 'https://app.blackbaud.com/oauth/authorize';
+export const apiBase = (env: Env) => env.BLACKBAUD_API_BASE ?? 'https://api.sky.blackbaud.com';
+export const tokenUrl = (env: Env) => env.BLACKBAUD_TOKEN_URL ?? 'https://oauth2.sky.blackbaud.com/token';
+export const authorizeUrl = (env: Env) => env.BLACKBAUD_AUTHORIZE_URL ?? 'https://app.blackbaud.com/oauth/authorize';
 
 const TOKENS_KEY = 'bb:oauth';
 const STATE_KEY = 'bb:oauth:state:';
@@ -138,7 +142,7 @@ export async function exchangeCodeForTokens(
   code: string,
   redirectUri: string
 ): Promise<StoredTokens> {
-  const res = await fetch(TOKEN_URL, {
+  const res = await fetch(tokenUrl(env), {
     method: 'POST',
     headers: {
       Authorization: basicAuth(env),
@@ -158,7 +162,7 @@ export async function exchangeCodeForTokens(
 }
 
 async function refreshTokens(env: Env, current: StoredTokens): Promise<StoredTokens> {
-  const res = await fetch(TOKEN_URL, {
+  const res = await fetch(tokenUrl(env), {
     method: 'POST',
     headers: {
       Authorization: basicAuth(env),
@@ -202,7 +206,7 @@ export async function getAccessToken(env: Env, forceRefresh = false): Promise<st
 export async function bbFetch(env: Env, path: string, init: RequestInit = {}): Promise<Response> {
   let token = await getAccessToken(env);
   const doFetch = (bearer: string) =>
-    fetch(API_BASE + path, {
+    fetch(apiBase(env) + path, {
       ...init,
       headers: {
         Authorization: `Bearer ${bearer}`,

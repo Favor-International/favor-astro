@@ -123,6 +123,30 @@ URI. Blackbaud Checkout requires HTTPS pages in production; if the
 modal refuses to open on plain-http localhost, test the checkout step
 on the branch preview URL instead (deploys automatically on push).
 
+## Testing against the local mock (no Blackbaud account needed)
+
+`mock-sky.mjs` (repo root) fakes the exact SKY API surface the functions
+use and logs every request body to `mock-sky.log` for inspection. The
+whole pipeline (OAuth connect, config, one-time gift, idempotent
+replay, recurring gift + converttoautomatic) was verified against it
+2026-07-21; the logged payloads match the published SKY API schemas.
+
+```bash
+node mock-sky.mjs &                # port 9799
+cat >> .dev.vars <<'EOF'
+BLACKBAUD_API_BASE=http://127.0.0.1:9799
+BLACKBAUD_TOKEN_URL=http://127.0.0.1:9799/token
+BLACKBAUD_AUTHORIZE_URL=http://127.0.0.1:9799/authorize
+EOF
+npm run build && npx wrangler pages dev dist --kv BLACKBAUD_TOKENS --port 8788
+# connect: GET /api/blackbaud/auth?key=<setup key>, follow state into
+#          /api/blackbaud/callback?code=anything&state=<state>
+# then exercise /api/give/donate and /api/give/donate-recurring
+```
+
+The three `BLACKBAUD_*_URL/BASE` overrides exist for this harness only.
+Never set them on the Cloudflare Pages project.
+
 ## Operational notes
 
 - **Receipts**: Blackbaud sends them; the site never duplicates.
