@@ -521,6 +521,8 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
 <style>
   .dform { max-width: 640px; margin: 0 auto; }
+  /* Author display values (grid/flex) must never beat the hidden attribute. */
+  .dform [hidden], .dform__form[hidden] { display: none !important; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
   .dform__state { text-align: center; padding: var(--space-8) 0; color: var(--color-ink-soft); }
