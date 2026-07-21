@@ -20,9 +20,8 @@ export function errorJson(code: string, message: string, status = 400, detail?: 
 export function handleError(err: unknown): Response {
   if (err instanceof BlackbaudError) {
     console.error(`[blackbaud] ${err.code}: ${err.message}`, err.detail ?? '');
-    // Never leak SKY API payloads (they can echo donor data) to the client.
-    const publicDetail = err.code === 'not_connected' || err.code === 'not_configured' ? undefined : undefined;
-    return errorJson(err.code, err.message, err.status, publicDetail);
+    // detail stays in the logs; SKY API payloads can echo donor data.
+    return errorJson(err.code, err.message, err.status);
   }
   console.error('[give] unexpected error', err);
   return errorJson('internal', 'Something went wrong on our side. Your card was not charged twice; please try again or email us.', 500);

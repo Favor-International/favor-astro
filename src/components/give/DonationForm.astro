@@ -195,6 +195,25 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   const money = (n: number) =>
     n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: n % 1 ? 2 : 0 });
 
+  // Blackbaud Checkout dispatches document-level events. Register exactly one
+  // pair of listeners per page load and delegate to the active form instance,
+  // so client-side navigation can never stack handlers (stacked handlers
+  // would mean duplicate gift submissions).
+  type CheckoutHandlers = {
+    onComplete: (transactionToken: string) => void;
+    onError: (message: string) => void;
+  };
+  let activeCheckout: CheckoutHandlers | null = null;
+  document.addEventListener('checkoutComplete', (e) => {
+    const detail = (e as CustomEvent).detail as { transactionToken?: string } | undefined;
+    if (detail?.transactionToken) activeCheckout?.onComplete(detail.transactionToken);
+    else activeCheckout?.onError('Checkout finished without a transaction token. Your card was not charged; please try again.');
+  });
+  document.addEventListener('checkoutError', (e) => {
+    const detail = (e as CustomEvent).detail as { errorText?: string } | undefined;
+    activeCheckout?.onError(detail?.errorText || 'The payment could not be processed. Nothing was charged; please try again.');
+  });
+
   function initDonationForm() {
     const root = document.getElementById('donation-form');
     if (!root || root.dataset.ready === 'true') return;
@@ -256,6 +275,13 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
     const goTo = (n: number) => {
       step = n;
+      if (n < 3) {
+        // Leaving the payment step invalidates any pending checkout attempt:
+        // amount or details may change, so a stale authorization must never
+        // be resubmitted.
+        checkoutToken = null;
+        idempotencyKey = null;
+      }
       qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== String(n)));
       qa('[data-step-dot]').forEach((d) =>
         d.classList.toggle('is-active', Number((d as HTMLElement).dataset.stepDot) <= n)
@@ -352,8 +378,15 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       window.Blackbaud_OpenPaymentForm(data);
     };
 
+    // One code path on the pay button: after a failed submission the same
+    // checkout token + idempotency key are resubmitted (never a second
+    // charge); otherwise a fresh checkout opens.
     q<HTMLButtonElement>('[data-pay]')!.addEventListener('click', () => {
       if (submitting) return;
+      if (checkoutToken && idempotencyKey) {
+        void submitGift();
+        return;
+      }
       if (config?.turnstile_site_key && window.turnstile) {
         const token = window.turnstile.getResponse(turnstileWidget);
         if (!token) return showError(3, 'Complete the verification checkbox first.');
@@ -361,19 +394,13 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       openCheckout();
     });
 
-    document.addEventListener('checkoutComplete', async (e) => {
-      const detail = (e as CustomEvent).detail as { transactionToken?: string } | undefined;
-      if (!detail?.transactionToken) {
-        showError(3, 'Checkout finished without a transaction token. Your card was not charged; please try again.');
-        return;
-      }
-      checkoutToken = detail.transactionToken;
-      await submitGift();
-    });
-    document.addEventListener('checkoutError', (e) => {
-      const detail = (e as CustomEvent).detail as { errorText?: string } | undefined;
-      showError(3, detail?.errorText || 'The payment could not be processed. Nothing was charged; please try again.');
-    });
+    activeCheckout = {
+      onComplete: (transactionToken) => {
+        checkoutToken = transactionToken;
+        void submitGift();
+      },
+      onError: (message) => showError(3, message),
+    };
 
     async function submitGift() {
       if (submitting || !checkoutToken || !idempotencyKey) return;
@@ -425,9 +452,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
             ' Your card shows a temporary authorization but was not charged; it releases automatically. ' +
             'Press the button to try again, or email info@favorintl.org and we will finish it with you.'
         );
-        // Keep the same idempotency key + checkout token so a retry click
-        // resubmits the SAME gift instead of charging twice.
-        q<HTMLButtonElement>('[data-pay]')!.onclick = () => submitGift();
+        q('[data-pay-label]')!.textContent = 'Try again';
       }
     }
 
