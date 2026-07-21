@@ -9,3 +9,8 @@
 
 /api/*
   Cache-Control: no-store
+
+# Field feed for the partner portal (cross-origin widget).
+/field-updates.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
