@@ -376,22 +376,41 @@ interface SearchResult {
   deceased?: boolean;
 }
 
+/**
+ * Best-effort donor lookup by email. The search call is an optimization to
+ * avoid duplicate constituents; it must NEVER block a gift. Environments
+ * differ in which query params they accept (a param combo that 400s in one
+ * tenant works in another), so this walks progressively simpler queries and
+ * finally gives up and returns null (caller creates a fresh constituent,
+ * which Favor's team can merge later).
+ */
+async function searchConstituentByEmail(env: Env, email: string): Promise<string | null> {
+  const e = encodeURIComponent(email);
+  const attempts = [
+    `search_text=${e}&search_field=email_address&strict_search=true&limit=10`,
+    `search_text=${e}&search_field=email_address&limit=10`,
+    `search_text=${e}&limit=25`,
+  ];
+  const wanted = email.toLowerCase();
+  for (const qs of attempts) {
+    const res = await bbFetch(env, `/constituent/v1/constituents/search?${qs}`);
+    if (res.ok) {
+      const found = (await res.json()) as { value?: SearchResult[] };
+      const match = (found.value ?? []).find(
+        (r) => (r.email ?? '').toLowerCase() === wanted && !r.deceased
+      );
+      return match ? match.id : null;
+    }
+    const body = await res.text();
+    console.error(`[blackbaud] constituent search variant failed (${res.status}): ${qs} :: ${body.slice(0, 300)}`);
+    if (res.status !== 400) break; // auth/5xx problems will not improve by simplifying the query
+  }
+  return null;
+}
+
 export async function findOrCreateConstituent(env: Env, donor: DonorInput): Promise<string> {
-  const q = new URLSearchParams({
-    search_text: donor.email,
-    search_field: 'email_address',
-    strict_search: 'true',
-    limit: '10',
-  });
-  const found = await bbJson<{ count?: number; value?: SearchResult[] }>(
-    env,
-    `/constituent/v1/constituents/search?${q.toString()}`
-  );
-  const email = donor.email.toLowerCase();
-  const match = (found.value ?? []).find(
-    (r) => (r.email ?? '').toLowerCase() === email && !r.deceased
-  );
-  if (match) return match.id;
+  const existing = await searchConstituentByEmail(env, donor.email);
+  if (existing) return existing;
 
   const body: Record<string, unknown> = {
     type: 'Individual',

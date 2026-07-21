@@ -45,6 +45,8 @@ interface DonateBody {
   note?: unknown;
   cover_fees?: unknown;
   fee_amount?: unknown;
+  email_optin?: unknown;
+  sms_optin?: unknown;
   checkout?: { transaction_token?: unknown };
   turnstile_token?: unknown;
 }
@@ -105,6 +107,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         'Online gift via favorintl.org',
         `Designation: ${designation.label}`,
         coverFees && 'Donor covered processing fees',
+        body.email_optin === true && 'Opted in: email updates',
+        body.sms_optin === true && 'Opted in: text updates',
         note && `Donor note: ${note}`,
       ]),
     });

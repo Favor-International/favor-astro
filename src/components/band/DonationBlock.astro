@@ -15,6 +15,13 @@ export interface Props {
   formBase?: string;
   /** Appended to the form link so the donate form preselects it. */
   frequency?: 'once' | 'monthly';
+  /**
+   * When the DonationForm lives on the SAME page, set this to its anchor
+   * (e.g. "#give-form"). The CTA then scrolls there and hands its amount +
+   * frequency to the form via the favor:give-intent event instead of
+   * navigating away.
+   */
+  inlineTarget?: string;
   donateLabel?: string;
   goal?: number;
   raised?: number;
@@ -24,7 +31,7 @@ const {
   eyebrow, heading, body, image, imageAlt,
   amounts = [10, 50, 100, 150, 200],
   defaultAmount = 60, currency = 'USD',
-  formBase = '/give/donate/', frequency, donateLabel = 'Donate Now',
+  formBase = '/give/donate/', frequency, inlineTarget, donateLabel = 'Donate Now',
   goal, raised, causeLabel,
 } = Astro.props as Props;
 const hasProgress = typeof goal === 'number' && typeof raised === 'number';
@@ -52,7 +59,7 @@ const money = (n: number) => '$' + n.toLocaleString();
             {amounts.map((a) => <button type="button" class="donation__preset" data-amount={a} aria-pressed={a === defaultAmount ? 'true' : 'false'}>${a}</button>)}
           </div>
 
-          <a class="donation__cta" href={formBase} data-form-base={formBase} data-frequency={frequency}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
+          <a class="donation__cta" href={inlineTarget ?? formBase} data-form-base={formBase} data-frequency={frequency} data-inline-target={inlineTarget}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
         </div>
 
         <div class="donation__right">
@@ -87,7 +94,7 @@ const money = (n: number) => '$' + n.toLocaleString();
     const cta = block.querySelector('.donation__cta') as HTMLAnchorElement | null;
 
     const syncCta = () => {
-      if (!cta) return;
+      if (!cta || cta.dataset.inlineTarget) return; // inline mode keeps the anchor href
       const base = cta.dataset.formBase || cta.getAttribute('href') || '/give/donate/';
       const params = new URLSearchParams();
       const amount = Number(field?.value);
@@ -96,6 +103,19 @@ const money = (n: number) => '$' + n.toLocaleString();
       const qs = params.toString();
       cta.href = qs ? `${base}?${qs}` : base;
     };
+
+    // Inline mode: the DonationForm is on this same page. Hand it the chosen
+    // amount + frequency and let the anchor scroll happen naturally.
+    if (cta?.dataset.inlineTarget) {
+      cta.addEventListener('click', () => {
+        document.dispatchEvent(new CustomEvent('favor:give-intent', {
+          detail: {
+            amount: Number(field?.value) || undefined,
+            frequency: cta.dataset.frequency || undefined,
+          },
+        }));
+      });
+    }
 
     presets.forEach((b) => b.addEventListener('click', () => {
       if (field) field.value = b.dataset.amount || '';
