@@ -45,6 +45,7 @@ import {
   readJsonBody,
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
+import { notifyPortalGiftCompleted } from '../_lib/portal';
 import { computeTotal } from './donate';
 
 interface RecurringBody {
@@ -176,6 +177,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     }
     if (warning) console.error('[give/recurring] ' + warning);
 
+    const portalLoginUrl = await notifyPortalGiftCompleted(env, {
+      email: donor.email,
+      first: donor.first,
+      last: donor.last,
+      phone: donor.phone,
+      amount: total,
+      frequency: 'monthly',
+      designation: designation.label,
+      constituent_id: constituentId,
+    });
+
     const result = {
       ok: true,
       gift_id: recurring.id,
@@ -185,6 +197,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       designation: designation.label,
       automated,
       warning,
+      portal_login_url: portalLoginUrl ?? undefined,
     };
     await idempotencyStore(env, idem, result);
     return json(result);

@@ -42,6 +42,10 @@ export interface Env {
   GIVE_FEE_FIXED?: string;
   TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
+  /** Shared secret for the portal trust pair (giving-history, recurring, hook). */
+  PORTAL_API_KEY?: string;
+  /** Base URL of the Favor Partner Portal (gift-completed hook target). */
+  PORTAL_HOOK_URL?: string;
   /** Integration-test overrides ONLY (.dev.vars against a local mock). Never set in production. */
   BLACKBAUD_API_BASE?: string;
   BLACKBAUD_TOKEN_URL?: string;

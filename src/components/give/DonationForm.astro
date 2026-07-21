@@ -513,8 +513,21 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
-        const data = (await res.json()) as { ok?: boolean; message?: string; amount?: number; designation?: string };
+        const data = (await res.json()) as {
+          ok?: boolean;
+          message?: string;
+          amount?: number;
+          designation?: string;
+          portal_login_url?: string;
+        };
         if (!res.ok || !data.ok) throw new Error(data.message || 'The gift could not be completed.');
+        // One-time dashboard sign-in for the thank-you page (kept out of the
+        // URL so the token never lands in history, logs, or referrers).
+        try {
+          if (data.portal_login_url) sessionStorage.setItem('favor:portal-login', data.portal_login_url);
+        } catch {
+          /* storage unavailable = skip the button */
+        }
         const dest = new URLSearchParams({
           amount: String(data.amount ?? total()),
           frequency: monthly ? 'monthly' : 'once',

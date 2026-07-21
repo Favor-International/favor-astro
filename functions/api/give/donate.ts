@@ -35,6 +35,7 @@ import {
   readJsonBody,
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
+import { notifyPortalGiftCompleted } from '../_lib/portal';
 
 interface DonateBody {
   idempotency_key?: string;
@@ -113,12 +114,26 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ]),
     });
 
+    // Portal account + welcome email + one-time dashboard login for the
+    // thank-you page. Best effort; never blocks or fails the gift.
+    const portalLoginUrl = await notifyPortalGiftCompleted(env, {
+      email: donor.email,
+      first: donor.first,
+      last: donor.last,
+      phone: donor.phone,
+      amount: total,
+      frequency: 'once',
+      designation: designation.label,
+      constituent_id: constituentId,
+    });
+
     const result = {
       ok: true,
       gift_id: gift.id,
       amount: total,
       frequency: 'once' as const,
       designation: designation.label,
+      portal_login_url: portalLoginUrl ?? undefined,
     };
     await idempotencyStore(env, idem, result);
     return json(result);
