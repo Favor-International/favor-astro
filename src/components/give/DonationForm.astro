@@ -1,0 +1,569 @@
+---
+// The canonical Blackbaud-integrated donation form (docs/03-design
+// component-library: DonationForm). Three steps, no framework, one island
+// script. Card capture happens inside Blackbaud Checkout (PCI stays with
+// Blackbaud); our Pages Functions charge the authorization and record the
+// gift in Raiser's Edge NXT.
+//
+// Deep links: /give/donate/?frequency=monthly&amount=100&designation=<fund_id>
+import { SITE } from '../../lib/site';
+
+const ONE_TIME_PRESETS = [50, 100, 250, 500, 1000];
+const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
+---
+
+<div class="dform" id="donation-form" data-ready="false">
+  <!-- Loading -->
+  <div class="dform__state dform__loading" data-panel="loading">
+    <p>Loading secure giving&hellip;</p>
+  </div>
+
+  <!-- Fallback when the Blackbaud connection is not configured yet -->
+  <div class="dform__state dform__fallback" data-panel="fallback" hidden>
+    <h2>Give today, another way.</h2>
+    <p>
+      Online card giving is briefly offline. Your gift still reaches the field today through any of
+      these routes:
+    </p>
+    <ul>
+      <li><strong>Check:</strong> payable to Favor Intl., {SITE.mailing}</li>
+      <li><strong>Zelle:</strong> admin@favorintl.org</li>
+      <li><strong>CashApp:</strong> $FavorInternational</li>
+      <li><strong>Stock, DAF, or wire:</strong> <a href="/give/non-cash/">non-cash giving</a></li>
+    </ul>
+    <p>Questions? Email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
+  </div>
+
+  <!-- The form -->
+  <form class="dform__form" data-panel="form" hidden novalidate>
+    <ol class="dform__steps" aria-label="Progress">
+      <li data-step-dot="1" class="is-active">Amount</li>
+      <li data-step-dot="2">Your info</li>
+      <li data-step-dot="3">Payment</li>
+    </ol>
+
+    <!-- STEP 1: amount + frequency -->
+    <fieldset class="dform__step" data-step="1">
+      <legend class="sr-only">Gift amount and frequency</legend>
+
+      <div class="dform__freq" role="radiogroup" aria-label="Frequency">
+        <label class="dform__freq-opt">
+          <input type="radio" name="frequency" value="once" checked />
+          <span>Give once</span>
+        </label>
+        <label class="dform__freq-opt">
+          <input type="radio" name="frequency" value="monthly" />
+          <span>Monthly <em class="dform__freq-badge">Favor Partner</em></span>
+        </label>
+      </div>
+
+      <div class="dform__amounts" data-presets-once role="group" aria-label="One-time amounts">
+        {ONE_TIME_PRESETS.map((a) => (
+          <button type="button" class="dform__amount" data-amount={a}>${a.toLocaleString()}</button>
+        ))}
+      </div>
+      <div class="dform__amounts" data-presets-monthly role="group" aria-label="Monthly amounts" hidden>
+        {MONTHLY_PRESETS.map((a) => (
+          <button type="button" class="dform__amount" data-amount={a}>${a.toLocaleString()}<span>/mo</span></button>
+        ))}
+      </div>
+
+      <div class="dform__custom">
+        <span class="dform__sym">$</span>
+        <input
+          type="number"
+          inputmode="decimal"
+          min="1"
+          max="250000"
+          step="1"
+          name="amount"
+          aria-label="Gift amount in US dollars"
+          placeholder="Other amount"
+        />
+        <span class="dform__per" data-per hidden>/month</span>
+      </div>
+
+      <label class="dform__field dform__designation" data-designation-wrap hidden>
+        <span>Designate your gift</span>
+        <select name="designation"></select>
+      </label>
+
+      <p class="dform__error" data-error="1" role="alert" hidden></p>
+      <button type="button" class="dform__next btn btn--primary btn--large" data-next="1">Continue</button>
+    </fieldset>
+
+    <!-- STEP 2: donor info -->
+    <fieldset class="dform__step" data-step="2" hidden>
+      <legend class="sr-only">Your information</legend>
+
+      <div class="dform__grid">
+        <label class="dform__field"><span>First name</span>
+          <input type="text" name="first" autocomplete="given-name" maxlength="50" required />
+        </label>
+        <label class="dform__field"><span>Last name</span>
+          <input type="text" name="last" autocomplete="family-name" maxlength="100" required />
+        </label>
+      </div>
+      <label class="dform__field"><span>Email (for your receipt)</span>
+        <input type="email" name="email" autocomplete="email" maxlength="254" required />
+      </label>
+      <label class="dform__field"><span>Phone (optional)</span>
+        <input type="tel" name="phone" autocomplete="tel" maxlength="25" />
+      </label>
+      <label class="dform__field"><span>Note or dedication (optional)</span>
+        <textarea name="note" rows="2" maxlength="400"></textarea>
+      </label>
+      <label class="dform__check">
+        <input type="checkbox" name="anonymous" />
+        <span>Keep my gift anonymous</span>
+      </label>
+
+      <p class="dform__error" data-error="2" role="alert" hidden></p>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back="2">&larr; Back</button>
+        <button type="button" class="dform__next btn btn--primary btn--large" data-next="2">Continue</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 3: review + payment -->
+    <fieldset class="dform__step" data-step="3" hidden>
+      <legend class="sr-only">Review and payment</legend>
+
+      <dl class="dform__summary">
+        <div><dt>Gift</dt><dd data-sum="gift"></dd></div>
+        <div><dt>Designation</dt><dd data-sum="designation"></dd></div>
+        <div><dt>Receipt to</dt><dd data-sum="email"></dd></div>
+      </dl>
+
+      <label class="dform__check">
+        <input type="checkbox" name="cover_fees" />
+        <span data-fee-label>Add a little to help cover card processing fees</span>
+      </label>
+
+      <p class="dform__total">Total today: <strong data-total></strong><span data-total-monthly hidden>, then <strong data-total-next></strong> monthly</span></p>
+
+      <p class="dform__disclosure" data-disclosure hidden>
+        You authorize Favor International to charge this card monthly until you cancel. Cancel
+        anytime by emailing <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.
+      </p>
+
+      <div class="dform__turnstile" data-turnstile></div>
+
+      <p class="dform__error" data-error="3" role="alert" hidden></p>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back="3">&larr; Back</button>
+        <button type="button" class="dform__pay btn btn--primary btn--large" data-pay>
+          <span data-pay-label>Give securely</span>
+        </button>
+      </div>
+      <p class="dform__secure">Card details are entered in Blackbaud&rsquo;s secure checkout. Favor never sees or stores your card number.</p>
+    </fieldset>
+
+    <!-- Processing overlay -->
+    <div class="dform__processing" data-panel="processing" hidden aria-live="polite">
+      <p><strong>Completing your gift&hellip;</strong></p>
+      <p>Keep this page open. This takes a few seconds.</p>
+    </div>
+  </form>
+</div>
+
+<script>
+  type Designation = { fund_id: string; label: string };
+  type GiveConfig = {
+    connected: boolean;
+    setup_incomplete?: boolean;
+    public_key?: string;
+    payment_configuration_id?: string;
+    process_mode?: string;
+    designations?: Designation[];
+    fee_rate?: number;
+    fee_fixed?: number;
+    turnstile_site_key?: string | null;
+  };
+
+  declare global {
+    interface Window {
+      Blackbaud_OpenPaymentForm?: (data: Record<string, unknown>) => void;
+      turnstile?: {
+        render: (el: Element, opts: Record<string, unknown>) => string;
+        reset: (id?: string) => void;
+        getResponse: (id?: string) => string | undefined;
+      };
+    }
+  }
+
+  const money = (n: number) =>
+    n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: n % 1 ? 2 : 0 });
+
+  function initDonationForm() {
+    const root = document.getElementById('donation-form');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector(sel) as T | null;
+    const qa = <T extends Element = HTMLElement>(sel: string) => Array.from(root.querySelectorAll(sel)) as T[];
+
+    const panels = {
+      loading: q('[data-panel="loading"]')!,
+      fallback: q('[data-panel="fallback"]')!,
+      form: q<HTMLFormElement>('[data-panel="form"]')!,
+      processing: q('[data-panel="processing"]')!,
+    };
+    const showPanel = (name: keyof typeof panels) => {
+      panels.loading.hidden = name !== 'loading';
+      panels.fallback.hidden = name !== 'fallback';
+      panels.form.hidden = name !== 'form' && name !== 'processing';
+      panels.processing.hidden = name !== 'processing';
+      if (name === 'processing') qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = true));
+    };
+
+    let config: GiveConfig | null = null;
+    let step = 1;
+    let idempotencyKey: string | null = null;
+    let checkoutToken: string | null = null;
+    let cardToken: string | null = null;
+    let turnstileWidget: string | undefined;
+    let submitting = false;
+
+    const params = new URLSearchParams(location.search);
+
+    // ---- state readers -----------------------------------------------------
+    const form = panels.form;
+    const freq = () =>
+      (form.querySelector('input[name="frequency"]:checked') as HTMLInputElement)?.value === 'monthly'
+        ? 'monthly'
+        : 'once';
+    const amountInput = q<HTMLInputElement>('input[name="amount"]')!;
+    const amount = () => Math.round((Number(amountInput.value) || 0) * 100) / 100;
+    const designationSelect = q<HTMLSelectElement>('select[name="designation"]')!;
+    const coverFees = () => (q<HTMLInputElement>('input[name="cover_fees"]')?.checked ?? false);
+    const field = (name: string) => (form.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value.trim() ?? '';
+
+    const total = () => {
+      const a = amount();
+      if (!config || !coverFees()) return a;
+      const rate = config.fee_rate ?? 0.029;
+      const fixed = config.fee_fixed ?? 0.3;
+      return Math.round((a + a * rate + fixed) * 100) / 100;
+    };
+
+    // ---- step navigation ---------------------------------------------------
+    const showError = (n: number, msg: string) => {
+      const el = q(`[data-error="${n}"]`)!;
+      el.textContent = msg;
+      el.hidden = !msg;
+    };
+
+    const goTo = (n: number) => {
+      step = n;
+      qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== String(n)));
+      qa('[data-step-dot]').forEach((d) =>
+        d.classList.toggle('is-active', Number((d as HTMLElement).dataset.stepDot) <= n)
+      );
+      showError(1, ''); showError(2, ''); showError(3, '');
+      if (n === 3) refreshSummary();
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    const refreshPresets = () => {
+      const monthly = freq() === 'monthly';
+      q('[data-presets-once]')!.hidden = monthly;
+      q('[data-presets-monthly]')!.hidden = !monthly;
+      q('[data-per]')!.hidden = !monthly;
+      qa<HTMLButtonElement>('.dform__amount').forEach((b) =>
+        b.setAttribute('aria-pressed', String(Number(b.dataset.amount) === amount()))
+      );
+    };
+
+    const refreshSummary = () => {
+      const monthly = freq() === 'monthly';
+      q('[data-sum="gift"]')!.textContent = `${money(amount())} ${monthly ? 'every month' : 'one time'}`;
+      q('[data-sum="designation"]')!.textContent =
+        designationSelect.options[designationSelect.selectedIndex]?.text ?? '';
+      q('[data-sum="email"]')!.textContent = field('email');
+      q('[data-total]')!.textContent = money(total());
+      const monthlyBits = q('[data-total-monthly]')!;
+      monthlyBits.hidden = !monthly;
+      q('[data-total-next]')!.textContent = money(total());
+      q('[data-disclosure]')!.hidden = !monthly;
+      q('[data-pay-label]')!.textContent = monthly
+        ? `Start my ${money(total())} monthly gift`
+        : `Give ${money(total())} securely`;
+      const rate = config?.fee_rate ?? 0.029;
+      const fixed = config?.fee_fixed ?? 0.3;
+      const fee = Math.round((amount() * rate + fixed) * 100) / 100;
+      q('[data-fee-label]')!.textContent = `Add ${money(fee)} to help cover card processing fees`;
+    };
+
+    // ---- wiring ------------------------------------------------------------
+    qa<HTMLButtonElement>('.dform__amount').forEach((b) =>
+      b.addEventListener('click', () => {
+        amountInput.value = String(b.dataset.amount);
+        refreshPresets();
+      })
+    );
+    amountInput.addEventListener('input', refreshPresets);
+    qa<HTMLInputElement>('input[name="frequency"]').forEach((r) =>
+      r.addEventListener('change', refreshPresets)
+    );
+    q<HTMLInputElement>('input[name="cover_fees"]')?.addEventListener('change', refreshSummary);
+
+    q('[data-next="1"]')!.addEventListener('click', () => {
+      if (!(amount() >= 1)) return showError(1, 'Choose or enter a gift amount of at least $1.');
+      if (amount() > 250000) return showError(1, 'For gifts over $250,000, email ' + 'info@favorintl.org' + ' and we will handle it personally.');
+      goTo(2);
+    });
+    q('[data-next="2"]')!.addEventListener('click', () => {
+      if (!field('first') || !field('last')) return showError(2, 'Your first and last name are required for the receipt.');
+      const email = field('email');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showError(2, 'A valid email is required so your tax receipt can reach you.');
+      goTo(3);
+    });
+    qa<HTMLButtonElement>('[data-back]').forEach((b) =>
+      b.addEventListener('click', () => goTo(Number(b.dataset.back) - 1))
+    );
+
+    // ---- Blackbaud Checkout ------------------------------------------------
+    const openCheckout = () => {
+      if (!window.Blackbaud_OpenPaymentForm || !config?.public_key) {
+        showError(3, 'The secure checkout script did not load. Reload the page and try again.');
+        return;
+      }
+      const monthly = freq() === 'monthly';
+      const t = total();
+      const data: Record<string, unknown> = {
+        key: config.public_key,
+        payment_configuration_id: config.payment_configuration_id,
+        amount: Number(t.toFixed(2)),
+        billing_address_email: field('email'),
+        client_app_name: 'favorintl.org giving',
+        description: monthly ? 'Favor Partner monthly gift (first month)' : 'Gift to Favor International',
+        primary_color: '#2b4d24',
+        is_email_required: true,
+        use_apple_pay: false,
+      };
+      if (monthly) {
+        cardToken = crypto.randomUUID();
+        data.card_token = cardToken;
+      } else {
+        cardToken = null;
+      }
+      idempotencyKey = crypto.randomUUID();
+      window.Blackbaud_OpenPaymentForm(data);
+    };
+
+    q<HTMLButtonElement>('[data-pay]')!.addEventListener('click', () => {
+      if (submitting) return;
+      if (config?.turnstile_site_key && window.turnstile) {
+        const token = window.turnstile.getResponse(turnstileWidget);
+        if (!token) return showError(3, 'Complete the verification checkbox first.');
+      }
+      openCheckout();
+    });
+
+    document.addEventListener('checkoutComplete', async (e) => {
+      const detail = (e as CustomEvent).detail as { transactionToken?: string } | undefined;
+      if (!detail?.transactionToken) {
+        showError(3, 'Checkout finished without a transaction token. Your card was not charged; please try again.');
+        return;
+      }
+      checkoutToken = detail.transactionToken;
+      await submitGift();
+    });
+    document.addEventListener('checkoutError', (e) => {
+      const detail = (e as CustomEvent).detail as { errorText?: string } | undefined;
+      showError(3, detail?.errorText || 'The payment could not be processed. Nothing was charged; please try again.');
+    });
+
+    async function submitGift() {
+      if (submitting || !checkoutToken || !idempotencyKey) return;
+      submitting = true;
+      showPanel('processing');
+
+      const monthly = freq() === 'monthly';
+      const body: Record<string, unknown> = {
+        idempotency_key: idempotencyKey,
+        amount: amount(),
+        cover_fees: coverFees(),
+        designation_fund_id: designationSelect.value,
+        donor: {
+          first: field('first'),
+          last: field('last'),
+          email: field('email'),
+          phone: field('phone') || undefined,
+        },
+        anonymous: q<HTMLInputElement>('input[name="anonymous"]')!.checked,
+        note: field('note') || undefined,
+        checkout: { transaction_token: checkoutToken },
+        turnstile_token:
+          config?.turnstile_site_key && window.turnstile ? window.turnstile.getResponse(turnstileWidget) : undefined,
+      };
+      if (monthly) body.card_token = cardToken;
+
+      try {
+        const res = await fetch(monthly ? '/api/give/donate-recurring' : '/api/give/donate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = (await res.json()) as { ok?: boolean; message?: string; amount?: number; designation?: string };
+        if (!res.ok || !data.ok) throw new Error(data.message || 'The gift could not be completed.');
+        const dest = new URLSearchParams({
+          amount: String(data.amount ?? total()),
+          frequency: monthly ? 'monthly' : 'once',
+          designation: data.designation ?? '',
+          name: field('first'),
+        });
+        location.assign('/give/thank-you/?' + dest.toString());
+      } catch (err) {
+        submitting = false;
+        showPanel('form');
+        goTo(3);
+        showError(
+          3,
+          (err instanceof Error ? err.message : 'The gift could not be completed.') +
+            ' Your card shows a temporary authorization but was not charged; it releases automatically. ' +
+            'Press the button to try again, or email info@favorintl.org and we will finish it with you.'
+        );
+        // Keep the same idempotency key + checkout token so a retry click
+        // resubmits the SAME gift instead of charging twice.
+        q<HTMLButtonElement>('[data-pay]')!.onclick = () => submitGift();
+      }
+    }
+
+    // ---- bootstrap -----------------------------------------------------------
+    (async () => {
+      try {
+        const res = await fetch('/api/give/config');
+        config = (await res.json()) as GiveConfig;
+      } catch {
+        config = null;
+      }
+      if (!config?.connected || config.setup_incomplete || !config.public_key || !(config.designations ?? []).length) {
+        showPanel('fallback');
+        return;
+      }
+
+      // designations
+      const wrap = q('[data-designation-wrap]')!;
+      designationSelect.innerHTML = '';
+      for (const d of config.designations!) {
+        const opt = document.createElement('option');
+        opt.value = d.fund_id;
+        opt.textContent = d.label;
+        designationSelect.appendChild(opt);
+      }
+      wrap.hidden = config.designations!.length < 2;
+
+      // deep links
+      const pAmount = Number(params.get('amount'));
+      if (pAmount >= 1) amountInput.value = String(pAmount);
+      if (params.get('frequency') === 'monthly') {
+        (form.querySelector('input[name="frequency"][value="monthly"]') as HTMLInputElement).checked = true;
+      }
+      const pDesignation = params.get('designation');
+      if (pDesignation && config.designations!.some((d) => d.fund_id === pDesignation)) {
+        designationSelect.value = pDesignation;
+      }
+      refreshPresets();
+
+      // turnstile (only when configured)
+      if (config.turnstile_site_key) {
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        s.async = true;
+        s.onload = () => {
+          if (window.turnstile) {
+            turnstileWidget = window.turnstile.render(q('[data-turnstile]')!, {
+              sitekey: config!.turnstile_site_key,
+              theme: 'light',
+            });
+          }
+        };
+        document.head.appendChild(s);
+      }
+
+      showPanel('form');
+      goTo(1);
+    })();
+  }
+
+  initDonationForm();
+  document.addEventListener('astro:page-load', initDonationForm);
+</script>
+
+<script src="https://payments.blackbaud.com/Checkout/bbCheckout.2.0.js" is:inline defer></script>
+
+<style>
+  .dform { max-width: 640px; margin: 0 auto; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  .dform__state { text-align: center; padding: var(--space-8) 0; color: var(--color-ink-soft); }
+  .dform__fallback { text-align: left; }
+  .dform__fallback h2 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .dform__fallback ul { line-height: 2; }
+  .dform__fallback a { color: var(--color-gold-deep); font-weight: 700; }
+
+  .dform__steps { list-style: none; display: flex; gap: var(--space-2); padding: 0; margin: 0 0 var(--space-6); justify-content: center; }
+  .dform__steps li { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-sage); padding: 6px 14px; border-radius: var(--radius-pill); background: var(--color-cream); }
+  .dform__steps li.is-active { color: var(--color-white); background: var(--color-green); }
+
+  .dform__step { border: 0; padding: 0; margin: 0; }
+
+  .dform__freq { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); background: var(--color-cream); padding: 6px; border-radius: var(--radius-input); margin-bottom: var(--space-5); }
+  .dform__freq-opt { position: relative; }
+  .dform__freq-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .dform__freq-opt span { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 8px; border-radius: calc(var(--radius-input) - 4px); font-weight: 700; color: var(--color-green); transition: background 140ms, color 140ms; }
+  .dform__freq-opt input:checked + span { background: var(--color-green); color: var(--color-white); }
+  .dform__freq-opt input:focus-visible + span { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+  .dform__freq-badge { font-style: normal; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; background: var(--color-gold); color: var(--color-green-deep); padding: 2px 8px; border-radius: var(--radius-pill); }
+
+  .dform__amounts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-bottom: var(--space-3); }
+  @media (max-width: 540px) { .dform__amounts { grid-template-columns: repeat(2, 1fr); } }
+  .dform__amount { font: inherit; font-weight: 700; color: var(--color-green); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-input); padding: 14px 8px; cursor: pointer; transition: border-color 140ms, background 140ms, color 140ms; }
+  .dform__amount span { font-size: 0.8em; color: var(--color-sage); }
+  .dform__amount:hover { border-color: var(--color-gold); }
+  .dform__amount[aria-pressed='true'] { background: var(--color-green); color: var(--color-white); border-color: var(--color-green); }
+  .dform__amount[aria-pressed='true'] span { color: var(--color-gold); }
+
+  .dform__custom { display: flex; align-items: center; gap: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-input); padding: 4px 4px 4px var(--space-4); background: var(--color-white); box-shadow: var(--shadow-soft); margin-bottom: var(--space-4); }
+  .dform__sym { color: var(--color-sage); font-weight: 700; }
+  .dform__custom input { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 1.15rem; font-weight: 700; color: var(--color-green-deep); padding: 12px 0; background: transparent; -moz-appearance: textfield; }
+  .dform__custom input::-webkit-outer-spin-button, .dform__custom input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .dform__per { color: var(--color-sage); font-weight: 700; padding-right: var(--space-3); }
+
+  .dform__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  @media (max-width: 540px) { .dform__grid { grid-template-columns: 1fr; } }
+  .dform__field { display: block; margin-bottom: var(--space-3); }
+  .dform__field span { display: block; font-size: 0.85rem; font-weight: 700; color: var(--color-green-deep); margin-bottom: 6px; }
+  .dform__field input, .dform__field select, .dform__field textarea {
+    width: 100%; box-sizing: border-box; font: inherit; padding: 12px 14px;
+    border: 1px solid var(--color-border); border-radius: var(--radius-input);
+    background: var(--color-white); color: var(--color-ink);
+  }
+  .dform__field input:focus-visible, .dform__field select:focus-visible, .dform__field textarea:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 1px; }
+
+  .dform__check { display: flex; gap: 10px; align-items: flex-start; margin: var(--space-3) 0; cursor: pointer; }
+  .dform__check input { margin-top: 3px; accent-color: var(--color-green); }
+
+  .dform__summary { margin: 0 0 var(--space-4); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: grid; gap: 8px; }
+  .dform__summary div { display: flex; justify-content: space-between; gap: var(--space-4); }
+  .dform__summary dt { color: var(--color-sage); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .dform__summary dd { margin: 0; font-weight: 700; color: var(--color-green-deep); text-align: right; overflow-wrap: anywhere; }
+
+  .dform__total { font-size: 1.05rem; color: var(--color-ink); margin: var(--space-3) 0; }
+  .dform__total strong { color: var(--color-green); }
+  .dform__disclosure { font-size: 0.85rem; color: var(--color-ink-soft); background: var(--color-cream); padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); }
+  .dform__disclosure a { color: var(--color-gold-deep); }
+
+  .dform__turnstile { margin: var(--space-3) 0; }
+
+  .dform__nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-4); }
+  .dform__back { background: none; border: 0; font: inherit; font-weight: 700; color: var(--color-sage); cursor: pointer; padding: 12px 0; }
+  .dform__back:hover { color: var(--color-green); }
+  .dform__next, .dform__pay { margin-left: auto; }
+
+  .dform__error { color: #a03123; background: #fdf0ee; border: 1px solid #efc7c0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); font-size: 0.92rem; }
+  .dform__secure { font-size: 0.8rem; color: var(--color-sage); text-align: center; margin-top: var(--space-4); }
+  .dform__processing { text-align: center; padding: var(--space-8) 0; color: var(--color-green-deep); }
+</style>

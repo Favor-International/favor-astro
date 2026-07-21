@@ -1,0 +1,34 @@
+# Local secrets for `wrangler pages dev` (copy to .dev.vars, never commit).
+# Production values live in Cloudflare Pages > favor-astro > Settings >
+# Environment variables. Full setup runbook:
+# docs/04-tech/integrations/blackbaud-implementation.md
+
+# From https://developer.blackbaud.com/apps/appdetail/f540317d-af68-4018-a5e5-6ecb74ddeac0
+BLACKBAUD_CLIENT_ID=
+BLACKBAUD_CLIENT_SECRET=
+
+# From https://developer.blackbaud.com/subscriptions (primary access key)
+BLACKBAUD_SUBSCRIPTION_KEY=
+
+# Any long random string; guards /api/blackbaud/auth, /status, /funds
+BLACKBAUD_SETUP_KEY=
+
+# Fund the money lands in when no designation list is configured.
+# Get ids from /api/blackbaud/funds?key=<setup key> after connecting.
+BLACKBAUD_DEFAULT_FUND_ID=
+
+# Optional: full designation list shown in the form (JSON, one line)
+# GIVING_DESIGNATIONS=[{"fund_id":"1","label":"Where Most Needed"},{"fund_id":"2","label":"Portable Bible Schools"}]
+
+# Optional: pin a BBMS payment configuration id; otherwise the first active
+# Live configuration is used ("true" test mode prefers a Test configuration).
+# BLACKBAUD_PAYMENT_CONFIG_ID=
+# GIVE_TEST_MODE=true
+
+# Optional: Cloudflare Turnstile (bot protection on the give form)
+# TURNSTILE_SITE_KEY=
+# TURNSTILE_SECRET_KEY=
+
+# Optional: donor fee-cover estimate (defaults 0.029 + 0.30)
+# GIVE_FEE_RATE=0.029
+# GIVE_FEE_FIXED=0.30

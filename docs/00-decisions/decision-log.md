@@ -534,4 +534,34 @@ five vision-confirmed hero candidates.
 
 ---
 
+## 2026-07-21 — Native Blackbaud SKY API giving replaces the hosted form embed
+
+**Decision:** /give/donate/ no longer embeds the hosted Blackbaud donor
+form (BBDonorFormLoader). The site now runs its own three-step form
+(`DonationForm.astro`) against the SKY API through Cloudflare Pages
+Functions: Blackbaud Checkout captures the card, one Gift API call
+charges the authorization and records the gift
+(`checkout_transaction_id` + `charge_transaction`), and monthly gifts
+vault the card via a Checkout `card_token`, then convert the recurring
+gift to automatic processing. OAuth code-flow tokens live in the
+`BLACKBAUD_TOKENS` KV namespace and rotate on refresh.
+
+**Reason:** Will's directive (2026-07-21): integrate the Blackbaud API
+into our giving instead of embedding the separate hosted form. Favor
+provided the SKY application
+(f540317d-af68-4018-a5e5-6ecb74ddeac0) and the Gift API docs link.
+The embed could not match the site's three-step conversion design,
+brand, or designation control.
+
+**Consequences:** Go-live requires the checklist in
+`04-tech/integrations/blackbaud-implementation.md` (redirect URIs +
+scopes on the Blackbaud app, KV binding, env vars, one admin OAuth
+consent, fund ids from /api/blackbaud/funds). Until then
+/api/give/config reports not connected and the form falls back to the
+check/Zelle/CashApp panel. Deviation from the build prompt: the form
+island is vanilla TypeScript, not React; the site ships zero framework
+runtime and the three-step flow needs none.
+
+---
+
 <!-- Add new entries above this line. -->

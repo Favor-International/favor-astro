@@ -44,3 +44,6 @@ preview.log
 
 # Raw source media (encoded versions live in public/videos/)
 /*.mp4
+
+# wrangler local dev state
+.wrangler/

@@ -13,6 +13,8 @@ export interface Props {
   defaultAmount?: number;
   currency?: string;
   formBase?: string;
+  /** Appended to the form link so the donate form preselects it. */
+  frequency?: 'once' | 'monthly';
   donateLabel?: string;
   goal?: number;
   raised?: number;
@@ -22,7 +24,7 @@ const {
   eyebrow, heading, body, image, imageAlt,
   amounts = [10, 50, 100, 150, 200],
   defaultAmount = 60, currency = 'USD',
-  formBase = '/give/donate/', donateLabel = 'Donate Now',
+  formBase = '/give/donate/', frequency, donateLabel = 'Donate Now',
   goal, raised, causeLabel,
 } = Astro.props as Props;
 const hasProgress = typeof goal === 'number' && typeof raised === 'number';
@@ -50,7 +52,7 @@ const money = (n: number) => '$' + n.toLocaleString();
             {amounts.map((a) => <button type="button" class="donation__preset" data-amount={a} aria-pressed={a === defaultAmount ? 'true' : 'false'}>${a}</button>)}
           </div>
 
-          <a class="donation__cta" href={formBase}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
+          <a class="donation__cta" href={formBase} data-form-base={formBase} data-frequency={frequency}>{donateLabel} <span aria-hidden="true">&rarr;</span></a>
         </div>
 
         <div class="donation__right">
@@ -77,16 +79,34 @@ const money = (n: number) => '$' + n.toLocaleString();
 </section>
 <script>
   // Preset buttons fill the amount field; typing clears the pressed preset.
+  // The chosen amount (and optional frequency) ride along to the donate form
+  // as query params so the form opens preselected.
   document.querySelectorAll('.donation').forEach((block) => {
     const field = block.querySelector('.donation__field') as HTMLInputElement | null;
     const presets = Array.from(block.querySelectorAll('.donation__preset')) as HTMLButtonElement[];
+    const cta = block.querySelector('.donation__cta') as HTMLAnchorElement | null;
+
+    const syncCta = () => {
+      if (!cta) return;
+      const base = cta.dataset.formBase || cta.getAttribute('href') || '/give/donate/';
+      const params = new URLSearchParams();
+      const amount = Number(field?.value);
+      if (amount >= 1) params.set('amount', String(amount));
+      if (cta.dataset.frequency) params.set('frequency', cta.dataset.frequency);
+      const qs = params.toString();
+      cta.href = qs ? `${base}?${qs}` : base;
+    };
+
     presets.forEach((b) => b.addEventListener('click', () => {
       if (field) field.value = b.dataset.amount || '';
       presets.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+      syncCta();
     }));
     field?.addEventListener('input', () => {
       presets.forEach((x) => x.setAttribute('aria-pressed', x.dataset.amount === field.value ? 'true' : 'false'));
+      syncCta();
     });
+    syncCta();
   });
 </script>
 <style>
