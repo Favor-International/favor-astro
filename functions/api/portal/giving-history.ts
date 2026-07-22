@@ -28,8 +28,43 @@ interface GiftRead {
   is_anonymous?: boolean;
   gift_splits?: GiftSplit[];
   payments?: Array<{ payment_method?: string }>;
-  receipts?: Array<{ status?: string }>;
+  receipts?: Array<{ status?: string; number?: number; date?: string }>;
   recurring_gift_schedule?: { frequency?: string; start_date?: string };
+}
+
+interface LifetimeGivingRead {
+  total_giving?: { value?: number };
+  total_received_giving?: { value?: number };
+  consecutive_years_given?: number;
+  total_years_given?: number;
+}
+interface GivingSummaryRead {
+  id?: string;
+  amount?: { value?: number };
+  date?: string;
+}
+
+// Read-only constituent giving summaries (authoritative, server-computed).
+// Failure-isolated: any error returns null so the core history still serves.
+async function lifetimeGiving(env: Env, constituentId: string): Promise<LifetimeGivingRead | null> {
+  try {
+    return await bbJson<LifetimeGivingRead>(
+      env,
+      `/constituent/v1/constituents/${encodeURIComponent(constituentId)}/givingsummary/lifetimegiving`
+    );
+  } catch {
+    return null;
+  }
+}
+async function firstGift(env: Env, constituentId: string): Promise<GivingSummaryRead | null> {
+  try {
+    return await bbJson<GivingSummaryRead>(
+      env,
+      `/constituent/v1/constituents/${encodeURIComponent(constituentId)}/givingsummary/first`
+    );
+  } catch {
+    return null;
+  }
 }
 
 function timingSafeEqualStr(a: string, b: string): boolean {
@@ -110,30 +145,37 @@ export const onRequestGet: PagesFunction<Env & { PORTAL_API_KEY?: string }> = as
       return json({ ok: true, constituent: null, gifts: [], summary: { total_given: 0, gift_count: 0 } });
     }
 
-    const [giftData, funds] = await Promise.all([
+    const [giftData, funds, lifetime, first] = await Promise.all([
       bbJson<{ count?: number; value?: GiftRead[] }>(
         env,
-        `/gift/v1/gifts?constituent_id=${constituentId}&limit=200`
+        `/gift/v1/gifts?constituent_id=${encodeURIComponent(constituentId)}&limit=200`
       ),
       fundNames(env),
+      lifetimeGiving(env, constituentId),
+      firstGift(env, constituentId),
     ]);
 
     const gifts = (giftData.value ?? [])
-      .map((g) => ({
-        id: g.id,
-        lookup_id: g.lookup_id,
-        date: g.date ?? null,
-        amount: g.amount?.value ?? 0,
-        type: g.type ?? 'Donation',
-        status: g.gift_status ?? null,
-        is_recurring: g.type === 'RecurringGift',
-        is_recurring_payment: g.type === 'RecurringGiftPayment',
-        frequency: g.recurring_gift_schedule?.frequency ?? null,
-        designation: g.gift_splits?.length ? funds.get(g.gift_splits[0].fund_id ?? '') ?? null : null,
-        payment_method: g.payments?.[0]?.payment_method ?? null,
-        receipted: (g.receipts ?? []).some((r) => (r.status ?? '').toLowerCase() === 'receipted'),
-        anonymous: g.is_anonymous === true,
-      }))
+      .map((g) => {
+        const receipt = (g.receipts ?? []).find((r) => (r.status ?? '').toLowerCase() === 'receipted');
+        return {
+          id: g.id,
+          lookup_id: g.lookup_id,
+          date: g.date ?? null,
+          amount: g.amount?.value ?? 0,
+          type: g.type ?? 'Donation',
+          status: g.gift_status ?? null,
+          is_recurring: g.type === 'RecurringGift',
+          is_recurring_payment: g.type === 'RecurringGiftPayment',
+          frequency: g.recurring_gift_schedule?.frequency ?? null,
+          designation: g.gift_splits?.length ? funds.get(g.gift_splits[0].fund_id ?? '') ?? null : null,
+          payment_method: g.payments?.[0]?.payment_method ?? null,
+          receipted: !!receipt,
+          receipt_number: receipt?.number ?? null,
+          receipt_date: receipt?.date ?? null,
+          anonymous: g.is_anonymous === true,
+        };
+      })
       .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
 
     // RecurringGift rows are schedules, not money received; count payments +
@@ -152,11 +194,23 @@ export const onRequestGet: PagesFunction<Env & { PORTAL_API_KEY?: string }> = as
       active_recurring: gifts.filter((g) => g.is_recurring && (g.status ?? '') === 'Active').length,
     };
 
+    // Authoritative lifetime (server-computed, not capped by the 200-gift
+    // page) and the donor's first-gift date for "partner since".
+    const lifetimeTotal = lifetime?.total_received_giving?.value ?? lifetime?.total_giving?.value ?? null;
+    const enriched = {
+      ...summary,
+      lifetime_total: lifetimeTotal,
+      consecutive_years_given: lifetime?.consecutive_years_given ?? null,
+      total_years_given: lifetime?.total_years_given ?? null,
+      first_gift_date: first?.date ?? null,
+      first_gift_amount: first?.amount?.value ?? null,
+    };
+
     return json({
       ok: true,
       constituent: { id: constituentId, name: constituentName ?? null, email },
       gifts,
-      summary,
+      summary: enriched,
     });
   } catch (err) {
     if (err instanceof BlackbaudError) return handleError(err);
