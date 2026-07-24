@@ -12,7 +12,11 @@ import { requireMarketingKey } from './_guard';
 type Body =
   | { action: 'gift_entry'; constituent_id: string; amount: number; date?: string; fund_id: string; payment_method?: string; check_number?: string; reference?: string }
   | { action: 'constituent_create'; first: string; last: string; email?: string; phone?: string }
-  | { action: 'constituent_update'; id: string; first?: string; last?: string; email?: string; phone?: string; address?: { address_lines?: string; city?: string; state?: string; postal_code?: string } };
+  | { action: 'constituent_update'; id: string; first?: string; last?: string; email?: string; phone?: string; address?: { address_lines?: string; city?: string; state?: string; postal_code?: string } }
+  | { action: 'gift_mark'; id: string; kind: 'receipt' | 'ack'; status?: string; date?: string; number?: string };
+
+const RECEIPT_STATUSES = new Set(['Receipted', 'NotReceipted', 'DoNotReceipt']);
+const ACK_STATUSES = new Set(['Acknowledged', 'NotAcknowledged', 'DoNotAcknowledge']);
 
 async function upsertPrimary(env: Env, kind: 'emailaddresses' | 'phones', constituentId: string, value: string): Promise<void> {
   const field = kind === 'emailaddresses' ? 'address' : 'number';
@@ -95,6 +99,30 @@ export const onRequestPost: PagesFunction<Env & { MARKETING_API_KEY?: string }> 
         });
         if (!res.ok) throw new Error(`address POST ${res.status}: ${await res.text()}`);
       }
+      return json({ ok: true });
+    }
+
+    if (body.action === 'gift_mark') {
+      // Receipt / acknowledgement status on an existing gift (thank-you and
+      // receipting workbench in Favor Marketing).
+      if (!/^\d+$/.test(String(body.id))) return errorJson('bad_id', 'numeric gift id required', 400);
+      const date = body.date ? `${String(body.date).slice(0, 10)}T12:00:00Z` : new Date().toISOString();
+      let patch: Record<string, unknown>;
+      if (body.kind === 'receipt') {
+        const status = RECEIPT_STATUSES.has(String(body.status)) ? String(body.status) : 'Receipted';
+        const receipt: Record<string, unknown> = { status, date };
+        if (body.number) receipt.number = Number(String(body.number).replace(/\D/g, '')) || undefined;
+        patch = { receipts: [receipt] };
+      } else if (body.kind === 'ack') {
+        const status = ACK_STATUSES.has(String(body.status)) ? String(body.status) : 'Acknowledged';
+        patch = { acknowledgements: [{ status, date }] };
+      } else {
+        return errorJson('bad_kind', 'kind must be receipt or ack', 400);
+      }
+      const res = await bbFetch(env, `/gift/v1/gifts/${encodeURIComponent(body.id)}`, {
+        method: 'PATCH', body: JSON.stringify(patch),
+      });
+      if (!res.ok) throw new Error(`gift PATCH ${res.status}: ${await res.text()}`);
       return json({ ok: true });
     }
 
