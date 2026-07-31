@@ -52,12 +52,17 @@ duplicated template sentences fixed across Impact, Go, Give, About, and utility 
    fields" and thinks Terry says something like "main mission stations," with "outposts"
    (PBS) elsewhere. Current copy says "main fields" as a safe placeholder. CONFIRM the
    real term and I'll sweep it in.
-2. **The map with the dots.** The 2,725 PBS dots and mission-station markers already exist
-   in the repo data; the map deliberately renders only the three named countries for field
-   security. If Carole/Terry approve showing the dots (unnamed), it's a same-day change.
-3. **Exact country count.** Stephanie said "12+ or 14+ or whatever it is." The site now
-   says 12, which is the count in Favor's own field artwork. CONFIRM against the quarterly
-   report wording.
+2. **The map is back.** An earlier automated "privacy audit" commit had stripped the
+   2,725 PBS dots, the mission-station markers, the country labels, and the "14+ Nations
+   served" stat, and wrote the "public country fields" language in their place. The full
+   map is restored exactly as it ran before that commit: red PBS dots, green mission
+   stations, blue future stations, all reached countries in gold with labels. One thing to
+   settle in the meeting: the restored map labels countries beyond the main three, which
+   sits in tension with the "only name the three main fields publicly" rule. It ran this
+   way through the Danny/Jennifer review rounds, so presumably that's fine, but say the
+   word and I'll unlabel the others while keeping the dots.
+3. **Country count restored to "14+ Nations served,"** the number the site used at
+   launch-readiness. CONFIRM against the quarterly report wording.
 4. **Stats: who owns them, and which period.** Homepage shows 2025 totals; all-time
    salvations (524,673) shows in the map band. They're hand-edited in the code today. I can
    move them to one data file so an update is a single edit, and we should name an owner.

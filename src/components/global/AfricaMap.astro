@@ -25,12 +25,6 @@ const { dots, orange, green } = pbs as {
   orange: [number, number][];
   green: [number, number][];
 };
-const publicCountries = new Set(['Uganda', 'S. Sudan', 'Chad']);
-const publicCountryName = (name: string) => name === 'S. Sudan' ? 'South Sudan' : name;
-const publicLabels = labels.filter((label) => {
-  const name = label.lines.join(' ').toLowerCase();
-  return name === 'uganda' || name === 'south sudan' || name === 'chad';
-});
 
 // Mission-station markers are larger dots, distinct from the small PBS dots.
 const STATION_R = 13;
@@ -53,22 +47,22 @@ const { showStats = true, note } = Astro.props as Props;
 
 ---
 
-<section class="africa-map" aria-label="Where Favor works in Africa">
+<section class="africa-map" aria-label="Where your partnership reaches across Africa">
   <div class="container africa-map__inner">
     <header class="africa-map__head">
       <p class="eyebrow eyebrow--gold">Your partnership puts you on the mission field</p>
-      <h2 class="africa-map__h2">Rooted in three nations. Reaching many more.</h2>
+      <h2 class="africa-map__h2">Every point is a place the Gospel has reached.</h2>
       <p class="africa-map__lede">
-        Thanks to partners like you, indigenous missionaries are carrying the Gospel
-        across Uganda, South Sudan, and Chad, and into nations beyond. They disciple
-        leaders the way Jesus did, and those leaders go out to their own people with
-        prayer, discipleship, education, and community transformation.
+        Across East and Central Africa: the communities reached through Portable Bible Schools,
+        the mission stations standing today, and the ones you are helping to plant next.
       </p>
     </header>
 
     <figure class="africa-map__board">
       <ul class="africa-map__key" aria-label="Map key">
-        <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Main fields: Uganda, South Sudan, Chad</li>
+        <li><span class="africa-map__key-dot africa-map__key-dot--pbs"></span>Areas reached by a Portable Bible School</li>
+        <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Mission stations</li>
+        <li><span class="africa-map__key-dot africa-map__key-dot--future"></span>Future mission stations</li>
       </ul>
       <svg
         class="africa-map__svg"
@@ -78,19 +72,19 @@ const { showStats = true, note } = Astro.props as Props;
         aria-labelledby="africa-map-title"
       >
         <title id="africa-map-title">
-          Map of Africa highlighting Favor International’s main fields: Uganda, South Sudan, and Chad
+          Map of East and Central Africa showing Favor International mission stations and the areas reached by Portable Bible Schools
         </title>
 
         <rect x={view.x} y={view.y} width={view.w} height={view.h} class="africa-map__sea" />
 
         <g class="africa-map__countries">
           {countries.map((c) => (
-            <path d={c.d} class={publicCountries.has(c.name) ? 'country country--reached' : 'country'} data-name={publicCountries.has(c.name) ? publicCountryName(c.name) : undefined} />
+            <path d={c.d} class={c.reached ? 'country country--reached' : 'country'} data-name={c.name} />
           ))}
         </g>
 
         <g class="africa-map__leaders" aria-hidden="true">
-          {publicLabels.filter((l) => l.leader).map((l) => (
+          {labels.filter((l) => l.leader).map((l) => (
             <>
               <line x1={l.leader![0]} y1={l.leader![1]} x2={l.x} y2={l.y} />
               <circle cx={l.leader![0]} cy={l.leader![1]} r="5" />
@@ -98,16 +92,28 @@ const { showStats = true, note } = Astro.props as Props;
           ))}
         </g>
         <g class="africa-map__labels" aria-hidden="true">
-          {publicLabels.map((l) => (
+          {labels.map((l) => (
             <text x={l.x} y={l.y} font-size={l.fs} text-anchor={l.anchor}>
               {l.lines.map((ln, i) => <tspan x={l.x} dy={i === 0 ? 0 : l.fs * 1.02}>{ln}</tspan>)}
             </text>
           ))}
         </g>
 
+        <g class="africa-map__dots" aria-hidden="true">
+          {dots.map(([x, y, r]) => (
+            <circle cx={x} cy={y} r={Math.max(2, r * 1.6).toFixed(1)} style={`transition-delay:${delay(x, y)}ms`} />
+          ))}
+        </g>
+
+        <g class="africa-map__stations africa-map__stations--station" aria-hidden="true">
+          {green.map(([x, y]) => <circle cx={x} cy={y} r={STATION_R} style={`transition-delay:${delay(x, y) + 300}ms`} />)}
+        </g>
+        <g class="africa-map__stations africa-map__stations--future" aria-hidden="true">
+          {orange.map(([x, y]) => <circle cx={x} cy={y} r={STATION_R} style={`transition-delay:${delay(x, y) + 300}ms`} />)}
+        </g>
       </svg>
       <figcaption class="africa-map__caption">
-        Favor also serves in nations we do not name publicly, to protect the believers working there.
+        Mission stations and Portable Bible School coverage across Favor's field, 2025.
       </figcaption>
     </figure>
 
@@ -124,10 +130,8 @@ const { showStats = true, note } = Astro.props as Props;
         </div>
         <span class="africa-map__stat-divider" aria-hidden="true"></span>
         <div class="africa-map__stat">
-          <!-- 12 = the reached countries in Favor's own field artwork
-               (africa-geo.json). Count only; unnamed for field security. -->
-          <span class="africa-map__stat-num">12</span>
-          <span class="africa-map__stat-label">Nations reached</span>
+          <span class="africa-map__stat-num">14+</span>
+          <span class="africa-map__stat-label">Nations served</span>
         </div>
       </div>
     )}
