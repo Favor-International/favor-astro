@@ -12,17 +12,17 @@ const projects = [
 ];
 const projectSteps = [
   { n: '1', title: 'Choose an area', body: 'Start with the ministry area you want to support: evangelism, education, community care, or economic empowerment.' },
-  { n: '2', title: 'Confirm the current need', body: 'Ask the Favor team which project is active, where it is located, and what remains to be funded.' },
-  { n: '3', title: 'Receive the giving route', body: 'The team can provide the correct designation language and secure giving path for that project.' },
-  { n: '4', title: 'Follow the work', body: 'Ask what reporting or field updates are available and how gifts are handled if the original need becomes fully funded.' },
+  { n: '2', title: 'Confirm the current need', body: 'Ask us which project is active, where it is, and what remains to be funded.' },
+  { n: '3', title: 'Receive the giving route', body: 'We will send you the exact designation wording and a secure way to give to that project.' },
+  { n: '4', title: 'Follow the work', body: 'You will hear how the project goes through field reports and updates. Ask us up front how gifts are handled if the need becomes fully funded.' },
 ];
 const projectFaqs = [
-  { q: 'Why are live project balances not published here?', a: 'Field needs and received gifts can change quickly. Favor should confirm the current balance before a donor relies on a progress figure or makes a restricted gift.' },
-  { q: 'Can I designate a gift to one program?', a: 'Designated giving may be available when Favor has an active approved project. Contact the team for the current project name and the correct way to record the designation.' },
-  { q: 'What if the project becomes fully funded?', a: 'Ask Favor how excess designated funds would be handled before giving. The answer may depend on the project and the language used in the gift agreement.' },
-  { q: 'Can a foundation or church fund a project?', a: 'Yes, those conversations can begin through the foundation or church-partnership pathways. The team can provide the appropriate documentation and current project information.' },
-  { q: 'What if I do not need the gift restricted?', a: 'An unrestricted one-time gift or monthly partnership gives field leadership more flexibility to address changing needs without being limited to one project budget.' },
-  { q: 'Will every project provide the same reporting?', a: 'No. Reporting depends on the project, grant agreement, duration, and information available from the field. Confirm expectations before making a material designated gift.' },
+  { q: 'How do I find out what a project still needs?', a: 'Ask us. Field needs and received gifts change quickly, so we confirm the current balance with you before you designate a gift.' },
+  { q: 'Can I designate a gift to one program?', a: 'Yes, when there is an active approved project. Contact us for the current project name and the right way to record the designation.' },
+  { q: 'What if the project becomes fully funded?', a: 'Ask us before you give and we will tell you exactly how any extra designated funds would be handled for that project.' },
+  { q: 'Can a foundation or church fund a project?', a: 'Yes. Start with our foundation or church partnership pages and we will send current project details and documentation.' },
+  { q: 'What if I do not want to designate my gift?', a: 'An undesignated gift, one-time or monthly, gives field leadership the most freedom to respond where the need is greatest.' },
+  { q: 'Will every project provide the same reporting?', a: 'No. Reporting depends on the project, its duration, and what the field can send. Before a large designated gift, ask us what updates you can expect.' },
 ];
 ---
 <RedesignLayout
@@ -32,7 +32,7 @@ const projectFaqs = [
   <PageHero
     label="Specific project"
     title="Fund the exact thing the field needs."
-    promise="Tell the team which area of the work you want to support, and confirm the current field need before you give."
+    promise="Your gift funds a real project with a name and a place, and you will watch it unfold through reports and updates from the field."
     image="/images/field/hero-construction-uganda.webp"
     imageAlt="A Favor church under construction in Uganda"
     variant="split"
@@ -40,7 +40,7 @@ const projectFaqs = [
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="Areas you can support" title="Start with the work God has put on your heart." intro="Project needs and funding balances change in the field. These established ministry areas are the starting point for a current, verified project conversation." />
+      <LeafHeading label="Areas you can support" title="Start with the work God has put on your heart." intro="&ldquo;The harvest truly is great, but the laborers are few.&rdquo; (Luke 10:2). Tell us where God is pulling your heart, and we will show you what the field needs right now." />
       <div class="proj-grid">
         {projects.map((p) => (
           <a class="project-tile reveal" href="/about/contact/?topic=specific-project">
@@ -59,7 +59,7 @@ const projectFaqs = [
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading label="How designation works" title="Four steps keep the project clear." intro="A short conversation before giving protects both the donor’s intent and the field team’s ability to report accurately." />
+      <LeafHeading label="How designation works" title="Four steps keep the project clear." intro="A short conversation before you give makes sure your gift lands exactly where you intended, and that we can report back to you honestly." />
       <ol class="project-steps">{projectSteps.map((item) => <li class="rd-card reveal"><span>{item.n}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
     </div>
   </section>

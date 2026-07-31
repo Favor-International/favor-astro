@@ -19,13 +19,13 @@ const pathway = [
   { n: '1', title: 'Train', body: 'Participants build practical knowledge in skills, trauma healing, entrepreneurship, parenting, financial management, or a chosen vocation.' },
   { n: '2', title: 'Practice', body: 'Training moves into hands-on work through shared projects, vocational experience, farming, fisheries, animal husbandry, and other locally relevant activities.' },
   { n: '3', title: 'Begin', body: 'Women and young adults use the structure, skills, certificates, or starter project provided through the program to begin producing income.' },
-  { n: '4', title: 'Follow up', body: 'Favor’s published model includes accountability and continuing support as participants implement what they have learned and build confidence.' },
+  { n: '4', title: 'Follow up', body: 'Our field teams stay with participants through accountability and continuing support as they put what they have learned into practice and build confidence.' },
 ];
 const empowermentFaqs = [
-  { q: 'Is economic empowerment separate from discipleship?', a: 'No. Favor describes practical work and spiritual formation as connected. Training includes Biblical teaching and is intended to form people who can serve their families, communities, and marketplaces.' },
-  { q: 'Does every participant receive the same project?', a: 'No. Favor publishes several approaches, including women’s group projects, vocational disciplines, agriculture, fisheries, poultry, and other hands-on work. Current options depend on the field and should be confirmed with the team.' },
-  { q: 'What does sustainability mean here?', a: 'The goal is not permanent relief. Favor’s published programs emphasize skills, income, local accountability, and projects that can continue supporting families or ministry after the initial investment.' },
-  { q: 'How can a donor support a current empowerment need?', a: 'Monthly partners support the overall field. For a designated opportunity, contact Favor to confirm which project is active, its location, and its current funding status before giving.' },
+  { q: 'Is economic empowerment separate from discipleship?', a: 'No. Practical work and spiritual formation go together in everything we do. Training includes Biblical teaching and forms people who can serve their families, communities, and marketplaces.' },
+  { q: 'Does every participant receive the same project?', a: 'No. Our field teams run women’s group projects, vocational disciplines, agriculture, fisheries, poultry, and other hands-on work. Options vary by field, so ask us what is open right now.' },
+  { q: 'What does sustainability mean here?', a: 'A project should keep supporting families or ministry long after the initial investment. We teach skills, help build income, and keep accountability local so the work can continue on its own.' },
+  { q: 'How can I support a current empowerment need?', a: 'Monthly Favor Partners support the overall field. If you want to give to a designated project, ask us which one is open right now and what it still needs.' },
 ];
 const empowermentStory = storiesData.find((s) => s.slug === 'goats-for-women');
 ---
@@ -77,7 +77,7 @@ const empowermentStory = storiesData.find((s) => s.slug === 'goats-for-women');
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="The pathway" title="Training becomes practice, then ownership." intro="The details vary by program, but the published model moves participants from instruction toward locally sustained work." />
+      <LeafHeading label="The pathway" title="Training becomes practice, then ownership." intro="The details vary by program. Each one moves participants from instruction toward locally sustained work." />
       <ol class="ee-pathway">{pathway.map((item) => <li class="rd-card reveal"><span>{item.n}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
     </div>
   </section>

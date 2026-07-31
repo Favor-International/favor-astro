@@ -44,21 +44,18 @@ const nations = [
 ---
 <RedesignLayout
   title="Where We Work"
-  description="Favor International's three main fields — Uganda, South Sudan, and Chad — and the indigenous-led work in each."
+  description="Favor International's three main fields are Uganda, South Sudan, and Chad. See the indigenous-led work in each."
 >
   <PageHero
     label="Where we work"
     title="Uganda, South Sudan, and Chad."
-    promise="Uganda, South Sudan, and Chad. How we got to each nation, and what the work looks like there."
+    promise="How the work came to each nation, and what it looks like on the ground today."
     image="/images/ministry-church-planting.jpg"
     imageAlt="Planting a church in the Wedweil refugee camp"
     scrollCue
   />
 
-  <AfricaMap
-    showStats={false}
-    note="Note: this map is a work in progress and is not yet a precise representation of where Favor International works."
-  />
+  <AfricaMap showStats={false} />
 
   <ScriptBand
     image="/images/hero-pastor-preaching.jpg"
@@ -74,7 +71,7 @@ const nations = [
     <section class={`band ${n.bg}`}>
       <div class="container">
         {ni === 0 && (
-          <p class="ww-intro">These are the three country fields Favor identifies publicly today.</p>
+          <p class="ww-intro">Favor's work centers in these three nations. We also serve in places we do not name publicly, to protect the local teams working there.</p>
         )}
         <header class="ww-nation">
           <h2>{n.name}</h2>

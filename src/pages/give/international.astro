@@ -15,15 +15,15 @@ const routes = [
   { flag: '🇬🇧', country: 'United Kingdom', route: 'Gift Aid eligible via TrustBridge UK', cta: 'Give via TrustBridge', href: TRUSTBRIDGE_PORTAL },
   { flag: '🇨🇦', country: 'Canada', route: 'CRA tax receipt via TrustBridge Canada', cta: 'Give via TrustBridge', href: TRUSTBRIDGE_PORTAL },
   { flag: '🇪🇺', country: 'European Union', route: 'TGE network via TrustBridge', cta: 'Give via TrustBridge', href: TRUSTBRIDGE_PORTAL },
-  { flag: '🇦🇺', country: 'Australia', route: 'DGR via partner foundation', cta: 'Email the team', href: `mailto:${SITE.emailGeneral}?subject=Australia giving` },
+  { flag: '🇦🇺', country: 'Australia', route: 'DGR via partner foundation', cta: 'Email us', href: `mailto:${SITE.emailGeneral}?subject=Australia giving` },
 ];
 const internationalFaqs = [
-  { q: 'Will every international gift receive a local tax receipt?', a: 'Eligibility depends on the country, the giving route, and the donor’s circumstances. Confirm receipt eligibility inside the current TrustBridge portal or with a qualified local adviser before relying on a deduction.' },
-  { q: 'Can I give from a country not listed?', a: `Contact ${SITE.emailGeneral}. The team can confirm whether a current partner route is available or whether a direct US gift is the appropriate option.` },
-  { q: 'Can an international gift be monthly?', a: 'Recurring options depend on the portal and country route. Review the options shown after selecting your location or ask the Favor team before beginning.' },
-  { q: 'Can I designate an international gift?', a: 'Designation availability depends on the active project and processing route. Confirm the current project name and designation instructions before giving.' },
+  { q: 'Will every international gift receive a local tax receipt?', a: 'Eligibility depends on the country, the giving route, and your circumstances. Confirm receipt eligibility inside the current TrustBridge portal or with a qualified local adviser before relying on a deduction.' },
+  { q: 'Can I give from a country not listed?', a: `Contact ${SITE.emailGeneral} and we will confirm whether a current partner route is available or whether a direct US gift is the appropriate option.` },
+  { q: 'Can an international gift be monthly?', a: 'Recurring options depend on the portal and country route. Review the options shown after selecting your location, or ask us before beginning.' },
+  { q: 'Can I designate an international gift?', a: 'Sometimes, depending on the active project and processing route. Email us before you give and we will confirm the current project name and designation instructions with you.' },
   { q: 'Who handles currency conversion and processing fees?', a: 'The payment platform and financial institutions involved in the route determine conversion and processing. Review the portal’s current transaction information before submitting the gift.' },
-  { q: 'Who should I contact if the portal information conflicts with this page?', a: `Treat the current portal as the transaction source of truth and contact ${SITE.emailGeneral} before giving. International routes and eligibility can change over time.` },
+  { q: 'Who should I contact if the portal information conflicts with this page?', a: `If anything here differs from the giving portal, trust the portal, and email ${SITE.emailGeneral} so we can fix this page. International routes and eligibility change over time.` },
 ];
 ---
 <RedesignLayout
@@ -72,7 +72,7 @@ const internationalFaqs = [
     image="/images/field-2026/pbs-9.webp"
     imageAlt="Portable Bible School students"
     eyebrow="Where it goes"
-    heading="Same field. Same accountability."
+    heading="Same field, same accountability."
     side="left"
     background="white"
   >

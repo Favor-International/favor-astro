@@ -23,16 +23,16 @@ const facts = [
 ];
 const grantPath = [
   { title: 'Orient', body: 'Review Favor’s mission, four program pillars, geographic work, leadership, and published accountability documents.' },
-  { title: 'Discuss fit', body: 'Tell the team your foundation’s priorities, geography, grant range, restrictions, and required application format.' },
-  { title: 'Confirm scope', body: 'Favor can identify a current program or project that fits, then clarify the budget, timing, outcomes, and reporting available.' },
+  { title: 'Discuss fit', body: 'Tell us your foundation’s priorities, geography, grant range, restrictions, and required application format.' },
+  { title: 'Confirm scope', body: 'Tell us your focus and we will match it to a current program, with budget, timing, and the reporting we can commit to.' },
   { title: 'Complete diligence', body: 'Use the public financials and request any additional organizational documents your board or adviser requires.' },
 ];
 const foundationFaqs = [
-  { q: 'Does Favor accept restricted grants?', a: 'Restricted opportunities may be available when a current program or approved project matches the foundation’s intent. The scope and reporting expectations should be agreed before the grant is issued.' },
-  { q: 'Can a donor-advised fund recommend a grant?', a: 'The page links to Favor’s published DAF and international routes. Confirm the current beneficiary and processing details with the sponsoring organization before submitting a recommendation.' },
-  { q: 'What financial records are public?', a: 'Favor publishes audited financial statements and IRS Form 990 filings, along with links to ECFA, Charity Navigator, and Candid profiles on the accountability page.' },
+  { q: 'Does Favor accept restricted grants?', a: 'Sometimes. When a current program or approved project matches your foundation’s intent, we can accept a restricted grant. We will agree on scope and reporting with you before the grant is issued.' },
+  { q: 'Can a donor-advised fund recommend a grant?', a: 'Yes. Our DAF and international giving pages have the routes, or email us and we will send them. Confirm the current beneficiary and processing details with your sponsoring organization before submitting a recommendation.' },
+  { q: 'What financial records are public?', a: 'We publish audited financial statements and IRS Form 990 filings, along with links to ECFA, Charity Navigator, and Candid profiles on the accountability page.' },
   { q: 'What should an initial inquiry include?', a: 'Include the foundation name, program interests, geographic priorities, approximate grant range, timing, restrictions, and the documents required for review.' },
-  { q: 'Does Favor publish a standard reporting schedule?', a: 'Reporting should be matched to the approved grant scope. Ask the team what financial and program reporting can be supported before including a schedule in an agreement.' },
+  { q: 'Does Favor publish a standard reporting schedule?', a: 'No. We match reporting to the approved grant scope. Ask us what reporting we can commit to before you write a schedule into an agreement.' },
 ];
 ---
 <RedesignLayout
@@ -52,14 +52,14 @@ const foundationFaqs = [
   <section class="band band--white">
     <div class="container container--narrow fnd-intro">
       <p class="label">Grant-maker basics</p>
-      <h2>The record is public. The team is reachable.</h2>
-      <p>Favor International is a 501(c)(3) public charity (EIN {SITE.ein}), ECFA-accredited, and independently audited every year. The documents your due-diligence process needs are already published, and the executive team answers grant-maker questions directly.</p>
+      <h2>Our record is public and we are easy to reach.</h2>
+      <p>Favor International is a 501(c)(3) public charity (EIN {SITE.ein}), ECFA-accredited, and independently audited every year. The documents you need for due diligence are already published, and our executive team answers grant-maker questions directly.</p>
     </div>
   </section>
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading label="On the record" title="Six things your due-diligence process can verify today." />
+      <LeafHeading label="On the record" title="Six things you can verify today." />
       <div class="fnd-grid">
         {facts.map((f) => (
           <a class="fnd-card" href={f.href} target={f.href.startsWith('http') ? '_blank' : undefined} rel={f.href.startsWith('http') ? 'noopener' : undefined}>
@@ -87,7 +87,7 @@ const foundationFaqs = [
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading label="A practical grant path" title="From first review to a defined scope." intro="Favor can support a responsible diligence process without inventing a one-size-fits-all grant package." />
+      <LeafHeading label="A practical grant path" title="From first review to a defined scope." intro="There is no standard grant package. We will work through diligence with you, step by step." />
       <ol class="grant-path">{grantPath.map((item, index) => <li class="rd-card reveal"><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
     </div>
   </section>

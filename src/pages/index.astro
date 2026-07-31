@@ -102,7 +102,7 @@ const tiers = [
         <div class="hero__copy">
           <p class="hero__eyebrow">Become a partner</p>
           <h1 class="hero__h1">You can send the Gospel where no one else will go.</h1>
-          <p class="hero__sub">Favor equips indigenous missionaries to share Jesus in the hardest places on earth in Uganda, South Sudan, and Chad. Your monthly $50 gift keeps one of them on the trail.</p>
+          <p class="hero__sub">Favor equips indigenous missionaries to share Jesus in the hardest places on earth, across Uganda, South Sudan, Chad, and nations beyond. Your monthly $50 gift keeps one of them on the trail.</p>
           <div class="hero__cta">
             <a class="btn btn--primary btn--large hero__primary" href="/give/donate/">Send a missionary for $50/month <span aria-hidden="true">&rarr;</span></a>
             <a class="hero__secondary" href="/give/one-time/">Or give a one-time gift</a>
@@ -128,13 +128,14 @@ const tiers = [
           </div>
           <span class="proof__divider" aria-hidden="true"></span>
           <div class="proof__stat">
-            <span class="proof__num">3</span>
-            <span class="proof__label">Public country fields</span>
+            <!-- 12 = reached countries in Favor's field artwork (africa-geo.json). -->
+            <span class="proof__num">12</span>
+            <span class="proof__label">Nations reached</span>
           </div>
         </div>
         <p class="proof__line">
           Trusted and accredited by ECFA, Charity Navigator, and Candid.
-          <a href="/about/accountability/">See the financials &rarr;</a>
+          <a href="/about/accountability/">See our financials &rarr;</a>
         </p>
         <ul class="proof__badges" aria-label="Accountability">
           <li><a href={SITE.trust.ecfa} target="_blank" rel="noopener"><img src="/images/trust/ecfa.png" alt="ECFA Accredited" loading="lazy" /></a></li>
@@ -175,9 +176,9 @@ const tiers = [
     <section class="pillars" aria-label="How the movement works: the four pillars">
       <div class="container">
         <header class="pillars__head">
-          <p class="eyebrow eyebrow--gold">The four pillars</p>
-          <h2 class="pillars__h2">How the movement works.</h2>
-          <p class="pillars__lede">Every program on the field belongs to one of four pillars.</p>
+          <p class="eyebrow eyebrow--gold">One movement. Four pillars.</p>
+          <h2 class="pillars__h2">Bringing Jesus to people who have never heard His name.</h2>
+          <p class="pillars__lede">Every program on the field belongs to one of four pillars, and every pillar prepares hearts for the power and love of Jesus Christ.</p>
         </header>
         <div class="pillars__row">
           {PILLARS.map((p) => (
@@ -264,9 +265,10 @@ const tiers = [
       <div class="whyind__photo" aria-hidden="true"></div>
       <div class="container whyind__inner">
         <header class="whyind__head">
-          <p class="eyebrow eyebrow--gold-on-dark">Why indigenous leadership</p>
-          <h2 class="whyind__h2">National leaders are solving problems others haven&rsquo;t been able to.</h2>
-          <p class="whyind__lede">They are willing to work harder, more self-sacrificially, and more effectively for their people and nation than we ever could.</p>
+          <p class="eyebrow eyebrow--gold-on-dark">Why indigenous missionaries</p>
+          <h2 class="whyind__h2">Indigenous missionaries are solving problems others haven&rsquo;t been able to.</h2>
+          <p class="whyind__lede">They are willing to work harder, more self-sacrificially, and more effectively for their people and nation than we ever could. Jesus discipled a few, equipped them, and sent them out to their own people. Favor follows His model.</p>
+          <p class="whyind__verse">&ldquo;And the things that you have heard from me among many witnesses, commit these to faithful men who will be able to teach others also.&rdquo; <span>2 Timothy 2:2, NKJV</span></p>
         </header>
         <div class="whyind__grid">
           {INDIGENOUS_POINTS.map((pt, i) => (
@@ -973,6 +975,8 @@ const tiers = [
     color: var(--color-white); letter-spacing: -0.018em; text-wrap: balance;
   }
   .whyind__lede { margin: 0 auto; max-width: 56ch; color: color-mix(in srgb, var(--color-white) 80%, transparent); line-height: 1.7; }
+  .whyind__verse { margin: var(--space-5) auto 0; max-width: 62ch; font-family: var(--font-display); font-style: italic; font-size: 1.02rem; line-height: 1.6; color: var(--color-gold); }
+  .whyind__verse span { display: block; margin-top: var(--space-2); font-family: var(--font-sans); font-style: normal; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: color-mix(in srgb, var(--color-white) 62%, transparent); }
   .whyind__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 4.5vw, 56px); max-width: 1060px; margin: 0 auto; }
   @media (max-width: 860px) { .whyind__grid { grid-template-columns: 1fr; gap: var(--space-8); } }
   .whyind__point { border-top: 2px solid color-mix(in srgb, var(--color-gold) 60%, transparent); padding-top: var(--space-5); }

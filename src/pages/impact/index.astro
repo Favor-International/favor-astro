@@ -29,7 +29,7 @@ const movement = [
 const impactFaqs = [
   { q: 'Why does Favor organize the work into four pillars?', a: 'The pillars make a wide ministry easier to understand, but field programs overlap. A church may host a learning center; counseling may prepare a community for discipleship; vocational training may help a family keep children in school.' },
   { q: 'Who leads the work in Africa?', a: 'Favor centers indigenous leadership. National staff, pastors, teachers, counselors, broadcasters, and ministry leaders carry the day-to-day work in their own nations and communities.' },
-  { q: 'How does Favor report impact?', a: 'Favor publishes field stories, financial statements, Form 990 filings, and external accountability profiles. Time-sensitive program totals should always be read with their reporting year and source.' },
+  { q: 'How does Favor report impact?', a: 'We publish field stories, financial statements, Form 990 filings, and external accountability profiles. When we share a program total, we cite the reporting year and source with it.' },
   { q: 'Where should I start?', a: 'Explore the pillar that most interests you, read the field stories connected to it, and review Favor’s accountability record. You can then pray, become a monthly partner, or ask about a current project.' },
 ];
 const impactStory = storiesData.find((s) => s.slug === 'full-circle-transformation');
@@ -42,7 +42,7 @@ const impactStory = storiesData.find((s) => s.slug === 'full-circle-transformati
   <PageHero waveColor="cream"
     label="Impact"
     title="Four ministries. One Kingdom outcome."
-    promise="Every Favor program flows from one conviction: transformed hearts transform nations."
+    promise="Every Favor program flows from the conviction that transformed hearts transform nations."
     image="/images/field-2026/baptism-5.webp"
     imageAlt="PBS graduates with certificates"
   />
@@ -60,7 +60,7 @@ const impactStory = storiesData.find((s) => s.slug === 'full-circle-transformati
   </RdFeature>
 
   <section class="band band--white">
-    <div class="container"><LeafHeading label="Audited financials" title="The numbers behind the work." intro="Every number below is sourced from Favor's FY2024 audited financials, filed with ECFA and IRS Form 990. No estimates. No projections." /></div>
+    <div class="container"><LeafHeading label="Audited financials" title="The numbers behind the work." intro="Every number below comes from our FY2024 audited financials, filed with ECFA and IRS Form 990, with no estimates or projections." /></div>
     <div class="container impact-stats">
       {IMPACT_STATS.map((s) => (
         <div class="impact-stat">
@@ -78,7 +78,7 @@ const impactStory = storiesData.find((s) => s.slug === 'full-circle-transformati
   </section>
 
   <section class="band band--cream">
-    <div class="container"><LeafHeading label="The pillars" title="One movement. Four expressions of transformation." intro="The work begins in prayer, reaches a heart with the Gospel, and continues until people and communities can flourish and lead." leaves={false} /></div>
+    <div class="container"><LeafHeading label="The pillars" title="Four pillars carry one movement." intro="The work begins in prayer, reaches a heart with the Gospel, and continues until people and communities can flourish and lead." leaves={false} /></div>
     <div class="container pillar-grid">
       {PILLARS.map((p) => (
         <OverlayCard
@@ -95,7 +95,7 @@ const impactStory = storiesData.find((s) => s.slug === 'full-circle-transformati
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="How transformation moves" title="The work is connected from the beginning." intro="Programs are not isolated services. They form a field-led path from prayer and first response to mature local leadership." />
+      <LeafHeading label="How transformation moves" title="The work is connected from the beginning." intro="The programs form one field-led path from prayer and first response to mature local leadership." />
       <ol class="movement-grid">
         {movement.map((item) => (
           <li class="rd-card movement-card reveal">

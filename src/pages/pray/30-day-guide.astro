@@ -4,11 +4,15 @@ import PageHero from '../../components/band/PageHero.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 
+// Each nation carries a Scripture on prayer (Stephanie's note, 2026-07-31:
+// this page above all should quote the Word on why we pray).
 const countries = [
   {
     name: 'Uganda',
     days: 'Days 1-10',
     image: '/images/field/country-uganda.webp',
+    verse: '“Call to Me, and I will answer you, and show you great and mighty things, which you do not know.”',
+    verseRef: 'Jeremiah 33:3, NKJV',
     intro: 'Pray for the ministry teams serving from Gulu into cities, villages, schools, and cattle-herding communities.',
     prayers: [
       'Pray for the Gulu House of Prayer and for every gathering to remain rooted in Scripture and intercession.',
@@ -18,7 +22,7 @@ const countries = [
       'Pray for Village Learning Center teachers bringing dependable learning close to children’s homes.',
       'Pray for trauma-counseling teams and for participants walking toward forgiveness and healing.',
       'Pray for medical staff serving families with practical care, health education, and prayer.',
-      'Pray for women building skills, stable income, and strong homes through empowerment programs.',
+      'Pray for women building skills, stable income, and strong homes through vocational and business training.',
       'Pray for local pastors and congregations to serve their communities with humility and courage.',
       'Pray for Favor’s Ugandan staff and their families: endurance, unity, provision, and rest.',
     ],
@@ -27,6 +31,8 @@ const countries = [
     name: 'South Sudan',
     days: 'Days 11-20',
     image: '/images/field/hero-prayer-ssudan.webp',
+    verse: '“If My people who are called by My name will humble themselves, and pray and seek My face... then I will hear from heaven, and will forgive their sin and heal their land.”',
+    verseRef: '2 Chronicles 7:14, NKJV',
     intro: 'Pray for leaders serving from Juba into communities shaped by conflict, displacement, and deep spiritual hunger.',
     prayers: [
       'Pray for the Juba House of Prayer and for prayer to remain the foundation of every ministry response.',
@@ -45,6 +51,8 @@ const countries = [
     name: 'Chad',
     days: 'Days 21-30',
     image: '/images/field/country-chad.webp',
+    verse: '“Ask of Me, and I will give You the nations for Your inheritance, and the ends of the earth for Your possession.”',
+    verseRef: 'Psalm 2:8, NKJV',
     intro: 'Pray for the growing work in Chad and for national leaders carrying prayer, discipleship, and the Gospel forward.',
     prayers: [
       'Pray for the House of Prayer in N’Djamena to strengthen believers and serve the city faithfully.',
@@ -68,7 +76,7 @@ const countries = [
   <PageHero waveColor="cream"
     label="30-day prayer guide"
     title="Three nations. Thirty days of focused prayer."
-    promise="Pray with Favor’s teams in Uganda, South Sudan, and Chad—one clear ministry focus at a time."
+    promise="Pray with Favor’s teams in Uganda, South Sudan, and Chad, one clear ministry focus at a time."
     image="/images/field-2026/prayer-1.webp"
     imageAlt="Favor leaders gathered in prayer"
     ctaLabel="Start with Uganda"
@@ -77,7 +85,7 @@ const countries = [
   />
 
   <section class="band band--white guide-intro"><div class="container">
-    <LeafHeading label="A daily rhythm" title="Name the nation. Name the ministry. Pray specifically." intro="Use one focus each day on your own, around the family table, or with a church prayer group. The guide moves through ten days for each of Favor’s three public country fields." />
+    <LeafHeading label="A daily rhythm" title="Name the nation. Name the ministry. Pray specifically." intro="Use one focus each day on your own, around the family table, or with a church prayer group. The guide moves through ten days each for Uganda, South Sudan, and Chad." />
     <nav class="country-nav" aria-label="Prayer guide countries">
       {countries.map((country, index) => (
         <a href={`#${country.name.toLowerCase().replaceAll(' ', '-')}`} class="country-card">
@@ -97,6 +105,10 @@ const countries = [
           <p class="label">{country.days}</p>
           <h2>{country.name}.</h2>
           <p>{country.intro}</p>
+          <blockquote class="country-guide__verse">
+            <p>{country.verse}</p>
+            <cite>{country.verseRef}</cite>
+          </blockquote>
           <img src={country.image} alt={`Favor teams serving in ${country.name}`} loading="lazy" />
         </header>
         <ol class="prayer-list" start={countryIndex * 10 + 1}>
@@ -140,6 +152,9 @@ const countries = [
   .country-guide__head { position:sticky; top:110px; }
   .country-guide__head h2 { color:var(--color-green-deep); margin:var(--space-2) 0 var(--space-4); font-size:clamp(2.6rem,5vw,4.8rem); }
   .country-guide__head > p:not(.label) { color:var(--color-ink-soft); line-height:1.75; }
+  .country-guide__verse { margin:var(--space-5) 0 0; padding:0 0 0 var(--space-5); border-left:3px solid var(--color-gold); }
+  .country-guide__verse p { margin:0 0 var(--space-2); font-family:var(--font-display); font-style:italic; color:var(--color-green-deep); line-height:1.55; }
+  .country-guide__verse cite { font-style:normal; font-size:.78rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--color-gold-deep); }
   .country-guide__head img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:var(--rd-radius); margin-top:var(--space-6); }
   .prayer-list { list-style:none; padding:0; margin:0; display:grid; gap:var(--space-3); counter-reset:none; }
   .prayer-list li { display:grid; grid-template-columns:88px 1fr; gap:var(--space-5); align-items:start; padding:var(--space-5) var(--space-6); background:var(--color-white); border-radius:var(--rd-radius); box-shadow:0 10px 30px rgba(31,58,26,.07); }

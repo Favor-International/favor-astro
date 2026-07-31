@@ -1,0 +1,80 @@
+# Stephanie's website feedback: what's done, what needs a decision
+
+Date: 2026-07-31. Source: "NEW WEBSITE FEEDBACK.docx" (46 comments) plus a full-site
+sweep for meta commentary and AI-sounding copy (185 findings across 49 pages).
+
+## Fixed today
+
+**Meta commentary is gone.** Every instance of "public country fields," "Favor publicly
+highlights its work," "These are the three country fields Favor identifies publicly today,"
+"Public fields" labels on story pages, "In Favor's own words" on the Go pages, "This page
+describes Favor's published model" (rendered on all 14 program subpages), and the
+"published model / Favor publishes" analyst voice on the Impact pages. The site now speaks
+as "we" to "you."
+
+**Stephanie's copy notes implemented:**
+- Homepage hero and map now say the work centers in Uganda, South Sudan, and Chad and
+  reaches beyond. New stat: "12 Nations reached" (count from Favor's own field artwork,
+  no sensitive countries named).
+- Map lede rewritten around partners and Jesus' discipleship model. Map caption now reads:
+  "Favor also serves in nations we do not name publicly, to protect the believers working
+  there."
+- Four Pillars: "One movement. Four pillars." with Christ named in the heading and lede.
+- Indigenous leadership section: "Indigenous missionaries" instead of "National leaders,"
+  Jesus' discipleship model stated, 2 Timothy 2:2 added.
+- "See the financials" is now "See our financials."
+- Pray page: "You can pray where they cannot reach" replaced with "Your prayers reach where
+  no one else can," plus everything-begins-in-prayer framing.
+- 30-Day Guide: Scripture added for each nation (Jeremiah 33:3, 2 Chronicles 7:14, Psalm 2:8).
+- Specific Project page: Luke 10:2 harvest framing, journey-of-your-gift promise, FAQ
+  rewritten in first person with "designated" (not "restricted") language.
+- Give landing: added the walk-with-the-field / you-will-see-what-your-giving-builds intro.
+- Team page: leads with "A small U.S. team serving a massive field," "we would not have it
+  any other way." "Why the team looks like this" and "Partner as hero" labels replaced.
+  "A salary" is now "money to live."
+- Board page: "Faith-filled servants of Christ who steward Favor," "Meet our Board,"
+  "Stewardship, accountability, and transparency," elected-and-unpaid stated.
+- Annual audit copy (board + accountability pages) now says: independent third-party audit
+  of the U.S. operation every year, plus annual independent audits in each of the three
+  main country fields.
+- Charity Navigator stat now shows four literal stars instead of "4" next to one star.
+- "Program expense ratio" is now "Program-to-overhead ratio."
+- "What we promise" is now "Our promise to you," and "Restricted gifts honor the
+  restriction" is now "Designated gifts go where you designate them."
+
+**AI slop sweep:** em dashes, binary contrasts ("not X, it's Y"), colon reveals, "one-size-
+fits-all," banned words (foster, empowering as a generic verb), fake-profound kickers, and
+duplicated template sentences fixed across Impact, Go, Give, About, and utility pages.
+
+## Needs a decision (raise in the meeting)
+
+1. **Terry's term for the three countries.** Stephanie doesn't recognize "public country
+   fields" and thinks Terry says something like "main mission stations," with "outposts"
+   (PBS) elsewhere. Current copy says "main fields" as a safe placeholder. CONFIRM the
+   real term and I'll sweep it in.
+2. **The map with the dots.** The 2,725 PBS dots and mission-station markers already exist
+   in the repo data; the map deliberately renders only the three named countries for field
+   security. If Carole/Terry approve showing the dots (unnamed), it's a same-day change.
+3. **Exact country count.** Stephanie said "12+ or 14+ or whatever it is." The site now
+   says 12, which is the count in Favor's own field artwork. CONFIRM against the quarterly
+   report wording.
+4. **Stats: who owns them, and which period.** Homepage shows 2025 totals; all-time
+   salvations (524,673) shows in the map band. They're hand-edited in the code today. I can
+   move them to one data file so an update is a single edit, and we should name an owner.
+   The "salvation clock" idea needs a data feed that doesn't exist yet.
+5. **Stewardship booklets.** Stephanie wants the Financial Stewardship and Program
+   Stewardship booklets linked from the accountability/impact pages. Neither PDF is in the
+   site's documents folder. Send me the files and I'll place them.
+6. **360 tour links under each pillar.** Need the tour URL(s).
+7. **Founder photo** (Carole not visible in the current crop) and **person-page banner
+   images** (African banner above U.S. staff bios). Need image direction.
+8. **"One woman. Ninety leaders. A movement." section.** Left as is per Stephanie's own
+   note; she wants a voice/writing session with Katherine after launch.
+9. **The comma in "Transformed hearts, transform nations."** The code has no comma
+   anywhere; the tagline renders as "Transformed Hearts Transform Nations." If she saw a
+   comma it's in a graphic or an older build. Verify on screen together.
+10. **Cattle warrior story.** Left in place per her note; see what Carole and Terry say.
+11. **Legacy copy sources.** The stories feed (stories.json), program descriptions
+    (programs.ts), and the careers posting carry old AI-polished or verbatim-live-site
+    text with the same patterns (empower/facilitate, puffery). Left alone because they're
+    quoted source material. Decide whether Katherine rewrites them post-launch.

@@ -9,12 +9,12 @@ import { SITE } from '../../lib/site';
 const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-transfer-form-2022-updated-10.25-.pdf';
 const assetFaqs = [
   { q: 'Should I sell the asset before giving it?', a: 'Do not make that decision from this page alone. Giving an asset and selling it first can have different tax consequences. Ask your qualified adviser which approach fits your circumstances.' },
-  { q: 'Who determines the value of a non-cash gift?', a: 'Valuation requirements depend on the asset and applicable law. The donor is responsible for obtaining any required appraisal and tax advice; Favor cannot establish the donor’s deductible value.' },
-  { q: 'Can Favor accept every real-estate or vehicle gift?', a: 'No acceptance should be assumed. Complex assets require review for ownership, condition, liabilities, marketability, restrictions, and the cost of receiving or disposing of the asset.' },
-  { q: 'How will Favor identify my stock transfer?', a: 'Brokerage transfers may arrive without complete donor information. Notify Favor through a non-sensitive channel when the transfer is initiated, but do not email account numbers or private credentials.' },
-  { q: 'Will I receive a receipt?', a: 'Favor can acknowledge an accepted contribution, but the contents and tax treatment of the receipt depend on the asset and transaction. Confirm documentation requirements with the team and your adviser.' },
-  { q: 'Can I restrict a non-cash gift to one project?', a: 'A restriction must be accepted by Favor before the transfer. Confirm that the project is active and that the asset can be used or liquidated in a way that fulfills the proposed purpose.' },
-  { q: 'What if Favor cannot accept the asset?', a: 'Do not transfer it. The team may be able to identify another giving vehicle, but neither Favor nor the donor should assume that every complex asset can be received.' },
+  { q: 'Who determines the value of a non-cash gift?', a: 'Valuation requirements depend on the asset and applicable law. You are responsible for obtaining any required appraisal and tax advice; we cannot establish your deductible value.' },
+  { q: 'Can Favor accept every real-estate or vehicle gift?', a: 'No. Ask us first. We review complex assets for ownership, condition, liabilities, marketability, restrictions, and the cost of receiving or disposing of the asset.' },
+  { q: 'How will Favor identify my stock transfer?', a: 'Brokerage transfers may arrive without complete donor information. Tell us through a non-sensitive channel when the transfer is initiated, but do not email account numbers or private credentials.' },
+  { q: 'Will I receive a receipt?', a: 'We acknowledge accepted contributions, but the contents and tax treatment of the receipt depend on the asset and transaction. Confirm documentation requirements with us and your adviser.' },
+  { q: 'Can I restrict a non-cash gift to one project?', a: 'Ask us before the transfer. We need to accept the restriction first, and we will confirm with you that the project is active and that the asset can be used or sold in a way that fulfills your purpose.' },
+  { q: 'What if Favor cannot accept the asset?', a: 'Please do not transfer it. We may be able to suggest another giving vehicle, but we cannot receive every complex asset.' },
 ];
 ---
 <RedesignLayout
@@ -24,7 +24,7 @@ const assetFaqs = [
   <PageHero
     label="Non-cash giving"
     title="Stocks. Crypto. Real estate. Vehicles."
-    promise="A non-cash gift may fit your financial plan. Confirm the asset and current transfer route with the team before you send it."
+    promise="A non-cash gift may fit your financial plan. Confirm the asset and current transfer route with us before you send it."
     image="/images/ministry-medical-clinic.jpg"
     imageAlt="Partners gathering"
     variant="split"
@@ -32,31 +32,31 @@ const assetFaqs = [
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="Asset types" title="Start with the asset, then confirm the route." intro="Complex gifts are reviewed individually. Contact the team before transferring an asset and never email account numbers, private keys, or other sensitive financial information." />
+      <LeafHeading label="Asset types" title="Start with the asset, then confirm the route." intro="We review complex gifts individually. Contact us before transferring an asset, and never email account numbers, private keys, or other sensitive financial information." />
       <div class="acard-grid">
         <article class="acard has-texture">
-          <img src="/images/field-2026/education-5.webp" alt="A long-term investment in Favor's field work" loading="lazy" />
+          <img src="/images/field-2026/education-5.webp" alt="Students writing at wooden desks in a Favor school classroom" loading="lazy" />
           <div class="acard__body">
           <h3>Appreciated stock</h3>
           <p>Appreciated stock may offer tax advantages depending on your circumstances. Review the gift with your adviser and use our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a> to begin.</p>
           </div>
         </article>
         <article class="acard has-texture">
-          <img src="/images/field-2026/radio-3.webp" alt="Technology carrying Favor's work further" loading="lazy" />
+          <img src="/images/field-2026/radio-3.webp" alt="Two broadcasters at the door of a Gospel radio station" loading="lazy" />
           <div class="acard__body">
           <h3>Cryptocurrency</h3>
           <p>Email {SITE.emailGeneral} for current instructions to give cryptocurrency.</p>
           </div>
         </article>
         <article class="acard has-texture">
-          <img src="/images/field-2026/church-6.webp" alt="A building supporting ministry in the field" loading="lazy" />
+          <img src="/images/field-2026/church-6.webp" alt="A church building in Bitkine, Chad" loading="lazy" />
           <div class="acard__body">
           <h3>Real estate, vehicles, equipment</h3>
           <p>Non-cash assets are handled case-by-case. Start with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>, or email {SITE.emailGeneral} first.</p>
           </div>
         </article>
         <article class="acard has-texture">
-          <img src="/images/field-2026/gift-4.webp" alt="Partners multiplying their impact together" loading="lazy" />
+          <img src="/images/field-2026/gift-4.webp" alt="Children gathered in the hall of a GIFT children's home" loading="lazy" />
           <div class="acard__body">
           <h3>Matching gifts</h3>
           <p>Most large employers will match charitable gifts. Search your benefits portal for "Favor International" and EIN {SITE.ein}.</p>
@@ -71,13 +71,13 @@ const assetFaqs = [
       <div class="asset-prep__copy">
         <LeafHeading label="Before you transfer" title="Three steps protect you and the ministry." align="left" leaves={false} />
         <ol class="asset-steps">
-          <li><strong>Ask.</strong><span>Contact Favor to confirm that the asset can be accepted and receive the current routing instructions.</span></li>
+          <li><strong>Ask.</strong><span>Contact us to confirm that we can accept the asset and to receive the current routing instructions.</span></li>
           <li><strong>Review.</strong><span>Consult your own tax, legal, or financial adviser about valuation and treatment.</span></li>
-          <li><strong>Identify.</strong><span>Tell Favor when the transfer is initiated so the team can identify and acknowledge the gift.</span></li>
+          <li><strong>Identify.</strong><span>Tell us when the transfer is initiated so we can identify and acknowledge your gift.</span></li>
         </ol>
-        <p class="asset-disclaimer">Favor does not provide legal, tax, or financial advice. The donor and the donor's advisers are responsible for valuation and personal tax decisions.</p>
+        <p class="asset-disclaimer">We do not provide legal, tax, or financial advice. You and your advisers are responsible for valuation and personal tax decisions.</p>
       </div>
-      <img class="asset-prep__image" src="/images/field-2026/agriculture-5.webp" alt="A Favor sustainability project supported through careful stewardship" loading="lazy" />
+      <img class="asset-prep__image" src="/images/field-2026/agriculture-5.webp" alt="Three field workers standing beside a green motorized tricycle" loading="lazy" />
     </div>
   </section>
 

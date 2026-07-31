@@ -1,8 +1,7 @@
-# Partner Login -> the real Partner Portal (separate Cloudflare Worker app).
-# TODO: point at a custom domain (e.g. app.favorportal.com) once its DNS is on
-# the same account as the favor-portal Worker.
-/portal https://favor-portal.marketing-6e9.workers.dev/login 302
-/portal/ https://favor-portal.marketing-6e9.workers.dev/login 302
+# Partner Login -> the real Partner Portal (separate Cloudflare Worker app,
+# branded on my.favorintl.org; workers.dev stays as a fallback).
+/portal https://my.favorintl.org/login 302
+/portal/ https://my.favorintl.org/login 302
 
 # 301 map: old favorintl.org URLs -> new routes.
 # Generated from docs/06-reference/existing-site-scrape/urls.csv with

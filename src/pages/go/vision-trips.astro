@@ -18,10 +18,10 @@ import RdCta from '../../components/redesign/RdCta.astro';
 // programs per the Impact pages). A loose rhythm with real field photos, not
 // an invented hour-by-hour schedule.
 const rhythm = [
-  { when: 'Morning', title: 'Prayer before anything.', what: 'The day begins the way every Favor day begins: in prayer and morning devotions with the team. Prayer is not a warm-up here; it is the work the rest of the day flows from.', img: '/images/field-2026/prayer-1.webp', alt: 'Favor leaders kneeling in fervent morning prayer' },
+  { when: 'Morning', title: 'Prayer before anything.', what: 'The day begins the way every Favor day begins: in prayer and morning devotions with the team. The rest of the day flows from prayer.', img: '/images/field-2026/prayer-1.webp', alt: 'Favor leaders kneeling in fervent morning prayer' },
   { when: 'Midday', title: 'The work itself.', what: 'Portable Bible Schools, the primary schools, and whichever ministries are running that week where you are. You sit where the training happens and watch leaders being formed.', img: '/images/field-2026/pbs-1.webp', alt: 'A Portable Bible School teaching session at the whiteboard' },
   { when: 'Afternoon', title: 'Into the villages.', what: 'Time in the villages with the local church: walking, listening, and praying with the people the work serves, at the wells, the learning centers, and the homes the Gospel has reached.', img: '/images/field-2026/villages-4.webp', alt: 'Villagers gathered at a well, a baby smiling at the camera' },
-  { when: 'Evening', title: 'Under the open sky.', what: 'Evenings can end at an open-air crusade, where whole communities gather at dusk to hear the Gospel preached in their own language.', img: '/images/field-2026/crusade-2.webp', alt: 'People praying with raised hands at an open-air gathering' },
+  { when: 'Evening', title: 'Under the open sky.', what: 'Evenings can end at an open-air crusade, where whole communities hear the Gospel preached in their own language.', img: '/images/field-2026/crusade-2.webp', alt: 'People praying with raised hands at an open-air gathering' },
 ];
 
 // What you'll witness: three field scenes as alternating rows. The expanded
@@ -36,7 +36,7 @@ const witness = [
 
 // Films from Favor's YouTube channel (titles and captions match the channel).
 const films = [
-  { id: '25f290un21o', title: 'They Once Met Under Trees', eyebrow: 'Church planting', heading: 'They once met under trees. Now they have a church.', body: 'The kind of congregation a vision trip walks into: villages where the church was planted by leaders who grew up there.' },
+  { id: '25f290un21o', title: 'They Once Met Under Trees', eyebrow: 'Church planting', heading: 'They once met under trees. Now they have a church.', body: 'The kind of congregation you walk into on a vision trip: villages where the church was planted by leaders who grew up there.' },
   { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', eyebrow: 'Medical work', heading: 'Inside Favor’s medical center in Africa.', body: 'Mobile clinics and medical care are part of the daily work you can see up close on the ground.' },
 ];
 
@@ -56,8 +56,8 @@ const WHO_ICONS: Record<string, string> = {
 
 const steps = [
   { n: '1', title: 'Inquire', body: 'Send a note through the contact form with who you are and when you could travel.' },
-  { n: '2', title: 'Plan with the US team', body: 'Trip timing, length, destination, and costs are worked out with you directly. Nothing is one-size-fits-all.' },
-  { n: '3', title: 'Go', body: 'You travel in a small team. Favor coordinates the visit with the appropriate local ministry contacts for the approved itinerary.' },
+  { n: '2', title: 'Plan with the US team', body: 'Trip timing, length, destination, and costs are worked out with you directly.' },
+  { n: '3', title: 'Go', body: 'You travel in a small team. We plan every stop with the local leaders hosting you.' },
 ];
 
 // FAQ: honest process answers only. No dollar figures, protocols, or
@@ -66,7 +66,7 @@ const steps = [
 const faqs = [
   { q: 'What does a trip cost?', a: 'Cost depends on the destination, the length, and the size of your team, so it is worked out with you when the trip is planned. The US team can also talk through fundraising with you.' },
   { q: 'Where will I stay and what will I eat?', a: 'Arrangements depend on the field you visit. Lodging and meals are organized with the team before you travel, and you will know exactly what to expect before you commit.' },
-  { q: 'Is it safe to go?', a: 'Current conditions, destination guidance, and the people responsible for the approved itinerary are reviewed during planning. Favor will explain what can responsibly be confirmed before you commit.' },
+  { q: 'Is it safe to go?', a: 'We walk through current conditions and the realities of your destination with you during planning, and we are honest about what we can and cannot promise before you commit.' },
   { q: 'What about passports, visas, and vaccinations?', a: 'Requirements depend on the destination nation. The US team walks you through every document and health requirement during planning.' },
   { q: 'Who can go?', a: 'Small teams: pastors and church leaders, longtime partners, and everyday believers. If you are unsure whether you fit, send a note and ask.' },
   { q: 'How do I start?', a: 'Use the contact form and tell us who you are and when you could travel. The US team takes it from there.' },
@@ -74,13 +74,13 @@ const faqs = [
 ---
 <RedesignLayout
   title="Vision Trips"
-  description="Small-team vision trips coordinated through Favor’s US team and local ministry contacts, with each itinerary planned individually."
+  description="Travel with a small team into the schools, crusades, and villages of Uganda, South Sudan, and Chad, hosted by the indigenous leaders who run the work."
   image="/images/field/hero-jesusfilm-chad.webp"
 >
   <PageHero
     label="Vision trips"
     title="See the field work up close."
-    promise="Small teams, individually planned through Favor’s US team and the appropriate local ministry contacts."
+    promise="Small teams. We plan every trip with you and the local leaders who host you."
     image="/videos/vision-trips-hero-poster.jpg"
     imageAlt="A village congregation gathered for worship, from the film They Once Met Under Trees"
     video="/videos/vision-trips-hero.mp4"
@@ -97,9 +97,9 @@ const faqs = [
     side="right"
   >
     <p>
-      A vision trip is not a tour and not voluntourism. You travel with a small team and see
-      the actual work: the schools, the crusades, the Houses of Prayer, the villages, with the
-      local ministry contacts responsible for the approved itinerary.
+      A vision trip puts you on the ground inside the work itself. You travel with a small
+      team and see it firsthand: the schools, the crusades, the Houses of Prayer, the
+      villages, alongside the leaders who live there.
     </p>
     <p>
       The ministries you could witness are the ones Favor runs every day across Uganda, South
@@ -130,7 +130,7 @@ const faqs = [
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading label="What you'll witness" title="Days you won't forget." intro="Every vision trip walks you into real ministry, not a tour." leaves={false} />
+      <LeafHeading label="What you'll witness" title="Days you won't forget." intro="You walk into the crusades, the classrooms, and the villages the work serves." leaves={false} />
       <div class="witness">
         {witness.map((w, i) => (
           <div class="witness__row reveal" data-side={i % 2 === 0 ? 'left' : 'right'}>

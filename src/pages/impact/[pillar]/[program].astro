@@ -65,7 +65,7 @@ const pathGallery = programGallery.slice(0, 2);
 const sectionGallery = programGallery.slice(2);
 const videoByProgram: Record<string, { id: string; title: string; heading: string; body: string }> = {
   'gift-institute': { id:'xwSVEViFikA', title:"God's Institute for Transformation", heading:'See GIFT leadership training in the field.', body:'Meet the young people and indigenous leaders at the center of this ministry.' },
-  centers: { id:'DEydcLqBQW0', title:"Favor's Primary Schools", heading:'See a Favor classroom in motion.', body:'A field film shows the learning environment, teachers, and children more fully than a single photograph can.' },
+  centers: { id:'DEydcLqBQW0', title:"Favor's Primary Schools", heading:'See a Favor classroom in motion.', body:'Step into the classroom and meet the teachers and children learning there.' },
   primary: { id:'DEydcLqBQW0', title:"Favor's Primary Schools", heading:'Educated for the Kingdom.', body:'Watch Favor’s Christ-centered primary-school work in the communities it serves.' },
   secondary: { id:'DEydcLqBQW0', title:"Favor's Primary Schools", heading:'A foundation that continues.', body:'See the education pathway students build on as they continue toward secondary school.' },
   counseling: { id:'nSFl3Y7TLYI', title:'The Power of Trauma Counseling', heading:'Healing the whole person.', body:'This field film shows why trauma counseling is a foundational part of community restoration.' },
@@ -123,8 +123,8 @@ const lens = pillarLens[program.pillar];
 const programFaqs = [
   { q: `Who carries ${program.name} on the ground?`, a: 'Favor’s field programs are led and delivered by indigenous staff, teachers, pastors, counselors, and ministry leaders who live in the nations and communities they serve.' },
   { q: `How does ${program.name} connect to the rest of Favor’s work?`, a: `It belongs to the ${pillar.label} pillar, but it does not stand alone. Favor’s programs are designed to reinforce prayer, discipleship, local leadership, and the long-term health of a community.` },
-  { q: 'Are the details identical in every location?', a: 'No. Language, facilities, local leadership, and immediate needs vary by nation and community. This page describes Favor’s published model; current field details should be confirmed with the Favor team.' },
-  { q: 'How can I support this work?', a: 'Favor Partners provide dependable, unrestricted support that field leadership can direct where it is most needed. You can also contact the team to ask whether a current designated project is available.' },
+  { q: 'Are the details identical in every location?', a: 'No. Language, facilities, local leadership, and immediate needs vary by nation and community. Programs grow and shift with the field. Contact us for the newest details on this work.' },
+  { q: 'How can I support this work?', a: 'Favor Partners provide dependable, unrestricted support that field leadership can direct where it is most needed. Ask us whether a designated project is open in this program right now.' },
 ];
 ---
 <RedesignLayout
@@ -213,7 +213,7 @@ const programFaqs = [
   {sectionGallery.length > 0 && (
     <section class="band band--cream">
       <div class="container">
-        <LeafHeading label="In the field" title={`${program.name}, seen up close.`} intro={sectionGallery.length === 1 ? 'A closer look at the people, place, and daily work behind this ministry.' : 'More than one frame is needed to understand the people, places, and daily work behind this ministry.'} />
+        <LeafHeading label="In the field" title={`${program.name}, seen up close.`} intro={sectionGallery.length === 1 ? 'A closer look at the people, place, and daily work behind this ministry.' : 'Scenes from the daily work of this ministry.'} />
         <div class:list={['prog-gallery', sectionGallery.length === 1 && 'prog-gallery--one', sectionGallery.length === 2 && 'prog-gallery--two']}>
           {sectionGallery.map((image, index) => <figure class:list={['prog-gallery__item', sectionGallery.length > 2 && index === 0 && 'prog-gallery__item--wide']}><img src={image} alt={`${program.name} field moment ${index + 1}`} loading="lazy" /></figure>)}
         </div>

@@ -53,20 +53,22 @@ const { showStats = true, note } = Astro.props as Props;
 
 ---
 
-<section class="africa-map" aria-label="Favor’s public country fields in Africa">
+<section class="africa-map" aria-label="Where Favor works in Africa">
   <div class="container africa-map__inner">
     <header class="africa-map__head">
       <p class="eyebrow eyebrow--gold">Your partnership puts you on the mission field</p>
-      <h2 class="africa-map__h2">Three public country fields. One field-led mission.</h2>
+      <h2 class="africa-map__h2">Rooted in three nations. Reaching many more.</h2>
       <p class="africa-map__lede">
-        Favor publicly highlights its work in Uganda, South Sudan, and Chad.
-        Local leaders carry prayer, discipleship, education, and community transformation forward.
+        Thanks to partners like you, indigenous missionaries are carrying the Gospel
+        across Uganda, South Sudan, and Chad, and into nations beyond. They disciple
+        leaders the way Jesus did, and those leaders go out to their own people with
+        prayer, discipleship, education, and community transformation.
       </p>
     </header>
 
     <figure class="africa-map__board">
       <ul class="africa-map__key" aria-label="Map key">
-        <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Public country fields</li>
+        <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Main fields: Uganda, South Sudan, Chad</li>
       </ul>
       <svg
         class="africa-map__svg"
@@ -76,7 +78,7 @@ const { showStats = true, note } = Astro.props as Props;
         aria-labelledby="africa-map-title"
       >
         <title id="africa-map-title">
-          Map of Africa highlighting Favor International’s public country fields: Uganda, South Sudan, and Chad
+          Map of Africa highlighting Favor International’s main fields: Uganda, South Sudan, and Chad
         </title>
 
         <rect x={view.x} y={view.y} width={view.w} height={view.h} class="africa-map__sea" />
@@ -105,7 +107,7 @@ const { showStats = true, note } = Astro.props as Props;
 
       </svg>
       <figcaption class="africa-map__caption">
-        Public-facing country view. Additional operational locations are intentionally not identified.
+        Favor also serves in nations we do not name publicly, to protect the believers working there.
       </figcaption>
     </figure>
 
@@ -122,8 +124,10 @@ const { showStats = true, note } = Astro.props as Props;
         </div>
         <span class="africa-map__stat-divider" aria-hidden="true"></span>
         <div class="africa-map__stat">
-          <span class="africa-map__stat-num">3</span>
-          <span class="africa-map__stat-label">Public country fields</span>
+          <!-- 12 = the reached countries in Favor's own field artwork
+               (africa-geo.json). Count only; unnamed for field security. -->
+          <span class="africa-map__stat-num">12</span>
+          <span class="africa-map__stat-label">Nations reached</span>
         </div>
       </div>
     )}
