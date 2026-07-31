@@ -4,7 +4,7 @@
    keep their exact current look.
 
    Rules locked with Daniel (2026-06-12):
-   - Backgrounds: max 3 — white (main), cream (highlight),
+   - Backgrounds: max 3: white (main), cream (highlight),
      light green (nature accent). The savanna gradient is a
      cream variant, used sparingly.
    - Typography: max 4 sizes (display, title, body, small).
@@ -21,7 +21,7 @@
      Nothing in a redesigned page uses a size outside these. */
   --rd-fs-display: clamp(2.7rem, 5.2vw, 4.3rem);
   --rd-fs-title: clamp(1.95rem, 3.3vw, 2.75rem);
-  --rd-fs-sub: 1.375rem;     /* 22px — H3 / card and article titles */
+  --rd-fs-sub: 1.375rem;     /* 22px, H3 / card and article titles */
   --rd-fs-body: 1.0625rem;   /* 17px */
   --rd-fs-small: 0.8125rem;  /* 13px */
 
@@ -128,7 +128,7 @@
 .rd .ground-statement p { margin: 0 0 0.8em; }
 .rd .ground-statement p:last-child { margin-bottom: 0; }
 /* Prose variant: for a longer, multi-paragraph statement (e.g. an explanation
-   rather than a single closing line) — same deep-green serif voice, dialed to a
+   rather than a single closing line), same deep-green serif voice, dialed to a
    readable scale so it doesn't become a wall of oversized type. */
 .rd .ground-statement--prose {
   font-family: var(--font-sans); max-width: 60ch; font-size: clamp(1.45rem, 2.2vw, 1.85rem);
@@ -182,7 +182,7 @@
 }
 /* Readability wash: a light vertical gradient, brightest over the text at the
    top and fading to nothing lower down, so the photo stays sharp (no bottom
-   fade — the image just ends at the section edge). */
+   fade; the image ends at the section edge). */
 .rd .six-rs::before {
   content: '';
   position: absolute;

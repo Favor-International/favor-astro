@@ -41,7 +41,7 @@ const latestStories = storiesData.filter(isPublicFieldStory)
 // (src/pages/real.astro); that file is a stale leftover copy from the
 // demo era and is pending deletion once Daniel confirms.
 //
-// HOMEPAGE v15 — Compassion-style structural cut.
+// HOMEPAGE v15: Compassion-style structural cut.
 // Five sections only: Hero, Proof + Trust, Map, One Missionary Story,
 // Give. Every other band has been removed and lives on a deeper page.
 // The through-line is the indigenous missionary. The partner sends them.
@@ -167,7 +167,7 @@ const tiers = [
     <PatternDivider variant="cream" height="110px" />
 
     <!-- ====================================================
-         3b. THE FOUR PILLARS — how the movement works. Names,
+         3b. THE FOUR PILLARS: how the movement works. Names,
          blurbs, and program lists verbatim from site.ts/PILLARS
          (locked to favorintl.org). Each tile links to its
          Impact page.
@@ -195,7 +195,7 @@ const tiers = [
     </section>
 
     <!-- ====================================================
-         4. ONE MISSIONARY STORY — Daniel Kidia, anchor of the page.
+         4. ONE MISSIONARY STORY: Daniel Kidia, anchor of the page.
          Carole's voice lives inside this band as the spiritual anchor.
          ==================================================== -->
     <section class="missionary" aria-label="Meet a missionary sent through your partnership">
@@ -226,7 +226,7 @@ const tiers = [
     </section>
 
     <!-- ====================================================
-         4b. FOUNDER TEASER — the woman behind the prayer quoted
+         4b. FOUNDER TEASER: the woman behind the prayer quoted
          above. Bio line verbatim from Favor's founder page; the
          full story lives at /about/our-story/founder/.
          ==================================================== -->
@@ -242,7 +242,7 @@ const tiers = [
           <p class="founder__lede">
             She arrived in Uganda in 2002, in the middle of a twenty-year war. The ministry
             that grew out of her prayer is today an indigenous missions movement across
-            Uganda, South Sudan, and Chad, led by the national leaders she trained.
+            Uganda, South Sudan, and Chad, led by the indigenous leaders she trained.
           </p>
           <a class="btn btn--primary btn--large founder__cta" href="/about/our-story/founder/">Read Carole&rsquo;s story <span aria-hidden="true">&rarr;</span></a>
           <a class="founder__read" href="/about/contact/?topic=book">Or request her books, free &rarr;</a>
@@ -255,7 +255,7 @@ const tiers = [
     </section>
 
     <!-- ====================================================
-         4c. WHY INDIGENOUS LEADERSHIP — the model, on a deep
+         4c. WHY INDIGENOUS LEADERSHIP: the model, on a deep
          green breakout. Intro sentence verbatim from Favor's
          mission-vision material; quote verbatim from Carole
          (Lord Send Us Where No One Wants to Go, 2025).
@@ -286,7 +286,7 @@ const tiers = [
     </section>
 
     <!-- ====================================================
-         4d. PRAY OR GO — the two non-financial on-ramps,
+         4d. PRAY OR GO: the two non-financial on-ramps,
          side by side, right before the give section.
          ==================================================== -->
     <section class="onramps" aria-label="Pray with us or go see the field">
@@ -316,7 +316,7 @@ const tiers = [
          5. GIVE (tiers + final CTA + Florida disclosure)
          ==================================================== -->
     <section class="give" id="give" aria-label="Pick the partnership that fits your life">
-      <!-- Background video. Source is NOT attached on page load — an
+      <!-- Background video. Source is NOT attached on page load; an
            IntersectionObserver attaches it when the section is within
            800px of the viewport, so the give-bg.mp4 (235 KB) never
            counts against initial page-load metrics. The poster JPG
@@ -359,7 +359,7 @@ const tiers = [
     </section>
 
     <!-- ====================================================
-         6. LIVE FROM THE FIELD — the three newest real stories
+         6. LIVE FROM THE FIELD: the three newest real stories
          (titles, dates, photos straight from stories.json).
          Proof the work is happening right now.
          ==================================================== -->
@@ -413,7 +413,7 @@ const tiers = [
       io.observe(give);
     }
   } else if (give) {
-    // Fallback for environments without IntersectionObserver — just load it
+    // Fallback for environments without IntersectionObserver: load it
     const src = give.dataset.lazySrc;
     if (src) {
       const s = document.createElement('source');
@@ -595,6 +595,17 @@ const tiers = [
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    /* Ambient drift per Stephanie's 2026-07-31 note: the story box needs
+       motion like the hero banner. Off for reduced-motion users. */
+    animation: missionary-drift 18s ease-in-out infinite alternate;
+    transform-origin: 50% 35%;
+  }
+  @keyframes missionary-drift {
+    from { transform: scale(1); }
+    to   { transform: scale(1.07) translateX(-1.4%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .missionary__photo img { animation: none; }
   }
   .missionary__caption {
     position: absolute; left: var(--space-5); bottom: var(--space-5);

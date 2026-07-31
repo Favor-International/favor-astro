@@ -161,7 +161,7 @@ function isCurrent(href: string) {
   //  • openTimer (90ms): don't open until the cursor settles on the
   //    trigger, so sweeping the mouse across the nav toward Give Now
   //    doesn't strobe every panel on the way past. Skipped when a
-  //    sibling panel is already open — swaps should feel instant.
+  //    sibling panel is already open; swaps should feel instant.
   //  • closeTimer (300ms): a generous grace period covering the short
   //    hop from the trigger down across the header padding into the
   //    panel, so the panel doesn't slam shut mid-travel. (The old 120ms
@@ -340,7 +340,7 @@ function isCurrent(href: string) {
   .site-header--transparent.is-menu-open .site-header__logo--color { display: block; }
 
   /* The nav stretches the full height of the header bar so there is no
-     hover dead-zone between a trigger's box and the dropdown panel —
+     hover dead-zone between a trigger's box and the dropdown panel,
      that gap is what caused mouseleave → close → mouseenter → reopen
      flicker while traveling down into the panel. */
   .site-header__nav { align-self: stretch; display: flex; }
@@ -402,7 +402,7 @@ function isCurrent(href: string) {
     transform: translateY(-8px);
     transition: opacity 200ms, transform 200ms, visibility 200ms;
     z-index: 50;
-    /* While closed or mid-fade the panel must not catch the cursor —
+    /* While closed or mid-fade the panel must not catch the cursor;
        a fading panel that still accepts hover re-fires mouseenter on
        its parent item and re-opens itself in a loop (the glitch). */
     pointer-events: none;

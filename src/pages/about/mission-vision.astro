@@ -212,7 +212,7 @@ const traits = [
   @media (max-width: 640px) { .trait-list { grid-template-columns: 1fr; } }
   .trait-list li { display: flex; flex-direction: column; gap: var(--space-2); }
   /* Odd count (7): the last card spans both columns and centers, so the row is
-     filled — no lone orphan card hanging on the left. */
+     filled, no lone orphan card hanging on the left. */
   .trait-list li:last-child { grid-column: 1 / -1; align-items: center; text-align: center; }
   .trait-list li:last-child .trait-list__desc { max-width: 56ch; }
   @media (max-width: 640px) { .trait-list li:last-child { align-items: flex-start; text-align: left; } }

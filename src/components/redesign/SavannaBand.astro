@@ -1,6 +1,6 @@
 ---
 // Savanna section: cream easing into a warm tone, with a layered savanna
-// SILHOUETTE along the bottom — a rolling ground line, a dense distant tree
+// SILHOUETTE along the bottom: a rolling ground line, a dense distant tree
 // line, full acacias of varying sizes, bushes and grass. Rendered dark and
 // faded transparent-at-top -> solid-at-bottom so it reads like a real
 // silhouette image without ever crowding the content.
@@ -92,7 +92,7 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
     overflow: hidden;
     /* A light cream sky held most of the way down so the silhouette reads as a
        crisp solid shape against it, easing to the savanna tone only at the very
-       bottom — so the silhouette's base and a ground-colored band placed right
+       bottom, so the silhouette's base and a ground-colored band placed right
        below meet seamlessly. */
     background: linear-gradient(180deg, var(--color-cream) 0%, #f4ecdb 64%, var(--rd-savanna-ground) 100%);
   }
@@ -100,7 +100,7 @@ const { tight = false, image, imageAlt = '' } = Astro.props as Props;
      and sits along the bottom; its own transparent sky shows the warm band
      above, so it reads "transparent on top, silhouette on the bottom". */
   /* Masked fill: the silhouette is one solid tone everywhere (no transparency),
-     the exact color of the ground band below — so it stands crisp against the
+     the exact color of the ground band below, so it stands crisp against the
      light cream sky up top and its base dissolves into that band. */
   .rd-savanna__photo {
     position: absolute;

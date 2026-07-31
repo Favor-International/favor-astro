@@ -45,7 +45,7 @@ const column = (cx: number) => {
     `L${cx - s},284`, `L${cx - n},284`, `L${cx - n},266`, `L${cx - c},266`, 'Z',
   ].join(' ');
 };
-const SHAFT_MID = 519; // (284 + 754) / 2 — vertical centre of the shaft
+const SHAFT_MID = 519; // (284 + 754) / 2, vertical centre of the shaft
 const BAND_LH = 23; // band line height
 ---
 
@@ -152,7 +152,7 @@ const BAND_LH = 23; // band line height
   .ministry__art { position: relative; max-width: 1140px; margin: 0 auto; padding: 0 var(--space-6); }
   .ministry__svg { display: block; width: 100%; height: auto; font-family: var(--font-sans); }
 
-  /* Full-bleed green foundation — the floor the pillars rest on. */
+  /* Full-bleed green foundation, the floor the pillars rest on. */
   .ministry__foundation { background: #8A957C; }
   .ministry__found-inner {
     max-width: 1140px; margin: 0 auto; padding: clamp(26px, 3.4vw, 46px) var(--space-6);
@@ -182,7 +182,7 @@ const BAND_LH = 23; // band line height
     .ministry__svg { min-width: 580px; }
   }
 
-  /* text roles — sizes are in the 1200-wide user space, so they scale */
+  /* text roles: sizes are in the 1200-wide user space, so they scale */
   .ms-title-txt { font-family: var(--font-display); font-weight: 600; font-size: 66px; fill: #231F20; letter-spacing: 0.5px; }
   .ms-prov { font-weight: 700; font-size: 22px; fill: #231F20; }
   .ms-prov-cite { font-weight: 800; font-size: 23px; }

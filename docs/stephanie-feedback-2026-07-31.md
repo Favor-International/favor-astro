@@ -14,11 +14,10 @@ as "we" to "you."
 
 **Stephanie's copy notes implemented:**
 - Homepage hero and map now say the work centers in Uganda, South Sudan, and Chad and
-  reaches beyond. New stat: "12 Nations reached" (count from Favor's own field artwork,
-  no sensitive countries named).
-- Map lede rewritten around partners and Jesus' discipleship model. Map caption now reads:
-  "Favor also serves in nations we do not name publicly, to protect the believers working
-  there."
+  reaches beyond. Proof band and map stat: "14+ Nations served" (see decision 3).
+- Map lede rewritten around partners and the reach of the Gospel. The full-map restore
+  replaced the earlier do-not-name caption; the band heading now reads "Every point is a
+  place the Gospel has reached."
 - Four Pillars: "One movement. Four pillars." with Christ named in the heading and lede.
 - Indigenous leadership section: "Indigenous missionaries" instead of "National leaders,"
   Jesus' discipleship model stated, 2 Timothy 2:2 added.
@@ -45,6 +44,18 @@ as "we" to "you."
 **AI slop sweep:** em dashes, binary contrasts ("not X, it's Y"), colon reveals, "one-size-
 fits-all," banned words (foster, empowering as a generic verb), fake-profound kickers, and
 duplicated template sentences fixed across Impact, Go, Give, About, and utility pages.
+
+## Fixed in the second pass (2026-07-31, pre-meeting)
+
+- Story spotlight box: slow ambient drift on the photo (the movement Stephanie asked
+  about), disabled for reduced-motion users.
+- Team page field line now reads "across Uganda, South Sudan, Chad, and nations beyond."
+- Homepage founder teaser says "indigenous leaders she trained." Mission & Vision keeps
+  the official "national leaders" mission wording Stephanie praised ("Nice. Like that.");
+  sweep it only if the Terry terminology decision changes it.
+- Deleted the dead TrustStrip component (it still carried "4-star" and "Program expense
+  ratio") and the stale June exec-preview page at /real.
+- Em dashes removed from every code comment. None rendered to visitors.
 
 ## Needs a decision (raise in the meeting)
 
