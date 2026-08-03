@@ -8,13 +8,24 @@
 
 import {
   BlackbaudError,
+  apiBase,
   getDesignations,
   getPaymentConfig,
   getPublicKey,
   readStoredTokens,
+  tokenUrl,
   type Env,
 } from '../_lib/blackbaud';
 import { handleError, json } from '../_lib/http';
+
+// Hostname only, never the full URL, and never a query string.
+const safeHost = (u: string): string => {
+  try {
+    return new URL(u).host;
+  } catch {
+    return 'invalid';
+  }
+};
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
@@ -58,7 +69,19 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
       // Reached when tokens exist but are unusable, typically a refresh token
       // that expired or was revoked. The cure is the same one-time admin
       // consent, so say so rather than reporting a bare false.
-      return json({ connected: false, reason: err.code === 'not_configured' ? 'no_credentials' : 'token_refresh_failed' });
+      //
+      // token_host is reported because the three URL overrides exist so local
+      // dev can point at the mock SKY server on 127.0.0.1. If those variables
+      // get copied into the deployed environment along with the credentials,
+      // production tries to refresh against a loopback address it can never
+      // reach, and the failure looks identical to an expired token. The host
+      // is not a secret and it tells an operator instantly which one it is.
+      return json({
+        connected: false,
+        reason: err.code === 'not_configured' ? 'no_credentials' : 'token_refresh_failed',
+        token_host: safeHost(tokenUrl(env)),
+        api_host: safeHost(apiBase(env)),
+      });
     }
     return handleError(err);
   }
