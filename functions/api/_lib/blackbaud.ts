@@ -197,9 +197,24 @@ async function refreshTokens(env: Env, current: StoredTokens): Promise<StoredTok
       Authorization: basicAuth(env),
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    // preserve_refresh_token opts out of Blackbaud's sliding window. By
+    // default every refresh mints a NEW refresh token and kills the old one,
+    // which is unsafe here: favor-astro is the single token holder for the
+    // whole estate (the marketing platform reaches Blackbaud through this
+    // site's endpoints, per the single-token doctrine), so a nightly bulk sync
+    // can have several refreshes in flight at once. The first one to land
+    // invalidates the token the others are still holding, and every one of
+    // them then fails with invalid_grant, permanently.
+    //
+    // With this flag Blackbaud keeps the same refresh token and its original
+    // expiry, so concurrent refreshes stop knocking each other over. If the
+    // response comes back without a refresh_token (which is the whole point of
+    // the flag), saveTokenResponse carries the existing one forward rather
+    // than storing undefined over it.
     body: new URLSearchParams({
       grant_type: 'refresh_token',
       refresh_token: current.refresh_token,
+      preserve_refresh_token: 'true',
     }),
   });
   if (!res.ok) {
