@@ -1,0 +1,77 @@
+name: Giving health check
+
+# Two jobs in one, both of which the giving integration needs.
+#
+# 1. KEEPALIVE. Blackbaud refresh tokens die if they are never used. A
+#    pre-launch site gets no traffic, so nothing ever calls the SKY API,
+#    so nothing ever refreshes, and the connection rots on its own. Hitting
+#    /api/give/config forces getAccessToken() to run, which refreshes the
+#    access token and rolls the refresh token forward. Running it on a
+#    schedule keeps the connection alive indefinitely with no human involved.
+#
+# 2. ALARM. Until now the only way anyone found out giving was down was a
+#    donor landing on the fallback panel. This fails the workflow the moment
+#    connected flips to false, and prints the reason code so whoever looks
+#    knows immediately whether it is credentials, KV, authorization, or a
+#    rejected refresh.
+
+on:
+  schedule:
+    # Twice a day. Access tokens last about an hour, so this is far more often
+    # than needed to keep the refresh chain warm, and still trivially cheap.
+    - cron: '0 6,18 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query the giving config endpoint
+        id: probe
+        run: |
+          URL="${GIVE_CONFIG_URL:-https://favor-astro.pages.dev/api/give/config}"
+          echo "Checking $URL"
+
+          # Retry a few times so one blip does not page anyone.
+          for attempt in 1 2 3; do
+            BODY=$(curl -sS --max-time 25 "$URL" || true)
+            if [ -n "$BODY" ]; then break; fi
+            echo "Attempt $attempt returned nothing, retrying..."
+            sleep 10
+          done
+
+          echo "Response: $BODY"
+          echo "body=$BODY" >> "$GITHUB_OUTPUT"
+
+          if [ -z "$BODY" ]; then
+            echo "::error::No response from $URL after 3 attempts."
+            exit 1
+          fi
+
+          CONNECTED=$(printf '%s' "$BODY" | jq -r '.connected // false')
+          REASON=$(printf '%s' "$BODY" | jq -r '.reason // "none"')
+
+          if [ "$CONNECTED" != "true" ]; then
+            echo "::error::Online giving is DOWN. reason=$REASON"
+            echo "Fix: an admin must reconnect at /api/blackbaud/auth?key=<BLACKBAUD_SETUP_KEY>"
+            echo "  no_credentials       Blackbaud env vars missing on the Pages project"
+            echo "  no_kv_binding        BLACKBAUD_TOKENS KV namespace not bound"
+            echo "  not_authorized       nobody has completed the one-time consent"
+            echo "  token_refresh_failed Blackbaud rejected the stored refresh token"
+            exit 1
+          fi
+
+          # Connected is not enough on its own: the form also needs a public key
+          # and at least one designation, or it falls back anyway.
+          PUBKEY=$(printf '%s' "$BODY" | jq -r '.public_key // ""')
+          DESIGNATIONS=$(printf '%s' "$BODY" | jq -r '(.designations // []) | length')
+
+          if [ -z "$PUBKEY" ] || [ "$DESIGNATIONS" -lt 1 ]; then
+            echo "::error::Connected, but the form cannot run. public_key set: $([ -n "$PUBKEY" ] && echo yes || echo no), designations: $DESIGNATIONS"
+            exit 1
+          fi
+
+          echo "Online giving is UP. designations=$DESIGNATIONS"
+        env:
+          # Override in repo variables once favorintl.org is cut over.
+          GIVE_CONFIG_URL: ${{ vars.GIVE_CONFIG_URL }}
