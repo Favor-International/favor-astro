@@ -44,14 +44,22 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
   <!-- The form -->
   <form class="dform__form" data-panel="form" hidden novalidate>
-    <ol class="dform__steps" aria-label="Progress">
-      <li data-step-dot="1" class="is-active"><span class="dform__step-num">1</span><span class="dform__step-label">Amount</span></li>
-      <li data-step-dot="2"><span class="dform__step-num">2</span><span class="dform__step-label">Your details</span></li>
-      <li data-step-dot="3"><span class="dform__step-num">3</span><span class="dform__step-label">Card</span></li>
-    </ol>
+    <!-- Survey-style flow: one question per screen. A slim bar replaces the
+         named dots, because the step count now varies (the monthly upsell only
+         appears for one-time gifts). -->
+    <div class="dform__progress">
+      <div class="dform__progress-track"><span data-progress-fill></span></div>
+      <p class="dform__progress-text">Step <span data-step-now>1</span> of <span data-step-total>4</span></p>
+    </div>
 
-    <!-- STEP 1: amount + frequency -->
-    <fieldset class="dform__step" data-step="1">
+    <!-- Hidden mirrors of the parsed name. Everything downstream (checkout,
+         constituent match, receipt) still reads first/last, so the parsing
+         stays contained to this component. -->
+    <input type="hidden" name="first" />
+    <input type="hidden" name="last" />
+
+    <!-- STEP: amount + frequency -->
+    <fieldset class="dform__step" data-step="amount">
       <legend class="sr-only">Gift amount and frequency</legend>
 
       <div class="dform__freq" role="radiogroup" aria-label="Frequency">
@@ -97,55 +105,74 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         <select name="designation"></select>
       </label>
 
-      <p class="dform__error" data-error="1" role="alert" hidden></p>
+      <p class="dform__error" data-error="amount" role="alert" hidden></p>
       <div class="dform__nav dform__nav--single">
-        <button type="button" class="dform__next btn btn--primary btn--large" data-next="1">Continue</button>
+        <button type="button" class="btn btn--primary btn--large" data-next>Continue</button>
       </div>
     </fieldset>
 
-    <!-- STEP 2: donor details, gift options, and the handoff to the card window.
-         Merged from the old steps 2 and 3 on 2026-08-03. The old step 3 was a
-         review screen whose button read "Give $5.00 securely" but only opened
-         Blackbaud's card window, so it read as though the gift was already
-         done (Stephanie's report after a live $5 test). One less click now,
-         and the card step is named in the progress bar instead of hidden. -->
-    <fieldset class="dform__step" data-step="2" hidden>
-      <legend class="sr-only">Your details</legend>
-
-      <div class="dform__recap">
-        <p><strong data-sum="gift"></strong><small data-sum="designation"></small></p>
-        <button type="button" class="dform__recap-change" data-back="2">Change</button>
+    <!-- STEP: monthly upsell. Only reached when the gift is one-time. -->
+    <fieldset class="dform__step" data-step="upsell" hidden>
+      <legend class="sr-only">Consider monthly partnership</legend>
+      <p class="dform__q">Would you make it monthly instead?</p>
+      <p class="dform__hint">
+        Monthly partners are what let field leaders send a missionary the week a village opens,
+        instead of waiting on the next appeal. Cancel anytime.
+      </p>
+      <div class="dform__choices">
+        <button type="button" class="btn btn--primary btn--large" data-upsell-yes>
+          Yes, give <span data-upsell-amt></span> monthly
+        </button>
+        <button type="button" class="dform__ghost" data-upsell-no>No, keep my one-time gift</button>
       </div>
+    </fieldset>
 
-      <div class="dform__grid">
-        <label class="dform__field"><span>First name <em class="dform__req" aria-hidden="true">*</em></span>
-          <input type="text" name="first" autocomplete="given-name" maxlength="50" required />
-        </label>
-        <label class="dform__field"><span>Last name <em class="dform__req" aria-hidden="true">*</em></span>
-          <input type="text" name="last" autocomplete="family-name" maxlength="100" required />
-        </label>
+    <!-- STEP: name, one field, split into first/last on continue. -->
+    <fieldset class="dform__step" data-step="name" hidden>
+      <legend class="sr-only">Your name</legend>
+      <label class="dform__q" for="dform-name">What is your name?</label>
+      <input class="dform__solo" id="dform-name" type="text" name="fullname" autocomplete="name" maxlength="150" placeholder="First and last name" />
+      <p class="dform__hint">So we know who to thank, and who to make the receipt out to.</p>
+      <p class="dform__error" data-error="name" role="alert" hidden></p>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back>&larr; Back</button>
+        <button type="button" class="btn btn--primary btn--large" data-next>Continue</button>
       </div>
-      <label class="dform__field"><span>Email <em class="dform__req" aria-hidden="true">*</em></span>
-        <input type="email" name="email" autocomplete="email" maxlength="254" required />
+    </fieldset>
+
+    <!-- STEP: email. The updates opt-in is asked right here, in context. -->
+    <fieldset class="dform__step" data-step="email" hidden>
+      <legend class="sr-only">Your email</legend>
+      <label class="dform__q" for="dform-email">Where should we send your receipt?</label>
+      <input class="dform__solo" id="dform-email" type="email" name="email" autocomplete="email" maxlength="254" placeholder="you@example.com" />
+      <label class="dform__check dform__check--inline">
+        <input type="checkbox" name="email_optin" />
+        <span>Send me stories and updates from the field too</span>
       </label>
-      <!-- Only name, email, and the fee line stay on screen. Three required
-           fields is everything Blackbaud needs to take the gift and send the
-           receipt; the fee checkbox earns its place because it changes the
-           amount being charged. Phone, note, anonymity, and the two opt-ins
-           are all optional, so asking for them BEFORE the gift is pure
-           friction. They live in one closed disclosure and nothing is lost:
-           the same inputs post the same values whether it is opened or not. -->
-      <label class="dform__check dform__check--fee">
-        <input type="checkbox" name="cover_fees" />
-        <span data-fee-label>Add a little to help cover card processing fees</span>
+      <p class="dform__error" data-error="email" role="alert" hidden></p>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back>&larr; Back</button>
+        <button type="button" class="btn btn--primary btn--large" data-next>Continue</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP: phone, optional and skippable. The SMS box appears only once a
+         number is typed, so the question is asked in context. Typing a number
+         is deliberately NOT treated as consent: US TCPA requires express
+         written consent for marketing texts, so inferring it from a phone
+         field would expose Favor to per-message statutory damages. -->
+    <fieldset class="dform__step" data-step="phone" hidden>
+      <legend class="sr-only">Your phone number</legend>
+      <label class="dform__q" for="dform-phone">Add a phone number?</label>
+      <input class="dform__solo" id="dform-phone" type="tel" name="phone" autocomplete="tel" maxlength="25" placeholder="Optional" />
+      <label class="dform__check dform__check--inline" data-sms-wrap hidden>
+        <input type="checkbox" name="sms_optin" />
+        <span>Text me occasional field updates<small>A few texts a year from Favor International. Reply STOP to opt out. Message and data rates may apply.</small></span>
       </label>
 
       <details class="dform__more">
-        <summary>Add a phone number, a note, or change your preferences</summary>
+        <summary>Add a note, or give anonymously</summary>
         <div class="dform__more-body">
-          <label class="dform__field"><span>Phone</span>
-            <input type="tel" name="phone" autocomplete="tel" maxlength="25" />
-          </label>
           <label class="dform__field"><span>Note or dedication</span>
             <textarea name="note" rows="2" maxlength="400"></textarea>
           </label>
@@ -153,45 +180,45 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
             <input type="checkbox" name="anonymous" />
             <span>Keep my gift anonymous</span>
           </label>
-          <label class="dform__check">
-            <input type="checkbox" name="email_optin" />
-            <span>Email me stories and updates from the field</span>
-          </label>
-          <label class="dform__check dform__check--stacked">
-            <input type="checkbox" name="sms_optin" />
-            <span>Text me occasional field updates<small>A few texts a year. Message and data rates may apply.</small></span>
-          </label>
         </div>
       </details>
+
+      <div class="dform__turnstile" data-turnstile></div>
 
       <p class="dform__disclosure" data-disclosure hidden>
         You authorize Favor International to charge this card monthly until you cancel. Cancel
         anytime by emailing <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.
       </p>
 
-      <!-- Turnstile renders in interaction-only mode, so for almost everyone
-           it is invisible and this box collapses to nothing. It only draws a
-           widget when Cloudflare actually wants a challenge. -->
-      <div class="dform__turnstile" data-turnstile></div>
-
-      <p class="dform__total">
-        <span>Total today</span>
-        <strong data-total></strong>
-        <small data-total-monthly hidden>then <span data-total-next></span> each month</small>
-      </p>
-
-      <p class="dform__error" data-error="2" role="alert" hidden></p>
+      <p class="dform__error" data-error="phone" role="alert" hidden></p>
       <div class="dform__nav">
-        <button type="button" class="dform__back" data-back="2">&larr; Back</button>
+        <button type="button" class="dform__back" data-back>&larr; Back</button>
         <button type="button" class="dform__pay btn btn--primary btn--large" data-pay>
           <span data-pay-label>Continue to card</span>
         </button>
       </div>
       <p class="dform__secure">
-        <strong>One step left.</strong> Your card opens in Blackbaud&rsquo;s secure window, and your
-        gift is complete when you pay there. Favor never sees or stores your card number.
+        Your card opens in Blackbaud secure checkout, and your gift is complete when you pay
+        there. Favor never sees or stores your card number.
       </p>
     </fieldset>
+
+    <!-- Fee prompt: asked at the moment of payment, answered in one tap, never
+         blocking. Either answer goes straight on to the card window. -->
+    <div class="dform__step dform__fee" data-step="fee" hidden>
+      <p class="dform__q">Add <span data-fee-amt></span> to cover processing?</p>
+      <p class="dform__hint">
+        Card processing takes <span data-fee-amt2></span> out of your gift. Cover it and the full
+        <strong data-gift-amt></strong> reaches the field.
+      </p>
+      <div class="dform__choices">
+        <button type="button" class="btn btn--primary btn--large" data-fee-yes>
+          Yes, add <span data-fee-amt3></span>
+        </button>
+        <button type="button" class="dform__ghost" data-fee-no>No thanks, continue</button>
+      </div>
+      <p class="dform__error" data-error="fee" role="alert" hidden></p>
+    </div>
 
     <!-- Processing overlay -->
     <div class="dform__processing" data-panel="processing" hidden aria-live="polite">
@@ -301,17 +328,26 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     const checkbox = (name: string) => (form.querySelector(`input[name="${name}"]`) as HTMLInputElement | null)?.checked ?? false;
     const field = (name: string) => (form.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value.trim() ?? '';
 
+    let feeCovered = false;
     const total = () => {
       const a = amount();
-      if (!config || !checkbox('cover_fees')) return a;
+      if (!config || !feeCovered) return a;
       const rate = config.fee_rate ?? 0.029;
       const fixed = config.fee_fixed ?? 0.3;
       return Math.round((a + a * rate + fixed) * 100) / 100;
     };
 
-    // ---- step navigation ---------------------------------------------------
-    const showError = (n: number, msg: string) => {
-      const el = q(`[data-error="${n}"]`)!;
+    // ---- step machine ------------------------------------------------------
+    // One question per screen. The order is computed, not fixed, because the
+    // monthly upsell only exists for one-time gifts.
+    type StepId = 'amount' | 'upsell' | 'name' | 'email' | 'phone';
+    const stepOrder = (): StepId[] =>
+      freq() === 'once' ? ['amount', 'upsell', 'name', 'email', 'phone'] : ['amount', 'name', 'email', 'phone'];
+    let current: StepId = 'amount';
+
+    const showError = (id: string, msg: string) => {
+      const el = q(`[data-error="${id}"]`);
+      if (!el) return;
       el.textContent = msg;
       el.hidden = !msg;
       if (msg) {
@@ -319,41 +355,81 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         if (r.top < 0 || r.bottom > innerHeight) el.scrollIntoView({ block: 'center', behavior: 'auto' });
       }
     };
+    const clearErrors = () => qa('[data-error]').forEach((el) => { el.textContent = ''; el.hidden = true; });
 
     const alignCardTop = () => {
       const r = root.getBoundingClientRect();
-      // Only pull the viewport when the card top is off screen; never push
-      // the reader down the page.
       if (r.top < 0) window.scrollTo({ top: window.scrollY + r.top - 96, behavior: 'auto' });
     };
 
-    // Two form steps (1 amount, 2 details). Dot 3 is Blackbaud's card window,
-    // which is not one of our fieldsets, so it only lights up once checkout
-    // actually opens.
-    const goTo = (n: number) => {
-      if (n < 2) {
-        // Leaving the details step invalidates any pending checkout attempt:
-        // amount or details may change, so a stale authorization must never
-        // be resubmitted.
+    // Split a typed name into the first/last pair everything downstream needs.
+    // Last token is the surname so "Ana Maria Diaz" keeps "Diaz"; a single
+    // token is rejected, because Blackbaud needs both for the receipt.
+    const applyName = (): boolean => {
+      const parts = field('fullname').split(/\s+/).filter(Boolean);
+      if (parts.length < 2) {
+        showError('name', 'Please enter your first and last name, so the receipt is correct.');
+        return false;
+      }
+      const first = q<HTMLInputElement>('input[name="first"]')!;
+      const last = q<HTMLInputElement>('input[name="last"]')!;
+      first.value = parts[0];
+      last.value = parts.slice(1).join(' ');
+      showError('name', '');
+      return true;
+    };
+
+    const validate = (step: StepId): boolean => {
+      if (step === 'amount') {
+        if (!(amount() >= 1)) { showError('amount', 'Choose or enter a gift amount of at least $1.'); return false; }
+        if (amount() > 250000) { showError('amount', 'For gifts over $250,000, email info@favorintl.org and we will handle it personally.'); return false; }
+        showError('amount', '');
+        return true;
+      }
+      if (step === 'name') return applyName();
+      if (step === 'email') {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(field('email'))) {
+          showError('email', 'A valid email is required so your tax receipt can reach you.');
+          return false;
+        }
+        showError('email', '');
+        return true;
+      }
+      return true;
+    };
+
+    const showStep = (step: StepId | 'fee') => {
+      qa<HTMLElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== step));
+      if (step !== 'fee') {
+        current = step;
+        // Leaving the last step invalidates a pending authorization, so a
+        // stale one is never resubmitted after the amount or details change.
         checkoutToken = null;
         idempotencyKey = null;
       }
-      qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== String(n)));
-      qa('[data-step-dot]').forEach((d) =>
-        d.classList.toggle('is-active', Number((d as HTMLElement).dataset.stepDot) <= n)
-      );
-      showError(1, ''); showError(2, '');
-      if (n === 2) {
-        refreshSummary();
-        ensureTurnstile();
-      }
+      const order = stepOrder();
+      const idx = step === 'fee' ? order.length - 1 : order.indexOf(step);
+      const total = order.length;
+      q('[data-step-now]')!.textContent = String(idx + 1);
+      q('[data-step-total]')!.textContent = String(total);
+      const fill = q<HTMLElement>('[data-progress-fill]')!;
+      fill.style.width = `${Math.round(((idx + 1) / total) * 100)}%`;
+      clearErrors();
+      if (step === 'upsell') refreshUpsell();
+      if (step === 'phone') { refreshSummary(); ensureTurnstile(); }
       alignCardTop();
     };
 
-    // Light up the card dot when Blackbaud's window is actually open.
-    const markCardStep = (open: boolean) => {
-      const dot = q('[data-step-dot="3"]');
-      if (dot) dot.classList.toggle('is-active', open);
+    const goNext = () => {
+      if (!validate(current)) return;
+      const order = stepOrder();
+      const next = order[order.indexOf(current) + 1];
+      if (next) showStep(next);
+    };
+    const goBack = () => {
+      const order = stepOrder();
+      const prev = order[order.indexOf(current) - 1];
+      if (prev) showStep(prev);
     };
 
     const refreshPresets = () => {
@@ -369,23 +445,28 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       );
     };
 
-    const refreshSummary = () => {
-      const monthly = freq() === 'monthly';
-      q('[data-sum="gift"]')!.textContent = `${money(amount())} ${monthly ? 'every month' : 'one time'}`;
-      q('[data-sum="designation"]')!.textContent =
-        designationSelect.options[designationSelect.selectedIndex]?.text ?? '';
-      q('[data-total]')!.textContent = money(total());
-      const monthlyBits = q('[data-total-monthly]')!;
-      monthlyBits.hidden = !monthly;
-      q('[data-total-next]')!.textContent = money(total());
-      q('[data-disclosure]')!.hidden = !monthly;
-      // Names the next action, not a completed one. "Give $5.00 securely" read
-      // as though the gift was already made when the card window had not opened.
-      q('[data-pay-label]')!.textContent = `Continue to card · ${money(total())}${monthly ? '/mo' : ''}`;
+    const refreshUpsell = () => {
+      q('[data-upsell-amt]')!.textContent = money(amount());
+    };
+
+    const feeOf = () => {
       const rate = config?.fee_rate ?? 0.029;
       const fixed = config?.fee_fixed ?? 0.3;
-      const fee = Math.round((amount() * rate + fixed) * 100) / 100;
-      q('[data-fee-label]')!.textContent = `Add ${money(fee)} to help cover card processing fees`;
+      return Math.round((amount() * rate + fixed) * 100) / 100;
+    };
+
+    const refreshSummary = () => {
+      const monthly = freq() === 'monthly';
+      q('[data-disclosure]')!.hidden = !monthly;
+      q('[data-pay-label]')!.textContent = `Continue to card · ${money(total())}${monthly ? '/mo' : ''}`;
+    };
+
+    const refreshFeePrompt = () => {
+      const fee = money(feeOf());
+      q('[data-fee-amt]')!.textContent = fee;
+      q('[data-fee-amt2]')!.textContent = fee;
+      q('[data-fee-amt3]')!.textContent = fee;
+      q('[data-gift-amt]')!.textContent = money(amount());
     };
 
     // ---- Turnstile (rendered on demand so the token is always fresh) -------
@@ -418,31 +499,29 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     qa<HTMLInputElement>('input[name="frequency"]').forEach((r) =>
       r.addEventListener('change', refreshPresets)
     );
-    q<HTMLInputElement>('input[name="cover_fees"]')?.addEventListener('change', refreshSummary);
 
-    q('[data-next="1"]')!.addEventListener('click', () => {
-      if (!(amount() >= 1)) return showError(1, 'Choose or enter a gift amount of at least $1.');
-      if (amount() > 250000) return showError(1, 'For gifts over $250,000, email info@favorintl.org and we will handle it personally.');
-      goTo(2);
+    qa<HTMLButtonElement>('[data-next]').forEach((b) => b.addEventListener('click', goNext));
+    qa<HTMLButtonElement>('[data-back]').forEach((b) => b.addEventListener('click', goBack));
+
+    // Upsell: yes switches the gift to monthly at the same amount.
+    q<HTMLButtonElement>('[data-upsell-yes]')!.addEventListener('click', () => {
+      setFreq('monthly');
+      refreshPresets();
+      showStep('name');
     });
-    qa<HTMLButtonElement>('[data-back]').forEach((b) =>
-      b.addEventListener('click', () => goTo(Number(b.dataset.back) - 1))
-    );
+    q<HTMLButtonElement>('[data-upsell-no]')!.addEventListener('click', () => showStep('name'));
 
-    // Details are validated on the way into the card window, since that is now
-    // the only forward move out of step 2.
-    const detailsValid = () => {
-      if (!field('first') || !field('last')) {
-        showError(2, 'Your first and last name are required for the receipt.');
-        return false;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(field('email'))) {
-        showError(2, 'A valid email is required so your tax receipt can reach you.');
-        return false;
-      }
-      showError(2, '');
-      return true;
-    };
+    // The SMS consent box only appears once a number is typed. Clearing the
+    // number clears the consent with it, so we never hold an opt-in for a
+    // number we do not have.
+    const phoneInput = q<HTMLInputElement>('input[name="phone"]')!;
+    const smsWrap = q<HTMLElement>('[data-sms-wrap]')!;
+    const smsBox = q<HTMLInputElement>('input[name="sms_optin"]')!;
+    phoneInput.addEventListener('input', () => {
+      const has = phoneInput.value.trim().length >= 7;
+      smsWrap.hidden = !has;
+      if (!has) smsBox.checked = false;
+    });
 
     // Same-page giving blocks (partner-monthly, one-time) hand their chosen
     // amount and frequency to the form through this event.
@@ -452,13 +531,13 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       if (d.frequency) setFreq(d.frequency);
       if (d.amount && d.amount >= 1) amountInput.value = String(d.amount);
       refreshPresets();
-      goTo(1);
+      showStep('amount');
     });
 
     // ---- Blackbaud Checkout ------------------------------------------------
     const openCheckout = () => {
       if (!window.Blackbaud_OpenPaymentForm || !config?.public_key) {
-        showError(2, 'The secure checkout script did not load. Reload the page and try again.');
+        showError('fee', 'The secure checkout script did not load. Reload the page and try again.');
         return;
       }
       const monthly = freq() === 'monthly';
@@ -485,39 +564,55 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         cardToken = null;
       }
       idempotencyKey = crypto.randomUUID();
-      markCardStep(true);
       window.Blackbaud_OpenPaymentForm(data);
     };
 
     // One code path on the pay button: after a failed submission the same
     // checkout token + idempotency key are resubmitted (never a second
     // charge); otherwise a fresh checkout opens.
+    // The fee question is asked here, at the moment of payment, instead of
+    // as one more checkbox earlier in the flow. Either answer goes straight
+    // on to the card window, so it costs one tap and never blocks.
+    const proceedToCheckout = () => {
+      if (config?.turnstile_site_key && window.turnstile) {
+        const token = window.turnstile.getResponse(turnstileWidget);
+        if (!token) {
+          window.turnstile.reset(turnstileWidget);
+          showStep('phone');
+          return showError('phone', 'One second while we confirm you are human, then press the button again.');
+        }
+      }
+      openCheckout();
+    };
+
     q<HTMLButtonElement>('[data-pay]')!.addEventListener('click', () => {
       if (submitting) return;
       if (checkoutToken && idempotencyKey) {
         void submitGift();
         return;
       }
-      if (!detailsValid()) return;
-      if (config?.turnstile_site_key && window.turnstile) {
-        const token = window.turnstile.getResponse(turnstileWidget);
-        if (!token) {
-          window.turnstile.reset(turnstileWidget);
-          return showError(2, 'One second while we confirm you are human, then press the button again.');
-        }
-      }
-      openCheckout();
+      if (!validate('phone')) return;
+      refreshFeePrompt();
+      showStep('fee');
+    });
+
+    q<HTMLButtonElement>('[data-fee-yes]')!.addEventListener('click', () => {
+      feeCovered = true;
+      proceedToCheckout();
+    });
+    q<HTMLButtonElement>('[data-fee-no]')!.addEventListener('click', () => {
+      feeCovered = false;
+      proceedToCheckout();
     });
 
     activeCheckout = {
       onComplete: (transactionToken) => {
-        markCardStep(false);
         checkoutToken = transactionToken;
         void submitGift();
       },
       onError: (message) => {
-        markCardStep(false);
-        showError(2, message);
+        showStep('phone');
+        showError('phone', message);
       },
     };
 
@@ -583,11 +678,11 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         // goTo(2) deliberately preserves checkoutToken and idempotencyKey (it
         // only clears them below step 2), so pressing the button resubmits the
         // same authorization instead of charging a second time.
-        goTo(2);
+        showStep('phone');
         // Turnstile tokens are single-use; arm a fresh one for the retry.
         if (window.turnstile && turnstileWidget) window.turnstile.reset(turnstileWidget);
         showError(
-          2,
+          'phone',
           (err instanceof Error ? err.message : 'The gift could not be completed.') +
             ' Your card was not charged. Press the button to try again, or email info@favorintl.org and we will finish it with you.'
         );
@@ -630,6 +725,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         designationSelect.value = pDesignation;
       }
       refreshPresets();
+      showStep('amount');
 
       // turnstile script loads early; the widget renders when step 3 opens so
       // its token is fresh at the moment of payment
@@ -662,23 +758,6 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__fallback ul { line-height: 2; }
   .dform__fallback a { color: var(--color-gold-deep); font-weight: 700; }
 
-  /* Numbered progress */
-  .dform__steps { list-style: none; display: flex; align-items: flex-start; justify-content: center; gap: 0; padding: 0; margin: 0 0 clamp(28px, 4vw, 44px); }
-  .dform__steps li { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; min-width: 110px; }
-  .dform__steps li + li::before {
-    content: ''; position: absolute; top: 17px; right: calc(50% + 24px); width: calc(100% - 48px); height: 2px;
-    background: var(--color-border);
-  }
-  .dform__steps li.is-active + li.is-active::before { background: var(--color-gold); }
-  .dform__step-num {
-    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
-    font-weight: 800; font-size: 0.95rem; background: var(--color-cream); color: var(--color-sage);
-    border: 2px solid var(--color-border); transition: all 160ms;
-  }
-  .dform__steps li.is-active .dform__step-num { background: var(--color-green); color: var(--color-white); border-color: var(--color-green); }
-  .dform__step-label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-sage); }
-  .dform__steps li.is-active .dform__step-label { color: var(--color-green-deep); }
-  @media (max-width: 480px) { .dform__steps li { min-width: 84px; } }
 
   .dform__step { border: 0; padding: 0; margin: 0; }
 
@@ -718,47 +797,13 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   }
   .dform__field input:focus-visible, .dform__field select:focus-visible, .dform__field textarea:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.18); }
 
-  /* The fee line stays visible because it changes the amount charged. */
-  .dform__check--fee { margin: var(--space-4) 0 0; }
 
   /* Everything optional collapses into one closed row. Closed by default, so
      the default path is three fields and a button. */
-  .dform__more { margin: var(--space-4) 0 0; border-top: 1px solid var(--color-border); }
-  .dform__more summary {
-    cursor: pointer; list-style: none;
-    padding: var(--space-4) 0 0;
-    font-size: 0.9rem; font-weight: 700; color: var(--color-green);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .dform__more summary::-webkit-details-marker { display: none; }
-  .dform__more summary::before { content: '+'; font-size: 1.1rem; line-height: 1; color: var(--color-gold-deep); font-weight: 800; }
-  .dform__more[open] summary::before { content: '3'; }
-  .dform__more summary:hover { color: var(--color-gold-deep); }
-  .dform__more-body { display: grid; gap: var(--space-3); padding-top: var(--space-4); }
   .dform__check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.95rem; margin: 6px 0; }
   .dform__check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--color-green); flex-shrink: 0; }
   .dform__check small { display: block; color: var(--color-sage); font-size: 0.78rem; margin-top: 2px; font-weight: 400; }
 
-  /* Recap of the step-1 choice, sitting above the detail fields so the giver
-     can see and change the amount without leaving the step. */
-  .dform__recap { margin: 0 0 var(--space-5); padding: 10px var(--space-4); background: var(--color-cream); border-radius: var(--radius-input); display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); }
-  .dform__recap p { margin: 0; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-  .dform__recap strong { color: var(--color-green-deep); font-size: 1.02rem; line-height: 1.2; }
-  .dform__recap small { color: var(--color-ink-soft); font-size: 0.85rem; }
-  .dform__recap-change { flex: none; background: none; border: 0; padding: 0; color: var(--color-green); font-weight: 800; font-size: 0.9rem; cursor: pointer; border-bottom: 2px solid var(--color-gold); }
-  .dform__recap-change:hover { color: var(--color-gold-deep); }
-
-  /* The total is the number that matters on this screen, so it gets its own
-     line directly above the button instead of being one more paragraph. */
-  .dform__total {
-    display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap;
-    margin: var(--space-6) 0 var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
-  }
-  .dform__total > span { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-sage); }
-  .dform__total strong { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--color-green); font-weight: 700; }
-  .dform__total small { color: var(--color-ink-soft); font-size: 0.85rem; }
   .dform__disclosure { font-size: 0.85rem; color: var(--color-ink-soft); background: var(--color-cream); padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); }
   .dform__disclosure a { color: var(--color-gold-deep); }
 
@@ -780,4 +825,64 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__processing { text-align: center; padding: var(--space-10) 0; color: var(--color-green-deep); }
   .dform__spinner { display: inline-block; width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--color-cream); border-top-color: var(--color-gold); animation: dform-spin 800ms linear infinite; margin-bottom: var(--space-3); }
   @keyframes dform-spin { to { transform: rotate(360deg); } }
+
+  /* ---- survey flow ---------------------------------------------------- */
+  /* One question per screen, so each step gets room to breathe and the eye
+     lands on a single input and a single button. */
+  .dform__progress { margin: 0 0 clamp(24px, 4vw, 36px); }
+  .dform__progress-track { height: 4px; border-radius: 999px; background: color-mix(in srgb, var(--color-green) 12%, transparent); overflow: hidden; }
+  .dform__progress-track span { display: block; height: 100%; width: 25%; border-radius: 999px; background: var(--color-gold); transition: width 280ms cubic-bezier(.4,0,.2,1); }
+  .dform__progress-text { margin: 10px 0 0; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-sage); }
+
+  .dform__q {
+    display: block;
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+    line-height: 1.15;
+    color: var(--color-green-deep);
+    letter-spacing: -0.015em;
+  }
+  .dform__hint { margin: 0 0 var(--space-5); color: var(--color-ink-soft); line-height: 1.6; font-size: 0.95rem; }
+
+  /* The single field on a step is large enough to be the obvious target. */
+  .dform__solo {
+    width: 100%;
+    padding: 18px 20px;
+    font-size: 1.15rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-input);
+    background: var(--color-white);
+    color: var(--color-ink);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+  .dform__solo::placeholder { color: color-mix(in srgb, var(--color-sage) 75%, transparent); }
+  .dform__solo:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 22%, transparent); }
+
+  .dform__check--inline { margin: var(--space-4) 0 0; }
+
+  .dform__choices { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
+  .dform__ghost {
+    background: none; border: 0; padding: 10px;
+    color: var(--color-sage); font-weight: 700; font-size: 0.95rem; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .dform__ghost:hover { color: var(--color-green); }
+
+  /* The fee question is a decision screen, not a form step. */
+  .dform__fee { text-align: center; padding: var(--space-4) 0; }
+  .dform__fee .dform__hint { max-width: 46ch; margin-inline: auto; }
+  .dform__fee .dform__choices { max-width: 420px; margin-inline: auto; }
+
+  .dform__more { margin: var(--space-5) 0 0; border-top: 1px solid var(--color-border); }
+  .dform__more summary {
+    cursor: pointer; list-style: none; padding: var(--space-4) 0 0;
+    font-size: 0.9rem; font-weight: 700; color: var(--color-green);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dform__more summary::-webkit-details-marker { display: none; }
+  .dform__more summary::before { content: '+'; font-size: 1.1rem; line-height: 1; color: var(--color-gold-deep); font-weight: 800; }
+  .dform__more[open] summary::before { content: '\2013'; }
+  .dform__more-body { display: grid; gap: var(--space-3); padding-top: var(--space-4); }
 </style>
