@@ -57,21 +57,27 @@ import { SITE } from '../../lib/site';
   :global(html[data-give-offline]) [data-when='online'] { display: none; }
   :global(html[data-give-offline]) [data-when='offline'] { display: block; }
   .donate-form-band { padding-top: var(--space-8); }
+  /* The verse is a quiet close to the page, not part of the form, so it sits
+     well below it behind a hairline rule. It was crowding the buttons. */
   .donate-verse {
-    margin: var(--space-10) auto 0;
+    margin: clamp(56px, 9vw, 96px) auto 0;
+    padding: clamp(32px, 5vw, 48px) 0 0;
     max-width: 62ch;
-    padding: 0 0 0 var(--space-6);
     border: 0;
-    border-left: 3px solid var(--color-gold);
-    text-align: left;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
   }
   .donate-verse p {
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-4);
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.6;
+    font-size: clamp(1rem, 2.4vw, 1.15rem);
+    line-height: 1.7;
     color: var(--color-green-deep);
+    text-wrap: pretty;
+  }
+  @media (max-width: 640px) {
+    .donate-verse { margin-inline: var(--space-2); }
   }
   .donate-verse cite {
     font-style: normal;

@@ -163,12 +163,44 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
          field would expose Favor to per-message statutory damages. -->
     <fieldset class="dform__step" data-step="phone" hidden>
       <legend class="sr-only">Your phone number</legend>
-      <label class="dform__q" for="dform-phone">Add a phone number?</label>
-      <input class="dform__solo" id="dform-phone" type="tel" name="phone" autocomplete="tel" maxlength="25" placeholder="Optional" />
-      <label class="dform__check dform__check--inline" data-sms-wrap hidden>
-        <input type="checkbox" name="sms_optin" />
-        <span>Text me occasional field updates<small>A few texts a year from Favor International. Reply STOP to opt out. Message and data rates may apply.</small></span>
-      </label>
+      <!-- One card with two faces. Finish typing a number and the field
+           crossfades into the text-updates question in place, rather than
+           pushing a checkbox in underneath it. Answering either way carries
+           straight on to the card window. -->
+      <div class="dform__morph" data-morph>
+        <div class="dform__morph-face" data-face="input">
+          <label class="dform__q" for="dform-phone">Add a phone number?</label>
+          <input
+            class="dform__solo"
+            id="dform-phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            name="phone"
+            maxlength="25"
+            placeholder="Optional"
+          />
+          <p class="dform__hint">Skip it if you would rather not. You can still give.</p>
+        </div>
+
+        <div class="dform__morph-face" data-face="sms" hidden>
+          <p class="dform__q">Want field updates by text?</p>
+          <p class="dform__hint">
+            <strong data-phone-echo></strong><br />
+            A few texts a year from Favor International. Reply STOP to opt out. Message and data
+            rates may apply.
+          </p>
+          <div class="dform__yesno">
+            <button type="button" class="btn btn--primary btn--large" data-sms-yes>Yes, text me</button>
+            <button type="button" class="dform__yesno-no" data-sms-no>No thanks</button>
+          </div>
+          <button type="button" class="dform__ghost" data-phone-edit>Change number</button>
+        </div>
+      </div>
+
+      <!-- Carries the answer into the gift record. Never shown; the Yes/No
+           buttons above are the actual control, so consent stays explicit. -->
+      <input type="checkbox" name="sms_optin" hidden />
 
       <details class="dform__more">
         <summary>Add a note, or give anonymously</summary>
@@ -511,16 +543,92 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     });
     q<HTMLButtonElement>('[data-upsell-no]')!.addEventListener('click', () => showStep('name'));
 
-    // The SMS consent box only appears once a number is typed. Clearing the
-    // number clears the consent with it, so we never hold an opt-in for a
-    // number we do not have.
+    // ---- phone -> text-updates morph ---------------------------------------
     const phoneInput = q<HTMLInputElement>('input[name="phone"]')!;
-    const smsWrap = q<HTMLElement>('[data-sms-wrap]')!;
     const smsBox = q<HTMLInputElement>('input[name="sms_optin"]')!;
+    const faceInput = q<HTMLElement>('[data-face="input"]')!;
+    const faceSms = q<HTMLElement>('[data-face="sms"]')!;
+    const morph = q<HTMLElement>('[data-morph]')!;
+    const digits = () => phoneInput.value.replace(/\D/g, '');
+    // 10 digits, or 11 starting with a US country code.
+    const looksComplete = () => digits().length === 10 || (digits().length === 11 && digits().startsWith('1'));
+
+    let morphTimer: number | undefined;
+    const showFace = (which: 'input' | 'sms') => {
+      const from = which === 'sms' ? faceInput : faceSms;
+      const to = which === 'sms' ? faceSms : faceInput;
+      if (!to.hidden) return;
+      // Lock the height first so the swap does not jolt the page.
+      morph.style.minHeight = `${morph.offsetHeight}px`;
+      from.classList.add('is-leaving');
+      const finish = () => {
+        from.hidden = true;
+        from.classList.remove('is-leaving');
+        to.hidden = false;
+        to.classList.add('is-entering');
+        requestAnimationFrame(() => {
+          to.classList.remove('is-entering');
+          morph.style.minHeight = '';
+        });
+        if (which === 'sms') q('[data-phone-echo]')!.textContent = phoneInput.value.trim();
+        else phoneInput.focus();
+      };
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) finish();
+      else window.setTimeout(finish, 180);
+    };
+
+    const maybeMorph = () => {
+      window.clearTimeout(morphTimer);
+      if (!looksComplete()) return;
+      // Short settle so it fires when typing stops, not mid-digit.
+      morphTimer = window.setTimeout(() => showFace('sms'), 450);
+    };
+
     phoneInput.addEventListener('input', () => {
-      const has = phoneInput.value.trim().length >= 7;
-      smsWrap.hidden = !has;
-      if (!has) smsBox.checked = false;
+      // Clearing the number clears the consent with it, so we never hold an
+      // opt-in for a number we do not have.
+      if (!digits().length) {
+        smsBox.checked = false;
+        showFace('input');
+      }
+      maybeMorph();
+    });
+    phoneInput.addEventListener('blur', () => {
+      if (digits().length >= 7) showFace('sms');
+    });
+
+    q<HTMLButtonElement>('[data-phone-edit]')!.addEventListener('click', () => {
+      smsBox.checked = false;
+      showFace('input');
+    });
+
+    // Answering either way records the choice and carries straight on, so the
+    // question costs one tap and never strands anyone on this screen.
+    const answerSms = (yes: boolean) => {
+      smsBox.checked = yes;
+      startCheckout();
+    };
+    q<HTMLButtonElement>('[data-sms-yes]')!.addEventListener('click', () => answerSms(true));
+    q<HTMLButtonElement>('[data-sms-no]')!.addEventListener('click', () => answerSms(false));
+
+    // ---- keyboard ----------------------------------------------------------
+    // Enter advances the current step. Textareas keep their newline, and the
+    // form never implicitly submits (every button is type=button).
+    panels.form.addEventListener('submit', (e) => e.preventDefault());
+    panels.form.addEventListener('keydown', (e) => {
+      const ev = e as KeyboardEvent;
+      if (ev.key !== 'Enter' || ev.shiftKey) return;
+      const t = ev.target as HTMLElement;
+      if (t instanceof HTMLTextAreaElement) return;
+      if (t instanceof HTMLButtonElement) return;
+      ev.preventDefault();
+      if (current === 'phone') {
+        // On the phone step Enter means "I have finished typing".
+        if (!faceSms.hidden) return;
+        if (digits().length >= 7) return showFace('sms');
+        return startCheckout();
+      }
+      goNext();
     });
 
     // Same-page giving blocks (partner-monthly, one-time) hand their chosen
@@ -570,6 +678,19 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     // One code path on the pay button: after a failed submission the same
     // checkout token + idempotency key are resubmitted (never a second
     // charge); otherwise a fresh checkout opens.
+    // Single entry point into payment, shared by the Continue button, the
+    // text-updates answer, and the Enter key, so all three behave identically.
+    function startCheckout() {
+      if (submitting) return;
+      if (checkoutToken && idempotencyKey) {
+        void submitGift();
+        return;
+      }
+      if (!validate('phone')) return;
+      refreshFeePrompt();
+      showStep('fee');
+    }
+
     // The fee question is asked here, at the moment of payment, instead of
     // as one more checkbox earlier in the flow. Either answer goes straight
     // on to the card window, so it costs one tap and never blocks.
@@ -585,16 +706,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       openCheckout();
     };
 
-    q<HTMLButtonElement>('[data-pay]')!.addEventListener('click', () => {
-      if (submitting) return;
-      if (checkoutToken && idempotencyKey) {
-        void submitGift();
-        return;
-      }
-      if (!validate('phone')) return;
-      refreshFeePrompt();
-      showStep('fee');
-    });
+    q<HTMLButtonElement>('[data-pay]')!.addEventListener('click', () => startCheckout());
 
     q<HTMLButtonElement>('[data-fee-yes]')!.addEventListener('click', () => {
       feeCovered = true;
@@ -861,6 +973,31 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__solo:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 22%, transparent); }
 
   .dform__check--inline { margin: var(--space-4) 0 0; }
+
+  /* Phone field and the text-updates question are two faces of one card. The
+     swap is a short blur-and-lift crossfade so it reads as the same surface
+     changing, not a new block appearing underneath. */
+  .dform__morph { position: relative; }
+  .dform__morph-face { transition: opacity 180ms ease, transform 180ms ease, filter 180ms ease; }
+  .dform__morph-face.is-leaving { opacity: 0; transform: translateY(-6px) scale(0.985); filter: blur(6px); }
+  .dform__morph-face.is-entering { opacity: 0; transform: translateY(10px) scale(0.985); filter: blur(6px); }
+  @media (prefers-reduced-motion: reduce) {
+    .dform__morph-face { transition: none; }
+    .dform__morph-face.is-leaving, .dform__morph-face.is-entering { opacity: 1; transform: none; filter: none; }
+  }
+
+  /* Both answers are real buttons with full-size tap targets, so this works
+     with a thumb as well as a mouse. */
+  .dform__yesno { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-5); }
+  .dform__yesno > * { min-height: 54px; }
+  .dform__yesno-no {
+    border: 2px solid var(--color-border); background: var(--color-white);
+    border-radius: var(--radius-pill); color: var(--color-ink-soft);
+    font: inherit; font-weight: 700; cursor: pointer;
+    transition: border-color 140ms ease, color 140ms ease;
+  }
+  .dform__yesno-no:hover { border-color: var(--color-sage); color: var(--color-green-deep); }
+  @media (max-width: 420px) { .dform__yesno { grid-template-columns: 1fr; } }
 
   .dform__choices { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
   .dform__ghost {
