@@ -146,7 +146,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       <label class="dform__q" for="dform-email">Where should we send your receipt?</label>
       <input class="dform__solo" id="dform-email" type="email" name="email" autocomplete="email" maxlength="254" placeholder="you@example.com" />
       <label class="dform__check dform__check--inline">
-        <input type="checkbox" name="email_optin" />
+        <input type="checkbox" name="email_optin" checked />
         <span>Send me stories and updates from the field too</span>
       </label>
       <p class="dform__error" data-error="email" role="alert" hidden></p>
@@ -163,40 +163,34 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
          field would expose Favor to per-message statutory damages. -->
     <fieldset class="dform__step" data-step="phone" hidden>
       <legend class="sr-only">Your phone number</legend>
-      <!-- One card with two faces. Finish typing a number and the field
-           crossfades into the text-updates question in place, rather than
-           pushing a checkbox in underneath it. Answering either way carries
-           straight on to the card window. -->
-      <div class="dform__morph" data-morph>
-        <div class="dform__morph-face" data-face="input">
-          <label class="dform__q" for="dform-phone">Add a phone number?</label>
-          <input
-            class="dform__solo"
-            id="dform-phone"
-            type="tel"
-            inputmode="tel"
-            autocomplete="tel"
-            name="phone"
-            maxlength="25"
-            placeholder="Optional"
-          />
-          <p class="dform__hint">Skip it if you would rather not. You can still give.</p>
-        </div>
+      <label class="dform__q" for="dform-phone">
+        Add a phone number? <span class="dform__optional">Optional</span>
+      </label>
 
-        <div class="dform__morph-face" data-face="sms" hidden>
-          <p class="dform__q">Want field updates by text?</p>
-          <p class="dform__hint">
-            <strong data-phone-echo></strong><br />
-            A few texts a year from Favor International. Reply STOP to opt out. Message and data
-            rates may apply.
-          </p>
-          <div class="dform__yesno">
-            <button type="button" class="btn btn--primary btn--large" data-sms-yes>Yes, text me</button>
-            <button type="button" class="dform__yesno-no" data-sms-no>No thanks</button>
-          </div>
-          <button type="button" class="dform__ghost" data-phone-edit>Change number</button>
+      <!-- The ask happens inside the field. Once the number is complete it
+           fades and the same box asks about texts, so nothing new appears on
+           the page and the step never grows. -->
+      <div class="dform__phonewrap">
+        <input
+          class="dform__solo"
+          id="dform-phone"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          name="phone"
+          maxlength="25"
+        />
+        <div class="dform__inlineask" data-inline-ask hidden>
+          <span class="dform__inlineask-q">Text me field updates?</span>
+          <span class="dform__inlineask-btns">
+            <button type="button" data-sms-yes>Yes</button>
+            <button type="button" data-sms-no>No</button>
+          </span>
         </div>
       </div>
+      <p class="dform__microhint" data-sms-fineprint>
+        A few texts a year. Reply STOP to opt out. Message and data rates may apply.
+      </p>
 
       <!-- Carries the answer into the gift record. Never shown; the Yes/No
            buttons above are the actual control, so consent stays explicit. -->
@@ -235,21 +229,26 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       </p>
     </fieldset>
 
-    <!-- Fee prompt: asked at the moment of payment, answered in one tap, never
-         blocking. Either answer goes straight on to the card window. -->
-    <div class="dform__step dform__fee" data-step="fee" hidden>
-      <p class="dform__q">Add <span data-fee-amt></span> to cover processing?</p>
-      <p class="dform__hint">
-        Card processing takes <span data-fee-amt2></span> out of your gift. Cover it and the full
-        <strong data-gift-amt></strong> reaches the field.
-      </p>
-      <div class="dform__choices">
-        <button type="button" class="btn btn--primary btn--large" data-fee-yes>
-          Yes, add <span data-fee-amt3></span>
-        </button>
-        <button type="button" class="dform__ghost" data-fee-no>No thanks, continue</button>
+    <!-- Fee prompt. A dialog over a scrim, deliberately shaped like the card
+         window that follows it, so the last two screens of the gift feel like
+         the same moment rather than two more survey steps. -->
+    <div class="dform__modal" data-modal="fee" hidden>
+      <div class="dform__modal-scrim" data-fee-dismiss></div>
+      <div class="dform__modal-card" role="dialog" aria-modal="true" aria-labelledby="dform-fee-title">
+        <p class="dform__modal-title" id="dform-fee-title">Add <span data-fee-amt></span> to cover processing?</p>
+        <p class="dform__modal-body">
+          Card processing takes <span data-fee-amt2></span> out of your gift. Cover it and the full
+          <strong data-gift-amt></strong> reaches the field.
+        </p>
+        <div class="dform__modal-actions">
+          <button type="button" class="btn btn--primary btn--large" data-fee-yes>
+            Yes, add <span data-fee-amt3></span>
+          </button>
+          <button type="button" class="dform__yesno-no" data-fee-no>No thanks</button>
+        </div>
+        <p class="dform__error" data-error="fee" role="alert" hidden></p>
+        <p class="dform__modal-foot">Your card opens next, in Blackbaud&rsquo;s secure window.</p>
       </div>
-      <p class="dform__error" data-error="fee" role="alert" hidden></p>
     </div>
 
     <!-- Processing overlay -->
@@ -430,9 +429,9 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       return true;
     };
 
-    const showStep = (step: StepId | 'fee') => {
+    const showStep = (step: StepId) => {
       qa<HTMLElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== step));
-      if (step !== 'fee') {
+      {
         current = step;
         // Leaving the last step invalidates a pending authorization, so a
         // stale one is never resubmitted after the amount or details change.
@@ -440,7 +439,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         idempotencyKey = null;
       }
       const order = stepOrder();
-      const idx = step === 'fee' ? order.length - 1 : order.indexOf(step);
+      const idx = order.indexOf(step);
       const total = order.length;
       q('[data-step-now]')!.textContent = String(idx + 1);
       q('[data-step-total]')!.textContent = String(total);
@@ -546,42 +545,41 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     // ---- phone -> text-updates morph ---------------------------------------
     const phoneInput = q<HTMLInputElement>('input[name="phone"]')!;
     const smsBox = q<HTMLInputElement>('input[name="sms_optin"]')!;
-    const faceInput = q<HTMLElement>('[data-face="input"]')!;
-    const faceSms = q<HTMLElement>('[data-face="sms"]')!;
-    const morph = q<HTMLElement>('[data-morph]')!;
+    const inlineAsk = q<HTMLElement>('[data-inline-ask]')!;
+    const finePrint = q<HTMLElement>('[data-sms-fineprint]')!;
     const digits = () => phoneInput.value.replace(/\D/g, '');
     // 10 digits, or 11 starting with a US country code.
     const looksComplete = () => digits().length === 10 || (digits().length === 11 && digits().startsWith('1'));
 
     let morphTimer: number | undefined;
-    const showFace = (which: 'input' | 'sms') => {
-      const from = which === 'sms' ? faceInput : faceSms;
-      const to = which === 'sms' ? faceSms : faceInput;
-      if (!to.hidden) return;
-      // Lock the height first so the swap does not jolt the page.
-      morph.style.minHeight = `${morph.offsetHeight}px`;
-      from.classList.add('is-leaving');
-      const finish = () => {
-        from.hidden = true;
-        from.classList.remove('is-leaving');
-        to.hidden = false;
-        to.classList.add('is-entering');
-        requestAnimationFrame(() => {
-          to.classList.remove('is-entering');
-          morph.style.minHeight = '';
-        });
-        if (which === 'sms') q('[data-phone-echo]')!.textContent = phoneInput.value.trim();
-        else phoneInput.focus();
-      };
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) finish();
-      else window.setTimeout(finish, 180);
+    // The number fades out and the same box asks the question. Nothing is
+    // added to the page, so the step height never changes.
+    const showAsk = (on: boolean) => {
+      if (on === !inlineAsk.hidden) return;
+      if (on) {
+        inlineAsk.hidden = false;
+        // Force a reflow so the transition has a start frame. rAF is not
+        // reliable here: it does not fire in a backgrounded tab, which left
+        // the number visible underneath the question.
+        void inlineAsk.offsetWidth;
+        phoneInput.classList.add('is-faded');
+        inlineAsk.classList.add('is-shown');
+        finePrint.classList.add('is-shown');
+      } else {
+        phoneInput.classList.remove('is-faded');
+        inlineAsk.classList.remove('is-shown');
+        finePrint.classList.remove('is-shown');
+        const hide = () => { inlineAsk.hidden = true; };
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) hide();
+        else window.setTimeout(hide, 180);
+      }
     };
 
-    const maybeMorph = () => {
+    const maybeAsk = () => {
       window.clearTimeout(morphTimer);
       if (!looksComplete()) return;
       // Short settle so it fires when typing stops, not mid-digit.
-      morphTimer = window.setTimeout(() => showFace('sms'), 450);
+      morphTimer = window.setTimeout(() => showAsk(true), 450);
     };
 
     phoneInput.addEventListener('input', () => {
@@ -589,17 +587,12 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       // opt-in for a number we do not have.
       if (!digits().length) {
         smsBox.checked = false;
-        showFace('input');
+        showAsk(false);
       }
-      maybeMorph();
+      maybeAsk();
     });
     phoneInput.addEventListener('blur', () => {
-      if (digits().length >= 7) showFace('sms');
-    });
-
-    q<HTMLButtonElement>('[data-phone-edit]')!.addEventListener('click', () => {
-      smsBox.checked = false;
-      showFace('input');
+      if (digits().length >= 7) showAsk(true);
     });
 
     // Answering either way records the choice and carries straight on, so the
@@ -624,8 +617,8 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       ev.preventDefault();
       if (current === 'phone') {
         // On the phone step Enter means "I have finished typing".
-        if (!faceSms.hidden) return;
-        if (digits().length >= 7) return showFace('sms');
+        if (!inlineAsk.hidden) return;
+        if (digits().length >= 7) return showAsk(true);
         return startCheckout();
       }
       goNext();
@@ -688,13 +681,34 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       }
       if (!validate('phone')) return;
       refreshFeePrompt();
-      showStep('fee');
+      openFeeModal(true);
     }
+
+    const feeModal = q<HTMLElement>('[data-modal="fee"]')!;
+    function openFeeModal(open: boolean) {
+      feeModal.hidden = !open;
+      if (open) {
+        // Pad by the scrollbar width while the page is locked, otherwise
+        // removing the scrollbar shifts everything sideways as it opens.
+        const bar = window.innerWidth - document.documentElement.clientWidth;
+        if (bar > 0) document.body.style.paddingRight = `${bar}px`;
+        document.body.style.overflow = 'hidden';
+        q<HTMLButtonElement>('[data-fee-yes]')!.focus();
+      } else {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }
+    }
+    q<HTMLElement>('[data-fee-dismiss]')!.addEventListener('click', () => openFeeModal(false));
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape' && !feeModal.hidden) openFeeModal(false);
+    });
 
     // The fee question is asked here, at the moment of payment, instead of
     // as one more checkbox earlier in the flow. Either answer goes straight
     // on to the card window, so it costs one tap and never blocks.
     const proceedToCheckout = () => {
+      openFeeModal(false);
       if (config?.turnstile_site_key && window.turnstile) {
         const token = window.turnstile.getResponse(turnstileWidget);
         if (!token) {
@@ -974,30 +988,82 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
   .dform__check--inline { margin: var(--space-4) 0 0; }
 
-  /* Phone field and the text-updates question are two faces of one card. The
-     swap is a short blur-and-lift crossfade so it reads as the same surface
-     changing, not a new block appearing underneath. */
-  .dform__morph { position: relative; }
-  .dform__morph-face { transition: opacity 180ms ease, transform 180ms ease, filter 180ms ease; }
-  .dform__morph-face.is-leaving { opacity: 0; transform: translateY(-6px) scale(0.985); filter: blur(6px); }
-  .dform__morph-face.is-entering { opacity: 0; transform: translateY(10px) scale(0.985); filter: blur(6px); }
+  /* A tiny marker, not a sentence. The field should not look skippable. */
+  .dform__optional {
+    margin-left: 8px; vertical-align: middle;
+    font-family: var(--font-sans); font-size: 0.6rem; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--color-sage);
+    border: 1px solid var(--color-border); border-radius: 999px;
+    padding: 2px 8px;
+  }
+  /* Always occupies its space, so revealing it cannot move the button. */
+  .dform__microhint { margin: 8px 0 0; font-size: 0.72rem; line-height: 1.5; color: var(--color-sage); visibility: hidden; transition: opacity 180ms ease; opacity: 0; }
+  .dform__microhint.is-shown { visibility: visible; opacity: 1; }
+
+  /* The question happens INSIDE the field. The number fades, the same box
+     asks, and the step height never changes. */
+  .dform__phonewrap { position: relative; }
+  .dform__phonewrap .dform__solo { transition: opacity 180ms ease, filter 180ms ease; }
+  .dform__phonewrap .dform__solo.is-faded { opacity: 0; filter: blur(4px); }
+
+  .dform__inlineask {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+    padding: 0 12px 0 18px;
+    border: 2px solid var(--color-gold); border-radius: var(--radius-input);
+    background: var(--color-white);
+    opacity: 0; transform: scale(0.99);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  .dform__inlineask.is-shown { opacity: 1; transform: none; }
+  .dform__inlineask-q { font-weight: 700; color: var(--color-green-deep); font-size: 0.98rem; }
+  .dform__inlineask-btns { display: flex; gap: 8px; flex: none; }
+  .dform__inlineask-btns button {
+    min-width: 62px; min-height: 40px; padding: 0 16px;
+    border-radius: 999px; border: 2px solid var(--color-green);
+    background: var(--color-white); color: var(--color-green);
+    font: inherit; font-weight: 800; font-size: 0.92rem; cursor: pointer;
+    transition: background 140ms ease, color 140ms ease;
+  }
+  .dform__inlineask-btns button:first-child { background: var(--color-green); color: var(--color-white); }
+  .dform__inlineask-btns button:hover { background: var(--color-gold); border-color: var(--color-gold); color: var(--color-green-deep); }
+  @media (max-width: 430px) {
+    .dform__inlineask { padding-left: 12px; }
+    .dform__inlineask-q { font-size: 0.86rem; }
+    .dform__inlineask-btns button { min-width: 52px; padding: 0 12px; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .dform__morph-face { transition: none; }
-    .dform__morph-face.is-leaving, .dform__morph-face.is-entering { opacity: 1; transform: none; filter: none; }
+    .dform__phonewrap .dform__solo, .dform__inlineask { transition: none; }
   }
 
-  /* Both answers are real buttons with full-size tap targets, so this works
-     with a thumb as well as a mouse. */
-  .dform__yesno { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-5); }
-  .dform__yesno > * { min-height: 54px; }
   .dform__yesno-no {
     border: 2px solid var(--color-border); background: var(--color-white);
     border-radius: var(--radius-pill); color: var(--color-ink-soft);
-    font: inherit; font-weight: 700; cursor: pointer;
+    font: inherit; font-weight: 700; cursor: pointer; min-height: 54px;
     transition: border-color 140ms ease, color 140ms ease;
   }
   .dform__yesno-no:hover { border-color: var(--color-sage); color: var(--color-green-deep); }
-  @media (max-width: 420px) { .dform__yesno { grid-template-columns: 1fr; } }
+
+  /* Fee dialog, shaped like the card window that follows it. */
+  .dform__modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: var(--space-5); }
+  /* Overscanned so it always covers the full viewport, including the strip
+     a reserved scrollbar can leave outside the containing block. */
+  .dform__modal-scrim { position: fixed; inset: -60px; background: rgba(12, 28, 14, 0.55); backdrop-filter: blur(3px); }
+  .dform__modal-card {
+    position: relative; width: min(440px, 100%);
+    background: var(--color-white); border-radius: 18px;
+    padding: clamp(24px, 5vw, 36px);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: dform-pop 200ms cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes dform-pop { from { opacity: 0; transform: translateY(10px) scale(0.97); } }
+  @media (prefers-reduced-motion: reduce) { .dform__modal-card { animation: none; } }
+  .dform__modal-title { margin: 0 0 var(--space-3); font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 3.4vw, 1.5rem); line-height: 1.25; color: var(--color-green-deep); }
+  .dform__modal-body { margin: 0 0 var(--space-6); font-size: 0.92rem; line-height: 1.6; color: var(--color-ink-soft); }
+  .dform__modal-actions { display: grid; gap: var(--space-3); }
+  .dform__modal-foot { margin: var(--space-5) 0 0; font-size: 0.72rem; color: var(--color-sage); }
 
   .dform__choices { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
   .dform__ghost {
