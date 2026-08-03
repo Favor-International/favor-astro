@@ -76,9 +76,17 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
       // production tries to refresh against a loopback address it can never
       // reach, and the failure looks identical to an expired token. The host
       // is not a secret and it tells an operator instantly which one it is.
+      // oauth_error is Blackbaud's own code. invalid_grant means the refresh
+      // token is spent or revoked and reconnecting fixes it; invalid_client
+      // means the client id/secret no longer match the app that issued the
+      // token, and reconnecting will keep failing until that is corrected.
+      // Neither is a secret, and knowing which saves an operator from looping.
+      const detail = err.detail as { status?: number; oauth_error?: string | null } | undefined;
       return json({
         connected: false,
         reason: err.code === 'not_configured' ? 'no_credentials' : 'token_refresh_failed',
+        oauth_error: detail?.oauth_error ?? null,
+        oauth_status: detail?.status ?? null,
         token_host: safeHost(tokenUrl(env)),
         api_host: safeHost(apiBase(env)),
       });

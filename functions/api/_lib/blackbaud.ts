@@ -117,10 +117,32 @@ export function requireCredentials(env: Env): void {
   }
 }
 
-async function saveTokenResponse(env: Env, tok: TokenResponse): Promise<StoredTokens> {
+async function saveTokenResponse(
+  env: Env,
+  tok: TokenResponse,
+  previous?: StoredTokens | null
+): Promise<StoredTokens> {
+  // Two ways this used to brick giving permanently, both of which look
+  // identical from outside (token_refresh_failed forever, only fixable by a
+  // human reconnecting):
+  //
+  // 1. A refresh response that omits refresh_token. JSON.stringify drops
+  //    undefined, so the stored record lost its refresh token entirely and
+  //    every later refresh sent nothing. Carrying the previous one forward is
+  //    the standard OAuth behaviour: only replace it when a new one is issued.
+  // 2. A 200 response that is not actually a token grant. Persisting that
+  //    overwrote a working record with garbage.
+  const refresh = tok.refresh_token || previous?.refresh_token;
+  if (!tok.access_token || !refresh) {
+    throw new BlackbaudError(
+      'oauth_bad_token_response',
+      'Blackbaud returned a token response without an access token or a usable refresh token. The stored tokens were left untouched.',
+      502
+    );
+  }
   const stored: StoredTokens = {
     access_token: tok.access_token,
-    refresh_token: tok.refresh_token,
+    refresh_token: refresh,
     expires_at: Date.now() + Math.max(60, tok.expires_in - 120) * 1000,
     environment_id: tok.environment_id,
     environment_name: tok.environment_name,
@@ -184,14 +206,28 @@ async function refreshTokens(env: Env, current: StoredTokens): Promise<StoredTok
     const text = await res.text();
     // A dead refresh token means the admin must reconnect. Keep the stored
     // record so /api/blackbaud/status can explain what happened.
+    //
+    // Pull out the OAuth error code, because the two common ones need
+    // completely different fixes and are otherwise indistinguishable:
+    //   invalid_grant  the refresh token is spent, revoked, or expired
+    //                  -> reconnecting works
+    //   invalid_client the client id/secret no longer match the app that
+    //                  issued this token -> reconnecting fails the same way
+    //                  until the credentials are fixed first
+    let oauthError: string | undefined;
+    try {
+      oauthError = (JSON.parse(text) as { error?: string }).error;
+    } catch {
+      /* non-JSON error body */
+    }
     throw new BlackbaudError(
       'not_connected',
       'Blackbaud refresh token was rejected. An administrator must reconnect at /api/blackbaud/auth.',
       503,
-      text
+      { status: res.status, oauth_error: oauthError ?? null, body: text.slice(0, 300) }
     );
   }
-  return saveTokenResponse(env, (await res.json()) as TokenResponse);
+  return saveTokenResponse(env, (await res.json()) as TokenResponse, current);
 }
 
 export async function getAccessToken(env: Env, forceRefresh = false): Promise<string> {
