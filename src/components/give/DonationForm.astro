@@ -113,11 +113,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       <legend class="sr-only">Your details</legend>
 
       <div class="dform__recap">
-        <div>
-          <span class="dform__recap-label">Your gift</span>
-          <strong data-sum="gift"></strong>
-          <small data-sum="designation"></small>
-        </div>
+        <p><strong data-sum="gift"></strong><small data-sum="designation"></small></p>
         <button type="button" class="dform__recap-change" data-back="2">Change</button>
       </div>
 
@@ -132,39 +128,41 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       <label class="dform__field"><span>Email <em class="dform__req" aria-hidden="true">*</em></span>
         <input type="email" name="email" autocomplete="email" maxlength="254" required />
       </label>
-      <label class="dform__field"><span>Phone</span>
-        <input type="tel" name="phone" autocomplete="tel" maxlength="25" />
-      </label>
-      <label class="dform__field"><span>Note or dedication</span>
-        <textarea name="note" rows="2" maxlength="400"></textarea>
+      <!-- Only name, email, and the fee line stay on screen. Three required
+           fields is everything Blackbaud needs to take the gift and send the
+           receipt; the fee checkbox earns its place because it changes the
+           amount being charged. Phone, note, anonymity, and the two opt-ins
+           are all optional, so asking for them BEFORE the gift is pure
+           friction. They live in one closed disclosure and nothing is lost:
+           the same inputs post the same values whether it is opened or not. -->
+      <label class="dform__check dform__check--fee">
+        <input type="checkbox" name="cover_fees" />
+        <span data-fee-label>Add a little to help cover card processing fees</span>
       </label>
 
-      <!-- Two groups, not four identical checkboxes in a stack. Options that
-           change the gift are separated from options that sign you up for
-           something, because they are different decisions. -->
-      <div class="dform__group">
-        <p class="dform__group-title">Your gift</p>
-        <label class="dform__check">
-          <input type="checkbox" name="cover_fees" />
-          <span data-fee-label>Add a little to help cover card processing fees</span>
-        </label>
-        <label class="dform__check">
-          <input type="checkbox" name="anonymous" />
-          <span>Keep my gift anonymous</span>
-        </label>
-      </div>
-
-      <div class="dform__group">
-        <p class="dform__group-title">Stay connected</p>
-        <label class="dform__check">
-          <input type="checkbox" name="email_optin" />
-          <span>Email me stories and updates from the field</span>
-        </label>
-        <label class="dform__check dform__check--stacked">
-          <input type="checkbox" name="sms_optin" />
-          <span>Text me occasional field updates<small>A few texts a year. Message and data rates may apply.</small></span>
-        </label>
-      </div>
+      <details class="dform__more">
+        <summary>Add a phone number, a note, or change your preferences</summary>
+        <div class="dform__more-body">
+          <label class="dform__field"><span>Phone</span>
+            <input type="tel" name="phone" autocomplete="tel" maxlength="25" />
+          </label>
+          <label class="dform__field"><span>Note or dedication</span>
+            <textarea name="note" rows="2" maxlength="400"></textarea>
+          </label>
+          <label class="dform__check">
+            <input type="checkbox" name="anonymous" />
+            <span>Keep my gift anonymous</span>
+          </label>
+          <label class="dform__check">
+            <input type="checkbox" name="email_optin" />
+            <span>Email me stories and updates from the field</span>
+          </label>
+          <label class="dform__check dform__check--stacked">
+            <input type="checkbox" name="sms_optin" />
+            <span>Text me occasional field updates<small>A few texts a year. Message and data rates may apply.</small></span>
+          </label>
+        </div>
+      </details>
 
       <p class="dform__disclosure" data-disclosure hidden>
         You authorize Favor International to charge this card monthly until you cancel. Cancel
@@ -720,20 +718,33 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   }
   .dform__field input:focus-visible, .dform__field select:focus-visible, .dform__field textarea:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.18); }
 
-  /* Optional choices sit in labelled cards so they read as two small
-     decisions rather than one undifferentiated stack of four checkboxes. */
-  .dform__group { margin-top: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: grid; gap: 4px; }
-  .dform__group-title { margin: 0 0 4px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-sage); }
+  /* The fee line stays visible because it changes the amount charged. */
+  .dform__check--fee { margin: var(--space-4) 0 0; }
+
+  /* Everything optional collapses into one closed row. Closed by default, so
+     the default path is three fields and a button. */
+  .dform__more { margin: var(--space-4) 0 0; border-top: 1px solid var(--color-border); }
+  .dform__more summary {
+    cursor: pointer; list-style: none;
+    padding: var(--space-4) 0 0;
+    font-size: 0.9rem; font-weight: 700; color: var(--color-green);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dform__more summary::-webkit-details-marker { display: none; }
+  .dform__more summary::before { content: '+'; font-size: 1.1rem; line-height: 1; color: var(--color-gold-deep); font-weight: 800; }
+  .dform__more[open] summary::before { content: '3'; }
+  .dform__more summary:hover { color: var(--color-gold-deep); }
+  .dform__more-body { display: grid; gap: var(--space-3); padding-top: var(--space-4); }
   .dform__check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.95rem; margin: 6px 0; }
   .dform__check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--color-green); flex-shrink: 0; }
   .dform__check small { display: block; color: var(--color-sage); font-size: 0.78rem; margin-top: 2px; font-weight: 400; }
 
   /* Recap of the step-1 choice, sitting above the detail fields so the giver
      can see and change the amount without leaving the step. */
-  .dform__recap { margin: 0 0 var(--space-6); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
-  .dform__recap-label { display: block; color: var(--color-sage); font-weight: 800; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
-  .dform__recap strong { display: block; color: var(--color-green-deep); font-size: 1.15rem; line-height: 1.2; }
-  .dform__recap small { display: block; color: var(--color-ink-soft); font-size: 0.85rem; margin-top: 2px; }
+  .dform__recap { margin: 0 0 var(--space-5); padding: 10px var(--space-4); background: var(--color-cream); border-radius: var(--radius-input); display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); }
+  .dform__recap p { margin: 0; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .dform__recap strong { color: var(--color-green-deep); font-size: 1.02rem; line-height: 1.2; }
+  .dform__recap small { color: var(--color-ink-soft); font-size: 0.85rem; }
   .dform__recap-change { flex: none; background: none; border: 0; padding: 0; color: var(--color-green); font-weight: 800; font-size: 0.9rem; cursor: pointer; border-bottom: 2px solid var(--color-gold); }
   .dform__recap-change:hover { color: var(--color-gold-deep); }
 
