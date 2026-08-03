@@ -2,12 +2,10 @@
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
-import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import ExpenseSplit from '../../components/redesign/ExpenseSplit.astro';
-import PatternDivider from '../../components/global/PatternDivider.astro';
 import directorsData from '../../data/directors.json';
 
 // Leadership shown on the Team page: founder + U.S. Executive Directors + Africa Country Director.
@@ -63,35 +61,31 @@ const roster = [
   />
 
   <!-- Order set by Stephanie (2026-08-03): the field leads, the U.S. team is
-       secondary, the board last. The banner about indigenous leaders opens the
-       page instead of sitting three sections down.
+       secondary, the board last.
 
-       The textile seam matters here: the hero and this band are both full-bleed
-       photos with white type, and butting them together read as one image
-       glitching into another. The divider gives them an edge. -->
-  <PatternDivider variant="cream" height="90px" />
-
-  <ScriptBand
+       The full-bleed banner and this section were saying the same thing twice,
+       so they are merged (Will, 2026-08-03). The banner's photo and its line
+       carry the section; the weaker Karamoja headline is gone. Merging also
+       removes the two-photo-bands-butted-together seam the hero created, so
+       the divider that patched it is no longer needed. -->
+  <RdFeature
     image="/images/hero-pastor-preaching.jpg"
     imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
-    label="Indigenous leadership"
-    phrase="National leaders are solving problems others haven't been able to."
-    font="serif"
-    objectPosition="center 35%"
-    tall
-  />
-
-  <RdFeature
-    image="/images/pbs-karamoja.jpg"
-    imageAlt="A Portable Bible School class in Karamoja"
-    eyebrow="The field leads"
-    heading="A pastor in Karamoja decides what happens in Karamoja."
+    eyebrow="Indigenous leadership"
+    heading="National leaders are solving problems others haven't been able to."
     side="right"
+    objectPosition="center 35%"
   >
     <p>
-      Our job is to make sure he has Bibles, a motorbike, money to live, and prayer cover. He
-      knows which villages will open and which will not, and the indigenous leaders who live in
-      each country we serve design and run every program.
+      They speak the language, they know the ground, and they were there long before we arrived.
+      So the work is not designed in Florida and shipped out. Indigenous leaders decide what their
+      own communities need, and we serve that decision.
+    </p>
+    <p>
+      What we build is more of them. Every leader Favor trains is trained to train others: a
+      Portable Bible School graduate plants a church, then teaches the next class himself. That is
+      how one worker becomes a hundred, and it is why the movement keeps going when we are not
+      in the room.
     </p>
   </RdFeature>
 
