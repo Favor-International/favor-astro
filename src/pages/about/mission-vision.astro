@@ -9,7 +9,7 @@ import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import SixRs from '../../components/redesign/SixRs.astro';
 import MinistryStructure from '../../components/redesign/MinistryStructure.astro';
 import VideoGallery from '../../components/redesign/VideoGallery.astro';
-import { SITE } from '../../lib/site';
+import { SITE, FLIPBOOKS } from '../../lib/site';
 
 // Short mission films from Favor's YouTube channel (@favorinternational).
 const movementVideos = [
@@ -38,7 +38,7 @@ const traits = [
 >
   <PageHero
     label="Mission & Vision"
-    title="Transformed Hearts Transform Nations"
+    title="Transformed Hearts, Transform Nations"
     promise="Favor International serves and trains indigenous African leaders to advance the Gospel into the unreached."
     image="/images/hero-prayer-recent.jpg"
     imageAlt="A Favor prayer gathering"
@@ -160,6 +160,21 @@ const traits = [
     </p>
   </RdFeature>
 
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="Where this is going" title="Read the vision in full." intro="Two published booklets: the year ahead, and the five-year view for the movement." leaves={false} />
+      <div class="mv-books">
+        {[FLIPBOOKS.vision2026, FLIPBOOKS.fiveYear].map((b) => (
+          <a class="mv-book" href={b.url} target="_blank" rel="noopener">
+            <span class="mv-book__title">{b.title}</span>
+            <span class="mv-book__desc">{b.desc}</span>
+            <span class="mv-book__cta">Open the booklet &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="band band--cream">
     <div class="container">
       <LeafHeading label="On film" title="See the movement" leaves={false} />
@@ -221,4 +236,14 @@ const traits = [
   .trait-list__title { color: var(--color-green); font-weight: 800; font-size: var(--rd-fs-body); line-height: 1.3; }
   .trait-list__desc { color: var(--color-ink-soft); font-size: var(--rd-fs-body); line-height: 1.6; }
   /* The Ministry Structure graphic (Favor's own artwork), framed as a poster. */
+
+  /* Vision booklets (Heyzine flipbooks on branded subdomains). */
+  .mv-books { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); margin-top: var(--space-8); }
+  @media (max-width: 700px) { .mv-books { grid-template-columns: 1fr; } }
+  .mv-book { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-6); background: var(--color-cream); border: 1px solid color-mix(in srgb, var(--color-green) 16%, transparent); border-radius: var(--rd-radius); text-decoration: none; color: inherit; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+  .mv-book:hover { transform: translateY(-3px); border-color: var(--color-gold); box-shadow: 0 14px 30px rgba(31,58,26,.12); }
+  .mv-book__title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--color-green-deep); line-height: 1.25; }
+  .mv-book__desc { color: var(--color-ink-soft); font-size: .92rem; line-height: 1.6; flex: 1; }
+  .mv-book__cta { font-weight: 800; font-size: .85rem; color: var(--color-gold-deep); }
+  .mv-book:hover .mv-book__cta { color: var(--color-green); }
 </style>

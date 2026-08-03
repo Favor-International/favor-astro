@@ -8,11 +8,11 @@ export const SITE = {
   // personal calling, NOT the org's tagline, do not put it on the site as
   // such. If it appears anywhere, it's a quote attributed to Carole on the
   // founder/our-story page.
-  tagline: 'Transformed Hearts Transform Nations',
+  tagline: 'Transformed Hearts, Transform Nations',
   // The verbatim mission statement from favorintl.org. Do not paraphrase.
   mission: 'Transforming nations with the power of the Gospel through prayer movements and indigenous missionary movements which are accelerating the fulfillment of the Great Commission to unreached people groups, and into every area of society from grassroots to governments.',
   // The verbatim vision statement.
-  vision: 'Transformed Hearts Transform Nations!',
+  vision: 'Transformed Hearts, Transform Nations!',
   // Scripture used on the existing homepage.
   scripture: {
     text: 'We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work.',
@@ -244,6 +244,29 @@ export const PARTNER_TIERS = [
   { amount: 500, label: 'Transform' },
   { amount: 1200, label: 'Founders’ Circle', featured: true },
 ] as const;
+
+// Published flipbooks, hosted on Heyzine behind branded favorintl.org
+// subdomains. Supplied by Will 2026-08-03. Stephanie (comment 41) asked for the
+// stewardship booklet to be clickable from the accountability section; the two
+// vision documents came with it. They open in a new tab because they leave the
+// site. If a subdomain is ever repointed, change it here only.
+export const FLIPBOOKS = {
+  stewardship: {
+    url: 'https://stewardship.favorintl.org/',
+    title: 'Stewardship Statement',
+    desc: 'How we handle what you give, and what we hold ourselves to.',
+  },
+  vision2026: {
+    url: 'https://26vision.favorintl.org/',
+    title: '2026 Vision for Support',
+    desc: 'Where the work is going this year and what it will take to get there.',
+  },
+  fiveYear: {
+    url: 'https://5year.favorintl.org/',
+    title: 'Five-Year Plan',
+    desc: 'The long view for the movement across the nations we serve.',
+  },
+};
 
 // FIELD STATS: the ministry numbers that render on the homepage proof band and
 // on the Africa map. They were hand-edited in two separate component files

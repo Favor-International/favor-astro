@@ -128,24 +128,73 @@ Empowerment page. Three remaining flagged words are legitimate and were left alo
 are verbatim biography (a board member's twenty years as a therapeutic foster parent, and
 Carole's official bio line).
 
+## Fixed in the fourth pass (2026-08-03, after Will's review)
+
+**The giving form lost a step.** Stephanie test-gave $5 from her phone and reported that the
+last button read "Give $5.00 securely," which made it look as though the gift was already
+done, when it actually only opened Blackbaud's card window. She had to reread the screen to
+work out that she had not paid yet. Will's steer was to cut friction rather than only relabel.
+
+The old step 3 was a review screen holding a summary, two checkboxes, the total, and the pay
+button. It is merged into step 2, so there are now two form steps instead of three, one less
+click to give. The progress bar reads Amount, Your details, Card, where Card is Blackbaud's
+window rather than a hidden fourth step; that dot lights up only when checkout actually
+opens. The button says "Continue to card - $50.00/mo" and the line under it says "One step
+left. Your card opens in Blackbaud's secure window, and your gift is complete when you pay
+there." A recap of the chosen amount sits at the top of step 2 with a Change link back.
+
+Retry behaviour is unchanged and deliberately so: the failure path calls `goTo(2)`, which
+preserves `checkoutToken` and `idempotencyKey` (they are cleared only below step 2), so
+pressing the button again resubmits the same authorization and never charges twice.
+
+**The tagline now carries the comma:** "Transformed Hearts, Transform Nations" (comment 7).
+Corrected in `SITE.tagline`, `SITE.vision`, `TAGLINE` in `lib/cta.ts`, the Mission & Vision
+H1, and the Impact page promise line.
+
+**Dropped the "three main fields" framing entirely** (comments 5, 8, 2, 30). Per Will it was
+never official and it undersells the work. Favor serves 14+ nations; Uganda, South Sudan, and
+Chad are simply where the work centers. Rewritten on Where We Work (page description, intro,
+and the code comment that created the rule), Accountability, and the Board page, which now
+say our field operations in those three countries each undergo an annual independent audit
+rather than "each of our three main country fields."
+
+**Daniel's surname is gone** from everything a visitor reads (homepage, Give landing,
+Evangelism & Discipleship). He is "Daniel" now. The story record and URL slug keep the old
+name, so no links break.
+
+**The booklets are placed** (comment 41). Will supplied three Heyzine flipbooks on branded
+subdomains, registered in one place as `FLIPBOOKS` in `lib/site.ts`:
+- stewardship.favorintl.org, the Stewardship Statement
+- 26vision.favorintl.org, the 2026 Vision for Support
+- 5year.favorintl.org, the Five-Year Plan
+
+All three appear as clickable cards on the Accountability page directly under "Our promise to
+you," which is the section Stephanie pointed at. The two vision booklets also appear on
+Mission & Vision under "Where this is going." All open in a new tab. Verified all three
+return HTTP 200.
+
+## Answered, no work needed
+
+**Comment 4, who updates the stats.** Stephanie asked whether the numbers under the main
+banner update automatically, whether they are quarterly or year to date, and who is
+responsible. The answers: they do not update automatically, they are hand-maintained, the
+homepage pair is full-year 2025 and the cumulative figure is since the ministry began, and
+they now live in one file (`FIELD_STATS` in `lib/site.ts`) with an `asOf` label so anyone
+editing them can see the period. Will does not want a named owner recorded on the site.
+
+**Comment 13, the 360 tour.** This was Stephanie's own suggestion for a new feature ("might
+be a good place to have the clickable, Take a 360 tour"), not a reference to something that
+already exists. There is no 360 tour in the repo and Will is not aware of one. If Favor wants
+one, it needs to be produced first. Nothing to link today.
+
 ## Still needs a decision or an asset
 
-1. **Terry's term for the three countries** (comments 5 and 8). Stephanie doesn't recognize
-   "public country fields" and thinks Terry says something like "main mission stations," with
-   "outposts" for the PBS elsewhere. Current copy says "main fields" as a safe placeholder.
-   CONFIRM the real term and I'll sweep it in.
-2. **Country count "14+ Nations served."** Confirm against the quarterly report wording.
-   Stephanie asked about "12+ or 14+ or whatever it is" in comments 2 and 30.
-3. **Name an owner for the field stats.** The plumbing is done, the person is not named.
-   The "salvation clock" idea still needs a data feed that does not exist.
-4. **Stewardship booklets** (comment 41). Confirmed absent: `public/documents/` has 39 PDFs
-   including audits, 990s, impact reports, and a women-empowerment booklet, but neither the
-   Financial Stewardship nor the Program Stewardship booklet. Send the files and I'll place them.
-5. **360 tour links under each pillar** (comment 13). Need the tour URL(s). Nothing in the repo.
-6. **Cattle warrior story** (comment 14). The framing is fixed; whether Daniel stays the
-   featured missionary is Carole and Terry's call. Stephanie also asked how often these
-   stories rotate, which nobody has answered.
-7. **The voice and writing session with Katherine** (comment 16). Stephanie wants this after
+1. **Confirm the country count.** The site says "14+ nations." Check it against the current
+   quarterly report before launch.
+2. **Cattle warrior story** (comment 14). The framing is fixed and the surname is dropped;
+   whether Daniel stays the featured missionary is Carole and Terry's call. Stephanie also
+   asked how often these stories rotate, which nobody has answered.
+3. **The voice and writing session with Katherine** (comment 16). Stephanie wants this after
    launch. The legacy copy sources are the place to start: `stories.json`, `programs.ts`, and
    the careers posting still carry old verbatim or AI-polished text, left alone because they
    are quoted source material.

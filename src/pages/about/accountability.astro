@@ -7,7 +7,7 @@ import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import NumberScroller from '../../components/redesign/NumberScroller.astro';
 import SixRs from '../../components/redesign/SixRs.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
-import { SITE, IMPACT_STATS } from '../../lib/site';
+import { SITE, IMPACT_STATS, FLIPBOOKS } from '../../lib/site';
 
 const impactReports = [
   { label: '2025 Q1 Report', url: '/documents/impact-report-2025.pdf' },
@@ -51,7 +51,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   <PageHero waveColor="cream"
     label="Accountability"
     title="Audited every year. Published for everyone."
-    promise="An independent third-party firm audits our U.S. operation every year, and each of our three main country fields undergoes its own annual independent audit. See the numbers for yourself."
+    promise="An independent third-party firm audits our U.S. operation every year, and our field operations in Uganda, South Sudan, and Chad each undergo their own annual independent audit. See the numbers for yourself."
     image="/images/hero-bibles-stacks.jpg"
     imageAlt="Stacks of Bibles ready for field distribution"
   />
@@ -100,6 +100,21 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
     <p>Field-level reporting on every project. We tell you what worked and what didn't.</p>
     <p>Every story we publish has a real name, a real place, and a real outcome.</p>
   </RdFeature>
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="Read it for yourself" title="Our stewardship and our plans, in full." intro="Three published booklets. Open any of them and see how we handle what you give and where the work is going." leaves={false} />
+      <div class="booklets">
+        {[FLIPBOOKS.stewardship, FLIPBOOKS.vision2026, FLIPBOOKS.fiveYear].map((b) => (
+          <a class="booklet" href={b.url} target="_blank" rel="noopener">
+            <span class="booklet__title">{b.title}</span>
+            <span class="booklet__desc">{b.desc}</span>
+            <span class="booklet__cta">Open the booklet &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section class="six-rs" style="background-image:url('/images/six-rs-community.jpg')" aria-label="The 6 R's, over a photo of the people Favor serves">
     <div class="container">
@@ -266,4 +281,22 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   }
   .acct-quote { margin: 0 auto; max-width: 800px; border: 0; padding: 0; font-family: var(--font-serif, Georgia, serif); font-style: italic; font-size: var(--rd-fs-title); line-height: 1.4; color: var(--color-green-deep); }
   .acct-quote cite { display: block; margin-top: var(--space-5); font-style: normal; font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold-deep); }
+
+  /* Published booklets (Stephanie's "bubbles to click on", comment 41). */
+  .booklets { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); margin-top: var(--space-8); }
+  @media (max-width: 800px) { .booklets { grid-template-columns: 1fr; } }
+  .booklet {
+    display: flex; flex-direction: column; gap: var(--space-3);
+    padding: var(--space-6);
+    background: var(--color-cream);
+    border: 1px solid color-mix(in srgb, var(--color-green) 16%, transparent);
+    border-radius: var(--rd-radius);
+    text-decoration: none; color: inherit;
+    transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+  }
+  .booklet:hover { transform: translateY(-3px); border-color: var(--color-gold); box-shadow: 0 14px 30px rgba(31,58,26,.12); }
+  .booklet__title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--color-green-deep); line-height: 1.25; }
+  .booklet__desc { color: var(--color-ink-soft); font-size: .92rem; line-height: 1.6; flex: 1; }
+  .booklet__cta { font-weight: 800; font-size: .85rem; color: var(--color-gold-deep); }
+  .booklet:hover .booklet__cta { color: var(--color-green); }
 </style>

@@ -6,7 +6,9 @@ import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import VideoFeature from '../../components/redesign/VideoFeature.astro';
 
-// Per Will (2026-06-18): we only speak publicly about our three main fields;
+// Per Will (2026-08-03): drop the "three main fields" framing entirely. It was
+// never official, and it undersells the work. Favor serves 14+ nations; Uganda,
+// South Sudan, and Chad are simply where the work centers.
 // Uganda, South Sudan, and Chad. No other operating locations are named
 // publicly. Films come from @favorinternational.
 // Each nation is its own band with an alternating background so it's clear which
@@ -44,7 +46,7 @@ const nations = [
 ---
 <RedesignLayout
   title="Where We Work"
-  description="Favor International's three main fields are Uganda, South Sudan, and Chad. See the indigenous-led work in each."
+  description="Favor International serves 14+ nations, with the work centered in Uganda, South Sudan, and Chad. See the indigenous-led work in each."
 >
   <PageHero
     label="Where we work"
@@ -71,7 +73,7 @@ const nations = [
     <section class={`band ${n.bg}`}>
       <div class="container">
         {ni === 0 && (
-          <p class="ww-intro">Favor's work centers in these three nations, and Portable Bible Schools carry the Gospel into many more.</p>
+          <p class="ww-intro">Favor serves 14+ nations. The work centers here, and Portable Bible Schools carry the Gospel far beyond these borders.</p>
         )}
         <header class="ww-nation">
           <h2>{n.name}</h2>
