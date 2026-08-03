@@ -139,8 +139,23 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         <textarea name="note" rows="2" maxlength="400"></textarea>
       </label>
 
-      <div class="dform__connect">
-        <p class="dform__connect-title">Stay connected</p>
+      <!-- Two groups, not four identical checkboxes in a stack. Options that
+           change the gift are separated from options that sign you up for
+           something, because they are different decisions. -->
+      <div class="dform__group">
+        <p class="dform__group-title">Your gift</p>
+        <label class="dform__check">
+          <input type="checkbox" name="cover_fees" />
+          <span data-fee-label>Add a little to help cover card processing fees</span>
+        </label>
+        <label class="dform__check">
+          <input type="checkbox" name="anonymous" />
+          <span>Keep my gift anonymous</span>
+        </label>
+      </div>
+
+      <div class="dform__group">
+        <p class="dform__group-title">Stay connected</p>
         <label class="dform__check">
           <input type="checkbox" name="email_optin" />
           <span>Email me stories and updates from the field</span>
@@ -151,23 +166,21 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         </label>
       </div>
 
-      <label class="dform__check">
-        <input type="checkbox" name="cover_fees" />
-        <span data-fee-label>Add a little to help cover card processing fees</span>
-      </label>
-      <label class="dform__check">
-        <input type="checkbox" name="anonymous" />
-        <span>Keep my gift anonymous</span>
-      </label>
-
-      <p class="dform__total">Total today: <strong data-total></strong><span data-total-monthly hidden>, then <strong data-total-next></strong> monthly</span></p>
-
       <p class="dform__disclosure" data-disclosure hidden>
         You authorize Favor International to charge this card monthly until you cancel. Cancel
         anytime by emailing <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.
       </p>
 
+      <!-- Turnstile renders in interaction-only mode, so for almost everyone
+           it is invisible and this box collapses to nothing. It only draws a
+           widget when Cloudflare actually wants a challenge. -->
       <div class="dform__turnstile" data-turnstile></div>
+
+      <p class="dform__total">
+        <span>Total today</span>
+        <strong data-total></strong>
+        <small data-total-monthly hidden>then <span data-total-next></span> each month</small>
+      </p>
 
       <p class="dform__error" data-error="2" role="alert" hidden></p>
       <div class="dform__nav">
@@ -385,6 +398,10 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       turnstileWidget = window.turnstile.render(q('[data-turnstile]')!, {
         sitekey: config.turnstile_site_key,
         theme: 'light',
+        // Invisible unless Cloudflare actually wants a challenge, so the
+        // giving screen is not dominated by a verification box.
+        appearance: 'interaction-only',
+        size: 'flexible',
         'expired-callback': () => window.turnstile?.reset(turnstileWidget),
         'error-callback': () => {
           turnstileRendered = false;
@@ -703,8 +720,10 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   }
   .dform__field input:focus-visible, .dform__field select:focus-visible, .dform__field textarea:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.18); }
 
-  .dform__connect { margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--color-border); display: grid; gap: 12px; }
-  .dform__connect-title { margin: 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-sage); }
+  /* Optional choices sit in labelled cards so they read as two small
+     decisions rather than one undifferentiated stack of four checkboxes. */
+  .dform__group { margin-top: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-input); display: grid; gap: 4px; }
+  .dform__group-title { margin: 0 0 4px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-sage); }
   .dform__check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.95rem; margin: 6px 0; }
   .dform__check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--color-green); flex-shrink: 0; }
   .dform__check small { display: block; color: var(--color-sage); font-size: 0.78rem; margin-top: 2px; font-weight: 400; }
@@ -718,12 +737,24 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__recap-change { flex: none; background: none; border: 0; padding: 0; color: var(--color-green); font-weight: 800; font-size: 0.9rem; cursor: pointer; border-bottom: 2px solid var(--color-gold); }
   .dform__recap-change:hover { color: var(--color-gold-deep); }
 
-  .dform__total { font-size: 1.1rem; color: var(--color-ink); margin: var(--space-3) 0; }
-  .dform__total strong { color: var(--color-green); }
+  /* The total is the number that matters on this screen, so it gets its own
+     line directly above the button instead of being one more paragraph. */
+  .dform__total {
+    display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap;
+    margin: var(--space-6) 0 var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+  .dform__total > span { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-sage); }
+  .dform__total strong { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--color-green); font-weight: 700; }
+  .dform__total small { color: var(--color-ink-soft); font-size: 0.85rem; }
   .dform__disclosure { font-size: 0.85rem; color: var(--color-ink-soft); background: var(--color-cream); padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); }
   .dform__disclosure a { color: var(--color-gold-deep); }
 
-  .dform__turnstile { margin: var(--space-3) 0; min-height: 0; }
+  /* interaction-only: usually renders nothing, so collapse the box entirely
+     rather than reserving empty space above the button. */
+  .dform__turnstile { min-height: 0; }
+  .dform__turnstile:not(:empty) { margin: var(--space-4) 0; }
 
   .dform__nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-5); }
   .dform__nav--single { justify-content: center; }
