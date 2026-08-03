@@ -520,6 +520,7 @@ const tiers = [
   }
   .hero__primary:hover { transform: translateY(-2px); box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32); }
   .hero__secondary {
+    display:inline-flex; align-items:center; min-height:44px;
     color: color-mix(in srgb, var(--color-white) 92%, transparent);
     font-size: 0.95rem; font-weight: 600;
     text-decoration: none;
@@ -730,7 +731,7 @@ const tiers = [
   }
   .founder__cta { margin-top: var(--space-3); }
   .founder__read {
-    display: inline-block;
+    display:inline-flex; align-items:center; min-height:44px;
     margin-left: var(--space-6);
     color: var(--color-green);
     font-weight: 700;
@@ -780,7 +781,7 @@ const tiers = [
   }
   .missionary__cta:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(11, 64, 36, 0.25); }
   .missionary__read {
-    display: inline-block;
+    display:inline-flex; align-items:center; min-height:44px;
     margin-top: var(--space-4);
     margin-left: var(--space-5);
     color: var(--color-green-deep);
@@ -884,7 +885,7 @@ const tiers = [
     background: var(--color-gold);
     color: var(--color-green-deep);
     font-family: var(--font-sans);
-    font-size: 0.68rem;
+    font-size: 0.76rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -946,13 +947,13 @@ const tiers = [
     color: var(--color-green-deep); letter-spacing: -0.018em; text-wrap: balance;
   }
   .mission__text { margin: 0 auto var(--space-6); max-width: 72ch; color: var(--color-ink-soft); line-height: 1.8; }
-  .mission__link { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
+  .mission__link { display:inline-flex; align-items:center; min-height:44px; color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
   .mission__link:hover { color: var(--color-gold-deep); }
 
   .give__fdacs {
     margin: 0 auto;
     max-width: 920px;
-    font-size: 0.74rem;
+    font-size: 0.79rem;
     line-height: 1.6;
     color: color-mix(in srgb, var(--color-white) 55%, transparent);
     text-align: center;
@@ -1026,7 +1027,7 @@ const tiers = [
   }
   .whyind__lede { margin: 0 auto; max-width: 56ch; color: color-mix(in srgb, var(--color-white) 80%, transparent); line-height: 1.7; }
   .whyind__verse { margin: var(--space-5) auto 0; max-width: 62ch; font-family: var(--font-display); font-style: italic; font-size: 1.02rem; line-height: 1.6; color: var(--color-gold); }
-  .whyind__verse span { display: block; margin-top: var(--space-2); font-family: var(--font-sans); font-style: normal; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: color-mix(in srgb, var(--color-white) 62%, transparent); }
+  .whyind__verse span { display: block; margin-top: var(--space-2); font-family: var(--font-sans); font-style: normal; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: color-mix(in srgb, var(--color-white) 62%, transparent); }
   .whyind__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 4.5vw, 56px); max-width: 1060px; margin: 0 auto; }
   @media (max-width: 860px) { .whyind__grid { grid-template-columns: 1fr; gap: var(--space-8); } }
   .whyind__point { border-top: 2px solid color-mix(in srgb, var(--color-gold) 60%, transparent); padding-top: var(--space-5); }

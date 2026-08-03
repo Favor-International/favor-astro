@@ -108,7 +108,10 @@ import { SITE } from '../../lib/site';
 </RedesignLayout>
 
 <style>
+    /* min-width:0 stops long strings (emails, addresses) forcing grid children
+     wider than their track, which was clipping 8px on a phone. */
   .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(48px, 7vw, 110px); align-items: start; }
+  .contact-grid > * { min-width: 0; overflow-wrap: anywhere; }
   @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
   .contact-meta { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-4); }
   .contact-meta li { padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--radius-card); }
@@ -122,9 +125,14 @@ import { SITE } from '../../lib/site';
     border-radius: var(--rd-radius);
     box-shadow: 0 2px 10px rgba(31, 58, 26, 0.05);
   }
+    /* Grid children default to min-content width, which let the inputs push the
+     form ~6px past its box on a 360px phone. */
+  .contact-form > *, .contact-form label { min-width: 0; }
+  /* 32px of padding each side leaves too little room on a 320px phone. */
+  @media (max-width: 380px) { .contact-form { padding: var(--space-5); } }
   .contact-form label { display: grid; gap: var(--space-2); }
   .contact-form span { font-weight: 700; font-size: var(--rd-fs-small); color: var(--color-green); letter-spacing: 0.04em; text-transform: uppercase; }
-  .contact-form input, .contact-form select, .contact-form textarea { font: inherit; padding: 14px 16px; border: 1px solid rgba(31, 58, 26, 0.10); border-radius: var(--radius-input); background: var(--color-white); }
+  .contact-form input, .contact-form select, .contact-form textarea { width: 100%; min-width: 0; box-sizing: border-box; font: inherit; padding: 14px 16px; border: 1px solid rgba(31, 58, 26, 0.10); border-radius: var(--radius-input); background: var(--color-white); }
   .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; border-color: transparent; }
   .contact-form__privacy { margin: 0; font-size: var(--rd-fs-small); color: var(--color-sage); }
   .contact-social { list-style: none; padding: 0; margin: var(--space-4) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
@@ -143,6 +151,6 @@ import { SITE } from '../../lib/site';
   .office .label { margin: 0 0 var(--space-2); }
   .office h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .office p { margin: 0 0 var(--space-2); color: var(--color-ink-soft); line-height: 1.6; }
-  .office__link { display: inline-block; margin-top: var(--space-2); color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
+  .office__link { display:inline-flex; align-items:center; min-height:44px; margin-top: var(--space-2); color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
   .office__link:hover { color: var(--color-gold-deep); }
 </style>

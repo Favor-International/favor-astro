@@ -16,5 +16,8 @@
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/montserrat": "^5.2.8",
     "astro": "^6.3.5"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.1"
   }
 }

@@ -7,6 +7,7 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import ExpenseSplit from '../../components/redesign/ExpenseSplit.astro';
+import PatternDivider from '../../components/global/PatternDivider.astro';
 import directorsData from '../../data/directors.json';
 
 // Leadership shown on the Team page: founder + U.S. Executive Directors + Africa Country Director.
@@ -63,7 +64,13 @@ const roster = [
 
   <!-- Order set by Stephanie (2026-08-03): the field leads, the U.S. team is
        secondary, the board last. The banner about indigenous leaders opens the
-       page instead of sitting three sections down. -->
+       page instead of sitting three sections down.
+
+       The textile seam matters here: the hero and this band are both full-bleed
+       photos with white type, and butting them together read as one image
+       glitching into another. The divider gives them an edge. -->
+  <PatternDivider variant="cream" height="90px" />
+
   <ScriptBand
     image="/images/hero-pastor-preaching.jpg"
     imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
@@ -78,13 +85,13 @@ const roster = [
     image="/images/pbs-karamoja.jpg"
     imageAlt="A Portable Bible School class in Karamoja"
     eyebrow="The field leads"
-    heading="The pastor in Karamoja is the work."
+    heading="A pastor in Karamoja decides what happens in Karamoja."
     side="right"
   >
     <p>
-      Our role is to make sure he has Bibles, a motorcycle, money to live, and the prayer cover to
-      keep going. The indigenous leaders who live in each country we serve design and run every
-      program.
+      Our job is to make sure he has Bibles, a motorbike, money to live, and prayer cover. He
+      knows which villages will open and which will not, and the indigenous leaders who live in
+      each country we serve design and run every program.
     </p>
   </RdFeature>
 

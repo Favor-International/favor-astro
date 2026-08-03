@@ -176,3 +176,17 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
   background-size: 320px auto; background-repeat: repeat; opacity: 0.07;
 }
 .has-texture > * { position: relative; z-index: 1; }
+
+
+/* Every disclosure toggle is a tap target. The audit found 20 routes where
+   a <summary> rendered under 44px tall, which is under Apple guidance. */
+summary { min-height: 44px; display: flex; align-items: center; }
+
+
+/* Narrow-phone safety net (found by scripts/mobile-audit.mjs at 360px).
+   Long unbroken words in a heading, and form controls with an intrinsic
+   minimum width, were both pushing past their box on small Androids and the
+   iPhone SE. Neither changes anything at normal widths. */
+h1, h2, h3, h4 { overflow-wrap: break-word; }
+input, select, textarea, button { max-width: 100%; }
+form { min-width: 0; }

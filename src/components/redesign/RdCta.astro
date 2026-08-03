@@ -85,11 +85,12 @@ const {
   }
   .rd-cta__actions { display: flex; gap: var(--space-8); align-items: center; justify-content: center; flex-wrap: wrap; }
   .rd-cta__secondary {
+    /* A real tap target, not a 20px line of text. */
+    display:inline-flex; align-items:center; min-height:44px;
     color: var(--color-white);
     text-decoration: none;
     font-weight: 700;
     border-bottom: 2px solid var(--color-gold);
-    padding-bottom: 3px;
   }
   .rd-cta__secondary:hover { color: var(--color-gold); }
 </style>

@@ -32,7 +32,8 @@ const crumbs = segments.map((segment, index) => ({
 <style>
   .crumbs { background:var(--color-white); border-bottom:1px solid var(--color-border); }
   .crumbs__inner { display:flex; align-items:center; gap:10px; min-height:48px; overflow-x:auto; white-space:nowrap; font-size:.78rem; }
-  .crumbs a { color:var(--color-green); font-weight:700; text-decoration:none; }
+  /* Fill the 48px row so each crumb is a real tap target, not 20px of text. */
+  .crumbs a { color:var(--color-green); font-weight:700; text-decoration:none; display:inline-flex; align-items:center; min-height:44px; padding-inline:4px; flex:0 0 auto; }
   .crumbs a:hover { color:var(--color-gold-deep); }
   .crumbs span[aria-hidden] { color:var(--color-sage); }
   .crumbs span[aria-current] { color:var(--color-ink-soft); }

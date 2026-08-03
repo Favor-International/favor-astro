@@ -100,9 +100,11 @@ const {
   }
   .page-hero__cta { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
   .page-hero__secondary {
+    /* A real tap target, not a 20px line of text. */
+    display:inline-flex; align-items:center; min-height:44px;
     color: var(--color-white); text-decoration: none; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85rem;
-    border-bottom: 2px solid var(--color-gold); padding-bottom: 4px;
+    border-bottom: 2px solid var(--color-gold);
   }
   .page-hero__secondary:hover { color: var(--color-gold); }
   .page-hero__cue {
