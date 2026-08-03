@@ -258,6 +258,10 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       panels.form.hidden = name !== 'form' && name !== 'processing';
       panels.processing.hidden = name !== 'processing';
       if (name === 'processing') qa<HTMLFieldSetElement>('.dform__step').forEach((s) => (s.hidden = true));
+      // Tell the surrounding page that card giving is unavailable, so a hero
+      // promising "finish in secure checkout in under a minute" can swap itself
+      // out instead of contradicting the panel right below it.
+      document.documentElement.toggleAttribute('data-give-offline', name === 'fallback');
     };
 
     let config: GiveConfig | null = null;

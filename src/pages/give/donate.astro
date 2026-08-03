@@ -19,9 +19,11 @@ import { SITE } from '../../lib/site';
     <div class="container container--narrow">
       <header class="band__header">
         <Leaf class="donate-leaf" />
-        <p class="label">Instant giving</p>
+        <p class="label" data-when="online">Instant giving</p>
+        <p class="label" data-when="offline">Give today</p>
         <h1>Give online.</h1>
-        <p class="donate-sub">Your gift sends indigenous missionaries to people who have never heard the name of Jesus. Give one time or monthly. Choose your amount, designate your gift, and finish in Blackbaud&rsquo;s secure checkout in under a minute.</p>
+        <p class="donate-sub" data-when="online">Your gift sends indigenous missionaries to people who have never heard the name of Jesus. Give one time or monthly. Choose your amount, designate your gift, and finish in Blackbaud&rsquo;s secure checkout in under a minute.</p>
+        <p class="donate-sub" data-when="offline">Your gift sends indigenous missionaries to people who have never heard the name of Jesus. Card giving is briefly offline, so use one of the routes below and your gift still reaches the field today.</p>
       </header>
     </div>
   </section>
@@ -46,6 +48,14 @@ import { SITE } from '../../lib/site';
   .donate-head :global(.donate-leaf) { width: 120px; margin: 0 auto -48px; color: #cfe0c6; opacity: .55; transform: rotate(-12deg); }
   .donate-head h1 { color: var(--color-green); }
   .donate-sub { color: var(--color-ink-soft); max-width: 56ch; margin: 0 auto; line-height: 1.7; }
+
+  /* The offline variants only appear once DonationForm has confirmed the
+     Blackbaud connection is down (it sets data-give-offline on <html>). The
+     online copy is what renders for everyone by default, including with JS
+     disabled, so nothing here depends on the script to look right. */
+  [data-when='offline'] { display: none; }
+  :global(html[data-give-offline]) [data-when='online'] { display: none; }
+  :global(html[data-give-offline]) [data-when='offline'] { display: block; }
   .donate-form-band { padding-top: var(--space-8); }
   .donate-verse {
     margin: var(--space-10) auto 0;
