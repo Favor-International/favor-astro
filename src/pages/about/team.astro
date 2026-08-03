@@ -6,6 +6,7 @@ import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import ExpenseSplit from '../../components/redesign/ExpenseSplit.astro';
 import directorsData from '../../data/directors.json';
 
 // Leadership shown on the Team page: founder + U.S. Executive Directors + Africa Country Director.
@@ -60,12 +61,53 @@ const roster = [
     imageAlt="Favor leadership at a training session"
   />
 
+  <!-- Order set by Stephanie (2026-08-03): the field leads, the U.S. team is
+       secondary, the board last. The banner about indigenous leaders opens the
+       page instead of sitting three sections down. -->
+  <ScriptBand
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
+    label="Indigenous leadership"
+    phrase="National leaders are solving problems others haven't been able to."
+    font="serif"
+    objectPosition="center 35%"
+    tall
+  />
+
+  <RdFeature
+    image="/images/pbs-karamoja.jpg"
+    imageAlt="A Portable Bible School class in Karamoja"
+    eyebrow="The field leads"
+    heading="The pastor in Karamoja is the work."
+    side="right"
+  >
+    <p>
+      Our role is to make sure he has Bibles, a motorcycle, money to live, and the prayer cover to
+      keep going. The indigenous leaders who live in each country we serve design and run every
+      program.
+    </p>
+  </RdFeature>
+
+  <RdFeature
+    image="/images/field-2026/pbs-2.webp"
+    imageAlt="A Favor training of trainers session"
+    eyebrow="Built to serve the field"
+    heading="A small U.S. office, a large field."
+    side="left"
+  >
+    <p>
+      Favor employs a large indigenous field team across Uganda, South Sudan, Chad, and 14+
+      nations beyond: pastors, teachers, and evangelists serving their own people. Our U.S.
+      office stays small on purpose, so the field stays large.
+    </p>
+  </RdFeature>
+
   <section class="band band--white">
     <div class="container">
       <LeafHeading
         label="Leadership"
-        title="The people behind the U.S. team."
-        intro="The role of the U.S. team is to raise prayer and financial support, steward funds with ECFA-grade accountability, and serve the field teams across Uganda, South Sudan, and Chad."
+        title="Servant Leaders."
+        intro="The role of the U.S. team is to raise prayer and financial support, steward funds with ECFA-grade accountability, and serve the field teams across Uganda, South Sudan, Chad, and 14+ nations beyond."
       />
       <div class="leaders">
         {leadership.map((m, i) => {
@@ -92,11 +134,7 @@ const roster = [
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading
-        label="The full U.S. roster"
-        title="The whole U.S. team."
-        leaves={false}
-      />
+      <LeafHeading title="Serving the mission from the U.S." leaves={false} />
       <ul class="roster">
         {roster.map((p) => (
           <li class="roster__cell reveal">
@@ -108,43 +146,22 @@ const roster = [
     </div>
   </section>
 
-  <RdFeature
-    image="/images/field-2026/pbs-2.webp"
-    imageAlt="A Favor training of trainers session"
-    eyebrow="Built to serve the field"
-    heading="A small U.S. office, a large field."
-    side="left"
-  >
-    <p>
-      Favor employs a large indigenous field team across Uganda, South Sudan, and Chad:
-      pastors, teachers, and evangelists serving their own people. Our U.S. office stays
-      small on purpose, so the field stays large.
-    </p>
-  </RdFeature>
-
-  <ScriptBand
-    image="/images/hero-pastor-preaching.jpg"
-    imageAlt="An indigenous pastor preaching to a gathered crowd under an acacia tree"
-    label="National leadership"
-    phrase="National leaders are solving problems others haven't been able to."
-    font="serif"
-    objectPosition="center 35%"
-    tall
-  />
-
-  <RdFeature
-    image="/images/pbs-karamoja.jpg"
-    imageAlt="A Portable Bible School class in Karamoja"
-    eyebrow="The field leads"
-    heading="The pastor in Karamoja is the work."
-    side="right"
-  >
-    <p>
-      Our role is to make sure he has Bibles, a motorcycle, money to live, and the prayer cover to
-      keep going. The indigenous leaders who live in each country we serve design and run every
-      program.
-    </p>
-  </RdFeature>
+  <!-- The overhead split belongs here too, not only on the financials page:
+       this is where people are counting U.S. staff. -->
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading
+        label="What it costs to run this"
+        title="Nine of every ten dollars goes to the field."
+        intro="A small U.S. team is how the ratio stays this way. FY2024 audited figures, filed with ECFA and on IRS Form 990."
+        leaves={false}
+      />
+      <ExpenseSplit variant="plain" />
+      <p class="band__cta-row">
+        <a class="btn btn--secondary" href="/about/accountability/">See our financials</a>
+      </p>
+    </div>
+  </section>
 
   <RdCta
     heading="See the board."
@@ -159,7 +176,10 @@ const roster = [
 <style>
   /* Leadership as alternating photo + text rows (square photos so faces are
      never cropped), each with a soft leaf behind the photo. */
-  .leaders { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 112px); margin-top: clamp(40px, 5vw, 72px); }
+  /* The decorative leaves sit deliberately outside the photo, which pushed
+     36px past the right edge and gave the whole page a sideways scroll on a
+     phone. `clip` trims them without creating a scroll container. */
+  .leaders { display: flex; flex-direction: column; gap: clamp(56px, 7vw, 112px); margin-top: clamp(40px, 5vw, 72px); overflow-x: clip; }
   .leader { display: grid; grid-template-columns: 0.82fr 1fr; gap: clamp(36px, 5vw, 84px); align-items: center; }
   .leader[data-side='right'] .leader__media { order: 2; }
   .leader[data-side='right'] .leader__copy { order: 1; }

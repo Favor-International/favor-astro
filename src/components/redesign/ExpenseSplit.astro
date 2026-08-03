@@ -1,0 +1,71 @@
+---
+// FY2024 expense split: a donut and a colour-keyed legend.
+//
+// Lifted out of the Accountability page (2026-08-03) so the Team page can
+// carry it too, per Stephanie: the overhead-to-programs split belongs where
+// people are looking at staff, not only on the financials page. One copy of
+// the figures, one copy of the markup.
+//
+// Figures are the FY2024 audited numbers filed with ECFA and on Form 990.
+export interface Props {
+  /** `card` sits on a white card (over the savanna band); `plain` sits on the page. */
+  variant?: 'card' | 'plain';
+  /** A short line under the chart. Omit for none. */
+  note?: string;
+}
+const { variant = 'card', note } = Astro.props as Props;
+
+const ROWS = [
+  { key: 'program', cat: 'Program', amount: '$6,671,668', pct: '89.2%' },
+  { key: 'general', cat: 'General', amount: '$464,178', pct: '6.2%' },
+  { key: 'fundraising', cat: 'Fundraising', amount: '$341,235', pct: '4.5%' },
+];
+---
+<div class:list={['exp-breakdown', `exp-breakdown--${variant}`]}>
+  <div class="exp-pie" role="img" aria-label="Program 89.2 percent, General 6.2 percent, Fundraising 4.5 percent"></div>
+  <ul class="exp-legend">
+    {ROWS.map((r) => (
+      <li class="exp-row">
+        <span class={`exp-dot exp-dot--${r.key}`} aria-hidden="true"></span>
+        <div class="exp-detail"><span class="exp-cat">{r.cat}</span><span class="exp-amt">{r.amount}</span></div>
+        <span class="exp-pct">{r.pct}</span>
+      </li>
+    ))}
+  </ul>
+  {note && <p class="exp-note">{note}</p>}
+</div>
+
+<style>
+  .exp-breakdown {
+    max-width: 720px; margin-inline: auto;
+    padding: clamp(30px, 4vw, 52px);
+    display: grid; grid-template-columns: auto 1fr; gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+  .exp-breakdown--card {
+    background: var(--color-white); border-radius: var(--rd-radius); box-shadow: var(--rd-shadow);
+  }
+  .exp-breakdown--plain {
+    background: var(--color-cream); border-radius: var(--rd-radius); padding: clamp(26px, 3.5vw, 44px);
+  }
+  @media (max-width: 600px) { .exp-breakdown { grid-template-columns: 1fr; justify-items: center; } }
+  .exp-pie {
+    width: clamp(180px, 24vw, 230px); aspect-ratio: 1; border-radius: 50%; position: relative;
+    background: conic-gradient(var(--color-green) 0 89.2%, var(--color-gold) 89.2% 95.4%, var(--color-sage) 95.4% 100%);
+  }
+  .exp-breakdown--card .exp-pie::after { background: var(--color-white); }
+  .exp-breakdown--plain .exp-pie::after { background: var(--color-cream); }
+  .exp-pie::after { content: ''; position: absolute; inset: 27%; border-radius: 50%; }
+  .exp-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); width: 100%; }
+  @media (max-width: 600px) { .exp-legend { max-width: 320px; } }
+  .exp-row { display: flex; align-items: center; gap: var(--space-4); }
+  .exp-dot { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 auto; }
+  .exp-dot--program { background: var(--color-green); }
+  .exp-dot--general { background: var(--color-gold); }
+  .exp-dot--fundraising { background: var(--color-sage); }
+  .exp-detail { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .exp-cat { font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-gold-deep); }
+  .exp-amt { font-weight: 700; color: var(--color-ink); }
+  .exp-pct { font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-sub); color: var(--color-green-deep); letter-spacing: -0.01em; }
+  .exp-note { grid-column: 1 / -1; margin: 0; text-align: center; font-size: var(--rd-fs-small); color: var(--color-ink-soft); line-height: 1.6; }
+</style>

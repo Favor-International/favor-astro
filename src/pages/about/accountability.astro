@@ -7,6 +7,7 @@ import SavannaBand from '../../components/redesign/SavannaBand.astro';
 import NumberScroller from '../../components/redesign/NumberScroller.astro';
 import SixRs from '../../components/redesign/SixRs.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import ExpenseSplit from '../../components/redesign/ExpenseSplit.astro';
 import { SITE, IMPACT_STATS, FLIPBOOKS } from '../../lib/site';
 
 const impactReports = [
@@ -127,26 +128,7 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   <SavannaBand image="/images/savanna-silhouette.png" imageAlt="An African savanna silhouette: acacia trees, elephants, and a giraffe">
     <div class="exp">
       <LeafHeading label="Expenses accountability" title="Where 2024 went." leaves={false} />
-      <div class="exp-breakdown">
-        <div class="exp-pie" role="img" aria-label="Program 89.2 percent, General 6.2 percent, Fundraising 4.5 percent"></div>
-        <ul class="exp-legend">
-          <li class="exp-row">
-            <span class="exp-dot exp-dot--program" aria-hidden="true"></span>
-            <div class="exp-detail"><span class="exp-cat">Program</span><span class="exp-amt">$6,671,668</span></div>
-            <span class="exp-pct">89.2%</span>
-          </li>
-          <li class="exp-row">
-            <span class="exp-dot exp-dot--general" aria-hidden="true"></span>
-            <div class="exp-detail"><span class="exp-cat">General</span><span class="exp-amt">$464,178</span></div>
-            <span class="exp-pct">6.2%</span>
-          </li>
-          <li class="exp-row">
-            <span class="exp-dot exp-dot--fundraising" aria-hidden="true"></span>
-            <div class="exp-detail"><span class="exp-cat">Fundraising</span><span class="exp-amt">$341,235</span></div>
-            <span class="exp-pct">4.5%</span>
-          </li>
-        </ul>
-      </div>
+      <ExpenseSplit variant="card" />
     </div>
   </SavannaBand>
 
@@ -244,31 +226,6 @@ const allFinancials = [{ label: 'IRS 2023 Determination Letter', url: irsLetter 
   .steward__body { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
   .steward__body a { color: var(--color-green-deep); font-weight: 600; }
 
-  /* 2024 Expenses breakdown (verbatim figures from live): a donut pie + a
-     color-keyed legend, on a white card so it reads over the savanna. */
-  .exp-breakdown {
-    max-width: 720px; margin-inline: auto;
-    background: var(--color-white); border-radius: var(--rd-radius); box-shadow: var(--rd-shadow);
-    padding: clamp(30px, 4vw, 52px);
-    display: grid; grid-template-columns: auto 1fr; gap: clamp(32px, 5vw, 64px); align-items: center;
-  }
-  @media (max-width: 600px) { .exp-breakdown { grid-template-columns: 1fr; justify-items: center; } }
-  .exp-pie {
-    width: clamp(180px, 24vw, 230px); aspect-ratio: 1; border-radius: 50%; position: relative;
-    background: conic-gradient(var(--color-green) 0 89.2%, var(--color-gold) 89.2% 95.4%, var(--color-sage) 95.4% 100%);
-  }
-  .exp-pie::after { content: ''; position: absolute; inset: 27%; background: var(--color-white); border-radius: 50%; }
-  .exp-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); width: 100%; }
-  @media (max-width: 600px) { .exp-legend { max-width: 320px; } }
-  .exp-row { display: flex; align-items: center; gap: var(--space-4); }
-  .exp-dot { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 auto; }
-  .exp-dot--program { background: var(--color-green); }
-  .exp-dot--general { background: var(--color-gold); }
-  .exp-dot--fundraising { background: var(--color-sage); }
-  .exp-detail { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-  .exp-cat { font-size: var(--rd-fs-small); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-gold-deep); }
-  .exp-amt { font-weight: 700; color: var(--color-ink); }
-  .exp-pct { font-family: var(--font-sans); font-weight: 800; font-size: var(--rd-fs-sub); color: var(--color-green-deep); letter-spacing: -0.01em; }
 
   /* Carole Ward pull-quote: a quiet white moment on the cream band. */
   .acct-quote-wrap {
