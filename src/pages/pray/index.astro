@@ -4,6 +4,7 @@ import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import VerseBand from '../../components/redesign/VerseBand.astro';
 import { CTA } from '../../lib/cta';
 
 const focuses = [
@@ -31,6 +32,23 @@ const focuses = [
     ctaHref="/pray/30-day-guide/"
     secondaryLabel="Email a prayer request"
     secondaryHref="mailto:prayer@favorintl.org"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading label="Why we pray first" title="Favor is a house of prayer before it is anything else." intro="Prayer is not the warm-up before the real work. It is the work, and everything else follows from it." />
+      <div class="why-pray">
+        <p>Before a missionary is sent, before a school opens, before a team drives into a region that has been closed for years, our leaders in Uganda and South Sudan take it to God. Our small team here in the United States does the same thing. Houses of Prayer went up in Gulu and Juba before the offices, the schools, the radio station, or the training centers, because that is the order the work has always run in.</p>
+        <p>Carole Ward puts it plainly: &ldquo;Prayer is not optional but necessary if you want to live. That is how we treat prayer and the Word of God here. It is not a choice for us and should not be one for you.&rdquo; She says it another way too: if there is no prayer movement, there will never be a missionary movement.</p>
+        <p>When you pray with us, you join that. God moves at the voices of His own sheep, and yours is one of them.</p>
+      </div>
+    </div>
+  </section>
+
+  <VerseBand
+    reference="Matthew 21:13 · NKJV"
+    verse="&ldquo;My house shall be called a house of prayer.&rdquo;"
+    note="Jesus named it Himself. We took Him at His word and built the houses of prayer first."
   />
 
   <section class="band band--white">
@@ -98,6 +116,9 @@ const focuses = [
 </RedesignLayout>
 
 <style>
+  .why-pray { margin-top: var(--space-8); }
+  .why-pray p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
+  .why-pray p:last-child { margin-bottom: 0; }
   .focus-list { list-style: none; padding: 0; margin: var(--space-8) 0 0; display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-6); }
   .focus-list li {
     position:relative; padding:var(--space-8); min-height:180px; overflow:hidden;

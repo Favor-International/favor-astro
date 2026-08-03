@@ -1,0 +1,60 @@
+---
+// A plain Scripture band: green card, reference label, the verse, and one
+// line saying why it is here. Built from the pattern already running on the
+// Pray page so every money page can carry Scripture without each page
+// re-declaring the same CSS.
+//
+// Stephanie's 2026-07-31 note drove this: the giving and prayer pages read
+// "corporate heavy and Holy Spirit light." Scripture belongs on the pages
+// where we ask people for something.
+export interface Props {
+  reference: string;
+  verse: string;
+  note?: string;
+  background?: 'white' | 'cream';
+  tone?: 'green' | 'gold';
+}
+const {
+  reference,
+  verse,
+  note,
+  background = 'white',
+  tone = 'green',
+} = Astro.props as Props;
+---
+<section class={`band band--${background} verse-wrap`}>
+  <div class={`container verse-band verse-band--${tone}`}>
+    <p class="label">{reference}</p>
+    <blockquote>{verse}</blockquote>
+    {note && <p class="verse-band__note">{note}</p>}
+  </div>
+</section>
+
+<style>
+  .verse-wrap { padding-block: clamp(44px, 6vw, 84px); }
+  .verse-band {
+    max-width: min(1080px, calc(100% - 32px));
+    padding: clamp(52px, 7vw, 92px);
+    border-radius: clamp(24px, 3vw, 42px);
+    text-align: center;
+    color: var(--color-white);
+  }
+  .verse-band--green { background: var(--color-green); }
+  .verse-band--gold { background: var(--color-green-deep); }
+  .verse-band blockquote {
+    max-width: 800px;
+    margin: var(--space-5) auto;
+    border: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+    line-height: 1.45;
+    font-weight: 650;
+    text-wrap: balance;
+  }
+  .verse-band__note {
+    margin: 0;
+    color: var(--color-gold-light);
+    font-weight: 800;
+  }
+</style>

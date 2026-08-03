@@ -4,7 +4,7 @@ import SiteHeader from '../components/global/SiteHeader.astro';
 import SiteFooter from '../components/global/SiteFooter.astro';
 import PatternDivider from '../components/global/PatternDivider.astro';
 import AfricaMap from '../components/global/AfricaMap.astro';
-import { SITE, PILLARS } from '../lib/site';
+import { SITE, PILLARS, FIELD_STATS } from '../lib/site';
 import storiesData from '../data/stories.json';
 import { isPublicFieldStory } from '../lib/publicContent';
 
@@ -52,11 +52,15 @@ const latestStories = storiesData.filter(isPublicFieldStory)
 // The featured missionary anchors the entire story. Real name,
 // real place, real before/after. The partner gift literally
 // keeps this person on the trail. One name beats six.
+// Stephanie's note (2026-07-31): "cattle warrior" alone did not read as
+// something anyone needed saving from, so the band now carries the actual turn
+// in Daniel's story (a fighter who lost all purpose at nineteen) and his own
+// testimony instead of a founder quote. Both are verbatim from his story record
+// in stories.json. Whether Daniel stays the featured missionary at all is
+// Carole and Terry's call.
 const missionary = {
   name: 'Daniel Kidia',
   country: 'South Sudan',
-  before: 'A Mundari cattle warrior.',
-  after: 'A Favor field pastor leading Portable Bible Schools among his own people.',
   image: '/images/stories/daniel-kidia-portrait.png',
   href: '/stories/daniel-kidia/',
 };
@@ -118,17 +122,22 @@ const tiers = [
       <div class="container proof__inner">
         <div class="proof__stats">
           <div class="proof__stat">
-            <span class="proof__num">195,773</span>
+            <span class="proof__num">{FIELD_STATS.annual.salvations}</span>
             <span class="proof__label">Came to Christ in 2025</span>
           </div>
           <span class="proof__divider" aria-hidden="true"></span>
           <div class="proof__stat">
-            <span class="proof__num">119,182</span>
+            <span class="proof__num">{FIELD_STATS.annual.discipled}</span>
             <span class="proof__label">Discipled in 2025</span>
           </div>
           <span class="proof__divider" aria-hidden="true"></span>
           <div class="proof__stat">
-            <span class="proof__num">14+</span>
+            <span class="proof__num">{FIELD_STATS.toDate.salvations}</span>
+            <span class="proof__label">Have come to Christ since we began</span>
+          </div>
+          <span class="proof__divider" aria-hidden="true"></span>
+          <div class="proof__stat">
+            <span class="proof__num">{FIELD_STATS.nationsServed}</span>
             <span class="proof__label">Nations served</span>
           </div>
         </div>
@@ -206,17 +215,20 @@ const tiers = [
         </figure>
         <div class="missionary__copy">
           <p class="eyebrow eyebrow--gold">A missionary sent through your partnership</p>
-          <h2 class="missionary__h2">Before he was a pastor, he was a cattle warrior.</h2>
+          <h2 class="missionary__h2">He was a fighter with no reason to live. Now he preaches.</h2>
           <p class="missionary__lede">
-            {missionary.before} Today, Daniel leads Portable Bible Schools across South Sudan,
-            training other former warriors to plant churches in their own villages.
-            Your $50 a month feeds him, fuels his motorbike, and stocks the Bibles he hands out.
+            Daniel Kidia raided and fought alongside his nomadic Mundari tribesmen in South Sudan.
+            At nineteen he fell into a depression so deep he lost all purpose. Then a Favor
+            evangelism team walked into his cattle camp. Today he leads Portable Bible Schools
+            across South Sudan and trains other former warriors to plant churches in their own
+            villages. Your $50 a month feeds him, fuels his motorbike, and stocks the Bibles he
+            hands out.
           </p>
           <blockquote class="missionary__carole">
-            <p class="missionary__carole-quote">&ldquo;Send me where no one else will go.&rdquo;</p>
+            <p class="missionary__carole-quote">&ldquo;I was blind but now I can see my future in Jesus!&rdquo;</p>
             <footer class="missionary__carole-attr">
-              <span class="missionary__carole-name">Carole Ward</span>
-              <span class="missionary__carole-role">Founder &middot; the prayer that started Favor</span>
+              <span class="missionary__carole-name">Daniel Kidia</span>
+              <span class="missionary__carole-role">Field pastor &middot; South Sudan</span>
             </footer>
           </blockquote>
           <a class="btn btn--primary btn--large missionary__cta" href="/give/donate/">Send Daniel and missionaries like him <span aria-hidden="true">&rarr;</span></a>
@@ -234,21 +246,26 @@ const tiers = [
       <div class="container founder__grid">
         <div class="founder__copy">
           <p class="eyebrow eyebrow--gold">The woman behind the prayer</p>
-          <h2 class="founder__h2">One woman. Ninety leaders. A movement.</h2>
+          <h2 class="founder__h2">She prayed one dangerous prayer. God took her at her word.</h2>
           <p class="founder__lede">
-            Carole Ward lives a life many would not believe is real. She dares to follow God
-            and change nations one life at a time.
+            In 2002 Carole Ward stepped off a plane into northern Uganda, into the middle of a
+            twenty-year war. She had prayed, &ldquo;Lord, send me where no one wants to go.&rdquo;
+            People told her she would come home in a body bag.
           </p>
           <p class="founder__lede">
-            She arrived in Uganda in 2002, in the middle of a twenty-year war. The ministry
-            that grew out of her prayer is today an indigenous missions movement across
-            Uganda, South Sudan, and Chad, led by the indigenous leaders she trained.
+            She went anyway. What began with one woman praying is now an indigenous missionary
+            movement across Uganda, South Sudan, Chad, and nations beyond, carried by the African
+            leaders she trained and sent.
           </p>
+          <blockquote class="founder__quote">
+            <p>&ldquo;It only takes one obedient person to start a movement.&rdquo;</p>
+            <footer>Carole Ward &middot; Lord Send Us Where No One Wants to Go</footer>
+          </blockquote>
           <a class="btn btn--primary btn--large founder__cta" href="/about/our-story/founder/">Read Carole&rsquo;s story <span aria-hidden="true">&rarr;</span></a>
           <a class="founder__read" href="/about/contact/?topic=book">Or request her books, free &rarr;</a>
         </div>
         <figure class="founder__photo">
-          <img src="/images/field-2026/carole-3.webp" alt="Carole Ward, Founder of Favor International" loading="lazy" />
+          <img src="/images/field-2026/carole-4.webp" alt="Carole Ward, Founder of Favor International, praying with believers in the field" loading="lazy" />
           <figcaption class="founder__caption">Carole Ward &middot; Founder</figcaption>
         </figure>
       </div>
@@ -687,6 +704,28 @@ const tiers = [
     font-size: 1.08rem;
     line-height: 1.7;
     max-width: 54ch;
+  }
+  .founder__quote {
+    margin: 0 0 var(--space-6) 0;
+    padding: var(--space-4) 0 var(--space-4) var(--space-8);
+    border-left: 3px solid var(--color-gold);
+  }
+  .founder__quote p {
+    margin: 0 0 var(--space-3) 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+    line-height: 1.35;
+    color: var(--color-green-deep);
+  }
+  .founder__quote footer {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
   }
   .founder__cta { margin-top: var(--space-3); }
   .founder__read {

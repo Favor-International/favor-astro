@@ -6,12 +6,13 @@ import OtherWaysToGive from '../../components/give/OtherWaysToGive.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import VerseBand from '../../components/redesign/VerseBand.astro';
 import { PARTNER_TIERS } from '../../lib/site';
 import storiesData from '../../data/stories.json';
 const partnerReasons = [
-  { title: 'The field can plan.', body: 'Dependable monthly support helps leadership prepare for recurring ministry needs instead of rebuilding the funding base every month.' },
-  { title: 'Leaders can respond.', body: 'Unrestricted partnership gives field leadership flexibility to respond across evangelism, education, community development, and economic empowerment.' },
-  { title: 'The relationship continues.', body: 'Partnership connects a recurring gift to ongoing field stories, prayer needs, financial reporting, and the long work of forming indigenous leaders.' },
+  { title: 'A missionary keeps walking.', body: 'Your gift arrives the same week every month, so a pastor in South Sudan does not stop to raise support. He keeps walking to the next village.' },
+  { title: 'The team can say yes.', body: 'When a chief opens his village to the Gospel, our leaders go now. Steady giving is what lets them answer that door instead of waiting on the next appeal.' },
+  { title: 'You walk with the field.', body: 'You receive the stories, the prayer requests, and the names. Your first gift begins a walk with the people doing the work, and you see what God does with it.' },
 ];
 const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
 ---
@@ -46,10 +47,16 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="Why monthly" title="Consistency gives field leaders room to lead." intro="Monthly support gives the field a dependable base and strengthens the work between major campaigns and urgent appeals." />
+      <LeafHeading label="Why monthly" title="The harvest is ready now, and the workers are few." intro="&ldquo;Even as others are moving out, we are moving in! We must accelerate and multiply, for the harvest is plentiful, but the laborers are few.&rdquo; That is what Carole Ward told the team in Juba. Monthly partners are how they keep moving in." />
       <div class="partner-reasons">{partnerReasons.map((item) => <article class="rd-card reveal"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
     </div>
   </section>
+
+  <VerseBand
+    reference="Luke 10:2 · NKJV"
+    verse="&ldquo;The harvest truly is great, but the laborers are few; therefore pray the Lord of the harvest to send out laborers into His harvest.&rdquo;"
+    note="Jesus told us to pray for workers. Your partnership helps send them."
+  />
 
   <RdFeature
     image="/images/field-2026/education-2.webp"
@@ -69,8 +76,8 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
   </RdFeature>
 
   <section class="band band--white"><div class="container">
-    <LeafHeading label="Choose the right giving path" title="Monthly, one-time, and designated gifts serve different needs." intro="The best path depends on whether you want to strengthen the whole field, make a single unrestricted gift, or support a confirmed project." />
-    <div class="giving-paths"><article class="rd-card"><h3>Monthly partnership</h3><p>Recurring, unrestricted support helps field leadership plan and respond across the full ministry. If you want to sustain the ongoing work, start here.</p></article><article class="rd-card"><h3>One-time giving</h3><p>A single unrestricted gift supports the work where leadership identifies the greatest current need without creating a recurring commitment.</p></article><article class="rd-card"><h3>Designated project</h3><p>Before you make a designated gift, talk to us. We will confirm the project name, active need, funding status, and designation instructions with you.</p></article></div>
+    <LeafHeading label="Choose the right giving path" title="Three ways to give, and what each one does." intro="Start with what God has put on your heart. Any of these three reaches the field." />
+    <div class="giving-paths"><article class="rd-card"><h3>Monthly partnership</h3><p>You keep the whole work moving, month after month. Our leaders can send a missionary, open a school, or answer a crisis without stopping to raise the money first.</p></article><article class="rd-card"><h3>One-time giving</h3><p>Your single gift goes straight to the greatest need our field leaders see that week. No recurring commitment.</p></article><article class="rd-card"><h3>Designated project</h3><p>You want to fund one specific thing. Talk to us first and we will tell you the project name, where it is, what it still needs, and exactly how to designate the gift.</p></article></div>
   </div></section>
 
   <RdFeature
@@ -95,7 +102,7 @@ const partnerStory = storiesData.find((s) => s.slug === 'daniel-kidia');
 
   <section class="band band--cream">
     <div class="container container--narrow">
-      <LeafHeading label="After you join" title="A partnership you can understand and manage." intro="Your first gift processes through the secure giving form. You receive an emailed receipt and can contact Favor whenever you need to update your amount or payment details." />
+      <LeafHeading label="After you join" title="What happens after you join." intro="Your first gift processes through the secure giving form. You receive an emailed receipt, and you can reach a real person here whenever you want to change your amount or payment details." />
       <div class="faq">
         <details><summary>Can I choose a custom monthly amount?</summary><p>Yes. The suggested levels are a starting point; choose the amount that fits your household.</p></details>
         <details><summary>Is my monthly gift restricted to one program?</summary><p>Favor Partner gifts are unrestricted, allowing field leadership to direct resources where they are most needed.</p></details>

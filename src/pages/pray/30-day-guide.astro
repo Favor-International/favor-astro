@@ -3,6 +3,7 @@ import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import PageHero from '../../components/band/PageHero.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import VerseBand from '../../components/redesign/VerseBand.astro';
 
 // Each nation carries a Scripture on prayer (Stephanie's note, 2026-07-31:
 // this page above all should quote the Word on why we pray).
@@ -97,6 +98,13 @@ const countries = [
       ))}
     </nav>
   </div></section>
+
+  <VerseBand
+    reference="Ephesians 6:18 · NKJV"
+    verse="&ldquo;Praying always with all prayer and supplication in the Spirit, being watchful to this end with all perseverance and supplication for all the saints.&rdquo;"
+    note="Thirty days of praying for the saints who carry the Gospel into these three nations."
+    background="cream"
+  />
 
   {countries.map((country, countryIndex) => (
     <section class:list={['band', countryIndex % 2 === 0 ? 'band--cream' : 'band--white', 'country-guide']} id={country.name.toLowerCase().replaceAll(' ', '-') }>

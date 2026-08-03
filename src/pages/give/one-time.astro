@@ -5,6 +5,7 @@ import DonationForm from '../../components/give/DonationForm.astro';
 import OtherWaysToGive from '../../components/give/OtherWaysToGive.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import VerseBand from '../../components/redesign/VerseBand.astro';
 import { SITE } from '../../lib/site';
 
 // Real downloadable forms from favorintl.org/connect-support/donate-now
@@ -47,17 +48,23 @@ const STOCK_FORM = '/documents/favor-international-stock-and-non-cash-assets-tra
     </div>
   </section>
 
+  <VerseBand
+    reference="2 Corinthians 9:7 · NKJV"
+    verse="&ldquo;So let each one give as he purposes in his heart, not grudgingly or of necessity; for God loves a cheerful giver.&rdquo;"
+    note="Give what you purposed. God is the one who multiplies it."
+  />
+
   <section class="band band--white">
     <div class="container container--narrow">
       <LeafHeading label="More ways to give once" title="Choose the route that works for you." intro="Never email bank, card, or brokerage account numbers. Contact us first for wire or asset-transfer instructions." leaves={false} />
       <ul class="give-methods">
-        <li><span class="method-icon method-icon--check" aria-hidden="true">✉</span><span><strong>By check (no fees).</strong> Please make checks payable to Favor Intl. Mail to: Favor International, {SITE.mailing}.</span></li>
-        <li><span class="method-icon method-icon--zelle" aria-hidden="true">Z</span><span><strong>Zelle.</strong> Send to admin@favorintl.org.</span></li>
-        <li><span class="method-icon method-icon--cash" aria-hidden="true">$</span><span><strong>Cash App.</strong> Send to the CashTag $FavorInternational.</span></li>
-        <li><span class="method-icon method-icon--wire" aria-hidden="true">↔</span><span><strong>Wire transfer.</strong> Available on request. Email {SITE.emailGeneral} for instructions.</span></li>
-        <li><span class="method-icon method-icon--stock" aria-hidden="true">↗</span><span><strong>Stock and securities.</strong> Give appreciated stock with our <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>.</span></li>
-        <li><span class="method-icon method-icon--paypal" aria-hidden="true">P</span><span><strong>PayPal, ACH, and credit card.</strong> All available through our online giving portal.</span></li>
-        <li><span class="method-icon method-icon--dedicate" aria-hidden="true">♥</span><span><strong>Designate or dedicate.</strong> Designate your gift, write a note, or honor someone with a dedicated gift through the online giving portal.</span></li>
+        <li><span class="method-icon method-icon--check" aria-hidden="true">✉</span><span><strong>Check.</strong> Make your check payable to Favor Intl. Mail it to {SITE.mailing}. A check carries no processing fee.</span></li>
+        <li><span class="method-icon method-icon--zelle" aria-hidden="true">Z</span><span><strong>Zelle.</strong> Send your gift to admin@favorintl.org.</span></li>
+        <li><span class="method-icon method-icon--cash" aria-hidden="true">$</span><span><strong>Cash App.</strong> Send your gift to the CashTag $FavorInternational.</span></li>
+        <li><span class="method-icon method-icon--wire" aria-hidden="true">↔</span><span><strong>Wire transfer.</strong> Email {SITE.emailGeneral} to request the wire instructions.</span></li>
+        <li><span class="method-icon method-icon--stock" aria-hidden="true">↗</span><span><strong>Stock and securities.</strong> Complete the <a href={STOCK_FORM} target="_blank" rel="noopener">Stock and Non-Cash Assets Transfer Form</a>. Give the form to your broker.</span></li>
+        <li><span class="method-icon method-icon--paypal" aria-hidden="true">P</span><span><strong>PayPal, ACH, and credit card.</strong> Use the secure giving form for all three.</span></li>
+        <li><span class="method-icon method-icon--dedicate" aria-hidden="true">♥</span><span><strong>Designate or dedicate.</strong> The secure giving form lets you designate your gift, add a note, or give in honor of someone.</span></li>
       </ul>
     </div>
   </section>

@@ -21,7 +21,7 @@ import { SITE } from '../../lib/site';
         <Leaf class="donate-leaf" />
         <p class="label">Instant giving</p>
         <h1>Give online.</h1>
-        <p class="donate-sub">One time or monthly. Choose your amount, designate your gift, and finish in Blackbaud&rsquo;s secure checkout in under a minute.</p>
+        <p class="donate-sub">Your gift sends indigenous missionaries to people who have never heard the name of Jesus. Give one time or monthly. Choose your amount, designate your gift, and finish in Blackbaud&rsquo;s secure checkout in under a minute.</p>
       </header>
     </div>
   </section>
@@ -30,7 +30,11 @@ import { SITE } from '../../lib/site';
     <div class="container container--narrow">
       <DonationForm />
       <noscript><p>The donation form needs JavaScript. You can also give by check (payable to Favor Intl., {SITE.mailing}), Zelle (admin@favorintl.org), or CashApp ($FavorInternational).</p></noscript>
-      <p class="donate-trust">Favor International is a 501(c)(3) public charity, EIN {SITE.ein} &middot; <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a> &middot; Tax-deductible &middot; <a href="/about/accountability/">See the financials</a></p>
+      <blockquote class="donate-verse">
+        <p>&ldquo;The harvest truly is great, but the laborers are few; therefore pray the Lord of the harvest to send out laborers into His harvest.&rdquo;</p>
+        <cite>Luke 10:2 &middot; NKJV</cite>
+      </blockquote>
+      <p class="donate-trust">Favor International is a 501(c)(3) public charity, EIN {SITE.ein} &middot; <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a> &middot; Tax-deductible &middot; <a href="/about/accountability/">See our financials</a></p>
     </div>
   </section>
 
@@ -43,6 +47,30 @@ import { SITE } from '../../lib/site';
   .donate-head h1 { color: var(--color-green); }
   .donate-sub { color: var(--color-ink-soft); max-width: 56ch; margin: 0 auto; line-height: 1.7; }
   .donate-form-band { padding-top: var(--space-8); }
+  .donate-verse {
+    margin: var(--space-10) auto 0;
+    max-width: 62ch;
+    padding: 0 0 0 var(--space-6);
+    border: 0;
+    border-left: 3px solid var(--color-gold);
+    text-align: left;
+  }
+  .donate-verse p {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-green-deep);
+  }
+  .donate-verse cite {
+    font-style: normal;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+  }
   .donate-trust { text-align: center; margin: var(--space-8) 0 0; font-size: 0.9rem; color: var(--color-sage); }
   .donate-trust a { color: var(--color-gold-deep); font-weight: 700; }
   .donate-alt { text-align: center; margin: var(--space-3) 0 0; font-size: 0.9rem; color: var(--color-ink-soft); }

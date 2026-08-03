@@ -13,6 +13,7 @@
 
 import geo from '../../data/africa-geo.json';
 import pbs from '../../data/africa-pbs.json';
+import { FIELD_STATS } from '../../lib/site';
 
 const { countries, labels, view } = geo as {
   viewW: number; viewH: number;
@@ -120,17 +121,17 @@ const { showStats = true, note } = Astro.props as Props;
     {showStats && (
       <div class="africa-map__stats">
         <div class="africa-map__stat">
-          <span class="africa-map__stat-num">524,673</span>
+          <span class="africa-map__stat-num">{FIELD_STATS.toDate.salvations}</span>
           <span class="africa-map__stat-label">Total salvations to date</span>
         </div>
         <span class="africa-map__stat-divider" aria-hidden="true"></span>
         <div class="africa-map__stat">
-          <span class="africa-map__stat-num">3,635</span>
+          <span class="africa-map__stat-num">{FIELD_STATS.toDate.pbsLocations}</span>
           <span class="africa-map__stat-label">PBS locations</span>
         </div>
         <span class="africa-map__stat-divider" aria-hidden="true"></span>
         <div class="africa-map__stat">
-          <span class="africa-map__stat-num">14+</span>
+          <span class="africa-map__stat-num">{FIELD_STATS.nationsServed}</span>
           <span class="africa-map__stat-label">Nations served</span>
         </div>
       </div>

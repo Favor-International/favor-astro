@@ -33,14 +33,25 @@ const isBoard = /board/i.test(person.type);
 const backHref = isBoard ? '/about/board/' : '/about/team/';
 const backLabel = isBoard ? 'Back to the Board' : 'Back to the team';
 const desc = `${person.fullName}, ${person.position} at Favor International. ${person.bioIntro}`.slice(0, 155);
+
+// Stephanie's note (2026-07-31): every profile used the same banner of GIFT
+// students in Uganda, so opening a US staff member's page led with a photo of
+// an African student and read as if that person was the one profiled. Field
+// leaders keep a photo of the work they lead. Everyone else gets a banner with
+// no identifiable face in it, so the only person on the page is the person
+// named on it.
+const servesOnField = /uganda|sudan|chad/i.test(person.location);
+const banner = servesOnField
+  ? { image: '/images/field/hero-gift-uganda.webp', alt: 'GIFT leadership-training students in Uganda' }
+  : { image: '/images/hero-bibles-stacks.jpg', alt: 'Bibles stacked for distribution to a Favor field team' };
 ---
 <RedesignLayout title={person.fullName} description={desc}>
   <PageHero
     label={person.position}
     title={`${person.fullName}.`}
     promise={person.location}
-    image="/images/field/hero-gift-uganda.webp"
-    imageAlt="GIFT leadership-training students in Uganda"
+    image={banner.image}
+    imageAlt={banner.alt}
   />
 
   <RdFeature

@@ -245,6 +245,30 @@ export const PARTNER_TIERS = [
   { amount: 1200, label: 'Founders’ Circle', featured: true },
 ] as const;
 
+// FIELD STATS: the ministry numbers that render on the homepage proof band and
+// on the Africa map. They were hand-edited in two separate component files
+// until Stephanie asked (2026-07-31) who owns them and which period they
+// cover. They now live here so an update is one edit in one file.
+//
+// OWNER: unassigned. Name a person before launch.
+// PERIOD: `annual` figures are full-year 2025. `toDate` figures are
+// cumulative since the ministry began. Update `asOf` whenever you change a
+// number, so the site never implies these are live.
+// NOTE: a real-time "salvation clock" would need a field data feed that does
+// not exist yet. Keep these as reported totals.
+export const FIELD_STATS = {
+  asOf: '2025 year-end',
+  annual: {
+    salvations: '195,773',
+    discipled: '119,182',
+  },
+  toDate: {
+    salvations: '524,673',
+    pbsLocations: '3,635',
+  },
+  nationsServed: '14+',
+};
+
 // Only verified, audit-grade figures. Source: ECFA member profile (FY2024) and
 // the publicly filed Form 990. Do not add unverified counts here without a
 // sourced citation. The brand book is explicit: no made-up numbers.

@@ -39,6 +39,16 @@ import Leaf from '../../components/redesign/Leaf.astro';
         </ol>
       </div>
 
+      <blockquote class="ty-verse">
+        <p>&ldquo;For God is not unjust to forget your work and labor of love which you have shown toward His name, in that you have ministered to the saints, and do minister.&rdquo;</p>
+        <cite>Hebrews 6:10 &middot; NKJV</cite>
+      </blockquote>
+
+      <div class="ty-walk">
+        <h2>This is the start of a walk, not the end of a transaction.</h2>
+        <p>You planted a seed today, and you will get to watch what grows out of it. Field reports, stories, and prayer needs come to you from the people doing the work, so you see where your giving went and who it reached.</p>
+      </div>
+
       <div class="ty-next">
         <h2>The next step is prayer.</h2>
         <p>Prayer comes before everything we do. Take one nation, one request, one day at a time.</p>
@@ -105,6 +115,33 @@ import Leaf from '../../components/redesign/Leaf.astro';
   .ty-card h2, .ty-next h2 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .ty-card ol { margin: 0; padding-left: 1.2em; line-height: 1.9; color: var(--color-ink); }
   .ty-card a { color: var(--color-gold-deep); font-weight: 700; }
+  .ty-verse {
+    margin: 0;
+    padding: clamp(var(--space-6), 4vw, var(--space-10));
+    background: var(--color-green);
+    border: 0;
+    border-radius: var(--radius-card);
+    text-align: center;
+    color: var(--color-white);
+  }
+  .ty-verse p {
+    margin: 0 0 var(--space-4);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    line-height: 1.6;
+    font-weight: 600;
+    max-width: 62ch;
+    margin-inline: auto;
+  }
+  .ty-verse cite {
+    font-style: normal;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold-light);
+  }
+  .ty-walk { text-align: center; }
+  .ty-walk p { color: var(--color-ink-soft); max-width: 60ch; margin: 0 auto; line-height: 1.8; }
   .ty-next { text-align: center; }
   .ty-next p { color: var(--color-ink-soft); max-width: 56ch; margin: 0 auto var(--space-4); }
   .ty-alt a { color: var(--color-green); font-weight: 700; }

@@ -6,6 +6,7 @@ import StoryStrip from '../../components/band/StoryStrip.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import VerseBand from '../../components/redesign/VerseBand.astro';
 import { PARTNER_TIERS, SITE } from '../../lib/site';
 
 const tiles = [
@@ -42,8 +43,8 @@ const practicalRoutes = [
 >
   <PageHero waveColor="cream"
     label="Give"
-    title="One gift. Real, recurring impact."
-    promise="Give securely online, or choose the route that fits your gift. ECFA-accredited. Tax-deductible."
+    title="Give, and a missionary goes."
+    promise="Your gift sends indigenous missionaries into villages that have never heard the name of Jesus. Give securely online, or choose the route that fits your gift. ECFA-accredited. Tax-deductible."
     image="/images/field-2026/street-outreach-1.webp"
     imageAlt="A Favor Partner gathering"
     ctaLabel="Open the giving form"
@@ -56,19 +57,19 @@ const practicalRoutes = [
     image="/images/stories/daniel-kidia-portrait.png"
     imageAlt="Daniel Kidia, a Favor field pastor in South Sudan"
     eyebrow="What partnership makes possible"
-    heading="Before he was a pastor, Daniel was a cattle warrior."
+    heading="He was a fighter with no reason to live. Now he preaches."
     side="right"
     background="white"
     decor="leaf"
   >
-    <p>Today Daniel leads Portable Bible Schools across South Sudan, training other former warriors to carry the Gospel into their own villages.</p>
-    <p>Your generosity supports indigenous leaders who already speak the language, understand the culture, and remain when conditions become difficult.</p>
+    <p>Daniel Kidia fought alongside his nomadic Mundari tribesmen in South Sudan until, at nineteen, he lost all purpose. A Favor evangelism team reached his cattle camp. Today he leads Portable Bible Schools across South Sudan, training other former warriors to carry the Gospel into their own villages.</p>
+    <p>Your giving keeps leaders like Daniel on the trail. They already speak the language and know the culture, and when the fighting starts they do not evacuate. They live there.</p>
     <p><a class="story-link" href="/stories/daniel-kidia/">Read Daniel's story &rarr;</a></p>
   </RdFeature>
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading label="Pick your path" title="Start with the way you want to give." intro="Monthly partnership and one-time gifts are the simplest paths. Specialized options remain available for churches, foundations, estates, and non-cash assets." />
+      <LeafHeading label="Pick your path" title="Start where God is pulling you." intro="Monthly partnership and one-time gifts are the shortest paths to the field. Churches, foundations, estates, and non-cash gifts each have a route below." />
       <div class="give-grid">
         {tiles.map((t) => (
           t.featured ? (
@@ -102,17 +103,24 @@ const practicalRoutes = [
     <div class="container container--narrow">
       <LeafHeading label="Why give through Favor" title="Your gift joins a movement already on the ground." intro="A gift to Favor is the beginning of a walk with the field. Through stories, reports, and updates from the ground, you will see what your giving builds." leaves={false} />
       <div class="why-grid">
-        <div class="why-card"><h3>Indigenous-led</h3><p>Every program on the field is run by African nationals who live where they serve.</p></div>
-        <div class="why-card"><h3>Prayer-birthed</h3><p>Favor began as a prayer movement, and prayer still comes before everything else.</p></div>
-        <div class="why-card"><h3>Accountable</h3><p>ECFA-accredited and independently audited every year. 89 cents of every dollar went to program in FY2024.</p></div>
-        <div class="why-card"><h3>Where others will not go</h3><p>Favor&rsquo;s teams reach hard and underserved places in Uganda, South Sudan, and Chad.</p></div>
+        <div class="why-card"><h3>Indigenous-led</h3><p>Jesus discipled a few, equipped them, and sent them to their own people. Every program on the field is run by African believers doing exactly that.</p></div>
+        <div class="why-card"><h3>Prayer-birthed</h3><p>Favor began in prayer, and prayer still comes before everything. Nothing goes to the field that has not first been taken to God.</p></div>
+        <div class="why-card"><h3>Accountable</h3><p>ECFA-accredited and independently audited every year. 89 cents of every dollar went to program work in FY2024.</p></div>
+        <div class="why-card"><h3>Where others will not go</h3><p>Our teams walk into Uganda, South Sudan, and Chad, and into the villages other ministries have written off.</p></div>
       </div>
     </div>
   </section>
 
+  <VerseBand
+    reference="Philippians 4:17 · NKJV"
+    verse="&ldquo;Not that I seek the gift, but I seek the fruit that abounds to your account.&rdquo;"
+    note="Paul wanted the givers to see the harvest their giving produced. So do we."
+    background="cream"
+  />
+
   <section class="band band--cream">
     <div class="container container--narrow">
-      <LeafHeading label="Monthly partnership" title="Choose a level that fits your life." intro="Custom amounts are always welcome. Monthly gifts give field leaders dependable support and the flexibility to respond where needs are greatest." />
+      <LeafHeading label="Monthly partnership" title="Choose a level that fits your life." intro="Custom amounts are always welcome. Monthly gifts give field leaders dependable support and the freedom to move where the need is greatest." />
       <ul class="tier-list">
         {PARTNER_TIERS.map((t) => (
           <li class:list={[t.featured && 'tier-list--featured']}>
@@ -168,7 +176,7 @@ const practicalRoutes = [
 
   <RdCta
     heading="Put a missionary on the trail."
-    body="Choose monthly partnership for dependable support, or make a one-time gift today."
+    body="Monthly partnership keeps them walking all year. A one-time gift meets the need in front of them today."
     ctaLabel="Open the giving form"
     ctaHref="/give/donate/"
     secondaryLabel="Give one time"
