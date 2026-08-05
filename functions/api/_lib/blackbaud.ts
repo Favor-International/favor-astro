@@ -39,6 +39,8 @@ export interface Env {
   GIVE_TEST_MODE?: string;
   /** Donor fee-cover estimate, defaults 0.029 + 0.30. */
   GIVE_FEE_RATE?: string;
+  /** RE NXT appeal RECORD id (not the lookup code) stamped on every online gift split. "Website" = record 2. */
+  GIVE_APPEAL_RECORD_ID?: string;
   GIVE_FEE_FIXED?: string;
   TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
@@ -421,6 +423,8 @@ export interface DonorInput {
   last: string;
   email: string;
   phone?: string;
+  /** When set, the gift belongs to an Organization constituent, not the person. */
+  org_name?: string;
 }
 
 interface SearchResult {
@@ -467,12 +471,21 @@ export async function findOrCreateConstituent(env: Env, donor: DonorInput): Prom
   const existing = await searchConstituentByEmail(env, donor.email);
   if (existing) return existing;
 
-  const body: Record<string, unknown> = {
-    type: 'Individual',
-    first: donor.first,
-    last: donor.last,
-    email: { address: donor.email, type: 'Email', primary: true },
-  };
+  // Organization gifts get an Organization record (Daniel, 2026-08-05):
+  // a church typed into the person fields must never become an Individual
+  // constituent. The person stays on the gift reference as the contact.
+  const body: Record<string, unknown> = donor.org_name
+    ? {
+        type: 'Organization',
+        name: donor.org_name,
+        email: { address: donor.email, type: 'Email', primary: true },
+      }
+    : {
+        type: 'Individual',
+        first: donor.first,
+        last: donor.last,
+        email: { address: donor.email, type: 'Email', primary: true },
+      };
   if (donor.phone) {
     body.phone = { number: donor.phone, type: 'Home', primary: true };
   }

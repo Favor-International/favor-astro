@@ -55,6 +55,7 @@ interface RecurringBody {
   donor?: { first?: unknown; last?: unknown; email?: unknown; phone?: unknown };
   anonymous?: unknown;
   note?: unknown;
+  org_name?: unknown;
   cover_fees?: unknown;
   email_optin?: unknown;
   sms_optin?: unknown;
@@ -86,6 +87,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       last: asTrimmed(body.donor?.last, 'last name', 100),
       email: asEmail(body.donor?.email),
       phone: asTrimmed(body.donor?.phone, 'phone', 25, false) || undefined,
+      org_name: asTrimmed(body.org_name, 'organization name', 120, false) || undefined,
     };
     const note = asTrimmed(body.note, 'note', 400, false);
     const checkoutToken = asUuid(body.checkout?.transaction_token, 'checkout.transaction_token');
@@ -97,11 +99,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const reference = buildReference([
       'Monthly Favor Partner gift via favorintl.org',
       `Designation: ${designation.label}`,
+      donor.org_name && `Organization gift; contact: ${donor.first} ${donor.last}`,
       coverFees && 'Donor covered processing fees',
       body.email_optin === true && 'Opted in: email updates',
       body.sms_optin === true && 'Opted in: text updates',
       note && `Donor note: ${note}`,
     ]);
+
+    // Website appeal on the split (Daniel, 2026-08-05), same as one-time gifts.
+    const appealId = (env.GIVE_APPEAL_RECORD_ID ?? '').trim();
+    const split: Record<string, unknown> = { fund_id: designation.fund_id, amount: { value: total } };
+    if (appealId) split.appeal_id = appealId;
 
     const baseGift = {
       constituent_id: constituentId,
@@ -109,7 +117,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       gift_status: 'Active',
       post_status: 'NotPosted',
       is_anonymous: body.anonymous === true,
-      gift_splits: [{ fund_id: designation.fund_id, amount: { value: total } }],
+      gift_splits: [split],
       reference,
     };
 

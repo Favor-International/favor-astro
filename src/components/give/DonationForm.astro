@@ -133,6 +133,21 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       <label class="dform__q" for="dform-name">What is your name?</label>
       <input class="dform__solo" id="dform-name" type="text" name="fullname" autocomplete="name" maxlength="150" placeholder="First and last name" />
       <p class="dform__hint">So we know who to thank, and who to make the receipt out to.</p>
+
+      <!-- Daniel's note (2026-08-05): a church or business typing its name into
+           the person field gets recorded in Blackbaud as an Individual, which
+           the finance team then has to untangle. The toggle routes the gift to
+           an Organization constituent record instead; the person's name is
+           still collected above as the contact. -->
+      <details class="dform__more" data-org-toggle>
+        <summary>Giving on behalf of a church, business, or foundation?</summary>
+        <div class="dform__more-body">
+          <label class="dform__field"><span>Organization name</span>
+            <input type="text" name="org_name" autocomplete="organization" maxlength="120" placeholder="e.g. First Baptist Church of Tampa" />
+          </label>
+          <p class="dform__microhint is-shown">The receipt and record will be in the organization&rsquo;s name, with you as the contact.</p>
+        </div>
+      </details>
       <p class="dform__error" data-error="name" role="alert" hidden></p>
       <div class="dform__nav">
         <button type="button" class="dform__back" data-back>&larr; Back</button>
@@ -752,7 +767,11 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       const body: Record<string, unknown> = {
         idempotency_key: idempotencyKey,
         amount: amount(),
-        cover_fees: checkbox('cover_fees'),
+        // The fee choice moved from a checkbox to the pre-checkout dialog, so
+        // it lives in a variable. Sending checkbox('cover_fees') here (a field
+        // that no longer exists) made the server bill the fee-free total while
+        // Blackbaud charged the fee-inclusive authorization.
+        cover_fees: feeCovered,
         designation_fund_id: designationSelect.value,
         donor: {
           first: field('first'),
@@ -760,6 +779,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
           email: field('email'),
           phone: field('phone') || undefined,
         },
+        org_name: field('org_name') || undefined,
         anonymous: checkbox('anonymous'),
         email_optin: checkbox('email_optin'),
         sms_optin: checkbox('sms_optin'),
