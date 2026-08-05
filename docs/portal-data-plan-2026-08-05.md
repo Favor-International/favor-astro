@@ -62,9 +62,8 @@ gift, its upsert hits the same primary key and overwrites in place. The sync's
 version wins (it carries receipt status etc. that the realtime row lacks).
 Same gift, same row, twice written, never duplicated. No cleanup pass needed.
 
-Confirm with Daniel that his sync upserts (INSERT OR REPLACE / ON CONFLICT
-UPDATE) rather than plain INSERT. His table design says yes; one sentence on
-Friday settles it.
+Daniel confirmed 2026-08-05: "It upserts. Blind insert is no way to properly
+manage a data sync." Dedup is settled.
 
 ### The small read API (Will approved 2026-08-05)
 
@@ -78,8 +77,8 @@ public exposure, JSON in/out.
 - `POST /gifts/realtime` → the dual-write above (id, constituent id, amount,
   fund, appeal, date, payment method, raw json)
 
-Separate worker, not a change to re-nxt-cloud-sync, so Daniel's code stays
-his. He offered to branch the repo; the API can live there or standalone.
+Decision (Will, 2026-08-05): standalone worker, our call, not Daniel's. It
+does not touch his sync code and deploys independently.
 
 ### favor-astro changes (after the API exists)
 
@@ -96,14 +95,13 @@ whole system are gift creation and Daniel's two syncs a day.
 
 ## Sequencing
 
-1. **Friday's meeting settles:** sync upsert semantics; where favor-data-api
-   lives (his repo or standalone); who owns its key.
-2. Build favor-data-api + deploy to Tech account. (~an afternoon)
-3. Wire realtime push into favor-astro's two donate endpoints.
-4. Repoint the portal's giving reads. Retire the SKY-backed
+1. Build favor-data-api + deploy to Tech account. (~an afternoon; both open
+   questions are settled, nothing blocks on Friday)
+2. Wire realtime push into favor-astro's two donate endpoints.
+3. Repoint the portal's giving reads. Retire the SKY-backed
    /api/portal/giving-history.
-5. $1 live test end to end: give on the site, see it in portal seconds later,
-   confirm the evening sync overwrites the same row.
+4. Watch one real gift flow through: site -> portal in seconds -> evening sync
+   overwrites the same row.
 
 ## Standing rules
 
