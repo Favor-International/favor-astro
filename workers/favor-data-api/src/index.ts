@@ -79,38 +79,55 @@ function shapeGift(g: GiftRow, funds: Map<string, string>) {
     designation: splits.length ? funds.get(String(splits[0].fund_id ?? '')) ?? null : null,
     payment_method: g.gift_payment_method ?? null,
     receipted,
-    receipt_number: receipted ? g.receipt_number ?? null : null,
+    // Daniel's sync stores receipt_number as text with a trailing ".0"
+    // (e.g. "10000592.0"). The SKY path emits it as an integer, so coerce to
+    // match and avoid "Receipt #10000592.0" in the portal.
+    receipt_number: receipted && g.receipt_number != null && Number.isFinite(Number(g.receipt_number))
+      ? Math.trunc(Number(g.receipt_number))
+      : null,
     receipt_date: receipted ? g.receipt_date ?? null : null,
     anonymous: raw.is_anonymous === true,
   };
 }
 
 async function givingHistory(env: Env, email: string): Promise<Response> {
-  // Constituent by email. Emails are their own table; prefer a primary,
-  // non-inactive address on a living constituent.
-  const who = await env.DB.prepare(
-    `SELECT c.id, c.constituent_type, c.first_name, c.last_name, c.organization_name
+  // One email can be attached to several living constituent records (a
+  // household mailbox, a merge that never happened, an org contact who also
+  // gives personally). Resolving to a single record via LIMIT 1 hid every
+  // other record's gifts and could undercount the lifetime total badly, so we
+  // aggregate across ALL non-deceased constituents that share the login email.
+  const whoRows = await env.DB.prepare(
+    `SELECT c.id, c.constituent_type, c.first_name, c.last_name, c.organization_name,
+            e.is_primary
        FROM emails e JOIN constituents c ON c.id = e.constituent_record_id
       WHERE lower(e.email_address) = ?1
-        AND (c.deceased IS NULL OR c.deceased = 0)
-      ORDER BY e.is_primary DESC, e.is_inactive ASC
-      LIMIT 1`
+        AND (c.deceased IS NULL OR c.deceased = 0)`
   )
     .bind(email)
-    .first<{ id: string; constituent_type: string | null; first_name: string | null; last_name: string | null; organization_name: string | null }>();
+    .all<{ id: string; constituent_type: string | null; first_name: string | null; last_name: string | null; organization_name: string | null; is_primary: number | null }>();
 
-  if (!who) {
+  const people = whoRows.results ?? [];
+  if (!people.length) {
     return json({ ok: true, constituent: null, gifts: [], summary: { total_given: 0, gift_count: 0 } });
   }
+  // De-dup the id set (an email can appear twice on one record) and keep a
+  // representative for the returned constituent field: prefer a primary email,
+  // then an organization record, else the first.
+  const ids = [...new Set(people.map((p) => p.id))];
+  const rep =
+    people.find((p) => p.is_primary === 1) ??
+    people.find((p) => p.organization_name) ??
+    people[0];
 
+  const placeholders = ids.map((_, i) => `?${i + 1}`).join(',');
   const [giftRows, fundRows] = await Promise.all([
     env.DB.prepare(
       `SELECT id, gift_amount, gift_date, gift_type, gift_status, gift_splits,
               gift_payment_method, receipt_status, receipt_number, receipt_date, raw_json
-         FROM gifts WHERE constituent_record_id = ?1
-        ORDER BY gift_date DESC LIMIT 500`
+         FROM gifts WHERE constituent_record_id IN (${placeholders})
+        ORDER BY gift_date DESC LIMIT 2000`
     )
-      .bind(who.id)
+      .bind(...ids)
       .all<GiftRow>(),
     env.DB.prepare(`SELECT id, fund_description, fund_id FROM funds`).all<{
       id: string;
@@ -130,10 +147,17 @@ async function givingHistory(env: Env, email: string): Promise<Response> {
   const years = [...new Set(counted.map((g) => (g.date ?? '').slice(0, 4)).filter((y) => /^\d{4}$/.test(y)))]
     .map(Number)
     .sort((a, b) => b - a);
+  // Anchor the streak to the current year. A donor whose last gift was three
+  // years ago has a streak of 0, not a "streak" ending in their last active
+  // year. One year of grace (still giving "this year" until Dec 31, or gave
+  // last year and the year is young) keeps an active partner from reading 0
+  // in January before their annual gift.
   let consecutive = 0;
-  for (let i = 0; i < years.length; i++) {
-    if (years[i] === years[0] - i) consecutive++;
-    else break;
+  if (years.length && (years[0] === currentYear || years[0] === currentYear - 1)) {
+    for (let i = 0; i < years.length; i++) {
+      if (years[i] === years[0] - i) consecutive++;
+      else break;
+    }
   }
   const oldestFirst = [...counted].sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
   const first = oldestFirst[0];
@@ -149,17 +173,18 @@ async function givingHistory(env: Env, email: string): Promise<Response> {
     // The sync holds the donor's complete history (no 200-gift page cap), so
     // the lifetime total is the same sum, authoritative from D1.
     lifetime_total: round2(counted.reduce((s, g) => s + g.amount, 0)),
-    consecutive_years_given: consecutive || null,
+    // Preserve a legitimate 0 (SKY emits 0, not null, for a lapsed donor).
+    consecutive_years_given: consecutive,
     total_years_given: years.length || null,
     first_gift_date: first?.date ?? null,
     first_gift_amount: first?.amount ?? null,
   };
 
   const name =
-    who.organization_name ?? [who.first_name, who.last_name].filter(Boolean).join(' ') ?? null;
+    rep.organization_name ?? [rep.first_name, rep.last_name].filter(Boolean).join(' ') ?? null;
   return json({
     ok: true,
-    constituent: { id: who.id, name: name || null, email },
+    constituent: { id: rep.id, name: name || null, email },
     gifts,
     summary,
   });
@@ -184,6 +209,13 @@ async function realtimeGift(env: Env, body: RealtimeGift): Promise<Response> {
   const amount = Number(body.amount);
   if (!id || !constituentId || !Number.isFinite(amount) || amount <= 0) {
     return json({ ok: false, error: 'id, constituent_id, and a positive amount are required' }, 400);
+  }
+  // Blackbaud gift and constituent ids are numeric strings. Rejecting anything
+  // else stops a fabricated or fat-fingered id (like an "rt-test" row) from
+  // ever landing in a donor's real history, and means only genuine Blackbaud
+  // gift ids, which the sync can later match and overwrite, are accepted.
+  if (!/^\d+$/.test(id) || !/^\d+$/.test(constituentId)) {
+    return json({ ok: false, error: 'id and constituent_id must be Blackbaud numeric ids' }, 400);
   }
   const now = new Date().toISOString();
   const res = await env.DB.prepare(

@@ -431,6 +431,7 @@ interface SearchResult {
   id: string;
   email?: string;
   name?: string;
+  type?: string;
   inactive?: boolean;
   deceased?: boolean;
 }
@@ -443,7 +444,7 @@ interface SearchResult {
  * finally gives up and returns null (caller creates a fresh constituent,
  * which Favor's team can merge later).
  */
-async function searchConstituentByEmail(env: Env, email: string): Promise<string | null> {
+async function searchConstituentByEmail(env: Env, email: string): Promise<SearchResult | null> {
   const e = encodeURIComponent(email);
   const attempts = [
     `search_text=${e}&search_field=email_address&strict_search=true&limit=10`,
@@ -458,7 +459,7 @@ async function searchConstituentByEmail(env: Env, email: string): Promise<string
       const match = (found.value ?? []).find(
         (r) => (r.email ?? '').toLowerCase() === wanted && !r.deceased
       );
-      return match ? match.id : null;
+      return match ?? null;
     }
     const body = await res.text();
     console.error(`[blackbaud] constituent search variant failed (${res.status}): ${qs} :: ${body.slice(0, 300)}`);
@@ -469,7 +470,18 @@ async function searchConstituentByEmail(env: Env, email: string): Promise<string
 
 export async function findOrCreateConstituent(env: Env, donor: DonorInput): Promise<string> {
   const existing = await searchConstituentByEmail(env, donor.email);
-  if (existing) return existing;
+  // Reuse an existing record only when its type matches the gift. Without this
+  // gate, an organization gift whose contact email already belongs to a person
+  // would attach to that Individual record (Daniel's exact concern): a church
+  // typed into the form must never book under an Individual. An org gift only
+  // reuses an Organization record; a personal gift only reuses a non-org
+  // record. Any mismatch falls through and creates the correct new record,
+  // which the team can merge later if needed.
+  if (existing) {
+    const isOrgRecord = (existing.type ?? '').toLowerCase() === 'organization';
+    const wantOrg = !!donor.org_name;
+    if (isOrgRecord === wantOrg) return existing.id;
+  }
 
   // Organization gifts get an Organization record (Daniel, 2026-08-05):
   // a church typed into the person fields must never become an Individual
