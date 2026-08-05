@@ -1,0 +1,23 @@
+# favor-data-api: the private data service in front of Daniel's RE NXT sync
+# database (re_nxt_data, Tech account). The portal reads giving history from
+# here instead of the SKY API, and favor-astro pushes each just-completed gift
+# here so partners see it seconds after giving.
+#
+# Deploys to the TECH account (c1296fbe...), not Marketing, because D1
+# bindings are same-account only and the database lives there. Deploy:
+#   CLOUDFLARE_API_TOKEN= \
+#   CLOUDFLARE_API_KEY=$(cat ~/.claude/secrets/favor-will-cf.txt) \
+#   CLOUDFLARE_EMAIL=will@favorintl.org \
+#   npx wrangler@4 deploy
+# Secret (once): npx wrangler@4 secret put DATA_API_KEY  (same env vars)
+
+name = "favor-data-api"
+main = "src/index.ts"
+compatibility_date = "2026-07-01"
+account_id = "c1296fbe1d211d8c1e14cccb7c1d6f9f"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "re_nxt_data"
+database_id = "f5a02941-2655-414f-aaa3-4039ba8b6bd2"

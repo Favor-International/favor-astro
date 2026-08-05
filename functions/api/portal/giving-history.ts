@@ -115,6 +115,35 @@ export const onRequestGet: PagesFunction<Env & { PORTAL_API_KEY?: string }> = as
       return errorJson('bad_email', 'A valid email query parameter is required', 400);
     }
 
+    // Primary path since 2026-08-05: favor-data-api reads the RE NXT sync
+    // database, so a portal login costs zero SKY API calls and sees realtime
+    // gifts the sync has not pulled yet. The identical response shape means
+    // the portal cannot tell which path served it. Any failure falls through
+    // to the original SKY implementation below, so the portal keeps working
+    // even if the data worker is down.
+    const dataEnv = env as typeof env & { DATA_API_URL?: string; DATA_API_KEY?: string };
+    if (dataEnv.DATA_API_URL && dataEnv.DATA_API_KEY) {
+      try {
+        const res = await fetch(
+          `${dataEnv.DATA_API_URL.replace(/\/$/, '')}/giving-history?email=${encodeURIComponent(email)}`,
+          {
+            headers: { Authorization: `Bearer ${dataEnv.DATA_API_KEY}` },
+            signal: AbortSignal.timeout(8000),
+          }
+        );
+        if (res.ok) {
+          return new Response(await res.text(), {
+            headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+          });
+        }
+        console.error(`[portal/giving-history] data api returned ${res.status}; falling back to SKY`);
+      } catch (err) {
+        console.error(
+          `[portal/giving-history] data api unreachable (${err instanceof Error ? err.message : err}); falling back to SKY`
+        );
+      }
+    }
+
     // Same resilient search strategy as the giving flow: variants, then give up.
     const e = encodeURIComponent(email);
     const attempts = [

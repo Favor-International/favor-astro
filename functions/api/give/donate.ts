@@ -36,6 +36,7 @@ import {
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
+import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
 
 interface DonateBody {
   idempotency_key?: string;
@@ -60,7 +61,7 @@ export function computeTotal(env: Env, amount: number, coverFees: boolean): numb
   return Math.round((amount + amount * rate + fixed) * 100) / 100;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, env, waitUntil }) => {
   try {
     const body = await readJsonBody<DonateBody>(request);
 
@@ -122,6 +123,22 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         note && `Donor note: ${note}`,
       ]),
     });
+
+    // Instant portal visibility: the sync runs every 12 hours, so the gift is
+    // pushed into the sync database now, keyed on the Blackbaud gift id the
+    // sync will later upsert. Runs after the response; can never block a gift.
+    waitUntil(
+      pushGiftRealtime(env, {
+        id: gift.id,
+        constituent_id: constituentId,
+        amount: total,
+        date: new Date().toISOString(),
+        type: 'Donation',
+        gift_splits: [{ ...split, id: gift.id }],
+        payment_method: 'CreditCard',
+        raw_json: { is_anonymous: body.anonymous === true, source: 'realtime-web' },
+      })
+    );
 
     // Portal account + welcome email + one-time dashboard login for the
     // thank-you page. Best effort; never blocks or fails the gift.

@@ -46,6 +46,7 @@ import {
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
+import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
 import { computeTotal } from './donate';
 
 interface RecurringBody {
@@ -64,7 +65,7 @@ interface RecurringBody {
   turnstile_token?: unknown;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, env, waitUntil }) => {
   try {
     const body = await readJsonBody<RecurringBody>(request);
 
@@ -184,6 +185,40 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       warning = `Recurring gift ${recurring.id} was created and the first month was charged, but the card was not vaulted (likely a digital wallet). Set up automatic processing manually in RE NXT.`;
     }
     if (warning) console.error('[give/recurring] ' + warning);
+
+    // Instant portal visibility for both records: the schedule (drives the
+    // portal's "active recurring" count) and the charged first installment
+    // (drives the history and totals). Keyed on the Blackbaud gift ids the
+    // 12-hourly sync will upsert. Never blocks the gift.
+    const nowIso = new Date().toISOString();
+    waitUntil(
+      pushGiftRealtime(env, {
+        id: recurring.id,
+        constituent_id: constituentId,
+        amount: total,
+        date: nowIso,
+        type: 'RecurringGift',
+        gift_splits: [{ ...split, id: recurring.id }],
+        payment_method: 'CreditCard',
+        raw_json: {
+          is_anonymous: body.anonymous === true,
+          recurring_gift_schedule: { frequency: 'MONTHLY' },
+          source: 'realtime-web',
+        },
+      })
+    );
+    waitUntil(
+      pushGiftRealtime(env, {
+        id: payment.id,
+        constituent_id: constituentId,
+        amount: total,
+        date: nowIso,
+        type: 'RecurringGiftPayment',
+        gift_splits: [{ ...split, id: payment.id }],
+        payment_method: 'CreditCard',
+        raw_json: { is_anonymous: body.anonymous === true, source: 'realtime-web' },
+      })
+    );
 
     const portalLoginUrl = await notifyPortalGiftCompleted(env, {
       email: donor.email,
