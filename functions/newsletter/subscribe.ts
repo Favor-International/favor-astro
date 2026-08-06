@@ -1,52 +1,100 @@
 // POST /newsletter/subscribe
 //
-// The newsletter form had no backend at all: it posted here and Pages served
-// a 405 (found by Daniel, 2026-08-06, hours before launch).
+// Newsletter signups go INTO Blackbaud (Will, 2026-08-06: "that's how we do
+// things now"). The flow:
+//   1. bot checks: honeypot field + per-IP rate limit (this endpoint creates
+//      real RE NXT records, so it cannot be a free-for-all)
+//   2. find-or-create the constituent by email; brand-new records get the
+//      "Prospect" constituent code (the standard code for not-yet-donors;
+//      existing constituents are left exactly as they are)
+//   3. capture the signup in KV either way, because Blackbaud has no clean
+//      "wants the newsletter" flag; /api/newsletter/list is the mailing-list
+//      export until the marketing stack takes over sends
 //
-// Signups are captured durably in KV, deliberately NOT into Blackbaud:
-// Daniel's direction is to keep newsletter-only contacts out of RE NXT
-// (reduce the bloat) and route them to the marketing stack. Until GHL (or its
-// replacement) has an inbound hook, KV is the holding tank and the team pulls
-// the list from /api/newsletter/list. Nothing is lost in the meantime.
-//
-// Plain form POST, no JavaScript required; success redirects back to
-// /newsletter/?subscribed=1 which renders the confirmation.
+// Blackbaud being down never loses a signup: the KV capture happens first and
+// the BB write is failure-isolated. Plain form POST, no JavaScript required.
 
-import type { Env } from '../api/_lib/blackbaud';
+import {
+  ensureConstituentCode,
+  findOrCreateConstituent,
+  searchConstituentByEmail,
+  type Env,
+} from '../api/_lib/blackbaud';
 
 const emailOk = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && e.length <= 254;
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+const RATE_LIMIT = 5; // signups per IP per hour
+
+export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+  const back = new URL('/newsletter/', request.url);
+  const fail = () => {
+    back.searchParams.set('subscribed', '0');
+    return Response.redirect(back.toString(), 303);
+  };
+  const ok = () => {
+    back.searchParams.set('subscribed', '1');
+    return Response.redirect(back.toString(), 303);
+  };
+
   let email = '';
+  let name = '';
+  let honeypot = '';
   try {
     const form = await request.formData();
     email = String(form.get('email') ?? '').trim().toLowerCase();
+    name = String(form.get('name') ?? '').trim().slice(0, 150);
+    honeypot = String(form.get('website') ?? '').trim();
   } catch {
-    /* fall through to the error redirect */
+    return fail();
   }
 
-  const back = new URL('/newsletter/', request.url);
-  if (!emailOk(email)) {
-    back.searchParams.set('subscribed', '0');
-    return Response.redirect(back.toString(), 303);
-  }
+  // Bots fill every field; humans never see this one. Pretend success so the
+  // bot moves on, write nothing.
+  if (honeypot) return ok();
+  if (!emailOk(email) || !name) return fail();
 
+  // Per-IP rate limit so a script cannot mint RE NXT records in bulk.
+  const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
   try {
-    // One key per address = free dedup; re-subscribing refreshes the record.
+    const rlKey = `nl:rl:${ip}`;
+    const count = Number((await env.BLACKBAUD_TOKENS.get(rlKey)) ?? '0');
+    if (count >= RATE_LIMIT) return fail();
+    await env.BLACKBAUD_TOKENS.put(rlKey, String(count + 1), { expirationTtl: 3600 });
+  } catch {
+    /* KV hiccup never blocks a signup */
+  }
+
+  // 1. Durable capture first, so Blackbaud being down cannot lose the address.
+  try {
     await env.BLACKBAUD_TOKENS.put(
       `nl:sub:${email}`,
-      JSON.stringify({
-        email,
-        at: new Date().toISOString(),
-        source: request.headers.get('Referer') ?? 'unknown',
-      })
+      JSON.stringify({ email, name, at: new Date().toISOString(), source: request.headers.get('Referer') ?? 'unknown' })
     );
   } catch (err) {
-    console.error(`[newsletter] KV write failed for signup: ${err instanceof Error ? err.message : err}`);
-    back.searchParams.set('subscribed', '0');
-    return Response.redirect(back.toString(), 303);
+    console.error(`[newsletter] KV write failed: ${err instanceof Error ? err.message : err}`);
+    return fail();
   }
 
-  back.searchParams.set('subscribed', '1');
-  return Response.redirect(back.toString(), 303);
+  // 2. Into Blackbaud, after the response (waitUntil) and failure-isolated.
+  //    Last token is the surname, same parsing as the giving form; a single
+  //    word becomes the last name (RE requires one).
+  const parts = name.split(/\s+/).filter(Boolean);
+  const first = parts.length > 1 ? parts[0] : '';
+  const last = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+  waitUntil(
+    (async () => {
+      try {
+        const existing = await searchConstituentByEmail(env, email);
+        if (existing) return; // already in RE NXT; leave the record alone
+        const id = await findOrCreateConstituent(env, { first, last, email });
+        await ensureConstituentCode(env, id, 'Prospect');
+      } catch (err) {
+        console.error(
+          `[newsletter] Blackbaud record for signup failed (KV copy is safe): ${err instanceof Error ? err.message : err}`
+        );
+      }
+    })()
+  );
+
+  return ok();
 };

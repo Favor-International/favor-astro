@@ -3,6 +3,17 @@ export interface Props { compact?: boolean; }
 const { compact = false } = Astro.props as Props;
 ---
 <form class="newsletter" action="/newsletter/subscribe" method="post" data-compact={compact}>
+  <label for="newsletter-name" class="sr-only">Your name</label>
+  <input
+    id="newsletter-name"
+    class="newsletter__name"
+    type="text"
+    name="name"
+    required
+    maxlength="150"
+    autocomplete="name"
+    placeholder="Your name"
+  />
   <label for="newsletter-email" class="sr-only">Your email address</label>
   <input
     id="newsletter-email"
@@ -13,6 +24,9 @@ const { compact = false } = Astro.props as Props;
     placeholder="you@example.com"
   />
   <button type="submit" class="btn btn--primary">Send Me the Field Report</button>
+  <!-- Honeypot: signups create Blackbaud records, so bots must be filtered.
+       Humans never see this field; anything typed here voids the submission. -->
+  <input class="newsletter__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <p class="newsletter__privacy">No spam. Unsubscribe anytime. We never sell your address.</p>
 </form>
 <style>
@@ -31,6 +45,8 @@ const { compact = false } = Astro.props as Props;
     color: var(--color-ink);
   }
   .newsletter input:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; }
+  .newsletter__name { grid-column: 1 / -1; }
+  .newsletter__hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .newsletter__privacy {
     grid-column: 1 / -1;
     font-size: 0.8rem;

@@ -444,7 +444,7 @@ interface SearchResult {
  * finally gives up and returns null (caller creates a fresh constituent,
  * which Favor's team can merge later).
  */
-async function searchConstituentByEmail(env: Env, email: string): Promise<SearchResult | null> {
+export async function searchConstituentByEmail(env: Env, email: string): Promise<SearchResult | null> {
   const e = encodeURIComponent(email);
   const attempts = [
     `search_text=${e}&search_field=email_address&strict_search=true&limit=10`,
