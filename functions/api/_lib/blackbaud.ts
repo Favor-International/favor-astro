@@ -546,6 +546,98 @@ export function nextMonthIso(): string {
   return next.toISOString();
 }
 
+/**
+ * Stamp the "Partner" constituent code on a web donor (Daniel, 2026-08-06).
+ * Checks first so a repeat donor never collects duplicates. Failure-isolated:
+ * runs after the gift exists in Blackbaud and must never affect it.
+ */
+export async function ensureConstituentCode(
+  env: Env,
+  constituentId: string,
+  description: string
+): Promise<void> {
+  try {
+    const existing = await bbJson<{ value?: Array<{ description?: string }> }>(
+      env,
+      `/constituent/v1/constituents/${encodeURIComponent(constituentId)}/constituentcodes?limit=50`
+    );
+    const has = (existing.value ?? []).some(
+      (c) => (c.description ?? '').toLowerCase() === description.toLowerCase()
+    );
+    if (has) return;
+    await bbJson(env, '/constituent/v1/constituentcodes', {
+      method: 'POST',
+      body: JSON.stringify({ constituent_id: constituentId, description }),
+    });
+  } catch (err) {
+    console.error(
+      `[blackbaud] constituent code "${description}" for ${constituentId} failed: ${err instanceof Error ? err.message : err}`
+    );
+  }
+}
+
+/**
+ * Make the org-gift promise true (Daniel, 2026-08-06): "the record will be in
+ * the organization's name, with you as the contact." Creates (or finds) an
+ * Individual record for the contact person and links it to the Organization
+ * with a relationship marked is_organization_contact.
+ *
+ * Relationship TYPE values live in a per-tenant table, so unknown values 400.
+ * The attempts walk from the most standard pairing down to a bare link; if
+ * every attempt fails, the contact Individual still exists and the gift
+ * reference still names them, so nothing is lost beyond the link itself.
+ * Failure-isolated: runs post-gift and never affects it.
+ */
+export async function ensureOrgContact(
+  env: Env,
+  orgId: string,
+  contact: { first: string; last: string; email: string; phone?: string }
+): Promise<void> {
+  try {
+    // Explicitly rebuild WITHOUT org_name: this creates or reuses the PERSON.
+    // Callers pass the whole donor object, and if org_name leaked through,
+    // findOrCreateConstituent would mint a second Organization instead of the
+    // contact Individual. The type-gate then keeps the org record (which
+    // shares this email) from being reused for the person.
+    const personId = await findOrCreateConstituent(env, {
+      first: contact.first,
+      last: contact.last,
+      email: contact.email,
+      phone: contact.phone,
+    });
+    if (personId === orgId) return; // paranoid guard; the type gate should prevent this
+
+    const attempts: Array<Record<string, unknown>> = [
+      { type: 'Employee', reciprocal_type: 'Employer' },
+      { type: 'Contact', reciprocal_type: 'Contact' },
+      {},
+    ];
+    for (const extra of attempts) {
+      try {
+        await bbJson(env, '/constituent/v1/relationships', {
+          method: 'POST',
+          body: JSON.stringify({
+            constituent_id: personId,
+            relation_id: orgId,
+            is_organization_contact: true,
+            is_primary_business: true,
+            ...extra,
+          }),
+        });
+        return;
+      } catch (err) {
+        if (err instanceof BlackbaudError && err.status === 400) continue;
+        throw err;
+      }
+    }
+    console.error(`[blackbaud] all relationship variants 400ed linking ${personId} -> org ${orgId}`);
+  } catch (err) {
+    console.error(
+      `[blackbaud] org contact link for org ${orgId} failed: ${err instanceof Error ? err.message : err}`
+    );
+  }
+}
+
 export function buildReference(parts: Array<string | undefined | false>): string {
   return parts.filter(Boolean).join(' | ').slice(0, 250);
 }

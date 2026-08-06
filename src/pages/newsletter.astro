@@ -17,11 +17,31 @@ import NewsletterForm from '../components/global/NewsletterForm.astro';
   />
   <section class="band band--white">
     <div class="container container--narrow" style="text-align:center;">
+      <!-- The subscribe endpoint redirects back here with ?subscribed=1|0.
+           The page is static, so a tiny script reads the param. -->
+      <p class="nl-banner nl-banner--ok" data-nl-ok hidden>
+        You&rsquo;re in. The next field report will land in your inbox.
+      </p>
+      <p class="nl-banner nl-banner--err" data-nl-err hidden>
+        That didn&rsquo;t go through. Check the email address and try again.
+      </p>
       <h2>Subscribe.</h2>
       <p>No spam. We never sell your address. Unsubscribe any time.</p>
       <div style="margin: var(--space-6) auto 0; max-width: 540px;"><NewsletterForm /></div>
     </div>
   </section>
+
+  <script>
+    const sub = new URLSearchParams(location.search).get('subscribed');
+    if (sub === '1') document.querySelector('[data-nl-ok]')?.removeAttribute('hidden');
+    if (sub === '0') document.querySelector('[data-nl-err]')?.removeAttribute('hidden');
+  </script>
+
+  <style>
+    .nl-banner { max-width: 540px; margin: 0 auto var(--space-6); padding: var(--space-4) var(--space-5); border-radius: var(--radius-input); font-weight: 700; }
+    .nl-banner--ok { background: color-mix(in srgb, var(--color-green) 12%, white); color: var(--color-green-deep); border: 1px solid var(--color-green); }
+    .nl-banner--err { background: color-mix(in srgb, var(--color-terracotta) 12%, white); color: var(--color-terracotta); border: 1px solid var(--color-terracotta); }
+  </style>
 
   <section class="band band--cream">
     <div class="container container--narrow" style="text-align:center;">

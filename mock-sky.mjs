@@ -10,6 +10,7 @@ const log = (entry) => fs.appendFileSync(LOG, JSON.stringify(entry) + '\n');
 
 let giftSeq = 0;
 let constituentCreated = false;
+let constituentSeq = 0;
 
 const routes = [
   {
@@ -47,10 +48,17 @@ const routes = [
   {
     m: 'POST', p: /^\/constituent\/v1\/constituents$/, h: () => {
       constituentCreated = true;
-      return { id: '280042' };
+      // Distinct ids per creation so the org-vs-contact relationship path is
+      // actually exercised (a fixed id makes personId === orgId and the guard
+      // short-circuits, hiding the whole relationship step).
+      return { id: String(280041 + ++constituentSeq) };
     },
   },
   { m: 'POST', p: /^\/gift\/v1\/gifts$/, h: () => ({ id: 'gift-' + (++giftSeq) }) },
+  // Post-gift enrichment (2026-08-06): Partner code check + add, org contact link.
+  { m: 'GET', p: /^\/constituent\/v1\/constituents\/[^/]+\/constituentcodes/, h: () => ({ count: 0, value: [] }) },
+  { m: 'POST', p: /^\/constituent\/v1\/constituentcodes$/, h: () => ({ id: 'code-1' }) },
+  { m: 'POST', p: /^\/constituent\/v1\/relationships$/, h: () => ({ id: 'rel-1' }) },
   { m: 'GET', p: /^\/gift\/v1\/recurringgifts\/[^/]+\/canbeconverted$/, h: () => ({ can_be_converted: true, token_will_be_required: true }) },
   { m: 'POST', p: /^\/gift\/v1\/recurringgifts\/[^/]+\/converttoautomatic$/, h: () => ({}) },
   { m: 'GET', p: /^\/fundraising\/v1\/funds/, h: () => ({ count: 2, value: [ { id: '42', description: 'Where Most Needed', inactive: false }, { id: '77', description: 'Portable Bible Schools', inactive: false } ] }) },

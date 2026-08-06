@@ -25,6 +25,8 @@ import {
   convertRecurringGiftToAutomatic,
   createGift,
   deleteGiftQuietly,
+  ensureConstituentCode,
+  ensureOrgContact,
   findOrCreateConstituent,
   getDesignations,
   getPaymentConfig,
@@ -185,6 +187,13 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       warning = `Recurring gift ${recurring.id} was created and the first month was charged, but the card was not vaulted (likely a digital wallet). Set up automatic processing manually in RE NXT.`;
     }
     if (warning) console.error('[give/recurring] ' + warning);
+
+    // Post-gift enrichment (Daniel, 2026-08-06): Partner code on the giver,
+    // and for org gifts the contact person is created and linked to the org.
+    waitUntil(ensureConstituentCode(env, constituentId, 'Partner'));
+    if (donor.org_name) {
+      waitUntil(ensureOrgContact(env, constituentId, donor));
+    }
 
     // Instant portal visibility for both records: the schedule (drives the
     // portal's "active recurring" count) and the charged first installment

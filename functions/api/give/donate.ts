@@ -18,6 +18,8 @@
 import {
   buildReference,
   createGift,
+  ensureConstituentCode,
+  ensureOrgContact,
   findOrCreateConstituent,
   getDesignations,
   type Env,
@@ -123,6 +125,15 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
         note && `Donor note: ${note}`,
       ]),
     });
+
+    // Post-gift enrichment (Daniel, 2026-08-06), all after the response and
+    // failure-isolated: web donors carry the "Partner" constituent code, and
+    // an org gift gets its contact person created and linked to the org so
+    // the form's "with you as the contact" promise is true in RE NXT.
+    waitUntil(ensureConstituentCode(env, constituentId, 'Partner'));
+    if (donor.org_name) {
+      waitUntil(ensureOrgContact(env, constituentId, donor));
+    }
 
     // Instant portal visibility: the sync runs every 12 hours, so the gift is
     // pushed into the sync database now, keyed on the Blackbaud gift id the
