@@ -1,7 +1,34 @@
 ---
 import { MEGA_NAV, SITE } from '../../lib/site';
+import type { MegaMenu } from '../../lib/site';
 export interface Props { variant?: 'transparent' | 'opaque'; }
 const { variant = 'opaque' } = Astro.props as Props;
+
+// The Learn menu is defined here rather than in MEGA_NAV (src/lib/site.ts)
+// because this header owns the target order: Pray | Give | Go | Impact |
+// Learn | About. When the full teaching library (LMS) lands, move this into
+// MEGA_NAV so the nav data lives in one place. Every href below already
+// exists on the site.
+const LEARN: MegaMenu = {
+  label: 'Learn',
+  href: '/learn/',
+  items: [
+    { label: 'Teaching Topics', href: '/learn/', desc: 'Carole’s teachings, organized by topic' },
+    { label: 'Watch', href: '/watch/', desc: 'Films and teachings from the field' },
+    { label: 'Books', href: '/books/', desc: 'Carole’s books, free on request' },
+    { label: 'Past Newsletters', href: '/newsletter/archive/' },
+  ],
+  featured: {
+    image: '/images/field-2026/carole-4.webp',
+    eyebrow: 'Start here',
+    title: 'Find a teaching',
+    body: 'Prayer and fasting, the School of Prayer, spiritual warfare, and more, each with where to find it.',
+    ctaLabel: 'Open the Learn page',
+    ctaHref: '/learn/',
+  },
+};
+// Splice Learn in ahead of About so the order holds even if MEGA_NAV grows.
+const NAV: MegaMenu[] = MEGA_NAV.flatMap((m) => (m.label === 'About' ? [LEARN, m] : [m]));
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 function isCurrent(href: string) {
   const h = href.replace(/\/$/, '');
@@ -19,7 +46,7 @@ function isCurrent(href: string) {
 
       <nav class="site-header__nav" aria-label="Primary">
         <ul>
-          {MEGA_NAV.map((m) => {
+          {NAV.map((m) => {
             // Menus whose items carry `children` (currently Impact) get a
             // compact multi-column panel: one column per pillar with its
             // programs underneath, and the loose links (Stories,
@@ -135,7 +162,7 @@ function isCurrent(href: string) {
   <div class="mobile-drawer" data-mobile-drawer hidden>
     <nav aria-label="Primary mobile">
       <ul>
-        {MEGA_NAV.map((m) => (
+        {NAV.map((m) => (
           <li>
             <details>
               <summary>{m.label}</summary>

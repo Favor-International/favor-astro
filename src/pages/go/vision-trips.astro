@@ -6,47 +6,49 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import VideoFeature from '../../components/redesign/VideoFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
-// Fact-audit rules for this page (docs/06-reference/about-fact-audit-2026-07-08.md):
-// no invented trip calendars, costs, deadlines, testimonials, or safety
-// protocols. Every specific below is either Favor's own material, a documented
-// program/activity, or an honest "planned with you" process answer.
-// Testimonials are deliberately absent until Favor supplies real traveler
-// quotes (name + city).
+// Team decision, 2026-08: public field travel is project-based. Visiting
+// teams cost the field staff time, vehicles, and money, and pull national
+// missionaries away from ministry, so Favor no longer advertises ordinary
+// short-term trips. The public model is a concrete project (around $20,000,
+// e.g. a rural school or a Village Learning Center building) that the
+// traveler funds and comes to see through. The URL and nav label stay
+// "vision trips"; the content is project participation.
+//
+// Fact-audit rules still apply (docs/06-reference/about-fact-audit-2026-07-08.md):
+// no invented calendars, itineraries, or safety protocols. The $20,000 figure
+// and the project examples come from the 2026-08 team decision. Everything
+// else is documented program material or an honest "worked out with you"
+// process answer.
 
-// A typical day, itinerary-style. Every activity is a documented Favor
-// practice (morning devotions and prayer-first days per Carole's books; the
-// programs per the Impact pages). A loose rhythm with real field photos, not
-// an invented hour-by-hour schedule.
-const rhythm = [
-  { when: 'Morning', title: 'Prayer before anything.', what: 'The day begins the way every Favor day begins: in prayer and morning devotions with the team. The rest of the day flows from prayer.', img: '/images/field-2026/prayer-1.webp', alt: 'Favor leaders kneeling in fervent morning prayer' },
-  { when: 'Midday', title: 'The work itself.', what: 'Portable Bible Schools, the primary schools, and whichever ministries are running that week where you are. You sit where the training happens and watch leaders being formed.', img: '/images/field-2026/pbs-1.webp', alt: 'A Portable Bible School teaching session at the whiteboard' },
-  { when: 'Afternoon', title: 'Into the villages.', what: 'Time in the villages with the local church: walking, listening, and praying with the people the work serves, at the wells, the learning centers, and the homes the Gospel has reached.', img: '/images/field-2026/villages-4.webp', alt: 'Villagers gathered at a well, a baby smiling at the camera' },
-  { when: 'Evening', title: 'Under the open sky.', what: 'Evenings can end at an open-air crusade, where whole communities hear the Gospel preached in their own language.', img: '/images/field-2026/crusade-2.webp', alt: 'People praying with raised hands at an open-air gathering' },
+// Example projects. Program claims stay inside Favor's published material
+// (education pillar: primary schools and Village Learning Centers).
+const projects = [
+  {
+    name: 'A rural primary school',
+    image: '/images/field-2026/education-5.webp',
+    alt: 'A Favor school under construction',
+    body: 'Classrooms for a village whose children would otherwise never see one, with the Word of God at the center of the teaching. You fund the build and come for the opening.',
+  },
+  {
+    name: 'A Village Learning Center building',
+    image: '/images/field-2026/vlc-3.webp',
+    alt: 'A Village Learning Center class in session',
+    body: 'A permanent home for a Village Learning Center, where literacy, discipleship, and practical training gather a village week after week. You fund the building and stand in it.',
+  },
 ];
 
-// What you'll witness: three field scenes as alternating rows. The expanded
-// copy stays inside Favor's own published material: the "90 leaders" list
-// (crusades with 1 million+ attending), the education pillar programs, and
-// the sustainability projects blurb.
-const witness = [
-  { src: '/images/field/crusade-south-sudan.webp', caption: 'An evening crusade, South Sudan', alt: 'An outdoor evening crusade gathering in South Sudan', body: ['Hundreds gather at dusk to hear the Gospel preached in their own language. On a trip you stand in the middle of it.', 'Crusades have marked Favor’s work from the beginning: led by indigenous evangelists, preached in the languages of the people, and attended by more than a million across the years of the work.'] },
-  { src: '/images/field/primary-school-south-sudan.webp', caption: 'A Favor primary school, South Sudan', alt: 'Students gathered in a Favor primary school hall', body: ['A hall full of children who would otherwise never see a classroom, learning to read with the Word of God at the center.', 'Education is one of Favor’s four pillars: Village Learning Centers, the primary and secondary schools, and the Leadership Training Institute. On a trip you sit in the classrooms and meet the teachers who run them.'] },
-  { src: '/images/field/well-uganda.webp', caption: 'A new village well, Uganda', alt: 'Villagers at a new water well in Uganda', body: ['Clean water from a borehole Favor helped fund, often the first the village has ever had.', 'Wells come as part of the sustainability projects that help move a whole village off relief. You meet the village that gathers around it, and the local church at the center of it.'] },
-];
-
-// Films from Favor's YouTube channel (titles and captions match the channel).
+// Films from Favor's YouTube channel (titles match the channel).
 const films = [
-  { id: '25f290un21o', title: 'They Once Met Under Trees', eyebrow: 'Church planting', heading: 'They once met under trees. Now they have a church.', body: 'The kind of congregation you walk into on a vision trip: villages where the church was planted by leaders who grew up there.' },
-  { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', eyebrow: 'Medical work', heading: 'Inside Favor’s medical center in Africa.', body: 'Mobile clinics and medical care are part of the daily work you can see up close on the ground.' },
+  { id: '25f290un21o', title: 'They Once Met Under Trees', eyebrow: 'Church planting', heading: 'They once met under trees. Now they have a church.', body: 'The kind of congregation your project serves: villages where the church was planted by leaders who grew up there.' },
+  { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', eyebrow: 'Medical work', heading: 'Inside Favor’s medical center in Africa.', body: 'The daily work your project joins on the ground, run by indigenous leaders year-round.' },
 ];
 
-// Who trips are for (framing provided by the client, 2026-07-08). Each gets
-// a line icon so the section reads differently from the numbered steps below:
-// a church, a map pin (stand in the places your giving reaches), a compass.
+// Who project trips are for. Deliberately a filter: serious inquirers should
+// feel invited, and mission-trip shoppers should keep scrolling.
 const audiences = [
-  { icon: 'church', title: 'Church leaders & pastors', body: 'Exploring what a ministry partnership could look like, and wanting to see the training of local pastors up close.' },
-  { icon: 'pin', title: 'Supporters & partners', body: 'Wanting to stand in the places your giving reaches: the schools, the wells, the churches.' },
-  { icon: 'compass', title: 'Everyday believers', body: 'Looking to deepen your personal faith and serve on the front lines of African missions.' },
+  { icon: 'church', title: 'Churches ready to build', body: 'A congregation that wants to fund a school or a Learning Center building together and send a few of its own to see it through.' },
+  { icon: 'pin', title: 'Partners with skin in the game', body: 'Givers who want their next gift to be one concrete thing, with a name and a place, that they stand inside when it opens.' },
+  { icon: 'compass', title: 'Leaders who finish things', body: 'People who can rally others around a $20,000 goal and stay with the project until the doors open.' },
 ];
 const WHO_ICONS: Record<string, string> = {
   church: '<path d="M12 3v4M10 5h4"/><path d="M4 21v-8l8-5 8 5v8"/><path d="M10 21v-5a2 2 0 0 1 4 0v5"/><path d="M3 21h18"/>',
@@ -55,36 +57,35 @@ const WHO_ICONS: Record<string, string> = {
 };
 
 const steps = [
-  { n: '1', title: 'Inquire', body: 'Send a note through the contact form with who you are and when you could travel.' },
-  { n: '2', title: 'Plan with the US team', body: 'Trip timing, length, destination, and costs are worked out with you directly.' },
-  { n: '3', title: 'Go', body: 'You travel in a small team. We plan every stop with the local leaders hosting you.' },
+  { n: '1', title: 'Inquire', body: 'Write to the US team through the contact form. Tell us who you are, who would come with you, and what kind of project you could carry.' },
+  { n: '2', title: 'Adopt and fund a project', body: 'The field names its current needs. You take one on and raise the funds for it, around $20,000, with your church, your group, or on your own. The US team walks the fundraising with you.' },
+  { n: '3', title: 'Go see it through', body: 'You travel in a small team, hosted by the field leaders who run the work, and stand in the project you funded.' },
 ];
 
-// FAQ: honest process answers only. No dollar figures, protocols, or
-// requirements Favor has not published; each answer routes to the planning
-// conversation where the real specifics live.
+// FAQ: honest process answers. The only figure is the $20,000 project model;
+// every other specific routes to the planning conversation.
 const faqs = [
-  { q: 'What does a trip cost?', a: 'Cost depends on the destination, the length, and the size of your team, so it is worked out with you when the trip is planned. The US team can also talk through fundraising with you.' },
-  { q: 'Where will I stay and what will I eat?', a: 'Arrangements depend on the field you visit. Lodging and meals are organized with the team before you travel, and you will know exactly what to expect before you commit.' },
-  { q: 'Is it safe to go?', a: 'We walk through current conditions and the realities of your destination with you during planning, and we are honest about what we can and cannot promise before you commit.' },
-  { q: 'What about passports, visas, and vaccinations?', a: 'Requirements depend on the destination nation. The US team walks you through every document and health requirement during planning.' },
-  { q: 'Who can go?', a: 'Small teams: pastors and church leaders, longtime partners, and everyday believers. If you are unsure whether you fit, send a note and ask.' },
-  { q: 'How do I start?', a: 'Use the contact form and tell us who you are and when you could travel. The US team takes it from there.' },
+  { q: 'What does it cost?', a: 'The model is a project of around $20,000, plus your own travel costs. The exact figure depends on the project the field names, and the US team will talk through fundraising with you before you commit to anything.' },
+  { q: 'Can I visit without a project?', a: 'No. Hosting guests costs the field staff time, vehicles, and money, so every trip is tied to a project. If you want to support the work without traveling, start with the giving pages or serve from home.' },
+  { q: 'Do you take high school or college mission teams?', a: 'No. We know that is a hard word for groups with good intentions, and we say it plainly because the field’s time belongs to the ministry. A student group ready to raise funds for a real project is welcome to start that conversation.' },
+  { q: 'How long does this take?', a: 'As long as the project takes. Fundraising runs at your pace, the build runs on the field’s timeline, and travel is planned around a moment worth being there for. The US team works the specifics out with you.' },
+  { q: 'Who plans the travel?', a: 'The US team plans it with you, and the field leaders host you on the ground. Timing, length, destination, lodging, documents, and health requirements are all worked out before you commit, and we are honest about current conditions and what we can and cannot promise.' },
+  { q: 'How do I start?', a: 'Use the contact form. Tell us who you are, who would travel, and what kind of project you could carry.' },
 ];
 ---
 <RedesignLayout
   title="Vision Trips"
-  description="Travel with a small team into the schools, crusades, and villages of Uganda, South Sudan, and Chad, hosted by the indigenous leaders who run the work."
+  description="Favor's field travel is project-based. Fund a concrete project, around $20,000 for a rural school or a Village Learning Center building, and come see it through with the leaders who run the work."
   image="/images/field/hero-jesusfilm-chad.webp"
 >
   <PageHero
-    label="Vision trips"
-    title="See the field work up close."
-    promise="Small teams. We plan every trip with you and the local leaders who host you."
+    label="Project trips"
+    title="Fund a project. Come see it through."
+    promise="Field travel with Favor is tied to a concrete project: around $20,000 for a rural school or a Village Learning Center building, funded by you and finished with the leaders who run the work."
     image="/videos/vision-trips-hero-poster.jpg"
     imageAlt="A village congregation gathered for worship, from the film They Once Met Under Trees"
     video="/videos/vision-trips-hero.mp4"
-    ctaLabel="Inquire about a trip"
+    ctaLabel="Start a project inquiry"
     ctaHref="/about/contact/?topic=vision-trip"
     scrollCue
   />
@@ -92,92 +93,76 @@ const faqs = [
   <RdFeature
     image="/images/story-vision-trip-team.jpg"
     imageAlt="A vision-trip team with villagers in the field"
-    eyebrow="What a vision trip is"
-    heading="See the work with your own eyes."
+    eyebrow="How going works"
+    heading="You carry a project. The field hosts you."
     side="right"
   >
     <p>
-      A vision trip puts you on the ground inside the work itself. You travel with a small
-      team and see it firsthand: the schools, the crusades, the Houses of Prayer, the
-      villages, alongside the leaders who live there.
+      A trip with Favor starts long before the flight. You adopt a specific project the
+      field has named, raise the funds for it, and then travel with a small team to see it
+      through on the ground with the indigenous leaders who will run it.
     </p>
     <p>
-      The ministries you could witness are the ones Favor runs every day across Uganda, South
-      Sudan, and Chad. See <a class="story-link" href="/about/where-we-work/">where we work</a>
-      for what the work looks like in each nation.
+      When you fly home, the school stays open. The work your project joins runs every day
+      across Uganda, South Sudan, and Chad. See
+      <a class="story-link" href="/about/where-we-work/">where we work</a> for what it looks
+      like in each nation.
     </p>
   </RdFeature>
 
-  <section class="band band--white">
-    <div class="container">
-      <LeafHeading label="A day with the team" title="What a day can hold." intro="Every trip is planned with you, so no two are identical. A typical day moves like this." leaves={false} />
-      <ol class="day">
-        {rhythm.map((r, i) => (
-          <li class="day__block reveal" data-side={i % 2 === 0 ? 'left' : 'right'}>
-            <figure class="day__media">
-              <img src={r.img} alt={r.alt} loading="lazy" width="1200" height="900" />
-            </figure>
-            <div class="day__copy">
-              <span class="day__pill">{r.when}</span>
-              <h3>{r.title}</h3>
-              <p>{r.what}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+  <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading
+        label="Why project-based"
+        title="A visiting team costs the field something."
+        leaves={false}
+      />
+      <div class="why rd-prose">
+        <p>
+          Hosting a team takes field staff time, vehicles, fuel, and money, and it pulls
+          national missionaries away from the ministry they were sent to do. We will not
+          spend the field&rsquo;s attention on tourism, and we do not plan trips for travelers
+          who want to experience Africa or add a mission trip to a testimony.
+        </p>
+        <p>
+          So every trip is tied to a project. Your fundraising pays for something the field
+          has asked for, and your visit marks its completion instead of interrupting the
+          work. This asks more of you than a typical short-term trip, and that is deliberate.
+          If you want to build something that outlasts your visit, we want to hear from you.
+        </p>
+      </div>
     </div>
   </section>
 
-  <section class="band band--cream">
+  <section class="band band--white">
     <div class="container">
-      <LeafHeading label="What you'll witness" title="Days you won't forget." intro="You walk into the crusades, the classrooms, and the villages the work serves." leaves={false} />
-      <div class="witness">
-        {witness.map((w, i) => (
-          <div class="witness__row reveal" data-side={i % 2 === 0 ? 'left' : 'right'}>
-            <figure class="witness__media">
-              <img src={w.src} alt={w.alt} loading="lazy" width="1200" height="800" />
+      <LeafHeading
+        label="The projects"
+        title="Projects you can carry."
+        intro="Around $20,000 funds a project like these. The field team names the current needs, so the first step is a conversation."
+        leaves={false}
+      />
+      <div class="projects">
+        {projects.map((p, i) => (
+          <div class="projects__row reveal" data-side={i % 2 === 0 ? 'left' : 'right'}>
+            <figure class="projects__media">
+              <img src={p.image} alt={p.alt} loading="lazy" width="1200" height="800" />
             </figure>
-            <div class="witness__copy rd-prose">
-              <h3>{w.caption}</h3>
-              {w.body.map((p) => <p>{p}</p>)}
+            <div class="projects__copy rd-prose">
+              <h3>{p.name}</h3>
+              <p>{p.body}</p>
             </div>
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="band band--white">
-    <div class="container">
-      <LeafHeading label="From the field" title="See it before you go." />
-      <div class="vrows">
-        {films.map((f, i) => (
-          <VideoFeature id={f.id} videoTitle={f.title} eyebrow={f.eyebrow} heading={f.heading} side={i % 2 === 0 ? 'left' : 'right'} decor="leaf">
-            <p>{f.body}</p>
-          </VideoFeature>
-        ))}
-      </div>
+      <p class="projects__note">
+        Want to fund a project without traveling? Start with
+        <a class="story-link" href="/give/specific-project/">specific-project giving</a>.
+      </p>
     </div>
   </section>
 
   <section class="band band--cream">
-    <div class="container">
-      <LeafHeading label="Is this trip for you?" title="Who vision trips are for." leaves={false} />
-      <div class="who">
-        {audiences.map((a) => (
-          <div class="who__col reveal">
-            <span class="who__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={WHO_ICONS[a.icon]}></svg>
-            </span>
-            <h3>{a.title}</h3>
-            <p>{a.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--white">
     <div class="container">
       <LeafHeading label="How it works" title="Three steps, no fine print." leaves={false} />
       <ol class="steps">
@@ -192,33 +177,42 @@ const faqs = [
     </div>
   </section>
 
-  <section class="band band--greenlight">
-    <div class="container container--narrow">
-      <LeafHeading
-        label="Go longer"
-        title="Two weeks that change your life."
-        intro="See the many ministries that Favor is involved in and see where you could make the greatest impact in 2 weeks! Some examples of past team ministry that has left lasting results include:"
-        leaves={false}
-      />
-      <ul class="trips__list">
-        <li>Basketball sports camp teaching &lsquo;speak life&rsquo; for former street youth</li>
-        <li>Mobile medical clinics in rural areas</li>
-        <li>Pastors conference</li>
-        <li>Discipleship with the former street youth</li>
-        <li>Crafts and hands on workshops with youth</li>
-        <li>Children&rsquo;s ministry</li>
-        <li>Rural evangelism</li>
-        <li>Women&rsquo;s Empowerment in villages</li>
-        <li>Prison ministry</li>
-        <li>Radio presentations</li>
-        <li>&hellip;and much more!</li>
-      </ul>
-      <p class="trips__closer">Come and see what God is doing in real people, in real places, and in real time!</p>
-      <p class="band__cta-row trips__cta"><a class="btn btn--primary" href="/about/contact/?topic=vision-trip">Request an application</a></p>
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="Is this you?" title="Who project trips are for." leaves={false} />
+      <div class="who">
+        {audiences.map((a) => (
+          <div class="who__col reveal">
+            <span class="who__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={WHO_ICONS[a.icon]}></svg>
+            </span>
+            <h3>{a.title}</h3>
+            <p>{a.body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="who__plain">
+        Favor does not host high school or college mission-trip teams, and we do not plan
+        travel for visitors who want to see the work without carrying part of it. Every
+        guest the field hosts costs staff time, vehicles, and money, and the work comes first.
+      </p>
     </div>
   </section>
 
   <section class="band band--cream">
+    <div class="container">
+      <LeafHeading label="From the field" title="The work your project joins." />
+      <div class="vrows">
+        {films.map((f, i) => (
+          <VideoFeature id={f.id} videoTitle={f.title} eyebrow={f.eyebrow} heading={f.heading} side={i % 2 === 0 ? 'left' : 'right'} decor="leaf">
+            <p>{f.body}</p>
+          </VideoFeature>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--white">
     <div class="container container--narrow">
       <LeafHeading label="Questions, answered" title="Before you ask." leaves={false} />
       <div class="faq">
@@ -233,9 +227,9 @@ const faqs = [
   </section>
 
   <RdCta
-    heading="Inquire about a vision trip."
-    body="Tell us who you are and when you could travel. The US team will plan the rest with you."
-    ctaLabel="Inquire"
+    heading="Bring us a project inquiry."
+    body="Tell us who you are, who would come with you, and what you could raise. You will get a straight answer and a real project."
+    ctaLabel="Start the conversation"
     ctaHref="/about/contact/?topic=vision-trip"
     background="cream"
     image="/images/field-2026/gift-4.webp"
@@ -244,68 +238,27 @@ const faqs = [
 </RedesignLayout>
 
 <style>
-  /* Hosts: two cards, photo + intro, linking to their pages. */
-  .hosts { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(24px, 3vw, 40px); margin-top: clamp(40px, 5vw, 64px); }
-  @media (max-width: 860px) { .hosts { grid-template-columns: 1fr; } }
-  .host { display: grid; grid-template-columns: 132px 1fr; gap: var(--space-6); align-items: start; text-decoration: none; color: inherit; }
-  @media (max-width: 460px) { .host { grid-template-columns: 1fr; } }
-  .host__photo { border-radius: var(--rd-radius); overflow: hidden; aspect-ratio: 1 / 1; background: var(--color-sage-light); }
-  .host__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-  .host__copy .label { margin-bottom: var(--space-1); }
-  .host__copy h3 { color: var(--color-green); margin: 0 0 var(--space-1); }
-  .host__loc { color: var(--color-gold-deep); font-weight: 700; font-size: var(--rd-fs-small); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 var(--space-3); }
-  .host__bio { margin: 0 0 var(--space-3); color: var(--color-ink-soft); line-height: 1.65; }
-  .host__link { color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; }
-  .host:hover .host__link { color: var(--color-gold-deep); }
+  /* Why project-based: narrow prose band. */
+  .why { margin-top: clamp(28px, 3.5vw, 44px); }
+  .why p { color: var(--color-ink-soft); line-height: 1.75; }
 
-  /* A day with the team: itinerary-style blocks. Photo and copy zigzag down
-     the page; each block leads with a deep-green pill (the "Day 01" bar of
-     the itinerary-planner reference, in Favor's palette). */
-  .day { list-style: none; padding: 0; margin: clamp(40px, 5vw, 64px) 0 0; display: flex; flex-direction: column; gap: clamp(44px, 5.5vw, 76px); }
-  .day__block { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 4.5vw, 72px); align-items: center; }
-  .day__block[data-side='right'] .day__media { order: 2; }
-  .day__block[data-side='right'] .day__copy { order: 1; }
-  .day__media { margin: 0; }
-  .day__media img {
-    display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
-    border-radius: var(--rd-radius); box-shadow: var(--rd-shadow);
-  }
-  .day__pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--color-green-deep); color: var(--color-white);
-    border-radius: 999px; padding: 8px 18px;
-    font-size: var(--rd-fs-small); font-weight: 800;
-    letter-spacing: 0.16em; text-transform: uppercase;
-    margin-bottom: var(--space-4);
-  }
-  .day__pill::before {
-    content: ''; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--color-gold);
-  }
-  .day__copy h3 { color: var(--color-green); font-family: var(--font-display); font-weight: 600; font-size: var(--rd-fs-title); margin: 0 0 var(--space-3); }
-  .day__copy p { margin: 0; color: var(--color-ink-soft); line-height: 1.75; max-width: 52ch; }
-  @media (max-width: 860px) {
-    .day__block { grid-template-columns: 1fr; gap: var(--space-5); }
-    .day__block[data-side='right'] .day__media { order: 0; }
-    .day__block[data-side='right'] .day__copy { order: 0; }
-  }
-
-  /* What you'll witness: alternating photo + text rows. */
-  .witness { display: flex; flex-direction: column; gap: clamp(48px, 6vw, 88px); margin-top: clamp(40px, 5vw, 64px); }
-  .witness__row { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(36px, 5vw, 84px); align-items: center; }
-  .witness__row[data-side='right'] .witness__media { order: 2; }
-  .witness__row[data-side='right'] .witness__copy { order: 1; }
-  .witness__media { margin: 0; }
-  .witness__media img {
+  /* Example projects: alternating photo + text rows. */
+  .projects { display: flex; flex-direction: column; gap: clamp(48px, 6vw, 88px); margin-top: clamp(40px, 5vw, 64px); }
+  .projects__row { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(36px, 5vw, 84px); align-items: center; }
+  .projects__row[data-side='right'] .projects__media { order: 2; }
+  .projects__row[data-side='right'] .projects__copy { order: 1; }
+  .projects__media { margin: 0; }
+  .projects__media img {
     display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover;
     border-radius: var(--rd-radius); box-shadow: var(--rd-shadow);
   }
-  .witness__copy h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
-  .witness__copy p { color: var(--color-ink-soft); }
+  .projects__copy h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .projects__copy p { color: var(--color-ink-soft); }
+  .projects__note { text-align: center; color: var(--color-ink-soft); margin: clamp(40px, 5vw, 64px) 0 0; }
   @media (max-width: 860px) {
-    .witness__row { grid-template-columns: 1fr; gap: var(--space-6); }
-    .witness__row[data-side='right'] .witness__media { order: 0; }
-    .witness__row[data-side='right'] .witness__copy { order: 0; }
+    .projects__row { grid-template-columns: 1fr; gap: var(--space-6); }
+    .projects__row[data-side='right'] .projects__media { order: 0; }
+    .projects__row[data-side='right'] .projects__copy { order: 0; }
   }
 
   /* Video rows share the WWW spacing. */
@@ -313,7 +266,7 @@ const faqs = [
 
   /* Who it's for: open columns with gold icon medallions and hairline
      separators. Deliberately NOT boxed cards, so it reads nothing like the
-     numbered "How it works" cards below. */
+     numbered "How it works" cards above. */
   .who { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(36px, 4.4vw, 58px); }
   .who__col { padding: var(--space-2) clamp(24px, 3vw, 48px); text-align: center; }
   .who__col + .who__col { border-left: 1px solid rgba(31, 58, 26, 0.14); }
@@ -327,6 +280,10 @@ const faqs = [
   .who__icon svg { width: 30px; height: 30px; }
   .who__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .who__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; max-width: 34ch; }
+  .who__plain {
+    margin: clamp(40px, 5vw, 60px) auto 0; max-width: 62ch; text-align: center;
+    color: var(--color-ink); font-weight: 600; line-height: 1.7;
+  }
   @media (max-width: 860px) {
     .who { grid-template-columns: 1fr; gap: var(--space-8); }
     .who__col { padding: 0; }
@@ -344,15 +301,6 @@ const faqs = [
   }
   .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
-
-  /* Short-term trips checklist (verbatim old-site content, moved here from
-     the volunteer page). */
-  .trips__list { columns: 2; column-gap: var(--space-12); list-style: none; padding: 0; margin: clamp(32px, 4vw, 48px) auto var(--space-6); max-width: 680px; }
-  .trips__list li { position: relative; padding: var(--space-2) 0 var(--space-2) var(--space-6); color: var(--color-ink-soft); line-height: 1.55; break-inside: avoid; }
-  .trips__list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-green); font-weight: 800; }
-  @media (max-width: 600px) { .trips__list { columns: 1; } }
-  .trips__closer { text-align: center; color: var(--color-green); font-weight: 700; font-size: var(--rd-fs-sub); margin: var(--space-8) 0 0; }
-  .trips__cta { text-align: center; }
 
   /* FAQ: native accordion, outlined rows. */
   .faq { display: flex; flex-direction: column; gap: var(--space-3); margin-top: clamp(36px, 4.4vw, 58px); }

@@ -18,7 +18,7 @@ const focuses = [
 ---
 <RedesignLayout
   title="Pray With Us"
-  description="Everything Favor does begins in prayer. Get the 30-day Nations Prayer Guide and stand in the gap for Uganda, South Sudan, and Chad."
+  description="Everything Favor does begins in prayer. Get the 30-day National Prayer Guide and stand in the gap for Uganda, South Sudan, and Chad."
   image="/images/field/hero-prayer-ssudan.webp"
 >
   <PageHero
@@ -116,6 +116,9 @@ const focuses = [
 </RedesignLayout>
 
 <style>
+  /* Carole (2026-08): the gray body text read too light on the prayer pages.
+     Darken the ink-soft token for this page only; global tokens stay put. */
+  :global(.rd) { --color-ink-soft: #2a2a2a; }
   .why-pray { margin-top: var(--space-8); }
   .why-pray p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
   .why-pray p:last-child { margin-bottom: 0; }

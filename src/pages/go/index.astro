@@ -5,23 +5,28 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import ScriptBand from '../../components/redesign/ScriptBand.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
-// Five paths as full vertical sections (per Daniel 2026-07-08): image or
-// video on one side, expanded copy on the other, alternating down the page.
-// Every claim comes from the destination page it links to (which is itself
+// Paths as full vertical sections (per Daniel 2026-07-08): image or video on
+// one side, expanded copy on the other, alternating down the page. Every
+// claim comes from the destination page it links to (which is itself
 // fact-audited); no trip specifics, role lists, or program claims beyond
 // what those pages state.
+//
+// Team decision, 2026-08: field travel is project-based. Visiting teams cost
+// the field staff time, vehicles, and money, so this page no longer sells
+// ordinary short-term trips. The first path is a funded project you see
+// through, and the copy is written to filter out mission-trip tourism.
 const paths = [
   {
-    key: 'vision-trips', href: '/go/vision-trips/', label: 'Vision Trips',
-    title: 'Walk the field with the leaders who live there.',
+    key: 'vision-trips', href: '/go/vision-trips/', label: 'Project Trips',
+    title: 'Fund a project. Come see it through.',
     video: '/videos/vision-trips-hero.mp4', poster: '/videos/vision-trips-hero-poster.jpg',
     imageAlt: 'A village congregation gathered for worship, from the film They Once Met Under Trees',
     body: [
-      'A vision trip puts you in the middle of the ministry. You travel in a small team and walk the actual work: the schools, the crusades, the Houses of Prayer, the villages, with the indigenous leaders who run them.',
-      'Every trip is planned with you through the US team. Timing, length, destination, and costs are worked out directly.',
+      'Field travel with Favor is tied to a project. You raise the funds for something concrete, around $20,000 for a rural school or a Village Learning Center building, and you travel with a small team to see that project through with the leaders who will run it.',
+      'Hosting visitors costs the field real time, vehicles, and money, so we do not run casual short-term trips. A project makes your visit worth what it costs the work.',
     ],
-    points: ['Small teams, hosted on the ground by field leadership', 'The work across Uganda, South Sudan, and Chad', 'Three steps: inquire, plan with the US team, go'],
-    cta: 'Explore vision trips',
+    points: ['A concrete project with a name and a place', 'Small teams, hosted by the field leaders who run the work', 'What you fund outlasts your visit'],
+    cta: 'See how project trips work',
   },
   {
     key: 'volunteer', href: '/go/volunteer/', label: 'Volunteer',
@@ -76,7 +81,7 @@ const paths = [
     image: '/images/field-2026/evangelism-6.webp',
     imageAlt: 'A Favor evangelism gathering',
     body: [
-      'Point your congregation at an indigenous Favor field team: pray together as a church, partner together, and send a team on a vision trip to see the work firsthand.',
+      'Point your congregation at an indigenous Favor field team: pray together as a church, partner together, and carry a project your whole church can fund and then send a few of its own to see through.',
     ],
     points: ['Church-wide prayer and partnership', 'A field team your church can know by name'],
     cta: 'Church partnerships',
@@ -85,16 +90,16 @@ const paths = [
 ---
 <RedesignLayout
   title="Go"
-  description="Walk the field. Volunteer from home. Intern, serve, or mobilize your church. Five paths to go with Favor International."
+  description="Fund a field project and come see it through, or serve from home: volunteering, internships, careers, and church partnerships with Favor International."
   image="/images/field-2026/missionaries-1.webp"
 >
   <PageHero
     label="Go"
-    title="Travel with us. Or send someone in your place."
-    promise="Five ways to go: vision trips, volunteering, internships, careers, and church partnerships."
+    title="Come to build. Or serve from where you are."
+    promise="Field travel with Favor is tied to a project you fund and see through. There are also real ways to serve without a plane ticket."
     image="/images/field-2026/missionaries-3.webp"
     imageAlt="PBS graduation in Karamoja, Uganda"
-    ctaLabel="See vision trips"
+    ctaLabel="See project trips"
     ctaHref="/go/vision-trips/"
     secondaryLabel="Serve from home"
     secondaryHref="/go/volunteer/"
@@ -103,7 +108,7 @@ const paths = [
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="Five paths" title="Pick how you go." />
+      <LeafHeading label="The paths" title="Pick how you go." />
       <div class="paths">
         {paths.map((p, i) => (
           <article class="path reveal" data-side={i % 2 === 0 ? 'left' : 'right'} id={p.key}>

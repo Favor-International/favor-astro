@@ -15,7 +15,7 @@ import Leaf from '../../components/redesign/Leaf.astro';
       <header class="band__header">
         <Leaf class="ty-leaf" />
         <p class="label">Gift complete</p>
-        <h1 data-ty-heading>Your gift is on the trail.</h1>
+        <h1 data-ty-heading>Your gift is on its way to the field.</h1>
         <p class="ty-sub" data-ty-line>
           Thank you. Your generosity puts indigenous missionaries on the ground in places others will not go.
         </p>
@@ -74,7 +74,7 @@ import Leaf from '../../components/redesign/Leaf.astro';
 
   const heading = document.querySelector('[data-ty-heading]');
   const line = document.querySelector('[data-ty-line]');
-  if (heading && name) heading.textContent = `${name}, your gift is on the trail.`;
+  if (heading && name) heading.textContent = `${name}, your gift is on its way to the field.`;
   if (line && amount >= 1) {
     line.textContent = monthly
       ? `Thank you. Your ${money(amount)} monthly partnership keeps indigenous missionaries on the ground in places others will not go.`

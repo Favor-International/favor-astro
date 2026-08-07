@@ -8,9 +8,10 @@ import RdCta from '../../components/redesign/RdCta.astro';
 import ExpenseSplit from '../../components/redesign/ExpenseSplit.astro';
 import directorsData from '../../data/directors.json';
 
-// Leadership shown on the Team page: founder + U.S. Executive Directors + Africa Country Director.
+// Leadership shown on the Team page: founder + Africa Country Director + U.S. Executive Director.
+// Ministry order, not alphabetical: field leadership first, then U.S. (2026-08-07).
 // Full board lives on /about/board/. Source: Webflow CMS Directors collection.
-const leadershipSlugs = ['carole-ward', 'stephanie-maier', 'terry-lynne-goodman'];
+const leadershipSlugs = ['carole-ward', 'terry-lynne-goodman', 'stephanie-maier'];
 const leadership = leadershipSlugs
   .map(slug => directorsData.find(d => d.slug === slug))
   .filter(Boolean);
@@ -50,12 +51,12 @@ const roster = [
 ---
 <RedesignLayout
   title="Our Team"
-  description="The U.S. executive team and Africa country leadership of Favor International."
+  description="The national leadership of Favor International across Africa, and the small U.S. team that serves them."
 >
   <PageHero
     label="Our Team"
-    title="A small U.S. team serving a massive field."
-    promise="An army of indigenous missionaries carries the work across Uganda, South Sudan, Chad, and nations beyond. Our U.S. team exists to serve them, and we would not have it any other way."
+    title="National leaders carry this work."
+    promise="An army of indigenous missionaries leads the ministry across Uganda, South Sudan, Chad, and nations beyond. A small U.S. team exists to serve them, and we would not have it any other way."
     image="/images/field-2026/evangelism-5.webp"
     imageAlt="Favor leadership at a training session"
   />
@@ -133,23 +134,10 @@ const roster = [
     </div>
   </section>
 
+  <!-- The overhead split belongs here too, not only on the financials page.
+       It sits at the transition into the U.S. team (moved up 2026-08-07) so
+       the reader sees the ratio before counting U.S. staff. -->
   <section class="band band--cream">
-    <div class="container">
-      <LeafHeading title="Serving the mission from the U.S." leaves={false} />
-      <ul class="roster">
-        {roster.map((p) => (
-          <li class="roster__cell reveal">
-            <strong class="roster__name">{p.name}</strong>
-            <span class="roster__title">{p.title}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- The overhead split belongs here too, not only on the financials page:
-       this is where people are counting U.S. staff. -->
-  <section class="band band--white">
     <div class="container container--narrow">
       <LeafHeading
         label="What it costs to run this"
@@ -161,6 +149,20 @@ const roster = [
       <p class="band__cta-row">
         <a class="btn btn--secondary" href="/about/accountability/">See our financials</a>
       </p>
+    </div>
+  </section>
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading title="Serving the mission from the U.S." leaves={false} />
+      <ul class="roster">
+        {roster.map((p) => (
+          <li class="roster__cell reveal">
+            <strong class="roster__name">{p.name}</strong>
+            <span class="roster__title">{p.title}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 

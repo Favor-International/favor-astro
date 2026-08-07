@@ -72,7 +72,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
           <span>Give once</span>
         </label>
       </div>
-      <p class="dform__freq-line" data-freq-line>Monthly partnership keeps indigenous missionaries on the trail every single month.</p>
+      <p class="dform__freq-line" data-freq-line>Monthly partnership keeps indigenous missionaries in the field every single month.</p>
 
       <div class="dform__amounts" data-presets-once role="group" aria-label="One-time amounts" hidden>
         {ONE_TIME_PRESETS.map((a) => (
@@ -116,8 +116,9 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       <legend class="sr-only">Consider monthly partnership</legend>
       <p class="dform__q">Would you make it monthly instead?</p>
       <p class="dform__hint">
-        Monthly partners are what let field leaders send a missionary the week a village opens,
-        instead of waiting on the next appeal. Cancel anytime.
+        Monthly partners allow field leaders to send a missionary the week a village opens
+        instead of waiting for the next appeal. Recurring gifts help Favor plan responsibly,
+        meet ongoing ministry needs, and support missionaries consistently. Cancel anytime.
       </p>
       <div class="dform__choices">
         <button type="button" class="btn btn--primary btn--large" data-upsell-yes>
@@ -484,7 +485,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       q('[data-presets-monthly]')!.hidden = !monthly;
       q('[data-per]')!.hidden = !monthly;
       q('[data-freq-line]')!.textContent = monthly
-        ? 'Monthly partnership keeps indigenous missionaries on the trail every single month.'
+        ? 'Monthly partnership keeps indigenous missionaries in the field every single month.'
         : 'A single gift, put to work on the field right away.';
       qa<HTMLButtonElement>('.dform__amount').forEach((b) =>
         b.setAttribute('aria-pressed', String(Number(b.dataset.amount) === amount()))

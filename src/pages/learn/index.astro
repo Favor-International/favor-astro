@@ -1,0 +1,222 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import { SITE } from '../../lib/site';
+
+// The teaching hub. People ask Carole every week where her teachings are;
+// this page is the standing answer until the full online teaching library
+// (LMS) launches. Rule of the page: every link points at something that is
+// already published (this site, the Favor YouTube channel, Favour FM, or the
+// free books). No placeholders. When the LMS lands, topics link into it.
+const YOUTUBE_CHANNEL = 'https://www.youtube.com/c/FavorInternational';
+const SPEAKING_PLAYLIST = 'https://www.youtube.com/playlist?list=PLjCR1m3nUEPX11uw8NWzmYg-MglW3Fpc_';
+// Same channel search the founder page uses (the old playlist link was dead).
+const CAROLE_SEARCH = 'https://www.youtube.com/c/FavorInternational/search?query=carole%20ward';
+const FAVOUR_FM = 'https://zeno.fm/radio/favour-fm/';
+
+type TopicLink = { label: string; href: string; external?: boolean };
+type Topic = { title: string; body: string; links: TopicLink[] };
+
+const topics: Topic[] = [
+  {
+    title: 'Prayer and Fasting',
+    body: 'Prayer and fasting run through everything Favor does; the Statement of Faith names them outright. Start with Carole’s Breakthrough Prayer teaching below.',
+    links: [
+      { label: 'Watch Breakthrough Prayer, Part 1', href: '#videos' },
+      { label: 'Read the Statement of Faith', href: '/about/statement-of-faith/' },
+    ],
+  },
+  {
+    title: 'School of Prayer',
+    body: 'Carole has trained African leaders to pray since 2002, work that grew into the Houses of Prayer in Gulu and Juba. Her recorded prayer teachings live on YouTube.',
+    links: [
+      { label: 'Browse Carole’s teachings on YouTube', href: CAROLE_SEARCH, external: true },
+      { label: 'How Favor prays', href: '/pray/' },
+    ],
+  },
+  {
+    title: 'Giving Birth Prayer',
+    body: 'Carole teaches that prayer births the work. Favor’s Houses of Prayer went up before its offices, schools, and radio stations, in that order on purpose.',
+    links: [
+      { label: 'Search Carole’s teachings on YouTube', href: CAROLE_SEARCH, external: true },
+      { label: 'Read how prayer birthed Favor', href: '/about/our-story/' },
+    ],
+  },
+  {
+    title: 'Spiritual Warfare',
+    body: 'The praying that has carried Favor through war zones and closed regions. Breakthrough Prayer is the closest published teaching; more is on the channel.',
+    links: [
+      { label: 'Watch Breakthrough Prayer, Part 1', href: '#videos' },
+      { label: 'Browse teachings on YouTube', href: YOUTUBE_CHANNEL, external: true },
+    ],
+  },
+  {
+    title: 'Prayer Resources and Strategies',
+    body: 'Ready-to-use guides for praying with Favor, starting with one specific request per day across the nations we serve. No email required.',
+    links: [
+      { label: 'Open the National Prayer Guide', href: '/pray/30-day-guide/' },
+      { label: 'Pray with Favor', href: '/pray/' },
+      { label: 'Email a prayer request', href: 'mailto:prayer@favorintl.org' },
+    ],
+  },
+  {
+    title: 'Books',
+    body: 'Two books tell the story: Send Me Where No One Wants to Go (2017) and Lord Send Us Where No One Wants to Go (2025). Both are free on request.',
+    links: [
+      { label: 'See both books', href: '/books/' },
+      { label: 'Request a free copy', href: '/about/contact/?topic=book' },
+    ],
+  },
+  {
+    title: 'Videos',
+    body: 'Films from the field, Carole’s recorded teachings, and her speaking engagements. Three teachings are on this page; the full library is on Watch.',
+    links: [
+      { label: 'Watch teachings on this page', href: '#videos' },
+      { label: 'Browse the film library', href: '/watch/' },
+      { label: 'Speaking engagements playlist', href: SPEAKING_PLAYLIST, external: true },
+    ],
+  },
+  {
+    title: 'Courses',
+    body: 'Favor’s structured teaching runs on the field today through GIFT, Portable Bible Schools, and the Leadership Training Institute. Online courses arrive with the teaching library.',
+    links: [
+      { label: 'GIFT', href: '/impact/evangelism-discipleship/gift-institute/' },
+      { label: 'Portable Bible Schools', href: '/impact/evangelism-discipleship/portable-bible-schools/' },
+      { label: 'Leadership Training Institute', href: '/impact/education/leadership/' },
+    ],
+  },
+  {
+    title: 'Social Media',
+    body: 'Follow Favor for new teachings, testimonies, and field updates, or tune in live to Favour FM, the ministry’s own radio station.',
+    links: [
+      { label: 'YouTube', href: SITE.social.youtube, external: true },
+      { label: 'Facebook', href: SITE.social.facebook, external: true },
+      { label: 'Instagram', href: SITE.social.instagram, external: true },
+      { label: 'X', href: SITE.social.twitter, external: true },
+      { label: 'Listen live to Favour FM', href: FAVOUR_FM, external: true },
+    ],
+  },
+];
+
+// Carole's published teachings, verified against the Favor International
+// YouTube channel (same IDs the founder and watch pages use).
+const teachings = [
+  { id: 'XRrQ9Da3ToI', title: 'Breakthrough Prayer with Carole Ward, Part 1', caption: 'A teaching on the kind of praying that has marked Favor from the start.' },
+  { id: 'Y5pWE0AX97M', title: 'Reigniting a Passion for Prayer', caption: 'Carole on returning to the prayer that everything in Favor flows from.' },
+  { id: '32QTIfjF7Mg', title: 'First: Apostles', caption: 'Teaching from the field.' },
+];
+---
+<RedesignLayout
+  title="Learn"
+  description="Carole Ward's teachings by topic: prayer and fasting, School of Prayer, giving birth prayer, spiritual warfare, prayer strategies, books, videos, and courses. Where to find each one."
+>
+  <PageHero
+    label="Learn"
+    title="Find the teaching you're looking for."
+    promise="You asked where Carole's teachings live. Here is every topic, and where to find each one."
+    image="/images/field-2026/carole-5.webp"
+    imageAlt="Carole Ward preaching at a pulpit in the field"
+    objectPosition="center 22%"
+    ctaLabel="Browse the topics"
+    ctaHref="#topics"
+  />
+
+  <section class="band band--white" id="topics">
+    <div class="container">
+      <LeafHeading
+        label="Teaching topics"
+        title="Organized by topic."
+        intro="A full online teaching library is on the way. Until it opens, each topic below points to teaching that is already published: on film, on YouTube, in Carole's books, or on this site."
+      />
+      <div class="topics">
+        {topics.map((t) => (
+          <article class="topic has-texture">
+            <h3>{t.title}</h3>
+            <p>{t.body}</p>
+            <ul class="topic__links">
+              {t.links.map((l) => (
+                <li>
+                  {l.external
+                    ? <a href={l.href} target="_blank" rel="noopener">{l.label} &rarr;</a>
+                    : <a href={l.href}>{l.label} &rarr;</a>}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--cream" id="videos">
+    <div class="container">
+      <LeafHeading
+        label="Watch"
+        title="Teachings on film."
+        intro="Start with Breakthrough Prayer. The rest of Carole's recorded teaching lives on the Favor International YouTube channel."
+      />
+      <div class="teachings-grid">
+        {teachings.map((v) => (
+          <VideoEmbed id={v.id} title={v.title} caption={v.caption} />
+        ))}
+      </div>
+      <p class="teachings-more">
+        <a href="/watch/">Browse the film library &rarr;</a>
+        <a href={SPEAKING_PLAYLIST} target="_blank" rel="noopener">Speaking engagements playlist &rarr;</a>
+        <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener">Watch the full channel on YouTube &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <RdCta
+    heading="Can't find a teaching?"
+    body="Tell us what you're looking for and the US team will point you to it, or mail you one of Carole's books free."
+    ctaLabel="Contact the team"
+    ctaHref="/about/contact/"
+    image="/images/field-2026/carole-4.webp"
+    imageAlt="Carole Ward in prayer in the field"
+  />
+</RedesignLayout>
+
+<style>
+  .topics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+  @media (max-width: 1000px) { .topics { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .topics { grid-template-columns: 1fr; } }
+  .topic {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border: 2px solid var(--accent, var(--color-gold));
+    border-radius: var(--radius-card);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-soft);
+  }
+  /* Rotate the accent through the site palette so the wall of cards reads
+     as a library, not a grid of clones. Same trick as the watch cards. */
+  .topic:nth-child(3n + 1) { --accent: var(--color-gold-deep); }
+  .topic:nth-child(3n + 2) { --accent: var(--color-green-bright); }
+  .topic:nth-child(3n + 3) { --accent: var(--color-terracotta); }
+  .topic h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
+  .topic p { margin: 0 0 var(--space-5); color: var(--color-ink-soft); line-height: 1.7; }
+  .topic__links { list-style: none; margin: auto 0 0; padding: 0; display: grid; gap: var(--space-2); }
+  .topic__links a {
+    color: var(--color-gold-deep);
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+  }
+  .topic__links a:hover { color: var(--color-green); text-decoration: underline; }
+
+  .teachings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); margin-top: clamp(40px, 5vw, 64px); }
+  @media (max-width: 1000px) { .teachings-grid { grid-template-columns: 1fr; max-width: 720px; margin-inline: auto; } }
+  .teachings-more { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); justify-content: center; margin: var(--space-10) 0 0; }
+  .teachings-more a { color: var(--color-gold-deep); font-weight: 700; }
+</style>

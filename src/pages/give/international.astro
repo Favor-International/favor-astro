@@ -47,6 +47,9 @@ const internationalFaqs = [
         <p class="label">Beyond the United States</p>
         <h2>The Gospel crosses borders. So can your gift.</h2>
         <p>Favor International is a registered beneficiary with TrustBridge Global, a giving network that lets partners outside the United States give with a tax receipt in their own country. Pick your route below; your gift supports field teams in Uganda, South Sudan, and Chad.</p>
+        {/* ?usd=1 tells the middleware to skip the geo redirect and set the
+            sticky give-usd cookie, so this choice holds on later visits. */}
+        <p class="intl-usd">Prefer to give in U.S. dollars? <a href="/give/donate/?usd=1">Use our U.S. giving form.</a></p>
       </div>
     </div>
   </section>
@@ -107,7 +110,9 @@ const internationalFaqs = [
   .intl-intro { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:clamp(36px,6vw,84px); align-items:center; }
   .intl-intro img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:var(--rd-radius); }
   .intl-intro h2 { margin:0 0 var(--space-5); }
-  .intl-intro p:last-child { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
+  .intl-intro h2 + p { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
+  .intl-usd { margin: var(--space-4) 0 0; font-size: 0.9rem; color: var(--color-ink-soft); }
+  .intl-usd a { color: var(--color-green); font-weight: 700; }
   @media (max-width:760px){.intl-intro{grid-template-columns:1fr}.intl-intro img{aspect-ratio:16/10}}
 
   .intl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 1100px; margin: 0 auto; }

@@ -71,7 +71,7 @@ const countries = [
 ];
 ---
 <RedesignLayout
-  title="30-Day Nations Prayer Guide"
+  title="30-Day National Prayer Guide"
   description="Thirty focused days of prayer for Favor International’s work in Uganda, South Sudan, and Chad."
 >
   <PageHero waveColor="cream"
@@ -111,7 +111,7 @@ const countries = [
       <div class="container country-guide__layout">
         <header class="country-guide__head">
           <p class="label">{country.days}</p>
-          <h2>{country.name}.</h2>
+          <h2>{country.name}</h2>
           <p>{country.intro}</p>
           <blockquote class="country-guide__verse">
             <p>{country.verse}</p>
@@ -146,6 +146,9 @@ const countries = [
 </RedesignLayout>
 
 <style>
+  /* Carole (2026-08): the gray body text read too light on the prayer pages.
+     Darken the ink-soft token for this page only; global tokens stay put. */
+  :global(.rd) { --color-ink-soft: #2a2a2a; }
   .country-nav { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); margin-top:var(--space-10); }
   .country-card { position:relative; min-height:340px; overflow:hidden; border-radius:var(--rd-radius); color:white; text-decoration:none; isolation:isolate; }
   .country-card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }

@@ -10,6 +10,7 @@
   --color-green-bright: #2ea84a;   /* logo bird green; for highlights only */
   --color-sage: #8b957b;
   --color-sage-light: #c5ccc2;
+  --color-green-pale: #cfe0c8;     /* pale tint of --color-green; map country fill */
   --color-white: #ffffff;
   --color-cream: #faf7f1;
   --color-ink: #1a1a1a;
@@ -20,7 +21,7 @@
   --font-sans: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-serif: 'Playfair Display', Georgia, serif;
-  --font-script: 'Biro Script Plus', 'Caveat', 'Bradley Hand', cursive;
+  --font-script: 'Caveat', 'Bradley Hand', cursive;
   --font-brand: 'Bentoga', 'Playfair Display', serif;
   --font-size-base: 17px;
   --font-size-small: 14px;
