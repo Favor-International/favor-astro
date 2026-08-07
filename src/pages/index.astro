@@ -541,29 +541,52 @@ const tiers = [
     gap: clamp(var(--space-6), 4vw, var(--space-8));
   }
   .proof__stats {
-    display: flex; align-items: center; justify-content: center;
-    gap: clamp(var(--space-6), 5vw, var(--space-12));
-    flex-wrap: wrap;
+    display: grid;
+    /* Four equal tracks with the gold rules in their own 1px tracks. As a
+       wrapping flex row the dividers counted as items, so the fourth stat
+       always dropped to a second line. Grid pins it to four across. */
+    grid-template-columns:
+      minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 1fr);
+    /* start, not center: the third label wraps to two lines and centring
+       knocked its number out of line with the other three */
+    align-items: start;
+    gap: clamp(var(--space-3), 2.4vw, var(--space-12));
+    width: 100%;
   }
-  .proof__stat { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  .proof__stat {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    text-align: center; min-width: 0;
+  }
   .proof__num {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-size: clamp(1.9rem, 4.3vw, 3.8rem);
     color: var(--color-green-deep);
     line-height: 1;
     letter-spacing: -0.02em;
   }
   .proof__label {
     font-family: var(--font-sans);
-    font-size: 0.78rem;
+    font-size: clamp(0.62rem, 0.72vw, 0.78rem);
     font-weight: 800;
-    letter-spacing: 0.28em;
+    letter-spacing: clamp(0.1em, 0.25vw, 0.28em);
     text-transform: uppercase;
     color: var(--color-gold-deep);
+    text-wrap: balance;
   }
-  .proof__divider { width: 1px; height: 56px; background: var(--color-gold); opacity: 0.4; }
-  @media (max-width: 700px) { .proof__divider { display: none; } }
+  .proof__divider {
+    width: 1px; height: 56px; background: var(--color-gold); opacity: 0.4;
+    justify-self: center; align-self: center;
+  }
+  /* Below desktop the four-across row stops fitting: fold to 2x2, then to a
+     single column on the narrowest phones. Dividers only exist in the 4-up row. */
+  @media (max-width: 900px) {
+    .proof__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
+    .proof__divider { display: none; }
+  }
+  @media (max-width: 400px) {
+    .proof__stats { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  }
   .proof__line {
     margin: 0;
     color: var(--color-ink-soft);
