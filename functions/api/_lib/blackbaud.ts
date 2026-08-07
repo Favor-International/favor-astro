@@ -638,6 +638,25 @@ export async function ensureOrgContact(
   }
 }
 
+/**
+ * The gift date as Favor's own calendar date, not UTC's.
+ *
+ * Will's real $1 test (2026-08-06, 9:11pm ET) recorded as August 7 because
+ * new Date().toISOString() is UTC, where it was already tomorrow. RE NXT gift
+ * dates are calendar dates in the org's world (Florida, Eastern), and
+ * Daniel's sync stores them as "YYYY-MM-DDT00:00:00". Any gift after 8pm EDT
+ * (7pm EST) would land on the wrong day, every single evening.
+ */
+export function etGiftDate(now = new Date()): string {
+  const et = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(now); // en-CA gives YYYY-MM-DD
+  return `${et}T00:00:00`;
+}
+
 export function buildReference(parts: Array<string | undefined | false>): string {
   return parts.filter(Boolean).join(' | ').slice(0, 250);
 }

@@ -21,6 +21,7 @@
 
 import {
   buildReference,
+  etGiftDate,
   cardTokenVaulted,
   convertRecurringGiftToAutomatic,
   createGift,
@@ -116,7 +117,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     const baseGift = {
       constituent_id: constituentId,
-      date: new Date().toISOString(),
+      date: etGiftDate(),
       gift_status: 'Active',
       post_status: 'NotPosted',
       is_anonymous: body.anonymous === true,
@@ -199,7 +200,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     // portal's "active recurring" count) and the charged first installment
     // (drives the history and totals). Keyed on the Blackbaud gift ids the
     // 12-hourly sync will upsert. Never blocks the gift.
-    const nowIso = new Date().toISOString();
+    const nowIso = etGiftDate();
     waitUntil(
       pushGiftRealtime(env, {
         id: recurring.id,
