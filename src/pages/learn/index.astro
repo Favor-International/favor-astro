@@ -1,177 +1,186 @@
 ---
 import RedesignLayout from '../../layouts/RedesignLayout.astro';
-import PageHero from '../../components/band/PageHero.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
-import VideoEmbed from '../../components/global/VideoEmbed.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
+import teachings from '../../data/teachings.json';
 
-// The teaching hub. People ask Carole every week where her teachings are;
-// this page is the standing answer until the full online teaching library
-// (LMS) launches. Rule of the page: every link points at something that is
-// already published (this site, the Favor YouTube channel, Favour FM, or the
-// free books). No placeholders. When the LMS lands, topics link into it.
-const YOUTUBE_CHANNEL = 'https://www.youtube.com/c/FavorInternational';
-const SPEAKING_PLAYLIST = 'https://www.youtube.com/playlist?list=PLjCR1m3nUEPX11uw8NWzmYg-MglW3Fpc_';
-// Same channel search the founder page uses (the old playlist link was dead).
-const CAROLE_SEARCH = 'https://www.youtube.com/c/FavorInternational/search?query=carole%20ward';
+// The Favor video library. Every card on this page opens a real, verified
+// video in an on-page player. Nothing dead-ends at a bare channel link.
+// Data lives in src/data/teachings.json; edit the library there, not here.
+const featured = teachings.featured;
+const rows = teachings.rows;
+
 const FAVOUR_FM = 'https://zeno.fm/radio/favour-fm/';
+const YOUTUBE_CHANNEL = 'https://www.youtube.com/c/FavorInternational';
 
-type TopicLink = { label: string; href: string; external?: boolean };
-type Topic = { title: string; body: string; links: TopicLink[] };
+// Library totals for the intro line, deduped because a few teachings sit in
+// two rows on purpose.
+const seen = new Set<string>();
+let totalMinutes = 0;
+for (const row of rows) {
+  for (const item of row.items) {
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    totalMinutes += (item as { minutes?: number }).minutes ?? 0;
+  }
+}
+const videoCount = seen.size;
+const hourCount = Math.round(totalMinutes / 60);
 
-const topics: Topic[] = [
-  {
-    title: 'Prayer and Fasting',
-    body: 'Prayer and fasting run through everything Favor does; the Statement of Faith names them outright. Start with Carole’s Breakthrough Prayer teaching below.',
-    links: [
-      { label: 'Watch Breakthrough Prayer, Part 1', href: '#videos' },
-      { label: 'Read the Statement of Faith', href: '/about/statement-of-faith/' },
-    ],
-  },
-  {
-    title: 'School of Prayer',
-    body: 'Carole has trained African leaders to pray since 2002, work that grew into the Houses of Prayer in Gulu and Juba. Her recorded prayer teachings live on YouTube.',
-    links: [
-      { label: 'Browse Carole’s teachings on YouTube', href: CAROLE_SEARCH, external: true },
-      { label: 'How Favor prays', href: '/pray/' },
-    ],
-  },
-  {
-    title: 'Giving Birth Prayer',
-    body: 'Carole teaches that prayer births the work. Favor’s Houses of Prayer went up before its offices, schools, and radio stations, in that order on purpose.',
-    links: [
-      { label: 'Search Carole’s teachings on YouTube', href: CAROLE_SEARCH, external: true },
-      { label: 'Read how prayer birthed Favor', href: '/about/our-story/' },
-    ],
-  },
-  {
-    title: 'Spiritual Warfare',
-    body: 'The praying that has carried Favor through war zones and closed regions. Breakthrough Prayer is the closest published teaching; more is on the channel.',
-    links: [
-      { label: 'Watch Breakthrough Prayer, Part 1', href: '#videos' },
-      { label: 'Tear Down Strongholds and Conquer Fear, with Ryan Miller', href: 'https://www.youtube.com/watch?v=SQmpyOh-E-c', external: true },
-      { label: 'Browse teachings on YouTube', href: YOUTUBE_CHANNEL, external: true },
-    ],
-  },
-  {
-    title: 'Prayer Resources and Strategies',
-    body: 'Ready-to-use guides for praying with Favor, starting with one specific request per day across the nations we serve. No email required.',
-    links: [
-      { label: 'Open the National Prayer Guide', href: '/pray/30-day-guide/' },
-      { label: 'Pray with Favor', href: '/pray/' },
-      { label: 'Email a prayer request', href: 'mailto:prayer@favorintl.org' },
-    ],
-  },
-  {
-    title: 'Books',
-    body: 'Two books tell the story: Send Me Where No One Wants to Go (2017) and Lord Send Us Where No One Wants to Go (2025). Both are free on request.',
-    links: [
-      { label: 'See both books', href: '/books/' },
-      { label: 'Request a free copy', href: '/about/contact/?topic=book' },
-    ],
-  },
-  {
-    title: 'Videos',
-    body: 'Films from the field, Carole’s recorded teachings, and her speaking engagements. Three teachings are on this page; the full library is on Watch.',
-    links: [
-      { label: 'Watch teachings on this page', href: '#videos' },
-      { label: 'Browse the film library', href: '/watch/' },
-      { label: 'Speaking engagements playlist', href: SPEAKING_PLAYLIST, external: true },
-    ],
-  },
-  {
-    title: 'Courses',
-    body: 'Favor’s structured teaching runs on the field today through GIFT, Portable Bible Schools, and the Leadership Training Institute. Online courses arrive with the teaching library.',
-    links: [
-      { label: 'GIFT', href: '/impact/evangelism-discipleship/gift-institute/' },
-      { label: 'Portable Bible Schools', href: '/impact/evangelism-discipleship/portable-bible-schools/' },
-      { label: 'Leadership Training Institute', href: '/impact/education/leadership/' },
-    ],
-  },
-  {
-    title: 'Social Media',
-    body: 'Follow Favor for new teachings, testimonies, and field updates, or tune in live to Favour FM, the ministry’s own radio station.',
-    links: [
-      { label: 'YouTube', href: SITE.social.youtube, external: true },
-      { label: 'Facebook', href: SITE.social.facebook, external: true },
-      { label: 'Instagram', href: SITE.social.instagram, external: true },
-      { label: 'X', href: SITE.social.twitter, external: true },
-      { label: 'Listen live to Favour FM', href: FAVOUR_FM, external: true },
-    ],
-  },
+type Resource = { title: string; body: string; href: string; cta: string; external?: boolean };
+const resources: Resource[] = [
+  { title: 'Books', body: 'Send Me Where No One Wants to Go and its 2025 sequel. Both free on request.', href: '/books/', cta: 'See the books' },
+  { title: 'National Prayer Guide', body: 'One specific request a day, thirty days, across the nations Favor serves.', href: '/pray/30-day-guide/', cta: 'Open the guide' },
+  { title: 'Pray with Favor', body: 'How Favor prays, and how your prayers join the field teams.', href: '/pray/', cta: 'Start praying' },
+  { title: 'GIFT Institute', body: 'The residential discipleship school for former child soldiers and street kids.', href: '/impact/evangelism-discipleship/gift-institute/', cta: 'About GIFT' },
+  { title: 'Portable Bible Schools', body: 'Three months of Bible training carried village to village.', href: '/impact/evangelism-discipleship/portable-bible-schools/', cta: 'About the schools' },
+  { title: 'Leadership Training Institute', body: 'Training the leaders who carry the movement forward.', href: '/impact/education/leadership/', cta: 'About the institute' },
+  { title: 'Favour FM', body: 'Favor’s own radio station, live from northern Uganda. Teaching, prayer, and music around the clock.', href: FAVOUR_FM, cta: 'Listen live', external: true },
 ];
 
-// Carole's published teachings, verified against the Favor International
-// YouTube channel (same IDs the founder and watch pages use).
-const teachings = [
-  // Vision Video documentary (2025): professionally produced, with field B-roll.
-  { id: '0tLu_EL3FLA', title: 'Carole Ward Story: Send Me Where No One Wants to Go!', caption: 'The Vision Video documentary on Carole and the work God built through her.' },
-  { id: 'g2fB1RwyHNM', title: 'The Carole Ward Story', caption: 'Carole tells her own story at length: the prayer, the war, and how Favor began.' },
-  { id: 'XRrQ9Da3ToI', title: 'Breakthrough Prayer with Carole Ward, Part 1', caption: 'A teaching on the kind of praying that has marked Favor from the start.' },
-  { id: 'Y5pWE0AX97M', title: 'Reigniting a Passion for Prayer', caption: 'Carole on returning to the prayer that everything in Favor flows from.' },
-  { id: '32QTIfjF7Mg', title: 'First: Apostles', caption: 'Teaching from the field.' },
+const socials = [
+  { label: 'YouTube', href: SITE.social.youtube },
+  { label: 'Facebook', href: SITE.social.facebook },
+  { label: 'Instagram', href: SITE.social.instagram },
+  { label: 'X', href: SITE.social.twitter },
 ];
 ---
 <RedesignLayout
   title="Learn"
-  description="Carole Ward's teachings by topic: prayer and fasting, School of Prayer, giving birth prayer, spiritual warfare, prayer strategies, books, videos, and courses. Where to find each one."
+  description={`The Favor teaching library: ${videoCount} films and teachings from Carole Ward and the field, free and watchable right here. Prayer, spiritual warfare, testimonies, and the documentary.`}
 >
-  <PageHero
-    label="Learn"
-    title="Find the teaching you're looking for."
-    promise="You asked where Carole's teachings live. Here is every topic, and where to find each one."
-    image="/images/field-2026/carole-5.webp"
-    imageAlt="Carole Ward preaching at a pulpit in the field"
-    objectPosition="center 22%"
-    ctaLabel="Browse the topics"
-    ctaHref="#topics"
-  />
-
-  <section class="band band--white" id="topics">
-    <div class="container">
-      <LeafHeading
-        label="Teaching topics"
-        title="Organized by topic."
-        intro="A full online teaching library is on the way. Until it opens, each topic below points to teaching that is already published: on film, on YouTube, in Carole's books, or on this site."
-      />
-      <div class="topics">
-        {topics.map((t) => (
-          <article class="topic has-texture">
-            <h3>{t.title}</h3>
-            <p>{t.body}</p>
-            <ul class="topic__links">
-              {t.links.map((l) => (
-                <li>
-                  {l.external
-                    ? <a href={l.href} target="_blank" rel="noopener">{l.label} &rarr;</a>
-                    : <a href={l.href}>{l.label} &rarr;</a>}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
+  <!-- Cinematic featured hero: the documentary, playable on the spot. -->
+  <section class="lib-hero">
+    <img
+      class="lib-hero__backdrop"
+      src={`https://i.ytimg.com/vi/${featured.id}/maxresdefault.jpg`}
+      alt=""
+      width="1280"
+      height="720"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="lib-hero__scrim" aria-hidden="true"></div>
+    <div class="container lib-hero__inner">
+      <p class="label label--inverse">Learn &middot; The documentary</p>
+      <h1>{featured.title}</h1>
+      <p class="lib-hero__blurb">{featured.blurb}</p>
+      <div class="lib-hero__cta">
+        <button
+          class="btn btn--primary btn--large lib-play-btn"
+          type="button"
+          data-video-id={featured.id}
+          data-video-title={featured.title}
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+          Play the documentary
+        </button>
+        <a class="lib-hero__secondary" href="#library">Browse the library &rarr;</a>
       </div>
     </div>
   </section>
 
-  <section class="band band--cream" id="videos">
+  <!-- The library: one rail per row, deep green, cream text. -->
+  <section class="band lib" id="library">
+    <div class="container">
+      <header class="lib__header">
+        <p class="label label--inverse">The library</p>
+        <h2>{videoCount} films and teachings, free and watchable here.</h2>
+        <p class="lib__intro">
+          {hourCount} hours of Carole’s teaching, field films, and testimonies from the
+          nations your partnership reaches. Pick a row, press play, and settle in.
+        </p>
+      </header>
+      <nav class="lib__nav" aria-label="Library rows">
+        {rows.map((row) => (
+          <a class="lib__chip" href={`#${row.key}`}>{row.title}</a>
+        ))}
+      </nav>
+    </div>
+
+    {rows.map((row) => (
+      <section class="lib-row" id={row.key} aria-label={row.title}>
+        <div class="container lib-row__head">
+          <h3>{row.title}</h3>
+          <p>{row.blurb}</p>
+        </div>
+        <div class="lib-row__wrap">
+          <button class="lib-row__arrow lib-row__arrow--prev" type="button" aria-label={`Scroll ${row.title} back`} data-dir="-1">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <ul class="lib-rail" role="list">
+            {row.items.map((v) => {
+              const minutes = (v as { minutes?: number }).minutes;
+              return (
+                <li class="lib-rail__item">
+                  <button
+                    class="lib-card"
+                    type="button"
+                    data-video-id={v.id}
+                    data-video-title={v.title}
+                    aria-label={minutes ? `Play ${v.title}, ${minutes} minutes` : `Play ${v.title}`}
+                  >
+                    <span class="lib-card__thumb">
+                      <img
+                        src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        width="480"
+                        height="360"
+                      />
+                      {minutes && <span class="lib-card__time">{minutes} min</span>}
+                      <span class="lib-card__play" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                      </span>
+                    </span>
+                    <span class="lib-card__title">{v.title}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <button class="lib-row__arrow lib-row__arrow--next" type="button" aria-label={`Scroll ${row.title} forward`} data-dir="1">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+    ))}
+
+    <div class="container lib__footer">
+      <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener">Watch the full channel on YouTube &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Secondary strip: the non-video ways to learn. -->
+  <section class="band band--cream" id="resources">
     <div class="container">
       <LeafHeading
-        label="Watch"
-        title="Teachings on film."
-        intro="Start with the documentary. The rest of Carole's recorded teaching lives on the Favor International YouTube channel."
+        label="Beyond the videos"
+        title="More ways to learn."
+        intro="Books, prayer guides, and the schools where this teaching runs on the field every day."
       />
-      <div class="teachings-grid">
-        {teachings.map((v) => (
-          <VideoEmbed id={v.id} title={v.title} caption={v.caption} />
+      <div class="lib-resources">
+        {resources.map((r) => (
+          <article class="lib-resource has-texture">
+            <h3>{r.title}</h3>
+            <p>{r.body}</p>
+            {r.external
+              ? <a href={r.href} target="_blank" rel="noopener">{r.cta} &rarr;</a>
+              : <a href={r.href}>{r.cta} &rarr;</a>}
+          </article>
         ))}
+        <article class="lib-resource lib-resource--social has-texture">
+          <h3>Follow Favor</h3>
+          <p>New teachings, testimonies, and field updates as they land.</p>
+          <ul class="lib-resource__socials" role="list">
+            {socials.map((s) => (
+              <li><a href={s.href} target="_blank" rel="noopener">{s.label}</a></li>
+            ))}
+          </ul>
+        </article>
       </div>
-      <p class="teachings-more">
-        <a href="/watch/">Browse the film library &rarr;</a>
-        <a href={SPEAKING_PLAYLIST} target="_blank" rel="noopener">Speaking engagements playlist &rarr;</a>
-        <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener">Watch the full channel on YouTube &rarr;</a>
-      </p>
     </div>
   </section>
 
@@ -183,44 +192,369 @@ const teachings = [
     image="/images/field-2026/carole-4.webp"
     imageAlt="Carole Ward in prayer in the field"
   />
+
+  <!-- Shared lightbox player. One dialog for the whole page. -->
+  <dialog class="lib-player" id="lib-player" aria-labelledby="lib-player-title">
+    <div class="lib-player__inner">
+      <button class="lib-player__close" type="button" aria-label="Close player">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="lib-player__frame">
+        <iframe
+          id="lib-player-iframe"
+          title="Video player"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+      <div class="lib-player__bar">
+        <p id="lib-player-title"></p>
+        <a id="lib-player-outlink" href="#" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+      </div>
+    </div>
+  </dialog>
 </RedesignLayout>
 
+<script>
+  const initLibrary = () => {
+    const dialog = document.getElementById('lib-player') as HTMLDialogElement | null;
+    if (!dialog || dialog.dataset.ready === 'true') return;
+    dialog.dataset.ready = 'true';
+
+    const iframe = document.getElementById('lib-player-iframe') as HTMLIFrameElement;
+    const titleEl = document.getElementById('lib-player-title') as HTMLElement;
+    const outlink = document.getElementById('lib-player-outlink') as HTMLAnchorElement;
+    let opener: HTMLElement | null = null;
+
+    const openPlayer = (id: string, title: string, trigger: HTMLElement) => {
+      opener = trigger;
+      titleEl.textContent = title;
+      iframe.title = title;
+      outlink.href = `https://www.youtube.com/watch?v=${id}`;
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      dialog.showModal();
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-video-id]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        openPlayer(btn.dataset.videoId || '', btn.dataset.videoTitle || '', btn);
+      });
+    });
+
+    // Kill playback and hand focus back. Idempotent, and wired to every
+    // close path directly rather than trusting the close event alone.
+    const cleanup = () => {
+      iframe.src = '';
+      if (opener) {
+        opener.focus();
+        opener = null;
+      }
+    };
+    const closePlayer = () => {
+      if (dialog.open) dialog.close();
+      cleanup();
+    };
+
+    // Scrim click: a click whose target is the dialog itself landed on the
+    // backdrop, not the content.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) closePlayer();
+    });
+    dialog.querySelector('.lib-player__close')?.addEventListener('click', closePlayer);
+    // Escape fires cancel, then the browser closes the dialog itself.
+    dialog.addEventListener('cancel', () => setTimeout(cleanup, 0));
+    dialog.addEventListener('close', cleanup);
+
+    // Rail arrows: scroll one viewport-ish page, fade out at the edges.
+    document.querySelectorAll<HTMLElement>('.lib-row__wrap').forEach((wrap) => {
+      const rail = wrap.querySelector<HTMLElement>('.lib-rail');
+      if (!rail) return;
+      const arrows = wrap.querySelectorAll<HTMLButtonElement>('.lib-row__arrow');
+
+      const updateArrows = () => {
+        const maxScroll = rail.scrollWidth - rail.clientWidth - 1;
+        arrows.forEach((a) => {
+          const dir = Number(a.dataset.dir);
+          const atEdge = dir < 0 ? rail.scrollLeft <= 0 : rail.scrollLeft >= maxScroll;
+          a.toggleAttribute('data-at-edge', atEdge);
+        });
+      };
+
+      arrows.forEach((a) => {
+        a.addEventListener('click', () => {
+          const dir = Number(a.dataset.dir);
+          rail.scrollBy({ left: dir * rail.clientWidth * 0.85, behavior: 'smooth' });
+        });
+      });
+
+      rail.addEventListener('scroll', updateArrows, { passive: true });
+      window.addEventListener('resize', updateArrows, { passive: true });
+      updateArrows();
+    });
+  };
+
+  initLibrary();
+  document.addEventListener('astro:page-load', initLibrary);
+</script>
+
 <style>
-  .topics {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
-    margin-top: clamp(40px, 5vw, 64px);
-  }
-  @media (max-width: 1000px) { .topics { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .topics { grid-template-columns: 1fr; } }
-  .topic {
+  /* ---------- Hero ---------- */
+  .lib-hero {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
+    min-height: clamp(480px, 68vh, 720px);
+    overflow: hidden;
+    background: var(--color-green-deep);
+    color: var(--color-white);
+  }
+  .lib-hero__backdrop {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+  }
+  .lib-hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(20, 30, 18, 0.25) 0%, rgba(20, 30, 18, 0.55) 55%, rgba(20, 30, 18, 0.95) 100%),
+      linear-gradient(90deg, rgba(20, 30, 18, 0.72) 0%, rgba(20, 30, 18, 0.30) 55%, rgba(20, 30, 18, 0.05) 100%);
+  }
+  .lib-hero__inner { position: relative; z-index: 2; padding-top: var(--space-24); padding-bottom: clamp(40px, 6vw, 72px); }
+  .lib-hero h1 {
+    color: var(--color-white);
+    font-size: clamp(2.1rem, 4.4vw, 3.6rem);
+    margin: var(--space-3) 0 var(--space-4);
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .lib-hero__blurb {
+    max-width: 52ch;
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.65;
+    color: color-mix(in srgb, var(--color-cream) 92%, transparent);
+    margin: 0 0 var(--space-6);
+  }
+  .lib-hero__cta { display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap; }
+  .lib-play-btn { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .lib-hero__secondary {
+    display: inline-flex; align-items: center; min-height: 44px;
+    color: var(--color-white); text-decoration: none; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85rem;
+    border-bottom: 2px solid var(--color-gold);
+  }
+  .lib-hero__secondary:hover { color: var(--color-gold); }
+
+  /* ---------- Library band ---------- */
+  .lib {
+    background: var(--color-green-deep);
+    color: var(--color-cream);
+  }
+  .lib__header { max-width: 720px; }
+  .lib__header h2 { color: var(--color-white); margin: var(--space-2) 0 var(--space-4); }
+  .lib__intro { color: color-mix(in srgb, var(--color-cream) 88%, transparent); line-height: 1.7; margin: 0; }
+
+  .lib__nav {
+    display: flex; flex-wrap: wrap; gap: var(--space-2);
+    margin: var(--space-8) 0 var(--space-4);
+  }
+  .lib__chip {
+    display: inline-flex; align-items: center; min-height: 40px;
+    padding: 0 var(--space-4);
+    border: 1px solid color-mix(in srgb, var(--color-cream) 35%, transparent);
+    border-radius: var(--radius-pill);
+    color: var(--color-cream); text-decoration: none;
+    font-size: 0.88rem; font-weight: 600;
+  }
+  .lib__chip:hover { border-color: var(--color-gold); color: var(--color-gold); }
+
+  /* ---------- Rows ---------- */
+  .lib-row { margin-top: clamp(36px, 4.5vw, 56px); scroll-margin-top: 90px; }
+  .lib-row__head { display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4); }
+  .lib-row__head h3 {
+    font-family: var(--font-display);
+    color: var(--color-white);
+    font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+    margin: 0;
+  }
+  .lib-row__head p { margin: 0; color: color-mix(in srgb, var(--color-cream) 75%, transparent); font-size: 0.95rem; }
+
+  .lib-row__wrap { position: relative; }
+
+  .lib-rail {
+    display: flex;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    /* Align the first card with the .container edge at any viewport width,
+       while the rail itself bleeds full width for edge-to-edge scrolling.
+       scroll-padding matches so snap points respect the same edge; without
+       it the browser snaps the rail off its start position on load. */
+    --rail-pad: max(calc((100vw - var(--content-max)) / 2 + var(--space-6)), var(--space-6));
+    padding: var(--space-1) var(--rail-pad);
+    scroll-padding-inline: var(--rail-pad);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .lib-rail::-webkit-scrollbar { display: none; }
+  .lib-rail__item { flex: 0 0 auto; scroll-snap-align: start; }
+
+  /* ---------- Cards ---------- */
+  .lib-card {
+    display: block;
+    width: min(280px, 72vw);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+  }
+  .lib-card__thumb {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.35);
+    box-shadow: var(--shadow-card);
+  }
+  .lib-card__thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.25s ease;
+  }
+  .lib-card:hover .lib-card__thumb img,
+  .lib-card:focus-visible .lib-card__thumb img { transform: scale(1.05); }
+  .lib-card:focus-visible .lib-card__thumb { outline: 3px solid var(--color-gold); outline-offset: 2px; }
+  .lib-card__time {
+    position: absolute; right: var(--space-2); bottom: var(--space-2);
+    padding: 2px 8px;
+    background: rgba(15, 22, 13, 0.85);
+    color: var(--color-cream);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .lib-card__play {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    color: var(--color-white);
+    background: rgba(20, 30, 18, 0.35);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .lib-card__play svg {
+    background: var(--color-gold);
+    color: var(--color-green-deep);
+    border-radius: 50%;
+    padding: 12px;
+    width: 48px; height: 48px;
+  }
+  .lib-card:hover .lib-card__play,
+  .lib-card:focus-visible .lib-card__play { opacity: 1; }
+  .lib-card__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: var(--space-3);
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-cream);
+  }
+
+  /* ---------- Rail arrows: pointer devices only ---------- */
+  .lib-row__arrow {
+    display: none;
+    position: absolute; top: 0; z-index: 3;
+    height: calc(min(280px, 72vw) * 9 / 16 + var(--space-1) * 2);
+    width: 48px;
+    align-items: center; justify-content: center;
+    border: 0; cursor: pointer;
+    color: var(--color-white);
+    transition: opacity 0.2s ease;
+  }
+  .lib-row__arrow--prev { left: 0; background: linear-gradient(90deg, rgba(31, 58, 26, 0.92), rgba(31, 58, 26, 0)); }
+  .lib-row__arrow--next { right: 0; background: linear-gradient(270deg, rgba(31, 58, 26, 0.92), rgba(31, 58, 26, 0)); }
+  .lib-row__arrow:hover { color: var(--color-gold); }
+  .lib-row__arrow[data-at-edge] { opacity: 0; pointer-events: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .lib-row__arrow { display: flex; }
+  }
+
+  .lib__footer { margin-top: clamp(40px, 5vw, 64px); text-align: center; }
+  .lib__footer a { color: var(--color-gold); font-weight: 700; text-decoration: none; }
+  .lib__footer a:hover { text-decoration: underline; }
+
+  /* ---------- Resources strip ---------- */
+  .lib-resources {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+    margin-top: clamp(36px, 4.5vw, 56px);
+  }
+  @media (max-width: 1100px) { .lib-resources { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .lib-resources { grid-template-columns: 1fr; } }
+  .lib-resource {
     background: var(--color-white);
     border: 2px solid var(--accent, var(--color-gold));
     border-radius: var(--radius-card);
-    padding: var(--space-8);
+    padding: var(--space-6);
     box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
   }
-  /* Rotate the accent through the site palette so the wall of cards reads
-     as a library, not a grid of clones. Same trick as the watch cards. */
-  .topic:nth-child(3n + 1) { --accent: var(--color-gold-deep); }
-  .topic:nth-child(3n + 2) { --accent: var(--color-green-bright); }
-  .topic:nth-child(3n + 3) { --accent: var(--color-terracotta); }
-  .topic h3 { margin: 0 0 var(--space-3); color: var(--color-green); font-size: 1.25rem; }
-  .topic p { margin: 0 0 var(--space-5); color: var(--color-ink-soft); line-height: 1.7; }
-  .topic__links { list-style: none; margin: auto 0 0; padding: 0; display: grid; gap: var(--space-2); }
-  .topic__links a {
-    color: var(--color-gold-deep);
-    font-weight: 700;
-    font-size: 0.92rem;
-    text-decoration: none;
-  }
-  .topic__links a:hover { color: var(--color-green); text-decoration: underline; }
+  .lib-resource:nth-child(3n + 1) { --accent: var(--color-gold-deep); }
+  .lib-resource:nth-child(3n + 2) { --accent: var(--color-green-bright); }
+  .lib-resource:nth-child(3n + 3) { --accent: var(--color-terracotta); }
+  .lib-resource h3 { margin: 0 0 var(--space-2); color: var(--color-green); font-size: 1.1rem; }
+  .lib-resource p { margin: 0 0 var(--space-4); color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.6; flex-grow: 1; }
+  .lib-resource > a { color: var(--color-gold-deep); font-weight: 700; font-size: 0.92rem; text-decoration: none; }
+  .lib-resource > a:hover { color: var(--color-green); text-decoration: underline; }
+  .lib-resource__socials { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+  .lib-resource__socials a { color: var(--color-gold-deep); font-weight: 700; font-size: 0.92rem; text-decoration: none; }
+  .lib-resource__socials a:hover { color: var(--color-green); text-decoration: underline; }
 
-  .teachings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); margin-top: clamp(40px, 5vw, 64px); }
-  @media (max-width: 1000px) { .teachings-grid { grid-template-columns: 1fr; max-width: 720px; margin-inline: auto; } }
-  .teachings-more { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); justify-content: center; margin: var(--space-10) 0 0; }
-  .teachings-more a { color: var(--color-gold-deep); font-weight: 700; }
+  /* ---------- Player dialog ---------- */
+  .lib-player {
+    width: min(960px, calc(100vw - var(--space-8)));
+    max-width: none;
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 0;
+    background: var(--color-green-deep);
+    color: var(--color-cream);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  }
+  .lib-player::backdrop { background: rgba(10, 15, 8, 0.82); }
+  .lib-player__inner { position: relative; }
+  .lib-player__frame { aspect-ratio: 16 / 9; background: #000; border-radius: var(--radius-card) var(--radius-card) 0 0; overflow: hidden; }
+  .lib-player__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .lib-player__bar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--space-4); flex-wrap: wrap;
+    padding: var(--space-4) var(--space-5);
+  }
+  .lib-player__bar p { margin: 0; font-weight: 700; color: var(--color-white); }
+  .lib-player__bar a { color: var(--color-gold); font-weight: 700; font-size: 0.88rem; text-decoration: none; white-space: nowrap; }
+  .lib-player__bar a:hover { text-decoration: underline; }
+  .lib-player__close {
+    position: absolute; top: calc(-1 * var(--space-12)); right: 0;
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    border: 0; border-radius: 50%;
+    background: rgba(250, 247, 241, 0.14);
+    color: var(--color-white);
+    cursor: pointer;
+  }
+  .lib-player__close:hover { background: rgba(250, 247, 241, 0.28); }
+  @media (max-width: 560px) {
+    .lib-player { width: calc(100vw - var(--space-4)); }
+    .lib-player__close { top: var(--space-2); right: var(--space-2); z-index: 4; background: rgba(15, 22, 13, 0.7); }
+  }
 </style>
