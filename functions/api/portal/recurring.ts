@@ -1,7 +1,8 @@
 // POST /api/portal/recurring
 //
 // Server-to-server recurring-gift management for the Favor Partner Portal.
-// Body: { email, gift_id, action: "pause"|"resume"|"cancel" } or
+// Body: { email, gift_id, action: "pause"|"resume"|"cancel" }
+//       { email, gift_id, action: "update_card", card_token: uuid }
 //       { email, gift_id, amount: 123.45 }
 //
 // Ownership is enforced HERE, not trusted from the caller: the gift is
@@ -14,7 +15,16 @@
 // Auth: Authorization: Bearer <PORTAL_API_KEY> (same trust pair as
 // giving-history).
 
-import { bbFetch, bbJson, requireCredentials, BlackbaudError, type Env } from '../_lib/blackbaud';
+import {
+  bbFetch,
+  bbJson,
+  cardTokenVaulted,
+  convertRecurringGiftToAutomatic,
+  getPaymentConfig,
+  requireCredentials,
+  BlackbaudError,
+  type Env,
+} from '../_lib/blackbaud';
 import { errorJson, handleError, json, readJsonBody } from '../_lib/http';
 
 interface GiftDetail {
@@ -61,6 +71,7 @@ interface RecurringBody {
   gift_id?: unknown;
   action?: unknown;
   amount?: unknown;
+  card_token?: unknown;
 }
 
 export const onRequestPost: PagesFunction<Env & { PORTAL_API_KEY?: string }> = async ({ request, env }) => {
@@ -98,6 +109,27 @@ export const onRequestPost: PagesFunction<Env & { PORTAL_API_KEY?: string }> = a
         body: JSON.stringify({ status }),
       });
       return json({ ok: true, status });
+    }
+
+    // Change the card on file (Will, 2026-08-06: partners must be able to do
+    // this themselves). The portal opened Blackbaud Checkout, which vaulted
+    // the new card under card_token; the card itself never touches us, so PCI
+    // scope is unchanged. Re-running converttoautomatic with the new token
+    // repoints the schedule at the new card.
+    if (action === 'update_card') {
+      const cardToken = typeof body.card_token === 'string' ? body.card_token.trim() : '';
+      if (!/^[0-9a-f-]{36}$/i.test(cardToken)) return errorJson('bad_card_token', 'card_token required', 400);
+
+      const vaulted = await cardTokenVaulted(env, cardToken);
+      if (!vaulted) {
+        return errorJson('card_not_vaulted', 'That card was not saved. Please try again, and avoid digital wallets for monthly gifts.', 400);
+      }
+      const payConfig = await getPaymentConfig(env);
+      const conv = await convertRecurringGiftToAutomatic(env, giftId, payConfig.id, cardToken);
+      if (!conv.automated) {
+        return errorJson('card_update_failed', conv.detail ?? 'Blackbaud rejected the card update', 502);
+      }
+      return json({ ok: true, action: 'update_card' });
     }
 
     const amountRaw = Number(body.amount);
