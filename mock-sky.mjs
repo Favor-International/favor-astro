@@ -66,6 +66,8 @@ const routes = [
   { m: 'PATCH', p: /^\/constituent\/v1\/emailaddresses\/[^/]+$/, h: () => ({ ok: true }) },
   { m: 'PATCH', p: /^\/constituent\/v1\/addresses\/[^/]+$/, h: () => ({ ok: true }) },
   { m: 'PATCH', p: /^\/constituent\/v1\/phones\/[^/]+$/, h: () => ({ ok: true }) },
+  // Ownership checks fetch the gift record; 52713 is Jennifer's test shape.
+  { m: 'GET', p: /^\/gift\/v1\/gifts\/\d+$/, h: () => ({ id: '52713', type: 'RecurringGift', constituent_id: '27611', amount: { value: 25 }, gift_splits: [{ fund_id: '42', amount: { value: 25 } }] }) },
   { m: 'GET', p: /^\/gift\/v1\/recurringgifts\/[^/]+\/canbeconverted$/, h: () => ({ can_be_converted: true, token_will_be_required: true }) },
   { m: 'POST', p: /^\/gift\/v1\/recurringgifts\/[^/]+\/converttoautomatic$/, h: () => ({}) },
   { m: 'GET', p: /^\/fundraising\/v1\/funds/, h: () => ({ count: 2, value: [ { id: '42', description: 'Where Most Needed', inactive: false }, { id: '77', description: 'Portable Bible Schools', inactive: false } ] }) },

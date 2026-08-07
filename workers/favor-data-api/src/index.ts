@@ -261,6 +261,22 @@ export default {
         }
         return await givingHistory(env, email);
       }
+      if (url.pathname === '/constituent-ids' && request.method === 'GET') {
+        // Every non-deceased constituent carrying this email, on ANY of their
+        // email rows. The SKY constituent search only matches the PRIMARY
+        // email, which broke recurring-gift management for anyone whose
+        // portal email is a secondary address (Jennifer Morris, 2026-08-07).
+        const email = (url.searchParams.get('email') ?? '').trim().toLowerCase();
+        if (!/^[^s@]+@[^s@]+.[^s@]{2,}$/.test(email)) {
+          return json({ ok: false, error: 'valid email required' }, 400);
+        }
+        const rows = await env.DB.prepare(
+          `SELECT DISTINCT e.constituent_record_id id
+           FROM emails e JOIN constituents c ON c.id = e.constituent_record_id
+           WHERE LOWER(e.email_address) = ?1 AND (c.deceased IS NULL OR c.deceased = 0)`
+        ).bind(email).all();
+        return json({ ok: true, ids: (rows.results ?? []).map((r) => String((r as { id: string }).id)) });
+      }
       if (url.pathname === '/gifts/realtime' && request.method === 'POST') {
         return await realtimeGift(env, (await request.json()) as RealtimeGift);
       }

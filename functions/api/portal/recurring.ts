@@ -26,6 +26,7 @@ import {
   type Env,
 } from '../_lib/blackbaud';
 import { errorJson, handleError, json, readJsonBody } from '../_lib/http';
+import { constituentIdsForEmail, type DataApiEnv } from '../_lib/dataapi';
 
 interface GiftDetail {
   id: string;
@@ -74,7 +75,7 @@ interface RecurringBody {
   card_token?: unknown;
 }
 
-export const onRequestPost: PagesFunction<Env & { PORTAL_API_KEY?: string }> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env & DataApiEnv & { PORTAL_API_KEY?: string }> = async ({ request, env }) => {
   try {
     if (!env.PORTAL_API_KEY) return errorJson('portal_disabled', 'PORTAL_API_KEY is not configured', 503);
     const supplied = (request.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '');
@@ -89,12 +90,20 @@ export const onRequestPost: PagesFunction<Env & { PORTAL_API_KEY?: string }> = a
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return errorJson('bad_email', 'Valid email required', 400);
     if (!giftId || giftId.length > 40) return errorJson('bad_gift', 'gift_id required', 400);
 
-    // Ownership: the gift must belong to the constituent for this email.
-    const [constituentId, gift] = await Promise.all([
-      constituentIdForEmail(env, email),
+    // Ownership: the gift must belong to a constituent carrying this email.
+    // The sync database knows every email row; the SKY search (fallback)
+    // only matches the primary address, which locked out donors whose portal
+    // email is secondary on their record.
+    const [ids, gift] = await Promise.all([
+      constituentIdsForEmail(env, email),
       bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(giftId)}`),
     ]);
-    if (!constituentId || gift.constituent_id !== constituentId) {
+    let owned = ids !== null && !!gift.constituent_id && ids.includes(String(gift.constituent_id));
+    if (!owned && ids === null) {
+      const constituentId = await constituentIdForEmail(env, email);
+      owned = !!constituentId && gift.constituent_id === constituentId;
+    }
+    if (!owned) {
       return errorJson('not_owner', 'This gift does not belong to that donor', 403);
     }
     if (gift.type !== 'RecurringGift') {

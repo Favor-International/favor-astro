@@ -51,3 +51,22 @@ export async function pushGiftRealtime(env: DataApiEnv, gift: RealtimeGiftPush):
     );
   }
 }
+
+/**
+ * Every constituent id carrying this email, from the sync database (all email
+ * rows, not only the primary). Returns null when the data API is not
+ * configured or unreachable, so callers can fall back to the SKY search.
+ */
+export async function constituentIdsForEmail(env: DataApiEnv, email: string): Promise<string[] | null> {
+  if (!env.DATA_API_URL || !env.DATA_API_KEY) return null;
+  try {
+    const res = await fetch(
+      `${env.DATA_API_URL.replace(/\/$/, '')}/constituent-ids?email=${encodeURIComponent(email)}`,
+      { headers: { Authorization: `Bearer ${env.DATA_API_KEY}` }, signal: AbortSignal.timeout(8000) }
+    );
+    const data = (await res.json().catch(() => ({}))) as { ok?: boolean; ids?: string[] };
+    return res.ok && data.ok && Array.isArray(data.ids) ? data.ids : null;
+  } catch {
+    return null;
+  }
+}
