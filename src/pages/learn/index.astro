@@ -4,27 +4,31 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import { SITE } from '../../lib/site';
 import teachings from '../../data/teachings.json';
+import inventory from '../../../docs/06-reference/youtube-inventory-2026-08-07.json';
 
-// The Favor video library. Every card on this page opens a real, verified
-// video in an on-page player. Nothing dead-ends at a bare channel link.
-// Data lives in src/data/teachings.json; edit the library there, not here.
+// The Favor video library, styled as a streaming app: near-black canvas,
+// billboard hero, a liquid-glass command bar with search (Cmd+K), tile rows
+// that scale on hover, and a Most Watched row ranked by real YouTube views.
+// Every card opens a real, verified video in the on-page player. Data lives
+// in src/data/teachings.json; edit the library there, not here.
 const featured = teachings.featured;
 const rows = teachings.rows;
 
 const FAVOUR_FM = 'https://zeno.fm/radio/favour-fm/';
 const YOUTUBE_CHANNEL = 'https://www.youtube.com/c/FavorInternational';
 
-// Library totals for the intro line, deduped because a few teachings sit in
-// two rows on purpose.
-const seen = new Set<string>();
-let totalMinutes = 0;
-for (const row of rows) {
-  for (const item of row.items) {
-    if (seen.has(item.id)) continue;
-    seen.add(item.id);
-    totalMinutes += (item as { minutes?: number }).minutes ?? 0;
-  }
-}
+// Most Watched: rank every placed video by its actual channel view count.
+// Externals have no inventory row, so this is Favor's own channel only.
+const viewsById = new Map<string, number>(
+  inventory.uploads.map((u: { id: string; views: number | null }) => [u.id, u.views ?? 0])
+);
+type Item = { id: string; title: string; minutes?: number };
+const placed = new Map<string, Item>();
+for (const row of rows) for (const item of row.items as Item[]) placed.set(item.id, item);
+const mostWatched = [...placed.values()]
+  .filter((v) => (viewsById.get(v.id) ?? 0) > 0)
+  .sort((a, b) => (viewsById.get(b.id) ?? 0) - (viewsById.get(a.id) ?? 0))
+  .slice(0, 10);
 
 type Resource = { title: string; body: string; href: string; cta: string; external?: boolean };
 const resources: Resource[] = [
@@ -48,108 +52,160 @@ const socials = [
   title="Learn"
   description="The Favor video library: Carole Ward's teachings, field films, and testimonies, free to watch right here. New videos added all the time."
 >
-  <!-- Cinematic featured hero: the featured video, playable on the spot. -->
-  <section class="lib-hero">
-    <img
-      class="lib-hero__backdrop"
-      src="/images/field-2026/carole-4.webp"
-      alt=""
-      width="1600"
-      height="902"
-      fetchpriority="high"
-      decoding="async"
-    />
-    <div class="lib-hero__scrim" aria-hidden="true"></div>
-    <div class="container lib-hero__inner">
-      <p class="label label--inverse">Learn &middot; Featured</p>
-      <h1>{featured.title}</h1>
-      <p class="lib-hero__blurb">{featured.blurb}</p>
-      <div class="lib-hero__cta">
-        <button
-          class="btn btn--primary btn--large lib-play-btn"
-          type="button"
-          data-video-id={featured.id}
-          data-video-title={featured.title}
-        >
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-          Play the video
-        </button>
-        <a class="lib-hero__secondary" href="#library">Browse the library &rarr;</a>
+  <div class="lib-app">
+    <!-- Billboard: the featured video, playable on the spot. -->
+    <section class="lib-hero">
+      <img
+        class="lib-hero__backdrop"
+        src="/images/field-2026/carole-4.webp"
+        alt=""
+        width="1600"
+        height="902"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="lib-hero__scrim" aria-hidden="true"></div>
+      <div class="container lib-hero__inner">
+        <p class="label label--inverse">Learn &middot; Featured</p>
+        <h1>{featured.title}</h1>
+        <p class="lib-hero__meta">Vision Video &middot; Her story on film</p>
+        <p class="lib-hero__blurb">{featured.blurb}</p>
+        <div class="lib-hero__cta">
+          <button
+            class="btn btn--primary btn--large lib-play-btn"
+            type="button"
+            data-video-id={featured.id}
+            data-video-title={featured.title}
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+            Play
+          </button>
+          <a class="lib-hero__secondary" href="#library">Browse the library &rarr;</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- The library: one rail per row, deep green, cream text. -->
-  <section class="band lib" id="library">
-    <div class="container">
-      <header class="lib__header">
-        <p class="label label--inverse">The library</p>
-        <h2>Here are the videos.</h2>
-        <p class="lib__intro">
-          Carole’s teachings, films from the field, and testimonies. We add more all
-          the time, so come back.
-        </p>
-      </header>
-      <nav class="lib__nav" aria-label="Library rows">
-        {rows.map((row) => (
-          <a class="lib__chip" href={`#${row.key}`}>{row.title}</a>
-        ))}
-      </nav>
-    </div>
+    <!-- The library. -->
+    <section class="lib" id="library">
+      <!-- Liquid-glass command bar: search plus row jumps, stuck under the header. -->
+      <div class="lib-bar" id="lib-bar">
+        <div class="container lib-bar__inner">
+          <div class="lib-bar__glass">
+            <label class="lib-search">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.8-3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <input
+                id="lib-search-input"
+                type="search"
+                placeholder="Search the library"
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="Search the video library"
+              />
+              <kbd class="lib-search__kbd" aria-hidden="true">⌘K</kbd>
+            </label>
+            <nav class="lib-bar__chips" aria-label="Library rows">
+              <a class="lib__chip" href="#most-watched">Most Watched</a>
+              {rows.map((row) => (
+                <a class="lib__chip" href={`#${row.key}`}>{row.title}</a>
+              ))}
+            </nav>
+          </div>
+          <p class="lib-bar__status" id="lib-search-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
 
-    {rows.map((row) => (
-      <section class="lib-row" id={row.key} aria-label={row.title}>
+      <!-- Most Watched: ranked by real view counts on Favor's channel. -->
+      <section class="lib-row lib-row--first lib-row--ranked" id="most-watched" aria-label="Most Watched">
         <div class="container lib-row__head">
-          <h3>{row.title}</h3>
-          <p>{row.blurb}</p>
+          <h3>Most Watched</h3>
         </div>
         <div class="lib-row__wrap">
-          <button class="lib-row__arrow lib-row__arrow--prev" type="button" aria-label={`Scroll ${row.title} back`} data-dir="-1">
+          <button class="lib-row__arrow lib-row__arrow--prev" type="button" aria-label="Scroll Most Watched back" data-dir="-1">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg>
           </button>
           <ul class="lib-rail" role="list">
-            {row.items.map((v) => {
-              const minutes = (v as { minutes?: number }).minutes;
-              return (
-                <li class="lib-rail__item">
-                  <button
-                    class="lib-card"
-                    type="button"
-                    data-video-id={v.id}
-                    data-video-title={v.title}
-                    aria-label={minutes ? `Play ${v.title}, ${minutes} minutes` : `Play ${v.title}`}
-                  >
-                    <span class="lib-card__thumb">
-                      <img
-                        src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        width="480"
-                        height="360"
-                      />
-                      {minutes && <span class="lib-card__time">{minutes} min</span>}
-                      <span class="lib-card__play" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-                      </span>
+            {mostWatched.map((v, i) => (
+              <li class="lib-rail__item lib-rank">
+                <span class="lib-rank__num" aria-hidden="true">{i + 1}</span>
+                <button
+                  class="lib-card"
+                  type="button"
+                  data-video-id={v.id}
+                  data-video-title={v.title}
+                  data-search={v.title.toLowerCase()}
+                  aria-label={`Most watched number ${i + 1}: play ${v.title}`}
+                >
+                  <span class="lib-card__thumb">
+                    <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+                    {v.minutes && <span class="lib-card__time">{v.minutes} min</span>}
+                    <span class="lib-card__overlay" aria-hidden="true"><span class="lib-card__overlay-title">{v.title}</span></span>
+                    <span class="lib-card__play" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
                     </span>
-                    <span class="lib-card__title">{v.title}</span>
-                  </button>
-                </li>
-              );
-            })}
+                  </span>
+                  <span class="lib-card__title">{v.title}</span>
+                </button>
+              </li>
+            ))}
           </ul>
-          <button class="lib-row__arrow lib-row__arrow--next" type="button" aria-label={`Scroll ${row.title} forward`} data-dir="1">
+          <button class="lib-row__arrow lib-row__arrow--next" type="button" aria-label="Scroll Most Watched forward" data-dir="1">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg>
           </button>
         </div>
       </section>
-    ))}
 
-    <div class="container lib__footer">
-      <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener">Watch the full channel on YouTube &rarr;</a>
-    </div>
-  </section>
+      {rows.map((row) => (
+        <section class="lib-row" id={row.key} aria-label={row.title}>
+          <div class="container lib-row__head">
+            <h3>{row.title}</h3>
+          </div>
+          <div class="lib-row__wrap">
+            <button class="lib-row__arrow lib-row__arrow--prev" type="button" aria-label={`Scroll ${row.title} back`} data-dir="-1">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <ul class="lib-rail" role="list">
+              {row.items.map((v) => {
+                const minutes = (v as { minutes?: number }).minutes;
+                return (
+                  <li class="lib-rail__item">
+                    <button
+                      class="lib-card"
+                      type="button"
+                      data-video-id={v.id}
+                      data-video-title={v.title}
+                      data-search={v.title.toLowerCase()}
+                      aria-label={minutes ? `Play ${v.title}, ${minutes} minutes` : `Play ${v.title}`}
+                    >
+                      <span class="lib-card__thumb">
+                        <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+                        {minutes && <span class="lib-card__time">{minutes} min</span>}
+                        <span class="lib-card__overlay" aria-hidden="true"><span class="lib-card__overlay-title">{v.title}</span></span>
+                        <span class="lib-card__play" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                        </span>
+                      </span>
+                      <span class="lib-card__title">{v.title}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <button class="lib-row__arrow lib-row__arrow--next" type="button" aria-label={`Scroll ${row.title} forward`} data-dir="1">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </section>
+      ))}
+
+      <p class="lib-empty container" id="lib-empty" hidden>
+        Nothing matches that search. Try prayer, warfare, school, or a country.
+      </p>
+
+      <div class="container lib__footer">
+        <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener">Watch the full channel on YouTube &rarr;</a>
+      </div>
+    </section>
+  </div>
 
   <!-- Secondary strip: the non-video ways to learn. -->
   <section class="band band--cream" id="resources">
@@ -216,6 +272,14 @@ const socials = [
 
 <script>
   const initLibrary = () => {
+    // Pin the glass bar directly beneath the real header, whatever its height.
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const setHeaderVar = () => {
+      if (header) document.documentElement.style.setProperty("--header-h", header.offsetHeight + "px");
+    };
+    setHeaderVar();
+    window.addEventListener("resize", setHeaderVar, { passive: true });
+
     const dialog = document.getElementById('lib-player') as HTMLDialogElement | null;
     if (!dialog || dialog.dataset.ready === 'true') return;
     dialog.dataset.ready = 'true';
@@ -253,14 +317,10 @@ const socials = [
       if (dialog.open) dialog.close();
       cleanup();
     };
-
-    // Scrim click: a click whose target is the dialog itself landed on the
-    // backdrop, not the content.
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog) closePlayer();
     });
     dialog.querySelector('.lib-player__close')?.addEventListener('click', closePlayer);
-    // Escape fires cancel, then the browser closes the dialog itself.
     dialog.addEventListener('cancel', () => setTimeout(cleanup, 0));
     dialog.addEventListener('close', cleanup);
 
@@ -269,7 +329,6 @@ const socials = [
       const rail = wrap.querySelector<HTMLElement>('.lib-rail');
       if (!rail) return;
       const arrows = wrap.querySelectorAll<HTMLButtonElement>('.lib-row__arrow');
-
       const updateArrows = () => {
         const maxScroll = rail.scrollWidth - rail.clientWidth - 1;
         arrows.forEach((a) => {
@@ -278,18 +337,56 @@ const socials = [
           a.toggleAttribute('data-at-edge', atEdge);
         });
       };
-
       arrows.forEach((a) => {
         a.addEventListener('click', () => {
           const dir = Number(a.dataset.dir);
           rail.scrollBy({ left: dir * rail.clientWidth * 0.85, behavior: 'smooth' });
         });
       });
-
       rail.addEventListener('scroll', updateArrows, { passive: true });
       window.addEventListener('resize', updateArrows, { passive: true });
       updateArrows();
     });
+
+    // ---- Search: live filter across every card. Cmd/Ctrl+K jumps in. ----
+    const input = document.getElementById('lib-search-input') as HTMLInputElement | null;
+    const status = document.getElementById('lib-search-status');
+    const empty = document.getElementById('lib-empty');
+    if (input && status && empty) {
+      const rowsEls = [...document.querySelectorAll<HTMLElement>('.lib-row')];
+      const applyFilter = () => {
+        const q = input.value.trim().toLowerCase();
+        let shown = 0;
+        rowsEls.forEach((rowEl) => {
+          let rowShown = 0;
+          rowEl.querySelectorAll<HTMLElement>('.lib-rail__item').forEach((li) => {
+            const card = li.querySelector<HTMLElement>('.lib-card');
+            const hit = !q || (card?.dataset.search ?? '').includes(q);
+            li.hidden = !hit;
+            if (hit) rowShown++;
+          });
+          rowEl.hidden = rowShown === 0;
+          shown += rowShown;
+        });
+        empty.hidden = !(q && shown === 0);
+        status.textContent = q ? `${shown} video${shown === 1 ? '' : 's'} match` : '';
+      };
+      input.addEventListener('input', applyFilter);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          input.value = '';
+          applyFilter();
+          input.blur();
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          document.getElementById('lib-bar')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+          input.focus();
+        }
+      });
+    }
   };
 
   initLibrary();
@@ -297,14 +394,19 @@ const socials = [
 </script>
 
 <style>
-  /* ---------- Hero ---------- */
+  /* ---------- The app canvas: near-black, faintly green, one room. ---------- */
+  .lib-app {
+    --app-bg: #101410;
+    background: var(--app-bg);
+  }
+
+  /* ---------- Billboard ---------- */
   .lib-hero {
     position: relative;
     display: flex;
     align-items: flex-end;
-    min-height: clamp(480px, 68vh, 720px);
+    min-height: clamp(500px, 74vh, 780px);
     overflow: hidden;
-    background: var(--color-green-deep);
     color: var(--color-white);
   }
   .lib-hero__backdrop {
@@ -314,16 +416,22 @@ const socials = [
   .lib-hero__scrim {
     position: absolute; inset: 0; z-index: 1;
     background:
-      linear-gradient(180deg, rgba(16, 31, 13, 0.30) 0%, rgba(16, 31, 13, 0.60) 55%, #101f0d 100%),
-      linear-gradient(90deg, rgba(16, 31, 13, 0.78) 0%, rgba(16, 31, 13, 0.34) 55%, rgba(16, 31, 13, 0.08) 100%);
+      linear-gradient(180deg, rgba(16, 20, 16, 0.25) 0%, rgba(16, 20, 16, 0.45) 50%, var(--app-bg) 96%),
+      linear-gradient(90deg, rgba(16, 20, 16, 0.82) 0%, rgba(16, 20, 16, 0.35) 55%, rgba(16, 20, 16, 0.05) 100%);
   }
-  .lib-hero__inner { position: relative; z-index: 2; padding-top: var(--space-24); padding-bottom: clamp(40px, 6vw, 72px); }
+  .lib-hero__inner { position: relative; z-index: 2; padding-top: var(--space-24); padding-bottom: clamp(96px, 12vw, 150px); }
   .lib-hero h1 {
     color: var(--color-white);
-    font-size: clamp(2.1rem, 4.4vw, 3.6rem);
-    margin: var(--space-3) 0 var(--space-4);
+    font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+    margin: var(--space-3) 0 var(--space-2);
     max-width: 18ch;
     text-wrap: balance;
+  }
+  .lib-hero__meta {
+    margin: 0 0 var(--space-3);
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--color-cream) 72%, transparent);
+    text-transform: uppercase;
   }
   .lib-hero__blurb {
     max-width: 52ch;
@@ -342,60 +450,127 @@ const socials = [
   }
   .lib-hero__secondary:hover { color: var(--color-gold); }
 
-  /* ---------- Library band ---------- */
+  /* ---------- Library ---------- */
   .lib {
-    background:
-      radial-gradient(1100px 420px at 12% 0%, rgba(225, 167, 48, 0.07), transparent 60%),
-      linear-gradient(180deg, #101f0d 0%, #0b1509 55%, #081007 100%);
+    background: var(--app-bg);
     color: var(--color-cream);
+    padding-bottom: clamp(48px, 6vw, 80px);
   }
-  .lib__header { max-width: 720px; }
-  .lib__header h2 { color: var(--color-white); margin: var(--space-2) 0 var(--space-4); }
-  .lib__intro { color: color-mix(in srgb, var(--color-cream) 88%, transparent); line-height: 1.7; margin: 0; }
 
-  .lib__nav {
-    display: flex; flex-wrap: wrap; gap: var(--space-2);
-    margin: var(--space-8) 0 var(--space-4);
+  /* Liquid-glass command bar. The inset top highlight is the specular edge
+     that sells the glass; the blur does the liquid. Sticky so the controls
+     travel with you, like app chrome. */
+  .lib-bar {
+    position: sticky;
+    top: calc(var(--header-h, 108px) + 8px);
+    z-index: 20;
+    padding: var(--space-3) 0;
+    margin-top: calc(-1 * clamp(64px, 8vw, 104px));
   }
+  .lib-bar__glass {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-3);
+    border-radius: 18px;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.035));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+      0 14px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    .lib-bar__glass { background: rgba(16, 20, 16, 0.94); }
+  }
+  .lib-search {
+    display: flex; align-items: center; gap: var(--space-2);
+    flex: 0 0 auto;
+    width: min(300px, 44vw);
+    padding: 0 var(--space-3);
+    min-height: 44px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.30);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: color-mix(in srgb, var(--color-cream) 75%, transparent);
+    cursor: text;
+  }
+  .lib-search:focus-within {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.25);
+  }
+  .lib-search input {
+    flex: 1; min-width: 0;
+    border: 0; background: none; outline: none;
+    color: var(--color-white);
+    font: inherit; font-size: 0.95rem;
+  }
+  .lib-search input::placeholder { color: color-mix(in srgb, var(--color-cream) 55%, transparent); }
+  .lib-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+  .lib-search__kbd {
+    font-family: var(--font-sans);
+    font-size: 0.72rem; font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.07);
+    color: color-mix(in srgb, var(--color-cream) 70%, transparent);
+  }
+  .lib-bar__chips {
+    display: flex; align-items: center; gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: var(--space-1) 0;
+  }
+  .lib-bar__chips::-webkit-scrollbar { display: none; }
   .lib__chip {
-    display: inline-flex; align-items: center; min-height: 40px;
+    flex: 0 0 auto;
+    display: inline-flex; align-items: center; min-height: 38px;
     padding: 0 var(--space-4);
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--radius-pill);
     color: var(--color-cream); text-decoration: none;
-    font-size: 0.88rem; font-weight: 600;
+    font-size: 0.86rem; font-weight: 600;
+    white-space: nowrap;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
-  .lib__chip:hover { background: rgba(225, 167, 48, 0.12); }
-  .lib__chip:hover { border-color: var(--color-gold); color: var(--color-gold); }
+  .lib__chip:hover { background: rgba(225, 167, 48, 0.14); border-color: var(--color-gold); color: var(--color-gold); }
+  .lib-bar__status {
+    margin: var(--space-2) 0 0;
+    padding-left: var(--space-2);
+    font-size: 0.82rem;
+    color: color-mix(in srgb, var(--color-cream) 65%, transparent);
+    min-height: 1.2em;
+  }
 
   /* ---------- Rows ---------- */
-  .lib-row { margin-top: clamp(36px, 4.5vw, 56px); scroll-margin-top: 90px; }
-  .lib-row__head { display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4); }
+  .lib-row { margin-top: clamp(26px, 3vw, 40px); scroll-margin-top: 130px; }
+  /* The first row rides up over the billboard fade, app-style. */
+  .lib-row--first { margin-top: clamp(8px, 1.5vw, 20px); position: relative; z-index: 2; }
   .lib-row__head h3 {
-    font-family: var(--font-display);
-    color: var(--color-white);
-    font-size: clamp(1.35rem, 2.2vw, 1.8rem);
-    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-cream);
+    font-size: 1.08rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    margin: 0 0 var(--space-3);
   }
-  .lib-row__head p { margin: 0; color: color-mix(in srgb, var(--color-cream) 75%, transparent); font-size: 0.95rem; }
 
   .lib-row__wrap { position: relative; }
-
   .lib-rail {
     display: flex;
-    gap: var(--space-4);
+    gap: 10px;
     list-style: none;
     margin: 0;
-    /* Align the first card with the .container edge at any viewport width,
-       while the rail itself bleeds full width for edge-to-edge scrolling.
-       scroll-padding matches so snap points respect the same edge; without
-       it the browser snaps the rail off its start position on load. */
     --rail-pad: max(calc((100vw - var(--content-max)) / 2 + var(--space-6)), var(--space-6));
-    padding: var(--space-1) var(--rail-pad);
+    padding: var(--space-2) var(--rail-pad);
     scroll-padding-inline: var(--rail-pad);
     overflow-x: auto;
+    overflow-y: visible;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x proximity;
@@ -404,10 +579,27 @@ const socials = [
   .lib-rail::-webkit-scrollbar { display: none; }
   .lib-rail__item { flex: 0 0 auto; scroll-snap-align: start; }
 
+  /* ---------- Ranked row: big outlined numerals, Top-10 style ---------- */
+  .lib-rank { display: flex; align-items: flex-end; }
+  .lib-rank__num {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: clamp(88px, 10vw, 148px);
+    line-height: 0.78;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.32);
+    margin-right: -14px;
+    margin-bottom: 2px;
+    z-index: 0;
+    user-select: none;
+  }
+  .lib-rank .lib-card { position: relative; z-index: 1; }
+
   /* ---------- Cards ---------- */
   .lib-card {
     display: block;
-    width: min(280px, 72vw);
+    width: min(236px, 66vw);
     padding: 0;
     border: 0;
     background: none;
@@ -420,79 +612,119 @@ const socials = [
     position: relative;
     display: block;
     aspect-ratio: 16 / 9;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.35);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+    transition: transform 0.18s ease-out 0.06s, box-shadow 0.18s ease-out 0.06s;
   }
-  .lib-card__thumb img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
+  .lib-card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .lib-card:hover .lib-card__thumb,
   .lib-card:focus-visible .lib-card__thumb {
-    transform: translateY(-6px) scale(1.045);
-    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.6);
+    transform: translateY(-8px) scale(1.13);
+    box-shadow: 0 26px 56px rgba(0, 0, 0, 0.65);
+    z-index: 6;
   }
-  .lib-card:hover .lib-card__title,
-  .lib-card:focus-visible .lib-card__title { color: var(--color-white); }
+  .lib-card:hover,
+  .lib-card:focus-visible { position: relative; z-index: 6; }
   .lib-card:focus-visible .lib-card__thumb { outline: 3px solid var(--color-gold); outline-offset: 2px; }
   .lib-card__time {
-    position: absolute; right: var(--space-2); bottom: var(--space-2);
+    position: absolute; right: var(--space-2); top: var(--space-2);
     padding: 2px 8px;
-    background: rgba(15, 22, 13, 0.85);
+    background: rgba(10, 13, 10, 0.85);
     color: var(--color-cream);
     border-radius: 6px;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.02em;
+    z-index: 2;
   }
-  .lib-card__play {
+  /* Title lives ON the tile, revealed on hover, like an app. */
+  .lib-card__overlay {
     position: absolute; inset: 0;
-    display: grid; place-items: center;
-    color: var(--color-white);
-    background: rgba(20, 30, 18, 0.35);
+    display: flex; align-items: flex-end;
+    padding: var(--space-3);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.82) 100%);
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.18s ease-out 0.06s;
+    z-index: 1;
   }
-  .lib-card__play svg {
-    background: var(--color-gold);
-    color: var(--color-green-deep);
-    border-radius: 50%;
-    padding: 12px;
-    width: 48px; height: 48px;
-  }
-  .lib-card:hover .lib-card__play,
-  .lib-card:focus-visible .lib-card__play { opacity: 1; }
-  .lib-card__title {
+  .lib-card__overlay-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-top: var(--space-3);
-    font-size: 0.92rem;
+    color: var(--color-white);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .lib-card:hover .lib-card__overlay,
+  .lib-card:focus-visible .lib-card__overlay { opacity: 1; }
+  .lib-card__play {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    opacity: 0;
+    transition: opacity 0.18s ease-out 0.06s;
+    z-index: 2;
+  }
+  .lib-card__play svg {
+    background: var(--color-gold);
+    color: #101410;
+    border-radius: 50%;
+    padding: 11px;
+    width: 44px; height: 44px;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+  }
+  .lib-card:hover .lib-card__play,
+  .lib-card:focus-visible .lib-card__play { opacity: 1; }
+
+  /* Under-card titles only where there is no hover to reveal them. */
+  .lib-card__title {
+    display: none;
+    margin-top: var(--space-2);
+    font-size: 0.85rem;
     font-weight: 600;
-    line-height: 1.4;
-    color: var(--color-cream);
+    line-height: 1.35;
+    color: color-mix(in srgb, var(--color-cream) 85%, transparent);
+  }
+  @media (hover: none) {
+    .lib-card__title {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .lib-card__overlay { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lib-card__thumb, .lib-card__overlay, .lib-card__play { transition: none; }
+    .lib-card:hover .lib-card__thumb, .lib-card:focus-visible .lib-card__thumb { transform: none; }
   }
 
   /* ---------- Rail arrows: pointer devices only ---------- */
   .lib-row__arrow {
     display: none;
-    position: absolute; top: 0; z-index: 3;
-    height: calc(min(280px, 72vw) * 9 / 16 + var(--space-1) * 2);
-    width: 48px;
+    position: absolute; top: 0; z-index: 7;
+    height: 100%;
+    width: 52px;
     align-items: center; justify-content: center;
     border: 0; cursor: pointer;
     color: var(--color-white);
     transition: opacity 0.2s ease;
   }
-  .lib-row__arrow--prev { left: 0; background: linear-gradient(90deg, rgba(9, 17, 7, 0.94), rgba(9, 17, 7, 0)); }
-  .lib-row__arrow--next { right: 0; background: linear-gradient(270deg, rgba(9, 17, 7, 0.94), rgba(9, 17, 7, 0)); }
+  .lib-row__arrow--prev { left: 0; background: linear-gradient(90deg, rgba(16, 20, 16, 0.95), rgba(16, 20, 16, 0)); }
+  .lib-row__arrow--next { right: 0; background: linear-gradient(270deg, rgba(16, 20, 16, 0.95), rgba(16, 20, 16, 0)); }
   .lib-row__arrow:hover { color: var(--color-gold); }
   .lib-row__arrow[data-at-edge] { opacity: 0; pointer-events: none; }
   @media (hover: hover) and (pointer: fine) {
     .lib-row__arrow { display: flex; }
+  }
+
+  .lib-empty {
+    margin: clamp(32px, 4vw, 48px) auto 0;
+    color: color-mix(in srgb, var(--color-cream) 75%, transparent);
   }
 
   .lib__footer { margin-top: clamp(40px, 5vw, 64px); text-align: center; }
@@ -535,11 +767,15 @@ const socials = [
     border: 0;
     border-radius: var(--radius-card);
     padding: 0;
-    background: var(--color-green-deep);
+    background: #131713;
     color: var(--color-cream);
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
   }
-  .lib-player::backdrop { background: rgba(10, 15, 8, 0.82); }
+  .lib-player::backdrop {
+    background: rgba(8, 10, 8, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
   .lib-player__inner { position: relative; }
   .lib-player__frame { aspect-ratio: 16 / 9; background: #000; border-radius: var(--radius-card) var(--radius-card) 0 0; overflow: hidden; }
   .lib-player__frame iframe { width: 100%; height: 100%; border: 0; display: block; }

@@ -13,7 +13,7 @@ const LEARN: MegaMenu = {
   label: 'Learn',
   href: '/learn/',
   items: [
-    { label: 'Films & Teachings', href: '/learn/', desc: 'The full library: Carole’s teachings and field films, free' },
+    { label: 'Films & Teachings', href: '/learn/', desc: 'Watch the full library, free' },
     { label: 'Books', href: '/books/', desc: 'Carole’s books, free on request' },
     { label: 'Past Newsletters', href: '/newsletter/archive/' },
   ],
@@ -220,8 +220,17 @@ function isCurrent(href: string) {
 
     item.addEventListener('mouseenter', () => {
       clearTimeout(closeTimer);
-      if (document.querySelector('[data-mega-item].is-open')) open();
-      else openTimer = setTimeout(open, 90);
+      const openSibling = document.querySelector('[data-mega-item].is-open');
+      if (openSibling && openSibling !== item) {
+        // A panel is open elsewhere: wait before swapping, so a diagonal
+        // path from a trigger down into its own panel does not switch
+        // panels while crossing the neighboring triggers.
+        openTimer = setTimeout(open, 250);
+      } else if (openSibling === item) {
+        // Already ours; just cancel any pending close.
+      } else {
+        openTimer = setTimeout(open, 90);
+      }
     });
     item.addEventListener('mouseleave', () => {
       clearTimeout(openTimer);
