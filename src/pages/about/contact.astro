@@ -80,21 +80,12 @@ import { SITE } from '../../lib/site';
         leaves={false}
       />
       <div class="offices">
-        <div class="offices__map">
-          <iframe
-            title="Map of Favor International's U.S. office in Riverview, Florida"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=-82.366%2C27.857%2C-82.266%2C27.927&layer=mapnik&marker=27.8923%2C-82.3159"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-        <div class="offices__list">
+        <div class="offices__list offices__list--full">
           <article class="office">
-            <p class="label">U.S. Headquarters</p>
-            <h3>Riverview, Florida</h3>
+            <p class="label">U.S. Mailing Address</p>
+            <h3>Favor International</h3>
             <p>{SITE.mailing}</p>
             <p>{SITE.phone}<br />{SITE.hours}</p>
-            <a class="office__link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.mailing)}`} target="_blank" rel="noopener">Open in Google Maps &rarr;</a>
           </article>
           <article class="office">
             <p class="label">On the field</p>

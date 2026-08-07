@@ -18,10 +18,9 @@ export const SITE = {
     text: 'We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work.',
     attribution: 'Jesus (John 9:4, AMPC)',
   },
-  // Updated 2026-07-07 per Will: the office moved from Valrico (3433 Lithia
-  // Pinecrest Rd #356) to Riverview. "Winthrop" spelling verified against the
-  // real street (Winthrop Town Centre, OSM 27.8923,-82.3159).
-  mailing: '11268 Winthrop Main Street #102, Riverview, FL 33578',
+  // HR directive 2026-08-07 (per Michael): the HQ office address stays OFF the
+  // public website. Only this mailing address may appear anywhere donors see.
+  mailing: '3433 Lithia Pinecrest Rd. #356, Valrico, FL 33596',
   phone: '941-444-9940',
   phoneTel: '+19414449940',
   emailGeneral: 'info@favorintl.org',
