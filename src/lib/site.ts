@@ -118,7 +118,7 @@ export const MEGA_NAV: MegaMenu[] = [
     label: 'Go',
     href: '/go/',
     items: [
-      { label: 'Vision Trips', href: '/go/vision-trips/', desc: 'Small-team mission trips to the field' },
+      { label: 'Project Trips', href: '/go/vision-trips/', desc: 'Fund a field project and come dedicate it' },
       { label: 'Volunteer from Home', href: '/go/volunteer/', desc: 'Serve from anywhere in the US' },
       { label: 'Internships', href: '/go/internships/', desc: 'Months alongside the US team' },
       { label: 'Careers', href: '/go/careers/', desc: 'Full-time positions with Favor' },
@@ -128,9 +128,9 @@ export const MEGA_NAV: MegaMenu[] = [
     featured: {
       image: '/images/field-2026/street-outreach-7.webp',
       eyebrow: 'Take on a project',
-      title: 'See the field work up close',
-      body: 'Small-team vision trips individually coordinated through Favor’s US team and local ministry contacts.',
-      ctaLabel: 'Explore vision trips',
+      title: 'Come build something that lasts',
+      body: 'Every trip is planned around a project the field has asked for, funded by you and opened together with the village it serves.',
+      ctaLabel: 'Explore project trips',
       ctaHref: '/go/vision-trips/',
     },
   },
