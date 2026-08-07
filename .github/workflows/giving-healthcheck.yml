@@ -29,7 +29,7 @@ jobs:
       - name: Query the giving config endpoint
         id: probe
         run: |
-          URL="${GIVE_CONFIG_URL:-https://favor-astro.pages.dev/api/give/config}"
+          URL="${GIVE_CONFIG_URL:-https://favorintl.org/api/give/config}"
           echo "Checking $URL"
 
           # Retry a few times so one blip does not page anyone.

@@ -72,14 +72,25 @@ on their exact targets (including the carole-ward and wars-that-win-souls
 pages), real pages still 200, the API untouched, unknown URLs 301 home, and a
 missing image stays a 404.
 
-## Cutover steps that remain (DNS, when Will says go)
+## Cutover: DONE 2026-08-06
 
-1. Add custom domains `favorintl.org` and `www.favorintl.org` to the
-   favor-astro Pages project (Marketing account).
-2. Point DNS at Pages per the dashboard instructions.
-3. Add a zone Redirect Rule in the favorintl.org zone: hostname equals
-   www.favorintl.org -> 301 to https://favorintl.org preserving path and
-   query. (Pages _redirects cannot express host rules; the deploy log
-   rejected the attempt.)
-4. After cutover: submit `/sitemap-index.xml` in Search Console, watch the
-   giving healthcheck, and spot-check the ranked URLs above from the table.
+Executed via the API the same day:
+1. Custom domains favorintl.org and www.favorintl.org attached to the
+   favor-astro Pages project. Apex went active; the www attachment can sit
+   "pending" forever because the zone redirect intercepts www at the edge
+   before Pages ever sees it (the zone universal cert covers www TLS).
+2. DNS flipped, exactly two records touched in a 72-record zone:
+   apex A 198.202.211.1 -> CNAME favor-astro.pages.dev (proxied), and
+   www CNAME cdn.webflow.com -> favor-astro.pages.dev (proxied). Mail (MX),
+   the flipbook subdomains, contact, my.favorintl.org, and every other
+   subdomain untouched and re-verified 200 after the flip.
+3. Zone Redirect Rule created (http_request_dynamic_redirect): host
+   www.favorintl.org -> 301 https://favorintl.org + path, query preserved.
+
+Verified live on the real domain after cutover: homepage 200 with the new
+hero, www folds to apex (301 -> 200), legacy URLs 301 to exact targets
+(donate-now, carole-ward, pbs), unknown URLs 301 home, giving connected in
+Live mode with 5 designations.
+
+Still for a human: submit /sitemap-index.xml in Google Search Console (needs
+GSC login), and eyeball the ranked URLs from the table over the next weeks.
