@@ -866,6 +866,11 @@
 /rebecca https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=03cf55a5-ab18-4257-93c0-abbfbb8df25e&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa 301
 /felicite https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=f4a533f1-9783-4ba7-ba93-579a406ee9f6&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa 301
 /brady https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=b2c7d8b1-0b8d-4f25-a286-be412158367e&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa 301
+/karamoja-boys https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=acf5b94c-6c03-429c-a94f-af7c90d42a28&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa 301
+/sebila-nancy https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=2ca136a7-3940-42ce-a4de-7c451e9d26ed&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa&appealid=2330&viewsource=social_sharing 301
+/q267 https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=4264aa54-d1fd-4d12-82d7-f24f9893b907&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa 301
+/jemimah-victoria https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=2ca136a7-3940-42ce-a4de-7c451e9d26ed&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa&appealid=2344&bbviewsource=social_sharing 301
+/gift-shoes https://host.nxt.blackbaud.com/donor-form?svcid=renxt&formId=b2c7d8b1-0b8d-4f25-a286-be412158367e&envid=p-5_k5FlbubEyEQnUJw7C9Rw&zone=usa&desid=122&appealid=2348&bbviewsource=social_sharing 301
 /newsletters/* /newsletter/archive/ 301
 /newsletter-theme-tags/* /newsletter/archive/ 301
 /v2-ministry-tags/* /stories/ 301
