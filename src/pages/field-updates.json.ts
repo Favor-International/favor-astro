@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { SITE } from '../lib/site';
+import { isPublicFieldStory } from '../lib/publicContent';
 import stories from '../data/stories.json';
 
 // Static JSON feed of the latest field stories, consumed cross-origin by the
@@ -6,7 +8,7 @@ import stories from '../data/stories.json';
 // so it refreshes automatically whenever new stories publish and the site
 // rebuilds. CORS lives in public/_headers (/field-updates.json rule).
 
-const BASE = 'https://favor-astro.pages.dev';
+const BASE = SITE.url.replace(/\/$/, '');
 
 interface Story {
   slug: string;
@@ -27,7 +29,7 @@ function excerpt(paragraphs: string[] | undefined, max = 180): string {
 }
 
 export const GET: APIRoute = () => {
-  const sorted = [...(stories as Story[])].sort((a, b) => {
+  const sorted = (stories as Story[]).filter(isPublicFieldStory).sort((a, b) => {
     const ta = Date.parse(a.date);
     const tb = Date.parse(b.date);
     return (Number.isNaN(tb) ? -Infinity : tb) - (Number.isNaN(ta) ? -Infinity : ta);
