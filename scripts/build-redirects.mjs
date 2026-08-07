@@ -132,6 +132,39 @@ for (const p of oldPaths) {
   add(p, '/');
 }
 
+// Webflow's own 301 list (Daniel, 2026-08-07): 224 vanity/campaign shortlinks
+// (printed in newsletters and mailers) pointing mostly at Blackbaud donor
+// forms and other external destinations. These never appeared in the sitemap,
+// so the crawl could not find them. Sources that collide with a real route on
+// the new site are skipped (a redirect would shadow the page); internal
+// targets are remapped through MAP so nothing chains through a second 301.
+const vanityCsv = readFileSync('docs/06-reference/webflow-vanity-redirects-2026-05-14.csv', 'utf8')
+  .replace(/\r\n/g, '\n').trim().split('\n').slice(1);
+let vanityAdded = 0;
+let vanitySkipped = 0;
+for (const line of vanityCsv) {
+  const i = line.indexOf(',');
+  if (i < 1) continue;
+  const source = line.slice(0, i).trim();
+  let target = line.slice(i + 1).trim();
+  if (!source.startsWith('/')) continue;
+  // One export row lost its punctuation; rebuild the donor-form URL.
+  if (target.startsWith('httpshost.nxt.blackbaud.comdonor-form')) {
+    target = target.replace('httpshost.nxt.blackbaud.comdonor-form', 'https://host.nxt.blackbaud.com/donor-form?');
+  }
+  const normalized = source.endsWith('/') ? source : source + '/';
+  if (NEW.has(normalized)) { vanitySkipped++; continue; }
+  if (target.startsWith('/')) {
+    // Internal target: send it where that old path lives on the new site.
+    if (MAP[target]) target = MAP[target];
+    else if (NEW.has(target.endsWith('/') ? target : target + '/')) target = target.endsWith('/') ? target : target + '/';
+    // Unknown old paths keep their target; the 404 net catches the rest.
+  }
+  add(source, target);
+  vanityAdded++;
+}
+console.log(`vanity shortlinks: ${vanityAdded} added, ${vanitySkipped} skipped (route collisions)`);
+
 // Wildcards LAST (Pages evaluates top-to-bottom; explicit rules above win)
 // to catch old URLs that were not in the sitemap but follow its structure.
 lines.push("/newsletters/* /newsletter/archive/ 301");

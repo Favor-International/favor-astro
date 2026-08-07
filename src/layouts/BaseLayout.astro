@@ -95,6 +95,10 @@ const siteSchema = {
 
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
+    <!-- CookieYes consent management (Daniel, 2026-08-07). Banner styling is
+         configured in the CookieYes dashboard; it was themed for the old site
+         and Daniel expects it to need touch-ups against this design. -->
+    <script is:inline id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/876f631cdfa13b3634a60ffb/script.js"></script>
   </head>
   <body>
     <a href="#main" class="skip">Skip to main content</a>
