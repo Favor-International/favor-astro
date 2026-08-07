@@ -567,7 +567,8 @@ const socials = [
     list-style: none;
     margin: 0;
     --rail-pad: max(calc((100vw - var(--content-max)) / 2 + var(--space-6)), var(--space-6));
-    padding: var(--space-2) var(--rail-pad);
+    padding: 20px var(--rail-pad) 24px;
+    margin-block: -10px -12px;
     scroll-padding-inline: var(--rail-pad);
     overflow-x: auto;
     overflow-y: visible;
@@ -577,7 +578,8 @@ const socials = [
     scrollbar-width: none;
   }
   .lib-rail::-webkit-scrollbar { display: none; }
-  .lib-rail__item { flex: 0 0 auto; scroll-snap-align: start; }
+  .lib-rail__item { flex: 0 0 auto; scroll-snap-align: start; position: relative; }
+  .lib-rail__item:hover, .lib-rail__item:focus-within { z-index: 6; }
 
   /* ---------- Ranked row: big outlined numerals, Top-10 style ---------- */
   .lib-rank { display: flex; align-items: flex-end; }
@@ -616,17 +618,15 @@ const socials = [
     overflow: hidden;
     background: rgba(0, 0, 0, 0.35);
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
-    transition: transform 0.18s ease-out 0.06s, box-shadow 0.18s ease-out 0.06s;
+    transition: transform 0.16s ease-out, box-shadow 0.16s ease-out;
   }
   .lib-card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .lib-card:hover .lib-card__thumb,
   .lib-card:focus-visible .lib-card__thumb {
-    transform: translateY(-8px) scale(1.13);
+    transform: translateY(-4px) scale(1.09);
     box-shadow: 0 26px 56px rgba(0, 0, 0, 0.65);
     z-index: 6;
   }
-  .lib-card:hover,
-  .lib-card:focus-visible { position: relative; z-index: 6; }
   .lib-card:focus-visible .lib-card__thumb { outline: 3px solid var(--color-gold); outline-offset: 2px; }
   .lib-card__time {
     position: absolute; right: var(--space-2); top: var(--space-2);
@@ -646,7 +646,7 @@ const socials = [
     padding: var(--space-3);
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.82) 100%);
     opacity: 0;
-    transition: opacity 0.18s ease-out 0.06s;
+    transition: opacity 0.16s ease-out;
     z-index: 1;
   }
   .lib-card__overlay-title {
@@ -665,7 +665,7 @@ const socials = [
     position: absolute; inset: 0;
     display: grid; place-items: center;
     opacity: 0;
-    transition: opacity 0.18s ease-out 0.06s;
+    transition: opacity 0.16s ease-out;
     z-index: 2;
   }
   .lib-card__play svg {
