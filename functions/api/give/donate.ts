@@ -15,9 +15,6 @@
 //   turnstile_token?: string
 // }
 
-import { corsHeaders } from './_cors';
-export { onRequestOptions } from './_cors';
-
 import {
   buildReference,
   createGift,
@@ -68,17 +65,12 @@ export function computeTotal(env: Env, amount: number, coverFees: boolean): numb
 }
 
 export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, env, waitUntil }) => {
-  const cors = corsHeaders(request);
-  const withCors = (res: Response) => {
-    for (const [k, v] of Object.entries(cors)) res.headers.set(k, v);
-    return res;
-  };
   try {
     const body = await readJsonBody<DonateBody>(request);
 
     const idem = asUuid(body.idempotency_key, 'idempotency_key');
     const replay = await idempotencyHit(env, idem);
-    if (replay) return withCors(replay);
+    if (replay) return replay;
 
     await verifyTurnstile(env, body.turnstile_token, request.headers.get('CF-Connecting-IP'));
 
@@ -88,7 +80,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     const fundId = asTrimmed(body.designation_fund_id, 'designation', 64);
     const designation = getDesignations(env).find((d) => d.fund_id === fundId);
-    if (!designation) return withCors(errorJson('bad_designation', 'Unknown designation', 400));
+    if (!designation) return errorJson('bad_designation', 'Unknown designation', 400);
 
     const donor = {
       first: asTrimmed(body.donor?.first, 'first name', 50),
@@ -182,8 +174,8 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       portal_login_url: portalLoginUrl ?? undefined,
     };
     await idempotencyStore(env, idem, result);
-    return withCors(json(result));
+    return json(result);
   } catch (err) {
-    return withCors(handleError(err));
+    return handleError(err);
   }
 };

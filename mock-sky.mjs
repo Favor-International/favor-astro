@@ -59,6 +59,13 @@ const routes = [
   { m: 'GET', p: /^\/constituent\/v1\/constituents\/[^/]+\/constituentcodes/, h: () => ({ count: 0, value: [] }) },
   { m: 'POST', p: /^\/constituent\/v1\/constituentcodes$/, h: () => ({ id: 'code-1' }) },
   { m: 'POST', p: /^\/constituent\/v1\/relationships$/, h: () => ({ id: 'rel-1' }) },
+  // Contact records carry the do-not-contact consent flags the portal writes.
+  { m: 'GET', p: /^\/constituent\/v1\/constituents\/[^/]+\/emailaddresses/, h: () => ({ count: 1, value: [{ id: 'em-1', primary: true, inactive: false, do_not_email: false }] }) },
+  { m: 'GET', p: /^\/constituent\/v1\/constituents\/[^/]+\/addresses/, h: () => ({ count: 1, value: [{ id: 'ad-1', primary: true, inactive: false, do_not_mail: false }] }) },
+  { m: 'GET', p: /^\/constituent\/v1\/constituents\/[^/]+\/phones/, h: () => ({ count: 1, value: [{ id: 'ph-1', primary: true, inactive: false, do_not_call: false }] }) },
+  { m: 'PATCH', p: /^\/constituent\/v1\/emailaddresses\/[^/]+$/, h: () => ({ ok: true }) },
+  { m: 'PATCH', p: /^\/constituent\/v1\/addresses\/[^/]+$/, h: () => ({ ok: true }) },
+  { m: 'PATCH', p: /^\/constituent\/v1\/phones\/[^/]+$/, h: () => ({ ok: true }) },
   { m: 'GET', p: /^\/gift\/v1\/recurringgifts\/[^/]+\/canbeconverted$/, h: () => ({ can_be_converted: true, token_will_be_required: true }) },
   { m: 'POST', p: /^\/gift\/v1\/recurringgifts\/[^/]+\/converttoautomatic$/, h: () => ({}) },
   { m: 'GET', p: /^\/fundraising\/v1\/funds/, h: () => ({ count: 2, value: [ { id: '42', description: 'Where Most Needed', inactive: false }, { id: '77', description: 'Portable Bible Schools', inactive: false } ] }) },
