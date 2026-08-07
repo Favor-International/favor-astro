@@ -4,8 +4,8 @@
 # not listed here is functions/_middleware.ts (404 -> 301 to /), because a
 # /* rule here runs before static assets and would break the live site.
 /sitemap.xml /sitemap-index.xml 301
-/portal/ https://my.favorintl.org/login 301
-/portal https://my.favorintl.org/login 301
+/watch /learn/ 301
+/watch/ /learn/ 301
 /about /about/ 301
 /carts /books/ 301
 /what-we-do/education/centers /impact/education/centers/ 301
@@ -24,7 +24,7 @@
 /testimonies-updates/impact-reports /about/accountability/ 301
 /intro-flyer / 301
 /what-we-do/education/leadership /impact/education/leadership/ 301
-/testimonies-updates/media /watch/ 301
+/testimonies-updates/media /learn/ 301
 /what-we-do/community-development/medical /impact/community-development/medical/ 301
 /about/our-story /about/our-story/ 301
 /testimonies-updates/past-newsletters /newsletter/archive/ 301

@@ -73,7 +73,7 @@ const MAP = {
   '/testimonies-updates/stories-of-transformation': '/stories/',
   '/testimonies-updates/impact-reports': '/about/accountability/',
   '/testimonies-updates/past-newsletters': '/newsletter/archive/',
-  '/testimonies-updates/media': '/watch/',
+  '/testimonies-updates/media': '/learn/',
   '/testimonies-updates/tag-search': '/stories/',
   '/books': '/books/',
   '/privacy': '/legal/privacy/',
@@ -155,6 +155,8 @@ lines.push('/positions/* /go/careers/ 301');
 // ("Only relative URLs are allowed", seen in the build log). It is a
 // Cloudflare zone Redirect Rule instead; see the cutover steps in
 // docs/migration-cutover-2026-08-06.md.
+lines.unshift("/watch/ /learn/ 301");
+lines.unshift("/watch /learn/ 301");
 lines.unshift("/sitemap.xml /sitemap-index.xml 301");
 
 const header = `# 301 map for the favorintl.org cutover (generated 2026-08-06 by
