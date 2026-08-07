@@ -72,13 +72,13 @@ export const MEGA_NAV: MegaMenu[] = [
     href: '/pray/',
     items: [
       { label: 'Why Pray with Favor', href: '/pray/' },
-      { label: 'National Prayer Guide', href: '/pray/30-day-guide/' },
+      { label: 'Nations Prayer Guide', href: '/pray/30-day-guide/' },
       { label: 'Submit a Prayer Request', href: 'mailto:prayer@favorintl.org' },
     ],
     featured: {
       image: '/images/field-2026/prayer-7.webp',
       eyebrow: 'Pray with us',
-      title: 'National Prayer Guide',
+      title: 'Nations Prayer Guide',
       body: 'One specific request per day across the nations Favor serves.',
       ctaLabel: 'Open the guide',
       ctaHref: '/pray/30-day-guide/',

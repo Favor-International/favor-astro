@@ -3,7 +3,7 @@
   "featured": {
     "id": "0tLu_EL3FLA",
     "title": "Carole Ward Story: Send Me Where No One Wants to Go!",
-    "blurb": "The full Vision Video documentary on Carole Ward, who walked into northern Uganda's war zone when everyone else was leaving. Watch this one first."
+    "blurb": "From Vision Video: the story of Carole Ward, who walked into northern Uganda's war zone when everyone else was leaving. Watch this one first."
   },
   "rows": [
     {
@@ -81,7 +81,7 @@
     {
       "key": "the-carole-ward-story",
       "title": "The Carole Ward Story",
-      "blurb": "The documentary, the interviews, and the woman behind Favor.",
+      "blurb": "Her story, told by the people who interviewed her.",
       "items": [
         { "id": "0tLu_EL3FLA", "title": "Carole Ward Story: Send Me Where No One Wants to Go!" },
         { "id": "g2fB1RwyHNM", "title": "The Carole Ward Story", "minutes": 76 },
