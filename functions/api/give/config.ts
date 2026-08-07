@@ -27,7 +27,22 @@ const safeHost = (u: string): string => {
   }
 };
 
-export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
+// This endpoint is deliberately public and read-only (public key, designation
+// list, fee rates; no secrets), and the partner portal on my.favorintl.org
+// reads it from the browser for the in-portal give and card-change dialogs.
+// Without the CORS header that fetch is blocked and the portal shows "Giving
+// is briefly unavailable" with an empty designation list, which is exactly
+// what happened on launch night. Note: rules in public/_headers do NOT apply
+// to function responses, so the header must be set here.
+const CORS = { 'Access-Control-Allow-Origin': '*' } as const;
+
+export const onRequestGet: PagesFunction<Env> = async (context) => {
+  const res = await handleConfig(context);
+  for (const [k, v] of Object.entries(CORS)) res.headers.set(k, v);
+  return res;
+};
+
+const handleConfig: PagesFunction<Env> = async ({ env }) => {
   try {
     // Both preconditions used to collapse into a bare { connected: false },
     // which made an offline giving page impossible to diagnose without the
