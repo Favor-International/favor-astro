@@ -8,11 +8,11 @@ export const SITE = {
   // personal calling, NOT the org's tagline, do not put it on the site as
   // such. If it appears anywhere, it's a quote attributed to Carole on the
   // founder/our-story page.
-  tagline: 'Transformed Hearts, Transform Nations',
+  tagline: 'Transformed Hearts Transform Nations',
   // The verbatim mission statement from favorintl.org. Do not paraphrase.
   mission: 'Transforming nations with the power of the Gospel through prayer movements and indigenous missionary movements which are accelerating the fulfillment of the Great Commission to unreached people groups, and into every area of society from grassroots to governments.',
   // The verbatim vision statement.
-  vision: 'Transformed Hearts, Transform Nations!',
+  vision: 'Transformed Hearts Transform Nations!',
   // Scripture used on the existing homepage.
   scripture: {
     text: 'We must work the works of Him Who sent Me and be busy with His business while it is daylight; night is coming on, when no man can work.',
