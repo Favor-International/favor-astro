@@ -6,13 +6,14 @@ import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import VideoFeature from '../../components/redesign/VideoFeature.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 
-// Team decision, 2026-08: public field travel is project-based. Visiting
-// teams cost the field staff time, vehicles, and money, and pull national
-// missionaries away from ministry, so Favor no longer advertises ordinary
-// short-term trips. The public model is a concrete project (around $20,000,
-// e.g. a rural school or a Village Learning Center building) that the
-// traveler funds and comes to see through. The URL and nav label stay
-// "vision trips"; the content is project participation.
+// Team decision, 2026-08: public field travel is project-based. The model is
+// a concrete project (around $20,000, e.g. a rural school or a Village
+// Learning Center building) that the traveler funds and comes to dedicate.
+// Will, 2026-08-07: the page must INVITE, never lecture. The commitment of a
+// real project is the filter; the page never describes visitors as a cost or
+// a burden. The honest boundaries (no trips without a project, no student
+// mission teams) live in two gracious FAQ answers and nowhere else. The URL
+// and nav label stay "vision trips"; the content is project participation.
 //
 // Fact-audit rules still apply (docs/06-reference/about-fact-audit-2026-07-08.md):
 // no invented calendars, itineraries, or safety protocols. The $20,000 figure
@@ -27,13 +28,13 @@ const projects = [
     name: 'A rural primary school',
     image: '/images/field-2026/education-5.webp',
     alt: 'A Favor school under construction',
-    body: 'Classrooms for a village whose children would otherwise never see one, with the Word of God at the center of the teaching. You fund the build and come for the opening.',
+    body: 'Classrooms for a village whose children have never had one, with the Word of God at the center of the teaching. Your church or family funds the build, and you come for the opening.',
   },
   {
     name: 'A Village Learning Center building',
     image: '/images/field-2026/vlc-3.webp',
     alt: 'A Village Learning Center class in session',
-    body: 'A permanent home for a Village Learning Center, where literacy, discipleship, and practical training gather a village week after week. You fund the building and stand in it.',
+    body: 'A permanent home for a Village Learning Center, where a village gathers week after week for literacy, discipleship, and practical training. When the doors open, you are there.',
   },
 ];
 
@@ -43,12 +44,12 @@ const films = [
   { id: '4YpOvDoc6k4', title: 'Where Medicine Meets Miracles', eyebrow: 'Medical work', heading: 'Inside Favor’s medical center in Africa.', body: 'The daily work your project joins on the ground, run by indigenous leaders year-round.' },
 ];
 
-// Who project trips are for. Deliberately a filter: serious inquirers should
-// feel invited, and mission-trip shoppers should keep scrolling.
+// Who project trips are for. The invitation names real people; the scale of
+// a real project speaks for itself without any gatekeeping language.
 const audiences = [
-  { icon: 'church', title: 'Churches ready to build', body: 'A congregation that wants to fund a school or a Learning Center building together and send a few of its own to see it through.' },
-  { icon: 'pin', title: 'Partners with skin in the game', body: 'Givers who want their next gift to be one concrete thing, with a name and a place, that they stand inside when it opens.' },
-  { icon: 'compass', title: 'Leaders who finish things', body: 'People who can rally others around a $20,000 goal and stay with the project until the doors open.' },
+  { icon: 'church', title: 'Churches', body: 'A congregation that turns its missions giving into one specific place: a school its people funded, prayed over, and came to see opened.' },
+  { icon: 'pin', title: 'Families and friends', body: 'A family or a few close friends who take on a project together and celebrate its opening together.' },
+  { icon: 'compass', title: 'Long-time partners', body: 'Givers who have carried the work from home for years and are ready to meet the people they have been serving.' },
 ];
 const WHO_ICONS: Record<string, string> = {
   church: '<path d="M12 3v4M10 5h4"/><path d="M4 21v-8l8-5 8 5v8"/><path d="M10 21v-5a2 2 0 0 1 4 0v5"/><path d="M3 21h18"/>',
@@ -57,20 +58,20 @@ const WHO_ICONS: Record<string, string> = {
 };
 
 const steps = [
-  { n: '1', title: 'Inquire', body: 'Write to the US team through the contact form. Tell us who you are, who would come with you, and what kind of project you could carry.' },
-  { n: '2', title: 'Adopt and fund a project', body: 'The field names its current needs. You take one on and raise the funds for it, around $20,000, with your church, your group, or on your own. The US team walks the fundraising with you.' },
-  { n: '3', title: 'Go see it through', body: 'You travel in a small team, hosted by the field leaders who run the work, and stand in the project you funded.' },
+  { n: '1', title: 'Start the conversation', body: 'Write to the US team. Tell us about you, your church or family, and the kind of project you could take on.' },
+  { n: '2', title: 'Take on a project', body: 'The field names its current needs. You choose one, and the people around you raise its funding with the US team alongside you.' },
+  { n: '3', title: 'Come for the opening', body: 'You travel in a small team, hosted by the field leaders, and dedicate what God built through you with the village it serves.' },
 ];
 
-// FAQ: honest process answers. The only figure is the $20,000 project model;
-// every other specific routes to the planning conversation.
+// FAQ: honest process answers, said graciously. This is the only place the
+// no-project and no-student-team boundaries appear, and both leave a door open.
 const faqs = [
-  { q: 'What does it cost?', a: 'The model is a project of around $20,000, plus your own travel costs. The exact figure depends on the project the field names, and the US team will talk through fundraising with you before you commit to anything.' },
-  { q: 'Can I visit without a project?', a: 'No. Hosting guests costs the field staff time, vehicles, and money, so every trip is tied to a project. If you want to support the work without traveling, start with the giving pages or serve from home.' },
-  { q: 'Do you take high school or college mission teams?', a: 'No. We know that is a hard word for groups with good intentions, and we say it plainly because the field’s time belongs to the ministry. A student group ready to raise funds for a real project is welcome to start that conversation.' },
-  { q: 'How long does this take?', a: 'As long as the project takes. Fundraising runs at your pace, the build runs on the field’s timeline, and travel is planned around a moment worth being there for. The US team works the specifics out with you.' },
-  { q: 'Who plans the travel?', a: 'The US team plans it with you, and the field leaders host you on the ground. Timing, length, destination, lodging, documents, and health requirements are all worked out before you commit, and we are honest about current conditions and what we can and cannot promise.' },
-  { q: 'How do I start?', a: 'Use the contact form. Tell us who you are, who would travel, and what kind of project you could carry.' },
+  { q: 'What does a project cost?', a: 'Most projects the field names, like a rural school or a Learning Center building, come in around $20,000, and travelers cover their own travel. The US team talks through the project and the fundraising with you before you commit to anything.' },
+  { q: 'Can we visit without a project?', a: 'Every Favor trip is built around a project, so there is a reason to be there and something to dedicate when you arrive. If travel is not in season for you, specific-project giving carries the same work from home.' },
+  { q: 'Do you host student mission teams?', a: 'Our trips are built around funded projects rather than team experiences, so we do not host traditional student mission trips. A student group that wants to take on a project is welcome to start that conversation.' },
+  { q: 'How long does this take?', a: 'As long as the project takes. Fundraising moves at your pace, the build runs on the field’s schedule, and travel is planned around the opening.' },
+  { q: 'Who plans the travel?', a: 'The US team plans it with you, and the field leaders host you on the ground. Timing, length, lodging, documents, and health requirements are all settled before you commit.' },
+  { q: 'How do I start?', a: 'Use the contact form. Tell us who you are, who would travel with you, and the kind of project you could take on.' },
 ];
 ---
 <RedesignLayout
@@ -80,8 +81,8 @@ const faqs = [
 >
   <PageHero
     label="Project trips"
-    title="Fund a project. Come see it through."
-    promise="Field travel with Favor is tied to a concrete project: around $20,000 for a rural school or a Village Learning Center building, funded by you and finished with the leaders who run the work."
+    title="Come build something that lasts."
+    promise="Favor partners take on one project with the field, a rural school or a Village Learning Center, fund it with the people around them, and travel to dedicate it with the leaders who run it."
     image="/videos/vision-trips-hero-poster.jpg"
     imageAlt="A village congregation gathered for worship, from the film They Once Met Under Trees"
     video="/videos/vision-trips-hero.mp4"
@@ -94,17 +95,17 @@ const faqs = [
     image="/images/story-vision-trip-team.jpg"
     imageAlt="A vision-trip team with villagers in the field"
     eyebrow="How going works"
-    heading="You carry a project. The field hosts you."
+    heading="One project, carried together."
     side="right"
   >
     <p>
-      A trip with Favor starts long before the flight. You adopt a specific project the
-      field has named, raise the funds for it, and then travel with a small team to see it
-      through on the ground with the indigenous leaders who will run it.
+      A trip with Favor begins with a project the field has asked for. You take it on with
+      your church, your family, or your own giving, and when it is built you travel with a
+      small team to dedicate it with the leaders and the village it serves.
     </p>
     <p>
-      When you fly home, the school stays open. The work your project joins runs every day
-      across Uganda, South Sudan, and Chad. See
+      The school keeps teaching after you fly home. The work your project joins runs every
+      day across Uganda, South Sudan, and Chad. See
       <a class="story-link" href="/about/where-we-work/">where we work</a> for what it looks
       like in each nation.
     </p>
@@ -113,22 +114,20 @@ const faqs = [
   <section class="band band--cream">
     <div class="container container--narrow">
       <LeafHeading
-        label="Why project-based"
-        title="A visiting team costs the field something."
+        label="Why projects"
+        title="The best trips end in a dedication."
         leaves={false}
       />
       <div class="why rd-prose">
         <p>
-          Hosting a team takes field staff time, vehicles, fuel, and money, and it pulls
-          national missionaries away from the ministry they were sent to do. We will not
-          spend the field&rsquo;s attention on tourism, and we do not plan trips for travelers
-          who want to experience Africa or add a mission trip to a testimony.
+          Favor&rsquo;s missionaries are Ugandan, South Sudanese, and Chadian, and the
+          ministry on the ground is theirs year-round. So when partners travel, we build the
+          trip around something the field has asked for: a project you helped fund, opened
+          together with the village it serves.
         </p>
         <p>
-          So every trip is tied to a project. Your fundraising pays for something the field
-          has asked for, and your visit marks its completion instead of interrupting the
-          work. This asks more of you than a typical short-term trip, and that is deliberate.
-          If you want to build something that outlasts your visit, we want to hear from you.
+          You arrive as a partner the field already knows. There is work to celebrate the
+          day you land, and what you came to see keeps serving long after you leave.
         </p>
       </div>
     </div>
@@ -139,7 +138,7 @@ const faqs = [
       <LeafHeading
         label="The projects"
         title="Projects you can carry."
-        intro="Around $20,000 funds a project like these. The field team names the current needs, so the first step is a conversation."
+        intro="The field team names its current needs, and most projects like these come in around $20,000. The first step is a conversation."
         leaves={false}
       />
       <div class="projects">
@@ -164,7 +163,7 @@ const faqs = [
 
   <section class="band band--cream">
     <div class="container">
-      <LeafHeading label="How it works" title="Three steps, no fine print." leaves={false} />
+      <LeafHeading label="How it works" title="From first conversation to opening day." leaves={false} />
       <ol class="steps">
         {steps.map((s) => (
           <li class="rd-card steps__item reveal">
@@ -179,7 +178,7 @@ const faqs = [
 
   <section class="band band--white">
     <div class="container">
-      <LeafHeading label="Is this you?" title="Who project trips are for." leaves={false} />
+      <LeafHeading label="Who goes" title="Who project trips are for." leaves={false} />
       <div class="who">
         {audiences.map((a) => (
           <div class="who__col reveal">
@@ -191,11 +190,7 @@ const faqs = [
           </div>
         ))}
       </div>
-      <p class="who__plain">
-        Favor does not host high school or college mission-trip teams, and we do not plan
-        travel for visitors who want to see the work without carrying part of it. Every
-        guest the field hosts costs staff time, vehicles, and money, and the work comes first.
-      </p>
+
     </div>
   </section>
 
@@ -214,7 +209,7 @@ const faqs = [
 
   <section class="band band--white">
     <div class="container container--narrow">
-      <LeafHeading label="Questions, answered" title="Before you ask." leaves={false} />
+      <LeafHeading label="Questions" title="Common questions." leaves={false} />
       <div class="faq">
         {faqs.map((f) => (
           <details class="faq__item rd-outline">
@@ -227,8 +222,8 @@ const faqs = [
   </section>
 
   <RdCta
-    heading="Bring us a project inquiry."
-    body="Tell us who you are, who would come with you, and what you could raise. You will get a straight answer and a real project."
+    heading="Take on a project."
+    body="Tell us about you and the people who would build it with you. The US team will bring you the field's current needs and help you plan from first gift to dedication."
     ctaLabel="Start the conversation"
     ctaHref="/about/contact/?topic=vision-trip"
     background="cream"
@@ -280,10 +275,6 @@ const faqs = [
   .who__icon svg { width: 30px; height: 30px; }
   .who__col h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
   .who__col p { margin: 0 auto; color: var(--color-ink-soft); line-height: 1.7; max-width: 34ch; }
-  .who__plain {
-    margin: clamp(40px, 5vw, 60px) auto 0; max-width: 62ch; text-align: center;
-    color: var(--color-ink); font-weight: 600; line-height: 1.7;
-  }
   @media (max-width: 860px) {
     .who { grid-template-columns: 1fr; gap: var(--space-8); }
     .who__col { padding: 0; }
