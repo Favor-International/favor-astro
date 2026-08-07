@@ -3,7 +3,6 @@
 # Explicit rules first, structural wildcards last. The catch-all for URLs
 # not listed here is functions/_middleware.ts (404 -> 301 to /), because a
 # /* rule here runs before static assets and would break the live site.
-https://www.favorintl.org/* https://favorintl.org/:splat 301
 /sitemap.xml /sitemap-index.xml 301
 /about /about/ 301
 /carts /books/ 301

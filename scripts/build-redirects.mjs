@@ -151,8 +151,11 @@ lines.push('/connect-support/* /give/ 301');
 lines.push('/directors/* /about/board/ 301');
 lines.push('/positions/* /go/careers/ 301');
 
+// NOTE: www -> apex cannot live here. Pages rejects absolute-URL sources
+// ("Only relative URLs are allowed", seen in the build log). It is a
+// Cloudflare zone Redirect Rule instead; see the cutover steps in
+// docs/migration-cutover-2026-08-06.md.
 lines.unshift("/sitemap.xml /sitemap-index.xml 301");
-lines.unshift("https://www.favorintl.org/* https://favorintl.org/:splat 301");
 
 const header = `# 301 map for the favorintl.org cutover (generated 2026-08-06 by
 # scripts/build-redirects.mjs from the old Webflow sitemap, 638 URLs).
