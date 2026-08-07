@@ -1,0 +1,4468 @@
+[
+ {
+  "path": "/connect-support",
+  "status": 200,
+  "title": "Connect &amp; Support",
+  "desc": null,
+  "h1": "Contact Us"
+ },
+ {
+  "path": "/what-we-do/education/centers",
+  "status": 200,
+  "title": "Village Learning Centers",
+  "desc": null,
+  "h1": "Village Learning Centers"
+ },
+ {
+  "path": "/about",
+  "status": 200,
+  "title": "About",
+  "desc": "An overview about the work we do.",
+  "h1": "About Favor"
+ },
+ {
+  "path": "/what-we-do/community-development/counseling",
+  "status": 200,
+  "title": "Trauma Counseling",
+  "desc": null,
+  "h1": "Trauma Counseling"
+ },
+ {
+  "path": "/what-we-do/community-development/construction",
+  "status": 200,
+  "title": "Church Construction",
+  "desc": null,
+  "h1": "Church Construction"
+ },
+ {
+  "path": "/what-we-do/community-development",
+  "status": 200,
+  "title": "Community Development",
+  "desc": null,
+  "h1": "Community Development"
+ },
+ {
+  "path": "/carts",
+  "status": 200,
+  "title": "Carts",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/current-projects",
+  "status": 200,
+  "title": "Current Projects",
+  "desc": null,
+  "h1": "Current Projects"
+ },
+ {
+  "path": "/connect-support/donate-now",
+  "status": 200,
+  "title": "Donate Now",
+  "desc": null,
+  "h1": "Donate Now"
+ },
+ {
+  "path": "/about/ecfa-accountability",
+  "status": 200,
+  "title": "ECFA &amp; Accountability",
+  "desc": null,
+  "h1": "ECFA &amp; Accountability"
+ },
+ {
+  "path": "/about/our-story/founder",
+  "status": 200,
+  "title": "Founder Carole Ward",
+  "desc": null,
+  "h1": "Founder &amp; Director Carole Ward"
+ },
+ {
+  "path": "/what-we-do/economic-empowerment",
+  "status": 200,
+  "title": "Economic Empowerment",
+  "desc": null,
+  "h1": "Economic Empowerment"
+ },
+ {
+  "path": "/what-we-do/evangelism-discipleship",
+  "status": 200,
+  "title": "Evangelism &amp; Discipleship",
+  "desc": null,
+  "h1": "Evangelism &amp; Discipleship"
+ },
+ {
+  "path": "/what-we-do/education",
+  "status": 200,
+  "title": "Education",
+  "desc": null,
+  "h1": "Education"
+ },
+ {
+  "path": "/",
+  "status": 200,
+  "title": "Home",
+  "desc": "Home Page",
+  "h1": "Transformed HeartsTransform Nations"
+ },
+ {
+  "path": "/what-we-do/evangelism-discipleship/gift",
+  "status": 200,
+  "title": "God&#x27;s Institute for Transformation",
+  "desc": null,
+  "h1": "God&#x27;s Institute for Transformation GIFT"
+ },
+ {
+  "path": "/testimonies-updates/impact-reports",
+  "status": 200,
+  "title": "Impact Reports",
+  "desc": null,
+  "h1": "Impact Reports"
+ },
+ {
+  "path": "/intro-flyer",
+  "status": 200,
+  "title": "Intro Flyer",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/what-we-do/education/leadership",
+  "status": 200,
+  "title": "Leadership Training Institute",
+  "desc": null,
+  "h1": "Leadership Training Institute"
+ },
+ {
+  "path": "/what-we-do/community-development/medical",
+  "status": 200,
+  "title": "Medical",
+  "desc": null,
+  "h1": "Medical"
+ },
+ {
+  "path": "/testimonies-updates/media",
+  "status": 200,
+  "title": "Media",
+  "desc": null,
+  "h1": "It&#x27;s Testimony Tuesday!"
+ },
+ {
+  "path": "/about/our-story",
+  "status": 200,
+  "title": "Our Story",
+  "desc": null,
+  "h1": "Our Story"
+ },
+ {
+  "path": "/testimonies-updates/past-newsletters",
+  "status": 200,
+  "title": "Past Newsletters",
+  "desc": null,
+  "h1": "Newsletters"
+ },
+ {
+  "path": "/what-we-do/evangelism-discipleship/pbs",
+  "status": 200,
+  "title": "Portable Bible Schools",
+  "desc": null,
+  "h1": "Portable Bible Schools"
+ },
+ {
+  "path": "/what-we-do/community-development/planting",
+  "status": 200,
+  "title": "Church Planting",
+  "desc": null,
+  "h1": "Church Planting"
+ },
+ {
+  "path": "/what-we-do/evangelism-discipleship/prayer",
+  "status": 200,
+  "title": "House of Prayer",
+  "desc": null,
+  "h1": "Houses of Prayer"
+ },
+ {
+  "path": "/what-we-do/education/primary",
+  "status": 200,
+  "title": "Favour Primary School",
+  "desc": null,
+  "h1": "Favor Primary School"
+ },
+ {
+  "path": "/privacy",
+  "status": 200,
+  "title": "Privacy",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/what-we-do/evangelism-discipleship/radio",
+  "status": 200,
+  "title": "Christian Radio",
+  "desc": null,
+  "h1": "Christian Radio"
+ },
+ {
+  "path": "/connect-support/refer-connections",
+  "status": 200,
+  "title": "Refer Connections",
+  "desc": null,
+  "h1": "Refer Connections"
+ },
+ {
+  "path": "/what-we-do/education/secondary",
+  "status": 200,
+  "title": "Favour Secondary School",
+  "desc": null,
+  "h1": "Favor Secondary School"
+ },
+ {
+  "path": "/about/statement-of-faith",
+  "status": 200,
+  "title": "Statement of Faith",
+  "desc": null,
+  "h1": "Statement of Faith"
+ },
+ {
+  "path": "/testimonies-updates/stories-of-transformation",
+  "status": 200,
+  "title": "Stories of Transformation",
+  "desc": null,
+  "h1": "Stories of Transformation"
+ },
+ {
+  "path": "/what-we-do/economic-empowerment/sustainability",
+  "status": 200,
+  "title": "Sustainability Projects",
+  "desc": null,
+  "h1": "Sustainability Projects"
+ },
+ {
+  "path": "/testimonies-updates",
+  "status": 200,
+  "title": "Testimonies &amp; Updates",
+  "desc": null,
+  "h1": "Testimonies &amp; Updates"
+ },
+ {
+  "path": "/connect-support/volunteer-or-intern",
+  "status": 200,
+  "title": "Volunteer or Intern",
+  "desc": null,
+  "h1": "Opportunities with Favor"
+ },
+ {
+  "path": "/about/mission-vision",
+  "status": 200,
+  "title": "Vision",
+  "desc": null,
+  "h1": "Mission &amp; Vision"
+ },
+ {
+  "path": "/what-we-do/economic-empowerment/vocation",
+  "status": 200,
+  "title": "Vocational Program",
+  "desc": null,
+  "h1": "Vocational Program"
+ },
+ {
+  "path": "/connect-support/positions",
+  "status": 200,
+  "title": "Positions",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/what-we-do",
+  "status": 200,
+  "title": "What We Do",
+  "desc": null,
+  "h1": "What We Do"
+ },
+ {
+  "path": "/about/our-story/where-we-work",
+  "status": 200,
+  "title": "Where We Work",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/what-we-do/economic-empowerment/women",
+  "status": 200,
+  "title": "Women Empowerment",
+  "desc": null,
+  "h1": "Women Empowerment"
+ },
+ {
+  "path": "/thanksgiving",
+  "status": 200,
+  "title": "ThanksGIVING",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-sign-up",
+  "status": 200,
+  "title": "Newsletter Sign Up",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/about/directors",
+  "status": 200,
+  "title": "Our Directors",
+  "desc": null,
+  "h1": "Our Directors"
+ },
+ {
+  "path": "/about/documents",
+  "status": 200,
+  "title": "Pertinent Documents",
+  "desc": null,
+  "h1": "Pertinent Documents"
+ },
+ {
+  "path": "/books",
+  "status": 200,
+  "title": "books",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/audio",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/boys",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/australia",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/cattle-herders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/carole-ward",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/community-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/community-relief",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/democratic-republic-of-congo",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/discipleship",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/emotional-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/ethiopia",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/favor-ministry-life",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/favor-team",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/government-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/humanitarian-impact",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/men",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/new-believers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/newsletter-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/chad",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/partners",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/noteworthy-news",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/pdf",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/business-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/presentation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/physical-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/regional-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/project-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/rural-communities",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/skills-development",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/salvation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/south-sudan",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/sudan",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/stewardship",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/testimony",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/religious-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/united-states",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/tag-search",
+  "status": 200,
+  "title": "Search Stories by Tag",
+  "desc": null,
+  "h1": "Tag Search"
+ },
+ {
+  "path": "/all-regular-tags/summary-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/unreached-people-groups",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/children-youth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/video",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/women",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/training-multiplication",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/boys",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/business-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/carole-ward",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/cattle-herders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/uganda",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/favor-team",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/government-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/partners",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/religious-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/all-regular-tags/kenya",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/unreached-people-groups",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/australia",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/chad",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/democratic-republic-of-congo",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/ethiopia",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/rural-communities",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/kenya",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/men",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/south-sudan",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/location-tags/uganda",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/new-believers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/a-former-witch-doctors-testimony",
+  "status": 200,
+  "title": "A Former Witch Doctor&#x27;s Testimony",
+  "desc": "",
+  "h1": "June 29, 2023"
+ },
+ {
+  "path": "/location-tags/sudan",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/demographic-tags/women",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/a-generational-shift",
+  "status": 200,
+  "title": "A Generational Shift",
+  "desc": "Replacing a Curse with a Blessing",
+  "h1": "October 26, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/a-timely-word",
+  "status": 200,
+  "title": "A Timely Word",
+  "desc": "Saving Current and Future Generations",
+  "h1": "July 4, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/airwaves-of-transformation",
+  "status": 200,
+  "title": "Airwaves of Transformation",
+  "desc": "",
+  "h1": "November 9, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/breaking-through-to-chad",
+  "status": 200,
+  "title": "Breaking Through to Chad",
+  "desc": "",
+  "h1": "July 20, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/celebrating-recent-graduates",
+  "status": 200,
+  "title": "Celebrating Recent Graduates",
+  "desc": "",
+  "h1": "May 2, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/celebrating-the-harvest",
+  "status": 200,
+  "title": "Celebrating The Harvest",
+  "desc": "",
+  "h1": "September 14, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/confessions-of-former-muslims",
+  "status": 200,
+  "title": "Confessions of Former Muslims",
+  "desc": "",
+  "h1": "November 16, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/daniel-kidia",
+  "status": 200,
+  "title": "Daniel Kidia",
+  "desc": "A PBS Testimony",
+  "h1": "April 14, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/curing-the-snakebite",
+  "status": 200,
+  "title": "Curing the Snakebite",
+  "desc": "",
+  "h1": "June 13, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/deliverance-surrounding-radio",
+  "status": 200,
+  "title": "Deliverance Surrounding Radio",
+  "desc": "",
+  "h1": "January 18, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/deep-into-africa",
+  "status": 200,
+  "title": "Deep Into Africa",
+  "desc": "Answered Prayers in Remote Areas",
+  "h1": "June 27, 2024"
+ },
+ {
+  "path": "/all-regular-tags/spiritual-deliverance",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/dressing-their-wounds",
+  "status": 200,
+  "title": "Dressing Their Wounds",
+  "desc": "",
+  "h1": "October 19, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/each-one-reach-one-daily",
+  "status": 200,
+  "title": "Each One, Reach One (Daily)",
+  "desc": "“…And as you go, preach this message: ‘Heaven’s kingdom realm is accessible, close enough to touch. You must continually bring healing to lepers and to those who are sick, and make it your habit to break off the demonic presence from people, and raise the dead back to life. Freely you have received the power of the kingdom, so freely release it to others.” – Matthew 10:7-8",
+  "h1": "June 11, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/for-such-a-time-as-this",
+  "status": 200,
+  "title": "For Such A Time As This",
+  "desc": "",
+  "h1": "August 31, 2023"
+ },
+ {
+  "path": "/demographic-tags/children-youth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/forgetting-the-past",
+  "status": 200,
+  "title": "Forgetting the Past",
+  "desc": "",
+  "h1": "April 4, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/from-bitter-to-sweet",
+  "status": 200,
+  "title": "From Bitter to Sweet",
+  "desc": "Trading Bad Company for God&#x27;s Word",
+  "h1": "December 28, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/from-spear-masters-to-holy-spirit",
+  "status": 200,
+  "title": "From Spear Masters to Holy Spirit",
+  "desc": "",
+  "h1": "June 22, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/gift-girl-graduate-turns-trainer",
+  "status": 200,
+  "title": "GIFT Girl Graduate Turns Trainer",
+  "desc": "",
+  "h1": "May 11, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/full-circle-transformation",
+  "status": 200,
+  "title": "Full Circle Transformation",
+  "desc": "",
+  "h1": "February 29, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/goats-for-women",
+  "status": 200,
+  "title": "Goats for Women",
+  "desc": "",
+  "h1": "January 4, 2024"
+ },
+ {
+  "path": "/location-tags/united-states",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/good-news-from-a-gateway-nation",
+  "status": 200,
+  "title": "Good News From A Gateway Nation",
+  "desc": "",
+  "h1": "August 31, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/healing-and-harvest",
+  "status": 200,
+  "title": "Healing and Harvest",
+  "desc": "",
+  "h1": "July 11, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/hand-in-hand",
+  "status": 200,
+  "title": "Hand In Hand",
+  "desc": "As with everything else we do, education goes hand-in-hand with prayer and devotion to God&#x27;s Word.",
+  "h1": "August 17, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/healing-for-south-sudanese",
+  "status": 200,
+  "title": "Healing For South Sudanese",
+  "desc": "",
+  "h1": "May 18, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/healing-from-addictions",
+  "status": 200,
+  "title": "Healing From Addictions",
+  "desc": "After Seven Attempts, The Eighth Time Brought A New Beginning",
+  "h1": "August 15, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/healing-streams",
+  "status": 200,
+  "title": "Healing Streams",
+  "desc": "",
+  "h1": "May 2, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/all-who-are-called",
+  "status": 200,
+  "title": "All Who Are Called",
+  "desc": "",
+  "h1": "August 24, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/hitting-the-streets",
+  "status": 200,
+  "title": "Hitting the Streets",
+  "desc": "",
+  "h1": "November 2, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/hope-through-the-night",
+  "status": 200,
+  "title": "Hope Through the Night",
+  "desc": "",
+  "h1": "April 18, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/embracing-the-call",
+  "status": 200,
+  "title": "Embracing the Call",
+  "desc": "Favor built the structure, the community built the shelter.",
+  "h1": "March 14, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/hungry-and-thirsty",
+  "status": 200,
+  "title": "Hungry and Thirsty",
+  "desc": "",
+  "h1": "October 12, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/emmy-from-orphan-to-leader",
+  "status": 200,
+  "title": "Emmy, From Orphan to Leader",
+  "desc": "",
+  "h1": "December 22, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/irreversible-transformation",
+  "status": 200,
+  "title": "Irreversible Transformation",
+  "desc": "The Power of Forgiveness",
+  "h1": "May 2, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/joyfully-no-matter-the-road",
+  "status": 200,
+  "title": "Joyfully, No Matter The Road",
+  "desc": "",
+  "h1": "August 24, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/letters-of-thanks",
+  "status": 200,
+  "title": "Letters of Thanks",
+  "desc": "Rescued Orphan Girls Offer Gratitude for New Life",
+  "h1": "February 8, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/laying-down-the-spear",
+  "status": 200,
+  "title": "Laying Down The Spear",
+  "desc": "",
+  "h1": "September 7, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/listening-to-heal",
+  "status": 200,
+  "title": "Listening to Heal",
+  "desc": "She bought poison... but God intervened...",
+  "h1": "March 21, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/listening-in-prison",
+  "status": 200,
+  "title": "Listening in Prison",
+  "desc": "",
+  "h1": "August 1, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/holistic-transformation",
+  "status": 200,
+  "title": "Holistic Transformation",
+  "desc": "",
+  "h1": "July 6, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/i-want-the-little-children-to-come-to-me",
+  "status": 200,
+  "title": "I Want the Little Children to Come to Me",
+  "desc": "Jesus overheard them and said, “I want little children to come to me, so never interfere with them when they want to come, for heaven’s kingdom realm is composed of beloved ones like these! Listen to this truth: No one will enter the kingdom realm of heaven unless he becomes like one of these!” – Matthew 19:14 TPT",
+  "h1": "June 19, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/members-of-parliament-find-forgiveness",
+  "status": 200,
+  "title": "Members of Parliament Find Forgiveness",
+  "desc": "",
+  "h1": "May 16, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/laying-burdens-down",
+  "status": 200,
+  "title": "Laying Burdens Down",
+  "desc": "Mobile Missionaries in the Cattle Camps",
+  "h1": "November 30, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/mini-gospel-crusades",
+  "status": 200,
+  "title": "Mini Gospel Crusades",
+  "desc": "",
+  "h1": "June 15, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/more-bibles-for-ethiopia-please",
+  "status": 200,
+  "title": "&quot;More Bibles for Ethiopia, Please!&quot;",
+  "desc": "When the Holy Spirit works through limited resources",
+  "h1": "September 21, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/new-spirit-new-name",
+  "status": 200,
+  "title": "New Spirit, New Name",
+  "desc": "",
+  "h1": "May 25, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/jubas-gift",
+  "status": 200,
+  "title": "Juba&#x27;s GIFT",
+  "desc": "&quot;Bring the children&quot;",
+  "h1": "December 7, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/if-they-hadnt",
+  "status": 200,
+  "title": "If They Hadn&#x27;t...",
+  "desc": "",
+  "h1": "October 26, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/no-more-walking-in-darkness",
+  "status": 200,
+  "title": "No More Walking In Darkness",
+  "desc": "",
+  "h1": "October 12, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/man-listens-to-favour-fm-receives-sight-from-god",
+  "status": 200,
+  "title": "Man Listens to Favour FM, Receives Sight From God!",
+  "desc": "",
+  "h1": "August 25, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/now-i-see",
+  "status": 200,
+  "title": "Now I See",
+  "desc": "“I had heard of You [only] by the hearing of the ear, but now my [spiritual] eye sees You.” – Job 42:5",
+  "h1": "June 24, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/opening-doors-to-the-nations",
+  "status": 200,
+  "title": "Opening Doors to the Nations",
+  "desc": "",
+  "h1": "March 29, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/overcoming-obstacles-to-reach-villages",
+  "status": 200,
+  "title": "Overcoming Obstacles to Reach Villages",
+  "desc": "",
+  "h1": "August 3, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/pabo-revival-crusade",
+  "status": 200,
+  "title": "Pabo Revival Crusade",
+  "desc": "",
+  "h1": "June 29, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/peace-abounds",
+  "status": 200,
+  "title": "Peace Abounds",
+  "desc": "",
+  "h1": "June 15, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/praying-without-ceasing",
+  "status": 200,
+  "title": "Praying Without Ceasing",
+  "desc": "",
+  "h1": "May 30, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/radio-team-reports",
+  "status": 200,
+  "title": "Radio Team Reports",
+  "desc": "",
+  "h1": "July 6, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/radio-department-testimony",
+  "status": 200,
+  "title": "Radio Department Testimony",
+  "desc": "",
+  "h1": "December 11, 2019"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/rapid-church-transformation",
+  "status": 200,
+  "title": "Rapid Church Transformation",
+  "desc": "",
+  "h1": "September 28, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/reaching-muslims-through-airwaves",
+  "status": 200,
+  "title": "Reaching Muslims Through Airwaves",
+  "desc": "",
+  "h1": "August 10, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/medical-center-salvations",
+  "status": 200,
+  "title": "Medical Center Salvations",
+  "desc": "",
+  "h1": "July 13, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/reaping-the-harvest",
+  "status": 200,
+  "title": "Reaping The Harvest",
+  "desc": "",
+  "h1": "August 17, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/god-gives-woman-baby-after-salvation-by-radio",
+  "status": 200,
+  "title": "God Gives Woman Baby After Salvation by Radio!",
+  "desc": "",
+  "h1": "August 24, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/restored-by-the-spirit",
+  "status": 200,
+  "title": "Restored by the Spirit",
+  "desc": "Portable Bible Schools in Eastern Uganda",
+  "h1": "May 9, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/restoring-the-home",
+  "status": 200,
+  "title": "Restoring the Home",
+  "desc": "",
+  "h1": "July 4, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/rising-through-the-ranks",
+  "status": 200,
+  "title": "Rising Through the Ranks",
+  "desc": "Military Officers Find Freedom in Forgiveness",
+  "h1": "July 25, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/rumbek-mini-crusade",
+  "status": 200,
+  "title": "Rumbek Mini Crusade",
+  "desc": "Rumbek, South Sudan - a place that was previously a stronghold of traditional religion and witchcraft",
+  "h1": "August 10, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/satellite-salvations",
+  "status": 200,
+  "title": "Satellite Salvations",
+  "desc": "",
+  "h1": "December 28, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/saving-culture",
+  "status": 200,
+  "title": "Saving Culture",
+  "desc": "",
+  "h1": "January 25, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/seek-and-you-shall-find",
+  "status": 200,
+  "title": "Seek and You Shall Find",
+  "desc": "“For the Son of Man came to passionately search for, seek out, find, save and restore to new life that which was cast out and lost.” – Luke 19:10",
+  "h1": "July 13, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/simons-and-angelos-stories",
+  "status": 200,
+  "title": "Simon&#x27;s and Angelo&#x27;s Stories",
+  "desc": "",
+  "h1": "August 8, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/spiritual-sight",
+  "status": 200,
+  "title": "Spiritual Sight",
+  "desc": "",
+  "h1": "December 14, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/spiritually-physically-hungry",
+  "status": 200,
+  "title": "Spiritually &amp; Physically Hungry",
+  "desc": "“For when you saw me hungry, you fed me. When you found me thirsty, you gave me something to drink. When I had no place to stay, you invited me in, and when I was poorly clothed, you covered me. When I was sick, you tenderly cared for me, and when I was in prison you visited me.” – Matthew 25:35",
+  "h1": "June 23, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/peace-makers-church",
+  "status": 200,
+  "title": "Peace Makers Church",
+  "desc": "Revival in Northern Uganda",
+  "h1": "May 25, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/no-longer-slaves",
+  "status": 200,
+  "title": "No Longer Slaves",
+  "desc": "Two Individuals Delivered from Sensuality",
+  "h1": "February 15, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/streets-to-school",
+  "status": 200,
+  "title": "Streets To School",
+  "desc": "&quot;Not about our money but the future of families, children, and the country.&quot;",
+  "h1": "September 7, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/strong-foundations-in-rural-areas",
+  "status": 200,
+  "title": "Strong Foundations in Rural Areas",
+  "desc": "",
+  "h1": "July 6, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/student-on-a-mission",
+  "status": 200,
+  "title": "Student on a Mission!",
+  "desc": "",
+  "h1": "July 22, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/strongholds-collapse",
+  "status": 200,
+  "title": "Strongholds Collapse",
+  "desc": "",
+  "h1": "August 22, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/reaching-the-unreached",
+  "status": 200,
+  "title": "Reaching The Unreached",
+  "desc": "Eastern Region of South Sudan",
+  "h1": "June 1, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/teaching-gods-word",
+  "status": 200,
+  "title": "Teaching God&#x27;s Word",
+  "desc": "“Let the word of Christ live in you richly, flooding you with all wisdom. Apply the Scriptures as you teach and instruct one another with the Psalms, and with festive praises, and with prophetic songs given to you spontaneously by the Spirit, so sing to God with all your hearts.&quot; - Colossians 3:16",
+  "h1": "June 22, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/ten-days-in-chad",
+  "status": 200,
+  "title": "Ten Days in Chad",
+  "desc": "",
+  "h1": "November 9, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/susans-testimony-of-redemption",
+  "status": 200,
+  "title": "Susan&#x27;s Testimony of Redemption",
+  "desc": "",
+  "h1": "December 31, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/testimony-from-a-s-sudan-field-leader",
+  "status": 200,
+  "title": "Testimony from a S. Sudan Field Leader",
+  "desc": "A Favor outreach worker in S. Sudan relayed a summary of the following conversations in the Bor area of S. Sudan:",
+  "h1": "June 21, 2020"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-anaka-crusade",
+  "status": 200,
+  "title": "The Anaka Crusade",
+  "desc": "Binding the Strongman, Healing the Community",
+  "h1": "September 28, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-cost-of-a-covenant",
+  "status": 200,
+  "title": "The Cost of a Covenant",
+  "desc": "Favor Staff&#x27;s Second Mass Wedding Ceremony",
+  "h1": "January 11, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/salvation-marriage",
+  "status": 200,
+  "title": "Salvation &amp; Marriage",
+  "desc": "Two souls found salvation and nine couple are ready to tie the knot",
+  "h1": "July 20, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/reading-the-bible-for-themselves",
+  "status": 200,
+  "title": "Reading the Bible for Themselves",
+  "desc": "",
+  "h1": "May 18, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-god-who-rescues-captives",
+  "status": 200,
+  "title": "The God Who Rescues Captives",
+  "desc": "&quot;I have come that they may have life, and have it to the full.&quot; - Jesus",
+  "h1": "April 25, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-fear-of-the-lord",
+  "status": 200,
+  "title": "The Fear of the LORD",
+  "desc": "",
+  "h1": "June 6, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-gospel-in-their-native-tongue",
+  "status": 200,
+  "title": "The Gospel in Their Native Tongue",
+  "desc": "",
+  "h1": "April 11, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-lord-added-to-their-number",
+  "status": 200,
+  "title": "The Lord Added to Their Number...",
+  "desc": "&quot;And the Lord added to their number day by day those who were being saved.&quot; - Acts 2:47",
+  "h1": "January 4, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-jesus-film",
+  "status": 200,
+  "title": "The Jesus Film",
+  "desc": "",
+  "h1": "July 27, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-love-of-the-father",
+  "status": 200,
+  "title": "The Love of the Father",
+  "desc": "New Clothes, New Identities",
+  "h1": "July 13, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-power-of-love",
+  "status": 200,
+  "title": "The Power of Love",
+  "desc": "",
+  "h1": "September 5, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-next-generations-leaders",
+  "status": 200,
+  "title": "The Next Generation&#x27;s Leaders",
+  "desc": "",
+  "h1": "December 7, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/those-who-have-ears-to-hear",
+  "status": 200,
+  "title": "Those Who Have Ears to Hear...",
+  "desc": "From Brokenness to Hearing and Healing",
+  "h1": "June 20, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-refugee-church",
+  "status": 200,
+  "title": "The Refugee Church",
+  "desc": "",
+  "h1": "October 19, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-women-of-paibony",
+  "status": 200,
+  "title": "The Women of Paibony",
+  "desc": "",
+  "h1": "March 7, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/they-almost-gave-up",
+  "status": 200,
+  "title": "They Almost Gave Up",
+  "desc": "Restoring Hope When All Else Failed",
+  "h1": "November 30, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/steady-strong-confidence",
+  "status": 200,
+  "title": "Steady, Strong Confidence",
+  "desc": "",
+  "h1": "April 20, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/the-taposa-tribe",
+  "status": 200,
+  "title": "The Taposa Tribe",
+  "desc": "",
+  "h1": "June 22, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/training-leaders-in-chad",
+  "status": 200,
+  "title": "Training Leaders in Chad",
+  "desc": "",
+  "h1": "July 11, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/training-muslim-background-believers",
+  "status": 200,
+  "title": "Training Muslim Background Believers",
+  "desc": "",
+  "h1": "September 21, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/village-after-village",
+  "status": 200,
+  "title": "Village After Village",
+  "desc": "PBS Wave Three of 2023",
+  "h1": "October 5, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/trauma-counseling-heals-a-former-warrior",
+  "status": 200,
+  "title": "Trauma Counseling Heals a Former Warrior",
+  "desc": "",
+  "h1": "December 11, 2019"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/volunteer-educators-training",
+  "status": 200,
+  "title": "Volunteer Educators Training",
+  "desc": "",
+  "h1": "February 8, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/vows-made-molds-broken",
+  "status": 200,
+  "title": "Vows Made, Molds Broken",
+  "desc": "",
+  "h1": "November 2, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/wars-that-win-souls",
+  "status": 200,
+  "title": "Wars That Win Souls",
+  "desc": "Turbulent Fighting, Failed Ceasefires... But God!",
+  "h1": "May 23, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/sudanese-refugees",
+  "status": 200,
+  "title": "Sudanese Refugees",
+  "desc": "What the enemy intended for evil, God has turned it for good!",
+  "h1": "August 3, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/what-gods-joined-together",
+  "status": 200,
+  "title": "What God&#x27;s Joined Together...",
+  "desc": "Trauma Counseling is helping to save and restore marriages",
+  "h1": "July 27, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/what-happens-in-juba",
+  "status": 200,
+  "title": "What Happens in Juba...",
+  "desc": "Is Worth Sharing with the World",
+  "h1": "February 22, 2024"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/wol-abun",
+  "status": 200,
+  "title": "Wol Abun",
+  "desc": "A GIFT Testimony",
+  "h1": "April 14, 2023"
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/what-next",
+  "status": 200,
+  "title": "What Next??",
+  "desc": "In Step with the Spirit&#x27;s Plans",
+  "h1": "June 27, 2024"
+ },
+ {
+  "path": "/format-tags/newsletter-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/noteworthy-news",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/presentation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/project-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/summary-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/current-projects/arabic-translated-bible-course-curriculum",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": "Arabic-Translated Bible Course Curriculum"
+ },
+ {
+  "path": "/current-projects/gift-dormitory",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": "GIFT Dormitory for Hundreds of Former Street Orphans"
+ },
+ {
+  "path": "/current-projects/building-a-new-primary-school-in-gulu-uganda",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": "Building a New Primary School in Gulu, Uganda"
+ },
+ {
+  "path": "/current-projects/solar-power-for-two-radio-stations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": "Solar Power for Two Radio Stations"
+ },
+ {
+  "path": "/newsletters/2023-has-already-been-incredible-q1-impact-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/2025-annual-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/video",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/3rd-quarter-field-reports",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/testimony",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/pdf",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/110-portable-bible-school-graduations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/4th-quarter-field-reports",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/a-journey-to-freedom-and-new-beginnings",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/format-tags/audio",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/a-letter-from-carole",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/a-light-to-the-ends-of-the-earth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/2020-annual-report-in-depth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/a-nation-on-its-knees",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/all-it-takes-is-one-spark",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/as-we-pray-for-you-you-are-sending-us",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/all-we-can-say-is-wow-god",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/being-transformed-from-the-inside-out",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/birthing-vision-and-building-an-army",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/blanketing-the-nation-with-the-gospel",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/blanketing-the-nations-with-the-gospel",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/blessed-are-those-who-bring-good-news",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/77-hours-of-fervent-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/blessing-the-storehouse-for-sustainability",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/a-life-of-hope",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/breaking-strongholds-across-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/born-again-baptized-and-giving-birth-to-the-next-intake-of-street-youth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/breaking-the-spirit-of-poverty-by-giving",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/bringing-resurrection-life-to-the-broken-and-outcast",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/all-heaven-rejoices",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/bringing-the-light-of-christmas",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/building-a-nation-starts-with-a-mother",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/building-bridges-through-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/caring-hearts-and-healing-hands",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/can-anything-good-come-from-karamoja",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/baptizing-new-believers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/celebrating-kingdom-expansion",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/caring-hearts-helping-hands-are-transforming-communities",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/centers-for-national-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/changing-communities-by-empowering-women",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/chad-for-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/children-youth-with-a-destiny",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/changing-their-stories",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/bring-them-what-they-want",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/transformation-stories/training-for-the-harvest",
+  "status": 200,
+  "title": "Training for the Harvest",
+  "desc": "",
+  "h1": "February 1, 2024"
+ },
+ {
+  "path": "/newsletters/christmas-greetings-from-carole",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/church-planting--the-living-proof-of-a-living-god",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/community-transformation-through-churches",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/corporate-intersession-brings-divine-intervention",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/celebrating-the-goodness-of-god-in-2020",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/declaring-the-name-of-jesus-to-millions",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/deliverance-from-homelessness-violence-poverty-and-sickness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/christmas-greeting",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/clothed-with-compassion",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/desperation-to-freedom",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/christmas-shopping-cart",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/country-in-crisis",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/disciple-making-in-progress",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/discovering-the-unknown-karamoja",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/desperate-for-water",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/displacing-darkness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/dreaming-of-impossible-dreams",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empower-a-woman-and-you-empower-a-village",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/desperate-hunger-for-hope-and-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/disciple-making-factories-happening-right-now",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowered-women-empowered-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowering-training-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowering-precious-daughters-of-the-king",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowering-women-empowers-communities",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowering-women-empowers-communities-2",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowering-women-with-strength-and-dignity",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/enlarging-the-territory-for-kingdom-business",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/entire-community-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/equip-to-evangelize-and-empower",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/chad-2024-annual-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/even-unto-the-least-of-these",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowered-women-empowered-communities",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/eyewitness-accounts---africa-vision-trip",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/exalted-among-the-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/favor-primary-schools",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/favor-primary-school",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/favor-fm-1-on-the-charts",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/empowering-women-to-empower-a-village-to-empower-a-nation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/favor-schools---enriching-minds",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/february-appeal",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/feet-to-your-faith",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/finding-the-murle-tribes",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/fm-radio--impacting-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/every-child-is-a-gift",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/footprint-of-god-in-karamoja",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/focus-on-fathers-face",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/came-for-the-game-but-met-the-master",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/for-our-partners-gift-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/faith-through-portable-bible-schools",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/for-our-partners-reep-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/freedom-deliverance-through-airwaves",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-a-life-in-sin-to-pastoring-a-church",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-a-life-of-crime-to-one-of-peace-and-joy",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-a-life-of-prostitution-to-a-new-life-in-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-a-life-of-violence-to-a-new-life-in-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-abandonment-to-hope",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-bitterness-to-forgiveness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-a-prisoner-to-freedom-in-christ",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-blindness-and-bondage-to-deliverance-in-him",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-captivity-to-freedom-in-christ",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-darkness-to-light",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-chains-to-spiritual-liberation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-hatred-to-redemption-in-christ",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-hatred-to-freedom",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-homelessness-to-freedom",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-refugee",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-revenge-to-redemption",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-revenge-to-restoration",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/destiny-youth-girls-in-both-countries",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-revenge-to-restoration-2",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/former-gang-leaders-stories",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-a-drinking-den-to-a-house-of-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-streets-to-salvation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-suffering-to-freedom",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-students-to-leaders",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-the-classroom-to-the-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-unforgiveness-to-meeting-the-great-forgiver-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-warriors-to-worshipers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/fruit-that-remains",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/gift-graduation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-hopelessness-to-a-hope-filled-future",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/giving-tuesday",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/giving-the-gift-of-life-for-christmas",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/giving-tuesday-2026",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/god-is-building-his-church",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-rags-to-robes-of-righteousness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/god-uses-healed-hearts-to-heal-a-land",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/god-provides-the-growth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/grateful-for-freedom",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/happy-easter",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/from-the-streets-to-purpose",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/happy-thanksgiving",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/happy-thanksgiving-2025",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/gift-gives-beauty-from-ashes",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/god-is-moving-mightily-in-ss-crusades",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/have-you-heard-what-god-is-doing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/he-called-them-by-name",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/he-has-a-plan-for-these-girls",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/gods-blueprint-for-his-church",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/he-is-building-more-than-a-church-pachola",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/he-is-risen",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/he-whom-the-son-sets-free-is-free-indeed",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healed-and-delivered-from-bitterness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-from-grassroots-to-governments",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-a-nation-one-heart-at-a-time",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-in-christ",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-nations-one-heart-at-a-time",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-the-brokenhearted",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-the-heart-of-a-nation-one-at-a-time",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/happy-new-year",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/harvesting-in-famine",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/hearing-and-believing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/healing-the-nation-one-heart-at-a-time",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/his-own-special-daughters",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/his-power-is-stronger-than-the-darkness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/hope-is-restored-hope-is-restored",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/how-beautiful-are-the-feet-of-those",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/how-much-easier-to-build-strong-youth",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/how-will-they-believe-if-they-have-not-heard",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/if-we-lose-our-purpose-we-lose-our-direction",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/hungry-hopeless-but-not-forgotten",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/if-you-could-only-see",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/it-is-better-to-build-strong-children",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/is-it-about-hunger",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/ignited-for-the-harvest",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/its-harvest-time",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/help-us-launch-into-2023",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/jesus-is-alive-and-working-field-reports",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/jesus-on-the-airwaves",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/journeying-deep-into-africa",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/journeys-of-a-fearless-missionary",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/his-word-revives-the-land",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/laying-down-our-weapons-cattle-keepers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/life-changing-opportunity",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/light-shines-in-yumbe",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/look-what-god-has-done-quarter-2-impact-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/look-what-god-has-done-impact-report-q3",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/look-what-the-lord-has-already-done-in-2024",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/make-his-name-known-in-all-the-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/making-disciples-of-all-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/medical-care-to-reach-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/medical-missions-bringing-hope-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/merry-christmas",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/medical-missions-in-action",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/merry-christmas-from-favor",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/merry-christmas-from-favor-21",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/merry-christmas-from-the-favor-team",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/miracle-in-yari",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/miracle-on-the-farmland",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/missionaries-in-the-marketplace",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/give-for-now-or-empower-for-eternity",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/moving-forward-in-2023-with-favor",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/its-gods-appointed-time-for-america",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/muslims-coming-to-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/muslims-to-missionaries-for-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/muslims-into-messengers-with-a-new-mission",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/nation-changers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/no-fear-in-love",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/medical-team-brings-hope-and-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/happy-new-year-2026",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/no-longer-a-slave-to-fear-because-of-christ",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/no-one-is-ever-too-lost",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/offering-hope-to-people-facing-hardship",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/opportunities-to-give-abundantly",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/on-this-rock-i-will-build-my-church",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/nuba-mountains",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/jesus-is",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/our-missionaries-enter-ethiopia",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/our-sons-and-daughters-have-come-home",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/our-greatest-window-of-opportunity",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/out-of-the-ashes-he-is-building-his-church",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/prayer---the-power-of-heaven",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/powerful-testimonies",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/prayer-for-america",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/national-prayer-gathering-in-south-sudan",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/praying-for-a-dependence-on-him",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/q1-impact-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/q2-impact-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/q3-impact-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/quarter-2-impact-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/our-borders-are-expanding",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/quarter-3-has-been-amazing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/our-eternities-are-secure",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/radio-going-to-new-heights",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/radio-update",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/overcame-by-the-word-of-their-testimony",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/raise-a-child-to-lead-a-nation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/prayer-prepares-the-way",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/raise-a-child-to-lead-a-nation-2020",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/reaching-millions-through-favor-fm",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/reaching-the-lost-at-any-cost",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/recipients-of-seeds",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/redeeming-the-land",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/quarter-1-impact-report-2022",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/revival-in-karamoja",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/rural-evangelism-empowerment-program-match-campaign-the-land-will-yield-its-increase",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/schools-in-rural-villages",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/seeing-more-on-our-knees",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/portable-bible-schools--the-feet-of-the-gospel",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/sending-laborers-to-the-ripe-harvest",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/sharing-easter",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/september-webinar",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/sharing-gods-love-through-the-airwaves",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/south-sudans-army-of-missionaries",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/south-sudan-2024-annual-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/speaklife-sports-camp-diamond-mining",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/starting-out-full-swing-into-a-spiritually-explosive-year",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/rescue-restore-redeem",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/reaching-the-lost-and-the-unreached-in-2023",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/reports-from-the-field",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/strength-dignity-for-african-women",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/thank-you-for-equipping-empowering",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/sustainability-through-bountiful-harvest",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/thanking-god-for-you",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-blessing-of-the-lord",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-call-of-the-cross",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-cries-of-the-lost-are-louder-than-ever",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-end-is-just-the-beginning",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-heart-of-the-matter-discipleship",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-land-will-yield-its-increase",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-lord-is-building-his-church",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-man-of-war-comes-to-rumbek",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-new-has-come",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-nation-of-chad-for-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-power-of-gods-word-in-action",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-turning-point",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/theres-something-special-happening",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-underground-church-moves-above-ground",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-appointed-time-for-chad",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/raising-a-generation-for-jesus",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-10-40-window-is-a-window-of-opportunity",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/they-are-coming-home---the-gift-girls-move-in",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/this-transformation-only-jesus-could-do-it",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/toposa-tribe-encounters-christ",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/trafficked-to-transformed",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transformed-leaders-transform-nations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-power-of-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transforming-a-nation-one-community-at-a-time",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transforming-childrens-lives-through-education",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/theres-transformation-happening",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/together-choosing-faith",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transformation-through-education",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transforming-nations-through-portable-bible-schools",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/turning-burkas-into-wedding-garments",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/treasures-out-of-darkness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transformed-hearts-transformed-nations-in-2023",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/turning-nations-a-vision-for-africa-and-america",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transformation-to-a-thousand-generations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/update-on-our-radio-stations",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/uganda-2024-annual-report",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/we-have-some-exciting-things-to-share",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/we-are-compelled-to-share-the-gospel",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/we-need-your-help-this-christmas",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/transformed-leaders-transform-nations-21",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/we-start-with-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/were-mining-treasures-of-darkness",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/were-so-thankful-for-all-our-god-is-doing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/were-turning-the-world-upside-down",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/what-would-happen-if-gods-people-really-prayed",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/what-would-jesus-do-for-the-karamoja-people",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/what-happens-when-people-pray",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/work-study-program",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/you-can-read-about-it-but-to-see-it-in-person-is-so-different",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/directors/carole-ward",
+  "status": 200,
+  "title": "Carole Ward",
+  "desc": "Carole Ward is a missionary, leader, and teacher fostering an indigenous missions movement in Northern Uganda and South Sudan. She moved to Uganda in 2002 during a 20-year horrific war, where she served and trained African leaders from all backgrounds to pray.",
+  "h1": null
+ },
+ {
+  "path": "/directors/alexander-kramer",
+  "status": 200,
+  "title": "Alexander Kramer",
+  "desc": "Alex has over 25 years of financial and executive experience providing finance, accounting, and strategic leadership for growth-oriented private, non-profit organizations, and non-governmental organizations. Alex – who has lived and worked in Asia, Latin America, and Africa",
+  "h1": null
+ },
+ {
+  "path": "/directors/jared-buswell",
+  "status": 200,
+  "title": "Jared Buswell",
+  "desc": "Jared is a widely-learned connector and vision builder who serves leaders and organizations needed in the world today. An aspiring polymath who has constantly sought the whole truth, he has given his service to Favor since 2012 to support this unique model of national transformation",
+  "h1": null
+ },
+ {
+  "path": "/directors/michael-blickensderfer",
+  "status": 200,
+  "title": "Michael Blickensderfer",
+  "desc": "After serving in the U.S. Marine Corps, Mike Blickensderfer attended and graduated from Ohio University in 1974 receiving a degree in business administration. He subsequently attended Seton Hall University School of Law, receiving his law degree in 1985.",
+  "h1": null
+ },
+ {
+  "path": "/newsletters/virtual-events-reep-gift",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/directors/martha-mott",
+  "status": 200,
+  "title": "Martha Mott",
+  "desc": "Martha Mott has been an international conference speaker and Bible teacher for over 28 years. As a licensed and ordained minister, she has served on various ministry boards and compensation committees. In 2012, Martha founded Hearts Desire International Ministries,",
+  "h1": null
+ },
+ {
+  "path": "/directors/stephanie-maier",
+  "status": 200,
+  "title": "Stephanie Maier",
+  "desc": "Stephanie Maier is a seasoned leader with more than 25 years of experience advancing democratic institutions and empowering communities across 14 countries in conflict and post-conflict regions. From Afghanistan and Tajikistan to Cambodia, Haiti, the Middle East...",
+  "h1": null
+ },
+ {
+  "path": "/directors/terry-lynne-goodman",
+  "status": 200,
+  "title": "Terry-Lynne Goodman",
+  "desc": "Terry-Lynne Goodman has devoted more than 30 years to global missions, preaching and teaching in over 25 countries through conferences, Bible colleges, churches, and leadership forums. Raised in a missionary-pastor’s home in Canada, she embraced her faith early and sensed a call to...",
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/community-relief",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/community-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/discipleship",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/emotional-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/the-results-are-in---girls-gift-matching-campaign",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/humanitarian-impact",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/physical-healing",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/regional-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/salvation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/skills-development",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/spiritual-deliverance",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletters/year-end-message-from-carole-ward",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/stewardship",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/training-multiplication",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2020-annual",
+  "status": 200,
+  "title": "2020 Annual",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2021-annual",
+  "status": 200,
+  "title": "2021 Annual",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2022-q1",
+  "status": 200,
+  "title": "2022 Q1",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2022-q2",
+  "status": 200,
+  "title": "2022 Q2",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2023-annual",
+  "status": 200,
+  "title": "2023 Annual",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2022-q3",
+  "status": 200,
+  "title": "2022 Q3",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2023-q1",
+  "status": 200,
+  "title": "2023 Q1",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2023-q2",
+  "status": 200,
+  "title": "2023 Q2",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2023-q3",
+  "status": 200,
+  "title": "2023 Q3",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2024-annual",
+  "status": 200,
+  "title": "2024 Annual",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2024-q1",
+  "status": 200,
+  "title": "2024 Q1",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/topic-tags/favor-ministry-life",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2024-q3",
+  "status": 200,
+  "title": "2024 Q3",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2024-q2",
+  "status": 200,
+  "title": "2024 Q2",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2025-q1",
+  "status": 200,
+  "title": "2025 Q1",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/christian-radio",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/favor-secondary-school",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/favor-primary-school",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/gods-institute-for-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/directors/david-blandford",
+  "status": 200,
+  "title": "David Blandford",
+  "desc": "For 37 years, David worked at Fort Knox as an operations research analyst, conducting cost effectiveness studies of potential new military equipment, and as an “urban planner,” monitoring design and construction of construction projects on Fort Knox.",
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/leadership-training-institute",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/medical",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/portable-bible-schools",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/trauma-counseling",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/sustainability-projects",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/vocational-program",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/village-learning-centers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/community-health-training",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/bible-distribution",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/crusades",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/favor-international-school-of-ministry",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/church-planting",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/hospital-ministry",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/testimonies-updates/impact-reports/2022-annual",
+  "status": 200,
+  "title": "2022 Annual",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/house-of-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/literacy-training",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/church-construction",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/scholarships",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/prison-ministry",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/street-evangelism",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/uganda-clinic",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/village-youth-outreach",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/christian-radio",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/church-construction",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/church-planting",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/favor-primary-school",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/favor-secondary-school",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/gods-institute-for-transformation",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/house-of-prayer",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/impact-reports",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/leadership-training-institute",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/v2-ministry-tags/women-empowerment",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/medical",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/portable-bible-schools",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/sustainability-projects",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/specials",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/village-learning-centers",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/vocational-program",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/women-empowerment",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/positions/country-director",
+  "status": 200,
+  "title": "Country Director",
+  "desc": "Full-time Commensurate with experience Africa (Uganda and/or South Sudan)",
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/prayer-mobilization",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/positions/video-editor",
+  "status": 200,
+  "title": "Video Editor",
+  "desc": "Full-time $55,000- $75,000 Commensurate with Experience Remote or In-Person (Riverview, FL)",
+  "h1": null
+ },
+ {
+  "path": "/positions/it-manager",
+  "status": 200,
+  "title": "IT Manager",
+  "desc": "Full-time $60,000 - $85,000 Commensurate with experience Remote or In-Person (Riverview, FL)",
+  "h1": null
+ },
+ {
+  "path": "/carts/motorcycles",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/carts/toyota-land-cruiser",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/carts/women-empowerment",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/carts/village-learning-center",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/sub-ministry-tags/mobile-medical-clinics",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ },
+ {
+  "path": "/newsletter-theme-tags/trauma-counseling",
+  "status": 200,
+  "title": "Favor International",
+  "desc": null,
+  "h1": null
+ }
+]
