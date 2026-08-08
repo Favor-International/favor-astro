@@ -150,12 +150,26 @@ const vanityCsv = readFileSync('docs/06-reference/webflow-vanity-redirects-2026-
 const vanityMap = {};
 let vanityStatic = 0;
 let vanitySkipped = 0;
+// Five CSV rows use Webflow's PATTERN syntax ("(.*)" sources, "%1"
+// backreferences, "%-" escaped hyphens), which Pages cannot parse; written
+// verbatim they were dead rules (found by the full-surface test 2026-08-08).
+// Hand-translated to their new-site equivalents; slug-preserving only where
+// the new site actually has per-slug pages. CSV lines 116, 118, 122-124.
+const WEBFLOW_PATTERN_RULES = [
+  '/about/our-team/* /about/board/ 301',
+  '/kingdom-is-here/* /stories/ 301',
+  '/testimonies-updates/stories-of-transformation/* /stories/:splat 301',
+  '/about/directors/* /about/board/ 301',
+  '/connect-support/positions/* /go/careers/ 301',
+];
+
 for (const line of vanityCsv) {
   const i = line.indexOf(',');
   if (i < 1) continue;
   const source = line.slice(0, i).trim();
   let target = line.slice(i + 1).trim();
   if (!source.startsWith('/')) continue;
+  if (source.includes('(.*)')) continue; // translated above, never verbatim
   // One export row lost its punctuation; rebuild the donor-form URL.
   if (target.startsWith('httpshost.nxt.blackbaud.comdonor-form')) {
     target = target.replace('httpshost.nxt.blackbaud.comdonor-form', 'https://host.nxt.blackbaud.com/donor-form?');
@@ -179,6 +193,10 @@ console.log(`vanity shortlinks: ${Object.keys(vanityMap).length} external -> mid
 
 // Wildcards LAST (Pages evaluates top-to-bottom; explicit rules above win)
 // to catch old URLs that were not in the sitemap but follow its structure.
+// The translated Webflow pattern rules go first so they beat the broader
+// wildcards below (/connect-support/positions/* must win over
+// /connect-support/*, the story-slug splat over /testimonies-updates/*).
+for (const r of WEBFLOW_PATTERN_RULES) lines.push(r);
 lines.push("/newsletters/* /newsletter/archive/ 301");
 lines.push("/newsletter-theme-tags/* /newsletter/archive/ 301");
 lines.push("/v2-ministry-tags/* /stories/ 301");
