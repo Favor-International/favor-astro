@@ -132,15 +132,23 @@ for (const p of oldPaths) {
   add(p, '/');
 }
 
-// Webflow's own 301 list (Daniel, 2026-08-07): 224 vanity/campaign shortlinks
+// Webflow's own 301 list (Daniel, 2026-08-07): vanity/campaign shortlinks
 // (printed in newsletters and mailers) pointing mostly at Blackbaud donor
 // forms and other external destinations. These never appeared in the sitemap,
-// so the crawl could not find them. Sources that collide with a real route on
-// the new site are skipped (a redirect would shadow the page); internal
-// targets are remapped through MAP so nothing chains through a second 301.
+// so the crawl could not find them.
+//
+// HARD LESSON (2026-08-08): rules with EXTERNAL targets count against
+// Cloudflare Pages' 100-dynamic-rule cap, and once the parser hits the cap it
+// silently drops every remaining line of the file, wildcards included. That
+// is what took down the tag/newsletter wildcards and Daniel's test links. So
+// external-target shortlinks do NOT go into _redirects at all: they are
+// written to functions/_lib/vanity-map.json and served by the middleware,
+// which also gets them case-insensitive and trailing-slash tolerant.
+// Internal-target rows stay here as ordinary static rules.
 const vanityCsv = readFileSync('docs/06-reference/webflow-vanity-redirects-2026-05-14.csv', 'utf8')
   .replace(/\r\n/g, '\n').trim().split('\n').slice(1);
-let vanityAdded = 0;
+const vanityMap = {};
+let vanityStatic = 0;
 let vanitySkipped = 0;
 for (const line of vanityCsv) {
   const i = line.indexOf(',');
@@ -155,15 +163,19 @@ for (const line of vanityCsv) {
   const normalized = source.endsWith('/') ? source : source + '/';
   if (NEW.has(normalized)) { vanitySkipped++; continue; }
   if (target.startsWith('/')) {
-    // Internal target: send it where that old path lives on the new site.
+    // Internal target: send it where that old path lives on the new site,
+    // and keep it in _redirects (static rules are effectively unlimited).
     if (MAP[target]) target = MAP[target];
     else if (NEW.has(target.endsWith('/') ? target : target + '/')) target = target.endsWith('/') ? target : target + '/';
-    // Unknown old paths keep their target; the 404 net catches the rest.
+    add(source, target);
+    vanityStatic++;
+  } else {
+    // External target: middleware map, keyed lowercase without trailing slash.
+    vanityMap[source.toLowerCase().replace(/\/+$/, '')] = target;
   }
-  add(source, target);
-  vanityAdded++;
 }
-console.log(`vanity shortlinks: ${vanityAdded} added, ${vanitySkipped} skipped (route collisions)`);
+writeFileSync('functions/_lib/vanity-map.json', JSON.stringify(vanityMap, null, 1) + '\n');
+console.log(`vanity shortlinks: ${Object.keys(vanityMap).length} external -> middleware map, ${vanityStatic} internal -> _redirects, ${vanitySkipped} skipped (route collisions)`);
 
 // Wildcards LAST (Pages evaluates top-to-bottom; explicit rules above win)
 // to catch old URLs that were not in the sitemap but follow its structure.

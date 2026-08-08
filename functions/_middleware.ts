@@ -1,32 +1,52 @@
-// Catch-all 301 for legacy URLs (the launch cutover, 2026-08-06).
+// Legacy-URL handling and geo routing (launch cutover 2026-08-06, hardened
+// 2026-08-08 after Daniel found the redirects dead).
 //
-// public/_redirects carries an explicit 301 for all 638 URLs from the old
-// Webflow sitemap plus structural wildcards. This middleware is the net under
-// the net: any OTHER old URL nobody knew about (ancient campaign links, typo'd
-// backlinks, pre-Webflow paths) 404s here and gets a 301 to the homepage
-// instead of a dead end, which is what Will asked for at cutover.
+// THREE LAYERS, in order:
 //
-// Deliberately narrow so it cannot break the live site:
-// - only GET/HEAD
-// - only responses that would have been 404
-// - only navigations that accept HTML (a missing image stays a 404; turning
-//   it into an HTML redirect would corrupt <img> loads)
-// - never /api/* (JSON callers need their real 404s)
+// 1. Vanity shortlinks (the campaign links printed in newsletters, mostly
+//    Blackbaud donor forms). These live in vanity-map.json, NOT in
+//    _redirects: Cloudflare Pages counts external-target rules against its
+//    100-dynamic-rule cap, and past the cap it silently drops every
+//    remaining line of the file, wildcards included. That failure took down
+//    the tag/newsletter wildcards on 2026-08-08. Serving them here also
+//    makes them case-insensitive and trailing-slash tolerant, which
+//    _redirects never was.
 //
-// Geo routing for the giving page (2026-08-07): a visitor outside the US who
-// opens /give/donate/ gets a 302 to /give/international/ (TrustBridge), where
-// their gift can earn a local tax receipt. Same narrowness as the 404 net:
-// GET HTML navigations only, never /api/*. A 302, not 301, because the same
-// browser can cross borders. Bypass with ?usd=1 or the give-usd=1 cookie
-// (which ?usd=1 sets, so the choice sticks on later visits).
+// 2. public/_redirects still carries the sitemap-derived internal 301s and
+//    the structural wildcards (all internal targets, well under the caps).
+//
+// 3. The 404 net: an unknown URL first retries as its normalized form
+//    (lowercased, trailing slash stripped) so /About or /sandra/ gets a
+//    second chance at layers 1-2, and only then falls back to the homepage.
+//    Narrow on purpose: GET/HEAD, HTML navigations, never /api/*, and a
+//    missing image stays a 404.
+//
+// Geo routing (2026-08-07): a visitor outside the US who opens /give/donate/
+// gets a 302 to /give/international/ (TrustBridge). Bypass with ?usd=1 or the
+// give-usd=1 cookie, which ?usd=1 sets so the choice sticks.
+
+import vanityMap from './_lib/vanity-map.json';
 
 const GIVE_USD_COOKIE = 'give-usd=1';
 
+const normalizePath = (pathname: string): string => {
+  const lower = pathname.toLowerCase();
+  return lower.length > 1 ? lower.replace(/\/+$/, '') : lower;
+};
+
 export const onRequest: PagesFunction = async ({ request, next }) => {
   const url = new URL(request.url);
-  const isHtmlNavigation =
-    !url.pathname.startsWith('/api/') &&
-    (request.headers.get('Accept') ?? '').includes('text/html');
+  const isReadRequest = request.method === 'GET' || request.method === 'HEAD';
+  const isApi = url.pathname.startsWith('/api/');
+  const isHtmlNavigation = !isApi && (request.headers.get('Accept') ?? '').includes('text/html');
+
+  // --- 1. Vanity shortlinks, tolerant of case and trailing slashes.
+  //     No Accept gate: campaign links get opened by mail apps and QR
+  //     scanners that do not send text/html. ---
+  if (isReadRequest && !isApi) {
+    const vanity = (vanityMap as Record<string, string>)[normalizePath(url.pathname)];
+    if (vanity) return Response.redirect(vanity, 301);
+  }
 
   // --- Geo routing for /give/donate/ ---
   if (
@@ -62,12 +82,20 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
     }
   }
 
-  // --- 404 net (unchanged) ---
+  // --- 3. The 404 net. ---
   const response = await next();
   if (response.status !== 404) return response;
-  if (request.method !== 'GET' && request.method !== 'HEAD') return response;
-  if (url.pathname.startsWith('/api/')) return response;
+  if (!isReadRequest) return response;
+  if (isApi) return response;
   if (!isHtmlNavigation) return response;
+
+  // A case or trailing-slash variant deserves a second pass through the
+  // rules before giving up (/Sandra, /sandra/, /About). Only when the
+  // normalized form differs, so this can never loop.
+  const normalized = normalizePath(url.pathname);
+  if (normalized !== url.pathname) {
+    return Response.redirect(new URL(normalized + url.search, url).toString(), 301);
+  }
 
   return Response.redirect(new URL('/', url).toString(), 301);
 };
