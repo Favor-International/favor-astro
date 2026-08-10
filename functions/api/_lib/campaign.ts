@@ -25,7 +25,8 @@ const APPEAL_LOOKUP_BY_SOURCE: Record<string, string> = {
   default: 'M268-SGA1',
 };
 
-const CODES_CACHE = 'bb:cache:campaign-codes:v1';
+// v2: v1 cached a single-page appeal list that missed the campaign codes.
+const CODES_CACHE = 'bb:cache:campaign-codes:v2';
 
 export interface CampaignCodes {
   campaign_id?: string;
@@ -55,10 +56,28 @@ async function lookupMaps(env: Env): Promise<{ appeals: Record<string, string>; 
       /* refetch */
     }
   }
-  const [appealData, campaignData] = await Promise.all([
-    bbJson<{ value?: FundraisingRecord[] }>(env, '/fundraising/v1/appeals?limit=500'),
-    bbJson<{ value?: FundraisingRecord[] }>(env, '/fundraising/v1/campaigns?limit=500'),
+  // The appeal table holds thousands of records (one per historic mailing),
+  // so a single page misses recently added codes. Walk the list to the end,
+  // capped defensively at 20 pages / 10,000 records.
+  const listAll = async (path: string): Promise<FundraisingRecord[]> => {
+    const all: FundraisingRecord[] = [];
+    for (let page = 0; page < 20; page++) {
+      const data = await bbJson<{ value?: FundraisingRecord[]; count?: number }>(
+        env,
+        `${path}?limit=500&offset=${page * 500}`
+      );
+      const batch = data.value ?? [];
+      all.push(...batch);
+      if (batch.length < 500) break;
+    }
+    return all;
+  };
+  const [appealValue, campaignValue] = await Promise.all([
+    listAll('/fundraising/v1/appeals'),
+    listAll('/fundraising/v1/campaigns'),
   ]);
+  const appealData = { value: appealValue };
+  const campaignData = { value: campaignValue };
   const toMap = (records: FundraisingRecord[] | undefined): Record<string, string> => {
     const map: Record<string, string> = {};
     for (const r of records ?? []) {
