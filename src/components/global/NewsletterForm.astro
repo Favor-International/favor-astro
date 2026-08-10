@@ -12,7 +12,9 @@ const { compact = false } = Astro.props as Props;
     required
     maxlength="150"
     autocomplete="name"
-    placeholder="Your name"
+    placeholder="First and last name"
+    pattern="\s*\S+(\s+\S+)+\s*"
+    title="Please enter your first and last name"
   />
   <label for="newsletter-email" class="sr-only">Your email address</label>
   <input

@@ -52,6 +52,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // bot moves on, write nothing.
   if (honeypot) return ok();
   if (!emailOk(email) || !name) return fail();
+  // Full name required, same standard as the giving form. A single word used
+  // to become a last-name-only constituent through the API, which RE NXT's
+  // own screens never allow; Daniel caught one ("Cornelia", 2026-08-09).
+  if (name.split(/\s+/).filter(Boolean).length < 2) return fail();
 
   // Per-IP rate limit so a script cannot mint RE NXT records in bulk.
   const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
