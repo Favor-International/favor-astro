@@ -52,10 +52,13 @@ export const onRequestPost: PagesFunction<Env & { MARKETING_API_KEY?: string }> 
     const description = body.code ?? (body.kind === 'email' ? 'Do Not Email' : 'Do Not Text');
     // Solicit codes are a Communication Preference service entity; the old
     // /constituent/v1 path 404ed, which silently broke every unsubscribe
-    // write-back until the Johnson removal exposed it (2026-08-10).
-    await bbJson(env, `/commpref/v1/constituents/${encodeURIComponent(constituentId)}/solicitcodes`, {
+    // write-back until the Johnson removal exposed it (2026-08-10). Route
+    // probed live the same day. Requires the "Communication Preference"
+    // product on the SKY subscription; a 401 means the product is missing.
+    await bbJson(env, `/commpref/v1/solicitcodes`, {
       method: 'POST',
       body: JSON.stringify({
+        constituent_id: constituentId,
         solicit_code: description,
         start_date: new Date().toISOString().slice(0, 10),
       }),
