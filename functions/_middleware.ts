@@ -40,6 +40,16 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
   const isApi = url.pathname.startsWith('/api/');
   const isHtmlNavigation = !isApi && (request.headers.get('Accept') ?? '').includes('text/html');
 
+  // --- Campaign One landing page rename (2026-08-10, Danny's request): the
+  //     page moved from /madina/ to /m2608/ (campaign code M2608-SGA1, no
+  //     name in the URL). Query string preserved so the src/ref attribution
+  //     on already-sent test links survives the hop. Lives here, not in
+  //     _redirects, to stay clear of the dynamic-rule cap. ---
+  if (isReadRequest && url.pathname.toLowerCase().startsWith('/madina')) {
+    const rest = url.pathname.slice('/madina'.length) || '/';
+    return Response.redirect(new URL('/m2608' + rest + url.search, url).toString(), 301);
+  }
+
   // --- 1. Vanity shortlinks, tolerant of case and trailing slashes.
   //     No Accept gate: campaign links get opened by mail apps and QR
   //     scanners that do not send text/html. ---

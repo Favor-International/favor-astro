@@ -15,9 +15,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     requireCredentials(env);
     const id = (new URL(request.url).searchParams.get('constituent_id') ?? '').trim();
     if (!id) return errorJson('bad_id', 'constituent_id required', 400);
+    // Solicit codes live in the Communication Preference service, not the
+    // Constituent API (found 2026-08-10: the /constituent/v1 path 404s).
     const codes = await bbJson<{ value?: unknown[] }>(
       env,
-      `/constituent/v1/constituents/${encodeURIComponent(id)}/solicitcodes?limit=50`
+      `/commpref/v1/constituents/${encodeURIComponent(id)}/solicitcodes?limit=50`
     );
     return json({ ok: true, constituent_id: id, solicit_codes: codes.value ?? [] });
   } catch (err) {
@@ -33,12 +35,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const id = (body.constituent_id ?? '').trim();
     if (!id) return errorJson('bad_id', 'constituent_id required', 400);
     const description = (body.code ?? 'Do Not Email').trim();
-    const now = new Date();
-    const created = await bbJson<{ id?: string }>(env, `/constituent/v1/constituents/${encodeURIComponent(id)}/solicitcodes`, {
+    const created = await bbJson<{ id?: string }>(env, `/commpref/v1/constituents/${encodeURIComponent(id)}/solicitcodes`, {
       method: 'POST',
       body: JSON.stringify({
-        solicit_code: { description },
-        start: { d: now.getUTCDate(), m: now.getUTCMonth() + 1, y: now.getUTCFullYear() },
+        solicit_code: description,
+        start_date: new Date().toISOString().slice(0, 10),
       }),
     });
     return json({ ok: true, constituent_id: id, code: description, record: created ?? null });

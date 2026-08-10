@@ -50,12 +50,14 @@ export const onRequestPost: PagesFunction<Env & { MARKETING_API_KEY?: string }> 
     if (!constituentId) return json({ ok: false, error: 'constituent_not_found' }, 404);
 
     const description = body.code ?? (body.kind === 'email' ? 'Do Not Email' : 'Do Not Text');
-    const now = new Date();
-    await bbJson(env, `/constituent/v1/constituents/${encodeURIComponent(constituentId)}/solicitcodes`, {
+    // Solicit codes are a Communication Preference service entity; the old
+    // /constituent/v1 path 404ed, which silently broke every unsubscribe
+    // write-back until the Johnson removal exposed it (2026-08-10).
+    await bbJson(env, `/commpref/v1/constituents/${encodeURIComponent(constituentId)}/solicitcodes`, {
       method: 'POST',
       body: JSON.stringify({
-        solicit_code: { description },
-        start: { d: now.getUTCDate(), m: now.getUTCMonth() + 1, y: now.getUTCFullYear() },
+        solicit_code: description,
+        start_date: new Date().toISOString().slice(0, 10),
       }),
     });
     return json({ ok: true, constituent_id: constituentId, code: description });
