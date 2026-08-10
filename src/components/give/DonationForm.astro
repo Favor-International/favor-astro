@@ -359,6 +359,15 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
     const params = new URLSearchParams(location.search);
 
+    // Campaign attribution (2026-08-10): links arriving with ?src= carry a
+    // whitelisted campaign source into the gift body, and the server maps it
+    // to the campaign's appeal + campaign record ids. Absent or unknown src
+    // keeps the standing Website appeal.
+    const srcParam = (params.get('src') ?? '').toLowerCase();
+    const campaignSource = ['email', 'fb', 'ig', 'yt', 'default'].includes(srcParam)
+      ? srcParam
+      : undefined;
+
     // ---- state readers -----------------------------------------------------
     const form = panels.form;
     const freq = () =>
@@ -785,6 +794,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         email_optin: checkbox('email_optin'),
         sms_optin: checkbox('sms_optin'),
         note: field('note') || undefined,
+        campaign_source: campaignSource,
         checkout: { transaction_token: checkoutToken },
         turnstile_token:
           config?.turnstile_site_key && window.turnstile ? window.turnstile.getResponse(turnstileWidget) : undefined,

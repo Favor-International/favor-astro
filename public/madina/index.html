@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<!--
+  Favor International — Campaign One landing page.
+  The destination for every Campaign One link: emails, texts, social, phone script.
+
+  Built by Danny (2026-08-07); giving integrated on-page 2026-08-10: the
+  buttons open Blackbaud Checkout right here through the same /api/give/*
+  endpoints as /give/donate/, instead of linking out. ?src=email|fb|ig|yt
+  selects the campaign appeal code; anything else gets the default appeal.
+  Copy is Version 3 of Email 1 (Catherine's pass) and must not be rewritten;
+  see the campaign docs before changing anything above the script block.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Become a Monthly Partner · Favor International</title>
+<meta name="description" content="By Friday, September 4, we are inviting 48 people to partner with Favor International through monthly giving, so Trauma Counseling runs on a schedule instead of on an appeal. $50 a month sends one person through the entire two-week intensive.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="48 people. So the next village does not wait.">
+<meta property="og:description" content="$50 a month sends one person through the entire two-week Trauma Counseling intensive. We are inviting 48 monthly partners by Friday, September 4.">
+<meta property="og:image" content="https://favorintl.org/madina/assets/madina-hero-wide.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=' js';</script>
+<style>
+/* ==========================================================================
+   Favor Africa Palette · editorial-documentary
+   Values match src/styles/tokens.css on favorintl.org. Do not drift.
+   ========================================================================== */
+:root{
+  --olive:#2b4d24;
+  --olive-deep:#1d3419;
+  --olive-black:#132009;
+  --sage:#8b957b;
+  --sage-light:#c5ccc2;
+  --sand:#e0c081;
+  --sand-pale:#f4ecd8;
+  --gold:#e1a730;
+  --gold-deep:#b88424;
+  --terracotta:#a36d4c;
+  --dusty:#ba9a86;
+  --cream:#fbf6ec;
+  --ink:#2b2a22;
+  --ink-soft:#5a5648;
+  --white:#fffefb;
+
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Karla',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --shadow-card:0 24px 60px -28px rgba(19,32,9,.45);
+  --shadow-lift:0 36px 80px -30px rgba(19,32,9,.55);
+  --gutter:clamp(20px,5vw,64px);
+  --measure:64ch;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* film grain — the texture that carries through every Campaign One asset */
+body::after{
+  content:'';position:fixed;inset:0;z-index:900;pointer-events:none;
+  opacity:.045;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+h1,h2,h3,h4{font-family:var(--display);margin:0;font-weight:600;line-height:1.1}
+p{margin:0 0 1.15em}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+button{font-family:inherit;cursor:pointer}
+
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+.narrow{max-width:760px;margin-left:auto;margin-right:auto}
+
+.kicker{
+  font-family:var(--body);font-size:11.5px;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);
+  margin:0 0 18px;display:flex;align-items:center;gap:14px;
+}
+.kicker::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold) 0%,rgba(225,167,48,0) 100%)}
+.kicker--light{color:var(--sand)}
+.kicker--light::after{background:linear-gradient(90deg,rgba(225,167,48,.85) 0%,rgba(225,167,48,0) 100%)}
+.kicker--center{justify-content:center}
+.kicker--center::after,.kicker--center::before{content:'';flex:0 0 56px;height:1px;background:var(--gold)}
+
+/* ==========================================================================
+   STICKY BAR
+   ========================================================================== */
+.bar{
+  position:sticky;top:0;z-index:700;
+  background:rgba(19,32,9,.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(225,167,48,.28);
+  color:var(--white);
+}
+.bar__in{display:flex;align-items:center;gap:24px;min-height:66px;padding-top:10px;padding-bottom:10px}
+.bar__logo{height:34px;width:auto;flex:0 0 auto}
+.bar__note{
+  flex:1;font-size:13px;letter-spacing:.02em;color:var(--sand-pale);
+  display:flex;align-items:baseline;gap:9px;
+}
+.bar__note strong{color:var(--gold);font-weight:700}
+.bar .btn{flex:0 0 auto;padding:12px 22px;font-size:13px}
+@media(max-width:820px){
+  .bar__note{display:none}
+  .bar__in{gap:14px;justify-content:space-between}
+}
+
+/* ==========================================================================
+   BUTTON
+   ========================================================================== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--gold);color:var(--olive-black);
+  font-family:var(--body);font-weight:700;font-size:15px;
+  letter-spacing:.04em;text-transform:none;text-decoration:none;
+  padding:17px 32px;border:none;border-radius:2px;
+  box-shadow:0 10px 26px -12px rgba(225,167,48,.85),inset 0 -2px 0 rgba(0,0,0,.14);
+  transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+  text-align:center;
+}
+.btn:hover{background:#f0b63c;transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(225,167,48,.95),inset 0 -2px 0 rgba(0,0,0,.14)}
+.btn:active{transform:translateY(0)}
+.btn__arrow{transition:transform .18s}
+.btn:hover .btn__arrow{transform:translateX(4px)}
+.btn--block{display:flex;width:100%;font-size:16px;padding:18px 24px;line-height:1.25}
+[data-give-label]{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.25}
+.btn__amt{font-size:13px;font-weight:600;letter-spacing:.06em;opacity:.78}
+.btn--ghost{
+  background:transparent;color:var(--olive);border:1.5px solid rgba(43,77,36,.32);
+  box-shadow:none;font-weight:600;
+}
+.btn--ghost:hover{background:rgba(43,77,36,.06);border-color:var(--olive);box-shadow:none}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero{position:relative;background:var(--olive-black);color:var(--white);overflow:hidden}
+.hero__bg{position:absolute;inset:0}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:52% 32%;opacity:.5}
+.hero__bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(100deg,rgba(19,32,9,.96) 0%,rgba(19,32,9,.88) 38%,rgba(19,32,9,.58) 62%,rgba(19,32,9,.72) 100%),
+    radial-gradient(ellipse 70% 60% at 88% 12%,rgba(225,167,48,.22),transparent 62%);
+}
+.hero__in{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(36px,5vw,72px);
+  align-items:center;
+  padding-top:clamp(56px,7vw,96px);padding-bottom:clamp(56px,7vw,96px);
+}
+.hero h1{
+  font-size:clamp(2.25rem,4.15vw,3.45rem);line-height:1.06;letter-spacing:-.015em;
+  margin:0 0 20px;color:var(--white);
+}
+.hero h1 .num{
+  color:var(--gold);font-style:italic;font-weight:700;
+  position:relative;white-space:nowrap;
+}
+.hero__lede{
+  font-size:clamp(1.06rem,1.6vw,1.24rem);line-height:1.55;color:var(--sand-pale);
+  max-width:34ch;margin:0 0 20px;
+}
+.hero__rule{width:64px;height:2px;background:var(--gold);margin:0 0 20px;border:none}
+.hero__not{
+  font-family:var(--display);font-style:italic;font-size:1.12rem;line-height:1.5;
+  color:rgba(255,254,251,.82);max-width:36ch;margin:0;
+}
+.hero__deadline{
+  display:inline-flex;align-items:center;gap:10px;margin:0 0 24px;
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--olive-black);background:var(--sand);padding:8px 16px;border-radius:2px;
+}
+@media(max-width:960px){
+  .hero__in{grid-template-columns:1fr;gap:40px}
+  .hero__lede,.hero__not{max-width:none}
+}
+
+/* ---- the give card, on screen one ---- */
+.give{
+  background:var(--white);border-radius:4px;padding:clamp(24px,3vw,34px);
+  box-shadow:var(--shadow-lift);color:var(--ink);
+  border-top:5px solid var(--gold);
+  scroll-margin-top:92px;   /* clears the sticky bar when the second CTA scrolls here */
+}
+.give__head{font-size:1.42rem;line-height:1.2;color:var(--olive);margin:0 0 6px}
+.give__sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;line-height:1.5}
+.freq{display:flex;gap:0;background:var(--sand-pale);border-radius:2px;padding:4px;margin:0 0 20px}
+.freq button{
+  flex:1;border:none;background:transparent;padding:11px 8px;border-radius:2px;
+  font-size:13.5px;font-weight:700;letter-spacing:.03em;color:var(--ink-soft);
+  transition:background .18s,color .18s,box-shadow .18s;
+}
+.freq button[aria-pressed="true"]{background:var(--olive);color:var(--white);box-shadow:0 4px 12px -6px rgba(19,32,9,.6)}
+.freq__note{font-size:11.5px;color:var(--ink-soft);margin:-12px 0 18px;line-height:1.45;font-style:italic}
+
+.amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 10px}
+.amt{
+  border:1.5px solid var(--sage-light);background:var(--white);border-radius:2px;
+  padding:14px 4px;font-size:16px;font-weight:700;color:var(--ink);
+  transition:border-color .16s,background .16s,color .16s,transform .16s;
+  position:relative;
+}
+.amt:hover{border-color:var(--gold);transform:translateY(-1px)}
+.amt[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--white)}
+.amt[aria-pressed="true"]::after{
+  content:'';position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);
+  width:22px;height:3px;background:var(--gold);
+}
+.amt__tag{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--gold);color:var(--olive-black);padding:2px 8px;border-radius:2px;
+  white-space:nowrap;pointer-events:none;
+}
+.custom{display:flex;align-items:center;gap:10px;margin:0 0 18px}
+.custom label{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+.custom__field{flex:1;display:flex;align-items:center;border:1.5px solid var(--sage-light);border-radius:2px;background:var(--white)}
+.custom__field:focus-within{border-color:var(--gold)}
+.custom__field span{padding:0 4px 0 12px;color:var(--ink-soft);font-weight:700}
+.custom__field input{
+  flex:1;border:none;outline:none;background:transparent;font-family:var(--body);
+  font-size:15px;font-weight:700;color:var(--ink);padding:12px 12px 12px 2px;width:100%;
+  -moz-appearance:textfield;
+}
+.custom__field input::-webkit-outer-spin-button,
+.custom__field input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.impact{
+  background:var(--sand-pale);border-left:3px solid var(--gold);
+  padding:13px 16px;margin:0 0 20px;font-size:14px;line-height:1.5;color:var(--ink);
+}
+.impact strong{color:var(--olive);font-weight:700}
+.fine{font-size:12px;color:var(--ink-soft);text-align:center;margin:12px 0 0;line-height:1.5}
+.fine a{color:var(--olive);text-decoration:underline;text-underline-offset:2px}
+
+/* ==========================================================================
+   BANDS
+   ========================================================================== */
+.band{padding:clamp(64px,8.5vw,116px) 0;position:relative}
+.band--cream{background:var(--cream)}
+.band--white{background:var(--white)}
+.band--sand{background:var(--sand-pale)}
+.band--olive{background:var(--olive);color:var(--white)}
+.band--olive h2,.band--olive h3{color:var(--white)}
+.band--dark{background:var(--olive-black);color:var(--white)}
+.band--dark h2,.band--dark h3{color:var(--white)}
+
+.h2{font-size:clamp(1.95rem,3.6vw,3rem);line-height:1.08;color:var(--olive);letter-spacing:-.01em;margin:0 0 22px}
+.band--olive .h2,.band--dark .h2{color:var(--white)}
+.lede{font-size:clamp(1.05rem,1.45vw,1.2rem);line-height:1.6;color:var(--ink-soft);max-width:var(--measure)}
+.band--olive .lede,.band--dark .lede{color:rgba(255,254,251,.82)}
+
+/* ---- the three-fact thesis strip ---- */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(225,167,48,.28)}
+.fact{background:var(--olive);padding:clamp(26px,3vw,38px)}
+.fact__n{font-family:var(--display);font-size:2.7rem;line-height:1;color:var(--gold);margin:0 0 12px;font-style:italic}
+.fact__t{font-family:var(--display);font-size:1.24rem;line-height:1.25;color:var(--white);margin:0 0 10px}
+.fact__b{font-size:14.5px;line-height:1.6;color:rgba(255,254,251,.76);margin:0}
+@media(max-width:860px){.facts{grid-template-columns:1fr}}
+
+/* ---- story ---- */
+.story__head{margin-bottom:clamp(34px,4vw,52px);max-width:var(--measure)}
+.story__h{font-size:clamp(2.2rem,4.4vw,3.5rem);line-height:1.03;color:var(--olive);letter-spacing:-.02em;margin:0}
+.story__body{max-width:var(--measure);font-size:17.5px;line-height:1.75;color:var(--ink)}
+/* The opening line does the work a drop cap would, and does it better —
+   it is the strongest sentence in the campaign. A floated cap breaks against
+   a one-line paragraph, so it is set as a lead instead. */
+.story__lead{
+  font-family:var(--display);font-size:clamp(1.5rem,2.5vw,2.05rem);line-height:1.32;
+  color:var(--olive);margin:0 0 1.1em;max-width:24ch;
+}
+.scripture{
+  border-left:3px solid var(--gold);padding:6px 0 6px 26px;margin:34px 0;
+  font-family:var(--display);font-style:italic;font-size:1.32rem;line-height:1.5;color:var(--olive);
+  max-width:var(--measure);
+}
+.scripture .cite{
+  display:block;margin-top:12px;font-family:var(--body);font-style:normal;
+  font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);
+}
+.pull{
+  font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,2.6vw,2.1rem);
+  line-height:1.32;color:var(--olive);margin:40px 0;max-width:24ch;position:relative;
+}
+.pull::before{
+  content:'“';position:absolute;left:-.52em;top:-.14em;font-size:3.2em;line-height:1;
+  color:rgba(225,167,48,.34);pointer-events:none;
+}
+.pull cite{
+  display:block;margin-top:16px;font-family:var(--body);font-style:normal;font-weight:700;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);
+}
+figure{margin:44px 0}
+figure img{border-radius:2px;box-shadow:var(--shadow-card)}
+figcaption{
+  font-size:13px;line-height:1.5;color:var(--ink-soft);font-style:italic;
+  margin-top:14px;padding-left:16px;border-left:2px solid var(--gold);max-width:56ch;
+}
+/* Sized to the image, then centred. The field photos are 1000–1200px wide, so
+   a full-bleed figure would upscale them. Favor's org is literal about its
+   photography — a soft or stretched field photo gets the asset rejected. */
+.figure--wide{width:fit-content;max-width:100%;margin-left:auto;margin-right:auto}
+
+/* ---- what $50 buys ---- */
+.buys{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(43,77,36,.14);margin-top:clamp(34px,4vw,48px)}
+.buy{background:var(--white);padding:clamp(20px,2.2vw,28px);display:flex;flex-direction:column;gap:10px}
+.buy__i{width:34px;height:34px;color:var(--gold-deep)}
+.buy__t{font-family:var(--display);font-size:1.08rem;line-height:1.25;color:var(--olive);margin:0}
+.buy__b{font-size:13.5px;line-height:1.55;color:var(--ink-soft);margin:0}
+@media(max-width:980px){.buys{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.buys{grid-template-columns:1fr}}
+
+/* ---- ladder ---- */
+.ladder{display:grid;gap:1px;background:rgba(255,254,251,.16);margin:clamp(28px,3.5vw,40px) 0 0;border:1px solid rgba(255,254,251,.16)}
+.rung{
+  background:var(--olive);display:grid;grid-template-columns:190px 1fr;align-items:center;
+  gap:20px;padding:20px 26px;transition:background .2s;
+}
+.rung__a{font-family:var(--display);font-size:1.62rem;color:var(--white);line-height:1}
+.rung__b{font-size:14.5px;color:rgba(255,254,251,.78);line-height:1.5}
+.rung--hot{background:var(--gold);position:relative}
+.rung--hot .rung__a{color:var(--olive-black);font-weight:700}
+.rung--hot .rung__b{color:rgba(19,32,9,.82);font-weight:600}
+.rung--hot::before{
+  content:'The ask';position:absolute;top:-1px;right:26px;
+  font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--olive-black);color:var(--gold);padding:4px 10px;
+}
+@media(max-width:680px){
+  .rung{grid-template-columns:1fr;gap:4px;padding:18px 20px}
+  .rung--hot::before{right:16px}
+}
+
+/* ---- progress meter (off by default) ---- */
+.progress{max-width:560px;margin:0 auto clamp(34px,4vw,48px)}
+.progress__row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.progress__n{font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--gold)}
+.progress__l{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,254,251,.6)}
+.progress__track{height:8px;background:rgba(255,254,251,.16);border-radius:99px;overflow:hidden}
+.progress__fill{height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold));border-radius:99px;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+
+/* ---- trust ---- */
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,3vw,44px);margin-top:clamp(30px,3.5vw,44px)}
+.trust h3{font-size:1.14rem;color:var(--olive);margin:0 0 8px}
+.trust p{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin:0}
+.trust .pct{font-family:var(--display);font-size:2.5rem;line-height:1;color:var(--gold-deep);display:block;margin-bottom:8px}
+@media(max-width:820px){.trust{grid-template-columns:1fr}}
+
+/* ---- faq ---- */
+.faq{max-width:var(--measure);margin:clamp(28px,3.5vw,40px) auto 0}
+.faq details{border-bottom:1px solid rgba(43,77,36,.16)}
+.faq summary{
+  list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;
+  font-family:var(--display);font-size:1.14rem;color:var(--olive);line-height:1.35;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:'+';position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-family:var(--body);font-size:1.4rem;font-weight:400;color:var(--gold-deep);transition:transform .2s;
+}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq p{font-size:15.5px;line-height:1.68;color:var(--ink-soft);margin:0 0 20px;max-width:60ch}
+
+/* ---- closing ---- */
+.close__in{text-align:center;max-width:720px;margin:0 auto}
+.close .h2{margin-bottom:20px}
+.close .lede{margin:0 auto 34px}
+.close .btn{padding:22px 44px;font-size:17px}
+
+/* ---- footer ---- */
+.foot{background:var(--olive-black);color:rgba(255,254,251,.62);padding:52px 0 60px;font-size:13.5px}
+.foot__in{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:space-between}
+.foot img{height:40px;width:auto;margin-bottom:16px}
+.foot a{color:var(--sand);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.foot__links{display:flex;flex-wrap:wrap;gap:20px}
+.foot__tag{font-family:var(--display);font-style:italic;color:var(--sand);font-size:15px}
+
+/* ---- mobile sticky give ---- */
+.mobile-give{
+  position:fixed;left:0;right:0;bottom:0;z-index:750;display:none;
+  padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+  background:rgba(19,32,9,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid rgba(225,167,48,.3);
+}
+@media(max-width:640px){
+  .mobile-give{display:block}
+  body{padding-bottom:84px}
+  .amounts{grid-template-columns:repeat(2,1fr);gap:10px}
+  .amt__tag{font-size:8.5px}
+}
+
+/* ---- reveal ----
+   Scoped to html.js on purpose. The class is added by an inline script in the
+   head, so if JavaScript fails, is blocked, or errors, every section renders
+   fully visible instead of a blank page. A giving page must never be able to
+   disappear because a script did not run. */
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.8,.3,1),transform .8s cubic-bezier(.2,.8,.3,1)}
+.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+  .btn,.amt{transition:none}
+}
+
+/* ---- giving modal (Blackbaud Checkout flow, added 2026-08-10) ----
+   Shaped like the give card: white sheet, gold top rule, same type. The card
+   window itself is Blackbaud's; this modal only asks who the receipt is for
+   and whether to cover processing, in that order. */
+.gmodal{position:fixed;inset:0;z-index:800;display:grid;place-items:center;padding:var(--gutter)}
+.gmodal[hidden]{display:none}
+.gmodal__scrim{position:fixed;inset:-60px;background:rgba(19,32,9,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.gmodal__card{
+  position:relative;width:min(460px,100%);max-height:min(92vh,760px);overflow:auto;
+  background:var(--white);border-radius:4px;border-top:5px solid var(--gold);
+  box-shadow:var(--shadow-lift);padding:clamp(24px,4vw,36px);
+  animation:gm-pop .2s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes gm-pop{from{opacity:0;transform:translateY(10px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){.gmodal__card{animation:none}}
+.gmodal__x{position:absolute;top:8px;right:10px;border:none;background:none;font-size:26px;line-height:1;color:var(--ink-soft);padding:6px}
+.gmodal__x:hover{color:var(--ink)}
+.gmodal__eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 10px}
+.gmodal__head{font-family:var(--display);font-size:1.5rem;line-height:1.2;color:var(--olive);margin:0 0 8px}
+.gmodal__sub{font-size:14px;line-height:1.55;color:var(--ink-soft);margin:0 0 18px}
+.gmodal__field{display:block;margin:0 0 14px}
+.gmodal__field span{display:block;font-size:12.5px;font-weight:700;color:var(--olive);margin-bottom:6px}
+.gmodal__field input{width:100%;box-sizing:border-box;font-family:var(--body);font-size:15px;padding:13px 14px;border:1.5px solid var(--sage-light);border-radius:2px;background:var(--white);color:var(--ink)}
+.gmodal__field input:focus{outline:none;border-color:var(--gold)}
+.gmodal__org{margin:4px 0 16px;font-size:13.5px}
+.gmodal__org summary{cursor:pointer;color:var(--olive);font-weight:600}
+.gmodal__hint{font-size:12px;color:var(--ink-soft);margin:8px 0 0}
+.gmodal__error{background:#fdf0ee;border:1px solid #efc7c0;color:#a03123;font-size:13.5px;line-height:1.5;padding:12px 14px;margin:0 0 14px;border-radius:2px}
+.gmodal__secure{font-size:11.5px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.5}
+.gmodal__disclosure{font-size:11.5px;color:var(--ink-soft);background:var(--sand-pale);padding:10px 12px;margin:12px 0 0;border-radius:2px;line-height:1.5}
+.gmodal__ghost{display:block;width:100%;margin-top:10px;border:1.5px solid var(--sage-light);background:var(--white);border-radius:2px;color:var(--ink-soft);font-weight:600;font-size:14px;padding:13px}
+.gmodal__ghost:hover{border-color:var(--sage);color:var(--olive)}
+.gmodal__spinner{display:block;width:34px;height:34px;margin:6px auto 16px;border-radius:50%;border:3px solid var(--sand-pale);border-top-color:var(--gold);animation:gm-spin .8s linear infinite}
+@keyframes gm-spin{to{transform:rotate(360deg)}}
+.gmodal [data-gm-turnstile]:not(:empty){margin:0 0 14px}
+body.gm-lock{overflow:hidden}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     STICKY BAR
+     ============================================================ -->
+<header class="bar">
+  <div class="wrap bar__in">
+    <img class="bar__logo" src="assets/favor-logo-white.png" alt="Favor International">
+    <div class="bar__note">
+      <span><strong>48</strong> monthly partners by Friday, September 4</span>
+    </div>
+    <!-- data-give-button -->
+    <a class="btn" href="#" data-give-button>Give monthly <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO — the invitation and the ask, both on screen one.
+     ============================================================ -->
+<section class="hero" id="give">
+  <div class="hero__bg">
+    <img src="assets/madina-hero-wide.jpg" alt="">
+  </div>
+  <div class="wrap hero__in">
+
+    <div>
+      <p class="kicker kicker--light">A four-week invitation from Favor International</p>
+      <p class="hero__deadline">Closing Friday, September 4</p>
+      <h1>We are inviting <span class="num">48 people</span> to partner with us through monthly giving.</h1>
+      <hr class="hero__rule">
+      <p class="hero__lede">
+        So Trauma Counseling runs on a schedule instead of on an appeal, and the next village
+        does not wait to be funded before it is reached.
+      </p>
+      <p class="hero__not">Not 48 gifts. 48 people who decide this happens every month.</p>
+    </div>
+
+    <!-- ---- give card ---- -->
+    <div class="give" id="give-card">
+      <h2 class="give__head">Become a monthly partner.</h2>
+      <p class="give__sub">$50 a month sends one person through the entire two-week Trauma Counseling intensive.</p>
+
+      <div class="freq" role="group" aria-label="Giving frequency">
+        <button type="button" data-freq="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" data-freq="once" aria-pressed="false">One time</button>
+      </div>
+      <p class="freq__note" id="freq-note" hidden>A one-time gift helps. A monthly one is what puts the next class on the schedule.</p>
+
+      <div class="amounts" role="group" aria-label="Choose an amount">
+        <button type="button" class="amt" data-amount="200">$200</button>
+        <button type="button" class="amt" data-amount="100">$100</button>
+        <button type="button" class="amt" data-amount="50" aria-pressed="true"><span class="amt__tag">One woman</span>$50</button>
+        <button type="button" class="amt" data-amount="25">$25</button>
+      </div>
+
+      <div class="custom">
+        <label for="custom-amount">Or another amount</label>
+        <div class="custom__field">
+          <span aria-hidden="true">$</span>
+          <input type="number" id="custom-amount" min="1" step="1" value="50" inputmode="numeric" aria-label="Custom monthly amount in dollars">
+        </div>
+      </div>
+
+      <p class="impact" id="impact"><strong>$50 a month</strong> sends one person through the entire two-week intensive. One woman a month. Twelve a year.</p>
+
+      <!-- data-give-button -->
+      <a class="btn btn--block" href="#" data-give-button>
+        <span data-give-label>Become a monthly partner &middot; $50/month</span>
+        <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <p class="fine">Cancel or change any time. Takes about ninety seconds.<br>
+        Favor International is a 501(c)(3). Your gift is tax-deductible.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     THE THESIS — three facts, before the story.
+     Answers "why monthly, specifically" in ten seconds.
+     ============================================================ -->
+<section class="band band--dark" style="padding-top:0;padding-bottom:0">
+  <div class="facts">
+    <div class="fact reveal">
+      <p class="fact__n">$50</p>
+      <p class="fact__t">One person, all the way through.</p>
+      <p class="fact__b">Two weeks of all-day teaching. The one-on-one counseling after it. The curriculum in her hands, her certificate, and the cost of getting a trained Favor counselor to her village and keeping them there while the work is done.</p>
+    </div>
+    <div class="fact reveal">
+      <p class="fact__n">48</p>
+      <p class="fact__t">People, not gifts.</p>
+      <p class="fact__b">Forty-eight decisions that this happens every month. When the giving is steady, we schedule the next village. When it is not, the next village waits.</p>
+    </div>
+    <div class="fact reveal">
+      <p class="fact__n">Sep 4</p>
+      <p class="fact__t">A real date, not a decorative one.</p>
+      <p class="fact__b">Four weeks. On Friday, September 4 we count what came in, and the classes we can schedule for the rest of the year are the ones this decides.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MADINA — the story, condensed from Email 1. Word for word where it appears.
+     A donor arriving from a text or a social post has not read the email.
+     ============================================================ -->
+<section class="band band--cream">
+  <div class="wrap">
+    <div class="story__head reveal">
+      <p class="kicker">A testimony from Upper Nile State</p>
+      <h2 class="story__h">From a Death Wish<br>to Forgiveness</h2>
+    </div>
+
+    <div class="story__body">
+      <p class="story__lead reveal">She had already decided that a woman was going to die.</p>
+
+      <p class="reveal">Her name is Madina. She grew up in Upper Nile State under a stepmother who mistreated her without mercy, a woman Madina believed practiced witchcraft. When her mother died and her father's home fell apart, Madina was certain she knew who to blame. When her own marriage later broke, the bitterness hardened into a vow.</p>
+
+      <p class="reveal">She would take revenge. And she promised herself she would never forgive her stepmother, <em>not in this life, and not in the next.</em></p>
+
+      <p class="reveal">So Madina went to a witch doctor and paid him to have her stepmother killed. Her own father had begged her not to. She would not listen. The hatred had made up her mind.</p>
+
+      <blockquote class="scripture reveal">
+        &ldquo;Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.&rdquo;
+        <span class="cite">Ephesians 4:32</span>
+      </blockquote>
+
+      <p class="reveal">Then a Portable Bible School and a Trauma Counseling class came to her village of Joda.</p>
+
+      <p class="reveal">Madina sat in those classes carrying a plan for murder in her heart. But as she heard how Jesus forgave the very people who wronged Him, something she never thought possible began to happen. The Word of God started to loosen a grip that revenge had held for years.</p>
+
+      <blockquote class="pull reveal">
+        I never thought in my life that I would forgive my stepmother one day. But today my life is renewed.
+        <cite>Madina &middot; Joda, Upper Nile State</cite>
+      </blockquote>
+
+      <p class="reveal">Madina chose the path of Christ instead of the path of revenge. Today she and her stepmother live in peace. Their relationship has been restored. And Madina now sits faithfully in those same classes, growing in the grace that saved her.</p>
+    </div>
+
+    <figure class="figure--wide reveal">
+      <img src="assets/madina-class-group.jpg" alt="The women of Madina's Trauma Counseling class seated together in Upper Nile State">
+      <figcaption>The women of Madina's class in Upper Nile State, learning to trade bitterness for the forgiveness of Christ.</figcaption>
+    </figure>
+
+    <div class="story__body">
+      <p class="reveal">This is what changed Madina: not a program, but the Gospel, carried into one of the hardest places on earth by an indigenous missionary who refused to let Joda be forgotten.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE TURN — why monthly, said plainly. This is the argument.
+     ============================================================ -->
+<section class="band band--olive">
+  <div class="wrap narrow">
+    <p class="kicker kicker--light reveal">The part we have never told you plainly</p>
+    <h2 class="h2 reveal">That class is not permanent.<br>It runs when it is funded.</h2>
+    <p class="lede reveal">
+      Every Trauma Counseling class Favor holds is a two-week intensive that has to be paid for
+      before a single woman walks in. The teacher. The travel. The curriculum. The room. The two
+      weeks of one-on-one counseling that come after the teaching ends.
+    </p>
+    <p class="lede reveal" style="margin-top:1.1em">
+      When the giving is steady, we schedule the next village. When it is not, the next village waits.
+    </p>
+    <p class="lede reveal" style="margin-top:1.1em">
+      Across Upper Nile State there are still so many like Madina. Women and men sitting in villages,
+      and even in churches, quietly carrying revenge, generational pain, and wounds that have never
+      healed. They are one class away from the freedom she found.
+    </p>
+    <p class="reveal" style="font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2.05rem);line-height:1.3;color:var(--gold);margin:36px 0 0;max-width:22ch">
+      We would like to stop making them wait.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHAT $50 BUYS — the unit of transformation, itemized.
+     "Become a monthly partner" is not an observable thing. This is.
+     ============================================================ -->
+<section class="band band--white">
+  <div class="wrap">
+    <p class="kicker reveal">What $50 a month actually pays for</p>
+    <h2 class="h2 reveal" style="max-width:20ch">One person, all the way through the two weeks.</h2>
+    <p class="lede reveal">Not a contribution toward a general fund. A named, priced, countable thing: everything one woman needs to go from the day she walks in to the day she walks out with a certificate in her hand.</p>
+
+    <div class="buys">
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H11v18H5.5A2.5 2.5 0 0 1 3 18.5z"/><path d="M21 5.5A2.5 2.5 0 0 0 18.5 3H13v18h5.5a2.5 2.5 0 0 0 2.5-2.5z"/></svg>
+        <h3 class="buy__t">Two weeks of teaching</h3>
+        <p class="buy__b">All day, every day, for the full two weeks. Not a seminar. An intensive.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21v-2a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v2"/><circle cx="5.5" cy="8.5" r="3"/><path d="M22 21v-2a3 3 0 0 0-3-3h-1a3 3 0 0 0-3 3v2"/><circle cx="18.5" cy="8.5" r="3"/></svg>
+        <h3 class="buy__t">One-on-one counseling</h3>
+        <p class="buy__b">The weeks after the teaching ends, when the hardest work of forgiveness actually happens.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M15 4v5h5"/><path d="M7.5 13h7"/><path d="M7.5 17h4"/></svg>
+        <h3 class="buy__t">Her own curriculum</h3>
+        <p class="buy__b">The material stays with her, in her hands, in her language, after the class leaves.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.8 7 21.5l5-2.6 5 2.6-1.5-7.7"/></svg>
+        <h3 class="buy__t">Her certificate</h3>
+        <p class="buy__b">Completion, named and marked. In these villages that piece of paper carries real weight.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        <h3 class="buy__t">Getting the counselor there</h3>
+        <p class="buy__b">Travel into the village and the cost of keeping a trained Favor counselor there while the work is done.</p>
+      </div>
+    </div>
+
+    <p class="lede reveal" style="margin-top:clamp(30px,3.5vw,44px)">
+      One woman a month. Twelve a year. That is what steady giving buys that a single gift cannot:
+      not a bigger moment, but a next one.
+    </p>
+
+    <!-- ============================================================
+         PROOF LINE — intentionally empty. See CLAUDE.md in this folder.
+         ============================================================ -->
+  </div>
+</section>
+
+<!-- ============================================================
+     THE ASK, AGAIN — full ladder and the second button.
+     ============================================================ -->
+<section class="band band--dark">
+  <div class="wrap narrow">
+
+    <!-- ============================================================
+         PROGRESS METER — off by default. See CLAUDE.md in this folder.
+         ============================================================ -->
+    <div class="progress reveal" id="progress" data-count="0" data-goal="48" hidden>
+      <div class="progress__row">
+        <span class="progress__n"><span id="progress-count">0</span> of 48</span>
+        <span class="progress__l">Monthly partners &middot; by Sep 4</span>
+      </div>
+      <div class="progress__track"><div class="progress__fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <p class="kicker kicker--light reveal">The invitation, plainly</p>
+    <h2 class="h2 reveal">By Friday, September 4, we are inviting 48 people to partner with us through monthly giving.</h2>
+    <p class="lede reveal">Not 48 gifts. 48 people who decide this happens every month.</p>
+
+    <div class="ladder reveal">
+      <div class="rung"><span class="rung__a">$200 a month</span><span class="rung__b">Four people through the intensive, every month</span></div>
+      <div class="rung"><span class="rung__a">$100 a month</span><span class="rung__b">Two people through the intensive, every month</span></div>
+      <div class="rung rung--hot"><span class="rung__a">$50 a month</span><span class="rung__b">One person through the intensive, every month</span></div>
+      <div class="rung"><span class="rung__a">$25 a month</span><span class="rung__b">Half the cost of one</span></div>
+    </div>
+
+    <p class="lede reveal" style="margin-top:clamp(28px,3.2vw,38px)">
+      It takes about ninety seconds, you can change or cancel it any time, and from your very first
+      month, one woman walks into a room like Madina's because of your partnership.
+    </p>
+
+    <div class="reveal" style="margin-top:clamp(24px,3vw,34px)">
+      <!-- data-give-button -->
+      <a class="btn" href="#give-card" data-give-scroll>Become a monthly partner <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WORSHIP PHOTO + THE CLOSE OF THE STORY
+     ============================================================ -->
+<section class="band band--cream">
+  <div class="wrap">
+    <figure class="figure--wide reveal" style="margin-top:0">
+      <img src="assets/madina-worship-congregation.jpg" alt="A congregation in Upper Nile State worshiping together with hands raised">
+      <figcaption>Where revenge once ruled, worship now rises. This is what your partnership makes possible.</figcaption>
+    </figure>
+    <div class="story__body" style="margin-top:clamp(30px,3.5vw,44px)">
+      <p class="reveal" style="font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.72rem);line-height:1.45;color:var(--olive)">
+        If that class had never reached Joda, Madina would still be planning a death today. Instead
+        she is living in peace, forgiving the unforgivable, and pointing others to the One who set
+        her free.
+      </p>
+      <p class="reveal">There is a village on the schedule right now that is waiting on a decision like yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST — where the money goes, and who checks.
+     ============================================================ -->
+<section class="band band--sand">
+  <div class="wrap">
+    <p class="kicker reveal">Where your gift goes</p>
+    <h2 class="h2 reveal" style="max-width:18ch">Eighty-nine cents of every dollar reaches the field.</h2>
+    <div class="trust">
+      <div class="reveal">
+        <span class="pct">89%</span>
+        <h3>Field programs</h3>
+        <p>Indigenous workers, Portable Bible Schools, Trauma Counseling, Village Learning Centers, medical care, and women's empowerment.</p>
+      </div>
+      <div class="reveal">
+        <span class="pct">11%</span>
+        <h3>U.S. operations</h3>
+        <p>Audit, accounting, payroll, donor care, and governance. Source: FY2024 audited financials filed with ECFA and IRS Form 990.</p>
+      </div>
+      <div class="reveal">
+        <span class="pct">100%</span>
+        <h3>Yours to change</h3>
+        <p>Raise it, lower it, pause it, or cancel it any time by replying to any receipt or calling the office. No forms, no waiting on hold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="band band--white">
+  <div class="wrap">
+    <p class="kicker kicker--center reveal" style="justify-content:center">Before you decide</p>
+    <h2 class="h2 reveal" style="text-align:center">Questions people actually ask.</h2>
+    <div class="faq reveal">
+      <details>
+        <summary>Can I give a different amount than $50?</summary>
+        <p>Yes. The levels are a starting point, not a rule. Choose the amount that fits your household. A $25 monthly gift that survives a hard month is worth more to this work than a $50 one that gets cancelled in March.</p>
+      </details>
+      <details>
+        <summary>Does my gift only go to Trauma Counseling?</summary>
+        <p>Favor Partner gifts are unrestricted, which lets our field leadership put them where the need is greatest that month. Trauma Counseling is what this campaign is funding and what steady giving keeps on the calendar, and it sits inside a wider work: Portable Bible Schools, Village Learning Centers, medical care, and women's empowerment.</p>
+      </details>
+      <details>
+        <summary>What happens right after I give?</summary>
+        <p>Your first gift processes immediately through the secure giving form and you receive a tax-deductible receipt by email. Then you hear from us: the stories, the prayer requests, and the names of the people your partnership is reaching.</p>
+      </details>
+      <details>
+        <summary>Can I cancel or change it later?</summary>
+        <p>Any time, for any reason, with no conversation required. Reply to any receipt or call the office and a real person will handle it.</p>
+      </details>
+      <details>
+        <summary>Is my gift tax-deductible?</summary>
+        <p>Yes. Favor International is a 501(c)(3) nonprofit and an ECFA-accredited member. Audited statements and Form 990s are published on our accountability page.</p>
+      </details>
+      <details>
+        <summary>Why monthly instead of one large gift?</summary>
+        <p>Because a two-week class has to be paid for before it opens. A single gift funds a moment. A monthly gift is what lets our field leaders put the next village on the schedule and know it will still be funded when the date arrives. That is the difference between a program that runs and a program that waits.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CLOSE
+     ============================================================ -->
+<section class="band band--olive close">
+  <div class="wrap close__in">
+    <p class="kicker kicker--light kicker--center reveal">Closing Friday, September 4</p>
+    <h2 class="h2 reveal" style="text-wrap:balance">Would you be one of the&nbsp;48?</h2>
+    <p class="lede reveal">One woman a month, from your very first month. About ninety seconds to start, and yours to change or cancel any time.</p>
+    <!-- data-give-button -->
+    <a class="btn reveal" href="#" data-give-button>
+      <span data-give-label>Become a monthly partner &middot; $50/month</span>
+      <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+    </a>
+    <p class="fine reveal" style="color:rgba(255,254,251,.6);margin-top:22px">With you in the harvest &mdash; The Favor International Family</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div>
+      <img src="assets/favor-logo-white.png" alt="Favor International">
+      <p class="foot__tag">Transformed Hearts, Transform Nations</p>
+    </div>
+    <div>
+      <p style="margin-bottom:10px">Favor International is a 501(c)(3) nonprofit<br>and an ECFA-accredited member.</p>
+      <div class="foot__links">
+        <a href="https://favorintl.org/">favorintl.org</a>
+        <a href="https://favorintl.org/about/accountability/">Accountability</a>
+        <a href="mailto:info@favorintl.org">info@favorintl.org</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- mobile sticky give -->
+<div class="mobile-give">
+  <!-- data-give-button -->
+  <a class="btn btn--block" href="#" data-give-button>
+    <span data-give-label>Become a monthly partner &middot; $50/month</span>
+  </a>
+</div>
+
+<!-- ============================================================
+     GIVING MODAL — same Blackbaud Checkout flow as /give/donate/.
+     Card capture happens inside Blackbaud's window; this modal only asks
+     who the receipt belongs to and whether to cover processing.
+     ============================================================ -->
+<div class="gmodal" id="gmodal" hidden>
+  <div class="gmodal__scrim" data-gm-dismiss></div>
+  <div class="gmodal__card" role="dialog" aria-modal="true" aria-labelledby="gmodal-title">
+    <button type="button" class="gmodal__x" data-gm-dismiss aria-label="Close">&times;</button>
+
+    <div data-gm-panel="details">
+      <p class="gmodal__eyebrow" id="gmodal-title">Your monthly partnership</p>
+      <h3 class="gmodal__head" data-gm-summary>$50 a month</h3>
+      <p class="gmodal__sub">So we know who to thank, and who the receipt belongs to.</p>
+      <label class="gmodal__field">
+        <span>Your name</span>
+        <input type="text" name="gm-name" autocomplete="name" maxlength="150" placeholder="First and last name">
+      </label>
+      <label class="gmodal__field">
+        <span>Email for your receipt</span>
+        <input type="email" name="gm-email" autocomplete="email" maxlength="254" placeholder="you@example.com">
+      </label>
+      <details class="gmodal__org">
+        <summary>Giving on behalf of a church, business, or foundation?</summary>
+        <label class="gmodal__field" style="margin-top:12px">
+          <span>Organization name</span>
+          <input type="text" name="gm-org" autocomplete="organization" maxlength="120" placeholder="e.g. First Baptist Church of Tampa">
+        </label>
+        <p class="gmodal__hint">The receipt and record will be in the organization&rsquo;s name, with you as the contact.</p>
+      </details>
+      <div data-gm-turnstile></div>
+      <p class="gmodal__error" data-gm-error hidden role="alert"></p>
+      <button type="button" class="btn btn--block" data-gm-continue><span data-gm-continue-label>Continue to card</span></button>
+      <p class="gmodal__secure">Your card opens in Blackbaud secure checkout, and your gift is complete when you pay there. Favor never sees or stores your card number.</p>
+      <p class="gmodal__disclosure" data-gm-disclosure>You authorize Favor International to charge this card monthly until you cancel. Cancel any time by replying to any receipt or emailing <a href="mailto:info@favorintl.org">info@favorintl.org</a>.</p>
+    </div>
+
+    <div data-gm-panel="fee" hidden style="text-align:center">
+      <p class="gmodal__eyebrow">One question</p>
+      <h3 class="gmodal__head">Add <span data-gm-fee></span> to cover processing?</h3>
+      <p class="gmodal__sub">Card processing takes <span data-gm-fee2></span> out of your gift. Cover it and the full <strong data-gm-amt></strong> reaches the field.</p>
+      <button type="button" class="btn btn--block" data-gm-fee-yes>Yes, add <span data-gm-fee3></span></button>
+      <button type="button" class="gmodal__ghost" data-gm-fee-no>No thanks</button>
+      <p class="gmodal__secure">Your card opens next, in Blackbaud&rsquo;s secure window.</p>
+    </div>
+
+    <div data-gm-panel="processing" hidden aria-live="polite" style="text-align:center;padding:18px 0">
+      <span class="gmodal__spinner" aria-hidden="true"></span>
+      <p class="gmodal__head" style="font-size:1.2rem">Completing your gift&hellip;</p>
+      <p class="gmodal__sub" style="margin:0">Keep this page open. This takes a few seconds.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Giving destination when the on-page checkout is unavailable (config fetch
+   failed, Blackbaud disconnected, or the checkout script blocked). Every
+   button keeps a real href to the site form, so giving always works. */
+var GIVE_BASE = 'https://favorintl.org/give/donate/';
+
+function givingUrl(amount, frequency){
+  var p = new URLSearchParams();
+  if (amount >= 1) p.set('amount', String(amount));
+  p.set('frequency', frequency);
+  /* Carry the campaign source into the site form, so a fallback gift still
+     lands on the campaign's appeal code in Raiser's Edge. */
+  var src = (new URLSearchParams(location.search).get('src') || 'default').toLowerCase();
+  p.set('src', src);
+  return GIVE_BASE + '?' + p.toString();
+}
+
+(function(){
+  var state = { amount: 50, frequency: 'monthly' };
+
+  /* Deep links: the campaign emails and texts arrive with ?amount= and
+     ?frequency= so the card opens preset to the ask that email made. */
+  var pageParams = new URLSearchParams(location.search);
+  var pAmount = Math.floor(Number(pageParams.get('amount')));
+  if (pAmount >= 1 && pAmount <= 250000) state.amount = pAmount;
+  var pFreq = pageParams.get('frequency');
+  if (pFreq === 'once' || pFreq === 'monthly') state.frequency = pFreq;
+
+  /* Which appeal this gift belongs to in Raiser's Edge. The server holds the
+     actual codes; this is a whitelist key from the arriving link. */
+  var srcParam = (pageParams.get('src') || '').toLowerCase();
+  var CAMPAIGN_SOURCE = (srcParam === 'email' || srcParam === 'fb' || srcParam === 'ig' || srcParam === 'yt')
+    ? srcParam : 'default';
+
+  var presets   = Array.prototype.slice.call(document.querySelectorAll('.amt'));
+  var freqBtns  = Array.prototype.slice.call(document.querySelectorAll('.freq button'));
+  var freqNote  = document.getElementById('freq-note');
+  var field     = document.getElementById('custom-amount');
+  var impact    = document.getElementById('impact');
+  var buttons   = Array.prototype.slice.call(document.querySelectorAll('[data-give-button]'));
+  var labels    = Array.prototype.slice.call(document.querySelectorAll('[data-give-label]'));
+
+  if (field && state.amount !== 50) field.value = state.amount;
+
+  /* What the chosen amount buys, at $50 = one person. See CLAUDE.md. */
+  function impactLine(a, monthly){
+    if (!monthly){
+      if (a >= 50) return '<strong>$' + a + '</strong> once sends ' + Math.floor(a/50) +
+        (Math.floor(a/50) === 1 ? ' person' : ' people') + ' through the two-week intensive. A monthly gift is what schedules the next class.';
+      return '<strong>$' + a + '</strong> goes to work in the field this month. A monthly gift is what schedules the next class.';
+    }
+    if (a >= 200) return '<strong>$' + a + ' a month</strong> sends ' + Math.floor(a/50) + ' people through the intensive, every month. That is ' + (Math.floor(a/50)*12) + ' a year.';
+    if (a >= 100) return '<strong>$' + a + ' a month</strong> sends ' + Math.floor(a/50) + ' people through the intensive, every month. That is ' + (Math.floor(a/50)*12) + ' a year.';
+    if (a >= 50)  return '<strong>$50 a month</strong> sends one person through the entire two-week intensive. One woman a month. Twelve a year.';
+    if (a >= 25)  return '<strong>$' + a + ' a month</strong> covers about half the cost of one person. Two partners at this level put one woman through every month.';
+    return '<strong>$' + a + ' a month</strong> is a real part of the next class. Every rung of this ladder gets someone into a room.';
+  }
+
+  function render(){
+    var monthly = state.frequency === 'monthly';
+
+    presets.forEach(function(b){
+      b.setAttribute('aria-pressed', Number(b.dataset.amount) === state.amount ? 'true' : 'false');
+    });
+    freqBtns.forEach(function(b){
+      b.setAttribute('aria-pressed', b.dataset.freq === state.frequency ? 'true' : 'false');
+    });
+    if (freqNote) freqNote.hidden = monthly;
+    if (field) field.setAttribute('aria-label', 'Custom ' + (monthly ? 'monthly' : 'one-time') + ' amount in dollars');
+    if (impact) impact.innerHTML = impactLine(state.amount, monthly);
+
+    /* state.amount is always a floored Number, so this string is safe to set
+       as innerHTML. Keep it that way if you change the label. */
+    var label = monthly
+      ? 'Become a monthly partner<span class="btn__amt">$' + state.amount + ' / month</span>'
+      : 'Give once<span class="btn__amt">$' + state.amount + '</span>';
+    labels.forEach(function(el){ el.innerHTML = label; });
+
+    var url = givingUrl(state.amount, monthly ? 'monthly' : 'once');
+    buttons.forEach(function(a){ a.href = url; });
+  }
+
+  presets.forEach(function(b){
+    b.addEventListener('click', function(){
+      state.amount = Number(b.dataset.amount);
+      if (field) field.value = state.amount;
+      render();
+    });
+  });
+
+  freqBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      state.frequency = b.dataset.freq;
+      render();
+    });
+  });
+
+  if (field){
+    field.addEventListener('input', function(){
+      var v = Number(field.value);
+      state.amount = (v >= 1) ? Math.floor(v) : 0;
+      render();
+    });
+    field.addEventListener('blur', function(){
+      if (!(Number(field.value) >= 1)){ field.value = 50; state.amount = 50; render(); }
+    });
+  }
+
+  /* the second ask scrolls back to the card rather than jumping straight out,
+     so the reader picks an amount before they leave the page */
+  document.querySelectorAll('[data-give-scroll]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var card = document.getElementById('give-card');
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+
+  render();
+
+  /* progress meter, if it has been switched on */
+  var prog = document.getElementById('progress');
+  if (prog && !prog.hidden){
+    var count = Number(prog.dataset.count) || 0;
+    var goal  = Number(prog.dataset.goal) || 48;
+    var pct   = Math.max(0, Math.min(100, Math.round((count / goal) * 100)));
+    document.getElementById('progress-count').textContent = String(count);
+    requestAnimationFrame(function(){
+      document.getElementById('progress-fill').style.width = pct + '%';
+    });
+  }
+
+  /* reveal on scroll.
+     The IntersectionObserver does the nice staggered version. The rAF backstop
+     under it catches anything a fast flick or a momentum scroll outruns, so no
+     section can end up scrolled past and still invisible. Belt and braces on
+     purpose: this is a giving page, and copy that does not appear cannot convert. */
+  var revealables = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+
+  function show(el){ el.classList.add('in'); }
+
+  if (!('IntersectionObserver' in window)){
+    revealables.forEach(show);
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          show(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.06 });
+
+    revealables.forEach(function(el, i){
+      el.style.transitionDelay = ((i % 4) * 70) + 'ms';
+      io.observe(el);
+    });
+
+    var pending = false;
+    var sweep = function(){
+      pending = false;
+      var vh = window.innerHeight;
+      revealables = revealables.filter(function(el){
+        if (el.classList.contains('in')) return false;
+        if (el.getBoundingClientRect().top < vh){ show(el); io.unobserve(el); return false; }
+        return true;
+      });
+      if (!revealables.length){
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    };
+    var onScroll = function(){
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(sweep);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  }
+
+  /* ========================================================================
+     ON-PAGE CHECKOUT (2026-08-10). The same flow as /give/donate/, without
+     leaving the page: details modal -> fee question -> Blackbaud Checkout
+     window -> POST /api/give/donate(-recurring) -> /give/thank-you/.
+     The href fallback above stays live until config loads, so a config or
+     script failure degrades to the site form, never to a dead button.
+     ======================================================================== */
+  var config = null;
+  var donor = null;
+  var feeCovered = false;
+  var idemKey = null;
+  var checkoutToken = null;
+  var cardToken = null;
+  var submitting = false;
+  var turnstileWidget;
+  var turnstileRendered = false;
+
+  var modal = document.getElementById('gmodal');
+  var gq = function(sel){ return modal.querySelector(sel); };
+
+  function money(n){
+    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: n % 1 ? 2 : 0 });
+  }
+  function feeOf(){
+    var rate = (config && config.fee_rate) || 0.029;
+    var fixed = (config && typeof config.fee_fixed === 'number') ? config.fee_fixed : 0.30;
+    return Math.round((state.amount * rate + fixed) * 100) / 100;
+  }
+  function totalAmount(){
+    if (!feeCovered) return state.amount;
+    return Math.round((state.amount + feeOf()) * 100) / 100;
+  }
+  function checkoutReady(){
+    return !!(config && config.connected && !config.setup_incomplete && config.public_key &&
+      (config.designations || []).length && window.Blackbaud_OpenPaymentForm);
+  }
+
+  function showPanel(name){
+    ['details', 'fee', 'processing'].forEach(function(p){
+      modal.querySelector('[data-gm-panel="' + p + '"]').hidden = p !== name;
+    });
+  }
+  function showError(msg){
+    var el = gq('[data-gm-error]');
+    el.textContent = msg || '';
+    el.hidden = !msg;
+    if (msg) showPanel('details');
+  }
+
+  function openModal(){
+    var monthly = state.frequency === 'monthly';
+    gq('[data-gm-summary]').textContent = monthly
+      ? money(state.amount) + ' a month'
+      : money(state.amount) + ', one time';
+    gq('#gmodal-title').textContent = monthly ? 'Your monthly partnership' : 'Your gift';
+    gq('[data-gm-disclosure]').hidden = !monthly;
+    showError('');
+    showPanel('details');
+    modal.hidden = false;
+    document.body.classList.add('gm-lock');
+    ensureTurnstile();
+    var name = gq('input[name="gm-name"]');
+    if (!name.value) name.focus();
+  }
+  function closeModal(){
+    if (submitting) return;
+    modal.hidden = true;
+    document.body.classList.remove('gm-lock');
+  }
+  Array.prototype.forEach.call(modal.querySelectorAll('[data-gm-dismiss]'), function(el){
+    el.addEventListener('click', closeModal);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
+
+  function ensureTurnstile(){
+    if (!config || !config.turnstile_site_key || !window.turnstile || turnstileRendered) return;
+    turnstileRendered = true;
+    turnstileWidget = window.turnstile.render(gq('[data-gm-turnstile]'), {
+      sitekey: config.turnstile_site_key,
+      theme: 'light',
+      appearance: 'interaction-only',
+      size: 'flexible',
+      'expired-callback': function(){ if (window.turnstile) window.turnstile.reset(turnstileWidget); },
+      'error-callback': function(){ turnstileRendered = false; }
+    });
+  }
+
+  /* Splitting "Ana Maria Diaz" keeps "Diaz" as the surname; one word is
+     rejected, because Blackbaud needs first and last for the receipt. */
+  function readDonor(){
+    var parts = gq('input[name="gm-name"]').value.trim().split(/\s+/).filter(Boolean);
+    if (parts.length < 2){
+      showError('Please enter your first and last name, so the receipt is correct.');
+      return null;
+    }
+    var email = gq('input[name="gm-email"]').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+      showError('A valid email is required so your tax receipt can reach you.');
+      return null;
+    }
+    return {
+      first: parts[0],
+      last: parts.slice(1).join(' '),
+      email: email,
+      org_name: gq('input[name="gm-org"]').value.trim() || undefined
+    };
+  }
+
+  function openCheckout(){
+    if (!window.Blackbaud_OpenPaymentForm || !config.public_key){
+      showError('The secure checkout script did not load. Reload the page and try again.');
+      return;
+    }
+    var monthly = state.frequency === 'monthly';
+    var t = totalAmount();
+    var data = {
+      key: config.public_key,
+      payment_configuration_id: config.payment_configuration_id,
+      amount: Number(t.toFixed(2)),
+      billing_address_first_name: donor.first,
+      billing_address_last_name: donor.last,
+      billing_address_email: donor.email,
+      client_app_name: 'favorintl.org giving',
+      description: monthly ? 'Favor Partner monthly gift (first month)' : 'Gift to Favor International',
+      primary_color: '#2b4d24',
+      is_email_required: true,
+      use_apple_pay: false
+    };
+    if (monthly){
+      cardToken = crypto.randomUUID();
+      data.card_token = cardToken;
+    } else {
+      cardToken = null;
+    }
+    idemKey = crypto.randomUUID();
+    window.Blackbaud_OpenPaymentForm(data);
+  }
+
+  function proceedToCheckout(){
+    if (config.turnstile_site_key && window.turnstile){
+      var token = window.turnstile.getResponse(turnstileWidget);
+      if (!token){
+        window.turnstile.reset(turnstileWidget);
+        showError('One second while we confirm you are human, then press the button again.');
+        return;
+      }
+    }
+    openCheckout();
+  }
+
+  gq('[data-gm-continue]').addEventListener('click', function(){
+    if (submitting) return;
+    /* A failed submission preserves the same authorization + idempotency key,
+       so pressing the button again resubmits instead of charging twice. */
+    if (checkoutToken && idemKey){ submitGift(); return; }
+    donor = readDonor();
+    if (!donor) return;
+    showError('');
+    var fee = money(feeOf());
+    gq('[data-gm-fee]').textContent = fee;
+    gq('[data-gm-fee2]').textContent = fee;
+    gq('[data-gm-fee3]').textContent = fee;
+    gq('[data-gm-amt]').textContent = money(state.amount);
+    showPanel('fee');
+  });
+
+  gq('[data-gm-fee-yes]').addEventListener('click', function(){ feeCovered = true; proceedToCheckout(); });
+  gq('[data-gm-fee-no]').addEventListener('click', function(){ feeCovered = false; proceedToCheckout(); });
+
+  /* Blackbaud Checkout dispatches document-level events; one listener pair. */
+  document.addEventListener('checkoutComplete', function(e){
+    var detail = e.detail || {};
+    if (detail.transactionToken){
+      checkoutToken = detail.transactionToken;
+      submitGift();
+    } else {
+      showError('Checkout finished without a transaction token. Your card was not charged; please try again.');
+    }
+  });
+  document.addEventListener('checkoutError', function(e){
+    var detail = e.detail || {};
+    showError(detail.errorText || 'The payment could not be processed. Nothing was charged; please try again.');
+  });
+
+  function submitGift(){
+    if (submitting || !checkoutToken || !idemKey) return;
+    submitting = true;
+    showPanel('processing');
+
+    var monthly = state.frequency === 'monthly';
+    var body = {
+      idempotency_key: idemKey,
+      amount: state.amount,
+      cover_fees: feeCovered,
+      designation_fund_id: config.designations[0].fund_id,
+      donor: { first: donor.first, last: donor.last, email: donor.email },
+      org_name: donor.org_name,
+      checkout: { transaction_token: checkoutToken },
+      campaign_source: CAMPAIGN_SOURCE,
+      turnstile_token: (config.turnstile_site_key && window.turnstile)
+        ? window.turnstile.getResponse(turnstileWidget) : undefined
+    };
+    if (monthly) body.card_token = cardToken;
+
+    fetch(monthly ? '/api/give/donate-recurring' : '/api/give/donate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function(res){
+      return res.json().then(function(data){ return { ok: res.ok, data: data }; });
+    }).then(function(r){
+      if (!r.ok || !r.data.ok) throw new Error(r.data.message || 'The gift could not be completed.');
+      try {
+        if (r.data.portal_login_url) sessionStorage.setItem('favor:portal-login', r.data.portal_login_url);
+      } catch (e) { /* storage unavailable = skip the button */ }
+      var dest = new URLSearchParams({
+        amount: String(r.data.amount || totalAmount()),
+        frequency: monthly ? 'monthly' : 'once',
+        designation: r.data.designation || '',
+        name: donor.first
+      });
+      location.assign('/give/thank-you/?' + dest.toString());
+    }).catch(function(err){
+      submitting = false;
+      /* checkoutToken + idemKey survive on purpose: the retry resubmits the
+         same authorization rather than opening a second charge. */
+      if (window.turnstile && turnstileWidget) window.turnstile.reset(turnstileWidget);
+      gq('[data-gm-continue-label]').textContent = 'Try again';
+      showError((err && err.message ? err.message : 'The gift could not be completed.') +
+        ' Your card was not charged twice. Press the button to try again, or email info@favorintl.org and we will finish it with you.');
+    });
+  }
+
+  /* Buttons intercept only once checkout is genuinely ready; until then the
+     href navigation to /give/donate/ carries the gift. */
+  buttons.forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (!checkoutReady()) return;
+      if (!(state.amount >= 1)){
+        e.preventDefault();
+        var card = document.getElementById('give-card');
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (field) field.focus();
+        return;
+      }
+      e.preventDefault();
+      openModal();
+    });
+  });
+
+  fetch('/api/give/config').then(function(res){ return res.json(); }).then(function(c){
+    config = c;
+    if (config && config.turnstile_site_key){
+      var s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      document.head.appendChild(s);
+    }
+  }).catch(function(){ config = null; });
+})();
+</script>
+<script src="https://payments.blackbaud.com/Checkout/bbCheckout.2.0.js" defer></script>
+</body>
+</html>

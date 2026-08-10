@@ -50,6 +50,7 @@ import {
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
+import { isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
 import { computeTotal } from './donate';
 
 interface RecurringBody {
@@ -66,6 +67,7 @@ interface RecurringBody {
   checkout?: { transaction_token?: unknown };
   card_token?: unknown;
   turnstile_token?: unknown;
+  campaign_source?: unknown;
 }
 
 export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, env, waitUntil }) => {
@@ -100,8 +102,12 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     const payConfig = await getPaymentConfig(env);
     const constituentId = await findOrCreateConstituent(env, donor);
 
+    const campaignSource = isCampaignSource(body.campaign_source) ? body.campaign_source : undefined;
+    const campaignCodes = campaignSource ? await resolveCampaignCodes(env, campaignSource) : null;
+
     const reference = buildReference([
       'Monthly Favor Partner gift via favorintl.org',
+      campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''})`,
       `Designation: ${designation.label}`,
       donor.org_name && `Organization gift; contact: ${donor.first} ${donor.last}`,
       coverFees && 'Donor covered processing fees',
@@ -111,9 +117,14 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     ]);
 
     // Website appeal on the split (Daniel, 2026-08-05), same as one-time gifts.
+    // Campaign-surface gifts override with the campaign's appeal + campaign
+    // codes (Daniel Casella, 2026-08-10); failure degrades to the Website
+    // appeal and never blocks the gift.
     const appealId = (env.GIVE_APPEAL_RECORD_ID ?? '').trim();
     const split: Record<string, unknown> = { fund_id: designation.fund_id, amount: { value: total } };
-    if (appealId) split.appeal_id = appealId;
+    if (campaignCodes?.appeal_id) split.appeal_id = campaignCodes.appeal_id;
+    else if (appealId) split.appeal_id = appealId;
+    if (campaignCodes?.campaign_id) split.campaign_id = campaignCodes.campaign_id;
 
     const baseGift = {
       constituent_id: constituentId,

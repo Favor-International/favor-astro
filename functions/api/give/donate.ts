@@ -40,6 +40,7 @@ import {
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
+import { isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
 
 interface DonateBody {
   idempotency_key?: string;
@@ -55,6 +56,7 @@ interface DonateBody {
   sms_optin?: unknown;
   checkout?: { transaction_token?: unknown };
   turnstile_token?: unknown;
+  campaign_source?: unknown;
 }
 
 export function computeTotal(env: Env, amount: number, coverFees: boolean): number {
@@ -96,9 +98,16 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     // Every online gift carries the Website appeal on its split (Daniel,
     // 2026-08-05), so reporting can separate web giving from mail and events.
+    // A gift arriving from a campaign surface overrides it with the campaign's
+    // own appeal + campaign codes (Daniel Casella, 2026-08-10); resolution
+    // failure degrades back to the Website appeal, never blocks the gift.
+    const campaignSource = isCampaignSource(body.campaign_source) ? body.campaign_source : undefined;
+    const campaignCodes = campaignSource ? await resolveCampaignCodes(env, campaignSource) : null;
     const appealId = (env.GIVE_APPEAL_RECORD_ID ?? '').trim();
     const split: Record<string, unknown> = { fund_id: designation.fund_id, amount: { value: total } };
-    if (appealId) split.appeal_id = appealId;
+    if (campaignCodes?.appeal_id) split.appeal_id = campaignCodes.appeal_id;
+    else if (appealId) split.appeal_id = appealId;
+    if (campaignCodes?.campaign_id) split.campaign_id = campaignCodes.campaign_id;
 
     const gift = await createGift(env, {
       type: 'Donation',
@@ -118,6 +127,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       ],
       reference: buildReference([
         'Online gift via favorintl.org',
+        campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''})`,
         `Designation: ${designation.label}`,
         donor.org_name && `Organization gift; contact: ${donor.first} ${donor.last}`,
         coverFees && 'Donor covered processing fees',
