@@ -67,7 +67,13 @@ body{
   font-size:17px;
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
+  /* clip, not hidden: overflow-x:hidden makes body a scroll container on
+     iOS/WebKit, which detaches position:fixed children mid-scroll (the
+     mobile give bar was painting mid-page on Will's phone, 2026-08-14).
+     clip clips without creating a scroller; hidden stays as the fallback
+     for engines without clip support. */
   overflow-x:hidden;
+  overflow-x:clip;
 }
 /* film grain — the texture that carries through every Campaign One asset */
 body::after{
