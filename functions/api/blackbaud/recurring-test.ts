@@ -29,7 +29,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       amount: { value: 1 },
       date: etGiftDate(),
       gift_status: 'Active',
-      post_status: 'NotPosted',
+      post_status: url.searchParams.get('post') ?? 'NotPosted',
       is_anonymous: false,
       gift_splits: [{ fund_id: '79', amount: { value: 1 }, appeal_id: '2353', campaign_id: '223' }],
       reference: 'DIAGNOSTIC recurring test (auto-deleted)',
