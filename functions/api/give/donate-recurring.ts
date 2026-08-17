@@ -137,12 +137,17 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       reference,
     };
 
-    // 2. Recurring gift with schedule. payments[] carries the vaulted card
-    // token; some environments reject payments on RecurringGift creation, so
-    // retry once without it (converttoautomatic supplies the token anyway).
-    let recurring: { id: string };
+    // 2. Recurring gift with schedule. Blackbaud tightened this endpoint's
+    // validation in early August 2026 (found 2026-08-17 after twelve days of
+    // silent monthly failures): the payments array with an account_token and
+    // bbps_configuration_id is now REQUIRED (the old retry-without-payments
+    // fallback can never succeed again and is gone), and the RecurringGift
+    // record itself must carry post_status DoNotPost — schedules are not
+    // GL-postable; only the charged RecurringGiftPayment below keeps
+    // NotPosted. Verified against production via /api/blackbaud/recurring-test.
     const recurringPayload: Record<string, unknown> = {
       ...baseGift,
+      post_status: 'DoNotPost',
       type: 'RecurringGift',
       amount: { value: total },
       recurring_gift_schedule: { frequency: 'MONTHLY', start_date: nextMonthIso() },
@@ -154,16 +159,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
         },
       ],
     };
-    try {
-      recurring = await createGift(env, recurringPayload);
-    } catch (err) {
-      if (err instanceof BlackbaudError && err.status === 400) {
-        delete recurringPayload.payments;
-        recurring = await createGift(env, recurringPayload);
-      } else {
-        throw err;
-      }
-    }
+    const recurring: { id: string } = await createGift(env, recurringPayload);
 
     // 3. First installment: charge the checkout authorization and link it.
     let payment: { id: string };
