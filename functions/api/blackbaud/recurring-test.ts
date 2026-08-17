@@ -14,7 +14,16 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     requireSetupKey(env, request);
     const url = new URL(request.url);
     const constituentId = url.searchParams.get('constituent_id') ?? '27202'; // Will's record
-    const payload = {
+    // Variants probe what SKY's new "payments field is required" validation
+    // accepts. None can charge anything: charge_transaction is never set and
+    // the tokens are fabricated UUIDs.
+    const variant = url.searchParams.get('variant') ?? 'none';
+    const payments =
+      variant === 'bare' ? [{ payment_method: 'CreditCard' }]
+      : variant === 'token' ? [{ payment_method: 'CreditCard', account_token: crypto.randomUUID(), bbps_configuration_id: url.searchParams.get('config') ?? undefined }]
+      : variant === 'checkout' ? [{ payment_method: 'CreditCard', checkout_transaction_id: crypto.randomUUID() }]
+      : undefined;
+    const payload: Record<string, unknown> = {
       type: 'RecurringGift',
       constituent_id: constituentId,
       amount: { value: 1 },
@@ -26,6 +35,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       reference: 'DIAGNOSTIC recurring test (auto-deleted)',
       recurring_gift_schedule: { frequency: 'MONTHLY', start_date: nextMonthIso() },
     };
+    if (payments) payload.payments = payments;
     try {
       const created = await bbJson<{ id: string }>(env, '/gift/v1/gifts', {
         method: 'POST',
