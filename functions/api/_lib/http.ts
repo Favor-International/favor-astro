@@ -27,6 +27,30 @@ export function handleError(err: unknown): Response {
   return errorJson('internal', 'Something went wrong on our side. Your card was not charged twice; please try again or email us.', 500);
 }
 
+/**
+ * Persist the last giving errors to KV so failures are diagnosable after the
+ * fact (added 2026-08-17: a week of donate-recurring 400s left no trace
+ * because console.error output is not retained). Read back via
+ * GET /api/blackbaud/errlog with the setup key. Best effort, never throws.
+ */
+export async function recordGiveError(env: Env, route: string, err: unknown): Promise<void> {
+  try {
+    const entry = {
+      at: new Date().toISOString(),
+      route,
+      code: err instanceof BlackbaudError ? err.code : 'internal',
+      message: err instanceof Error ? err.message : String(err),
+      detail: err instanceof BlackbaudError ? JSON.stringify(err.detail ?? null).slice(0, 800) : null,
+    };
+    const raw = await env.BLACKBAUD_TOKENS.get('bb:errlog');
+    const list = raw ? (JSON.parse(raw) as unknown[]) : [];
+    list.unshift(entry);
+    await env.BLACKBAUD_TOKENS.put('bb:errlog', JSON.stringify(list.slice(0, 20)));
+  } catch {
+    /* diagnostics must never affect the request */
+  }
+}
+
 const MAX_BODY_BYTES = 32 * 1024;
 
 export async function readJsonBody<T>(request: Request): Promise<T> {

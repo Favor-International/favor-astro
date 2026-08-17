@@ -36,6 +36,7 @@ import {
   idempotencyStore,
   json,
   readJsonBody,
+  recordGiveError,
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
@@ -186,6 +187,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     await idempotencyStore(env, idem, result);
     return json(result);
   } catch (err) {
+    await recordGiveError(env, 'donate', err);
     return handleError(err);
   }
 };
