@@ -105,10 +105,11 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     const campaignSource = isCampaignSource(body.campaign_source) ? body.campaign_source : undefined;
     const campaignCodes = campaignSource ? await resolveCampaignCodes(env, campaignSource) : null;
+    const campaignRef = asTrimmed((body as { ref?: unknown }).ref, 'ref', 24, false) || undefined;
 
     const reference = buildReference([
       'Monthly Favor Partner gift via favorintl.org',
-      campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''})`,
+      campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''}${campaignRef ? `, ref ${campaignRef}` : ''})`,
       `Designation: ${designation.label}`,
       donor.org_name && `Organization gift; contact: ${donor.first} ${donor.last}`,
       coverFees && 'Donor covered processing fees',

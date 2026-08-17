@@ -104,6 +104,9 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     // failure degrades back to the Website appeal, never blocks the gift.
     const campaignSource = isCampaignSource(body.campaign_source) ? body.campaign_source : undefined;
     const campaignCodes = campaignSource ? await resolveCampaignCodes(env, campaignSource) : null;
+    // ref = the per-email link token (EM2-K4TD style); recorded on the gift
+    // reference so revenue can be attributed to a specific send (2026-08-17).
+    const campaignRef = asTrimmed((body as { ref?: unknown }).ref, 'ref', 24, false) || undefined;
     const appealId = (env.GIVE_APPEAL_RECORD_ID ?? '').trim();
     const split: Record<string, unknown> = { fund_id: designation.fund_id, amount: { value: total } };
     if (campaignCodes?.appeal_id) split.appeal_id = campaignCodes.appeal_id;
@@ -128,7 +131,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       ],
       reference: buildReference([
         'Online gift via favorintl.org',
-        campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''})`,
+        campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''}${campaignRef ? `, ref ${campaignRef}` : ''})`,
         `Designation: ${designation.label}`,
         donor.org_name && `Organization gift; contact: ${donor.first} ${donor.last}`,
         coverFees && 'Donor covered processing fees',

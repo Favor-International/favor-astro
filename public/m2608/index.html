@@ -938,6 +938,9 @@ function givingUrl(amount, frequency){
   var srcParam = (pageParams.get('src') || '').toLowerCase();
   var CAMPAIGN_SOURCE = (srcParam === 'email' || srcParam === 'fb' || srcParam === 'ig' || srcParam === 'yt')
     ? srcParam : 'default';
+  /* Which specific email link brought them (EM2-K4TD style); rides into the
+     gift reference so revenue attributes to the exact send. */
+  var CAMPAIGN_REF = (pageParams.get('ref') || '').slice(0, 24) || undefined;
 
   var presets   = Array.prototype.slice.call(document.querySelectorAll('.amt'));
   var freqBtns  = Array.prototype.slice.call(document.querySelectorAll('.freq button'));
@@ -1289,6 +1292,7 @@ function givingUrl(amount, frequency){
       org_name: donor.org_name,
       checkout: { transaction_token: checkoutToken },
       campaign_source: CAMPAIGN_SOURCE,
+      ref: CAMPAIGN_REF,
       turnstile_token: (config.turnstile_site_key && window.turnstile)
         ? window.turnstile.getResponse(turnstileWidget) : undefined
     };
