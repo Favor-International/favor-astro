@@ -221,6 +221,28 @@ export const TOPICS: Topic[] = [
     related: ['bible-translation', 'church-planting', '10-40-window'],
   },
   {
+    slug: 'karamoja',
+    title: 'Karamoja',
+    h1: 'The Gospel in Karamoja.',
+    promise: 'Kotido is a Favor mission station in Uganda’s Karamoja region. Field missionaries carry Portable Bible Schools, trauma healing, and a church into a place marked by hunger and cattle raiding.',
+    description: 'Favor International serves Karamoja from Kotido, Uganda, with indigenous missionaries, Portable Bible Schools, trauma counseling, and a church that stays.',
+    image: '/images/pbs-karamoja.jpg',
+    imageAlt: 'Portable Bible School graduates in Karamoja, Uganda',
+    keywords: ['Karamoja', 'conditions in Karamoja', 'Kotido Uganda missions'],
+    paragraphs: [
+      'Karamoja sits in northeastern Uganda. Kotido is one of Favor’s named mission stations there. The region is dry, poor, and marked by cattle raiding. Families often eat one meal a day and have little clean water. That is the ground the Gospel is taking.',
+      'Two field missionaries in Kotido led a Portable Bible School and trauma counseling with 150 in attendance. By the end of that school, 55 people had entrusted their lives to the Lord. A church born that summer kept meeting in the heat because hunger for the Word outweighed the rest.',
+      'Prayer covering from the US asks for open doors, wise translators, and safe travel as teams serve those communities. PBS graduates are sent to plant farther into Karamoja, the same pattern Favor uses across Uganda and South Sudan.',
+      'Conditions in Karamoja are why the work is holistic: discipleship, trauma healing, a local church, and practical care together. The missionaries already live there. Partners who pray and give keep them on that road.',
+    ],
+    programs: [
+      { label: 'Portable Bible Schools', href: '/impact/evangelism-discipleship/portable-bible-schools/' },
+      { label: 'Where we work', href: '/about/where-we-work/' },
+    ],
+    story: { label: 'Hungry and thirsty, Kotido', href: '/stories/hungry-and-thirsty/' },
+    related: ['tribal-conflict', 'famine', 'church-planting'],
+  },
+  {
     slug: 'prayer-movement',
     title: 'Prayer Movement',
     h1: 'A prayer movement that goes first.',
@@ -430,7 +452,7 @@ export const TOPIC_GROUPS: { label: string; intro: string; slugs: string[] }[] =
   {
     label: 'Where the Gospel still has not gone',
     intro: 'Geography and the people groups Favor is aiming at.',
-    slugs: ['sahel-desert-belt', '10-40-window', 'unreached-people-groups', 'war-zones', 'restricted-nations', 'nomadic-people-groups'],
+    slugs: ['sahel-desert-belt', '10-40-window', 'unreached-people-groups', 'war-zones', 'restricted-nations', 'nomadic-people-groups', 'karamoja'],
   },
   {
     label: 'How the movement works',
