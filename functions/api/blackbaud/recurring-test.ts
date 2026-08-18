@@ -1,25 +1,101 @@
 // GET /api/blackbaud/recurring-test?key=<BLACKBAUD_SETUP_KEY>
 //
-// Diagnostic for the monthly-giving outage (2026-08-17): executes exactly the
-// RecurringGift creation that donate-recurring performs in step 2 (no
-// payments array, so nothing is charged and no card is involved), against a
-// known constituent, and returns SKY's verbatim response. The created record
-// is deleted immediately. Pass &keep=1 to leave it for inspection in RE NXT.
-// Pass &prove_amount=1 to PATCH the gift from $1 to $2 (same SKY call the
-// partner portal uses for Jennifer-style amount changes), GET the readback,
-// then delete.
+// Diagnostic for RecurringGift create / amount PATCH. Nothing is charged:
+// charge_transaction is never set. Default post_status is DoNotPost.
+//
+// &prove_amount=1&gift_id=<id>  PATCH an existing RecurringGift on Will's
+//   test constituent (27202) from its current amount to +1, GET readback,
+//   then PATCH back. Same SKY payload the partner portal uses for amount
+//   changes. Does not touch other constituents.
+// &cleanup=1  DELETE leftover $1 RecurringGifts on 27202 whose reference
+//   marks them as DIAGNOSTIC (the keep=1 leftovers from 2026-08-17/18).
+// Create-path variants: &variant=bare|token|checkout, &keep=1.
 
 import { bbJson, deleteGiftQuietly, etGiftDate, nextMonthIso, BlackbaudError, type Env } from '../_lib/blackbaud';
 import { handleError, json, requireSetupKey } from '../_lib/http';
+
+const TEST_CONSTITUENT = '27202';
+
+type GiftDetail = {
+  id: string;
+  type?: string;
+  constituent_id?: string;
+  amount?: { value?: number };
+  reference?: string;
+  gift_splits?: Array<{ fund_id?: string; amount?: { value?: number } }>;
+};
+
+async function patchAmount(env: Env, gift: GiftDetail, amount: number): Promise<void> {
+  const fundId = gift.gift_splits?.[0]?.fund_id ?? '79';
+  await bbJson(env, `/gift/v1/gifts/${encodeURIComponent(gift.id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      amount: { value: amount },
+      gift_splits: [{ fund_id: fundId, amount: { value: amount } }],
+    }),
+  });
+}
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   try {
     requireSetupKey(env, request);
     const url = new URL(request.url);
-    const constituentId = url.searchParams.get('constituent_id') ?? '27202'; // Will's record
-    // Variants probe what SKY's new "payments field is required" validation
-    // accepts. None can charge anything: charge_transaction is never set and
-    // the tokens are fabricated UUIDs.
+    const constituentId = url.searchParams.get('constituent_id') ?? TEST_CONSTITUENT;
+    if (constituentId !== TEST_CONSTITUENT) {
+      return json({ ok: false, code: 'wrong_constituent', message: 'This diagnostic only runs against the test constituent.' }, 400);
+    }
+
+    if (url.searchParams.get('cleanup') === '1') {
+      const listed = await bbJson<{ value?: GiftDetail[] }>(
+        env,
+        `/gift/v1/gifts?constituent_id=${TEST_CONSTITUENT}&limit=25`
+      );
+      const deleted: string[] = [];
+      for (const row of listed.value ?? []) {
+        if (row.type !== 'RecurringGift') continue;
+        const detail = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(row.id)}`);
+        const ref = (detail.reference ?? '').toUpperCase();
+        if (detail.amount?.value === 1 && ref.includes('DIAGNOSTIC')) {
+          await deleteGiftQuietly(env, detail.id);
+          deleted.push(detail.id);
+        }
+      }
+      return json({ ok: true, cleanup: true, deleted });
+    }
+
+    const existingId = (url.searchParams.get('gift_id') ?? '').trim();
+    if (url.searchParams.get('prove_amount') === '1' && existingId) {
+      const gift = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(existingId)}`);
+      if (String(gift.constituent_id) !== TEST_CONSTITUENT) {
+        return json({ ok: false, code: 'wrong_constituent', message: 'Gift is not on the test constituent.' }, 400);
+      }
+      if (gift.type !== 'RecurringGift') {
+        return json({ ok: false, code: 'not_recurring', message: 'Only RecurringGift records can prove amount PATCH.' }, 400);
+      }
+      const original = gift.amount?.value ?? 1;
+      const patched = Math.round((original + 1) * 100) / 100;
+      await patchAmount(env, gift, patched);
+      let after: GiftDetail;
+      try {
+        after = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(gift.id)}`);
+      } finally {
+        await patchAmount(env, gift, original);
+      }
+      const restored = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(gift.id)}`);
+      return json({
+        ok: true,
+        gift_id: gift.id,
+        amount_proof: {
+          original,
+          patched,
+          readback: after.amount?.value,
+          patch_ok: after.amount?.value === patched,
+          restored: restored.amount?.value,
+          restored_ok: restored.amount?.value === original,
+        },
+      });
+    }
+
     const variant = url.searchParams.get('variant') ?? 'none';
     const payments =
       variant === 'bare' ? [{ payment_method: 'CreditCard' }]
@@ -32,7 +108,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       amount: { value: 1 },
       date: etGiftDate(),
       gift_status: 'Active',
-      post_status: url.searchParams.get('post') ?? 'NotPosted',
+      post_status: url.searchParams.get('post') ?? 'DoNotPost',
       is_anonymous: false,
       gift_splits: [{ fund_id: '79', amount: { value: 1 }, appeal_id: '2353', campaign_id: '223' }],
       reference: 'DIAGNOSTIC recurring test (auto-deleted)',
@@ -46,32 +122,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
         body: JSON.stringify(payload),
       });
       createdId = created.id;
-      let amountProof: { patched?: number; readback?: number; patch_ok?: boolean } | undefined;
-      if (url.searchParams.get('prove_amount') === '1') {
-        const amount = 2;
-        await bbJson(env, `/gift/v1/gifts/${encodeURIComponent(created.id)}`, {
-          method: 'PATCH',
-          body: JSON.stringify({
-            amount: { value: amount },
-            gift_splits: [{ fund_id: '79', amount: { value: amount } }],
-          }),
-        });
-        const read = await bbJson<{ amount?: { value?: number } }>(
-          env,
-          `/gift/v1/gifts/${encodeURIComponent(created.id)}`
-        );
-        amountProof = {
-          patched: amount,
-          readback: read.amount?.value,
-          patch_ok: read.amount?.value === amount,
-        };
-      }
       if (url.searchParams.get('keep') !== '1') await deleteGiftQuietly(env, created.id);
       return json({
         ok: true,
         created_id: created.id,
         deleted: url.searchParams.get('keep') !== '1',
-        ...(amountProof ? { amount_proof: amountProof } : {}),
       });
     } catch (err) {
       if (createdId && url.searchParams.get('keep') !== '1') {
