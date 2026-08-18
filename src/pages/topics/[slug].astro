@@ -1,0 +1,124 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import VideoEmbed from '../../components/global/VideoEmbed.astro';
+import { TOPICS, topicBySlug } from '../../data/topics';
+
+export function getStaticPaths() {
+  return TOPICS.map((topic) => ({ params: { slug: topic.slug } }));
+}
+
+const { slug } = Astro.params;
+const topic = topicBySlug(slug!)!;
+const related = topic.related.map((s) => topicBySlug(s)).filter(Boolean);
+---
+<RedesignLayout
+  title={topic.title}
+  description={topic.description}
+  image={topic.image}
+>
+  <PageHero
+    label="Topics"
+    title={topic.h1}
+    promise={topic.promise}
+    image={topic.image}
+    imageAlt={topic.imageAlt}
+    ctaLabel="Give to the field"
+    ctaHref="/give/donate/"
+    secondaryLabel="All topics"
+    secondaryHref="/topics/"
+  />
+
+  <section class="band band--white">
+    <div class="container container--narrow topic-copy">
+      {topic.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+
+  {topic.video && (
+    <section class="band band--cream">
+      <div class="container topic-video">
+        <div class="topic-video__copy">
+          <p class="label">From the field</p>
+          <h2>Watch how this looks on the ground.</h2>
+        </div>
+        <div class="topic-video__player">
+          <VideoEmbed id={topic.video.id} title={topic.video.title} />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="Go deeper" title="Programs and a field story." intro="These pages already carry the work in full. Start there if this topic is yours." />
+      <ul class="topic-links">
+        {topic.programs.map((p) => (
+          <li><a href={p.href}>{p.label}</a></li>
+        ))}
+        {topic.story && (
+          <li><a href={topic.story.href}>{topic.story.label}</a></li>
+        )}
+      </ul>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="band band--cream">
+      <div class="container">
+        <LeafHeading label="Related" title="Keep reading." leaves={false} />
+        <div class="topic-related">
+          {related.map((r) => (
+            <a href={`/topics/${r!.slug}/`}>
+              <strong>{r!.title}</strong>
+              <span>{r!.promise}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <RdCta
+    heading="Send an indigenous missionary."
+    body="A monthly $50 gift joins the partners who keep field leaders fed, fueled, and stocked with Scripture."
+    ctaLabel="Become a partner"
+    ctaHref="/give/partner-monthly/"
+    secondaryLabel="Pray today"
+    secondaryHref="/pray/"
+    background="white"
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching"
+  />
+</RedesignLayout>
+
+<style>
+  .topic-copy { display: grid; gap: var(--space-5); padding-top: var(--space-4); padding-bottom: var(--space-4); }
+  .topic-copy p { margin: 0; font-size: var(--rd-fs-body); line-height: 1.7; color: var(--color-ink); }
+  .topic-video {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-8);
+    align-items: center;
+  }
+  @media (max-width: 800px) { .topic-video { grid-template-columns: 1fr; } }
+  .topic-video__copy h2 { margin: var(--space-2) 0 0; color: var(--color-green-deep); }
+  .topic-links { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); max-width: 50ch; }
+  .topic-links a { color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; width: fit-content; display: inline-flex; }
+  .topic-related { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 800px) { .topic-related { grid-template-columns: 1fr; } }
+  .topic-related a {
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-card);
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-2);
+  }
+  .topic-related strong { color: var(--color-green-deep); font-size: 1.05rem; }
+  .topic-related span { color: var(--color-ink-soft); font-size: 0.92rem; line-height: 1.5; }
+</style>

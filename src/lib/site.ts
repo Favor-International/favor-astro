@@ -161,6 +161,7 @@ export const MEGA_NAV: MegaMenu[] = [
         { label: 'Vocational Program', href: '/impact/economic-empowerment/vocation/' },
       ] },
       { label: 'Stories from the Field', href: '/stories/' },
+      { label: 'Topics', href: '/topics/' },
       { label: 'Past Newsletters', href: '/newsletter/archive/' },
     ],
     featured: {

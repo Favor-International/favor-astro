@@ -1,7 +1,7 @@
 ---
 const segments = Astro.url.pathname.split('/').filter(Boolean);
 const labels: Record<string, string> = {
-  impact: 'Impact', give: 'Give', go: 'Go', about: 'About', pray: 'Pray',
+  impact: 'Impact', give: 'Give', go: 'Go', about: 'About', pray: 'Pray', learn: 'Learn', topics: 'Topics',
   'evangelism-discipleship': 'Evangelism & Discipleship', education: 'Education',
   'community-development': 'Community Development', 'economic-empowerment': 'Economic Empowerment',
   'partner-monthly': 'Become a Favor Partner', 'one-time': 'Give Once', 'specific-project': 'Specific Project',
@@ -13,6 +13,14 @@ const labels: Record<string, string> = {
   'gift-institute': 'GIFT', radio: 'Favor FM', foundation: 'Foundation Giving',
   'church-partnership': 'Church Partnership', 'church-partnerships': 'Church Partnerships',
   '30-day-guide': 'Nations Prayer Guide',
+  'sahel-desert-belt': 'Sahel Desert Belt', '10-40-window': '10/40 Window',
+  'trauma-healing': 'Trauma Healing', 'human-trafficking': 'Human Trafficking',
+  'great-commission': 'Great Commission', 'war-zones': 'War Zones',
+  'indigenous-leaders': 'Indigenous Leaders', 'restricted-nations': 'Restricted Nations',
+  'unreached-people-groups': 'Unreached People Groups', 'prayer-movement': 'Prayer Movement',
+  discipleship: 'Discipleship', famine: 'Famine', 'tribal-conflict': 'Tribal Conflict',
+  'nomadic-people-groups': 'Nomadic People Groups', 'rural-education': 'Rural Education',
+  'women-empowerment': 'Women Empowerment', 'bible-translation': 'Bible Translation',
 };
 const crumbs = segments.map((segment, index) => ({
   label: labels[segment] || segment.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),

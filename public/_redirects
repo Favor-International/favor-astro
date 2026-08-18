@@ -4,6 +4,16 @@
 # not listed here is functions/_middleware.ts (404 -> 301 to /), because a
 # /* rule here runs before static assets and would break the live site.
 /sitemap.xml /sitemap-index.xml 301
+/topics/starvation /topics/famine/ 301
+/topics/starvation/ /topics/famine/ 301
+/topics/terrorist-areas /topics/restricted-nations/ 301
+/topics/terrorist-areas/ /topics/restricted-nations/ 301
+/topics/upg /topics/unreached-people-groups/ 301
+/topics/upg/ /topics/unreached-people-groups/ 301
+/topics/sahel /topics/sahel-desert-belt/ 301
+/topics/sahel/ /topics/sahel-desert-belt/ 301
+/topics/sahel-desert /topics/sahel-desert-belt/ 301
+/topics/sahel-desert/ /topics/sahel-desert-belt/ 301
 /watch /learn/ 301
 /watch/ /learn/ 301
 /about /about/ 301

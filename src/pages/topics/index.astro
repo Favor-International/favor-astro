@@ -1,0 +1,98 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import { TOPIC_GROUPS, topicBySlug } from '../../data/topics';
+---
+<RedesignLayout
+  title="Topics"
+  description="Sahel, the 10/40 window, trauma healing, unreached people groups, church planting, and the other fields of Favor’s work, explained from the ground."
+  image="/images/hero-pastor-preaching.jpg"
+>
+  <PageHero
+    label="Learn"
+    title="Topics from the field."
+    promise="Sahel, trauma healing, unreached people groups, church planting, and the rest of the work named from the field. Each page is tied to a program or story already on this site."
+    image="/images/hero-pastor-preaching.jpg"
+    imageAlt="An indigenous pastor preaching in the field"
+    ctaLabel="Start with indigenous leaders"
+    ctaHref="/topics/indigenous-leaders/"
+    secondaryLabel="Or watch the films"
+    secondaryHref="/learn/"
+  />
+
+  {TOPIC_GROUPS.map((g) => (
+    <section class="band band--white">
+      <div class="container">
+        <LeafHeading label="Topics" title={g.label} intro={g.intro} />
+        <div class="topic-grid">
+          {g.slugs.map((slug) => {
+            const t = topicBySlug(slug)!;
+            return (
+              <a class="topic-card" href={`/topics/${t.slug}/`}>
+                <span class="topic-card__photo" style={`background-image:url(${t.image})`} role="img" aria-label={t.imageAlt}></span>
+                <span class="topic-card__body">
+                  <h2>{t.title}</h2>
+                  <p>{t.promise}</p>
+                  <span class="topic-card__more">Read &rarr;</span>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <RdCta
+    heading="Pray these topics by name."
+    body="The Nations Prayer Guide walks one specific request a day across the field. A monthly gift keeps the people who live this work on the road."
+    ctaLabel="Open the prayer guide"
+    ctaHref="/pray/30-day-guide/"
+    secondaryLabel="Become a monthly partner"
+    secondaryHref="/give/partner-monthly/"
+    background="cream"
+    image="/images/field-2026/prayer-6.webp"
+    imageAlt="A Favor prayer gathering"
+  />
+</RedesignLayout>
+
+<style>
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  @media (max-width: 900px) { .topic-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .topic-grid { grid-template-columns: 1fr; } }
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: transform 160ms ease, border-color 160ms ease;
+  }
+  .topic-card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--color-green) 35%, transparent); }
+  .topic-card__photo {
+    display: block;
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center 30%;
+  }
+  .topic-card__body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .topic-card__body h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--color-green-deep);
+    line-height: 1.25;
+  }
+  .topic-card__body p { margin: 0; color: var(--color-ink-soft); font-size: 0.95rem; line-height: 1.55; }
+  .topic-card__more { margin-top: auto; color: var(--color-green); font-weight: 700; }
+</style>

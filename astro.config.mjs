@@ -7,8 +7,11 @@ export default defineConfig({
   site: 'https://favorintl.org',
   output: 'static',
   redirects: {
-    // Church partnerships moved under /go/ (2026-07-08) so the GO menu
-    // highlights correctly when visiting it.
+    '/topics/starvation/': '/topics/famine/',
+    '/topics/terrorist-areas/': '/topics/restricted-nations/',
+    '/topics/upg/': '/topics/unreached-people-groups/',
+    '/topics/sahel/': '/topics/sahel-desert-belt/',
+    '/topics/sahel-desert/': '/topics/sahel-desert-belt/',
   },
   integrations: [
     // /give/thank-you/ is a post-gift confirmation (noindex); keep it out

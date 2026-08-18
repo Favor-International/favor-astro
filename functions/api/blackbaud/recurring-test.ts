@@ -5,6 +5,9 @@
 // payments array, so nothing is charged and no card is involved), against a
 // known constituent, and returns SKY's verbatim response. The created record
 // is deleted immediately. Pass &keep=1 to leave it for inspection in RE NXT.
+// Pass &prove_amount=1 to PATCH the gift from $1 to $2 (same SKY call the
+// partner portal uses for Jennifer-style amount changes), GET the readback,
+// then delete.
 
 import { bbJson, deleteGiftQuietly, etGiftDate, nextMonthIso, BlackbaudError, type Env } from '../_lib/blackbaud';
 import { handleError, json, requireSetupKey } from '../_lib/http';
@@ -36,14 +39,44 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       recurring_gift_schedule: { frequency: 'MONTHLY', start_date: nextMonthIso() },
     };
     if (payments) payload.payments = payments;
+    let createdId: string | undefined;
     try {
       const created = await bbJson<{ id: string }>(env, '/gift/v1/gifts', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
+      createdId = created.id;
+      let amountProof: { patched?: number; readback?: number; patch_ok?: boolean } | undefined;
+      if (url.searchParams.get('prove_amount') === '1') {
+        const amount = 2;
+        await bbJson(env, `/gift/v1/gifts/${encodeURIComponent(created.id)}`, {
+          method: 'PATCH',
+          body: JSON.stringify({
+            amount: { value: amount },
+            gift_splits: [{ fund_id: '79', amount: { value: amount } }],
+          }),
+        });
+        const read = await bbJson<{ amount?: { value?: number } }>(
+          env,
+          `/gift/v1/gifts/${encodeURIComponent(created.id)}`
+        );
+        amountProof = {
+          patched: amount,
+          readback: read.amount?.value,
+          patch_ok: read.amount?.value === amount,
+        };
+      }
       if (url.searchParams.get('keep') !== '1') await deleteGiftQuietly(env, created.id);
-      return json({ ok: true, created_id: created.id, deleted: url.searchParams.get('keep') !== '1' });
+      return json({
+        ok: true,
+        created_id: created.id,
+        deleted: url.searchParams.get('keep') !== '1',
+        ...(amountProof ? { amount_proof: amountProof } : {}),
+      });
     } catch (err) {
+      if (createdId && url.searchParams.get('keep') !== '1') {
+        await deleteGiftQuietly(env, createdId);
+      }
       if (err instanceof BlackbaudError) {
         return json({ ok: false, sky_status: err.status, code: err.code, message: err.message, detail: err.detail ?? null });
       }

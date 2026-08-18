@@ -5,6 +5,7 @@ import { PROGRAMS } from '../data/programs';
 import directorsData from '../data/directors.json';
 import storiesData from '../data/stories.json';
 import { isPublicFieldStory } from '../lib/publicContent';
+import { TOPICS } from '../data/topics';
 
 // Human-friendly sitemap of every page on the site, for working without the
 // menu. Dynamic routes are built from the same data files as the pages
@@ -63,11 +64,15 @@ const about = [
 ];
 
 const media = [
-
+  { href: '/learn/', label: 'Learn (films and teachings)' },
+  { href: '/topics/', label: 'Topics' },
+  { href: '/books/', label: 'Books' },
   { href: '/newsletter/', label: 'Newsletter' },
   { href: '/newsletter/archive/', label: 'Newsletter Archive' },
   { href: '/stories/', label: 'Stories (index)' },
 ];
+
+const topics = TOPICS.map((t) => ({ href: `/topics/${t.slug}/`, label: t.title }));
 
 const totalPages =
   1 /* home */ +
@@ -80,6 +85,7 @@ const totalPages =
   about.length +
   people.length +
   media.length +
+  topics.length +
   stories.length +
   1; /* this page */
 ---
@@ -152,6 +158,13 @@ const totalPages =
             <h2>Media</h2>
             <ul>
               {media.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </article>
+
+          <article class="sitemap-group">
+            <h2>Topics</h2>
+            <ul>
+              {topics.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
             </ul>
           </article>
         </div>

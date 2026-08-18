@@ -13,6 +13,7 @@
 
 import geo from '../../data/africa-geo.json';
 import pbs from '../../data/africa-pbs.json';
+import stations from '../../data/africa-stations.json';
 import { FIELD_STATS } from '../../lib/site';
 
 const { countries, labels, view } = geo as {
@@ -21,11 +22,12 @@ const { countries, labels, view } = geo as {
   countries: { name: string; reached: boolean; cx: number; cy: number; d: string }[];
   labels: { lines: string[]; x: number; y: number; fs: number; anchor: string; leader: [number, number] | null }[];
 };
-const { dots, orange, green } = pbs as {
+const { dots } = pbs as {
   dots: [number, number, number][];
-  orange: [number, number][];
-  green: [number, number][];
 };
+type Station = { name: string; country: string; x: number; y: number };
+const mission = (stations as { mission: Station[]; future: Station[] }).mission;
+const future = (stations as { mission: Station[]; future: Station[] }).future;
 
 // Mission-station markers are larger dots, distinct from the small PBS dots.
 const STATION_R = 13;
@@ -54,8 +56,8 @@ const { showStats = true, note } = Astro.props as Props;
       <p class="eyebrow eyebrow--gold">Your partnership puts you on the mission field</p>
       <h2 class="africa-map__h2">Every point is a place the Gospel has reached.</h2>
       <p class="africa-map__lede">
-        Across East and Central Africa: the communities reached through Portable Bible Schools,
-        the mission stations standing today, and the ones you are helping to plant next.
+        Across East and Central Africa: Portable Bible Schools (red), the mission stations
+        standing today (green), and the stations still to plant (blue).
       </p>
     </header>
 
@@ -106,15 +108,29 @@ const { showStats = true, note } = Astro.props as Props;
           ))}
         </g>
 
-        <g class="africa-map__stations africa-map__stations--station" aria-hidden="true">
-          {green.map(([x, y]) => <circle cx={x} cy={y} r={STATION_R} style={`transition-delay:${delay(x, y) + 300}ms`} />)}
+        <g class="africa-map__stations africa-map__stations--station">
+          {mission.map((s) => (
+            <g style={`transition-delay:${delay(s.x, s.y) + 300}ms`}>
+              <circle cx={s.x} cy={s.y} r={STATION_R}>
+                <title>{s.name}, {s.country} (mission station)</title>
+              </circle>
+              <text x={s.x + 20} y={s.y + 6} class="africa-map__station-label">{s.name}</text>
+            </g>
+          ))}
         </g>
-        <g class="africa-map__stations africa-map__stations--future" aria-hidden="true">
-          {orange.map(([x, y]) => <circle cx={x} cy={y} r={STATION_R} style={`transition-delay:${delay(x, y) + 300}ms`} />)}
+        <g class="africa-map__stations africa-map__stations--future">
+          {future.map((s) => (
+            <g style={`transition-delay:${delay(s.x, s.y) + 300}ms`}>
+              <circle cx={s.x} cy={s.y} r={STATION_R}>
+                <title>{s.name} (future mission station)</title>
+              </circle>
+              <text x={s.x + 20} y={s.y + 6} class="africa-map__station-label">{s.name}</text>
+            </g>
+          ))}
         </g>
       </svg>
       <figcaption class="africa-map__caption">
-        Mission stations and Portable Bible School coverage across Favor's field, 2025.
+        Named mission stations and Portable Bible School coverage across Favor's field.
       </figcaption>
     </figure>
 
@@ -211,11 +227,21 @@ const { showStats = true, note } = Astro.props as Props;
   .africa-map__stations circle { stroke: #ffffff; stroke-width: 2.5; paint-order: stroke; }
   .africa-map__stations--future circle { fill: #1f6fb8; }
   .africa-map__stations--station circle { fill: #179c47; }
+  .africa-map__station-label {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 28px;
+    fill: #111111;
+    stroke: rgba(255, 255, 255, 0.88);
+    stroke-width: 3px;
+    paint-order: stroke fill;
+    pointer-events: none;
+  }
 
   /* Ripple-in reveal: dots start collapsed + invisible, then scale/fade
      to full, staggered by their inline transition-delay. */
   .africa-map__dots circle,
-  .africa-map__stations circle {
+  .africa-map__stations g {
     opacity: 0;
     transform: scale(0.3);
     transform-box: fill-box;
@@ -223,7 +249,7 @@ const { showStats = true, note } = Astro.props as Props;
     transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .africa-map__svg.is-revealed .africa-map__dots circle { opacity: 0.92; transform: scale(1); }
-  .africa-map__svg.is-revealed .africa-map__stations circle { opacity: 1; transform: scale(1); }
+  .africa-map__svg.is-revealed .africa-map__stations g { opacity: 1; transform: scale(1); }
 
   /* Map key */
   .africa-map__key {
