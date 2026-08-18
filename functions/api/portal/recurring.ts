@@ -10,7 +10,10 @@
 // constituent found for the supplied email. Actions map to:
 //   pause/resume/cancel -> PUT  /gift/v1/recurringgifts/{id}/status
 //                          (Held / Active / Terminated)
-//   amount              -> PATCH /gift/v1/gifts/{id} (amount + gift_splits)
+//   amount              -> PATCH /gift/v1/gifts/{id} then GET to confirm.
+//                          SKY often returns 200 without applying an amount
+//                          amendment on RecurringGift. If the readback does
+//                          not match, we return 502 instead of lying.
 //
 // Auth: Authorization: Bearer <PORTAL_API_KEY> (same trust pair as
 // giving-history).
@@ -157,6 +160,14 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv & { PORTAL_API_KEY?: 
           gift_splits: [splitBody],
         }),
       });
+      const read = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(giftId)}`);
+      if (read.amount?.value !== amount) {
+        return errorJson(
+          'amount_not_applied',
+          'Blackbaud accepted the request but the schedule amount did not change. Email the office to amend the gift in Raisers Edge.',
+          502
+        );
+      }
       return json({ ok: true, amount });
     }
 
