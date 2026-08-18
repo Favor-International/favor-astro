@@ -150,21 +150,24 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       waitUntil(ensureOrgContact(env, constituentId, donor));
     }
 
-    // Instant portal visibility: the sync runs every 12 hours, so the gift is
-    // pushed into the sync database now, keyed on the Blackbaud gift id the
-    // sync will later upsert. Runs after the response; can never block a gift.
-    waitUntil(
-      pushGiftRealtime(env, {
-        id: gift.id,
-        constituent_id: constituentId,
-        amount: total,
-        date: etGiftDate(),
-        type: 'Donation',
-        gift_splits: [{ ...split, id: gift.id }],
-        payment_method: 'CreditCard',
-        raw_json: { is_anonymous: body.anonymous === true, source: 'realtime-web' },
-      })
-    );
+    // Instant portal visibility: write the gift (and the donor email) into
+    // the sync database before the thank-you login, so the dashboard is not
+    // empty if they open it immediately. Still never fails the gift.
+    const giftDate = etGiftDate();
+    await pushGiftRealtime(env, {
+      id: gift.id,
+      constituent_id: constituentId,
+      amount: total,
+      date: giftDate,
+      type: 'Donation',
+      gift_splits: [{ ...split, id: gift.id }],
+      payment_method: 'CreditCard',
+      raw_json: { is_anonymous: body.anonymous === true, source: 'realtime-web' },
+      email: donor.email,
+      first: donor.first,
+      last: donor.last,
+      org_name: donor.org_name,
+    });
 
     // Portal account + welcome email + one-time dashboard login for the
     // thank-you page. Best effort; never blocks or fails the gift.
@@ -177,6 +180,8 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       frequency: 'once',
       designation: designation.label,
       constituent_id: constituentId,
+      gift_id: gift.id,
+      gift_date: giftDate,
     });
 
     const result = {

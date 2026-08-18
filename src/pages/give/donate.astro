@@ -3,6 +3,7 @@ import RedesignLayout from '../../layouts/RedesignLayout.astro';
 import Leaf from '../../components/redesign/Leaf.astro';
 import DonationForm from '../../components/give/DonationForm.astro';
 import OtherWaysToGive from '../../components/give/OtherWaysToGive.astro';
+import StateSolicitationDisclosures from '../../components/give/StateSolicitationDisclosures.astro';
 import { SITE } from '../../lib/site';
 
 // Native Blackbaud SKY API giving (2026-07-21). The old page embedded the
@@ -38,6 +39,7 @@ import { SITE } from '../../lib/site';
         <cite>Luke 10:2 &middot; NKJV</cite>
       </blockquote>
       <p class="donate-trust">Favor International is a 501(c)(3) public charity, EIN {SITE.ein} &middot; <a href={SITE.trust.ecfa} target="_blank" rel="noopener">ECFA-accredited</a> &middot; Tax-deductible &middot; <a href="/about/accountability/">See our financials</a></p>
+      <StateSolicitationDisclosures />
     </div>
   </section>
 
@@ -90,6 +92,7 @@ import { SITE } from '../../lib/site';
   }
   .donate-trust { text-align: center; margin: var(--space-8) 0 0; font-size: 0.9rem; color: var(--color-sage); }
   .donate-trust a { color: var(--color-gold-deep); font-weight: 700; }
+  .donate-form-band :global(.give-legal) { margin-top: var(--space-5); }
   .donate-alt { text-align: center; margin: var(--space-3) 0 0; font-size: 0.9rem; color: var(--color-ink-soft); }
   .donate-alt a { color: var(--color-green); font-weight: 700; }
 </style>

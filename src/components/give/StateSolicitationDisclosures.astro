@@ -1,0 +1,68 @@
+---
+// State charitable solicitation notices. Wording from Daniel Casella,
+// 2026-08-07. Required ALL CAPS lines stay as received. Do not paraphrase.
+---
+<details class="give-legal">
+  <summary>Tax and state charity disclosures</summary>
+  <div class="give-legal__body">
+    <p>Favor International, Inc. is a nonprofit organization recognized as tax-exempt under Internal Revenue Code section 501(c)(3). Contributions are tax-deductible to the extent permitted by law. Our principal office is located at 3433 Lithia Pinecrest Rd #356, Valrico, FL 33596. Financial and other information about Favor International, Inc&rsquo;s purpose, programs, and activities can be obtained by contacting us at <a href="mailto:info@favorintl.org">info@favorintl.org</a>, or as stated below:</p>
+    <p><strong>Colorado:</strong> Colorado residents may obtain copies of registration and financial documents from the office of the Secretary of State, (303) 894-2200 or <a href="https://www.sos.state.co.us" target="_blank" rel="noopener">www.sos.state.co.us</a>, Reg. No. 20233031707.</p>
+    <p><strong>Florida:</strong> A COPY OF THE OFFICIAL REGISTRATION AND FINANCIAL INFORMATION MAY BE OBTAINED FROM THE DIVISION OF CONSUMER SERVICES BY VISITING <a href="https://www.fdacs.gov" target="_blank" rel="noopener">WWW.FDACS.GOV</a> OR CALLING TOLL-FREE 1-800-HELP-FLA (1-800-435-7352) WITHIN THE STATE. REGISTRATION DOES NOT IMPLY ENDORSEMENT, APPROVAL, OR RECOMMENDATION BY THE STATE. (REGISTRATION NO. CH57842)</p>
+    <p><strong>Georgia:</strong> A full and fair description of the programs and financial statement summary of Favor International Inc is available upon request at the address indicated above.</p>
+    <p><strong>Illinois:</strong> Contracts and reports regarding Favor International Inc are on file with the Illinois Attorney General.</p>
+    <p><strong>Kansas:</strong> The annual financial report for the preceding fiscal year is on file with the Kansas Secretary of State.</p>
+    <p><strong>Maryland:</strong> For the cost of copies and postage, documents and information submitted under the Maryland Solicitations Act are available from the Secretary of State, State House, Annapolis, MD 21401, (410) 974-5534.</p>
+    <p><strong>Michigan:</strong> MICS No. 68939.</p>
+    <p><strong>Mississippi:</strong> The official registration and financial information of Favor International Inc may be obtained from the Mississippi Secretary of State&rsquo;s office by calling 1-888-236-6167.</p>
+    <p><strong>New Jersey:</strong> INFORMATION FILED WITH THE ATTORNEY GENERAL CONCERNING THIS CHARITABLE SOLICITATION AND THE PERCENTAGE OF CONTRIBUTIONS RECEIVED BY THE CHARITY DURING THE LAST REPORTING PERIOD THAT WERE DEDICATED TO THE CHARITABLE PURPOSE MAY BE OBTAINED FROM THE ATTORNEY GENERAL OF THE STATE OF NEW JERSEY BY CALLING (973) 504-6215 AND IS AVAILABLE ON THE INTERNET AT <a href="https://www.njconsumeraffairs.gov/ocp.htm#charity" target="_blank" rel="noopener">www.njconsumeraffairs.gov/ocp.htm#charity</a>. REGISTRATION WITH THE ATTORNEY GENERAL DOES NOT IMPLY ENDORSEMENT.</p>
+    <p><strong>New York:</strong> A copy of the most recent annual report is available from the Charities Bureau, Department of Law, 28 Liberty Street, New York, NY 10005 or by calling (212) 416-8686 or online at <a href="https://www.charitiesnys.com" target="_blank" rel="noopener">www.charitiesnys.com</a>.</p>
+    <p><strong>North Carolina:</strong> Financial information about Favor International Inc and a copy of its license are available from the State Solicitation Licensing Branch at 1-888-830-4989. This license is not an endorsement by the state.</p>
+    <p><strong>Oregon:</strong> Registration in no way implies endorsement of Favor International Inc by the state of Oregon.</p>
+    <p><strong>Pennsylvania:</strong> The official registration and financial information of Favor International Inc may be obtained from the Pennsylvania Department of State by calling toll-free, within Pennsylvania, 1-800-732-0999. Registration does not imply endorsement.</p>
+    <p><strong>Virginia:</strong> A financial statement is available from the State Division of Consumer Protection, Department of Agriculture and Consumer Services, P.O. Box 1163, Richmond, VA 23218.</p>
+    <p><strong>Washington:</strong> The required notice of solicitation is on file with the Washington Secretary of State. Additional financial disclosure information may be obtained by calling 1-800-332-4483 or visiting <a href="https://www.sos.wa.gov/charities" target="_blank" rel="noopener">www.sos.wa.gov/charities</a>.</p>
+    <p><strong>West Virginia:</strong> West Virginia residents may obtain a summary of the registration and financial documents from the Secretary of State, State Capitol, Charleston, WV 25305. Registration does not imply endorsement.</p>
+    <p><strong>Wisconsin:</strong> A financial statement disclosing the assets, liabilities, fund balances, revenue, and expenses of Favor International Inc for the preceding fiscal year will be provided to any person upon request. Registration with any state agency does not imply endorsement, approval, or recommendation by any state.</p>
+  </div>
+</details>
+
+<style>
+  .give-legal {
+    margin: var(--space-5) auto 0;
+    max-width: 68ch;
+    border-top: 1px solid var(--color-border);
+    text-align: left;
+  }
+  .give-legal summary {
+    cursor: pointer;
+    list-style: none;
+    padding: var(--space-3) 0 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-sage);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .give-legal summary::-webkit-details-marker { display: none; }
+  .give-legal summary::before {
+    content: '+';
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--color-gold-deep);
+    font-weight: 800;
+  }
+  .give-legal[open] summary::before { content: '\2013'; }
+  .give-legal summary:hover { color: var(--color-green); }
+  .give-legal__body {
+    display: grid;
+    gap: 0.85em;
+    padding: var(--space-4) 0 var(--space-2);
+    font-size: 0.72rem;
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+  }
+  .give-legal__body p { margin: 0; }
+  .give-legal__body a { color: var(--color-gold-deep); font-weight: 700; }
+  .give-legal__body strong { color: var(--color-ink); }
+</style>

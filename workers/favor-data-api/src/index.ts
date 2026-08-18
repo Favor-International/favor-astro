@@ -7,7 +7,9 @@
 //                                     shape as favor-astro's SKY-backed
 //                                     endpoint so the portal needs no changes
 //   POST /gifts/realtime              insert a just-completed gift so the
-//                                     donor sees it before the next sync
+//                                     donor sees it before the next sync.
+//                                     Also stubs the constituent + email so
+//                                     GET /giving-history?email= finds it.
 //
 // Realtime rows and the sync cannot duplicate: gifts.id is the Blackbaud
 // gift id and the table's primary key. We INSERT OR IGNORE; Daniel's sync
@@ -201,6 +203,54 @@ interface RealtimeGift {
   payment_method?: unknown;
   gift_splits?: unknown;
   raw_json?: unknown;
+  email?: unknown;
+  first?: unknown;
+  last?: unknown;
+  org_name?: unknown;
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// giving-history joins gifts through emails. A brand-new web donor has a
+// Blackbaud constituent and gift, but Daniel's sync has not copied the email
+// row yet, so lookup-by-email returned nobody and the portal showed $0.
+// These stubs use the real Blackbaud constituent id (the sync upserts that
+// PK) and a provisional email id prefixed "rt-" so it cannot collide with a
+// numeric Blackbaud email-address id.
+async function upsertDonorLookup(env: Env, body: RealtimeGift, constituentId: string, now: string): Promise<void> {
+  const email = String(body.email ?? '').trim().toLowerCase();
+  if (!EMAIL_RE.test(email)) return;
+
+  const orgName = String(body.org_name ?? '').trim();
+  const first = String(body.first ?? '').trim() || null;
+  const last = String(body.last ?? '').trim() || null;
+  const constituentType = orgName ? 'Organization' : 'Individual';
+  const stubJson = JSON.stringify({ source: 'realtime-web' });
+
+  await env.DB.prepare(
+    `INSERT INTO constituents (id, date_added, date_modified, constituent_type, first_name, last_name,
+                               organization_name, deceased, inactive, raw_json, synced_at)
+     VALUES (?1, ?2, ?2, ?3, ?4, ?5, ?6, 0, 0, ?7, ?2)
+     ON CONFLICT(id) DO NOTHING`
+  )
+    .bind(constituentId, now, constituentType, orgName ? null : first, orgName ? null : last, orgName || null, stubJson)
+    .run();
+
+  const already = await env.DB.prepare(
+    `SELECT id FROM emails WHERE constituent_record_id = ?1 AND lower(email_address) = ?2 LIMIT 1`
+  )
+    .bind(constituentId, email)
+    .first<{ id: string }>();
+  if (already) return;
+
+  await env.DB.prepare(
+    `INSERT INTO emails (id, date_added, date_modified, constituent_record_id, email_address,
+                         is_primary, do_not_email, is_inactive, raw_json, synced_at)
+     VALUES (?1, ?2, ?2, ?3, ?4, 1, 0, 0, ?5, ?2)
+     ON CONFLICT(id) DO NOTHING`
+  )
+    .bind(`rt-${constituentId}-${email.replace(/[^a-z0-9]+/g, '-')}`, now, constituentId, email, stubJson)
+    .run();
 }
 
 async function realtimeGift(env: Env, body: RealtimeGift): Promise<Response> {
@@ -218,6 +268,15 @@ async function realtimeGift(env: Env, body: RealtimeGift): Promise<Response> {
     return json({ ok: false, error: 'id and constituent_id must be Blackbaud numeric ids' }, 400);
   }
   const now = new Date().toISOString();
+  try {
+    await upsertDonorLookup(env, body, constituentId, now);
+  } catch (err) {
+    console.error(
+      `[favor-data-api] donor lookup upsert for constituent ${constituentId} failed: ${
+        err instanceof Error ? err.message : String(err)
+      }`
+    );
+  }
   const res = await env.DB.prepare(
     `INSERT INTO gifts (id, date_added, date_modified, gift_amount, gift_date, gift_type,
                         gift_status, gift_splits, constituent_record_id, gift_payment_method,
@@ -267,7 +326,7 @@ export default {
         // email, which broke recurring-gift management for anyone whose
         // portal email is a secondary address (Jennifer Morris, 2026-08-07).
         const email = (url.searchParams.get('email') ?? '').trim().toLowerCase();
-        if (!/^[^s@]+@[^s@]+.[^s@]{2,}$/.test(email)) {
+        if (!EMAIL_RE.test(email)) {
           return json({ ok: false, error: 'valid email required' }, 400);
         }
         const rows = await env.DB.prepare(

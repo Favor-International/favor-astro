@@ -28,6 +28,11 @@ export interface RealtimeGiftPush {
   gift_splits: unknown[];
   payment_method?: string;
   raw_json?: Record<string, unknown>;
+  /** Lets giving-history find this gift by email before Daniel's 12-hour sync. */
+  email?: string;
+  first?: string;
+  last?: string;
+  org_name?: string;
 }
 
 export async function pushGiftRealtime(env: DataApiEnv, gift: RealtimeGiftPush): Promise<void> {

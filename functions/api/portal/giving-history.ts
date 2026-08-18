@@ -132,11 +132,26 @@ export const onRequestGet: PagesFunction<Env & { PORTAL_API_KEY?: string }> = as
           }
         );
         if (res.ok) {
-          return new Response(await res.text(), {
-            headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-          });
+          const text = await res.text();
+          let hasConstituent = false;
+          try {
+            const parsed = JSON.parse(text) as { ok?: boolean; constituent?: { id?: string } | null };
+            hasConstituent = Boolean(parsed.ok && parsed.constituent?.id);
+          } catch {
+            hasConstituent = false;
+          }
+          // Empty 200 (brand-new donor, email not in the sync DB yet) used to
+          // short-circuit SKY, so a gift that Blackbaud had just accepted
+          // never appeared on first login. Fall through so SKY can find it.
+          if (hasConstituent) {
+            return new Response(text, {
+              headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+            });
+          }
+          console.warn('[portal/giving-history] data api had no constituent; falling back to SKY');
+        } else {
+          console.error(`[portal/giving-history] data api returned ${res.status}; falling back to SKY`);
         }
-        console.error(`[portal/giving-history] data api returned ${res.status}; falling back to SKY`);
       } catch (err) {
         console.error(
           `[portal/giving-history] data api unreachable (${err instanceof Error ? err.message : err}); falling back to SKY`

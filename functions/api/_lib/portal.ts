@@ -14,6 +14,11 @@ export interface GiftCompletedInput {
   frequency: 'once' | 'monthly';
   designation: string;
   constituent_id?: string;
+  /** Blackbaud gift id for the money row (Donation or RecurringGiftPayment). */
+  gift_id?: string;
+  /** RecurringGiftPayment id when frequency is monthly; preferred over gift_id for history. */
+  payment_gift_id?: string;
+  gift_date?: string;
 }
 
 export async function notifyPortalGiftCompleted(

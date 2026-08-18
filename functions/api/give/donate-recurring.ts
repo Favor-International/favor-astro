@@ -207,10 +207,16 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     // Instant portal visibility for both records: the schedule (drives the
     // portal's "active recurring" count) and the charged first installment
-    // (drives the history and totals). Keyed on the Blackbaud gift ids the
-    // 12-hourly sync will upsert. Never blocks the gift.
+    // (drives the history and totals). Awaited so a thank-you login a few
+    // seconds later can see the payment. Never fails the gift.
     const nowIso = etGiftDate();
-    waitUntil(
+    const donorLookup = {
+      email: donor.email,
+      first: donor.first,
+      last: donor.last,
+      org_name: donor.org_name,
+    };
+    await Promise.all([
       pushGiftRealtime(env, {
         id: recurring.id,
         constituent_id: constituentId,
@@ -224,9 +230,8 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
           recurring_gift_schedule: { frequency: 'MONTHLY' },
           source: 'realtime-web',
         },
-      })
-    );
-    waitUntil(
+        ...donorLookup,
+      }),
       pushGiftRealtime(env, {
         id: payment.id,
         constituent_id: constituentId,
@@ -236,8 +241,9 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
         gift_splits: [{ ...split, id: payment.id }],
         payment_method: 'CreditCard',
         raw_json: { is_anonymous: body.anonymous === true, source: 'realtime-web' },
-      })
-    );
+        ...donorLookup,
+      }),
+    ]);
 
     const portalLoginUrl = await notifyPortalGiftCompleted(env, {
       email: donor.email,
@@ -248,6 +254,9 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       frequency: 'monthly',
       designation: designation.label,
       constituent_id: constituentId,
+      gift_id: recurring.id,
+      payment_gift_id: payment.id,
+      gift_date: nowIso,
     });
 
     const result = {
