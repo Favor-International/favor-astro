@@ -12,7 +12,7 @@
 // Create-path variants: &variant=bare|token|checkout, &keep=1.
 
 import { bbJson, deleteGiftQuietly, etGiftDate, nextMonthIso, BlackbaudError, type Env } from '../_lib/blackbaud';
-import { handleError, json, requireSetupKey } from '../_lib/http';
+import { json, requireSetupKey } from '../_lib/http';
 
 const TEST_CONSTITUENT = '27202';
 
@@ -22,16 +22,19 @@ type GiftDetail = {
   constituent_id?: string;
   amount?: { value?: number };
   reference?: string;
-  gift_splits?: Array<{ fund_id?: string; amount?: { value?: number } }>;
+  gift_splits?: Array<{ id?: string; fund_id?: string; amount?: { value?: number } }>;
 };
 
 async function patchAmount(env: Env, gift: GiftDetail, amount: number): Promise<void> {
-  const fundId = gift.gift_splits?.[0]?.fund_id ?? '79';
+  const split = gift.gift_splits?.[0];
+  const fundId = split?.fund_id ?? '79';
+  const splitBody: Record<string, unknown> = { fund_id: fundId, amount: { value: amount } };
+  if (split?.id) splitBody.id = split.id;
   await bbJson(env, `/gift/v1/gifts/${encodeURIComponent(gift.id)}`, {
     method: 'PATCH',
     body: JSON.stringify({
       amount: { value: amount },
-      gift_splits: [{ fund_id: fundId, amount: { value: amount } }],
+      gift_splits: [splitBody],
     }),
   });
 }
@@ -64,6 +67,21 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     }
 
     const existingId = (url.searchParams.get('gift_id') ?? '').trim();
+    if (url.searchParams.get('inspect') === '1' && existingId) {
+      const gift = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(existingId)}`);
+      if (String(gift.constituent_id) !== TEST_CONSTITUENT) {
+        return json({ ok: false, code: 'wrong_constituent', message: 'Gift is not on the test constituent.' }, 400);
+      }
+      return json({
+        ok: true,
+        id: gift.id,
+        type: gift.type,
+        amount: gift.amount?.value,
+        reference: gift.reference ?? null,
+        splits: gift.gift_splits ?? [],
+      });
+    }
+
     if (url.searchParams.get('prove_amount') === '1' && existingId) {
       const gift = await bbJson<GiftDetail>(env, `/gift/v1/gifts/${encodeURIComponent(existingId)}`);
       if (String(gift.constituent_id) !== TEST_CONSTITUENT) {
@@ -138,6 +156,13 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       throw err;
     }
   } catch (err) {
-    return handleError(err);
+    if (err instanceof BlackbaudError) {
+      return json({ ok: false, sky_status: err.status, code: err.code, message: err.message, detail: err.detail ?? null });
+    }
+    return json({
+      ok: false,
+      code: 'internal',
+      message: err instanceof Error ? err.message : String(err),
+    }, 500);
   }
 };

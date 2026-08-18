@@ -298,8 +298,8 @@ export async function bbFetch(env: Env, path: string, init: RequestInit = {}): P
 
 export async function bbJson<T>(env: Env, path: string, init: RequestInit = {}): Promise<T> {
   const res = await bbFetch(env, path, init);
+  const text = await res.text();
   if (!res.ok) {
-    const text = await res.text();
     throw new BlackbaudError(
       'sky_api_error',
       `SKY API ${init.method ?? 'GET'} ${path} failed (${res.status})`,
@@ -307,8 +307,20 @@ export async function bbJson<T>(env: Env, path: string, init: RequestInit = {}):
       safeParse(text)
     );
   }
-  if (res.status === 204) return undefined as T;
-  return (await res.json()) as T;
+  // SKY PATCH/PUT often returns 200 with an empty body. res.json() throws on
+  // that, which made the portal amount-change look like a 500 after SKY had
+  // already accepted the write.
+  if (res.status === 204 || !text.trim()) return undefined as T;
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new BlackbaudError(
+      'sky_bad_json',
+      `SKY API ${init.method ?? 'GET'} ${path} returned non-JSON (${res.status})`,
+      502,
+      text.slice(0, 300)
+    );
+  }
 }
 
 function safeParse(text: string): unknown {

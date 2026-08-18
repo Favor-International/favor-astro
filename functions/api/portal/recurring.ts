@@ -147,11 +147,14 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv & { PORTAL_API_KEY?: 
       if (amount < 1 || amount > 250000) return errorJson('bad_amount', 'Amount must be between $1 and $250,000', 400);
       const fundId = gift.gift_splits?.[0]?.fund_id;
       if (!fundId) return errorJson('no_split', 'The gift has no fund split to update', 502);
+      const splitId = gift.gift_splits?.[0]?.id;
+      const splitBody: Record<string, unknown> = { fund_id: fundId, amount: { value: amount } };
+      if (splitId) splitBody.id = splitId;
       await bbJson(env, `/gift/v1/gifts/${encodeURIComponent(giftId)}`, {
         method: 'PATCH',
         body: JSON.stringify({
           amount: { value: amount },
-          gift_splits: [{ fund_id: fundId, amount: { value: amount } }],
+          gift_splits: [splitBody],
         }),
       });
       return json({ ok: true, amount });
