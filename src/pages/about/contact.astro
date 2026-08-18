@@ -56,6 +56,7 @@ import { SITE } from '../../lib/site';
               <option value="church">Church partnership</option>
               <option value="foundation">Foundation / DAF inquiry</option>
               <option value="vision-trip">Project trip</option>
+              <option value="career">Africa Missionary application</option>
               <option value="volunteer">Volunteering</option>
               <option value="media">Media or press</option>
             </select>
@@ -145,3 +146,12 @@ import { SITE } from '../../lib/site';
   .office__link { display:inline-flex; align-items:center; min-height:44px; margin-top: var(--space-2); color: var(--color-green); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--color-gold); }
   .office__link:hover { color: var(--color-gold-deep); }
 </style>
+<script is:inline>
+  const sel = document.querySelector('select[name="topic"]');
+  const q = new URLSearchParams(location.search).get('topic');
+  if (sel && q) {
+    const aliases = { 'country-director': 'career', 'africa-missionary': 'career' };
+    const v = aliases[q] || q;
+    if ([...sel.options].some((o) => o.value === v)) sel.value = v;
+  }
+</script>
