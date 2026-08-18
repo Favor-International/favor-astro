@@ -9,10 +9,28 @@
 //   changes. Does not touch other constituents.
 // &cleanup=1  DELETE leftover $1 RecurringGifts on 27202 whose reference
 //   marks them as DIAGNOSTIC (the keep=1 leftovers from 2026-08-17/18).
-// Create-path variants: &variant=bare|token|checkout, &keep=1.
+// &probe_amount_api=1  Hit Gift v1 and Gift v2 amount/amendment routes with
+//   a fake id (or &gift_id=) and return each status + body. Read-only except
+//   the PATCHes, which SKY will reject on a missing gift. Does not touch
+//   Jennifer or any other real donor.
 
-import { bbJson, deleteGiftQuietly, etGiftDate, nextMonthIso, BlackbaudError, type Env } from '../_lib/blackbaud';
+import { bbFetch, bbJson, deleteGiftQuietly, etGiftDate, nextMonthIso, BlackbaudError, type Env } from '../_lib/blackbaud';
 import { json, requireSetupKey } from '../_lib/http';
+
+async function skyHit(env: Env, method: string, path: string, body?: unknown) {
+  const res = await bbFetch(env, path, {
+    method,
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+  });
+  const text = await res.text();
+  let parsed: unknown = text.slice(0, 500);
+  try {
+    parsed = text ? JSON.parse(text) : null;
+  } catch {
+    parsed = text.slice(0, 500);
+  }
+  return { method, path, status: res.status, body: parsed };
+}
 
 const TEST_CONSTITUENT = '27202';
 
@@ -46,6 +64,44 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const constituentId = url.searchParams.get('constituent_id') ?? TEST_CONSTITUENT;
     if (constituentId !== TEST_CONSTITUENT) {
       return json({ ok: false, code: 'wrong_constituent', message: 'This diagnostic only runs against the test constituent.' }, 400);
+    }
+
+    if (url.searchParams.get('probe_amount_api') === '1') {
+      const id = (url.searchParams.get('gift_id') ?? '99999999').trim();
+      const amountBody = { amount: { value: 2 } };
+      const splitBody = {
+        amount: { value: 2 },
+        gift_splits: [{ fund_id: '79', amount: { value: 2 } }],
+      };
+      const hits = [];
+      const listed = await bbJson<{ value?: GiftDetail[] }>(
+        env,
+        `/gift/v1/gifts?constituent_id=${TEST_CONSTITUENT}&limit=25`
+      );
+      const recurringOnTest = (listed.value ?? [])
+        .filter((g) => g.type === 'RecurringGift')
+        .map((g) => ({ id: g.id, amount: g.amount?.value }));
+      hits.push(await skyHit(env, 'GET', `/gift/v1/gifts/${id}`));
+      hits.push(await skyHit(env, 'PATCH', `/gift/v1/gifts/${id}`, amountBody));
+      hits.push(await skyHit(env, 'PATCH', `/gift/v1/gifts/${id}`, splitBody));
+      hits.push(await skyHit(env, 'PATCH', `/gift/v1/gifts/${id}`, { receipt_amount: { value: 2 } }));
+      hits.push(await skyHit(env, 'GET', `/gift/v1/recurringgifts/${id}`));
+      hits.push(await skyHit(env, 'PUT', `/gift/v1/recurringgifts/${id}`, amountBody));
+      hits.push(await skyHit(env, 'PATCH', `/gift/v1/recurringgifts/${id}`, amountBody));
+      hits.push(await skyHit(env, 'POST', `/gift/v1/recurringgifts/${id}/amendments`, amountBody));
+      hits.push(await skyHit(env, 'GET', `/gift/v1/recurringgifts/${id}/amendments`));
+      hits.push(await skyHit(env, 'GET', `/gift/v1/gifts/${id}/amendments`));
+      hits.push(await skyHit(env, 'GET', `/gft-gifts/v2/gifts/${id}`));
+      hits.push(await skyHit(env, 'PATCH', `/gft-gifts/v2/gifts/${id}`, amountBody));
+      hits.push(await skyHit(env, 'GET', `/gft-gifts/v2/recurringgifts/${id}`));
+      hits.push(await skyHit(env, 'PATCH', `/gft-gifts/v2/recurringgifts/${id}`, amountBody));
+      hits.push(await skyHit(env, 'GET', `/gft-gifts/v2/recurringgifts/${id}/amendments`));
+      hits.push(await skyHit(env, 'POST', `/gft-gifts/v2/recurringgifts/${id}/amendments`, amountBody));
+      hits.push(await skyHit(env, 'PATCH', `/gft-gifts/v2/recurringgifts/${id}/amendments/amount`, amountBody));
+      hits.push(await skyHit(env, 'PATCH', `/gft-gifts/v2/recurringgifts/${id}/amendments/giftamount`, amountBody));
+      hits.push(await skyHit(env, 'PATCH', `/gft-gifts/v2/recurringgifts/${id}/amendments/schedule`, amountBody));
+      hits.push(await skyHit(env, 'PATCH', `/gft-gifts/v2/recurringgifts/${id}/amendments/paymentinformation`, amountBody));
+      return json({ ok: true, probe: true, gift_id: id, recurring_on_test_constituent: recurringOnTest, hits });
     }
 
     if (url.searchParams.get('cleanup') === '1') {
