@@ -19,7 +19,7 @@ const routes = [
 ];
 const internationalFaqs = [
   { q: 'Will I receive a local tax receipt?', a: 'Fundraise Up cannot issue a tax receipt in your country. TrustBridge may issue a local receipt for the UK, Canada, or the EU, depending on the portal and your circumstances. Confirm eligibility in TrustBridge or with a qualified local adviser before relying on a deduction.' },
-  { q: 'Can I give from a country not listed below?', a: 'Yes. Choose Give now on this page. If you need a local tax receipt and your country is not listed, email us and we will check whether a partner route exists.' },
+  { q: 'Can I give from a country not listed below?', a: 'Yes. Use Fundraise Up, or the U.S. form if you can send dollars. If you need a local tax receipt and your country is not listed, email us and we will check whether a partner can issue one.' },
   { q: 'Can an international gift be monthly?', a: 'Recurring options depend on the processor. Review what Fundraise Up or TrustBridge shows after you open the form.' },
   { q: 'Can I designate an international gift?', a: 'Sometimes, depending on the active project and processing route. Email us before you give and we will confirm the current project name and designation instructions with you.' },
   { q: 'Who handles currency conversion and processing fees?', a: 'The payment platform and the banks in the route set conversion and processing. Read the current transaction information in the form before you submit.' },
@@ -28,15 +28,15 @@ const internationalFaqs = [
 ---
 <RedesignLayout
   title="International Giving"
-  description="Give to Favor International from outside the United States. Choose Fundraise Up, or TrustBridge if you need a UK, Canada, or EU tax receipt."
+  description="Give to Favor International from outside the United States. Use the U.S. form if you can. If you cannot, give through Fundraise Up in your currency. TrustBridge is for larger gifts that need a local tax receipt."
 >
   <PageHero
     label="International giving"
     title="Give from anywhere in the world."
-    promise="Choose how you give. Fundraise Up sends the gift to Favor now and cannot issue a tax receipt in your country. TrustBridge is for UK, Canada, and EU partners who need Gift Aid, CRA, or TGE."
+    promise="Use the U.S. form when you can send dollars. Otherwise give through Fundraise Up in your currency. Favor receives those gifts as they come in. TrustBridge is for larger gifts that need a UK, Canada, or EU tax receipt."
     image="/images/field-2026/pbs-8.webp"
     imageAlt="PBS graduation"
-    ctaLabel="Choose how to give"
+    ctaLabel="Give now"
     ctaHref="#give-options"
     secondaryLabel="Give in U.S. dollars"
     secondaryHref="#usd"
@@ -46,21 +46,23 @@ const internationalFaqs = [
     <div class="container">
       <LeafHeading
         label="How to give"
-        title="Pick the route that fits."
-        intro="Three ways to give from outside the United States. Favor receives Fundraise Up gifts as they come in. TrustBridge is the local-receipt route. The U.S. form is for gifts in dollars."
-      />
+        title="Give in U.S. dollars if you can."
+      >
+        <p>If you have a U.S. card or a way to send dollars, use the U.S. form. If you need to give in another currency, use Fundraise Up, pick that currency, and give there. Favor receives those gifts as they come in.</p>
+        <p>Use TrustBridge only for a larger gift that needs a UK, Canada, or EU tax receipt. TrustBridge holds funds until a payout minimum is met, so smaller gifts sit there instead of reaching the field.</p>
+      </LeafHeading>
       <div class="intl-stage" data-route="fru" id="intl-stage">
-        <div class="intl-opts" role="tablist" aria-label="Giving routes">
+        <div class="intl-opts" role="tablist" aria-label="Giving options">
           <button type="button" class="intl-opt" role="tab" id="tab-fru" data-route="fru" aria-selected="true" aria-controls="panel-fru">
-            <span class="intl-opt__kicker">Give now</span>
+            <span class="intl-opt__kicker">Arrives now</span>
             <span class="intl-opt__title">Fundraise Up</span>
           </button>
           <button type="button" class="intl-opt" role="tab" id="tab-tb" data-route="tb" aria-selected="false" aria-controls="trustbridge">
-            <span class="intl-opt__kicker">Local tax receipt</span>
+            <span class="intl-opt__kicker">Large gifts</span>
             <span class="intl-opt__title">TrustBridge</span>
           </button>
           <button type="button" class="intl-opt" role="tab" id="tab-usd" data-route="usd" aria-selected="false" aria-controls="usd">
-            <span class="intl-opt__kicker">U.S. form</span>
+            <span class="intl-opt__kicker">If you can</span>
             <span class="intl-opt__title">U.S. dollars</span>
           </button>
         </div>
@@ -107,8 +109,8 @@ const internationalFaqs = [
   <section class="band band--cream"><div class="container intl-confirm">
     <img class="intl-confirm__image" src="/images/field-2026/missionaries-5.webp" alt="Favor field leaders serving across nations" loading="lazy" />
     <div class="intl-confirm__copy">
-      <LeafHeading label="Before you give" title="Confirm the route in three places." intro="International charitable treatment changes by jurisdiction, so verify the processor, your receipt eligibility, and your own tax position." align="left" leaves={false} />
-      <ol class="intl-steps"><li><strong>Processor</strong><span>Fundraise Up cannot issue a local tax receipt. TrustBridge may, for the UK, Canada, or the EU. Confirm Favor International is the selected beneficiary.</span></li><li><strong>Receipt</strong><span>Check which organization will issue the receipt and whether it applies in the country where you file taxes.</span></li><li><strong>Advice</strong><span>For a material gift, ask a qualified local adviser how the contribution is treated in your circumstances.</span></li></ol>
+      <LeafHeading label="Before you give" title="If you need a tax receipt, check it first." intro="Fundraise Up cannot issue a tax receipt in your country. TrustBridge may, in the UK, Canada, or the EU. On a large gift, ask a local adviser how it will be treated." align="left" leaves={false} />
+      <ol class="intl-steps"><li><strong>Processor</strong><span>Fundraise Up cannot issue a local tax receipt. TrustBridge may, for the UK, Canada, or the EU. Confirm Favor International is the selected beneficiary.</span></li><li><strong>Receipt</strong><span>Check which organization will issue the receipt and whether it applies in the country where you file taxes.</span></li><li><strong>Advice</strong><span>On a large gift, ask a qualified local adviser how the contribution is treated where you file taxes.</span></li></ol>
     </div>
   </div></section>
 
@@ -118,9 +120,9 @@ const internationalFaqs = [
   </div></section>
 
   <RdCta
-    heading="One step closer to the field."
-    body="Pick Fundraise Up, TrustBridge, or the U.S. form. Your gift supports field teams in Uganda, South Sudan, and Chad."
-    ctaLabel="Choose how to give"
+    heading="Give in dollars if you can."
+    body="If you need another currency, use Fundraise Up. Favor receives those gifts as they come in."
+    ctaLabel="Give now"
     ctaHref="#give-options"
     secondaryLabel="Give in U.S. dollars"
     secondaryHref="#usd"
