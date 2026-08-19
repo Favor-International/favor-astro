@@ -17,7 +17,7 @@ const routes = [
 ];
 const internationalFaqs = [
   { q: 'Will I receive a local tax receipt?', a: 'Fundraise Up cannot issue a tax receipt in your country. TrustBridge may issue a local receipt for the UK, Canada, or the EU, depending on the portal and your circumstances. Confirm eligibility in TrustBridge or with a qualified local adviser before relying on a deduction.' },
-  { q: 'Can I give from a country not listed below?', a: 'Yes. Use the Fundraise Up form on this page. If you need a local tax receipt and your country is not listed, email us and we will check whether a partner route exists.' },
+  { q: 'Can I give from a country not listed below?', a: 'Yes. Choose Give now on this page. If you need a local tax receipt and your country is not listed, email us and we will check whether a partner route exists.' },
   { q: 'Can an international gift be monthly?', a: 'Recurring options depend on the processor. Review what Fundraise Up or TrustBridge shows after you open the form.' },
   { q: 'Can I designate an international gift?', a: 'Sometimes, depending on the active project and processing route. Email us before you give and we will confirm the current project name and designation instructions with you.' },
   { q: 'Who handles currency conversion and processing fees?', a: 'The payment platform and the banks in the route set conversion and processing. Read the current transaction information in the form before you submit.' },
@@ -26,55 +26,65 @@ const internationalFaqs = [
 ---
 <RedesignLayout
   title="International Giving"
-  description="Give to Favor International from outside the United States. Fundraise Up processes the gift. TrustBridge is available for UK, Canada, and EU tax-receipt routes."
+  description="Give to Favor International from outside the United States. Choose Fundraise Up, or TrustBridge if you need a UK, Canada, or EU tax receipt."
 >
   <PageHero
     label="International giving"
     title="Give from anywhere in the world."
-    promise="Fundraise Up processes gifts from outside the United States. It cannot issue a tax receipt in your country. UK, Canada, and EU partners who need Gift Aid, CRA, or TGE should use TrustBridge below."
+    promise="Choose how you give. Fundraise Up sends the gift to Favor now and cannot issue a tax receipt in your country. TrustBridge is for UK, Canada, and EU partners who need Gift Aid, CRA, or TGE."
     image="/images/field-2026/pbs-8.webp"
     imageAlt="PBS graduation"
-    ctaLabel="Give now"
-    ctaHref="#intl-give"
+    ctaLabel="Choose how to give"
+    ctaHref="#give-options"
     secondaryLabel="Give in U.S. dollars"
     secondaryHref="/give/donate/?usd=1"
   />
 
-  <section class="band band--white">
-    <div class="container intl-intro">
-      <img src="/images/field-2026/pbs-10.webp" alt="Favor leaders gathered from across nations" loading="lazy" />
-      <div>
-        <p class="label">Beyond the United States</p>
-        <h2>The Gospel crosses borders. So can your gift.</h2>
-        <p>Use the form on this page to give through Fundraise Up. Your gift supports field teams in Uganda, South Sudan, and Chad. Fundraise Up cannot issue a local tax receipt. If you file taxes in the UK, Canada, or the EU and you need a receipt there, use TrustBridge instead of this form.</p>
-        {/* ?usd=1 tells the middleware to skip the geo redirect and set the
-            sticky give-usd cookie, so this choice holds on later visits. */}
-        <p class="intl-usd">Prefer to give in U.S. dollars on our U.S. form? <a href="/give/donate/?usd=1">Open the U.S. giving form.</a></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--cream">
-    <div class="container container--narrow">
-      <LeafHeading label="Give now" title="Fundraise Up." intro="This form sends your gift to Favor International. Fundraise Up cannot issue a tax receipt in your country." />
-      <FundraiseUp />
-    </div>
-  </section>
-
-  <section class="band band--white">
+  <section class="band band--cream" id="give-options">
     <div class="container">
-      <LeafHeading label="Local tax receipts" title="TrustBridge for the UK, Canada, and the EU." intro="Use these routes only when you need a local receipt. Tax treatment depends on your country and personal situation. Confirm eligibility in the TrustBridge portal or with your local adviser before relying on a charitable deduction." />
-      <div class="intl-grid">
-        {routes.map((r) => (
-          <a class="intl-card" href={r.href} target="_blank" rel="noopener">
-            <span class="intl-card__flag" aria-hidden="true">{r.flag}</span>
-            <span class="intl-card__country">{r.country}</span>
-            <span class="intl-card__route">{r.route}</span>
-            <span class="intl-card__cta">{r.cta} &rarr;</span>
+      <LeafHeading
+        label="How to give"
+        title="Pick the route that fits."
+        intro="Three ways to give from outside the United States. Favor receives Fundraise Up gifts as they come in. TrustBridge is the local-receipt route. The U.S. form is for gifts in dollars."
+      />
+      <div class="intl-stage" data-route="fru" id="intl-stage">
+        <div class="intl-opts" role="tablist" aria-label="Giving routes">
+          <button type="button" class="intl-opt" role="tab" id="tab-fru" data-route="fru" aria-selected="true" aria-controls="panel-fru">
+            <span class="intl-opt__kicker">Give now</span>
+            <span class="intl-opt__title">Fundraise Up</span>
+            <span class="intl-opt__desc">Favor receives the gift. No local tax receipt.</span>
+          </button>
+          <button type="button" class="intl-opt" role="tab" id="tab-tb" data-route="tb" aria-selected="false" aria-controls="panel-tb">
+            <span class="intl-opt__kicker">Local tax receipt</span>
+            <span class="intl-opt__title">TrustBridge</span>
+            <span class="intl-opt__desc">UK, Canada, and the EU. Gift Aid, CRA, or TGE.</span>
+          </button>
+          <a class="intl-opt intl-opt--link" href="/give/donate/?usd=1">
+            <span class="intl-opt__kicker">U.S. form</span>
+            <span class="intl-opt__title">U.S. dollars</span>
+            <span class="intl-opt__desc">Give on the U.S. form in dollars.</span>
           </a>
-        ))}
+        </div>
+
+        <div class="intl-panel intl-panel--fru" id="panel-fru" role="tabpanel" aria-labelledby="tab-fru">
+          <p class="intl-panel__note">Fundraise Up cannot issue a tax receipt in your country.</p>
+          <FundraiseUp />
+        </div>
+        <div class="intl-panel intl-panel--tb" id="panel-tb" role="tabpanel" aria-labelledby="tab-tb">
+          <p class="intl-panel__note">Confirm eligibility in the TrustBridge portal or with a local adviser before relying on a charitable deduction.</p>
+          <div class="intl-grid">
+            {routes.map((r) => (
+              <a class="intl-card" href={r.href} target="_blank" rel="noopener">
+                <span class="intl-card__flag" aria-hidden="true">{r.flag}</span>
+                <span class="intl-card__country">{r.country}</span>
+                <span class="intl-card__route">{r.route}</span>
+                <span class="intl-card__cta">{r.cta} &rarr;</span>
+              </a>
+            ))}
+          </div>
+          <p class="intl-note">If your country is not listed and you need a local receipt, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
+        </div>
       </div>
-      <p class="intl-note">If your country is not listed and you need a local receipt, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
     </div>
   </section>
 
@@ -84,13 +94,13 @@ const internationalFaqs = [
     eyebrow="Where it goes"
     heading="Same field, same accountability."
     side="left"
-    background="cream"
+    background="white"
   >
     <p>International gifts fund the same work as US gifts: Portable Bible Schools, GIFT homes, schools, medical care, and women&rsquo;s empowerment across the nations Favor serves.</p>
     <p>Favor International is ECFA-accredited and independently audited every year. See the <a href="/about/accountability/">audited financials</a> any time.</p>
   </RdFeature>
 
-  <section class="band band--white"><div class="container intl-confirm">
+  <section class="band band--cream"><div class="container intl-confirm">
     <img class="intl-confirm__image" src="/images/field-2026/missionaries-5.webp" alt="Favor field leaders serving across nations" loading="lazy" />
     <div class="intl-confirm__copy">
       <LeafHeading label="Before you give" title="Confirm the route in three places." intro="International charitable treatment changes by jurisdiction, so verify the processor, your receipt eligibility, and your own tax position." align="left" leaves={false} />
@@ -98,38 +108,117 @@ const internationalFaqs = [
     </div>
   </div></section>
 
-  <section class="band band--cream"><div class="container container--narrow">
+  <section class="band band--white"><div class="container container--narrow">
     <LeafHeading label="Questions" title="Giving across borders." leaves={false} />
     <div class="faq intl-faq">{internationalFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
   </div></section>
 
   <RdCta
     heading="One step closer to the field."
-    body="Give through Fundraise Up on this page. Use TrustBridge if you need a UK, Canada, or EU tax receipt."
-    ctaLabel="Give now"
-    ctaHref="#intl-give"
-    secondaryLabel="TrustBridge"
-    secondaryHref={TRUSTBRIDGE_PORTAL}
+    body="Pick Fundraise Up, TrustBridge, or the U.S. form. Your gift supports field teams in Uganda, South Sudan, and Chad."
+    ctaLabel="Choose how to give"
+    ctaHref="#give-options"
+    secondaryLabel="Give in U.S. dollars"
+    secondaryHref="/give/donate/?usd=1"
     image="/images/field-2026/pbs-8.webp"
     imageAlt="Portable Bible School graduates in the field"
   />
 </RedesignLayout>
 
+<script>
+  const stage = document.getElementById('intl-stage');
+  if (stage) {
+    const buttons = Array.from(stage.querySelectorAll<HTMLButtonElement>('button[data-route]'));
+
+    const show = (route: string) => {
+      stage.dataset.route = route;
+      stage.classList.add('is-ready');
+      buttons.forEach((btn) => {
+        const on = btn.dataset.route === route;
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    };
+
+    stage.addEventListener('click', (event) => {
+      const btn = (event.target as HTMLElement | null)?.closest('button[data-route]');
+      if (!btn) return;
+      show(btn.dataset.route || 'fru');
+    });
+
+    show(window.location.hash === '#trustbridge' ? 'tb' : 'fru');
+  }
+</script>
+
 <style>
-  .intl-intro { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:clamp(36px,6vw,84px); align-items:center; }
-  .intl-intro img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:var(--rd-radius); }
-  .intl-intro h2 { margin:0 0 var(--space-5); }
-  .intl-intro h2 + p { margin: 0; color: var(--color-ink-soft); line-height: 1.8; }
-  .intl-usd { margin: var(--space-4) 0 0; font-size: 0.9rem; color: var(--color-ink-soft); }
-  .intl-usd a { color: var(--color-green); font-weight: 700; }
-  @media (max-width:760px){.intl-intro{grid-template-columns:1fr}.intl-intro img{aspect-ratio:16/10}}
+  .intl-opts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+    max-width: 1100px;
+    margin: 0 auto var(--space-10);
+  }
+  @media (max-width: 860px) { .intl-opts { grid-template-columns: 1fr; max-width: 440px; } }
+  .intl-opt {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+    background: var(--color-white);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--rd-radius);
+    padding: var(--space-6) var(--space-5);
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    font: inherit;
+    transition: border-color 160ms, box-shadow 160ms, transform 160ms;
+  }
+  .intl-opt:hover { border-color: var(--color-gold); transform: translateY(-2px); }
+  .intl-opt[aria-selected='true'] {
+    border-color: var(--color-green);
+    box-shadow: 0 14px 36px rgba(31, 58, 26, 0.12);
+  }
+  .intl-opt__kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-gold-deep);
+  }
+  .intl-opt__title {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--color-green);
+  }
+  .intl-opt__desc { color: var(--color-ink-soft); line-height: 1.5; font-size: 0.95rem; }
+
+  .intl-stage { position: relative; }
+  .intl-stage.is-ready[data-route='fru'] .intl-panel--tb { display: none; }
+  .intl-stage.is-ready[data-route='tb'] .intl-panel--fru {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+  .intl-panel__note {
+    text-align: center;
+    color: var(--color-ink-soft);
+    margin: 0 auto var(--space-6);
+    max-width: 46ch;
+    line-height: 1.6;
+  }
+  .intl-panel--fru { min-height: 28rem; }
 
   .intl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 1100px; margin: 0 auto; }
   @media (max-width: 1000px) { .intl-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .intl-grid { grid-template-columns: 1fr; max-width: 380px; } }
   .intl-card {
     display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-2);
-    background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+    background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card);
     padding: var(--space-8) var(--space-6); box-shadow: var(--shadow-soft);
     text-decoration: none; color: inherit;
     transition: transform 180ms, box-shadow 180ms, border-color 180ms;
@@ -145,7 +234,7 @@ const internationalFaqs = [
   .intl-confirm { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(44px,7vw,104px); align-items:center; }
   .intl-confirm__image { display:block; width:100%; min-height:620px; height:100%; object-fit:cover; border-radius:var(--rd-radius); }
   .intl-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-4); }
-  .intl-steps li { display: grid; grid-template-columns: 100px 1fr; gap: var(--space-5); padding: var(--space-5); border-radius: var(--rd-radius); background: var(--color-cream); box-shadow: var(--rd-shadow); }
+  .intl-steps li { display: grid; grid-template-columns: 100px 1fr; gap: var(--space-5); padding: var(--space-5); border-radius: var(--rd-radius); background: var(--color-white); box-shadow: var(--rd-shadow); }
   .intl-steps strong { color: var(--color-green); }
   .intl-steps span, .intl-faq p { color: var(--color-ink-soft); line-height: 1.65; }
   .intl-faq { display: grid; gap: var(--space-3); }
