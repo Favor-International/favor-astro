@@ -42,7 +42,7 @@ const internationalFaqs = [
     secondaryHref="#usd"
   />
 
-  <section class="band band--cream" id="give-options">
+  <section class="band band--cream band--tight" id="give-options">
     <div class="container">
       <LeafHeading
         label="How to give"
@@ -54,41 +54,39 @@ const internationalFaqs = [
           <button type="button" class="intl-opt" role="tab" id="tab-fru" data-route="fru" aria-selected="true" aria-controls="panel-fru">
             <span class="intl-opt__kicker">Give now</span>
             <span class="intl-opt__title">Fundraise Up</span>
-            <span class="intl-opt__desc">Favor receives the gift. No local tax receipt.</span>
           </button>
           <button type="button" class="intl-opt" role="tab" id="tab-tb" data-route="tb" aria-selected="false" aria-controls="trustbridge">
             <span class="intl-opt__kicker">Local tax receipt</span>
             <span class="intl-opt__title">TrustBridge</span>
-            <span class="intl-opt__desc">UK, Canada, and the EU. Gift Aid, CRA, or TGE.</span>
           </button>
           <button type="button" class="intl-opt" role="tab" id="tab-usd" data-route="usd" aria-selected="false" aria-controls="usd">
             <span class="intl-opt__kicker">U.S. form</span>
             <span class="intl-opt__title">U.S. dollars</span>
-            <span class="intl-opt__desc">Give on this page in dollars.</span>
           </button>
         </div>
 
-        <div class="intl-panel intl-panel--fru" id="panel-fru" role="tabpanel" aria-labelledby="tab-fru">
-          <FundraiseUp />
-          <p class="intl-legal"><strong>Tax receipt.</strong> Fundraise Up cannot issue a tax receipt in your country.</p>
-        </div>
-        <div class="intl-panel intl-panel--tb" id="trustbridge" role="tabpanel" aria-labelledby="tab-tb">
-          <p class="intl-panel__note">Confirm eligibility in the TrustBridge portal or with a local adviser before relying on a charitable deduction.</p>
-          <div class="intl-grid">
-            {routes.map((r) => (
-              <a class="intl-card" href={r.href} target="_blank" rel="noopener">
-                <span class="intl-card__flag" aria-hidden="true">{r.flag}</span>
-                <span class="intl-card__country">{r.country}</span>
-                <span class="intl-card__route">{r.route}</span>
-                <span class="intl-card__cta">{r.cta} &rarr;</span>
-              </a>
-            ))}
+        <div class="intl-deck">
+          <div class="intl-panel intl-panel--fru" id="panel-fru" role="tabpanel" aria-labelledby="tab-fru">
+            <FundraiseUp />
+            <p class="intl-legal"><strong>Tax receipt.</strong> Fundraise Up cannot issue a tax receipt in your country.</p>
           </div>
-          <p class="intl-note">If your country is not listed and you need a local receipt, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
-        </div>
-        <div class="intl-panel intl-panel--usd" id="usd" role="tabpanel" aria-labelledby="tab-usd">
-          <DonationForm />
-          <StateSolicitationDisclosures />
+          <div class="intl-panel intl-panel--tb" id="trustbridge" role="tabpanel" aria-labelledby="tab-tb">
+            <div class="intl-grid">
+              {routes.map((r) => (
+                <a class="intl-card" href={r.href} target="_blank" rel="noopener">
+                  <span class="intl-card__flag" aria-hidden="true">{r.flag}</span>
+                  <span class="intl-card__country">{r.country}</span>
+                  <span class="intl-card__route">{r.route}</span>
+                  <span class="intl-card__cta">{r.cta} &rarr;</span>
+                </a>
+              ))}
+            </div>
+            <p class="intl-note">Confirm eligibility in TrustBridge or with a local adviser before relying on a deduction. If your country is not listed, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
+          </div>
+          <div class="intl-panel intl-panel--usd" id="usd" role="tabpanel" aria-labelledby="tab-usd">
+            <DonationForm />
+            <StateSolicitationDisclosures />
+          </div>
         </div>
       </div>
     </div>
@@ -168,38 +166,71 @@ const internationalFaqs = [
 </script>
 
 <style>
+  #give-options :global(.band__header) { margin-bottom: var(--space-6); }
+
+  .intl-stage {
+    max-width: 42rem;
+    margin: 0 auto;
+  }
+  .intl-stage[data-route='fru'] { max-width: 25rem; }
+  .intl-stage[data-route='tb'],
+  .intl-stage[data-route='usd'] {
+    background: var(--color-white);
+    border: 1px solid rgba(31, 58, 26, 0.12);
+    border-radius: var(--radius-card);
+    box-shadow: 0 2px 10px rgba(31, 58, 26, 0.05);
+    overflow: hidden;
+  }
+
   .intl-opts {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-5);
-    max-width: 1100px;
-    margin: 0 auto var(--space-10);
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+    background: var(--color-white);
+    border: 1px solid rgba(31, 58, 26, 0.12);
+    border-radius: var(--radius-card);
+    box-shadow: 0 2px 10px rgba(31, 58, 26, 0.05);
   }
-  @media (max-width: 860px) { .intl-opts { grid-template-columns: 1fr; max-width: 440px; } }
+  .intl-stage[data-route='tb'] .intl-opts,
+  .intl-stage[data-route='usd'] .intl-opts {
+    border: 0;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--color-cream);
+  }
   .intl-opt {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    text-align: left;
-    background: var(--color-white);
-    border: 1.5px solid var(--color-border);
-    border-radius: var(--rd-radius);
-    padding: var(--space-6) var(--space-5);
-    box-shadow: var(--shadow-soft);
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+    padding: 10px 8px;
+    box-shadow: none;
     cursor: pointer;
     color: inherit;
-    text-decoration: none;
     font: inherit;
-    transition: border-color 160ms, box-shadow 160ms, transform 160ms;
   }
-  .intl-opt:hover { border-color: var(--color-gold); transform: translateY(-2px); }
+  .intl-opt:hover { background: var(--color-cream); }
+  .intl-opt:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 1px;
+  }
   .intl-opt[aria-selected='true'] {
-    border-color: var(--color-green);
-    box-shadow: 0 14px 36px rgba(31, 58, 26, 0.12);
+    background: var(--color-cream);
+  }
+  .intl-stage[data-route='tb'] .intl-opt[aria-selected='true'],
+  .intl-stage[data-route='usd'] .intl-opt[aria-selected='true'] {
+    background: var(--color-white);
   }
   .intl-opt__kicker {
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--color-gold-deep);
@@ -207,64 +238,80 @@ const internationalFaqs = [
   .intl-opt__title {
     font-family: var(--font-sans);
     font-weight: 800;
-    font-size: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.2;
     color: var(--color-green);
   }
-  .intl-opt__desc { color: var(--color-ink-soft); line-height: 1.5; font-size: 0.95rem; }
+  .intl-stage[data-route='fru'] .intl-opt__kicker { display: none; }
+  .intl-deck { padding: 8px 0 0; }
 
-  .intl-stage { position: relative; }
-  .intl-stage.is-ready[data-route='fru'] .intl-panel--tb,
-  .intl-stage.is-ready[data-route='fru'] .intl-panel--usd,
-  .intl-stage.is-ready[data-route='tb'] .intl-panel--fru,
-  .intl-stage.is-ready[data-route='tb'] .intl-panel--usd,
-  .intl-stage.is-ready[data-route='usd'] .intl-panel--fru,
-  .intl-stage.is-ready[data-route='usd'] .intl-panel--tb {
-    display: none;
+  .intl-stage[data-route='tb'] .intl-deck,
+  .intl-stage[data-route='usd'] .intl-deck {
+    padding: var(--space-4);
+    margin: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
   }
-  .intl-panel__note {
-    text-align: center;
-    color: var(--color-ink-soft);
-    margin: 0 auto var(--space-6);
-    max-width: 46ch;
-    line-height: 1.6;
+
+  .intl-panel { display: none; }
+  .intl-stage[data-route='fru'] .intl-panel--fru,
+  .intl-stage[data-route='tb'] .intl-panel--tb,
+  .intl-stage[data-route='usd'] .intl-panel--usd {
+    display: block;
   }
   .intl-legal {
-    margin: var(--space-8) auto 0;
+    margin: var(--space-3) auto 0;
     max-width: 36rem;
-    padding: var(--space-5) 0 0;
-    border-top: 1px solid var(--color-border);
+    padding: 0;
+    border: 0;
     text-align: center;
-    font-size: 0.82rem;
-    line-height: 1.55;
+    font-size: 0.8rem;
+    line-height: 1.5;
     color: var(--color-ink-soft);
   }
   .intl-legal strong {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    display: inline;
+    margin: 0;
+    font-size: inherit;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-green);
   }
-  .intl-panel--usd { max-width: 680px; margin: 0 auto; }
 
-  .intl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 1100px; margin: 0 auto; }
-  @media (max-width: 1000px) { .intl-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .intl-grid { grid-template-columns: 1fr; max-width: 380px; } }
-  .intl-card {
-    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-2);
-    background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card);
-    padding: var(--space-8) var(--space-6); box-shadow: var(--shadow-soft);
-    text-decoration: none; color: inherit;
-    transition: transform 180ms, box-shadow 180ms, border-color 180ms;
+  .intl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .intl-panel--usd :global(.dform__progress) { margin-bottom: var(--space-4); }
+  .intl-panel--usd :global(.dform__state) { padding: var(--space-3) 0; }
+  @media (max-width: 540px) {
+    .intl-opt { padding: 10px 4px; }
+    .intl-opt__kicker { display: none; }
+    .intl-opt__title { font-size: 0.82rem; }
+    .intl-grid { grid-template-columns: 1fr; }
   }
-  .intl-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31, 58, 26, 0.14); border-color: var(--color-gold); }
-  .intl-card__flag { font-size: 2.6rem; line-height: 1; }
-  .intl-card__country { font-family: var(--font-sans); font-weight: 800; font-size: 1.2rem; color: var(--color-green); margin-top: var(--space-2); }
-  .intl-card__route { color: var(--color-ink-soft); line-height: 1.5; font-size: 0.92rem; }
-  .intl-card__cta { margin-top: var(--space-3); color: var(--color-gold-deep); font-weight: 700; font-size: 0.9rem; }
+  .intl-card {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px;
+    background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+    padding: var(--space-5) var(--space-4);
+    text-decoration: none; color: inherit;
+    transition: border-color 180ms, background 180ms;
+  }
+  .intl-card:hover { border-color: var(--color-gold); background: var(--color-white); }
+  .intl-card__flag { font-size: 1.8rem; line-height: 1; }
+  .intl-card__country { font-family: var(--font-sans); font-weight: 800; font-size: 1.05rem; color: var(--color-green); }
+  .intl-card__route { color: var(--color-ink-soft); line-height: 1.45; font-size: 0.85rem; }
+  .intl-card__cta { margin-top: 4px; color: var(--color-gold-deep); font-weight: 700; font-size: 0.85rem; }
   .intl-card:hover .intl-card__cta { color: var(--color-green); }
-  .intl-grid + .intl-note { display: block; margin: clamp(40px, 5vw, 64px) auto 0; padding-inline: var(--space-4); max-width: 680px; text-align: center; color: var(--color-ink-soft); }
+  .intl-grid + .intl-note {
+    display: block;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    max-width: none;
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+  }
   .intl-note a { color: var(--color-gold-deep); font-weight: 700; }
   .intl-confirm { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(44px,7vw,104px); align-items:center; }
   .intl-confirm__image { display:block; width:100%; min-height:620px; height:100%; object-fit:cover; border-radius:var(--rd-radius); }
