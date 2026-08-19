@@ -5,6 +5,8 @@ import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
 import FundraiseUp from '../../components/give/FundraiseUp.astro';
+import DonationForm from '../../components/give/DonationForm.astro';
+import StateSolicitationDisclosures from '../../components/give/StateSolicitationDisclosures.astro';
 import { SITE } from '../../lib/site';
 
 const TRUSTBRIDGE_PORTAL = 'https://portal.trustbridgeglobal.com/public/donate?id=aa3417c3d39a48f483399acb657e3072';
@@ -37,7 +39,7 @@ const internationalFaqs = [
     ctaLabel="Choose how to give"
     ctaHref="#give-options"
     secondaryLabel="Give in U.S. dollars"
-    secondaryHref="/give/donate/?usd=1"
+    secondaryHref="#usd"
   />
 
   <section class="band band--cream" id="give-options">
@@ -54,23 +56,23 @@ const internationalFaqs = [
             <span class="intl-opt__title">Fundraise Up</span>
             <span class="intl-opt__desc">Favor receives the gift. No local tax receipt.</span>
           </button>
-          <button type="button" class="intl-opt" role="tab" id="tab-tb" data-route="tb" aria-selected="false" aria-controls="panel-tb">
+          <button type="button" class="intl-opt" role="tab" id="tab-tb" data-route="tb" aria-selected="false" aria-controls="trustbridge">
             <span class="intl-opt__kicker">Local tax receipt</span>
             <span class="intl-opt__title">TrustBridge</span>
             <span class="intl-opt__desc">UK, Canada, and the EU. Gift Aid, CRA, or TGE.</span>
           </button>
-          <a class="intl-opt intl-opt--link" href="/give/donate/?usd=1">
+          <button type="button" class="intl-opt" role="tab" id="tab-usd" data-route="usd" aria-selected="false" aria-controls="usd">
             <span class="intl-opt__kicker">U.S. form</span>
             <span class="intl-opt__title">U.S. dollars</span>
-            <span class="intl-opt__desc">Give on the U.S. form in dollars.</span>
-          </a>
+            <span class="intl-opt__desc">Give on this page in dollars.</span>
+          </button>
         </div>
 
         <div class="intl-panel intl-panel--fru" id="panel-fru" role="tabpanel" aria-labelledby="tab-fru">
-          <p class="intl-panel__note">Fundraise Up cannot issue a tax receipt in your country.</p>
           <FundraiseUp />
+          <p class="intl-legal"><strong>Tax receipt.</strong> Fundraise Up cannot issue a tax receipt in your country.</p>
         </div>
-        <div class="intl-panel intl-panel--tb" id="panel-tb" role="tabpanel" aria-labelledby="tab-tb">
+        <div class="intl-panel intl-panel--tb" id="trustbridge" role="tabpanel" aria-labelledby="tab-tb">
           <p class="intl-panel__note">Confirm eligibility in the TrustBridge portal or with a local adviser before relying on a charitable deduction.</p>
           <div class="intl-grid">
             {routes.map((r) => (
@@ -83,6 +85,10 @@ const internationalFaqs = [
             ))}
           </div>
           <p class="intl-note">If your country is not listed and you need a local receipt, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
+        </div>
+        <div class="intl-panel intl-panel--usd" id="usd" role="tabpanel" aria-labelledby="tab-usd">
+          <DonationForm />
+          <StateSolicitationDisclosures />
         </div>
       </div>
     </div>
@@ -119,7 +125,7 @@ const internationalFaqs = [
     ctaLabel="Choose how to give"
     ctaHref="#give-options"
     secondaryLabel="Give in U.S. dollars"
-    secondaryHref="/give/donate/?usd=1"
+    secondaryHref="#usd"
     image="/images/field-2026/pbs-8.webp"
     imageAlt="Portable Bible School graduates in the field"
   />
@@ -129,23 +135,35 @@ const internationalFaqs = [
   const stage = document.getElementById('intl-stage');
   if (stage) {
     const buttons = Array.from(stage.querySelectorAll<HTMLButtonElement>('button[data-route]'));
+    const hashes: Record<string, string> = { tb: '#trustbridge', usd: '#usd', fru: '#give-options' };
 
-    const show = (route: string) => {
+    const routeFromHash = (hash: string) => {
+      if (hash === '#trustbridge') return 'tb';
+      if (hash === '#usd') return 'usd';
+      return 'fru';
+    };
+
+    const show = (route: string, writeHash = false) => {
       stage.dataset.route = route;
       stage.classList.add('is-ready');
       buttons.forEach((btn) => {
         const on = btn.dataset.route === route;
         btn.setAttribute('aria-selected', on ? 'true' : 'false');
       });
+      if (writeHash) {
+        const next = hashes[route] || '#give-options';
+        if (window.location.hash !== next) history.replaceState(null, '', next);
+      }
     };
 
     stage.addEventListener('click', (event) => {
       const btn = (event.target as HTMLElement | null)?.closest('button[data-route]');
       if (!btn) return;
-      show(btn.dataset.route || 'fru');
+      show(btn.dataset.route || 'fru', true);
     });
 
-    show(window.location.hash === '#trustbridge' ? 'tb' : 'fru');
+    window.addEventListener('hashchange', () => show(routeFromHash(window.location.hash)));
+    show(routeFromHash(window.location.hash));
   }
 </script>
 
@@ -195,14 +213,13 @@ const internationalFaqs = [
   .intl-opt__desc { color: var(--color-ink-soft); line-height: 1.5; font-size: 0.95rem; }
 
   .intl-stage { position: relative; }
-  .intl-stage.is-ready[data-route='fru'] .intl-panel--tb { display: none; }
-  .intl-stage.is-ready[data-route='tb'] .intl-panel--fru {
-    position: absolute;
-    visibility: hidden;
-    pointer-events: none;
-    width: 100%;
-    left: 0;
-    top: 0;
+  .intl-stage.is-ready[data-route='fru'] .intl-panel--tb,
+  .intl-stage.is-ready[data-route='fru'] .intl-panel--usd,
+  .intl-stage.is-ready[data-route='tb'] .intl-panel--fru,
+  .intl-stage.is-ready[data-route='tb'] .intl-panel--usd,
+  .intl-stage.is-ready[data-route='usd'] .intl-panel--fru,
+  .intl-stage.is-ready[data-route='usd'] .intl-panel--tb {
+    display: none;
   }
   .intl-panel__note {
     text-align: center;
@@ -211,7 +228,25 @@ const internationalFaqs = [
     max-width: 46ch;
     line-height: 1.6;
   }
-  .intl-panel--fru { min-height: 28rem; }
+  .intl-legal {
+    margin: var(--space-8) auto 0;
+    max-width: 36rem;
+    padding: var(--space-5) 0 0;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+  }
+  .intl-legal strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-green);
+  }
+  .intl-panel--usd { max-width: 680px; margin: 0 auto; }
 
   .intl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 1100px; margin: 0 auto; }
   @media (max-width: 1000px) { .intl-grid { grid-template-columns: repeat(2, 1fr); } }
