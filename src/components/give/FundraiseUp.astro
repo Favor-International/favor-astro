@@ -1,0 +1,31 @@
+---
+// Page-only Fundraise Up embed for /give/international/.
+//
+// Company widget key is ASRVTQRN (live Favor account; CDN 200).
+// Daniel's 2026-08-18 snippet put XQENBRGE in the company slot. That ID is
+// the Donation Form element on this account, not a company widget
+// (cdn.fundraiseup.com/widget/XQENBRGE 404s). Widget payload 2026-08-19:
+//   donationForm: XQENBRGE
+//   donateButton: XVXUHKUZ
+export interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<div class:list={['fru-embed', className]} id="intl-give">
+  <a href="#XQENBRGE"></a>
+</div>
+<script is:inline>
+((w,d,s,n,a)=>{if(!w[n]){var l='call,catch,on,once,set,then,track,openCheckout'
+.split(','),i,o=(n)=>{return'function'==typeof n?o.l.push([arguments])&&o
+:()=>{return o.l.push([n,arguments])&&o}},t=d.getElementsByTagName(s)[0],
+j=d.createElement(s);j.async=!0;j.src='https://cdn.fundraiseup.com/widget/'+a+'';
+t.parentNode.insertBefore(j,t);o.s=Date.now();o.v=5;o.h=w.location.href;o.l=[];
+for(i=0;i<8;i++)o[l[i]]=o(l[i]);w[n]=o}
+})(window,document,'script','FundraiseUp','ASRVTQRN');
+</script>
+
+<style>
+  .fru-embed { min-height: 28rem; }
+  .fru-embed :global(a[href='#XQENBRGE']:empty) { display: block; min-height: 12rem; }
+</style>

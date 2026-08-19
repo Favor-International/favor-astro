@@ -22,12 +22,15 @@
 //    missing image stays a 404.
 //
 // Geo routing (2026-08-07): a visitor outside the US who opens /give/donate/
-// gets a 302 to /give/international/ (TrustBridge). Bypass with ?usd=1 or the
-// give-usd=1 cookie, which ?usd=1 sets so the choice sticks.
+// gets a 302 to /give/international/. Bypass with ?usd=1 or the give-usd=1
+// cookie, which ?usd=1 sets so the choice sticks. Puerto Rico, Guam, the
+// U.S. Virgin Islands, American Samoa, and the Northern Marianas stay on
+// the US form (2026-08-19).
 
 import vanityMap from './_lib/vanity-map.json';
 
 const GIVE_USD_COOKIE = 'give-usd=1';
+const US_GIVE_COUNTRIES = new Set(['US', 'PR', 'GU', 'VI', 'AS', 'MP', 'XX', 'T1']);
 
 const normalizePath = (pathname: string): string => {
   const lower = pathname.toLowerCase();
@@ -87,7 +90,7 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
       (request as Request & { cf?: { country?: string } }).cf?.country ??
       request.headers.get('CF-IPCountry') ??
       '';
-    if (country && country !== 'US' && country !== 'XX' && country !== 'T1') {
+    if (country && !US_GIVE_COUNTRIES.has(country)) {
       return Response.redirect(new URL('/give/international/', url).toString(), 302);
     }
   }

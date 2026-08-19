@@ -56,8 +56,8 @@ const { showStats = true, note } = Astro.props as Props;
       <p class="eyebrow eyebrow--gold">Your partnership puts you on the mission field</p>
       <h2 class="africa-map__h2">Every point is a place the Gospel has reached.</h2>
       <p class="africa-map__lede">
-        Across East and Central Africa: Portable Bible Schools (red), the mission stations
-        standing today (green), and the stations still to plant (blue).
+        Across East and Central Africa: Portable Bible Schools (red) and the mission
+        stations standing today (green).
       </p>
     </header>
 
@@ -65,7 +65,9 @@ const { showStats = true, note } = Astro.props as Props;
       <ul class="africa-map__key" aria-label="Map key">
         <li><span class="africa-map__key-dot africa-map__key-dot--pbs"></span>Areas reached by a Portable Bible School</li>
         <li><span class="africa-map__key-dot africa-map__key-dot--station"></span>Mission stations</li>
-        <li><span class="africa-map__key-dot africa-map__key-dot--future"></span>Future mission stations</li>
+        {future.length > 0 && (
+          <li><span class="africa-map__key-dot africa-map__key-dot--future"></span>Future mission stations</li>
+        )}
       </ul>
       <svg
         class="africa-map__svg"
@@ -118,16 +120,18 @@ const { showStats = true, note } = Astro.props as Props;
             </g>
           ))}
         </g>
-        <g class="africa-map__stations africa-map__stations--future">
-          {future.map((s) => (
-            <g style={`transition-delay:${delay(s.x, s.y) + 300}ms`}>
-              <circle cx={s.x} cy={s.y} r={STATION_R}>
-                <title>{s.name} (future mission station)</title>
-              </circle>
-              <text x={s.x + 20} y={s.y + 6} class="africa-map__station-label">{s.name}</text>
-            </g>
-          ))}
-        </g>
+        {future.length > 0 && (
+          <g class="africa-map__stations africa-map__stations--future">
+            {future.map((s) => (
+              <g style={`transition-delay:${delay(s.x, s.y) + 300}ms`}>
+                <circle cx={s.x} cy={s.y} r={STATION_R}>
+                  <title>{s.name} (future mission station)</title>
+                </circle>
+                <text x={s.x + 20} y={s.y + 6} class="africa-map__station-label">{s.name}</text>
+              </g>
+            ))}
+          </g>
+        )}
       </svg>
       <figcaption class="africa-map__caption">
         Named mission stations and Portable Bible School coverage across Favor's field.

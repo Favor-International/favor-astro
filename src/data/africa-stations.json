@@ -1,5 +1,5 @@
 {
-  "note": "Named mission stations from Terry (green) and future stations (blue). Placed on the Natural Earth map using a lon/lat fit against country centroids, then nudged so each point sits inside its country.",
+  "note": "Named current mission stations from Terry (green). Blues stay empty until US leadership names towns. Africa teams do not place future stations. Greens sit on a lon/lat fit of the named towns on the Natural Earth map.",
   "mission": [
     { "name": "Kotido", "country": "Uganda", "x": 1918.0, "y": 968.0 },
     { "name": "Yumbe", "country": "Uganda", "x": 1810.0, "y": 955.0 },
@@ -12,11 +12,5 @@
     { "name": "Moundou", "country": "Chad", "x": 1275.0, "y": 745.0 },
     { "name": "Abeche", "country": "Chad", "x": 1450.0, "y": 520.0 }
   ],
-  "future": [
-    { "name": "Eastern Congo", "country": "DR Congo", "x": 1740.0, "y": 1175.0 },
-    { "name": "Western Congo", "country": "DR Congo", "x": 1205.0, "y": 1310.0 },
-    { "name": "Cameroon", "country": "Cameroon", "x": 1140.0, "y": 700.0 },
-    { "name": "Niger", "country": "Niger", "x": 1160.0, "y": 540.0 },
-    { "name": "Nigeria", "country": "Nigeria", "x": 1055.0, "y": 650.0 }
-  ]
+  "future": []
 }

@@ -4,11 +4,9 @@ import PageHero from '../../components/band/PageHero.astro';
 import RdFeature from '../../components/redesign/RdFeature.astro';
 import LeafHeading from '../../components/redesign/LeafHeading.astro';
 import RdCta from '../../components/redesign/RdCta.astro';
+import FundraiseUp from '../../components/give/FundraiseUp.astro';
 import { SITE } from '../../lib/site';
 
-// TrustBridge is real: it is in the Site Map v2.1 instructions and on the live
-// homepage (TrustBridge for international giving). The portal donate URL below
-// was captured from the live site's own pages (scrape manifest, 2026).
 const TRUSTBRIDGE_PORTAL = 'https://portal.trustbridgeglobal.com/public/donate?id=aa3417c3d39a48f483399acb657e3072';
 
 const routes = [
@@ -18,26 +16,28 @@ const routes = [
   { flag: '🇦🇺', country: 'Australia', route: 'DGR via partner foundation', cta: 'Email us', href: `mailto:${SITE.emailGeneral}?subject=Australia giving` },
 ];
 const internationalFaqs = [
-  { q: 'Will every international gift receive a local tax receipt?', a: 'Eligibility depends on the country, the giving route, and your circumstances. Confirm receipt eligibility inside the current TrustBridge portal or with a qualified local adviser before relying on a deduction.' },
-  { q: 'Can I give from a country not listed?', a: `Contact ${SITE.emailGeneral} and we will confirm whether a current partner route is available or whether a direct US gift is the appropriate option.` },
-  { q: 'Can an international gift be monthly?', a: 'Recurring options depend on the portal and country route. Review the options shown after selecting your location, or ask us before beginning.' },
+  { q: 'Will I receive a local tax receipt?', a: 'Fundraise Up cannot issue a tax receipt in your country. TrustBridge may issue a local receipt for the UK, Canada, or the EU, depending on the portal and your circumstances. Confirm eligibility in TrustBridge or with a qualified local adviser before relying on a deduction.' },
+  { q: 'Can I give from a country not listed below?', a: 'Yes. Use the Fundraise Up form on this page. If you need a local tax receipt and your country is not listed, email us and we will check whether a partner route exists.' },
+  { q: 'Can an international gift be monthly?', a: 'Recurring options depend on the processor. Review what Fundraise Up or TrustBridge shows after you open the form.' },
   { q: 'Can I designate an international gift?', a: 'Sometimes, depending on the active project and processing route. Email us before you give and we will confirm the current project name and designation instructions with you.' },
-  { q: 'Who handles currency conversion and processing fees?', a: 'The payment platform and financial institutions involved in the route determine conversion and processing. Review the portal’s current transaction information before submitting the gift.' },
-  { q: 'Who should I contact if the portal information conflicts with this page?', a: `If anything here differs from the giving portal, trust the portal, and email ${SITE.emailGeneral} so we can fix this page. International routes and eligibility change over time.` },
+  { q: 'Who handles currency conversion and processing fees?', a: 'The payment platform and the banks in the route set conversion and processing. Read the current transaction information in the form before you submit.' },
+  { q: 'Who should I contact if the form information conflicts with this page?', a: `If anything here differs from the giving form, trust the form, and email ${SITE.emailGeneral} so we can fix this page.` },
 ];
 ---
 <RedesignLayout
   title="International Giving"
-  description="UK, Canada, EU, and Australia partners can give to Favor International with tax-receipt routes via TrustBridge Global."
+  description="Give to Favor International from outside the United States. Fundraise Up processes the gift. TrustBridge is available for UK, Canada, and EU tax-receipt routes."
 >
   <PageHero
     label="International giving"
     title="Give from anywhere in the world."
-    promise="Tax-receipt routes through TrustBridge Global for the UK, Canada, the EU, and Australia. We are an approved international beneficiary."
+    promise="Fundraise Up processes gifts from outside the United States. It cannot issue a tax receipt in your country. UK, Canada, and EU partners who need Gift Aid, CRA, or TGE should use TrustBridge below."
     image="/images/field-2026/pbs-8.webp"
     imageAlt="PBS graduation"
-    ctaLabel="Give via TrustBridge"
-    ctaHref={TRUSTBRIDGE_PORTAL}
+    ctaLabel="Give now"
+    ctaHref="#intl-give"
+    secondaryLabel="Give in U.S. dollars"
+    secondaryHref="/give/donate/?usd=1"
   />
 
   <section class="band band--white">
@@ -46,17 +46,24 @@ const internationalFaqs = [
       <div>
         <p class="label">Beyond the United States</p>
         <h2>The Gospel crosses borders. So can your gift.</h2>
-        <p>Favor International is a registered beneficiary with TrustBridge Global, a giving network that lets partners outside the United States give with a tax receipt in their own country. Pick your route below; your gift supports field teams in Uganda, South Sudan, and Chad.</p>
+        <p>Use the form on this page to give through Fundraise Up. Your gift supports field teams in Uganda, South Sudan, and Chad. Fundraise Up cannot issue a local tax receipt. If you file taxes in the UK, Canada, or the EU and you need a receipt there, use TrustBridge instead of this form.</p>
         {/* ?usd=1 tells the middleware to skip the geo redirect and set the
             sticky give-usd cookie, so this choice holds on later visits. */}
-        <p class="intl-usd">Prefer to give in U.S. dollars? <a href="/give/donate/?usd=1">Use our U.S. giving form.</a></p>
+        <p class="intl-usd">Prefer to give in U.S. dollars on our U.S. form? <a href="/give/donate/?usd=1">Open the U.S. giving form.</a></p>
       </div>
     </div>
   </section>
 
   <section class="band band--cream">
+    <div class="container container--narrow">
+      <LeafHeading label="Give now" title="Fundraise Up." intro="This form sends your gift to Favor International. Fundraise Up cannot issue a tax receipt in your country." />
+      <FundraiseUp />
+    </div>
+  </section>
+
+  <section class="band band--white">
     <div class="container">
-      <LeafHeading label="Country routes" title="Start with the country where you file taxes." intro="Tax treatment depends on your country and personal situation. Confirm eligibility in the giving portal or with your local adviser before relying on a charitable deduction." />
+      <LeafHeading label="Local tax receipts" title="TrustBridge for the UK, Canada, and the EU." intro="Use these routes only when you need a local receipt. Tax treatment depends on your country and personal situation. Confirm eligibility in the TrustBridge portal or with your local adviser before relying on a charitable deduction." />
       <div class="intl-grid">
         {routes.map((r) => (
           <a class="intl-card" href={r.href} target="_blank" rel="noopener">
@@ -67,7 +74,7 @@ const internationalFaqs = [
           </a>
         ))}
       </div>
-      <p class="intl-note">If your country isn't listed, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a> and we will help you find a tax-efficient route.</p>
+      <p class="intl-note">If your country is not listed and you need a local receipt, email <a href={`mailto:${SITE.emailGeneral}`}>{SITE.emailGeneral}</a>.</p>
     </div>
   </section>
 
@@ -77,30 +84,32 @@ const internationalFaqs = [
     eyebrow="Where it goes"
     heading="Same field, same accountability."
     side="left"
-    background="white"
+    background="cream"
   >
     <p>International gifts fund the same work as US gifts: Portable Bible Schools, GIFT homes, schools, medical care, and women&rsquo;s empowerment across the nations Favor serves.</p>
     <p>Favor International is ECFA-accredited and independently audited every year. See the <a href="/about/accountability/">audited financials</a> any time.</p>
   </RdFeature>
 
-  <section class="band band--cream"><div class="container intl-confirm">
+  <section class="band band--white"><div class="container intl-confirm">
     <img class="intl-confirm__image" src="/images/field-2026/missionaries-5.webp" alt="Favor field leaders serving across nations" loading="lazy" />
     <div class="intl-confirm__copy">
-      <LeafHeading label="Before you give" title="Confirm the route in three places." intro="International charitable treatment changes by jurisdiction, so verify the portal, your receipt eligibility, and your own tax position." align="left" leaves={false} />
-      <ol class="intl-steps"><li><strong>Portal</strong><span>Confirm that Favor International is the selected beneficiary and review the payment options displayed.</span></li><li><strong>Receipt</strong><span>Check what organization will issue the receipt and whether it applies in the country where you file taxes.</span></li><li><strong>Advice</strong><span>For a material gift, ask a qualified local adviser how the contribution is treated in your circumstances.</span></li></ol>
+      <LeafHeading label="Before you give" title="Confirm the route in three places." intro="International charitable treatment changes by jurisdiction, so verify the processor, your receipt eligibility, and your own tax position." align="left" leaves={false} />
+      <ol class="intl-steps"><li><strong>Processor</strong><span>Fundraise Up cannot issue a local tax receipt. TrustBridge may, for the UK, Canada, or the EU. Confirm Favor International is the selected beneficiary.</span></li><li><strong>Receipt</strong><span>Check which organization will issue the receipt and whether it applies in the country where you file taxes.</span></li><li><strong>Advice</strong><span>For a material gift, ask a qualified local adviser how the contribution is treated in your circumstances.</span></li></ol>
     </div>
   </div></section>
 
-  <section class="band band--white"><div class="container container--narrow">
+  <section class="band band--cream"><div class="container container--narrow">
     <LeafHeading label="Questions" title="Giving across borders." leaves={false} />
     <div class="faq intl-faq">{internationalFaqs.map((item) => <details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div>
   </div></section>
 
   <RdCta
     heading="One step closer to the field."
-    body="Pick your country route and give with a tax receipt where you live."
-    ctaLabel="Give via TrustBridge"
-    ctaHref={TRUSTBRIDGE_PORTAL}
+    body="Give through Fundraise Up on this page. Use TrustBridge if you need a UK, Canada, or EU tax receipt."
+    ctaLabel="Give now"
+    ctaHref="#intl-give"
+    secondaryLabel="TrustBridge"
+    secondaryHref={TRUSTBRIDGE_PORTAL}
     image="/images/field-2026/pbs-8.webp"
     imageAlt="Portable Bible School graduates in the field"
   />
@@ -120,7 +129,7 @@ const internationalFaqs = [
   @media (max-width: 540px) { .intl-grid { grid-template-columns: 1fr; max-width: 380px; } }
   .intl-card {
     display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-2);
-    background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+    background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-card);
     padding: var(--space-8) var(--space-6); box-shadow: var(--shadow-soft);
     text-decoration: none; color: inherit;
     transition: transform 180ms, box-shadow 180ms, border-color 180ms;
@@ -136,7 +145,7 @@ const internationalFaqs = [
   .intl-confirm { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(44px,7vw,104px); align-items:center; }
   .intl-confirm__image { display:block; width:100%; min-height:620px; height:100%; object-fit:cover; border-radius:var(--rd-radius); }
   .intl-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-4); }
-  .intl-steps li { display: grid; grid-template-columns: 100px 1fr; gap: var(--space-5); padding: var(--space-5); border-radius: var(--rd-radius); background: var(--color-white); box-shadow: var(--rd-shadow); }
+  .intl-steps li { display: grid; grid-template-columns: 100px 1fr; gap: var(--space-5); padding: var(--space-5); border-radius: var(--rd-radius); background: var(--color-cream); box-shadow: var(--rd-shadow); }
   .intl-steps strong { color: var(--color-green); }
   .intl-steps span, .intl-faq p { color: var(--color-ink-soft); line-height: 1.65; }
   .intl-faq { display: grid; gap: var(--space-3); }
