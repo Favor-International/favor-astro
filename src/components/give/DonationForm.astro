@@ -367,6 +367,22 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     const campaignSource = ['email', 'fb', 'ig', 'yt', 'default'].includes(srcParam)
       ? srcParam
       : undefined;
+    // Per-send ref token (2026-08-21): campaign landing pages forward it so
+    // the Blackbaud gift reference names the audience/send it came from.
+    const campaignRef = (params.get('ref') ?? '').slice(0, 24) || undefined;
+
+    // Campaign links may preset the ask (?amount=50&frequency=monthly) so a
+    // giver who already chose on a landing page never re-enters it here.
+    queueMicrotask(() => {
+      const presetAmount = Number(params.get('amount'));
+      const presetFreq = params.get('frequency');
+      const amountEl = form.querySelector('input[name="amount"]') as HTMLInputElement | null;
+      if (amountEl && presetAmount >= 1 && !amountEl.value) {
+        amountEl.value = String(presetAmount);
+        amountEl.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      if (presetFreq === 'once' || presetFreq === 'monthly') setFreq(presetFreq);
+    });
 
     // ---- state readers -----------------------------------------------------
     const form = panels.form;
@@ -795,6 +811,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         sms_optin: checkbox('sms_optin'),
         note: field('note') || undefined,
         campaign_source: campaignSource,
+        ref: campaignRef,
         checkout: { transaction_token: checkoutToken },
         turnstile_token:
           config?.turnstile_site_key && window.turnstile ? window.turnstile.getResponse(turnstileWidget) : undefined,
