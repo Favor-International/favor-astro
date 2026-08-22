@@ -57,11 +57,16 @@ const qualifications = [
   'Commitment to the values, mission, and Statement of Faith of Favor International',
 ];
 const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20application';
+const REC_ONLY_OPEN = '<!--recruit-only-->';
+const REC_ONLY_CLOSE = '<!--/recruit-only-->';
+const REC_CLOSED_OPEN = '<!--recruit-closed-->';
+const REC_CLOSED_CLOSE = '<!--/recruit-closed-->';
 ---
 <RedesignLayout
   title="Careers"
-  description="Open positions with Favor International, starting with the Africa Missionary posting for Uganda, South Sudan, or Chad."
+  description="Full-time positions with Favor International."
 >
+  <Fragment set:html={REC_ONLY_OPEN} />
   <PageHero
     label="Careers"
     title="Work with Favor."
@@ -72,7 +77,23 @@ const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20appl
     ctaHref={applyHref}
     scrollCue
   />
+  <Fragment set:html={REC_ONLY_CLOSE} />
+  <Fragment set:html={REC_CLOSED_OPEN} />
+  <PageHero
+    label="Careers"
+    title="Work with Favor."
+    promise="Full-time positions are listed when a posting is open for your location."
+    image="/images/field-2026/pbs-6.webp"
+    imageAlt="A line of commissioned Favor leaders holding Bibles outside their village"
+    ctaLabel="See internships"
+    ctaHref="/go/internships/"
+    secondaryLabel="Volunteer from home"
+    secondaryHref="/go/volunteer/"
+    scrollCue
+  />
+  <Fragment set:html={REC_CLOSED_CLOSE} />
 
+  <Fragment set:html={REC_ONLY_OPEN} />
   <section class="band band--white">
     <div class="container container--narrow">
       <LeafHeading
@@ -146,6 +167,20 @@ const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20appl
       <p class="band__cta-row"><a class="btn btn--primary" href={applyHref}>Request an application</a></p>
     </div>
   </section>
+  <Fragment set:html={REC_ONLY_CLOSE} />
+
+  <Fragment set:html={REC_CLOSED_OPEN} />
+  <section class="band band--white">
+    <div class="container container--narrow">
+      <LeafHeading
+        label="Open positions"
+        title="No posting is listed for your location."
+        intro="Internships and volunteer roles stay open. Email us if you have another question."
+      />
+      <p class="band__cta-row"><a class="btn btn--primary" href="/about/contact/">Email Favor</a></p>
+    </div>
+  </section>
+  <Fragment set:html={REC_CLOSED_CLOSE} />
 
   <ScriptBand
     image="/images/field-2026/prayer-1.webp"
@@ -157,6 +192,7 @@ const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20appl
     tall
   />
 
+  <Fragment set:html={REC_ONLY_OPEN} />
   <section class="band band--white">
     <div class="container">
       <LeafHeading label="How hiring works" title="Three steps, both directions." leaves={false} />
@@ -171,6 +207,7 @@ const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20appl
       </ol>
     </div>
   </section>
+  <Fragment set:html={REC_ONLY_CLOSE} />
 
   <section class="band band--greenlight">
     <div class="container">
@@ -192,6 +229,7 @@ const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20appl
     </div>
   </section>
 
+  <Fragment set:html={REC_ONLY_OPEN} />
   <RdCta
     heading="Request an application."
     body="Write Terry-Lynne Goodman and tell her you are asking about the Africa Missionary posting."
@@ -201,6 +239,7 @@ const applyHref = 'mailto:Terry@favorintl.org?subject=Africa%20Missionary%20appl
     image="/images/field-2026/pbs-6.webp"
     imageAlt="A line of commissioned Favor leaders holding Bibles"
   />
+  <Fragment set:html={REC_ONLY_CLOSE} />
 </RedesignLayout>
 
 <style>

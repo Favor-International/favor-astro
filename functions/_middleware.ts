@@ -28,6 +28,13 @@
 // the US form (2026-08-19).
 
 import vanityMap from './_lib/vanity-map.json';
+import {
+  applyRecruitGeoHtml,
+  canSeeRecruitPosting,
+  isRecruitHtmlPath,
+  visitorContinent,
+  visitorCountry,
+} from './_lib/recruit-geo';
 
 const GIVE_USD_COOKIE = 'give-usd=1';
 const US_GIVE_COUNTRIES = new Set(['US', 'PR', 'GU', 'VI', 'AS', 'MP', 'XX', 'T1']);
@@ -95,8 +102,26 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
     }
   }
 
-  // --- 3. The 404 net. ---
+  // --- Recruit geo: Africa Missionary JD is HTML-stripped outside the
+  //     sending-country allowlist. Vary and no shared cache so Uganda
+  //     never receives a US-cached careers page. ---
   const response = await next();
+  if (
+    response.ok &&
+    isReadRequest &&
+    isHtmlNavigation &&
+    isRecruitHtmlPath(url.pathname)
+  ) {
+    const allowed = canSeeRecruitPosting(visitorCountry(request), visitorContinent(request));
+    const html = applyRecruitGeoHtml(await response.text(), allowed);
+    const headers = new Headers(response.headers);
+    headers.set('Cache-Control', 'private, no-store');
+    headers.set('Vary', 'CF-IPCountry');
+    headers.set('Content-Type', 'text/html; charset=utf-8');
+    return new Response(html, { status: response.status, headers });
+  }
+
+  // --- 3. The 404 net. ---
   if (response.status !== 404) return response;
   if (!isReadRequest) return response;
   if (isApi) return response;
