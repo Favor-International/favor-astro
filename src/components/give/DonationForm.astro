@@ -364,7 +364,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     // to the campaign's appeal + campaign record ids. Absent or unknown src
     // keeps the standing Website appeal.
     const srcParam = (params.get('src') ?? '').toLowerCase();
-    const campaignSource = ['email', 'fb', 'ig', 'yt', 'default'].includes(srcParam)
+    const campaignSource = ['email', 'fb', 'ig', 'yt', 'default', 'l26a'].includes(srcParam)
       ? srcParam
       : undefined;
     // Per-send ref token (2026-08-21): campaign landing pages forward it so

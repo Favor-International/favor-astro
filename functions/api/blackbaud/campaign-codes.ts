@@ -7,7 +7,7 @@
 // Read-only and setup-key guarded like the other admin routes.
 
 import { requireCredentials, type Env } from '../_lib/blackbaud';
-import { resolveCampaignCodes } from '../_lib/campaign';
+import { CAMPAIGN_SOURCES, resolveCampaignCodes } from '../_lib/campaign';
 import { handleError, json, requireSetupKey } from '../_lib/http';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
@@ -15,7 +15,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     requireSetupKey(env, request);
     requireCredentials(env);
     const out: Record<string, unknown> = {};
-    for (const source of ['email', 'fb', 'ig', 'yt', 'default']) {
+    for (const source of CAMPAIGN_SOURCES) {
       out[source] = await resolveCampaignCodes(env, source);
     }
     return json({ ok: true, resolved: out });

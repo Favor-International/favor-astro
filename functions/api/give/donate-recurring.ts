@@ -51,7 +51,7 @@ import {
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
-import { isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
+import { campaignLabel, isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
 import { computeTotal } from './donate';
 
 interface RecurringBody {
@@ -109,7 +109,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     const reference = buildReference([
       'Monthly Favor Partner gift via favorintl.org',
-      campaignSource && `Campaign One (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''}${campaignRef ? `, ref ${campaignRef}` : ''})`,
+      campaignSource && `${campaignLabel(campaignSource)} (${campaignSource}${campaignCodes?.appeal_lookup ? `, appeal ${campaignCodes.appeal_lookup}` : ''}${campaignRef ? `, ref ${campaignRef}` : ''})`,
       `Designation: ${designation.label}`,
       donor.org_name && `Organization gift; contact: ${donor.first} ${donor.last}`,
       coverFees && 'Donor covered processing fees',
