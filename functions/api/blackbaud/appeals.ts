@@ -77,7 +77,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       return json({ ok: false, error: 'duplicate', existing }, 409);
     }
 
-    const created = await bbJson<{ id: string }>(env, '/fundraising/v1/appeals', {
+    // Appeal creation is not in the Fundraising API (POST /fundraising/v1/
+    // appeals 404s, verified 2026-08-26); it lives in the NXT Data
+    // Integration API, which the Standard subscription key covers.
+    const created = await bbJson<{ id: string }>(env, '/nxt-data-integration/v1/re/appeals', {
       method: 'POST',
       body: JSON.stringify({
         appeal_id: lookupId,
