@@ -14,6 +14,56 @@
 import { bbFetch, bbJson, requireCredentials, BlackbaudError, type Env } from '../_lib/blackbaud';
 import { errorJson, handleError, json } from '../_lib/http';
 
+interface HistoryGift {
+  id: string;
+  status?: string | null;
+  is_recurring?: boolean;
+  type?: string;
+}
+
+interface HistoryPayload {
+  ok?: boolean;
+  constituent?: { id?: string; name?: string | null; email?: string } | null;
+  gifts?: HistoryGift[];
+  summary?: { total_given?: number; gift_count?: number; active_recurring?: number; [k: string]: unknown };
+}
+
+/**
+ * D1 is up to 12 hours behind on RecurringGift status. Overlay live SKY
+ * statuses onto those rows so pause/cancel cannot look undone after a 200.
+ * One extra Gift list call per history fetch (cached 15 min in the portal).
+ */
+async function overlayLiveRecurringStatus(env: Env, payload: HistoryPayload): Promise<HistoryPayload> {
+  const constituentId = payload.constituent?.id;
+  if (!constituentId) return payload;
+  try {
+    const live = await bbJson<{ value?: Array<{ id?: string; gift_status?: string; type?: string }> }>(
+      env,
+      `/gift/v1/gifts?constituent_id=${encodeURIComponent(constituentId)}&gift_type=RecurringGift&limit=50`
+    );
+    const statusById = new Map<string, string>();
+    for (const g of live.value ?? []) {
+      if (g.id && g.gift_status) statusById.set(String(g.id), g.gift_status);
+    }
+    if (statusById.size === 0) return payload;
+    const gifts = (payload.gifts ?? []).map((g) => {
+      const liveStatus = statusById.get(g.id);
+      return liveStatus ? { ...g, status: liveStatus } : g;
+    });
+    const active_recurring = gifts.filter((g) => g.is_recurring && (g.status ?? '') === 'Active').length;
+    return {
+      ...payload,
+      gifts,
+      summary: { ...(payload.summary ?? {}), active_recurring },
+    };
+  } catch (err) {
+    console.error(
+      `[portal/giving-history] live recurring overlay failed: ${err instanceof Error ? err.message : err}`
+    );
+    return payload;
+  }
+}
+
 interface GiftSplit {
   fund_id?: string;
   amount?: { value?: number };
@@ -133,20 +183,19 @@ export const onRequestGet: PagesFunction<Env & { PORTAL_API_KEY?: string }> = as
         );
         if (res.ok) {
           const text = await res.text();
-          let hasConstituent = false;
+          let parsed: HistoryPayload | null = null;
           try {
-            const parsed = JSON.parse(text) as { ok?: boolean; constituent?: { id?: string } | null };
-            hasConstituent = Boolean(parsed.ok && parsed.constituent?.id);
+            parsed = JSON.parse(text) as HistoryPayload;
           } catch {
-            hasConstituent = false;
+            parsed = null;
           }
+          const hasConstituent = Boolean(parsed?.ok && parsed.constituent?.id);
           // Empty 200 (brand-new donor, email not in the sync DB yet) used to
           // short-circuit SKY, so a gift that Blackbaud had just accepted
           // never appeared on first login. Fall through so SKY can find it.
-          if (hasConstituent) {
-            return new Response(text, {
-              headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-            });
+          if (hasConstituent && parsed) {
+            const overlaid = await overlayLiveRecurringStatus(env, parsed);
+            return json(overlaid);
           }
           console.warn('[portal/giving-history] data api had no constituent; falling back to SKY');
         } else {

@@ -75,3 +75,31 @@ export async function constituentIdsForEmail(env: DataApiEnv, email: string): Pr
     return null;
   }
 }
+
+/**
+ * Stamp a RecurringGift's live status onto the D1 mirror so the portal's
+ * next giving-history read is not twelve hours behind. Fire-and-forget:
+ * Blackbaud already has the status; a missed push only means the UI lags
+ * until the next sync.
+ */
+export async function pushGiftStatus(env: DataApiEnv, giftId: string, giftStatus: string): Promise<void> {
+  if (!env.DATA_API_URL || !env.DATA_API_KEY) return;
+  try {
+    const res = await fetch(`${env.DATA_API_URL.replace(/\/$/, '')}/gifts/status`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.DATA_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: giftId, gift_status: giftStatus }),
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) {
+      console.error(`[dataapi] status push for gift ${giftId} returned ${res.status}`);
+    }
+  } catch (err) {
+    console.error(
+      `[dataapi] status push for gift ${giftId} failed: ${err instanceof Error ? err.message : String(err)}`
+    );
+  }
+}

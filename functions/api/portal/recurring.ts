@@ -8,8 +8,9 @@
 // Ownership is enforced HERE, not trusted from the caller: the gift is
 // fetched from the Gift API and its constituent_id must match the
 // constituent found for the supplied email. Actions map to:
-//   pause/resume/cancel -> PUT  /gift/v1/recurringgifts/{id}/status
-//                          (Held / Active / Terminated)
+//   pause/resume/cancel -> setRecurringGiftStatus (PUT status, GET readback,
+//                          PATCH gift_status if the PUT was a no-op).
+//                          Do not return ok until Blackbaud stores the status.
 //   amount              -> PATCH /gift/v1/gifts/{id} then GET to confirm.
 //                          SKY often returns 200 without applying an amount
 //                          amendment on RecurringGift. If the readback does
@@ -29,7 +30,8 @@ import {
   type Env,
 } from '../_lib/blackbaud';
 import { errorJson, handleError, json, readJsonBody } from '../_lib/http';
-import { constituentIdsForEmail, type DataApiEnv } from '../_lib/dataapi';
+import { constituentIdsForEmail, pushGiftStatus, type DataApiEnv } from '../_lib/dataapi';
+import { setRecurringGiftStatus } from '../_lib/recurring-status';
 
 interface GiftDetail {
   id: string;
@@ -116,11 +118,13 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv & { PORTAL_API_KEY?: 
     const action = typeof body.action === 'string' ? body.action : null;
     if (action === 'pause' || action === 'resume' || action === 'cancel') {
       const status = action === 'pause' ? 'Held' : action === 'resume' ? 'Active' : 'Terminated';
-      await bbJson(env, `/gift/v1/recurringgifts/${encodeURIComponent(giftId)}/status`, {
-        method: 'PUT',
-        body: JSON.stringify({ status }),
-      });
-      return json({ ok: true, status });
+      // PUT /status has returned 200 and left the gift Active (Blandford
+      // 39792, 2026-08-28). setRecurringGiftStatus GET-reads back and falls
+      // through to PATCH if the PUT was a no-op. Do not return ok until
+      // Blackbaud stores the status we sent.
+      const result = await setRecurringGiftStatus(env, giftId, status);
+      await pushGiftStatus(env, giftId, result.applied);
+      return json({ ok: true, status: result.applied, attempts: result.attempts });
     }
 
     // Change the card on file (Will, 2026-08-06: partners must be able to do

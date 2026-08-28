@@ -301,6 +301,30 @@ async function realtimeGift(env: Env, body: RealtimeGift): Promise<Response> {
   return json({ ok: true, inserted: (res.meta?.changes ?? 0) > 0 });
 }
 
+async function updateGiftStatus(env: Env, body: { id?: unknown; gift_status?: unknown }): Promise<Response> {
+  const id = String(body.id ?? '').trim();
+  const status = String(body.gift_status ?? '').trim();
+  if (!/^\d+$/.test(id)) return json({ ok: false, error: 'id must be a Blackbaud numeric id' }, 400);
+  if (!['Active', 'Held', 'Terminated', 'Completed'].includes(status)) {
+    return json({ ok: false, error: 'gift_status must be Active, Held, Terminated, or Completed' }, 400);
+  }
+  const now = new Date().toISOString();
+  const res = await env.DB.prepare(
+    `UPDATE gifts
+        SET gift_status = ?1,
+            date_modified = ?2,
+            synced_at = ?2,
+            raw_json = CASE
+              WHEN json_valid(raw_json) THEN json_set(raw_json, '$.gift_status', ?1)
+              ELSE raw_json
+            END
+      WHERE id = ?3`
+  )
+    .bind(status, now, id)
+    .run();
+  return json({ ok: true, updated: (res.meta?.changes ?? 0) > 0, id, gift_status: status });
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -338,6 +362,9 @@ export default {
       }
       if (url.pathname === '/gifts/realtime' && request.method === 'POST') {
         return await realtimeGift(env, (await request.json()) as RealtimeGift);
+      }
+      if (url.pathname === '/gifts/status' && request.method === 'POST') {
+        return await updateGiftStatus(env, (await request.json()) as { id?: unknown; gift_status?: unknown });
       }
       return json({ ok: false, error: 'not found' }, 404);
     } catch (err) {
