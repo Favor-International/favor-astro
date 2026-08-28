@@ -427,6 +427,20 @@ export function getDesignations(env: Env): Designation[] {
   return [];
 }
 
+// Campaign flyer deep-links (?designation=) that should not appear on the
+// public dropdown. 2026-08-28: Land Cruiser PDFs encoded the High School
+// Blackbaud form; /landcruiser now lands here on fund 175 (Vehicle Match).
+export const CAMPAIGN_DESIGNATIONS: Designation[] = [
+  { fund_id: '175', label: 'Land Cruisers' },
+];
+
+export function resolveDesignation(env: Env, fundId: string): Designation | undefined {
+  return (
+    getDesignations(env).find((d) => d.fund_id === fundId) ??
+    CAMPAIGN_DESIGNATIONS.find((d) => d.fund_id === fundId)
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Constituents
 

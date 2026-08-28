@@ -285,6 +285,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     payment_configuration_id?: string;
     process_mode?: string;
     designations?: Designation[];
+    campaign_designations?: Designation[];
     fee_rate?: number;
     fee_fixed?: number;
     turnstile_site_key?: string | null;
@@ -915,6 +916,16 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       const pDesignation = params.get('designation');
       if (pDesignation && config.designations!.some((d) => d.fund_id === pDesignation)) {
         designationSelect.value = pDesignation;
+      } else if (pDesignation) {
+        const campaign = (config.campaign_designations ?? []).find((d) => d.fund_id === pDesignation);
+        if (campaign) {
+          const opt = document.createElement('option');
+          opt.value = campaign.fund_id;
+          opt.textContent = campaign.label;
+          designationSelect.appendChild(opt);
+          designationSelect.value = campaign.fund_id;
+          wrap.hidden = false;
+        }
       }
       refreshPresets();
       showStep('amount');

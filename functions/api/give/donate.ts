@@ -22,7 +22,7 @@ import {
   ensureConstituentCode,
   ensureOrgContact,
   findOrCreateConstituent,
-  getDesignations,
+  resolveDesignation,
   type Env,
 } from '../_lib/blackbaud';
 import {
@@ -82,7 +82,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     const total = computeTotal(env, amount, coverFees);
 
     const fundId = asTrimmed(body.designation_fund_id, 'designation', 64);
-    const designation = getDesignations(env).find((d) => d.fund_id === fundId);
+    const designation = resolveDesignation(env, fundId);
     if (!designation) return errorJson('bad_designation', 'Unknown designation', 400);
 
     const donor = {
