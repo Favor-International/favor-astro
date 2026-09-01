@@ -720,10 +720,26 @@ export async function createGift(env: Env, gift: Record<string, unknown>): Promi
 }
 
 export async function deleteGiftQuietly(env: Env, giftId: string): Promise<void> {
+  // bbFetch returns a Response and never throws on HTTP errors, so the old
+  // fire-and-forget version reported success while Blackbaud rejected every
+  // DELETE (RecurringGifts with linked payments cannot be deleted since the
+  // Aug 2026 validation change). That left one live $1 canary schedule per
+  // test day on record 27202 — 13 found and terminated by hand 2026-09-01.
+  // Now: try DELETE, and when Blackbaud refuses, terminate the schedule via
+  // the PATCH that the manual cleanup proved works. Failures get logged.
   try {
-    await bbFetch(env, `/gift/v1/gifts/${giftId}`, { method: 'DELETE' });
-  } catch {
-    // best effort cleanup only
+    const res = await bbFetch(env, `/gift/v1/gifts/${giftId}`, { method: 'DELETE' });
+    if (res.ok) return;
+    console.error(`[blackbaud] gift DELETE ${giftId} refused (${res.status}); terminating schedule instead`);
+    const patch = await bbFetch(env, `/gift/v1/gifts/${giftId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ gift_status: 'Terminated' }),
+    });
+    if (!patch.ok) {
+      console.error(`[blackbaud] gift cleanup ${giftId} failed: PATCH ${patch.status} ${(await patch.text()).slice(0, 200)}`);
+    }
+  } catch (err) {
+    console.error(`[blackbaud] gift cleanup ${giftId} failed: ${String(err).slice(0, 200)}`);
   }
 }
 
