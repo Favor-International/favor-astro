@@ -470,6 +470,22 @@ interface SearchResult {
  * finally gives up and returns null (caller creates a fresh constituent,
  * which Favor's team can merge later).
  */
+/** Does this constituent carry the address anywhere in their email list?
+ *  Search results display only the primary email, so a donor who types a
+ *  secondary address looks like a stranger without this check (Liana Rizzi,
+ *  2026-08-31: gave under her gmail, record's primary was her work address,
+ *  form minted a duplicate). Best-effort: any failure reads as "no". */
+async function constituentHasEmail(env: Env, id: string, wanted: string): Promise<boolean> {
+  try {
+    const res = await bbFetch(env, `/constituent/v1/constituents/${id}/emailaddresses`);
+    if (!res.ok) return false;
+    const body = (await res.json()) as { value?: { address?: string }[] };
+    return (body.value ?? []).some((r) => (r.address ?? '').trim().toLowerCase() === wanted);
+  } catch {
+    return false;
+  }
+}
+
 export async function searchConstituentByEmail(env: Env, email: string): Promise<SearchResult | null> {
   const e = encodeURIComponent(email);
   const attempts = [
@@ -478,14 +494,23 @@ export async function searchConstituentByEmail(env: Env, email: string): Promise
     `search_text=${e}&limit=25`,
   ];
   const wanted = email.toLowerCase();
+  const checked = new Set<string>();
   for (const qs of attempts) {
     const res = await bbFetch(env, `/constituent/v1/constituents/search?${qs}`);
     if (res.ok) {
       const found = (await res.json()) as { value?: SearchResult[] };
-      const match = (found.value ?? []).find(
-        (r) => (r.email ?? '').toLowerCase() === wanted && !r.deceased
-      );
-      return match ?? null;
+      const candidates = (found.value ?? []).filter((r) => !r.deceased);
+      // Fast path: the displayed (primary) email is the one the donor typed.
+      const direct = candidates.find((r) => (r.email ?? '').toLowerCase() === wanted);
+      if (direct) return direct;
+      // The donor may have typed a non-primary address: verify each hit's
+      // full email list (a few reads, capped, and each id checked once).
+      for (const r of candidates.slice(0, 5)) {
+        if (!r.id || checked.has(r.id)) continue;
+        checked.add(r.id);
+        if (await constituentHasEmail(env, r.id, wanted)) return r;
+      }
+      continue; // nothing verified on this variant; a broader one may still hit
     }
     const body = await res.text();
     console.error(`[blackbaud] constituent search variant failed (${res.status}): ${qs} :: ${body.slice(0, 300)}`);

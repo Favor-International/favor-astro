@@ -8,7 +8,7 @@
 // only the primary email. Read-only, setup-key guarded like the other admin
 // routes.
 
-import { bbFetch, requireCredentials, type Env } from '../_lib/blackbaud';
+import { bbFetch, requireCredentials, searchConstituentByEmail, type Env } from '../_lib/blackbaud';
 import { handleError, json, requireSetupKey } from '../_lib/http';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
@@ -20,6 +20,12 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const email = (url.searchParams.get('email') ?? '').trim();
     const id = (url.searchParams.get('id') ?? '').trim();
     const out: Record<string, unknown> = { email, id: id || null };
+
+    // &verify=1 runs the production matcher itself (read-only) and reports
+    // which record the giving form would reuse for this address.
+    if (email && url.searchParams.get('verify') === '1') {
+      out.production_match = await searchConstituentByEmail(env, email);
+    }
 
     if (email) {
       const e = encodeURIComponent(email);
