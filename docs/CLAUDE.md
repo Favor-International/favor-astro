@@ -30,7 +30,11 @@ Destiny Rescue, not on a corporate brochure.
 - **CMS:** Lightweight, file-based or headless. Decap CMS or Sanity if a
   GUI is required, otherwise Markdown + frontmatter in the repo
 - **Forms:** Cloudflare Pages Functions or a serverless endpoint
-- **Analytics:** Plausible primary, GA4 secondary if requested
+- **Analytics:** Google Tag Manager `GTM-MMMRL3S4` is the only
+  measurement snippet in the code; GA4 `G-VTJ3LN2BC8` is configured
+  inside GTM (tags live in GTM Version 2). CookieYes stays ahead of GTM
+  as the CMP, with Consent Mode v2 defaults denied. Never add a second
+  `gtag.js` snippet. Plausible is not installed.
 
 If a feature wants a different stack, push back. Do not silently add
 dependencies.
