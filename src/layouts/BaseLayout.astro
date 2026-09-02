@@ -65,6 +65,20 @@ const siteSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Consent Mode v2 defaults, ahead of every other tag: Google storage is
+         denied until CookieYes reports a choice, and wait_for_update gives the
+         CMP 500ms to send that update before tags decide. -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+      });
+    </script>
     <meta name="theme-color" content="#2b4d24" />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <title>{fullTitle}</title>
@@ -99,8 +113,25 @@ const siteSchema = {
          configured in the CookieYes dashboard; it was themed for the old site
          and Daniel expects it to need touch-ups against this design. -->
     <script is:inline id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/876f631cdfa13b3634a60ffb/script.js"></script>
+
+    <!-- Google Tag Manager (GTM-MMMRL3S4). GA4 (G-VTJ3LN2BC8) and the rest of
+         the tags are configured inside GTM, so no gtag.js snippet belongs
+         here. Loaded after CookieYes on purpose: CMP first, then GTM. -->
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-MMMRL3S4');
+    </script>
+    <!-- End Google Tag Manager -->
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MMMRL3S4"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <a href="#main" class="skip">Skip to main content</a>
     <slot />
   </body>
