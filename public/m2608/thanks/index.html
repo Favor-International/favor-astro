@@ -979,7 +979,7 @@ figcaption{
 <script>
 /* ---- THE TWO THINGS THAT CHANGE. Change them here, nowhere else. ---- */
 var GIVE_BASE = 'https://favorintl.org/give/donate/';   /* the giving form. Every button is built from it. */
-var SAID_YES  = 47;   /* fallback only: verified 2026-09-07 evening. The live count loads from COUNT_URL below. */
+var SAID_YES  = 35;   /* FROZEN to match the Sep 8 thank-you email (leadership, 2026-09-08: a scheduled send's numbers are final; everything it links to matches). */
 var GOAL      = 48;
 /* The same tally the dashboard and the email use, read live so this page can
    never show a number the campaign has already passed. Falls back to SAID_YES
@@ -995,10 +995,7 @@ function applyCount(n){
   if (fill) fill.style.width = Math.max(0, Math.min(100, Math.round((n / GOAL) * 100))) + '%';
 }
 applyCount(SAID_YES);
-fetch(COUNT_URL).then(function(r){ return r.json(); }).then(function(j){
-  var n = Number(j && j.partners);
-  if (Number.isInteger(n) && n >= 0 && n <= GOAL) applyCount(n);
-}).catch(function(){});
+/* Live tally intentionally OFF for this page: the email it belongs to carries 35 of 48 and the page must say the same. COUNT_URL kept for the next campaign. */
 /* Every give button carries the email attribution (src=email, ref EM5-THANKS)
    so gifts from this page land in the campaign reports like every other week. */
 function givingUrl(amount, frequency){
