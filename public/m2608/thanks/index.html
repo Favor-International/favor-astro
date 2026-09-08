@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<!--
+  Favor International — Campaign One, the wrap-up landing page.
+  The destination for every link in the Sep 9 thank-you email. Holds the whole campaign:
+  Madina (week one), what a gift provides (week two), the proof and Dorcas (week three),
+  Carole and where it began (week four). Every section carries its own ask.
+-->
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Whole Story · Become a Monthly Partner · Favor International</title>
+<meta name="description" content="Four weeks, one invitation. Madina's story, what a monthly gift provides, the proof it holds, and where it began, in Carole's own voice. $50 a month sends one person through the entire two-week Trauma Counseling intensive.">
+<meta property="og:title" content="The whole story, in one place.">
+<meta property="og:description" content="Madina, what a monthly gift provides, Dorcas, and where it all began. $50 a month sends one person through the entire two-week Trauma Counseling intensive.">
+<meta property="og:image" content="assets/madina-hero-wide.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=' js';</script>
+<style>
+/* ==========================================================================
+   Favor Africa Palette · editorial-documentary
+   Values match src/styles/tokens.css on favorintl.org. Do not drift.
+   ========================================================================== */
+:root{
+  --olive:#2b4d24;
+  --olive-deep:#1d3419;
+  --olive-black:#132009;
+  --sage:#8b957b;
+  --sage-light:#c5ccc2;
+  --sand:#e0c081;
+  --sand-pale:#f4ecd8;
+  --gold:#e1a730;
+  --gold-deep:#b88424;
+  --terracotta:#a36d4c;
+  --dusty:#ba9a86;
+  --cream:#fbf6ec;
+  --ink:#2b2a22;
+  --ink-soft:#5a5648;
+  --white:#fffefb;
+
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Karla',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --shadow-card:0 24px 60px -28px rgba(19,32,9,.45);
+  --shadow-lift:0 36px 80px -30px rgba(19,32,9,.55);
+  --gutter:clamp(20px,5vw,64px);
+  --measure:64ch;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* film grain — the texture that carries through every Campaign One asset */
+body::after{
+  content:'';position:fixed;inset:0;z-index:900;pointer-events:none;
+  opacity:.045;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+h1,h2,h3,h4{font-family:var(--display);margin:0;font-weight:600;line-height:1.1}
+p{margin:0 0 1.15em}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+button{font-family:inherit;cursor:pointer}
+
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+.narrow{max-width:760px;margin-left:auto;margin-right:auto}
+
+.kicker{
+  font-family:var(--body);font-size:11.5px;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);
+  margin:0 0 18px;display:flex;align-items:center;gap:14px;
+}
+.kicker::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold) 0%,rgba(225,167,48,0) 100%)}
+.kicker--light{color:var(--sand)}
+.kicker--light::after{background:linear-gradient(90deg,rgba(225,167,48,.85) 0%,rgba(225,167,48,0) 100%)}
+.kicker--center{justify-content:center}
+.kicker--center::after,.kicker--center::before{content:'';flex:0 0 56px;height:1px;background:var(--gold)}
+
+/* ==========================================================================
+   STICKY BAR
+   ========================================================================== */
+.bar{
+  position:sticky;top:0;z-index:700;
+  background:rgba(19,32,9,.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(225,167,48,.28);
+  color:var(--white);
+}
+.bar__in{display:flex;align-items:center;gap:24px;min-height:66px;padding-top:10px;padding-bottom:10px}
+.bar__logo{height:34px;width:auto;flex:0 0 auto}
+.bar__note{
+  flex:1;font-size:13px;letter-spacing:.02em;color:var(--sand-pale);
+  display:flex;align-items:baseline;gap:9px;
+}
+.bar__note strong{color:var(--gold);font-weight:700}
+.bar .btn{flex:0 0 auto;padding:12px 22px;font-size:13px}
+@media(max-width:820px){
+  .bar__note{display:none}
+  .bar__in{gap:14px;justify-content:space-between}
+}
+
+/* ==========================================================================
+   BUTTON
+   ========================================================================== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--gold);color:var(--olive-black);
+  font-family:var(--body);font-weight:700;font-size:15px;
+  letter-spacing:.04em;text-transform:none;text-decoration:none;
+  padding:17px 32px;border:none;border-radius:2px;
+  box-shadow:0 10px 26px -12px rgba(225,167,48,.85),inset 0 -2px 0 rgba(0,0,0,.14);
+  transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s,background .18s;
+  text-align:center;
+}
+.btn:hover{background:#f0b63c;transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(225,167,48,.95),inset 0 -2px 0 rgba(0,0,0,.14)}
+.btn:active{transform:translateY(0)}
+.btn__arrow{transition:transform .18s}
+.btn:hover .btn__arrow{transform:translateX(4px)}
+.btn--block{display:flex;width:100%;font-size:16px;padding:18px 24px;line-height:1.25}
+[data-give-label]{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.25}
+.btn__amt{font-size:13px;font-weight:600;letter-spacing:.06em;opacity:.78}
+.btn--ghost{
+  background:transparent;color:var(--olive);border:1.5px solid rgba(43,77,36,.32);
+  box-shadow:none;font-weight:600;
+}
+.btn--ghost:hover{background:rgba(43,77,36,.06);border-color:var(--olive);box-shadow:none}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero{position:relative;background:var(--olive-deep);color:var(--white);overflow:hidden}
+.hero__bg{position:absolute;inset:0}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:52% 32%;opacity:.5}
+
+.hero__top{
+  position:relative;z-index:2;
+  padding-top:clamp(44px,5.5vw,72px);
+  text-align:center;
+}
+.hero__top h1{max-width:26ch;margin-left:auto;margin-right:auto}
+.hero__top .hero__lede{margin-left:auto;margin-right:auto;max-width:58ch}
+.hero__top .hero__not{margin:0 auto;max-width:none}
+.hero__in{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,4.5vw,64px);
+  align-items:center;
+  padding-top:clamp(28px,3.5vw,48px);padding-bottom:clamp(56px,7vw,96px);
+}
+.hero h1{
+  font-size:clamp(2.25rem,4.15vw,3.45rem);line-height:1.06;letter-spacing:-.015em;
+  margin:0 0 20px;color:var(--white);
+}
+.hero h1 .num{
+  color:var(--gold);font-style:italic;font-weight:700;
+  position:relative;white-space:nowrap;
+}
+.hero__lede{
+  font-size:clamp(1.06rem,1.6vw,1.24rem);line-height:1.55;color:var(--sand-pale);
+  max-width:34ch;margin:0 0 20px;
+}
+.hero__rule{width:64px;height:2px;background:var(--gold);margin:0 0 20px;border:none}
+.hero__not{
+  font-family:var(--display);font-style:italic;font-size:1.12rem;line-height:1.5;
+  color:rgba(255,254,251,.82);max-width:36ch;margin:0;
+}
+.hero__deadline{
+  display:inline-flex;align-items:center;gap:10px;margin:0 0 24px;
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--olive-black);background:var(--sand);padding:8px 16px;border-radius:2px;
+}
+@media(max-width:960px){
+  .hero__in{grid-template-columns:1fr;gap:32px}
+  .hero__lede,.hero__not{max-width:none}
+  /* Mobile: headline, then a capped video, then the give card one short swipe down.
+     The film must never bury the ask. */
+  .film__frame{max-width:min(300px,78vw)}
+}
+
+/* ---- the give card, on screen one ---- */
+.give{
+  background:var(--white);border-radius:4px;padding:clamp(24px,3vw,34px);
+  box-shadow:var(--shadow-lift);color:var(--ink);
+  border-top:5px solid var(--gold);
+  scroll-margin-top:92px;   /* clears the sticky bar when the second CTA scrolls here */
+}
+.give__head{font-size:1.42rem;line-height:1.2;color:var(--olive);margin:0 0 6px}
+.give__sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;line-height:1.5}
+.freq{display:flex;gap:0;background:var(--sand-pale);border-radius:2px;padding:4px;margin:0 0 20px}
+.freq button{
+  flex:1;border:none;background:transparent;padding:11px 8px;border-radius:2px;
+  font-size:13.5px;font-weight:700;letter-spacing:.03em;color:var(--ink-soft);
+  transition:background .18s,color .18s,box-shadow .18s;
+}
+.freq button[aria-pressed="true"]{background:var(--olive);color:var(--white);box-shadow:0 4px 12px -6px rgba(19,32,9,.6)}
+.freq__note{font-size:11.5px;color:var(--ink-soft);margin:-12px 0 18px;line-height:1.45;font-style:italic}
+
+.amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 10px}
+.amt{
+  border:1.5px solid var(--sage-light);background:var(--white);border-radius:2px;
+  padding:14px 4px;font-size:16px;font-weight:700;color:var(--ink);
+  transition:border-color .16s,background .16s,color .16s,transform .16s;
+  position:relative;
+}
+.amt:hover{border-color:var(--gold);transform:translateY(-1px)}
+.amt[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--white)}
+.amt[aria-pressed="true"]::after{
+  content:'';position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);
+  width:22px;height:3px;background:var(--gold);
+}
+.amt__tag{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--gold);color:var(--olive-black);padding:2px 8px;border-radius:2px;
+  white-space:nowrap;pointer-events:none;
+}
+.custom{display:flex;align-items:center;gap:10px;margin:0 0 18px}
+.custom label{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+.custom__field{flex:1;display:flex;align-items:center;border:1.5px solid var(--sage-light);border-radius:2px;background:var(--white)}
+.custom__field:focus-within{border-color:var(--gold)}
+.custom__field span{padding:0 4px 0 12px;color:var(--ink-soft);font-weight:700}
+.custom__field input{
+  flex:1;border:none;outline:none;background:transparent;font-family:var(--body);
+  font-size:15px;font-weight:700;color:var(--ink);padding:12px 12px 12px 2px;width:100%;
+  -moz-appearance:textfield;
+}
+.custom__field input::-webkit-outer-spin-button,
+.custom__field input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.impact{
+  background:var(--sand-pale);border-left:3px solid var(--gold);
+  padding:13px 16px;margin:0 0 20px;font-size:14px;line-height:1.5;color:var(--ink);
+}
+.impact strong{color:var(--olive);font-weight:700}
+.fine{font-size:12px;color:var(--ink-soft);text-align:center;margin:12px 0 0;line-height:1.5}
+.fine a{color:var(--olive);text-decoration:underline;text-underline-offset:2px}
+
+/* ==========================================================================
+   BANDS
+   ========================================================================== */
+.band{padding:clamp(64px,8.5vw,116px) 0;position:relative}
+.band--cream{background:var(--cream)}
+.band--white{background:var(--white)}
+.band--sand{background:var(--sand-pale)}
+.band--olive{background:var(--olive);color:var(--white)}
+.band--olive h2,.band--olive h3{color:var(--white)}
+.band--dark{background:var(--olive-black);color:var(--white)}
+.band--dark h2,.band--dark h3{color:var(--white)}
+
+.h2{font-size:clamp(1.95rem,3.6vw,3rem);line-height:1.08;color:var(--olive);letter-spacing:-.01em;margin:0 0 22px}
+.band--olive .h2,.band--dark .h2{color:var(--white)}
+.lede{font-size:clamp(1.05rem,1.45vw,1.2rem);line-height:1.6;color:var(--ink-soft);max-width:none}
+.band--olive .lede,.band--dark .lede{color:rgba(255,254,251,.82)}
+
+/* ---- the three-fact thesis strip ---- */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(225,167,48,.28)}
+.fact{background:var(--olive);padding:clamp(26px,3vw,38px)}
+.fact__n{font-family:var(--display);font-size:2.7rem;line-height:1;color:var(--gold);margin:0 0 12px;font-style:italic}
+.fact__t{font-family:var(--display);font-size:1.24rem;line-height:1.25;color:var(--white);margin:0 0 10px}
+.fact__b{font-size:14.5px;line-height:1.6;color:rgba(255,254,251,.76);margin:0}
+@media(max-width:860px){.facts{grid-template-columns:1fr}}
+
+/* ---- story ---- */
+.story__head{margin-bottom:clamp(34px,4vw,52px);max-width:var(--measure)}
+.story__h{font-size:clamp(1.9rem,3.4vw,2.8rem);line-height:1.06;color:var(--olive);letter-spacing:-.02em;margin:0;text-wrap:balance}
+.story__body{max-width:none;font-size:17.5px;line-height:1.75;color:var(--ink)}
+/* The opening line does the work a drop cap would, and does it better —
+   it is the strongest sentence in the campaign. A floated cap breaks against
+   a one-line paragraph, so it is set as a lead instead. */
+.story__lead{
+  font-family:var(--display);font-size:clamp(1.5rem,2.5vw,2.05rem);line-height:1.32;
+  color:var(--olive);margin:0 0 1.1em;
+}
+.scripture{
+  border-left:3px solid var(--gold);padding:6px 0 6px 26px;margin:34px 0;
+  font-family:var(--display);font-style:italic;font-size:1.32rem;line-height:1.5;color:var(--olive);
+  max-width:var(--measure);
+}
+.scripture .cite{
+  display:block;margin-top:12px;font-family:var(--body);font-style:normal;
+  font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);
+}
+.pull{
+  font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,2.6vw,2.1rem);
+  line-height:1.32;color:var(--olive);margin:40px 0;position:relative;
+}
+.pull::before{
+  content:'“';position:absolute;left:-.52em;top:-.14em;font-size:3.2em;line-height:1;
+  color:rgba(225,167,48,.34);pointer-events:none;
+}
+.pull cite{
+  display:block;margin-top:16px;font-family:var(--body);font-style:normal;font-weight:700;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);
+}
+figure{margin:44px 0}
+.sq-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:clamp(30px,3.5vw,44px) 0 0}
+.sq-pair figure{margin:0}
+.sq-pair img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;box-shadow:var(--shadow-card)}
+@media(max-width:640px){.sq-pair{grid-template-columns:1fr}}
+figure img{border-radius:2px;box-shadow:var(--shadow-card)}
+figcaption{
+  font-size:13px;line-height:1.5;color:var(--ink-soft);font-style:italic;
+  margin-top:14px;padding-left:16px;border-left:2px solid var(--gold);
+}
+/* Sized to the image, then centred. The field photos are 1000–1200px wide, so
+   a full-bleed figure would upscale them. Favor's org is literal about its
+   photography — a soft or stretched field photo gets the asset rejected. */
+.figure--wide{width:fit-content;max-width:100%;margin-left:auto;margin-right:auto}
+
+/* ---- what $50 buys ---- */
+.buys{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(43,77,36,.14);margin-top:clamp(34px,4vw,48px)}
+.buy{background:var(--white);padding:clamp(20px,2.2vw,28px);display:flex;flex-direction:column;gap:10px}
+.buy__i{width:34px;height:34px;color:var(--gold-deep)}
+.buy__t{font-family:var(--display);font-size:1.08rem;line-height:1.25;color:var(--olive);margin:0}
+.buy__b{font-size:13.5px;line-height:1.55;color:var(--ink-soft);margin:0}
+@media(max-width:980px){.buys{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.buys{grid-template-columns:1fr}}
+
+/* ---- ladder ---- */
+.ladder{display:grid;gap:1px;background:rgba(255,254,251,.16);margin:clamp(28px,3.5vw,40px) 0 0;border:1px solid rgba(255,254,251,.16)}
+.rung{
+  background:var(--olive);display:grid;grid-template-columns:190px 1fr;align-items:center;
+  gap:20px;padding:20px 26px;transition:background .2s;
+}
+.rung__a{font-family:var(--display);font-size:1.62rem;color:var(--white);line-height:1}
+.rung__b{font-size:14.5px;color:rgba(255,254,251,.78);line-height:1.5}
+.rung--hot{background:var(--gold);position:relative}
+.rung--hot .rung__a{color:var(--olive-black);font-weight:700}
+.rung--hot .rung__b{color:rgba(19,32,9,.82);font-weight:600}
+.rung--hot::before{
+  content:'The ask';position:absolute;top:-1px;right:26px;
+  font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--olive-black);color:var(--gold);padding:4px 10px;
+}
+@media(max-width:680px){
+  .rung{grid-template-columns:1fr;gap:4px;padding:18px 20px}
+  .rung--hot::before{right:16px}
+}
+
+/* ---- progress meter (off by default) ---- */
+.progress{max-width:560px;margin:0 auto clamp(34px,4vw,48px)}
+.progress__row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.progress__n{font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--gold)}
+.progress__l{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,254,251,.6)}
+.progress__track{height:8px;background:rgba(255,254,251,.16);border-radius:99px;overflow:hidden}
+.progress__fill{height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold));border-radius:99px;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+
+/* ---- trust ---- */
+.trust-h{font-size:clamp(1.3rem,2.55vw,2.05rem)}
+@media(min-width:700px){.trust-h{white-space:nowrap}}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,3vw,44px);margin-top:clamp(30px,3.5vw,44px)}
+.trust h3{font-size:1.14rem;color:var(--olive);margin:0 0 8px}
+.trust p{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin:0}
+.trust .pct{font-family:var(--display);font-size:2.5rem;line-height:1;color:var(--gold-deep);display:block;margin-bottom:8px}
+@media(max-width:820px){.trust{grid-template-columns:1fr}}
+
+/* ---- faq ---- */
+.faq{margin:clamp(28px,3.5vw,40px) auto 0}
+.faq details{border-bottom:1px solid rgba(43,77,36,.16)}
+.faq summary{
+  list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;
+  font-family:var(--display);font-size:1.14rem;color:var(--olive);line-height:1.35;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:'+';position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-family:var(--body);font-size:1.4rem;font-weight:400;color:var(--gold-deep);transition:transform .2s;
+}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq p{font-size:15.5px;line-height:1.68;color:var(--ink-soft);margin:0 0 20px}
+
+/* ---- closing ---- */
+.close__in{text-align:center;max-width:720px;margin:0 auto}
+.close .h2{margin-bottom:20px}
+.close .lede{margin:0 auto 34px}
+.close .btn{padding:22px 44px;font-size:17px}
+
+/* ---- footer ---- */
+.foot{background:var(--olive-black);color:rgba(255,254,251,.62);padding:52px 0 60px;font-size:13.5px}
+.foot__in{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:space-between}
+.foot img{height:40px;width:auto;margin-bottom:16px}
+.foot a{color:var(--sand);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.foot__links{display:flex;flex-wrap:wrap;gap:20px}
+.foot__tag{font-family:var(--display);font-style:italic;color:var(--sand);font-size:15px}
+
+/* ---- mobile sticky give ---- */
+.mobile-give{
+  position:fixed;left:0;right:0;bottom:0;z-index:750;display:none;
+  padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+  background:rgba(19,32,9,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid rgba(225,167,48,.3);
+}
+@media(max-width:640px){
+  .mobile-give{display:block}
+  body{padding-bottom:84px}
+  .amounts{grid-template-columns:repeat(2,1fr);gap:10px}
+  .amt__tag{font-size:8.5px}
+}
+
+/* ---- reveal ----
+   Scoped to html.js on purpose. The class is added by an inline script in the
+   head, so if JavaScript fails, is blocked, or errors, every section renders
+   fully visible instead of a blank page. A giving page must never be able to
+   disappear because a script did not run. */
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.8,.3,1),transform .8s cubic-bezier(.2,.8,.3,1)}
+.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+  .btn,.amt{transition:none}
+}
+
+/* ==========================================================================
+   FILM — week four. Carole's closing film lives INSIDE the hero, left column,
+   beside the give card. Behind the HAS_FILM switch.
+   ========================================================================== */
+.film__kicker{font-family:var(--body);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sand);font-weight:700;text-align:center;margin:0 0 14px}
+.film__frame{position:relative;background:#000;box-shadow:var(--shadow-lift);line-height:0;max-width:380px;margin:0 auto}/* the week-4 film is vertical (9:16); cap the frame so it never towers over the page */
+.film__frame video{width:100%;height:auto;display:block}
+.film__sound{position:absolute;right:14px;bottom:64px;z-index:3;border:0;cursor:pointer;
+  background:var(--gold);color:var(--olive-black);font-family:var(--body);font-weight:700;
+  font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;padding:11px 16px;
+  box-shadow:0 10px 24px -8px rgba(0,0,0,.6);display:none}
+.film__sound.on{display:block}
+.film__cap{color:var(--sage-light);font-size:.9rem;text-align:center;margin:14px 0 0;font-style:italic}
+@media (max-width:640px){.film__sound{right:10px;bottom:56px;font-size:.74rem;padding:9px 12px}}
+
+/* ---- film bands (weeks three and four, mid-page, never autoplay) ---- */
+.filmband{background:var(--olive-black);padding:clamp(28px,4vw,56px) 0}
+.filmband__in{max-width:1060px;margin:0 auto;padding:0 var(--gutter)}
+.filmband .film__frame{max-width:none}
+.filmband--vertical .film__frame{max-width:380px}
+/* ---- inline section CTA ---- */
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px 26px;margin-top:clamp(30px,3.5vw,44px);padding-top:clamp(22px,2.5vw,30px);border-top:1px solid rgba(43,77,36,.14)}
+.band--olive .cta-row,.band--dark .cta-row{border-top-color:rgba(255,254,251,.16)}
+.cta-row p{margin:0;font-family:var(--display);font-style:italic;font-size:1.1rem;line-height:1.45;color:var(--olive);flex:1 1 320px}
+.band--olive .cta-row p,.band--dark .cta-row p{color:var(--sand-pale)}
+/* ---- road map ---- */
+.road{display:grid;gap:10px;margin:0}
+.road a{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:14px;text-decoration:none;
+  background:rgba(255,254,251,.08);border:1px solid rgba(225,167,48,.28);padding:12px 16px;border-radius:2px;color:var(--white);transition:background .18s,border-color .18s}
+.road a:hover{background:rgba(255,254,251,.14);border-color:var(--gold)}
+.road__n{font-family:var(--display);font-style:italic;font-size:1.5rem;color:var(--gold);line-height:1}
+.road__t{font-size:14.5px;line-height:1.35}
+.road__t small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sand);font-weight:700;margin-bottom:2px}
+.hero__thanks{font-family:var(--display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.35;color:var(--white);margin:0 0 18px}
+.hero__thanks em{color:var(--gold);font-style:italic}
+/* ---- share ---- */
+.share{margin-top:26px;font-size:14px;color:rgba(255,254,251,.72)}
+.share button{background:transparent;border:1.5px solid rgba(255,254,251,.4);color:var(--white);padding:10px 18px;border-radius:2px;font-weight:700;font-size:13px;margin-left:8px}
+.share button:hover{border-color:var(--gold);color:var(--gold)}
+.share__ok{display:block;margin-top:8px;color:var(--gold);font-size:13px;min-height:1.2em}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     STICKY BAR
+     ============================================================ -->
+<header class="bar">
+  <div class="wrap bar__in">
+    <img class="bar__logo" src="assets/favor-logo-white.png" alt="Favor International">
+    <div class="bar__note">
+      <span><strong><span data-said-yes>35</span> of 48</strong> monthly partners &middot; room for <span data-room-for>13</span> more</span>
+    </div>
+    <!-- data-give-button -->
+    <a class="btn" href="#" data-give-button>Give monthly <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+  </div>
+</header>
+
+
+<!-- ============================================================
+     HERO — the thank-you, the road map, and the ask, all on screen one.
+     ============================================================ -->
+<section class="hero" id="give">
+  <div class="wrap hero__top">
+    <p class="kicker kicker--light kicker--center">The whole story of a four-week invitation from Favor International</p>
+    <h1>We set out to find <span class="num">48 people</span> to partner with us through monthly giving.</h1>
+    <p class="hero__lede">
+      So Trauma Counseling runs on a schedule instead of on an appeal, and the next village
+      does not wait to be provided for before it is reached.
+    </p>
+    <p class="hero__not"><span data-said-yes>35</span> have said yes. There is room for <span data-room-for>13</span> more.</p>
+  </div>
+
+  <div class="wrap hero__in">
+
+    <div>
+      <p class="hero__thanks">To everyone who read, prayed, shared, or said yes over these four weeks: <em>thank you.</em> This page is the whole road, in case you missed any of it.</p>
+      <nav class="road" aria-label="The four weeks">
+        <a href="#week-one"><span class="road__n">1</span><span class="road__t"><small>The story</small>Madina, who paid to have a woman killed, and then forgave her</span></a>
+        <a href="#week-two"><span class="road__n">2</span><span class="road__t"><small>What it provides</small>One person, all the way through the two weeks</span></a>
+        <a href="#week-three"><span class="road__n">3</span><span class="road__t"><small>The proof</small>Sixty seconds inside a class, and Dorcas, years later</span></a>
+        <a href="#week-four"><span class="road__n">4</span><span class="road__t"><small>Where it began</small>Carole, in her own voice</span></a>
+      </nav>
+    </div>
+
+    <!-- ---- give card ---- -->
+    <div class="give" id="give-card">
+      <h2 class="give__head" id="give-head">Become a monthly partner.</h2>
+      <p class="give__sub" id="give-sub">$50 a month sends one person through the entire two-week Trauma Counseling intensive.</p>
+
+      <div class="freq" role="group" aria-label="Giving frequency">
+        <button type="button" data-freq="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" data-freq="once" aria-pressed="false">One time</button>
+      </div>
+      <p class="freq__note" id="freq-note" hidden>A one-time gift helps. A monthly one is what puts the next class on the schedule.</p>
+
+      <div class="amounts" role="group" aria-label="Choose an amount" id="amount-presets">
+        <button type="button" class="amt" data-amount="200">$200</button>
+        <button type="button" class="amt" data-amount="100">$100</button>
+        <button type="button" class="amt" data-amount="50" aria-pressed="true"><span class="amt__tag">One person</span>$50</button>
+        <button type="button" class="amt" data-amount="25">$25</button>
+      </div>
+
+      <div class="custom">
+        <label for="custom-amount" id="custom-label">Or another amount</label>
+        <div class="custom__field">
+          <span aria-hidden="true">$</span>
+          <input type="number" id="custom-amount" min="1" step="1" value="50" inputmode="numeric" aria-label="Custom monthly amount in dollars">
+        </div>
+      </div>
+
+      <p class="impact" id="impact"><strong>$50 a month</strong> sends one person through the entire two-week intensive. One person a month. Twelve a year.</p>
+
+      <!-- data-give-button -->
+      <a class="btn btn--block" href="#" data-give-button>
+        <span data-give-label>Become a monthly partner &middot; $50/month</span>
+        <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <p class="fine">Cancel or change any time. Takes about ninety seconds.<br>
+        Favor International is a 501(c)(3). Your gift is tax-deductible.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     THE THESIS — three facts, before the story.
+     ============================================================ -->
+<section class="band band--dark" style="padding-top:0;padding-bottom:0">
+  <div class="facts">
+    <div class="fact reveal">
+      <p class="fact__n">$50</p>
+      <p class="fact__t">One person, all the way through.</p>
+      <p class="fact__b">Two weeks of all-day teaching. The one-on-one counseling after it. The curriculum in their hands, their certificate, and the cost of sending our missionaries out two by two and keeping them there while the work is done.</p>
+    </div>
+    <div class="fact reveal">
+      <p class="fact__n"><span data-said-yes>35</span> of 48</p>
+      <p class="fact__t">Partners, not gifts.</p>
+      <p class="fact__b">Each one is a person who decided this happens every month. When the giving is steady, our team can put the next village on the calendar knowing the class is provided for.</p>
+    </div>
+    <div class="fact reveal">
+      <p class="fact__n"><span data-room-for>13</span> more</p>
+      <p class="fact__t">The date passed. The invitation did not.</p>
+      <p class="fact__b">The four weeks closed on Friday, September 4. The classes they provide for are still ahead of us, and there is room for you among the 48.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WEEK ONE — Madina, the short version.
+     ============================================================ -->
+<section class="band band--cream" id="week-one">
+  <div class="wrap">
+    <figure class="reveal" style="float:right;width:min(370px,48%);margin:0 0 18px 30px">
+      <img src="assets/madina.jpg" alt="Madina, in Upper Nile State" style="width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 10%">
+      <figcaption>Madina &middot; Joda, Upper Nile State</figcaption>
+    </figure>
+
+    <div class="story__head reveal">
+      <p class="kicker">Week one &middot; the story</p>
+      <h2 class="story__h">From a Death Wish<br>to Forgiveness</h2>
+    </div>
+
+    <div class="story__body">
+      <p class="story__lead reveal">She had already decided that a woman was going to die.</p>
+
+      <p class="reveal">Her name is Madina. She grew up in Upper Nile State under a stepmother who mistreated her without mercy, a woman Madina believed practiced witchcraft. When her mother died and her father's home fell apart, Madina was certain she knew who to blame, and when her own marriage later broke, the bitterness hardened into a vow. She went to a witch doctor and paid him to have her stepmother killed. Her own father begged her not to. She would not listen.</p>
+
+      <p class="reveal">Then a Portable Bible School and a Trauma Counseling class came to her village of Joda. Madina sat in those classes carrying a plan for murder in her heart, and as she heard how Jesus forgave the very people who wronged Him, the Word of God started to loosen a grip that revenge had held for years.</p>
+
+      <blockquote class="pull reveal">
+        I never thought in my life that I would forgive my stepmother one day. But today my life is renewed.
+        <cite>Madina &middot; Joda, Upper Nile State</cite>
+      </blockquote>
+
+      <p class="reveal">Today she and her stepmother live in peace. Madina now sits faithfully in those same classes, growing in the grace that saved her.</p>
+    </div>
+
+    <figure class="figure--wide reveal" style="clear:both">
+      <img src="assets/madina-class-group.jpg" alt="The women of Madina's Trauma Counseling class seated together in Upper Nile State">
+      <figcaption>The women of Madina's class in Upper Nile State, learning to trade bitterness for the forgiveness of Christ.</figcaption>
+    </figure>
+
+    <div class="cta-row reveal">
+      <p>If Madina's story is enough for you, you do not have to keep reading.</p>
+      <!-- data-give-button -->
+      <a class="btn" href="#give-card" data-give-scroll>Become a monthly partner <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WEEK TWO — what a monthly gift provides, and the whole room.
+     ============================================================ -->
+<section class="band band--white" id="week-two">
+  <div class="wrap">
+    <p class="kicker reveal">Week two &middot; what a monthly gift provides</p>
+    <h2 class="h2 reveal">One person, all the way through the two weeks.</h2>
+    <p class="lede reveal">Everything one person needs to go from the day they walk in to the day they walk out with a certificate in their hand.</p>
+
+    <div class="buys">
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H11v18H5.5A2.5 2.5 0 0 1 3 18.5z"/><path d="M21 5.5A2.5 2.5 0 0 0 18.5 3H13v18h5.5a2.5 2.5 0 0 0 2.5-2.5z"/></svg>
+        <h3 class="buy__t">Two weeks of teaching</h3>
+        <p class="buy__b">All day, every day, for two full weeks of learning and healing together.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21v-2a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v2"/><circle cx="5.5" cy="8.5" r="3"/><path d="M22 21v-2a3 3 0 0 0-3-3h-1a3 3 0 0 0-3 3v2"/><circle cx="18.5" cy="8.5" r="3"/></svg>
+        <h3 class="buy__t">One-on-one counseling</h3>
+        <p class="buy__b">After the teaching ends, someone sits with them through the deepest part of the healing.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M15 4v5h5"/><path d="M7.5 13h7"/><path d="M7.5 17h4"/></svg>
+        <h3 class="buy__t">Their own curriculum</h3>
+        <p class="buy__b">Written for Africa, in their own language, theirs to keep long after the class moves on.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.8 7 21.5l5-2.6 5 2.6-1.5-7.7"/></svg>
+        <h3 class="buy__t">Their certificate</h3>
+        <p class="buy__b">Completion, named and celebrated. Look at the joy in the faces holding them.</p>
+      </div>
+      <div class="buy reveal">
+        <svg class="buy__i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        <h3 class="buy__t">Getting our missionaries there</h3>
+        <p class="buy__b">Sent out two by two, just as Jesus did. Fuel into villages other people do not drive to, and a place to stay for the full two weeks.</p>
+      </div>
+    </div>
+
+    <div class="story__body" style="margin-top:clamp(40px,5vw,64px)">
+      <p class="story__lead reveal">Madina is one of thousands.</p>
+      <p class="reveal">For more than twenty years, our field missionaries have been carrying trauma healing across Africa, into places most people will never see. Little villages of grass and tin at the end of roads no one else drives. Refugee settlements. Police barracks. Government offices. Wherever there are wounded hearts, they go.</p>
+      <p class="reveal">Some of the people in these photos walked in barefoot. Some came in uniform. In 2022, we watched top generals of the South Sudanese army kneel with their hands lifted high to receive the same teaching Madina received. One of the nation&rsquo;s vice presidents sent his entire executive staff through it.</p>
+      <blockquote class="pull reveal">
+        We are all traumatized.
+        <cite>A vice president of South Sudan</cite>
+      </blockquote>
+      <p class="reveal">And when the country&rsquo;s top police commissioner shared that most of South Sudan&rsquo;s suicides come from inside his own police force, our missionaries began walking alongside the police and their chaplains, training them in trauma healing.</p>
+      <p class="reveal">Trauma does not check what you are wearing. Neither does the love of Jesus. From the tin hut to the government office, our missionaries carry the same gentle message into every one of these rooms: <em>you are not what happened to you. You are a beloved child of God.</em></p>
+    </div>
+
+    <div class="sq-pair reveal">
+      <figure>
+        <img src="assets/hero-testimony.jpg" alt="A man shares his testimony, smiling, in front of a Trauma Counseling class" style="object-position:50% 22%">
+        <figcaption>A testimony shared in front of the class.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/certificate-woman.jpg" alt="A woman receives her certificate at the end of the two-week Trauma Counseling intensive" style="object-position:72% 30%">
+        <figcaption>The day the certificate goes into her hands.</figcaption>
+      </figure>
+    </div>
+
+    <div class="cta-row reveal">
+      <p>One person a month. Twelve a year. That is what steady giving provides that a single gift cannot: a next one.</p>
+      <!-- data-give-button -->
+      <a class="btn" href="#give-card" data-give-scroll>Become a monthly partner <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WEEK THREE — the proof. The sixty-second film, the room, and Dorcas.
+     ============================================================ -->
+<section class="filmband" id="week-three">
+  <div class="filmband__in">
+    <p class="film__kicker">Week three &middot; sixty seconds inside a class</p>
+    <div class="film__frame">
+      <video id="tcfilm" playsinline preload="metadata" controls poster="assets/poster.jpg">
+        <source src="https://favor-marketing.marketing-6e9.workers.dev/video/campaign-one-w3" type="video/mp4">
+      </video>
+    </div>
+    <p class="film__cap">One minute, in Carole&rsquo;s voice.</p>
+  </div>
+</section>
+
+<section class="band band--cream">
+  <div class="wrap">
+    <div class="story__head reveal">
+      <p class="kicker">Week three &middot; the proof</p>
+      <h2 class="story__h">Madina Was Not the Exception</h2>
+    </div>
+
+    <div class="story__body">
+      <p class="story__lead reveal">A story can show you a moment.<br>It cannot show you whether the moment held.</p>
+
+      <p class="reveal">A person can forgive on a Friday and carry it all back by Monday, and a class that changes one life in one village is a beautiful moment, not a ministry. So here is the room. Not a clinic. A patch of shade, some plastic chairs, and two of our missionaries who drove out to be there. Classes meet wherever people already are, because the people who need this most are the least able to travel to get it.</p>
+    </div>
+
+    <figure class="figure--wide reveal">
+      <img src="assets/w3-everyone.jpg" alt="A Trauma Counseling class gathered on wooden benches under the trees: grandmothers, mothers, fathers, teenagers and children">
+      <figcaption>A class under the trees. Grandmothers, mothers, fathers, teenagers, and children, in the same circle.</figcaption>
+    </figure>
+
+    <div class="story__body">
+      <p class="reveal">Grandmothers and teenage boys. Mothers with babies on their laps. Men who have never once been asked a question about their own life. What happened in these places did not happen only to women, and it did not happen only to adults, so healing cannot be offered only to some of them. Everybody who was there gets to come.</p>
+    </div>
+
+    <div class="sq-pair reveal">
+      <figure>
+        <img src="assets/w3-hands.jpg" alt="Members of a Trauma Counseling class with hands raised together during an exercise">
+        <figcaption>Healing here is practiced out loud, and together.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/w3-exercise.jpg" alt="A Trauma Counseling class working through an exercise together">
+        <figcaption>The end of a class, in a room they built themselves.</figcaption>
+      </figure>
+    </div>
+
+    <div class="story__body" style="margin-top:clamp(30px,3.5vw,44px)">
+      <p class="story__lead reveal">And here is a woman on the other side of years of this.</p>
+
+      <p class="reveal">Her name is Dorcas. She was rescued out of human trafficking, and when she arrived she was carrying a child she did not yet know about. That is the part of a story people share. Here is the part almost nobody stays around long enough to see.</p>
+
+      <p class="reveal">Dorcas is still with us. She and her daughter live at one of our children&rsquo;s homes, and she runs the baking department there. The bread that feeds that home comes out of her hands every day. She is not a girl who was rescued. She is a woman other people now depend on.</p>
+
+      <p class="reveal">Nothing about that happened quickly, and nothing about it started with bread. It started the way it always starts here, with somebody sitting down with her in what happened to her. Healing came first. The training, the work, the years, the daughter growing up watching her mother run a department, all of it walked through a door that trauma counseling opened.</p>
+
+      <p class="reveal" style="font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.72rem);line-height:1.45;color:var(--olive)">Trauma healing is not one program among several. It is the first one, and everything else Favor does depends on it holding.</p>
+    </div>
+
+    <div class="cta-row reveal">
+      <p>Madina, Dorcas, and every person on those benches are what happens when the same teaching keeps arriving, village after village, because somebody kept providing for it.</p>
+      <!-- data-give-button -->
+      <a class="btn" href="#give-card" data-give-scroll>Become a monthly partner <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WEEK FOUR — Carole, where it began. Her film, then her letter, condensed.
+     Every sentence traces to her two published books.
+     ============================================================ -->
+<section class="filmband filmband--vertical" id="week-four">
+  <div class="filmband__in">
+    <p class="film__kicker">Week four &middot; a message from Carole</p>
+    <div class="film__frame">
+      <video id="carolefilm" playsinline preload="metadata" controls poster="assets/carole-week4-poster.jpg">
+        <source src="https://favor-marketing.marketing-6e9.workers.dev/video/campaign-one-w4" type="video/mp4">
+      </video>
+    </div>
+    <p class="film__cap">Recorded in the field, in her own voice.</p>
+  </div>
+</section>
+
+<section class="band band--cream">
+  <div class="wrap">
+    <div class="story__head reveal">
+      <p class="kicker">Week four &middot; where it began</p>
+      <h2 class="story__h">&ldquo;I Did Not Come Here to Sow a Seed&rdquo;</h2>
+    </div>
+
+    <div class="story__body">
+      <p class="story__lead reveal">Twenty-four years ago I asked God to send me<br>where no one wants to go. He took me at my word.</p>
+
+      <p class="reveal">When I first came, I did not have a program. I had a rented room, and a few people who met with me every morning to pray. What we found around us was a great deal of pain that no one had ever been able to say out loud. I told them what I had already told the Lord: <em>I did not come here to sow a seed. I came to sow my life.</em></p>
+
+      <p class="reveal">Then in 2004, God sent us a doctor. He was a believer from Australia, a physician who had been a missionary in Tanzania, and he had spent years learning what war does to a heart and how a heart heals. He had written a teaching for the children of that war: five steps, all built on forgiveness, every one of them from scripture, and written plainly enough that ordinary people could learn it without ever being licensed counselors.</p>
+
+      <p class="reveal">So we gave him a week, and I sat through every day of it alongside everyone else. He walked a roomful of people through their weeping, and then through the pain underneath it, and then through the far harder work of setting down the anger they had carried toward one another for years. What waited on the other side of that was forgiveness. By the end of the week there was laughter in that room, and it was the first I had ever heard in that place.</p>
+
+      <p class="reveal">By Friday we all knew, without anyone having to argue it, that this was what the nation needed. We held the first class that same year, in 2004. <em>We have never stopped.</em></p>
+    </div>
+
+    <figure class="figure--wide reveal">
+      <img src="assets/w4-uniform.jpg" alt="A trauma counseling class held for men in uniform">
+      <figcaption>A class held for men in uniform.</figcaption>
+    </figure>
+
+    <div class="story__body">
+      <p class="reveal">I could not have predicted what it opened. We have taught it to soldiers in uniform, in police barracks and government offices, in villages where revenge is planned three generations out. We have had two thousand people in a single class. In those two weeks, nearly everyone in the room gives their life to Christ. And then, almost every time, somebody asks the question I never get tired of hearing: <em>&ldquo;Do you have the next step?&rdquo;</em></p>
+
+      <p class="reveal" style="font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.72rem);line-height:1.45;color:var(--olive)">Trauma healing is the door. Everything else walks through it.</p>
+
+      <p class="reveal">I am not asking you to fund an organization. Money has never been the point here. <em>Every dollar is a soul.</em> What I am asking for is consistency we can plan on.</p>
+
+      <p class="reveal" style="margin-top:1.4em"><strong>Carole Ward</strong><br><em>Favor International</em></p>
+    </div>
+
+    <div class="cta-row reveal">
+      <p>There is a door open in villages nobody drives to, and it stays open because people keep it open, every month.</p>
+      <!-- data-give-button -->
+      <a class="btn" href="#give-card" data-give-scroll>Become a monthly partner <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE ASK, PLAINLY — progress, full ladder, and the button.
+     ============================================================ -->
+<section class="band band--dark">
+  <div class="wrap narrow">
+
+    <div class="progress reveal" id="progress" data-goal="48">
+      <div class="progress__row">
+        <span class="progress__n"><span id="progress-count" data-said-yes>35</span> of 48</span>
+        <span class="progress__l">Monthly partners so far</span>
+      </div>
+      <div class="progress__track"><div class="progress__fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <p class="kicker kicker--light reveal">The invitation, plainly</p>
+    <h2 class="h2 reveal">We set out to find 48 people to partner with us through monthly giving. There is room for <span data-room-for>13</span> more.</h2>
+    <p class="lede reveal">Not 48 gifts. 48 people who decide this happens every month.</p>
+
+    <div class="ladder reveal">
+      <div class="rung"><span class="rung__a">$200 a month</span><span class="rung__b">Four people through the intensive, every month</span></div>
+      <div class="rung"><span class="rung__a">$100 a month</span><span class="rung__b">Two people through the intensive, every month</span></div>
+      <div class="rung rung--hot"><span class="rung__a">$50 a month</span><span class="rung__b">One person through the intensive, every month</span></div>
+      <div class="rung"><span class="rung__a">$25 a month</span><span class="rung__b">Half the cost of one</span></div>
+    </div>
+
+    <p class="lede reveal" style="margin-top:clamp(28px,3.2vw,38px)">
+      It takes about ninety seconds, you can change or cancel it any time, and from your very first
+      month, one person walks into one of those classes because of your partnership.
+    </p>
+
+    <div class="reveal" style="margin-top:clamp(24px,3vw,34px)">
+      <!-- data-give-button -->
+      <a class="btn" href="#give-card" data-give-scroll>Become a monthly partner <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GRADUATION PHOTO
+     ============================================================ -->
+<section class="band band--cream">
+  <div class="wrap">
+    <figure class="figure--wide reveal" style="margin-top:0">
+      <img src="assets/graduates.jpg" alt="A graduating Trauma Counseling class holds up their certificates together">
+      <figcaption>A graduating class holds up their certificates.</figcaption>
+    </figure>
+    <div class="story__body" style="margin-top:clamp(30px,3.5vw,44px)">
+      <p class="reveal" style="font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.72rem);line-height:1.45;color:var(--olive)">
+        Every certificate in this photo is a person who walked in carrying something heavy and
+        walked out with a testimony. Farmers and mothers, pastors and police, even generals.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST — where the money goes, and who checks.
+     ============================================================ -->
+<section class="band band--sand">
+  <div class="wrap">
+    <p class="kicker reveal">Where your gift goes</p>
+    <h2 class="h2 trust-h reveal">Eighty-nine cents of every dollar reaches the field.</h2>
+    <div class="trust">
+      <div class="reveal">
+        <span class="pct">89%</span>
+        <h3>Field programs</h3>
+        <p>Indigenous workers, Portable Bible Schools, Trauma Counseling, Village Learning Centers, medical care, and women's empowerment.</p>
+      </div>
+      <div class="reveal">
+        <span class="pct">11%</span>
+        <h3>U.S. operations</h3>
+        <p>Audit, accounting, payroll, donor care, and governance. Source: FY2024 audited financials filed with ECFA and IRS Form 990.</p>
+      </div>
+      <div class="reveal">
+        <span class="pct">100%</span>
+        <h3>Yours to change</h3>
+        <p>Raise it, lower it, pause it, or cancel it any time in your <a href="https://my.favorintl.org/login">Partner portal</a>, or by replying to any receipt or calling the office. No forms, no waiting on hold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="band band--white">
+  <div class="wrap">
+    <p class="kicker kicker--center reveal" style="justify-content:center">Before you decide</p>
+    <h2 class="h2 reveal" style="text-align:center">Questions people actually ask.</h2>
+    <div class="faq reveal">
+      <details open>
+        <summary>Can I give a different amount than $50?</summary>
+        <p>Yes. The levels are a starting point, not a rule. Choose the amount that fits your household. A $25 monthly gift that survives a hard month is worth more to this work than a $50 one that gets cancelled in March.</p>
+      </details>
+      <details open>
+        <summary>Does my gift only go to Trauma Counseling?</summary>
+        <p>Favor Partner gifts are unrestricted, which lets our field leadership put them where the need is greatest that month. Trauma Counseling is what this campaign is funding and what steady giving keeps on the calendar, and it sits inside a wider work: Portable Bible Schools, Village Learning Centers, medical care, and women's empowerment.</p>
+      </details>
+      <details open>
+        <summary>What happens right after I give?</summary>
+        <p>Your first gift processes immediately through the secure giving form and you receive a tax-deductible receipt by email. Then you hear from us: the stories, the prayer requests, and the names of the people your partnership is reaching.</p>
+      </details>
+      <details open>
+        <summary>Can I cancel or change it later?</summary>
+        <p>Any time, for any reason, with no conversation required. Sign in to your <a href="https://my.favorintl.org/login">Partner portal</a> and manage it yourself, or reply to any receipt or call the office and a real person will handle it.</p>
+      </details>
+      <details open>
+        <summary>Is my gift tax-deductible?</summary>
+        <p>Yes. Favor International is a 501(c)(3) nonprofit and an ECFA-accredited member. Audited statements and Form 990s are published on our accountability page.</p>
+      </details>
+      <details open>
+        <summary>Why monthly instead of one large gift?</summary>
+        <p>Because a two-week class has to be provided for before it opens. A single gift funds a moment. A monthly gift is what lets our field leaders put the next village on the schedule and know it will still be provided for when the date arrives. That is the difference between a program that runs and a program that waits.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CLOSE
+     ============================================================ -->
+<section class="band band--olive close">
+  <div class="wrap close__in">
+    <p class="kicker kicker--light kicker--center reveal"><span data-said-yes>35</span> of 48 have said yes</p>
+    <h2 class="h2 reveal" style="text-wrap:balance">Would you be one of the&nbsp;48?</h2>
+    <p class="lede reveal">One person a month, from your very first month. About ninety seconds to start, and yours to change or cancel any time.</p>
+    <!-- data-give-button -->
+    <a class="btn reveal" href="#" data-give-button>
+      <span data-give-label>Become a monthly partner &middot; $50/month</span>
+      <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+    </a>
+    <p class="share reveal">Not able to give monthly right now? Share this page with a friend who would care about Madina.
+      <button type="button" id="share-btn">Share this page</button>
+      <span class="share__ok" id="share-ok" aria-live="polite"></span>
+    </p>
+    <p class="fine reveal" style="color:rgba(255,254,251,.6);margin-top:22px">With you in the harvest &mdash; the Favor International Family</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div>
+      <img src="assets/favor-logo-white.png" alt="Favor International">
+      <p class="foot__tag">Transformed Hearts, Transform Nations</p>
+    </div>
+    <div>
+      <p style="margin-bottom:10px">Favor International is a 501(c)(3) nonprofit<br>and an ECFA-accredited member.</p>
+      <div class="foot__links">
+        <a href="https://favorintl.org/">favorintl.org</a>
+        <a href="https://favorintl.org/about/accountability/">Accountability</a>
+        <a href="mailto:info@favorintl.org">info@favorintl.org</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- mobile sticky give -->
+<div class="mobile-give">
+  <!-- data-give-button -->
+  <a class="btn btn--block" href="#" data-give-button>
+    <span data-give-label>Become a monthly partner &middot; $50/month</span>
+  </a>
+</div>
+
+<script>
+/* ---- THE TWO THINGS THAT CHANGE. Change them here, nowhere else. ---- */
+var GIVE_BASE = 'https://favorintl.org/give/donate/';   /* the giving form. Every button is built from it. */
+var SAID_YES  = 47;   /* fallback only: verified 2026-09-07 evening. The live count loads from COUNT_URL below. */
+var GOAL      = 48;
+/* The same tally the dashboard and the email use, read live so this page can
+   never show a number the campaign has already passed. Falls back to SAID_YES
+   if the worker is unreachable. */
+var COUNT_URL = 'https://favor-marketing.marketing-6e9.workers.dev/public/campaign-one/goal';
+/* ------------------------------------------------------------------------ */
+function applyCount(n){
+  SAID_YES = n;
+  var room = Math.max(0, GOAL - n);
+  document.querySelectorAll('[data-said-yes]').forEach(function(el){ el.textContent = String(n); });
+  document.querySelectorAll('[data-room-for]').forEach(function(el){ el.textContent = String(room); });
+  var fill = document.getElementById('progress-fill');
+  if (fill) fill.style.width = Math.max(0, Math.min(100, Math.round((n / GOAL) * 100))) + '%';
+}
+applyCount(SAID_YES);
+fetch(COUNT_URL).then(function(r){ return r.json(); }).then(function(j){
+  var n = Number(j && j.partners);
+  if (Number.isInteger(n) && n >= 0 && n <= GOAL) applyCount(n);
+}).catch(function(){});
+/* Every give button carries the email attribution (src=email, ref EM5-THANKS)
+   so gifts from this page land in the campaign reports like every other week. */
+function givingUrl(amount, frequency){
+  var p = new URLSearchParams();
+  if (amount >= 1) p.set('amount', String(amount));
+  p.set('frequency', frequency);
+  p.set('src', 'email');
+  p.set('ref', 'EM5-THANKS');
+  return GIVE_BASE + '?' + p.toString();
+}
+
+/* Segment-aware entry. Julie's and Margaret's email links carry ?noanchor=1
+   because those two segments are deliberately sent with no anchor amount
+   anywhere in their email. Landing on a card pre-set to $50 would hand them
+   back the anchor their email removed, and for a major-adjacent donor a $50
+   default reads as a downgrade. With noanchor=1 nothing is preselected, the
+   custom field starts empty, and the button carries no amount until they pick. */
+var NO_ANCHOR = new URLSearchParams(location.search).get('noanchor') === '1';
+
+(function(){
+  var state = { amount: NO_ANCHOR ? 0 : 50, frequency: 'monthly' };
+
+  var presets   = Array.prototype.slice.call(document.querySelectorAll('.amt'));
+  var freqBtns  = Array.prototype.slice.call(document.querySelectorAll('.freq button'));
+  var freqNote  = document.getElementById('freq-note');
+  var field     = document.getElementById('custom-amount');
+  var impact    = document.getElementById('impact');
+  var buttons   = Array.prototype.slice.call(document.querySelectorAll('[data-give-button]'));
+  var labels    = Array.prototype.slice.call(document.querySelectorAll('[data-give-label]'));
+
+  /* What the chosen amount buys, at $50 = one person. See CLAUDE.md. */
+  function impactLine(a, monthly){
+    if (!(a >= 1)) return 'Choose the amount that fits. Every rung of this ladder gets someone into a room.';
+    if (!monthly){
+      if (a >= 50) return '<strong>$' + a + '</strong> once sends ' + Math.floor(a/50) +
+        (Math.floor(a/50) === 1 ? ' person' : ' people') + ' through the two-week intensive. A monthly gift is what schedules the next class.';
+      return '<strong>$' + a + '</strong> goes to work in the field this month. A monthly gift is what schedules the next class.';
+    }
+    if (a >= 200) return '<strong>$' + a + ' a month</strong> sends ' + Math.floor(a/50) + ' people through the intensive, every month. That is ' + (Math.floor(a/50)*12) + ' a year.';
+    if (a >= 100) return '<strong>$' + a + ' a month</strong> sends ' + Math.floor(a/50) + ' people through the intensive, every month. That is ' + (Math.floor(a/50)*12) + ' a year.';
+    if (a >= 50)  return '<strong>$50 a month</strong> sends one person through the entire two-week intensive. One person a month. Twelve a year.';
+    if (a >= 25)  return '<strong>$' + a + ' a month</strong> covers about half the cost of one person. Two partners at this level put one person through every month.';
+    return '<strong>$' + a + ' a month</strong> is a real part of the next class. Every rung of this ladder gets someone into a room.';
+  }
+
+  function render(){
+    var monthly = state.frequency === 'monthly';
+
+    presets.forEach(function(b){
+      b.setAttribute('aria-pressed', Number(b.dataset.amount) === state.amount ? 'true' : 'false');
+    });
+    freqBtns.forEach(function(b){
+      b.setAttribute('aria-pressed', b.dataset.freq === state.frequency ? 'true' : 'false');
+    });
+    if (freqNote) freqNote.hidden = monthly;
+    if (field) field.setAttribute('aria-label', 'Custom ' + (monthly ? 'monthly' : 'one-time') + ' amount in dollars');
+    if (impact) impact.innerHTML = impactLine(state.amount, monthly);
+
+    /* state.amount is always a floored Number, so this string is safe to set
+       as innerHTML. Keep it that way if you change the label. */
+    var label;
+    if (!(state.amount >= 1)) {
+      label = monthly ? 'Choose your monthly amount' : 'Choose your amount';
+    } else {
+      label = monthly
+        ? 'Become a monthly partner<span class="btn__amt">$' + state.amount + ' / month</span>'
+        : 'Give once<span class="btn__amt">$' + state.amount + '</span>';
+    }
+    labels.forEach(function(el){ el.innerHTML = label; });
+
+    var url = givingUrl(state.amount, monthly ? 'monthly' : 'once');
+    buttons.forEach(function(a){ a.href = url; });
+  }
+
+  presets.forEach(function(b){
+    b.addEventListener('click', function(){
+      state.amount = Number(b.dataset.amount);
+      if (field) field.value = state.amount;
+      render();
+    });
+  });
+
+  freqBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      state.frequency = b.dataset.freq;
+      render();
+    });
+  });
+
+  if (field){
+    field.addEventListener('input', function(){
+      var v = Number(field.value);
+      state.amount = (v >= 1) ? Math.floor(v) : 0;
+      render();
+    });
+    field.addEventListener('blur', function(){
+      if (!(Number(field.value) >= 1)){
+        if (NO_ANCHOR){ field.value = ''; state.amount = 0; }
+        else { field.value = 50; state.amount = 50; }
+        render();
+      }
+    });
+  }
+
+  /* the second ask scrolls back to the card rather than jumping straight out,
+     so the reader picks an amount before they leave the page */
+  document.querySelectorAll('[data-give-scroll]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var card = document.getElementById('give-card');
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+
+  /* With no amount chosen yet the button reads "Choose your monthly amount", so it
+     must not leave the page. Send it to the card and put the cursor in the field. */
+  buttons.forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (state.amount >= 1) return;
+      e.preventDefault();
+      var card = document.getElementById('give-card');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (field) setTimeout(function(){ field.focus(); }, 400);
+    });
+  });
+
+  if (NO_ANCHOR){
+    var sub = document.getElementById('give-sub');
+    if (sub) sub.textContent = 'Choose the amount that fits your giving. Whatever you set, it arrives every month, which is what puts the next class on the schedule.';
+    var lbl = document.getElementById('custom-label');
+    if (lbl) lbl.textContent = 'Your monthly amount';
+    if (field){ field.value = ''; field.setAttribute('placeholder', ''); }
+    presets.forEach(function(b){ b.setAttribute('aria-pressed', 'false'); });
+    var tag = document.querySelector('.amt__tag');
+    if (tag) tag.remove();
+  }
+
+  render();
+
+  /* progress meter, if it has been switched on */
+  var prog = document.getElementById('progress');
+  if (prog){
+    var count = SAID_YES;
+    var goal  = GOAL;
+    var pct   = Math.max(0, Math.min(100, Math.round((count / goal) * 100)));
+    document.getElementById('progress-count').textContent = String(count);
+    requestAnimationFrame(function(){
+      document.getElementById('progress-fill').style.width = pct + '%';
+    });
+  }
+
+  /* reveal on scroll.
+     The IntersectionObserver does the nice staggered version. The rAF backstop
+     under it catches anything a fast flick or a momentum scroll outruns, so no
+     section can end up scrolled past and still invisible. Belt and braces on
+     purpose: this is a giving page, and copy that does not appear cannot convert. */
+  var revealables = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+
+  function show(el){ el.classList.add('in'); }
+
+  if (!('IntersectionObserver' in window)){
+    revealables.forEach(show);
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          show(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.06 });
+
+    revealables.forEach(function(el, i){
+      el.style.transitionDelay = ((i % 4) * 70) + 'ms';
+      io.observe(el);
+    });
+
+    var pending = false;
+    var sweep = function(){
+      pending = false;
+      var vh = window.innerHeight;
+      revealables = revealables.filter(function(el){
+        if (el.classList.contains('in')) return false;
+        if (el.getBoundingClientRect().top < vh){ show(el); io.unobserve(el); return false; }
+        return true;
+      });
+      if (!revealables.length){
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    };
+    var onScroll = function(){
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(sweep);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  }
+})();
+</script>
+
+<script>
+(function(){
+  var b = document.getElementById('share-btn'), ok = document.getElementById('share-ok');
+  if (!b) return;
+  var url = location.origin + location.pathname;
+  b.addEventListener('click', function(){
+    if (navigator.share) {
+      navigator.share({ title: document.title, text: "Madina paid to have a woman killed. Then she forgave her. This is what a monthly partner with Favor International provides.", url: url }).catch(function(){});
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function(){ ok.textContent = 'Link copied. Send it to someone who would care.'; });
+      return;
+    }
+    ok.textContent = url;
+  });
+})();
+</script>
+</body>
+</html>
