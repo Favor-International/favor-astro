@@ -59,6 +59,7 @@ import { SITE } from '../../lib/site';
               <!--recruit-only-->
               <option value="career">Africa Missionary application</option>
               <!--/recruit-only-->
+              <option value="career-us">Job application (US positions)</option>
               <option value="volunteer">Volunteering</option>
               <option value="media">Media or press</option>
             </select>
@@ -152,7 +153,7 @@ import { SITE } from '../../lib/site';
   const sel = document.querySelector('select[name="topic"]');
   const q = new URLSearchParams(location.search).get('topic');
   if (sel && q) {
-    const aliases = { 'country-director': 'career', 'africa-missionary': 'career' };
+    const aliases = { 'country-director': 'career', 'africa-missionary': 'career', 'careers': 'career-us' };
     const v = aliases[q] || q;
     if ([...sel.options].some((o) => o.value === v)) sel.value = v;
   }

@@ -51,5 +51,6 @@ export function applyRecruitGeoHtml(html: string, allowed: boolean): string {
 
 export function isRecruitHtmlPath(pathname: string): boolean {
   const p = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-  return p === '/go/careers' || p === '/about/contact';
+  // /go/careers/ and every posting under it (jobs collection, 2026-09-14).
+  return p === '/go/careers' || p.startsWith('/go/careers/') || p === '/about/contact';
 }

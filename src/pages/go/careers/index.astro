@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import RedesignLayout from '../../../layouts/RedesignLayout.astro';
+import PageHero from '../../../components/band/PageHero.astro';
+import LeafHeading from '../../../components/redesign/LeafHeading.astro';
+import ScriptBand from '../../../components/redesign/ScriptBand.astro';
+import RdCta from '../../../components/redesign/RdCta.astro';
+
+// Careers listing, driven by src/content/jobs/*.md (2026-09-14). Add a
+// posting by adding a file; set status: draft to hold one that is still in
+// review. Postings with visibility: sending-countries are wrapped in the
+// recruit-geo markers and stripped by functions/_middleware.ts outside the
+// allowlist, exactly as the Africa Missionary posting was on 2026-08-22.
+const jobs = (await getCollection('jobs', ({ data }) => data.status === 'open'))
+  .sort((a, b) => a.data.order - b.data.order || b.data.posted.getTime() - a.data.posted.getTime());
+const everywhere = jobs.filter((j) => j.data.visibility === 'everywhere');
+const gated = jobs.filter((j) => j.data.visibility === 'sending-countries');
+
+const REC_ONLY_OPEN = '<!--recruit-only-->';
+const REC_ONLY_CLOSE = '<!--/recruit-only-->';
+const REC_CLOSED_OPEN = '<!--recruit-closed-->';
+const REC_CLOSED_CLOSE = '<!--/recruit-closed-->';
+
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const generalApply = 'mailto:info@favorintl.org?subject=Favor%20International%20job%20application';
+
+const hiring = [
+  { n: '1', title: 'Send your resume', body: 'Email the address on the posting with your resume and a few sentences on why this role and this mission interest you.' },
+  { n: '2', title: 'A real conversation', body: 'The team talks through your calling, your experience, and the mission and Statement of Faith of Favor International.' },
+  { n: '3', title: 'Decide together', body: 'If it is a fit on both sides, you will know what comes next before you commit.' },
+];
+---
+<RedesignLayout
+  title="Careers"
+  description="Open positions with Favor International: US development and support roles, and field missionary postings in Uganda, South Sudan, and Chad."
+>
+  <PageHero
+    label="Careers"
+    title="Work with Favor."
+    promise="Full-time positions with the ministry, in the US and on the field."
+    image="/images/field-2026/pbs-6.webp"
+    imageAlt="A line of commissioned Favor leaders holding Bibles outside their village"
+    ctaLabel="See open positions"
+    ctaHref="#positions"
+    scrollCue
+  />
+
+  <section class="band band--white" id="positions">
+    <div class="container">
+      <LeafHeading
+        label="Open positions"
+        title="Current openings."
+        intro="Each posting has the full description, qualifications, and how to apply."
+      />
+      <ul class="jobs">
+        {everywhere.map((j) => (
+          <li class="rd-card jobs__item reveal">
+            <p class="label">{j.data.type} &middot; {j.data.location}</p>
+            <h3><a href={`/go/careers/${j.id}/`}>{j.data.title}</a></h3>
+            <p class="jobs__summary">{j.data.summary}</p>
+            <p class="jobs__meta">Posted {fmt(j.data.posted)}{j.data.team ? ` · ${j.data.team}` : ''}</p>
+            <a class="jobs__link" href={`/go/careers/${j.id}/`}>Read the posting &rarr;</a>
+          </li>
+        ))}
+        {gated.length > 0 && <Fragment set:html={REC_ONLY_OPEN} />}
+        {gated.map((j) => (
+          <li class="rd-card jobs__item reveal">
+            <p class="label">{j.data.type} &middot; {j.data.location}</p>
+            <h3><a href={`/go/careers/${j.id}/`}>{j.data.title}</a></h3>
+            <p class="jobs__summary">{j.data.summary}</p>
+            <p class="jobs__meta">Posted {fmt(j.data.posted)}{j.data.team ? ` · ${j.data.team}` : ''}</p>
+            <a class="jobs__link" href={`/go/careers/${j.id}/`}>Read the posting &rarr;</a>
+          </li>
+        ))}
+        {gated.length > 0 && <Fragment set:html={REC_ONLY_CLOSE} />}
+      </ul>
+      {everywhere.length === 0 && (
+        <Fragment>
+          <Fragment set:html={REC_CLOSED_OPEN} />
+          <p class="jobs__none">No posting is listed for your location. Internships and volunteer roles stay open. <a href="/about/contact/">Email us</a> if you have another question.</p>
+          <Fragment set:html={REC_CLOSED_CLOSE} />
+        </Fragment>
+      )}
+    </div>
+  </section>
+
+  <ScriptBand
+    image="/images/field-2026/prayer-1.webp"
+    imageAlt="Favor leaders kneeling in fervent prayer"
+    label="Who Favor hires for"
+    phrase="Unlike the world, He doesn't call the qualified, but qualifies the called."
+    cite="Carole Ward, Lord Send Us Where No One Wants to Go"
+    font="serif"
+    tall
+  />
+
+  <section class="band band--white">
+    <div class="container">
+      <LeafHeading label="How hiring works" title="Three steps, both directions." leaves={false} />
+      <ol class="steps">
+        {hiring.map((s) => (
+          <li class="rd-card steps__item reveal">
+            <span class="steps__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--greenlight">
+    <div class="container">
+      <LeafHeading label="Not full-time?" title="Two doors right next to this one." leaves={false} />
+      <div class="also">
+        <a class="also__card rd-card reveal" href="/go/internships/">
+          <p class="label">A season</p>
+          <h3>Internships</h3>
+          <p>Months alongside the US team, on the real operations that carry the field.</p>
+          <span class="also__link">See internships &rarr;</span>
+        </a>
+        <a class="also__card rd-card reveal" href="/go/volunteer/">
+          <p class="label">Ongoing, from home</p>
+          <h3>Volunteer</h3>
+          <p>Serve the US team from anywhere, on your own schedule: prayer, media, accounting, mailing, and partner care.</p>
+          <span class="also__link">Serve from home &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <RdCta
+    heading="Don't see your role?"
+    body="Tell us what you do well and why Favor. We read every note."
+    ctaLabel="Email the team"
+    ctaHref={generalApply}
+    background="greenlight"
+    image="/images/field-2026/pbs-6.webp"
+    imageAlt="A line of commissioned Favor leaders holding Bibles"
+  />
+</RedesignLayout>
+
+<style>
+  .jobs { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(20px, 2.4vw, 32px); max-width: 1100px; }
+  .jobs__item { display: flex; flex-direction: column; }
+  .jobs__item .label { margin-bottom: var(--space-2); }
+  .jobs__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .jobs__item h3 a { color: inherit; text-decoration: none; }
+  .jobs__item h3 a:hover { color: var(--color-gold-deep); }
+  .jobs__summary { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .jobs__meta { margin: 0 0 var(--space-4); font-size: 0.85rem; color: var(--color-ink-soft); }
+  .jobs__link { margin-top: auto; color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; width: fit-content; text-decoration: none; }
+  .jobs__item:hover .jobs__link { color: var(--color-gold-deep); }
+  .jobs__none { text-align: center; color: var(--color-ink-soft); margin: var(--space-6) auto 0; max-width: 60ch; }
+  .jobs__none a { color: var(--color-green); font-weight: 700; }
+
+  .steps { list-style: none; padding: 0; margin: clamp(36px, 4.4vw, 58px) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps__n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--rd-bg-green); color: var(--color-green);
+    font-weight: 800; font-size: 1.15rem; margin-bottom: var(--space-4);
+  }
+  .steps__item h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .steps__item p { margin: 0; color: var(--color-ink-soft); line-height: 1.7; }
+
+  .also { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(36px, 4.4vw, 58px); max-width: 900px; margin-inline: auto; }
+  @media (max-width: 700px) { .also { grid-template-columns: 1fr; } }
+  .also__card { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .also__card .label { margin-bottom: var(--space-2); }
+  .also__card h3 { color: var(--color-green); margin: 0 0 var(--space-3); }
+  .also__card p:not(.label) { margin: 0 0 var(--space-4); color: var(--color-ink-soft); line-height: 1.7; }
+  .also__link { margin-top: auto; color: var(--color-green); font-weight: 700; border-bottom: 2px solid var(--color-gold); padding-bottom: 2px; width: fit-content; }
+  .also__card:hover .also__link { color: var(--color-gold-deep); }
+</style>
