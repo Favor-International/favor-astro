@@ -87,12 +87,23 @@ npm install @astrojs/cloudflare @astrojs/sitemap @astrojs/mdx
 - **Build:** Run `pagefind` after `astro build` in the Pages build
   command.
 
-## Analytics: Plausible (primary), GA4 (secondary)
+## Analytics: Google Tag Manager + GA4
 
-- **Plausible:** Cookieless, lightweight, GDPR-clean.
-- **GA4:** Only if Favor leadership specifically needs the
-  Google-native dashboards. Anonymize IP, no cross-site tracking, no
-  ad personalization.
+- **Tag manager:** Google Tag Manager, container `GTM-MMMRL3S4`. It is
+  the only measurement snippet in the site code (`src/layouts/BaseLayout.astro`).
+  Tags are added in GTM, not in the repo.
+- **GA4:** property `G-VTJ3LN2BC8`, configured *inside* GTM (its tags
+  are live in GTM Version 2). Do **not** add a second `gtag.js` snippet
+  to the layout; that would double-count every pageview.
+- **Consent:** CookieYes is the CMP and loads ahead of GTM. Consent
+  Mode v2 defaults (`ad_storage`, `ad_user_data`, `ad_personalization`,
+  `analytics_storage` = `denied`, `wait_for_update: 500`) are set at the
+  top of `<head>`; CookieYes sends the consent update.
+- **Events:** the donation form pushes a `donate` event (`value`,
+  `currency`, `method`) to `dataLayer` once the server confirms the
+  gift; conversions are built from that event in GTM.
+- **Plausible:** not installed. Considered early on, never added to the
+  code.
 
 ## Error tracking: Sentry (optional)
 

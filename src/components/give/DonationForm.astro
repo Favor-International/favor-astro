@@ -293,6 +293,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
   declare global {
     interface Window {
+      dataLayer?: Record<string, unknown>[];
       Blackbaud_OpenPaymentForm?: (data: Record<string, unknown>) => void;
       turnstile?: {
         render: (el: Element, opts: Record<string, unknown>) => string;
@@ -858,6 +859,15 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         } catch {
           /* storage unavailable = skip the button */
         }
+        // GTM: the gift is confirmed by the server at this point, so this is
+        // the one honest place to fire the conversion (GTM-MMMRL3S4 -> GA4).
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'donate',
+          value: Number(data.amount ?? total()),
+          currency: 'USD',
+          method: monthly ? 'monthly' : 'once',
+        });
         const dest = new URLSearchParams({
           amount: String(data.amount ?? total()),
           frequency: monthly ? 'monthly' : 'once',
