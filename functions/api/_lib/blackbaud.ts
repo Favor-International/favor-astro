@@ -48,6 +48,11 @@ export interface Env {
   PORTAL_API_KEY?: string;
   /** Base URL of the Favor Partner Portal (gift-completed hook target). */
   PORTAL_HOOK_URL?: string;
+  /** Resend key for staff gift notifications to usdonations@. Never required for a gift to succeed. */
+  RESEND_API_KEY?: string;
+  RESEND_FROM?: string;
+  /** Staff inbox for new-gift notices. Defaults to usdonations@favorintl.org. */
+  GIFT_NOTIFY_TO?: string;
   /** Integration-test overrides ONLY (.dev.vars against a local mock). Never set in production. */
   BLACKBAUD_API_BASE?: string;
   BLACKBAUD_TOKEN_URL?: string;
@@ -627,6 +632,36 @@ export async function ensureConstituentCode(
   }
 }
 
+interface RelRow {
+  id?: string;
+  constituent_id?: string;
+  relation_id?: string;
+  name?: string;
+  type?: string;
+  reciprocal_type?: string;
+}
+
+/**
+ * SKY `type` is the related constituent's role relative to the record you
+ * fetched. Fetching the person, `type: Employer` means the org is the
+ * employer. The first ship of this helper posted Employee/Employer the
+ * other way around, so churches showed as the employee's employer (Daniel,
+ * 2026-09-02).
+ */
+async function existingPersonOrgRel(env: Env, personId: string, orgId: string): Promise<RelRow | null> {
+  const rels = await bbJson<{ value?: RelRow[] }>(
+    env,
+    `/constituent/v1/constituents/${encodeURIComponent(personId)}/relationships?limit=50`
+  );
+  return (
+    (rels.value ?? []).find((rel) => {
+      const related = String(rel.relation_id ?? '');
+      const self = String(rel.constituent_id ?? '');
+      return related === orgId || (self === orgId && related === personId);
+    }) ?? null
+  );
+}
+
 /**
  * Make the org-gift promise true (Daniel, 2026-08-06): "the record will be in
  * the organization's name, with you as the contact." Creates (or finds) an
@@ -658,8 +693,30 @@ export async function ensureOrgContact(
     });
     if (personId === orgId) return; // paranoid guard; the type gate should prevent this
 
+    const existing = await existingPersonOrgRel(env, personId, orgId).catch(() => null);
+    if (existing?.id) {
+      const type = (existing.type ?? '').toLowerCase();
+      const recip = (existing.reciprocal_type ?? '').toLowerCase();
+      // Viewing the person: type is the org's role. Employee means the org
+      // was stored as the employee of the person. Flip it.
+      if (type === 'employee' && (recip === 'employer' || !recip)) {
+        await bbJson(env, `/constituent/v1/relationships/${encodeURIComponent(existing.id)}`, {
+          method: 'PATCH',
+          body: JSON.stringify({
+            type: 'Employer',
+            reciprocal_type: 'Employee',
+            is_organization_contact: true,
+            is_primary_business: true,
+          }),
+        });
+      }
+      return;
+    }
+
+    // type = related org's role relative to the person. The org employs the
+    // contact, so the org is Employer and the person is Employee.
     const attempts: Array<Record<string, unknown>> = [
-      { type: 'Employee', reciprocal_type: 'Employer' },
+      { type: 'Employer', reciprocal_type: 'Employee' },
       { type: 'Contact', reciprocal_type: 'Contact' },
       {},
     ];
@@ -687,6 +744,43 @@ export async function ensureOrgContact(
       `[blackbaud] org contact link for org ${orgId} failed: ${err instanceof Error ? err.message : err}`
     );
   }
+}
+
+/**
+ * Flip website org-contact links that stored the person as Employer of the
+ * org. Fetches from the org record: `type` is the related person's role, so
+ * Employer here is the bug. Pastor/Church and already-correct Employee
+ * links are left alone.
+ */
+export async function repairReversedOrgContact(
+  env: Env,
+  orgId: string
+): Promise<Array<{ relationship_id: string; name?: string; from: string; to: string }>> {
+  const rels = await bbJson<{ value?: RelRow[] }>(
+    env,
+    `/constituent/v1/constituents/${encodeURIComponent(orgId)}/relationships?limit=50`
+  );
+  const flipped: Array<{ relationship_id: string; name?: string; from: string; to: string }> = [];
+  for (const rel of rels.value ?? []) {
+    const type = (rel.type ?? '').toLowerCase();
+    const recip = (rel.reciprocal_type ?? '').toLowerCase();
+    if (!rel.id || type !== 'employer' || recip !== 'employee') continue;
+    await bbJson(env, `/constituent/v1/relationships/${encodeURIComponent(rel.id)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        type: 'Employee',
+        reciprocal_type: 'Employer',
+        is_organization_contact: true,
+      }),
+    });
+    flipped.push({
+      relationship_id: rel.id,
+      name: rel.name,
+      from: `${rel.type}/${rel.reciprocal_type}`,
+      to: 'Employee/Employer',
+    });
+  }
+  return flipped;
 }
 
 /**

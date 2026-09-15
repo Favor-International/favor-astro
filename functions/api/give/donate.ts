@@ -40,6 +40,7 @@ import {
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
+import { notifyStaffGift } from '../_lib/gift-notify';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
 import { campaignLabel, isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
 
@@ -149,6 +150,20 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     if (donor.org_name) {
       waitUntil(ensureOrgContact(env, constituentId, donor));
     }
+    waitUntil(
+      notifyStaffGift(env, {
+        amount: total,
+        frequency: 'once',
+        designation: designation.label,
+        giftId: gift.id,
+        giftDate: etGiftDate(),
+        donor,
+        anonymous: body.anonymous === true,
+        note: note || undefined,
+        campaignSource,
+        campaignRef,
+      }).catch((err) => console.error('[gift-notify]', err instanceof Error ? err.message : err))
+    );
 
     // Instant portal visibility: write the gift (and the donor email) into
     // the sync database before the thank-you login, so the dashboard is not

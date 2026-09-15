@@ -51,6 +51,53 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       return json({ ok: true, kind: 'gift', gift: summarizeGift(gift), raw_keys: Object.keys(gift) });
     }
 
+    const constituentId = (url.searchParams.get('id') ?? '').trim();
+    if (constituentId) {
+      if (!/^[0-9]{1,12}$/.test(constituentId)) return errorJson('bad_id', 'id must be numeric', 400);
+      const [detail, rels, gifts, codes] = await Promise.all([
+        bbJson<Record<string, unknown>>(env, `/constituent/v1/constituents/${constituentId}`).catch(() => null),
+        bbJson<{ value?: unknown[] }>(env, `/constituent/v1/constituents/${constituentId}/relationships`).catch(() => ({
+          value: [],
+        })),
+        bbJson<{ value?: unknown[] }>(env, `/gift/v1/gifts?constituent_id=${constituentId}&limit=25`).catch(() => ({
+          value: [],
+        })),
+        bbJson<{ value?: unknown[] }>(env, `/constituent/v1/constituents/${constituentId}/constituentcodes`).catch(
+          () => ({ value: [] })
+        ),
+      ]);
+      return json({
+        ok: true,
+        query: constituentId,
+        results: [
+          {
+            id: constituentId,
+            name: detail?.name ?? null,
+            type: detail?.type ?? null,
+            email: detail?.email ?? null,
+            date_added: detail?.date_added ?? null,
+            first: detail?.first ?? null,
+            last: detail?.last ?? null,
+            relationships: (rels.value ?? []).map((r) => {
+              const x = r as Record<string, unknown>;
+              return {
+                id: x.id,
+                name: x.name,
+                type: x.type,
+                reciprocal: x.reciprocal_type,
+                constituent_id: x.constituent_id,
+                relation_id: x.relation_id,
+                is_org_contact: x.is_organization_contact,
+                is_primary_business: x.is_primary_business,
+              };
+            }),
+            gifts: (gifts.value ?? []).map((g) => summarizeGift(g as Record<string, unknown>)),
+            codes: (codes.value ?? []).map((c) => (c as Record<string, unknown>).description),
+          },
+        ],
+      });
+    }
+
     const name = (url.searchParams.get('name') ?? '').trim();
     if (name.length < 3 || name.length > 80) return errorJson('bad_name', 'name (3-80 chars) required', 400);
 

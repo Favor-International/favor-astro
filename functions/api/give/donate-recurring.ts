@@ -50,6 +50,7 @@ import {
 } from '../_lib/http';
 import { verifyTurnstile } from '../_lib/turnstile';
 import { notifyPortalGiftCompleted } from '../_lib/portal';
+import { notifyStaffGift } from '../_lib/gift-notify';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
 import { campaignLabel, isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
 import { computeTotal } from './donate';
@@ -204,6 +205,21 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     if (donor.org_name) {
       waitUntil(ensureOrgContact(env, constituentId, donor));
     }
+    waitUntil(
+      notifyStaffGift(env, {
+        amount: total,
+        frequency: 'monthly',
+        designation: designation.label,
+        giftId: recurring.id,
+        paymentGiftId: payment.id,
+        giftDate: etGiftDate(),
+        donor,
+        anonymous: body.anonymous === true,
+        note: note || undefined,
+        campaignSource,
+        campaignRef,
+      }).catch((err) => console.error('[gift-notify]', err instanceof Error ? err.message : err))
+    );
 
     // Instant portal visibility for both records: the schedule (drives the
     // portal's "active recurring" count) and the charged first installment
