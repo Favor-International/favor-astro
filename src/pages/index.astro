@@ -382,7 +382,8 @@ const tiers = [
 
     <!-- ====================================================
          6. LIVE FROM THE FIELD: the three newest real stories
-         (titles, dates, photos straight from stories.json).
+         (titles, photos straight from stories.json). Dates hidden
+         2026-09-18 at leadership request until newer stories land.
          Proof the work is happening right now.
          ==================================================== -->
     <section class="field-feed" aria-label="The latest stories from the field">
@@ -395,7 +396,7 @@ const tiers = [
           {latestStories.map((s) => (
             <a class="field-feed__tile" href={`/stories/${s.slug}/`}>
               <div class="field-feed__photo" style={`background-image:url('${s.image}')`} role="img" aria-label={s.title}></div>
-              <p class="field-feed__date">{s.date}{s.category ? ` · ${s.category}` : ''}</p>
+              {s.category && <p class="field-feed__date">{s.category}</p>}
               <h3>{s.title}</h3>
               <span class="field-feed__more">Read the story &rarr;</span>
             </a>
