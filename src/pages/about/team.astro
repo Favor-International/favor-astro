@@ -17,34 +17,38 @@ const leadership = leadershipSlugs
   .filter(Boolean);
 const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/' : `/about/people/${slug}/`;
 
-// The full U.S. roster, per Will (2026-07-07). Source: Favor Staff Directory
-// 2026 (Telephone List). Names + titles only; the directory's phones, home
-// addresses, and birthdays are private and must never be published. The three
-// directors above are excluded here since they are featured already.
+// The full U.S. roster. Source: Favor Staff Directory 2026 (Telephone List),
+// titles refreshed 2026-09-25. Names + titles only; the directory's phones,
+// home addresses, and birthdays are private and must never be published.
+// Carole Ward, Terry-Lynne Goodman, and Stephanie Maier are featured above.
 const roster = [
+  { name: 'Ava Maier', title: 'Administrative Assistant - RDD Support' },
   { name: 'Brian Carr', title: 'Regional Development Director' },
-  { name: 'Celeste Paul', title: 'Volunteer' },
+  { name: 'Caden Cox', title: 'Administrative Assistant - Church Engagement' },
+  { name: 'Celeste Paul', title: 'RDD - Australia and New Zealand' },
   { name: 'Crystal Hall', title: 'Grants Management Specialist' },
   { name: 'Crystal Moux', title: 'Administrative Assistant' },
   // Daniel Casella removed at his own request (2026-08-05, security).
-  { name: 'Danny Avila', title: 'Social Media Manager' },
+  { name: 'Danny Avila', title: 'Creative Director' },
+  { name: 'Ellie Brady', title: 'Executive Administrative Assistant/Founder' },
   { name: 'Emma Stewart', title: 'Administrative Assistant (Marketing/Support Team)' },
-  { name: 'Grace Morris', title: 'Executive Administrative Assistant' },
+  { name: 'Grace Morris', title: 'Support Team Manager' },
   { name: 'Gregory Phipps', title: 'Grants Specialist' },
   { name: 'Jennifer Morris', title: 'Partner Care Manager' },
   { name: 'Jerry Christian', title: 'Volunteer' },
-  { name: 'Joe Krol', title: 'Assistant Director of Grant Services' },
-  { name: 'Jordan Abbott', title: 'Administrative Assistant (Grant Dept.)' },
+  { name: 'Joe Krol', title: 'Director of Grant Service' },
+  { name: 'Jordan Abbott', title: 'Grants Coordinator' },
   { name: 'Josh Milliron', title: 'National Director of Church Engagement' },
-  { name: 'Megan Respass', title: 'Direct Marketing Associate' },
-  { name: 'Michael Hinton', title: 'Operations Manager' },
-  { name: 'Morgan Mason', title: 'Executive Administrative Assistant' },
+  { name: 'Megan Respass', title: 'Graphic Designer' },
+  { name: 'Michael Hinton', title: 'Deputy Director of Operations & Administrative' },
+  { name: 'Morgan Mason', title: 'Administrative Assistant - Operations' },
   { name: 'Nathan Bril', title: 'Director of Media' },
-  { name: 'Rachel Cox', title: 'Executive Assistant' },
+  { name: 'Rachel Cox', title: 'Director of Operations & Administrative' },
   { name: 'Richard Brown', title: 'Regional Development Director' },
   { name: 'Stephanie Brady', title: 'Regional Development Director' },
+  { name: 'Travis Fruge', title: 'Videographer' },
   // Val Spillane removed 2026-08-05: no longer with Favor.
-  { name: 'William Hamilton', title: 'Marketing Consultant' },
+  { name: 'William Hamilton', title: 'Lead Developer' },
 ];
 ---
 <RedesignLayout
