@@ -36,6 +36,9 @@ const ATTRIBUTION_BY_SOURCE: Record<string, SourceAttribution> = {
   // A/B/C Oct/Nov/Dec), -WS = the website addendum for online gifts (same
   // convention as R255-WS). No campaign: the letter is not Campaign One.
   l26a: { appeal: 'L26A-WS', label: 'Online gift for the October appeal letter' },
+  // Email newsletters: one key per issue, N<yy><month>-EMW<week> per the
+  // appeal scheme, so each gift names the newsletter that drove it.
+  'n269-emw5': { appeal: 'N269-EMW5', label: 'Online gift from the Sep 30 2026 email newsletter' },
 };
 
 /** All whitelisted sources, for the admin verification endpoint. */
