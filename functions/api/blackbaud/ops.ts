@@ -11,8 +11,10 @@
 //
 // Reads are open across the record APIs. Writes pass only when the method
 // and path match WRITE_RULES below, and where a rule names body keys, only
-// those keys. Nothing here can delete a constituent or a gift, change a gift
-// amount, or reach the Payments API.
+// those keys. Nothing here can delete a gift, change a gift amount, or reach
+// the Payments API. A constituent can be deleted only as the last step of
+// folding in a duplicate: it must hold no gifts and the caller must restate
+// its lookup ID.
 //
 // Every write lands in a KV ledger (180 days) with its status, so any change
 // made through this route can be traced to a day and a call. A daily cap
@@ -68,7 +70,20 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['PATCH'], path: /^\/fundraising\/v1\/fundraisers\/assignments\/\d+$/ },
   // Run a saved query (backups, verification exports).
   { methods: ['POST'], path: /^\/query\/queries\/executebyid$/ },
+  // Saved queries: criteria only (no rename, move or delete), and the refresh
+  // a static query needs before its global change runs.
+  { methods: ['PATCH'], path: /^\/query\/queries\/\d+$/, keys: ['filter_fields'] },
+  { methods: ['POST'], path: /^\/query\/queries\/refreshstaticquery$/ },
+  // Folding a duplicate record into the one already on file: carry its contact
+  // rows and notes over, remove the copied actions from the duplicate.
+  { methods: ['POST'], path: /^\/constituent\/v1\/(emailaddresses|phones|notes)$/ },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/\d+$/ },
 ];
+
+// The duplicate itself can then be deleted. The caller restates the lookup ID
+// (?lookup=) and the record must hold no gifts; both are checked here against
+// Blackbaud before the delete is sent.
+const DELETE_CONSTITUENT = /^\/constituent\/v1\/constituents\/(\d+)$/;
 
 // Blackbaud counts the allowance per UTC day. On 2026-10-02 the key this site
 // uses stopped at about 1,000 calls and the giving form went down until the
@@ -102,6 +117,9 @@ function check(method: string, path: string, body: unknown): string | null {
   const pathname = path.split('?')[0];
   if (!READ_PREFIXES.some((p) => pathname.startsWith(p))) return 'path is outside the record APIs';
   if (method === 'GET') return null;
+  if (method === 'DELETE' && DELETE_CONSTITUENT.test(pathname)) {
+    return /[?&]lookup=\d+$/.test(path) ? null : 'deleting a constituent needs ?lookup=<lookup id>';
+  }
   const rule = WRITE_RULES.find((r) => r.methods.includes(method) && r.path.test(pathname));
   if (!rule) return `no write rule for ${method} ${pathname}`;
   if (rule.keys) {
@@ -138,9 +156,26 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
   const why = check(method, path, call.body);
   if (why) return refusal(method, path, why);
 
+  let forward = path;
+  const doomed = method === 'DELETE' ? DELETE_CONSTITUENT.exec(path.split('?')[0]) : null;
+  if (doomed) {
+    const lookup = new URLSearchParams(path.split('?')[1] ?? '').get('lookup');
+    const who = await bbFetch(env, `/constituent/v1/constituents/${doomed[1]}`, { method: 'GET' });
+    const person = who.ok ? ((await who.json()) as { lookup_id?: string }) : null;
+    if (!person || String(person.lookup_id) !== lookup) {
+      return refusal(method, path, 'lookup id does not match this record');
+    }
+    const gifts = await bbFetch(env, `/gift/v1/gifts?constituent_id=${doomed[1]}&limit=1`, { method: 'GET' });
+    const found = gifts.ok ? ((await gifts.json()) as { count?: number }) : null;
+    if (!found || typeof found.count !== 'number' || found.count > 0) {
+      return refusal(method, path, 'this record holds gifts or could not be checked; it cannot be deleted here');
+    }
+    forward = `/constituent/v1/constituents/${doomed[1]}`;
+  }
+
   const init: RequestInit = { method };
   if (method !== 'GET' && call.body !== undefined) init.body = JSON.stringify(call.body);
-  const res = await bbFetch(env, path, init);
+  const res = await bbFetch(env, forward, init);
   const text = await res.text();
   let body: unknown = null;
   if (text.trim()) {
