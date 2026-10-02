@@ -372,13 +372,18 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     // cookie (last touch wins), and 24 hours is short on purpose so a donor
     // answering a different campaign next week is not mis-attributed.
     const VALID_SRC = ['email', 'fb', 'ig', 'yt', 'default', 'l26a', 'n269-emw5'];
+    // Dated keys pass by pattern (2026-10-02): an email newsletter
+    // (n26a-emw1) or an appeal letter (l26b) needs only its appeal record in
+    // RE NXT. Keep both patterns in step with functions/api/_lib/campaign.ts.
+    const DATED_SRC = [/^n\d{2}[1-9abc]-emw[1-5]$/, /^l\d{2}[1-9abc]$/];
+    const isValidSrc = (s: string) => VALID_SRC.includes(s) || DATED_SRC.some((re) => re.test(s));
     const ATTR_COOKIE = 'give-attr';
     // Email platforms sometimes rewrite tracked links without decoding the
     // HTML entity, so "&amp;src=" arrives as a parameter named "amp;src".
     // Read both spellings so the gift still attributes.
     const param = (name: string) => params.get(name) ?? params.get(`amp;${name}`);
     const srcParam = (param('src') ?? '').toLowerCase();
-    let campaignSource = VALID_SRC.includes(srcParam) ? srcParam : undefined;
+    let campaignSource = isValidSrc(srcParam) ? srcParam : undefined;
     // Per-send ref token (2026-08-21): campaign landing pages forward it so
     // the Blackbaud gift reference names the audience/send it came from.
     let campaignRef = (param('ref') ?? '').slice(0, 24) || undefined;
@@ -388,7 +393,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       const saved = document.cookie.match(/(?:^|;\s*)give-attr=([^;]*)/);
       if (saved) {
         const [s, r] = decodeURIComponent(saved[1]).split('|');
-        if (VALID_SRC.includes(s)) {
+        if (isValidSrc(s)) {
           campaignSource = s;
           campaignRef = campaignRef ?? (r ? r.slice(0, 24) : undefined);
         }

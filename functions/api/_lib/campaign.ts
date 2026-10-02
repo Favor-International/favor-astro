@@ -41,12 +41,48 @@ const ATTRIBUTION_BY_SOURCE: Record<string, SourceAttribution> = {
   'n269-emw5': { appeal: 'N269-EMW5', label: 'Online gift from the Sep 30 2026 email newsletter' },
 };
 
+// Dated codes resolve by pattern (2026-10-02), so a new newsletter or appeal
+// letter needs only its appeal record in RE NXT, never a code change here:
+//   n<yy><m>-emw<1-5>   email newsletter       -> appeal N<YY><M>-EMW<n>
+//   l<yy><m>            appeal letter QR code  -> appeal L<YY><M>-WS
+// <m> is the appeal scheme's month character: 1-9 for Jan-Sep, a/b/c for
+// Oct/Nov/Dec. A key whose appeal does not exist yet falls back to the
+// Website appeal like any other unresolved source.
+const MONTH_NAMES: Record<string, string> = {
+  '1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'Jun',
+  '7': 'Jul', '8': 'Aug', '9': 'Sep', a: 'Oct', b: 'Nov', c: 'Dec',
+};
+export const NEWSLETTER_SRC = /^n(\d{2})([1-9abc])-emw([1-5])$/;
+export const LETTER_SRC = /^l(\d{2})([1-9abc])$/;
+
+function datedAttribution(source: string): SourceAttribution | null {
+  const n = NEWSLETTER_SRC.exec(source);
+  if (n) {
+    return {
+      appeal: source.toUpperCase(),
+      label: `Online gift from the ${MONTH_NAMES[n[2]]} 20${n[1]} week ${n[3]} email newsletter`,
+    };
+  }
+  const l = LETTER_SRC.exec(source);
+  if (l) {
+    return {
+      appeal: `${source.toUpperCase()}-WS`,
+      label: `Online gift for the ${MONTH_NAMES[l[2]]} 20${l[1]} appeal letter`,
+    };
+  }
+  return null;
+}
+
+function attributionFor(source: string): SourceAttribution | null {
+  return Object.hasOwn(ATTRIBUTION_BY_SOURCE, source) ? ATTRIBUTION_BY_SOURCE[source] : datedAttribution(source);
+}
+
 /** All whitelisted sources, for the admin verification endpoint. */
 export const CAMPAIGN_SOURCES = Object.keys(ATTRIBUTION_BY_SOURCE);
 
 /** The reference-line label for a whitelisted source. */
 export function campaignLabel(source: string): string {
-  return ATTRIBUTION_BY_SOURCE[source]?.label ?? 'Campaign';
+  return attributionFor(source)?.label ?? 'Campaign';
 }
 
 // v2: v1 cached a single-page appeal list that missed the campaign codes.
@@ -68,14 +104,21 @@ interface FundraisingRecord {
 
 /** True when the body value names a known campaign source. */
 export function isCampaignSource(value: unknown): value is string {
-  return typeof value === 'string' && value in ATTRIBUTION_BY_SOURCE;
+  return typeof value === 'string' && attributionFor(value) !== null;
 }
 
-async function lookupMaps(env: Env): Promise<{ appeals: Record<string, string>; campaigns: Record<string, string> }> {
-  const cached = await env.BLACKBAUD_TOKENS.get(CODES_CACHE);
+interface LookupMaps {
+  appeals: Record<string, string>;
+  campaigns: Record<string, string>;
+  /** Epoch ms when the lists were read from RE NXT. */
+  at?: number;
+}
+
+async function lookupMaps(env: Env, fresh = false): Promise<LookupMaps> {
+  const cached = fresh ? null : await env.BLACKBAUD_TOKENS.get(CODES_CACHE);
   if (cached) {
     try {
-      return JSON.parse(cached) as { appeals: Record<string, string>; campaigns: Record<string, string> };
+      return JSON.parse(cached) as LookupMaps;
     } catch {
       /* refetch */
     }
@@ -113,7 +156,7 @@ async function lookupMaps(env: Env): Promise<{ appeals: Record<string, string>; 
     }
     return map;
   };
-  const maps = { appeals: toMap(appealData.value), campaigns: toMap(campaignData.value) };
+  const maps: LookupMaps = { appeals: toMap(appealData.value), campaigns: toMap(campaignData.value), at: Date.now() };
   await env.BLACKBAUD_TOKENS.put(CODES_CACHE, JSON.stringify(maps), { expirationTtl: 86400 });
   return maps;
 }
@@ -125,10 +168,17 @@ async function lookupMaps(env: Env): Promise<{ appeals: Record<string, string>; 
  */
 export async function resolveCampaignCodes(env: Env, source: unknown): Promise<CampaignCodes | null> {
   if (!isCampaignSource(source)) return null;
-  const attribution = ATTRIBUTION_BY_SOURCE[source];
+  const attribution = attributionFor(source);
+  if (!attribution) return null;
   const appealLookup = attribution.appeal;
   try {
-    const maps = await lookupMaps(env);
+    let maps = await lookupMaps(env);
+    // An appeal created by hand in RE NXT is missing from a cached list for
+    // up to a day. Reread once when the cache is over ten minutes old, so a
+    // new issue's code resolves on its first gift.
+    if (!maps.appeals[appealLookup.toUpperCase()] && Date.now() - (maps.at ?? 0) > 10 * 60 * 1000) {
+      maps = await lookupMaps(env, true);
+    }
     const codes: CampaignCodes = {};
     const appealId = maps.appeals[appealLookup.toUpperCase()];
     if (appealId) {
