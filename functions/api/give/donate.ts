@@ -17,7 +17,7 @@
 
 import {
   buildReference,
-  createGift,
+  createGiftWithCredit,
   etGiftDate,
   ensureConstituentCode,
   ensureOrgContact,
@@ -114,7 +114,9 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     else if (appealId) split.appeal_id = appealId;
     if (campaignCodes?.campaign_id) split.campaign_id = campaignCodes.campaign_id;
 
-    const gift = await createGift(env, {
+    // A gift on the Website appeal carries the credit of the partner's assigned
+    // fundraisers from the start; a campaign or newsletter gift carries none.
+    const gift = await createGiftWithCredit(env, {
       type: 'Donation',
       constituent_id: constituentId,
       amount: { value: total },
@@ -140,7 +142,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
         body.sms_optin === true && 'Opted in: text updates',
         note && `Donor note: ${note}`,
       ]),
-    });
+    }, !campaignCodes?.appeal_id);
 
     // Post-gift enrichment (Daniel, 2026-08-06), all after the response and
     // failure-isolated: web donors carry the "Partner" constituent code, and

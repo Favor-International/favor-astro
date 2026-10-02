@@ -24,7 +24,7 @@ import {
   etGiftDate,
   cardTokenVaulted,
   convertRecurringGiftToAutomatic,
-  createGift,
+  createGiftWithCredit,
   deleteGiftQuietly,
   ensureConstituentCode,
   ensureOrgContact,
@@ -161,12 +161,15 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
         },
       ],
     };
-    const recurring: { id: string } = await createGift(env, recurringPayload);
+    // Website-appeal gifts carry the assigned fundraisers' credit from creation
+    // (see createGiftWithCredit); campaign and newsletter gifts carry none.
+    const credit = !campaignCodes?.appeal_id;
+    const recurring: { id: string } = await createGiftWithCredit(env, recurringPayload, credit);
 
     // 3. First installment: charge the checkout authorization and link it.
     let payment: { id: string };
     try {
-      payment = await createGift(env, {
+      payment = await createGiftWithCredit(env, {
         ...baseGift,
         type: 'RecurringGiftPayment',
         amount: { value: total },
@@ -178,7 +181,7 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
             charge_transaction: true,
           },
         ],
-      });
+      }, credit);
     } catch (err) {
       await deleteGiftQuietly(env, recurring.id);
       throw err;

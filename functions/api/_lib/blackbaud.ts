@@ -813,6 +813,31 @@ export async function createGift(env: Env, gift: Record<string, unknown>): Promi
   });
 }
 
+// Fundraiser credit can only be set while a gift is being created; the Gift API
+// ignores it on an existing gift (proven 2026-10-02 through
+// /api/blackbaud/credit-test). default_fundraiser_credits gives the gift the
+// fundraisers assigned to the constituent, the same credit a batch-entered gift
+// gets. Callers pass credit=false for gifts on a campaign or newsletter appeal,
+// which carry no fundraiser credit. If Blackbaud ever refuses the flag, the gift
+// is created without it so a donation never fails over credit.
+export async function createGiftWithCredit(
+  env: Env,
+  gift: Record<string, unknown>,
+  credit: boolean
+): Promise<{ id: string }> {
+  if (!credit) return createGift(env, gift);
+  try {
+    return await createGift(env, { ...gift, default_fundraiser_credits: true });
+  } catch (err) {
+    const text = err instanceof BlackbaudError ? `${err.message} ${JSON.stringify(err.detail ?? '')}` : '';
+    if (err instanceof BlackbaudError && err.status === 400 && /fundraiser/i.test(text)) {
+      console.error('[give] default fundraiser credit refused; creating the gift without it:', err.message);
+      return createGift(env, gift);
+    }
+    throw err;
+  }
+}
+
 export async function deleteGiftQuietly(env: Env, giftId: string): Promise<void> {
   // bbFetch returns a Response and never throws on HTTP errors, so the old
   // fire-and-forget version reported success while Blackbaud rejected every
