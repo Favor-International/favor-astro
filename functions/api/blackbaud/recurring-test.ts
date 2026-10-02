@@ -187,9 +187,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       gift_splits: [{ fund_id: '79', amount: { value: 1 }, appeal_id: '2353', campaign_id: '223' }],
       reference: 'DIAGNOSTIC recurring test (auto-deleted)',
       recurring_gift_schedule: { frequency: 'MONTHLY', start_date: nextMonthIso() },
-      // The giving form sends this flag on every Website-appeal gift, so the
-      // daily check sends it too and would catch Blackbaud refusing it.
-      default_fundraiser_credits: true,
+      // No default_fundraiser_credits here. Blackbaud refuses to delete the test
+      // schedule and it is terminated instead, and 27202 is assigned to Partner
+      // Care, so the flag left Partner Care credit on a $1 Media-appeal gift every
+      // day for the gift phase to strip (66309, 2026-10-02). The giving form
+      // retries without the flag if Blackbaud ever refuses it.
     };
     if (payments) payload.payments = payments;
     let createdId: string | undefined;

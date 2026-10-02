@@ -73,6 +73,9 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['PATCH'], path: /^\/fundraising\/v1\/fundraisers\/assignments\/\d+$/ },
   // Run a saved query (backups, verification exports).
   { methods: ['POST'], path: /^\/query\/queries\/executebyid$/ },
+  // Run an unsaved query. Reads only: the gift phase copies a saved query's
+  // criteria and asks for gift IDs where the saved output is a total.
+  { methods: ['POST'], path: /^\/query\/queries\/execute$/ },
   // Saved queries: criteria only (no rename, move or delete), and the refresh
   // a static query needs before its global change runs.
   { methods: ['PATCH'], path: /^\/query\/queries\/\d+$/, keys: ['filter_fields'] },
