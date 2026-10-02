@@ -57,6 +57,9 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['PATCH', 'DELETE'], path: /^\/constituent\/v1\/constituentcodes\/\d+$/ },
   { methods: ['PATCH', 'DELETE'], path: /^\/constituent\/v1\/addresses\/\d+$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/(emailaddresses|phones)\/\d+$/ },
+  // Primary addressee and salutation. Records the giving form creates have none.
+  { methods: ['POST'], path: /^\/constituent\/v1\/primarynameformats$/ },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/primarynameformats\/[A-Za-z0-9_-]+$/ },
   { methods: ['POST'], path: /^\/constituent\/v1\/actions$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/\d+$/ },
   // Fundraiser assignments: add and end. No delete.
