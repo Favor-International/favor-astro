@@ -28,9 +28,12 @@ import { errorJson, handleError, json, requireSetupKey } from '../_lib/http';
 const READ_PREFIXES = [
   '/constituent/v1/',
   '/gift/v1/',
+  '/gft-gifts/',
+  '/gift-batch/v1/',
   '/fundraising/v1/',
   '/nxt-data-integration/v1/re/',
   '/query/',
+  '/import/',
 ];
 
 interface WriteRule {
@@ -43,9 +46,9 @@ interface WriteRule {
 const WRITE_RULES: WriteRule[] = [
   // Code table entries (monthly source codes).
   { methods: ['POST'], path: /^\/nxt-data-integration\/v1\/re\/codetables\/\d+\/tableentries$/ },
-  // Gift appeal, campaign, fund and package on existing splits. Amount and
-  // constituent stay out of reach.
-  { methods: ['PATCH'], path: /^\/gift\/v1\/gifts\/\d+$/, keys: ['gift_splits'] },
+  // Gift appeal, campaign, fund and package on existing splits, the gift's
+  // constituency and its gift code. Amount and constituent stay out of reach.
+  { methods: ['PATCH'], path: /^\/gift\/v1\/gifts\/\d+$/, keys: ['gift_splits', 'constituency', 'gift_code'] },
   { methods: ['POST'], path: /^\/gift\/v1\/gifts\/customfields$/ },
   { methods: ['PATCH', 'DELETE'], path: /^\/gift\/v1\/gifts\/customfields\/\d+$/ },
   // New-record review: names, codes, custom fields, addresses, actions.
@@ -78,6 +81,12 @@ const WRITE_RULES: WriteRule[] = [
   // rows and notes over, remove the copied actions from the duplicate.
   { methods: ['POST'], path: /^\/constituent\/v1\/(emailaddresses|phones|notes)$/ },
   { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/\d+$/ },
+  // Import jobs (Blackbaud's Import API, in preview): set a job up, start it,
+  // remove it. The file itself goes to the upload address the job returns.
+  { methods: ['POST'], path: /^\/import\/jobs$/, keys: ['file_name', 'header_row', 'validation_mode'] },
+  { methods: ['PATCH'], path: /^\/import\/jobs\/[A-Za-z0-9-]+$/, keys: ['file_name', 'header_row', 'validation_mode'] },
+  { methods: ['POST'], path: /^\/import\/jobs\/start$/, keys: ['job_id'] },
+  { methods: ['DELETE'], path: /^\/import\/jobs\/[A-Za-z0-9-]+$/ },
 ];
 
 // The duplicate itself can then be deleted. The caller restates the lookup ID
