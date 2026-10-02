@@ -17,7 +17,8 @@
 // Every write lands in a KV ledger (180 days) with its status, so any change
 // made through this route can be traced to a day and a call. A daily cap
 // keeps upkeep work from spending the allowance the giving form needs; the
-// website, the partner portal and this route share one subscription.
+// website, the partner portal and this route share one subscription. The
+// count runs per UTC day, the same window Blackbaud uses.
 
 import { bbFetch, etGiftDate, requireCredentials, type Env } from '../_lib/blackbaud';
 import { errorJson, handleError, json, requireSetupKey } from '../_lib/http';
@@ -69,9 +70,14 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['POST'], path: /^\/query\/queries\/executebyid$/ },
 ];
 
-const DAILY_CAP = 8000;
+// Blackbaud counts the allowance per UTC day. On 2026-10-02 the key this site
+// uses stopped at about 1,000 calls and the giving form went down until the
+// reset, so the default leaves giving and the portal most of that tier. KV key
+// bb:ops:cap raises it once a larger tier is confirmed on this key.
+const DEFAULT_DAILY_CAP = 300;
 const MAX_BATCH = 15;
 const LOG_TTL_SECONDS = 180 * 86400;
+const QUOTA_STOP_KEY = 'bb:ops:quota_stop';
 
 interface OpsCall {
   method?: unknown;
@@ -169,21 +175,36 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       return errorJson('bad_batch', `Send between 1 and ${MAX_BATCH} calls`, 400);
     }
 
+    // Once Blackbaud refuses a call on quota, upkeep waits for the reset
+    // instead of spending retries the giving form could use.
+    const stopUntil = Number((await env.BLACKBAUD_TOKENS.get(QUOTA_STOP_KEY)) ?? '0') || 0;
+    if (Date.now() < stopUntil) {
+      return errorJson('quota_stop', 'Blackbaud is out of allowance; upkeep waits for the reset', 429, {
+        until: new Date(stopUntil).toISOString(),
+      });
+    }
+
     const day = etGiftDate().slice(0, 10);
-    const used = await bump(env, day, calls.length);
-    if (used > DAILY_CAP) {
-      return errorJson('daily_cap', `Upkeep calls are capped at ${DAILY_CAP} a day so giving keeps its allowance`, 429, { used });
+    const cap = Number((await env.BLACKBAUD_TOKENS.get('bb:ops:cap')) ?? '') || DEFAULT_DAILY_CAP;
+    const used = await bump(env, new Date().toISOString().slice(0, 10), calls.length);
+    if (used > cap) {
+      return errorJson('daily_cap', `Upkeep calls are capped at ${cap} a day so giving keeps its allowance`, 429, { used });
     }
 
     const results: OpsResult[] = [];
     for (const call of calls) {
       const result = await run(env, day, call);
       results.push(result);
+      if (result.status === 403 && JSON.stringify(result.body ?? '').includes('quota')) {
+        const reset = new Date();
+        reset.setUTCHours(24, 5, 0, 0);
+        await env.BLACKBAUD_TOKENS.put(QUOTA_STOP_KEY, String(reset.getTime()), { expirationTtl: 86400 }).catch(() => {});
+      }
       // A refused or throttled call stops the batch so later calls never run
       // against a state the earlier ones were meant to set up.
       if (result.status === 0 || result.status === 429 || result.status === 403) break;
     }
-    return json({ ok: results.every((r) => r.ok), calls_today: used, results });
+    return json({ ok: results.every((r) => r.ok), calls_today: used, cap, results });
   } catch (err) {
     return handleError(err);
   }
