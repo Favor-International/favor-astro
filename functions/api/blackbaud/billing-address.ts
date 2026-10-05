@@ -1,0 +1,53 @@
+// GET /api/blackbaud/billing-address?key=<BLACKBAUD_SETUP_KEY>&gift=<gift id>[&apply=1]
+//
+// What billing address does the card transaction behind this gift carry, and
+// would it be saved on the giving record? Without apply=1 nothing is written.
+// With it, the address is saved only when the record holds no address at all.
+//
+// Used to check the giving form's address capture and to fill in the records
+// the form created before it captured one. Setup-key guarded. The response
+// carries the city, state, postal code and country, and says whether a street
+// line exists without repeating it. No card detail is read or returned.
+
+import { bbJson, requireCredentials, type Env } from '../_lib/blackbaud';
+import { giftBillingAddress, saveBillingAddress } from '../_lib/billing-address';
+import { errorJson, handleError, json, requireSetupKey } from '../_lib/http';
+
+export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+  try {
+    requireSetupKey(env, request);
+    requireCredentials(env);
+    const q = new URL(request.url).searchParams;
+    const giftId = (q.get('gift') ?? '').trim();
+    if (!/^\d+$/.test(giftId)) return errorJson('bad_gift', 'gift must be a Blackbaud gift id', 400);
+
+    const gift = await bbJson<{ constituent_id?: string; payments?: Array<{ bbps_transaction_id?: string }> }>(
+      env,
+      `/gift/v1/gifts/${giftId}`
+    );
+    const constituentId = String(gift.constituent_id ?? '');
+    const hasTransaction = (gift.payments ?? []).some((p) => Boolean(p.bbps_transaction_id));
+    const billing = await giftBillingAddress(env, giftId);
+    if (!billing) {
+      return json({ ok: true, gift_id: giftId, constituent_id: constituentId, has_transaction: hasTransaction, billing: null });
+    }
+    const outcome = await saveBillingAddress(env, constituentId, billing, q.get('apply') !== '1');
+    return json({
+      ok: true,
+      gift_id: giftId,
+      constituent_id: constituentId,
+      has_transaction: hasTransaction,
+      billing: {
+        has_street: Boolean(billing.address_lines),
+        city: billing.city,
+        state: billing.state,
+        postal_code: billing.postal_code,
+        country: billing.country,
+      },
+      applied: q.get('apply') === '1',
+      outcome,
+    });
+  } catch (err) {
+    return handleError(err);
+  }
+};
