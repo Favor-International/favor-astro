@@ -1,0 +1,284 @@
+---
+import RedesignLayout from '../../layouts/RedesignLayout.astro';
+import PageHero from '../../components/band/PageHero.astro';
+import RdCta from '../../components/redesign/RdCta.astro';
+import LeafHeading from '../../components/redesign/LeafHeading.astro';
+import VerseBand from '../../components/redesign/VerseBand.astro';
+
+const contents = [
+  { n: '1', title: 'Intimacy: the foundation of all prayer', href: '#section-1' },
+  { n: '2', title: 'Desperation: the prayer God answers', href: '#section-2' },
+  { n: '3', title: 'Building altars: tearing down and rebuilding', href: '#section-3' },
+  { n: '4', title: 'The ministry of the Holy Spirit', href: '#section-4' },
+  { n: '5', title: 'A baptism of love that casts out fear', href: '#section-5' },
+  { n: 'A', title: 'Fasting and prayer-week schedule', href: '#fasting-schedule' },
+  { n: 'B', title: 'Small-group leader guide', href: '#leaders-guide' },
+];
+---
+<RedesignLayout
+  title="From Intimacy to Intercession: A Prayer Workbook"
+  description="A five-part prayer workbook built from the ministry of Carole Ward. Read each teaching slowly, pray it through, and return to it."
+>
+  <PageHero waveColor="cream"
+    label="Prayer workbook"
+    title="From intimacy to intercession."
+    promise="You will never learn to pray from reading a book. You learn to pray by praying. This workbook gives you five teachings to read slowly, pray through, and return to."
+    image="/images/field-2026/prayer-1.webp"
+    imageAlt="Favor leaders gathered in prayer"
+    ctaLabel="Start with Section 1"
+    ctaHref="#section-1"
+    variant="split"
+  />
+
+  <section class="band band--white wb-intro"><div class="container container--narrow">
+    <LeafHeading label="How to use this workbook" title="The teaching is the focal point of every section." intro="Beneath each teaching you will find true stories from the mission field that put flesh on the truth, followed by space to respond. Built from the ministry of Carole Ward, Favor International." />
+    <div class="wb-prose">
+      <p>Each section contains the teaching (the core message, expanded, for you to read and meditate on), key truths (short quotes to underline, memorize, or pray back to God), stories and testimonies (one or two illustrations from the field), go deeper (reflection and discussion questions), and a prayer focus (a guided way to turn the teaching into prayer).</p>
+      <p>A word before you begin: let this workbook be a doorway, not a destination. Give God the time, and He will teach you.</p>
+    </div>
+    <ol class="wb-contents">
+      {contents.map((c) => (
+        <li><a href={c.href}><span class="wb-contents__n">{c.n}</span> {c.title}</a></li>
+      ))}
+    </ol>
+  </div></section>
+
+  <VerseBand
+    reference="Carole Ward"
+    verse="&ldquo;Intimacy will lead you to intercession, and intercession will become interception. Defeating the plan of the enemy before he attacks.&rdquo;"
+    note="The sentence this whole workbook is built on."
+    background="cream"
+  />
+
+  <section class="band band--cream wb-section" id="section-1"><div class="container container--narrow">
+    <LeafHeading label="Section 1" title="Intimacy: the foundation of all prayer." intro="All true prayer begins with intimacy. The starting place is not the hands of God but the face of God." />
+    <div class="wb-prose">
+      <p>All true prayer begins with intimacy. The believer is joined to the Lord as one spirit with Him (1 Corinthians 6:17), taken from His side as bone of His bones and flesh of His flesh, and therefore called to carry what He carries and to love what He loves. This is the meaning of being the bride of Christ: not merely to enjoy His blessings, but to be a helpmate who knows the secrets of His heart. And a bride is given for a purpose, to be fruitful and reproduce after her kind. Prayer warriors reproduce prayer warriors. Those who travail at the altar reproduce souls who in turn through intercession reproduce souls.</p>
+      <p>When the Holy Spirit overshadowed Mary, she conceived. And what is born of the Spirit is spirit. In the same way, when the Spirit overshadows a praying heart, something of the living Word is conceived within. That conception grows into a burden. It enlarges and stretches the one who carries it, disrupts comfort and sleep, and makes the intercessor restless until the thing is birthed. Comfort is an enemy of change. A believer who will not be made uncomfortable will rarely give birth to the purposes of God. Just as a mother will rise in the night and lay down her life for the child she carried, the intercessor who truly carries a soul or a nation in prayer will lay down her life for that harvest, and it will not even feel like a sacrifice.</p>
+      <p>The starting place is not the hands of God but the face of God. Israel sought God for what His hands could do. Moses sought God Himself, crying, &ldquo;Teach me Your ways, that I might know You.&rdquo; Too much time in the prayer closet is spent looking for His hands (&ldquo;What will You do next? When will You answer?&rdquo;) when the invitation is to seek His face. Jesus taught that the reward is tied to the secret place: &ldquo;When you pray, go into your inner room, shut the door&rdquo; (Matthew 6:6). Secret prayer produces open reward. This is measurable: the quality of the hidden life with God determines the fruit that follows in the open.</p>
+      <p>Intimacy also reframes the whole cost of following God. When a person is deeply in love, distance and danger stop being sacrifices. Jacob served fourteen years for Rachel and they seemed like only a few days because he loved her. When the believer is that much in love with Jesus, hours of prayer feel like minutes, and no assignment He gives will ever feel like a loss. This is why the first love must be guarded: many follow Jesus for the miracles, but only love will sustain a lifetime of intercession.</p>
+    </div>
+    <h3 class="wb-h3">Key truths</h3>
+    <ul class="wb-truths">
+      <li>&ldquo;Intimacy will lead you to intercession, and intercession will become interception.&rdquo;</li>
+      <li>&ldquo;Secret prayer, open rewards. You can measure the one by the other.&rdquo;</li>
+      <li>&ldquo;You will never learn to pray from reading a book. You are going to learn to pray by praying.&rdquo;</li>
+    </ul>
+    <h3 class="wb-h3">Stories and testimonies</h3>
+    <div class="wb-prose">
+      <p><strong>The grandmother in China and the father in the Philippines.</strong> Carole Ward first learned prayer not from a book but by watching it lived. Her grandmother, a prayer warrior in China, sat her down at eight years old, rocked and wept over one soul after another for hours, then said, &ldquo;OK, your turn, honey.&rdquo; Her father, a missionary in the Philippines surrounded by terrorism, lived on his knees. For forty-five years God concealed him from enemies who wanted his head, even directing which vehicle to take by the Word so that ambushes meant for him fell on empty roads. Prayer, she learned, is the hiding place and the lifeline.</p>
+      <p><strong>Virgil and the bottle of tears.</strong> Carole and others prayed for an alcoholic named Virgil for twenty-seven years, weeping, warring, watching him come to Jesus and return to the gutter again and again, until he finally repented on his deathbed. Angry that it took so long, she heard the Lord answer: &ldquo;Who said you wasted twenty-seven years? I collected every tear in a bottle, and I used your intercession to soften the hearts of a thousand other alcoholics who had no one to pray for them.&rdquo; God often gives us one prodigal to carry so that a thousand more, unseen, can be brought home.</p>
+    </div>
+    <h3 class="wb-h3">Go deeper</h3>
+    <ul class="wb-questions">
+      <li>Am I seeking God&rsquo;s face, or mostly His hands? What would change if I sought His face first?</li>
+      <li>What has the Lord been trying to &ldquo;conceive&rdquo; in me through prayer? Am I carrying it, or have I set it down because it grew heavy?</li>
+      <li>Where has comfort become an enemy of change in my prayer life?</li>
+      <li>Who is the &ldquo;Virgil&rdquo; I am tempted to give up on? What would faithfulness look like this year?</li>
+    </ul>
+    <h3 class="wb-h3">Prayer focus</h3>
+    <div class="wb-prose">
+      <p>Lay your hands on your heart and ask God to birth in you a deeper intimacy, to break open wells of living water that will never run dry. Give Him unhurried time today. Speak your love, then stop and listen. Ask Him to make the discipline of prayer a delight.</p>
+      <p><strong>Scriptures to pray:</strong> 2 Corinthians 3:18 (beholding His glory, changed from glory to glory). Psalm 86:11 (&ldquo;Teach me Your ways, that I may know You&rdquo;). Matthew 6:6 (the secret place and open reward). Song of Solomon 3:1-4 (seeking the One whom my soul loves). 2 Chronicles 7:14 (&ldquo;If My people&hellip;&rdquo;).</p>
+    </div>
+  </div></section>
+
+  <section class="band band--white wb-section" id="section-2"><div class="container container--narrow">
+    <LeafHeading label="Section 2" title="Desperation: the prayer God answers." intro="Passion is a strong feeling. Desperation is a driving force that will not be silenced." />
+    <div class="wb-prose">
+      <p>There is a difference between being passionate and being desperate. Passion is a strong feeling: affection, attraction, a love for worship or for the presence of God. Desperation is a driving force that will not be silenced. It consumes a person with such intensity and singleness of purpose that everything else becomes insignificant beside the thing being pursued. A concerned person will give toward a need. A desperate person will sell everything they own to meet it. God answers the prayer of the desperate.</p>
+      <p>Scripture is full of desperate people who received what they sought. The widow before the unjust judge pounded until she got justice, and Jesus called her persistence a sign of faith, not a lack of it (Luke 18). The woman with the issue of blood pressed through a crowd on her last strength to touch the hem of His garment (Mark 5). Esther fasted three days without food or water (&ldquo;if I perish, I perish&rdquo;) and a nation was delivered. Bartimaeus screamed louder when the crowd told him to be quiet (Mark 10). The Syrophoenician mother would take even the crumbs for her demonized daughter (Matthew 15). In every case, dignity, reputation, and comfort were thrown aside because one thing mattered more than everything else.</p>
+      <p>This desperation is not self-generated striving. It is a baptism God Himself gives, and it comes with heaven&rsquo;s urgency. God is not in a hurry about everything. He often waits for the right hearts and the right alignment. But He is urgent after souls, for it is not His will that any should perish. When the intercessor is gripped by that urgency, prayer stops being a discipline to endure and becomes a pursuit that cannot be stopped. &ldquo;Check your oil,&rdquo; the teaching warns, pointing to the five wise virgins: a lamp without oil cannot burn, and a life without desperate, filled-up prayer will run dry at the very moment it is needed most.</p>
+      <p>Desperation for God always overflows into desperation for what God is desperate for: the lost, the children, the city. But the order matters. One cannot be truly desperate for the lost until one is first desperate for Him. And what is attained by desperate prayer must be sustained by the same intensity. Revival is kept the same way it is won.</p>
+    </div>
+    <h3 class="wb-h3">Key truths</h3>
+    <ul class="wb-truths">
+      <li>&ldquo;Passion is a strong feeling. Desperation is a driving force that will not be silenced.&rdquo;</li>
+      <li>&ldquo;He calls persistent pounding a sign of faith, not a lack of it.&rdquo;</li>
+      <li>&ldquo;We cannot be desperate for the lost until we are first desperate for Him.&rdquo;</li>
+    </ul>
+    <h3 class="wb-h3">Stories and testimonies</h3>
+    <div class="wb-prose">
+      <p><strong>Hijacked on the road to Juba.</strong> Carole Ward refuses to fly over the dangerous roads of South Sudan: &ldquo;if we don&rsquo;t ride the roads, who is going to blow the devils off them?&rdquo; On one trip her convoy was infiltrated by two rebels in stolen army uniforms who forced their way into her vehicle, guns loaded, intending to kill everyone. With no time to pray, she grabbed a Bible, waved it in the face of the man beside her, learned his name was Jacob, and told him, &ldquo;Your name is in here. Do you know you&rsquo;re famous?&rdquo; For four hours she preached the whole Word from Genesis to Revelation. By the time they reached Juba, both rebels prayed to receive Jesus. One asked her to come to his village. Missionaries are there today, running a church and Bible school. Desperation for that one &ldquo;Jacob&rdquo; is why she takes the roads at all.</p>
+      <p><strong>Forty days of fasting for a field.</strong> To hold a prayer gathering in a Ugandan war zone, Carole&rsquo;s team needed a grass field the government refused to release. They fasted forty days simply to obtain the field, then fasted seven more days with a thousand people praying the Word eleven hours a day. On the fifth day an unbelieving governor phoned: &ldquo;It feels like a great black curtain has been pulled back over the whole region. The atmosphere has changed.&rdquo; Later, the dictator warlord himself admitted that the week they prayed in that field was the week he lost his power. Desperation that fasts &ldquo;until&rdquo; moves what nothing else can move.</p>
+    </div>
+    <h3 class="wb-h3">Go deeper</h3>
+    <ul class="wb-questions">
+      <li>Honestly: am I passionate about prayer, or desperate? What is the difference showing up in my schedule?</li>
+      <li>What is the one thing I would &ldquo;sell everything&rdquo; for in prayer right now?</li>
+      <li>Where have I stopped short, prayed for a while and quit before the &ldquo;until&rdquo;?</li>
+      <li>What might a &ldquo;baptism of desperation&rdquo; cost me in comfort, sleep, or reputation?</li>
+    </ul>
+    <h3 class="wb-h3">Prayer focus</h3>
+    <div class="wb-prose">
+      <p>Ask God for a fresh baptism of desperation. Pray through the Scriptures above one at a time, asking, &ldquo;Do I line up with this?&rdquo; Tell Him the specific soul, family, or city you refuse to release. Then ask Him to give you His urgency for the lost.</p>
+      <p><strong>Scriptures to pray:</strong> 1 Samuel 1:10-17 (Hannah&rsquo;s desperate, silent travail). Genesis 32:24-30 (Jacob wrestling until the breaking of day). Matthew 17:21 (&ldquo;this kind does not go out except by prayer and fasting&rdquo;). Luke 15:11-24 (the prodigal and the watching, running Father). Revelation 3:15-18 (the danger of lukewarm).</p>
+    </div>
+  </div></section>
+
+  <section class="band band--cream wb-section" id="section-3"><div class="container container--narrow">
+    <LeafHeading label="Section 3" title="Building altars: tearing down and rebuilding." intro="An altar is a place of worship, a place of sacrifice, a place of covenant, and a place of remembrance." />
+    <div class="wb-prose">
+      <p>The Old Testament is full of altars for a reason: they carry spiritual meaning for the church today. Noah built one and God made a covenant. Abraham built one and laid down what he loved most. Jacob, Moses, Gideon, Samuel, David, and Solomon all built altars to mark where they met and worshiped the living God. Wherever a believer bows the knee to God, an altar is built: in a home, a hospital room, an office, or the middle of a street where blood has been shed.</p>
+      <p>An altar is simply where your highest priority, affection, time, and attention are given. The sobering truth is that everyone worships at some altar. For many it is sports, money, career, comfort, or a relationship set in the place of God. The flat altar in most living rooms, the television, quietly receives more devotion than the family altar of prayer. When the ark of God was set before the idol Dagon, the idol fell and shattered. Likewise, when God is genuinely brought into the center of a home, competing altars must come down.</p>
+      <p>This is why Scripture repeats a pattern: whenever a wicked king arose, he tore down God&rsquo;s altars and built altars to Baal, teaching the people idolatry. And whenever a godly king arose, his first act was to go up to the high places and tear down those altars and rebuild the altar of the Lord. The same is true spiritually and nationally. Altars of bloodshed, idolatry, and confusion have been erected (in classrooms that once held a Bible and a place of prayer, over the shedding of innocent blood, over the identity of children), and the church is called and authorized to tear them down and rebuild altars of life, worship, and covenant in their place. The intercessor stands, like Aaron with the incense, &ldquo;between the living and the dead&rdquo; (Numbers 16:48), and in the gap so that God will not destroy (Ezekiel 22:30).</p>
+      <p>The altar must never go cold. &ldquo;The fire shall be kept burning on the altar continually; it shall not go out&rdquo; (Leviticus 6:13). That altar is the human heart, and the fire is the all-consuming presence and Word of God: fire in the mouth and fire in the bones (Jeremiah 5 and 20). When a believer has no literal stones to build with, the altar is built from the promises of God. Each spoken promise is a stone, stacked and worshiped at, because the promises of God can never fail.</p>
+    </div>
+    <h3 class="wb-h3">Key truths</h3>
+    <ul class="wb-truths">
+      <li>&ldquo;Move God into your living room and everything else will have to move out.&rdquo;</li>
+      <li>&ldquo;Anywhere you bow your knee to the living God, you build an altar.&rdquo;</li>
+      <li>&ldquo;Never let the fire go out. The altar is the heart; the fire is His presence.&rdquo;</li>
+    </ul>
+    <h3 class="wb-h3">Stories and testimonies</h3>
+    <div class="wb-prose">
+      <p><strong>Thirty-three orphans who fasted a year for Monica.</strong> In Favor&rsquo;s Ugandan orphanage, thirty-three war-orphaned children ran in every evening at the sound of the drum to worship and pray with no adult leading them. When little Monica, born with no bone mass, failed three surgeries, her thirty-two orphanage siblings said, &ldquo;Don&rsquo;t do another surgery, Mom. We&rsquo;re going to fast for our sister.&rdquo; They fasted one day a week and prayed through the night every Friday for an entire year, refusing to let go of the horns of the altar. Carole returned from a trip to find Monica running and playing football with the boys. When revival grabs children, no one can stop them.</p>
+      <p><strong>The naked warrior tribe and the governor&rsquo;s rain.</strong> At a crusade among an unreached people, God was building an altar in the hearts of a whole region: a dead girl was raised on the platform, a lifelong paralytic jumped up and ran home, and the governor himself knelt and received Jesus. He then asked, &ldquo;Can your God bring rain?&rdquo; After nine months of drought, the team stood on 1 Kings 18 and prayed. At midnight the heavens opened in a monsoon. The governor next sent the team to a violent, naked warrior tribe who killed everything that entered their land. In two minutes the gospel was preached through an interpreter, every hand went up, and a church, a house of prayer, and a Bible school were started: a new altar where only bloodshed had stood before.</p>
+    </div>
+    <h3 class="wb-h3">Go deeper</h3>
+    <ul class="wb-questions">
+      <li>What altars, honestly, compete for my highest devotion? What needs to come down?</li>
+      <li>Where could I &ldquo;build an altar&rdquo; this week (home, workplace, a specific place)?</li>
+      <li>Which promises of God can I stack as &ldquo;stones&rdquo; and worship at until they come to pass?</li>
+      <li>Is the fire on the altar of my heart burning, or has it gone cold? Why?</li>
+    </ul>
+    <h3 class="wb-h3">Prayer focus</h3>
+    <div class="wb-prose">
+      <p>Repent for any altar set in God&rsquo;s place and ask Him to crush it as Dagon fell. Then build a fresh altar: name the promises you are standing on and worship at them. Take authority, standing between the living and the dead, over a specific stronghold in your city.</p>
+      <p><strong>Scriptures to pray:</strong> Genesis 8:20 (Noah building an altar after the flood). 1 Kings 18:30 (Elijah repairing the altar of the Lord that was broken down). Matthew 12:29 (binding the strong man to plunder his house). Daniel 10:12-13 (the answer released from the first day of prayer). 2 Corinthians 10:4-5 (weapons mighty to pull down strongholds).</p>
+    </div>
+  </div></section>
+
+  <section class="band band--white wb-section" id="section-4"><div class="container container--narrow">
+    <LeafHeading label="Section 4" title="The ministry of the Holy Spirit." intro="The most powerful prayers are the ones the Spirit prays through a yielded heart, not the ones generated by human reasoning." />
+    <div class="wb-prose">
+      <p>Jesus told the disciples it was to their advantage that He go away, because only then would He send the Holy Spirit to be with them everywhere, all the time, and to pray in all of them at once (John 16). The Spirit is not a vague influence but the divine Person who occupies the believer as a dwelling place, conforms them into the image of Jesus, and prays through them according to the mind of God (Romans 8:26; 1 Corinthians 2). Because He knows the mind of the Father, He knows exactly what God wants prayed today.</p>
+      <p>One of the Spirit&rsquo;s central ministries is drawing. &ldquo;No one can come to Me unless the Father draws him&rdquo; (John 6:44), and God draws with cords of love that cannot be broken (Jeremiah 31:3). When intercessors ask the Holy Spirit to draw the lost, they should expect Him to reel people in like a baby drawn by an unbreakable cord toward the heart of God, often people the intercessors will never meet or know by any natural means. Prayer in one place releases the Spirit&rsquo;s drawing work in another. There is no distance in the throne room.</p>
+      <p>The Spirit can, however, be quenched (1 Thessalonians 5:19), grieved (Ephesians 4:30), and resisted. When His promptings are silenced, He speaks less, the heart grows calloused, and what once brought conviction no longer does. The remedy is to respond quickly and repent quickly: the more a believer obeys His nudges, the more He speaks. He convicts but never condemns. The goodness of God, not guilt and shame, leads to repentance.</p>
+      <p>The same Spirit gives gifts and grows fruit, and the two are not the same. The nine gifts (1 Corinthians 12) are given and can operate even in a young believer. The nine-fold fruit (Galatians 5:22-23) is grown over time and is the very character of Jesus. Gifts are needed to bring in and mature the harvest, but character is what keeps a person where their gifts can take them. Finally, the Spirit is to be received again and again: as in Acts 2, the early church was filled, gathered, and filled again. Like a car returning to the fuel station, the believer must be &ldquo;continually filled&rdquo; (Ephesians 5:18), crying out &ldquo;until&rdquo; the Spirit is poured out from on high (Isaiah 32).</p>
+    </div>
+    <h3 class="wb-h3">Key truths</h3>
+    <ul class="wb-truths">
+      <li>&ldquo;When you ask the Holy Spirit to draw, expect Him to do it. He will reel a person in.&rdquo;</li>
+      <li>&ldquo;Your character will keep you where your gifts can only take you.&rdquo;</li>
+      <li>&ldquo;He came to give us comfort, but He did not come to make us comfortable.&rdquo;</li>
+    </ul>
+    <h3 class="wb-h3">Stories and testimonies</h3>
+    <div class="wb-prose">
+      <p><strong>Susan: &ldquo;something was pulling me.&rdquo;</strong> While Carole&rsquo;s team prayed day and night for children abducted into the bush because of the horrendous LRA (Lord&rsquo;s Resistance Army), a broken young woman who had escaped a rebel army stumbled toward Favor&rsquo;s house of prayer, drawn by the singing. Terrified, she circled to the back door, and the moment she crossed the threshold she fell on her knees crying, &ldquo;I want what is in this house!&rdquo; Asked later what gave her the courage to escape at the risk of her life, she said, &ldquo;It felt like something was pulling me.&rdquo; That &ldquo;something&rdquo; was the Holy Spirit answering prayer. Renamed and restored, Susan became &ldquo;Mama&rdquo; to thirty-three orphans and today she is a ministry leader in Favor still serving twenty years later.</p>
+      <p><strong>Mujahid the Imam, met by Jesus in a dream.</strong> During three weeks of prayer and fasting for terrorists in Khartoum (&ldquo;whoever they are, God, confront them&rdquo;), a violent Imam named Mujahid, who had burned churches and ordered believers beaten, was visited four times in a dream by One who warned he was on the wrong side. He defected, fled to Juba, heard Jesus preached on Favor&rsquo;s Christian radio, and knelt weeping to receive Him. At the mission&rsquo;s training school two pastors he had once ordered persecuted stood on either side of him, arms around him, saying, &ldquo;I have forgiven you, and I want to go with you to reach your people.&rdquo; No human hand arranged it. Only the Spirit, answering the cries of those who prayed.</p>
+    </div>
+    <h3 class="wb-h3">Go deeper</h3>
+    <ul class="wb-questions">
+      <li>Where have I quenched or grieved the Holy Spirit? What prompting do I need to obey today?</li>
+      <li>Am I relying more on gifts or on grown character? Where is God developing fruit in me?</li>
+      <li>Who am I asking the Spirit to &ldquo;draw&rdquo;? Am I praying with expectation that He will?</li>
+      <li>When was I last &ldquo;filled again&rdquo;? What would it look like to cry out &ldquo;until&rdquo;?</li>
+    </ul>
+    <h3 class="wb-h3">Prayer focus</h3>
+    <div class="wb-prose">
+      <p>Ask forgiveness for any way you have quenched or grieved the Spirit, and invite Him to come in fullness. Pray in the Spirit over specific people, asking Him to draw them and to pull the gifts out of them. Ask for a fresh infilling and for the fruit of His character.</p>
+      <p><strong>Scriptures to pray:</strong> Romans 8:26-27 (the Spirit helps our weakness and intercedes with groanings). 1 Corinthians 2:9-16 (the Spirit knows and reveals the mind of God). John 16:7 (it is to our advantage that He goes, so the Helper comes). Genesis 8:8-12 (the dove seeking a resting place). Acts 2:42 (devoted continually to prayer).</p>
+    </div>
+  </div></section>
+
+  <section class="band band--cream wb-section" id="section-5"><div class="container container--narrow">
+    <LeafHeading label="Section 5" title="A baptism of love that casts out fear." intro="Boldness in prayer and witness does not come mainly from more faith. It comes from more love." />
+    <div class="wb-prose">
+      <p>Scripture says God has not given a spirit of fear, but of power, of love, and of a sound mind (2 Timothy 1:7), and that &ldquo;perfect love casts out fear&rdquo; (1 John 4:18). Fear, in fact, is faith in the negative: believing that something bad is going to happen. It paralyzes, torments, and turns a shepherd into a hireling who runs. The antidote is not striving harder to be brave, but encountering the love of the Father so deeply that trust becomes natural, because when a person truly loves someone, they will trust them.</p>
+      <p>This love has two directions. First, a baptism of the Father&rsquo;s love for us: the revelation that our name is written on the palms of His hands (Isaiah 49:16), that we are drawn with cords that cannot be broken (Jeremiah 31:3), that we are hidden with Christ in God (Colossians 3:3), and that He has gone ahead to prepare breakfast on the beach before we even arrive. When that love is received, fear has no room to stand. Second, a baptism of love for the people we are sent to reach: a love that counts their eternity as more precious than our own comfort, reputation, or self-preservation. Fear thrives on self-preservation. Love that lays self down annihilates it.</p>
+      <p>Picture a fireman who runs into a collapsing building for one more child. He does not weigh his reputation or hesitate. The life in front of him has become more important than his own. That is what the church once looked like, and what it must look like again: people so gripped by the Father&rsquo;s love that rescuing even one more soul outweighs every fear. Souls are perishing in a burning building that will be gone tomorrow, and true love refuses to let them die.</p>
+      <p>Crucially, this love is not something we can manufacture by trying to feel more compassion for people. When asked for more love for people, the Lord&rsquo;s answer was, &ldquo;Don&rsquo;t ask Me for more love for people. Ask Me for more love for Me. When you are saturated with love for Me, everything else will be an overflow.&rdquo; Boldness, then, is the fruit of encounter: not because we know who we are, but because we know who He is.</p>
+    </div>
+    <h3 class="wb-h3">Key truths</h3>
+    <ul class="wb-truths">
+      <li>&ldquo;Fear is faith in the negative. Perfect love casts it out.&rdquo;</li>
+      <li>&ldquo;Don&rsquo;t ask Me for more love for people. Ask Me for more love for Me. The rest will be an overflow.&rdquo;</li>
+      <li>&ldquo;They don&rsquo;t need a sermon. They need to know that God still has arms.&rdquo;</li>
+    </ul>
+    <h3 class="wb-h3">Stories and testimonies</h3>
+    <div class="wb-prose">
+      <p><strong>&ldquo;God still has arms&rdquo; and the woman of stone.</strong> Driving alone into a war zone, fighting fear the whole way, Carole Ward heard the Lord say, &ldquo;I can&rsquo;t use you in fear. You don&rsquo;t need more faith, you need more love,&rdquo; and a wave of the Father&rsquo;s love broke over her in the vehicle. In the camps she met survivors so traumatized they were called &ldquo;the walking dead.&rdquo; Asked what to preach to people who had lost arms, legs, and children, the Lord answered, &ldquo;They don&rsquo;t need a sermon. They need to know that God still has arms. Just be My arms.&rdquo; She chose the hardest case, a one-eyed woman cold as stone, and hugged her day after day with no response. By the fourth day the woman&rsquo;s arms came around her and she wept. By the fifth, before Carole left, the woman was going from person to person hugging others who had never been held, sharing the love of Jesus. Love melted what no sermon could reach.</p>
+      <p><strong>Keith the fireman and little Lacey.</strong> Carole&rsquo;s brother Keith, a fire chief of thirty years, once went into a collapsing burning house after a child even though he was ordered not to. Asked why, he said, &ldquo;I kept thinking about my little Lacey at home that I kiss goodnight. What if that were my Lacey? What would that mama feel?&rdquo; That is exactly how the Father feels about every perishing &ldquo;Johnny&rdquo; in a burning building. And when we feel it too, fear and self-consciousness simply vanish before the value of one life.</p>
+    </div>
+    <h3 class="wb-h3">Go deeper</h3>
+    <ul class="wb-questions">
+      <li>Where is fear really &ldquo;faith in the negative&rdquo; in my life? What am I believing will go wrong?</li>
+      <li>Have I received the Father&rsquo;s love for me, or only worked hard for Him? What would an encounter change?</li>
+      <li>Whose eternity have I treated as less important than my comfort or reputation?</li>
+      <li>What would change if I asked for more love for Him rather than more courage?</li>
+    </ul>
+    <h3 class="wb-h3">Prayer focus</h3>
+    <div class="wb-prose">
+      <p>Ask the Father for a baptism of His love, both His love for you and His love through you for the lost. Let Him love you before you try to love anyone. Then name one person whose eternity you will no longer let fear keep you from, and ask for boldness born of love.</p>
+      <p><strong>Scriptures to pray:</strong> 1 John 4:18 (perfect love casts out fear). John 21:15-17 (&ldquo;Simon, do you love Me?&rdquo;). Revelation 2:4 (return to your first love). Revelation 14:4 (they follow the Lamb wherever He goes). Ezekiel 47:1-12 (the river that brings life everywhere it flows).</p>
+    </div>
+  </div></section>
+
+  <section class="band band--white wb-section" id="fasting-schedule"><div class="container container--narrow">
+    <LeafHeading label="Addendum A" title="Fasting and prayer-week schedule." intro="The fast is never about earning God&rsquo;s attention. It is about laying aside the temporal to lay hold of the eternal." />
+    <div class="wb-prose">
+      <p>This seven-day plan follows the flow of the five teachings and can be used personally or by a group. Choose a level of fasting appropriate to your health and season (see options below). &ldquo;This kind does not go out except by prayer and fasting&rdquo; (Matthew 17:21). It is about pushing away from our table to push up to His.</p>
+      <p><strong>Before you begin:</strong> decide your fast (one meal a day, sunrise to sundown, a Daniel fast of fruits and vegetables, or full days on water, as health allows). Set apart the time: turn off the television, silence the phone, close the door (Matthew 6:6). Prepare your tools: Bible, notebook, and this workbook. Keep a &ldquo;promise list&rdquo; of the stones for your altar. Prepare your body: reduce caffeine and heavy food a day or two before a longer fast, and drink plenty of water.</p>
+      <p><strong>A daily rhythm (repeat each day):</strong> intimacy (begin by seeking His face, not His hands; worship and speak your love, then stop and listen). The Word (read the day&rsquo;s passage slowly; let it become fire in your mouth and bones). Intercession (pray the Word back to God in &ldquo;waves,&rdquo; going with each burden until it breaks). Listen and journal (write what the Spirit says, answered prayers, and people and nations He highlights).</p>
+    </div>
+    <div class="wb-tablewrap"><table class="wb-table">
+      <thead><tr><th scope="col">Day</th><th scope="col">Focus</th><th scope="col">Fast suggestion</th><th scope="col">Scripture anchor</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Intimacy: seeking His face</td><td>Skip one meal; use the time to worship</td><td>Song of Solomon 3:1-4; Psalm 27:8</td></tr>
+        <tr><td>2</td><td>A baptism of desperation</td><td>Sunrise to sundown</td><td>Luke 18:1-8; Esther 4:16</td></tr>
+        <tr><td>3</td><td>Building and rebuilding altars</td><td>Daniel fast (fruit and vegetables)</td><td>Leviticus 6:13; 1 Kings 18</td></tr>
+        <tr><td>4</td><td>The drawing of the Holy Spirit</td><td>Sunrise to sundown</td><td>John 6:44; Jeremiah 31:3</td></tr>
+        <tr><td>5</td><td>Fullness of the Spirit: gifts and fruit</td><td>One meal a day</td><td>Acts 2:1-4; Galatians 5:22-23</td></tr>
+        <tr><td>6</td><td>A baptism of love casts out fear</td><td>Full day on water (as able)</td><td>1 John 4:18; 2 Timothy 1:7</td></tr>
+        <tr><td>7</td><td>Interception: standing in the gap</td><td>Break fast with thanksgiving</td><td>Ezekiel 22:30; Numbers 16:48</td></tr>
+      </tbody>
+    </table></div>
+    <div class="wb-prose">
+      <p><strong>Breaking the fast:</strong> break gently. Begin with light foods (fruit, broth) before returning to normal meals, especially after longer fasts. Break with thanksgiving and a plan: write down what God said and one act of obedience to carry forward. Sustain the momentum. What was attained by desperation is kept by the same intensity.</p>
+    </div>
+  </div></section>
+
+  <section class="band band--cream wb-section" id="leaders-guide"><div class="container container--narrow">
+    <LeafHeading label="Addendum B" title="Small-group leader guide." intro="Your role is not to perform but to host the presence of God and make room for the Holy Spirit." />
+    <div class="wb-prose">
+      <p>Come having already prayed yourself. Model transparency, keep the focus on seeking His face, and resist the urge to fill every silence. Some of the deepest work happens when people wait on God together.</p>
+      <p><strong>A suggested session flow (90 to 120 minutes):</strong> welcome and worship, 15 minutes (settle hearts, invite the Holy Spirit, sing or play worship). Read the teaching, 20 minutes (read the section&rsquo;s teaching aloud together, pausing at the key truths). Tell a story, 10 minutes (read one of the section&rsquo;s testimonies aloud to build faith). Go deeper, 25 minutes (discuss the reflection questions; let members share honestly). Prayer focus, 25 minutes (move into guided prayer; try &ldquo;popcorn&rdquo; prayer: one reads a verse, another prays, coming into agreement). Listen and close, 15 minutes (quiet listening, journal, share what the Spirit said, send everyone with one act of obedience).</p>
+      <p><strong>Facilitation tips:</strong> pray before you lead. You cannot give what you have not received in the closet. Keep testimonies to testimony time so the group stays with &ldquo;the business of heaven.&rdquo; Invite everyone to pray aloud. A prayer voiced lets others come into agreement. Welcome children and new believers. God pours His Spirit on the young (Joel 2:28). Don&rsquo;t over-organize. Leave room for God to &ldquo;disorganize&rdquo; the plan. Protect His presence. Watch the clock loosely, but honor people&rsquo;s time. Depth matters more than length.</p>
+      <p><strong>Section by section:</strong> Section 1, Intimacy (aim for hunger, not guilt; read the grandmother and Virgil stories; land the point that we seek His face before His hands). Section 2, Desperation (distinguish passion from desperation; read the road to Juba story; invite a &ldquo;baptism of desperation&rdquo;). Section 3, Altars (help members name competing altars honestly; read the orphans and Monica story; build a promise altar together). Section 4, Holy Spirit (teach quench, grieve, and fill gently and keep it non-condemning; read Susan or Mujahid; pray for fresh infilling). Section 5, Love casts out fear (go slow and aim for an encounter; read the &ldquo;God still has arms&rdquo; or fireman story; ask for more love for Him).</p>
+      <p><strong>Leader checklist:</strong> prayed and prepared my own heart this week. Room set for worship, music and words ready. Bibles, notebooks, and workbooks available. Chosen which testimony to read aloud. Fasting and prayer-week schedule shared with the group. Space kept for the Holy Spirit to move. Follow-up and next meeting communicated.</p>
+      <p>&ldquo;Lord, would You just show up and disorganize our organization? I&rsquo;d rather have You show up than have anything else happen.&rdquo;</p>
+    </div>
+  </div></section>
+
+  <RdCta
+    heading="Pray this workbook with your small group."
+    body="Read one section a week together, then pray it through. Email prayer@favorintl.org and Favor&rsquo;s prayer team will stand with you."
+    ctaLabel="Email a prayer request"
+    ctaHref="mailto:prayer@favorintl.org"
+    image="/images/field-2026/prayer-gathering-2.webp"
+    imageAlt="Believers gathered in prayer"
+  />
+</RedesignLayout>
+
+<style>
+  :global(.rd) { --color-ink-soft: #2a2a2a; }
+  .wb-intro { scroll-margin-top: 100px; }
+  .wb-prose p { color: var(--color-ink-soft); line-height: 1.8; margin: 0 0 var(--space-5); }
+  .wb-prose p:last-child { margin-bottom: 0; }
+  .wb-prose strong { color: var(--color-green-deep); }
+  .wb-contents { list-style: none; padding: 0; margin: var(--space-8) 0 0; display: grid; gap: var(--space-3); }
+  .wb-contents li a { display: flex; gap: var(--space-4); align-items: baseline; padding: var(--space-4) var(--space-5); background: var(--color-cream); border-radius: var(--rd-radius); text-decoration: none; color: var(--color-ink-soft); line-height: 1.6; }
+  .wb-contents li a:hover { text-decoration: underline; }
+  .wb-contents__n { flex: none; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--color-green); color: white; font-weight: 800; font-size: .8rem; }
+  .wb-section { scroll-margin-top: 100px; }
+  .wb-h3 { color: var(--color-green-deep); margin: var(--space-8) 0 var(--space-4); font-size: 1.25rem; }
+  .wb-truths { list-style: none; padding: 0; margin: 0 0 var(--space-2); display: grid; gap: var(--space-3); }
+  .wb-truths li { padding: 0 0 0 var(--space-5); border-left: 3px solid var(--color-gold); font-family: var(--font-display); font-style: italic; color: var(--color-green-deep); line-height: 1.6; }
+  .wb-questions { margin: 0 0 var(--space-2); padding-left: var(--space-6); color: var(--color-ink-soft); line-height: 1.8; display: grid; gap: var(--space-2); }
+  .wb-tablewrap { overflow-x: auto; margin: var(--space-6) 0; }
+  .wb-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .wb-table th, .wb-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid color-mix(in srgb, var(--color-green) 18%, transparent); color: var(--color-ink-soft); vertical-align: top; }
+  .wb-table thead th { background: var(--color-green); color: white; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+  .wb-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--color-green) 5%, transparent); }
+</style>
