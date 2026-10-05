@@ -53,13 +53,14 @@ import { notifyPortalGiftCompleted } from '../_lib/portal';
 import { notifyStaffGift } from '../_lib/gift-notify';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
 import { campaignLabel, isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
-import { computeTotal } from './donate';
+import { computeTotal, typedAddress, type DonorAddressBody } from './donate';
+import { ensureAddressFromForm } from '../_lib/form-address';
 
 interface RecurringBody {
   idempotency_key?: string;
   amount?: unknown;
   designation_fund_id?: unknown;
-  donor?: { first?: unknown; last?: unknown; email?: unknown; phone?: unknown };
+  donor?: { first?: unknown; last?: unknown; email?: unknown; phone?: unknown } & DonorAddressBody;
   anonymous?: unknown;
   note?: unknown;
   org_name?: unknown;
@@ -208,6 +209,8 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     if (donor.org_name) {
       waitUntil(ensureOrgContact(env, constituentId, donor));
     }
+    // Same as a one-time gift: the typed ZIP becomes the record's state.
+    waitUntil(ensureAddressFromForm(env, constituentId, typedAddress(body.donor)));
     waitUntil(
       notifyStaffGift(env, {
         amount: total,

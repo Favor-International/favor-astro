@@ -43,7 +43,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   return res;
 };
 
-const handleConfig: PagesFunction<Env> = async ({ env }) => {
+const handleConfig: PagesFunction<Env> = async ({ env, request }) => {
   try {
     // Both preconditions used to collapse into a bare { connected: false },
     // which made an offline giving page impossible to diagnose without the
@@ -80,6 +80,10 @@ const handleConfig: PagesFunction<Env> = async ({ env }) => {
       fee_rate: Number(env.GIVE_FEE_RATE ?? '0.029'),
       fee_fixed: Number(env.GIVE_FEE_FIXED ?? '0.30'),
       turnstile_site_key: env.TURNSTILE_SITE_KEY ?? null,
+      // Two-letter country Cloudflare places this visitor in. The form starts
+      // its country field there, so a giver in Australia is asked for a postal
+      // code. A starting value only; the giver can change it.
+      visitor_country: (request as Request & { cf?: { country?: string } }).cf?.country ?? null,
     });
   } catch (err) {
     if (err instanceof BlackbaudError && (err.code === 'not_connected' || err.code === 'not_configured')) {

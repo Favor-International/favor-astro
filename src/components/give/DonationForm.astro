@@ -9,6 +9,7 @@
 // Same-page embeds (partner-monthly, one-time) can drive it through the
 // `favor:give-intent` CustomEvent (see DonationBlock's inlineTarget).
 import { SITE } from '../../lib/site';
+import { COMMON_COUNTRIES, OTHER_COUNTRIES } from '../../lib/countries';
 
 export interface Props {
   /** Monthly is the lead path site-wide; pages can override. */
@@ -49,7 +50,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
          appears for one-time gifts). -->
     <div class="dform__progress">
       <div class="dform__progress-track"><span data-progress-fill></span></div>
-      <p class="dform__progress-text">Step <span data-step-now>1</span> of <span data-step-total>4</span></p>
+      <p class="dform__progress-text">Step <span data-step-now>1</span> of <span data-step-total>5</span></p>
     </div>
 
     <!-- Hidden mirrors of the parsed name. Everything downstream (checkout,
@@ -172,6 +173,56 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       </div>
     </fieldset>
 
+    <!-- STEP: ZIP code. The form used to save no address at all, so a new online
+         partner landed in Raiser's Edge with no state, and a partner whose gift
+         reached $1,000 could not be placed with the RDD for their region. One
+         short field fixes that, because the state comes from the ZIP. Required
+         once the gift could reach $1,000, optional below it. The country starts
+         where the visitor is, and the street address stays behind a toggle. -->
+    <fieldset class="dform__step" data-step="zip" hidden>
+      <legend class="sr-only">Where you give from</legend>
+      <label class="dform__q" for="dform-zip">
+        <span data-zip-q>What is your ZIP code?</span>
+        <span class="dform__optional" data-zip-optional>Optional</span>
+      </label>
+      <div class="dform__zipwrap">
+        <input class="dform__solo" id="dform-zip" type="text" inputmode="numeric" name="postal_code" autocomplete="postal-code" maxlength="10" placeholder="ZIP code" />
+        <span class="dform__zipstate" data-zip-state aria-live="polite"></span>
+      </div>
+      <!-- Sits under the field it is about, above the country it points to. -->
+      <p class="dform__error" data-error="zip" role="alert" hidden></p>
+      <p class="dform__hint">So we know where you give from, and who on our team serves your region.</p>
+
+      <label class="dform__country">
+        <span>Country</span>
+        <select name="country" autocomplete="country-name">
+          {COMMON_COUNTRIES.map((c) => (
+            <option value={c.name} data-iso={c.iso} selected={c.iso === 'US'}>{c.label}</option>
+          ))}
+          <option disabled>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</option>
+          {OTHER_COUNTRIES.map((c) => (
+            <option value={c.name} data-iso={c.iso}>{c.label}</option>
+          ))}
+        </select>
+      </label>
+
+      <details class="dform__more" data-address-toggle>
+        <summary>Add your mailing address</summary>
+        <div class="dform__more-body">
+          <label class="dform__field"><span>Street address</span>
+            <input type="text" name="address_lines" autocomplete="address-line1" maxlength="150" />
+          </label>
+          <label class="dform__field"><span>City</span>
+            <input type="text" name="city" autocomplete="address-level2" maxlength="80" />
+          </label>
+        </div>
+      </details>
+      <div class="dform__nav">
+        <button type="button" class="dform__back" data-back>&larr; Back</button>
+        <button type="button" class="btn btn--primary btn--large" data-next>Continue</button>
+      </div>
+    </fieldset>
+
     <!-- STEP: phone, optional and skippable. The SMS box appears only once a
          number is typed, so the question is asked in context. Typing a number
          is deliberately NOT treated as consent: US TCPA requires express
@@ -277,6 +328,8 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 </div>
 
 <script>
+  import { isUsZip, stateNameFromPostalCode } from '../../../functions/api/_lib/postal-state';
+
   type Designation = { fund_id: string; label: string };
   type GiveConfig = {
     connected: boolean;
@@ -289,6 +342,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     fee_rate?: number;
     fee_fixed?: number;
     turnstile_site_key?: string | null;
+    visitor_country?: string | null;
   };
 
   declare global {
@@ -441,9 +495,9 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     // ---- step machine ------------------------------------------------------
     // One question per screen. The order is computed, not fixed, because the
     // monthly upsell only exists for one-time gifts.
-    type StepId = 'amount' | 'upsell' | 'name' | 'email' | 'phone';
+    type StepId = 'amount' | 'upsell' | 'name' | 'email' | 'zip' | 'phone';
     const stepOrder = (): StepId[] =>
-      freq() === 'once' ? ['amount', 'upsell', 'name', 'email', 'phone'] : ['amount', 'name', 'email', 'phone'];
+      freq() === 'once' ? ['amount', 'upsell', 'name', 'email', 'zip', 'phone'] : ['amount', 'name', 'email', 'zip', 'phone'];
     let current: StepId = 'amount';
 
     const showError = (id: string, msg: string) => {
@@ -496,8 +550,53 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
         showError('email', '');
         return true;
       }
+      if (step === 'zip') {
+        // Outside the U.S. the country answers the question, so a postal code
+        // is never demanded there and its format is never judged.
+        const code = field('postal_code');
+        if (!code && zipRequired()) {
+          showError('zip', 'Please enter your five-digit ZIP code.');
+          return false;
+        }
+        if (code && inUs() && !isUsZip(code)) {
+          showError('zip', 'A U.S. ZIP code has five digits. Outside the U.S.? Choose your country below.');
+          return false;
+        }
+        showError('zip', '');
+        return true;
+      }
       return true;
     };
+
+    // ---- ZIP step ----------------------------------------------------------
+    // One gift of $1,000 makes a major partner, and the daily assignment rule
+    // places a major partner with the RDD for their state. The ZIP is required
+    // once the gift, with the processing fee covered, could reach that line.
+    const MAJOR_GIFT = 1000;
+    const zipInput = q<HTMLInputElement>('input[name="postal_code"]')!;
+    const countrySelect = q<HTMLSelectElement>('select[name="country"]')!;
+    const inUs = () => countrySelect.value === 'United States';
+    const zipRequired = () => inUs() && amount() + feeOf() >= MAJOR_GIFT;
+    const refreshZip = () => {
+      const us = inUs();
+      q('[data-zip-q]')!.textContent = us ? 'What is your ZIP code?' : 'What is your postal code?';
+      // Outside the U.S. the placeholder says optional, because the longer
+      // question leaves no room for the marker on a phone.
+      q('[data-zip-optional]')!.hidden = !us || zipRequired();
+      zipInput.placeholder = us ? 'ZIP code' : 'Postal code (optional)';
+      zipInput.inputMode = us ? 'numeric' : 'text';
+      zipInput.classList.toggle('is-caps', !us);
+      // The state the code names shows inside the field, so a mistyped ZIP is
+      // caught by eye before it is saved.
+      q('[data-zip-state]')!.textContent = stateNameFromPostalCode(countrySelect.value, zipInput.value);
+    };
+    // A correction clears the message at once, so it never sits over a good ZIP.
+    const zipChanged = () => {
+      refreshZip();
+      showError('zip', '');
+    };
+    zipInput.addEventListener('input', zipChanged);
+    countrySelect.addEventListener('change', zipChanged);
 
     const showStep = (step: StepId) => {
       qa<HTMLElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== step));
@@ -517,6 +616,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       fill.style.width = `${Math.round(((idx + 1) / total) * 100)}%`;
       clearErrors();
       if (step === 'upsell') refreshUpsell();
+      if (step === 'zip') refreshZip();
       if (step === 'phone') { refreshSummary(); ensureTurnstile(); }
       alignCardTop();
     };
@@ -684,6 +784,8 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       const t = ev.target as HTMLElement;
       if (t instanceof HTMLTextAreaElement) return;
       if (t instanceof HTMLButtonElement) return;
+      // Enter on an open list picks the highlighted choice; it must not also advance the step.
+      if (t instanceof HTMLSelectElement) return;
       ev.preventDefault();
       if (current === 'phone') {
         // On the phone step Enter means "I have finished typing".
@@ -728,6 +830,9 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       };
       const phone = field('phone');
       if (phone) data.billing_address_phone = phone;
+      // The ZIP from the form is deliberately not passed here. It is where the
+      // giver lives, which is not always the card's billing ZIP, and a wrong
+      // billing ZIP handed to the card processor can get a good card declined.
       if (monthly) {
         cardToken = crypto.randomUUID();
         data.card_token = cardToken;
@@ -819,6 +924,9 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       alignCardTop();
 
       const monthly = freq() === 'monthly';
+      // A browser's autofill can fill fields the giver never opened. The street
+      // and city are sent only when the giver opened that section and saw them.
+      const addressOpen = q<HTMLDetailsElement>('[data-address-toggle]')!.open;
       const body: Record<string, unknown> = {
         idempotency_key: idempotencyKey,
         amount: amount(),
@@ -833,6 +941,10 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
           last: field('last'),
           email: field('email'),
           phone: field('phone') || undefined,
+          postal_code: field('postal_code') || undefined,
+          country: field('country') || undefined,
+          address_lines: (addressOpen && field('address_lines')) || undefined,
+          city: (addressOpen && field('city')) || undefined,
         },
         org_name: field('org_name') || undefined,
         anonymous: checkbox('anonymous'),
@@ -946,6 +1058,11 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
           wrap.hidden = false;
         }
       }
+      // The country starts where Cloudflare places the visitor (see config.ts).
+      const iso = /^[A-Z]{2}$/.test(config.visitor_country ?? '') ? config.visitor_country : null;
+      const visitorOption = iso ? countrySelect.querySelector<HTMLOptionElement>(`option[data-iso="${iso}"]`) : null;
+      if (visitorOption) countrySelect.value = visitorOption.value;
+
       refreshPresets();
       showStep('amount');
 
@@ -981,7 +1098,9 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__fallback a { color: var(--color-gold-deep); font-weight: 700; }
 
 
-  .dform__step { border: 0; padding: 0; margin: 0; }
+  /* min-width: a fieldset is as wide as its widest child by default, and the
+     country list's longest name would push the step off a phone screen. */
+  .dform__step { border: 0; padding: 0; margin: 0; min-width: 0; }
 
   .dform__freq { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--color-cream); padding: 8px; border-radius: 999px; }
   .dform__freq-opt { position: relative; }
@@ -1072,6 +1191,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__solo {
     width: 100%;
     padding: 18px 20px;
+    font-family: inherit;
     font-size: 1.15rem;
     border: 2px solid var(--color-border);
     border-radius: var(--radius-input);
@@ -1083,6 +1203,28 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
   .dform__solo:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 22%, transparent); }
 
   .dform__check--inline { margin: var(--space-4) 0 0; }
+
+  /* ZIP step. The state name sits inside the field, at its right edge. */
+  .dform__zipwrap { position: relative; margin-bottom: var(--space-3); }
+  /* Postal codes with letters read in capitals, the way they are saved. */
+  .dform__zipwrap .dform__solo.is-caps:not(:placeholder-shown) { text-transform: uppercase; }
+  .dform__zipwrap + .dform__error { margin: 0 0 var(--space-3); }
+  .dform__zipstate {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-weight: 700; font-size: 0.98rem; color: var(--color-sage); pointer-events: none;
+  }
+  /* Country is already answered for nearly every giver, so it sits in a quiet
+     row under the question. */
+  .dform__country { display: flex; align-items: center; gap: 12px; }
+  .dform__country span { flex: none; font-size: 0.85rem; font-weight: 700; color: var(--color-green-deep); }
+  .dform__country select {
+    flex: 0 1 auto; width: min(280px, 100%); min-width: 0; text-overflow: ellipsis;
+    font: inherit; font-size: 0.95rem; padding: 11px 12px;
+    border: 1.5px solid var(--color-border); border-radius: var(--radius-input);
+    background: var(--color-white); color: var(--color-ink); transition: border-color 140ms;
+  }
+  .dform__country select:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(225, 167, 48, 0.18); }
 
   /* A tiny marker, not a sentence. The field should not look skippable. */
   .dform__optional {

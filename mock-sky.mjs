@@ -65,6 +65,8 @@ const routes = [
   { m: 'GET', p: /^\/constituent\/v1\/constituents\/[^/]+\/phones/, h: () => ({ count: 1, value: [{ id: 'ph-1', primary: true, inactive: false, do_not_call: false }] }) },
   { m: 'PATCH', p: /^\/constituent\/v1\/emailaddresses\/[^/]+$/, h: () => ({ ok: true }) },
   { m: 'PATCH', p: /^\/constituent\/v1\/addresses\/[^/]+$/, h: () => ({ ok: true }) },
+  // The giving form's ZIP step (2026-10-05) saves an address after the gift.
+  { m: 'POST', p: /^\/constituent\/v1\/addresses$/, h: () => ({ id: 'ad-new' }) },
   { m: 'PATCH', p: /^\/constituent\/v1\/phones\/[^/]+$/, h: () => ({ ok: true }) },
   // Ownership checks fetch the gift record; 52713 is Jennifer's test shape.
   { m: 'GET', p: /^\/gift\/v1\/gifts\/\d+$/, h: () => ({ id: '52713', type: 'RecurringGift', constituent_id: '27611', amount: { value: 25 }, gift_splits: [{ fund_id: '42', amount: { value: 25 } }] }) },

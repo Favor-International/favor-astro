@@ -9,7 +9,7 @@
 // Body:
 // {
 //   idempotency_key: uuid, amount: 100, designation_fund_id: "123",
-//   donor: { first, last, email, phone? },
+//   donor: { first, last, email, phone?, postal_code?, country?, address_lines?, city? },
 //   anonymous?: bool, note?: string, cover_fees?: bool,
 //   checkout: { transaction_token: uuid },
 //   turnstile_token?: string
@@ -43,12 +43,31 @@ import { notifyPortalGiftCompleted } from '../_lib/portal';
 import { notifyStaffGift } from '../_lib/gift-notify';
 import { pushGiftRealtime, type DataApiEnv } from '../_lib/dataapi';
 import { campaignLabel, isCampaignSource, resolveCampaignCodes } from '../_lib/campaign';
+import { ensureAddressFromForm, type TypedAddress } from '../_lib/form-address';
+
+/** The address fields the giving form sends inside `donor`. All optional. */
+export interface DonorAddressBody {
+  postal_code?: unknown;
+  country?: unknown;
+  address_lines?: unknown;
+  city?: unknown;
+}
+
+/** Trimmed and length-capped, and never a reason to refuse a gift. */
+export function typedAddress(donor: DonorAddressBody | undefined): TypedAddress {
+  return {
+    postal_code: asTrimmed(donor?.postal_code, 'postal code', 12, false),
+    country: asTrimmed(donor?.country, 'country', 60, false),
+    address_lines: asTrimmed(donor?.address_lines, 'street address', 150, false),
+    city: asTrimmed(donor?.city, 'city', 80, false),
+  };
+}
 
 interface DonateBody {
   idempotency_key?: string;
   amount?: unknown;
   designation_fund_id?: unknown;
-  donor?: { first?: unknown; last?: unknown; email?: unknown; phone?: unknown };
+  donor?: { first?: unknown; last?: unknown; email?: unknown; phone?: unknown } & DonorAddressBody;
   anonymous?: unknown;
   note?: unknown;
   org_name?: unknown;
@@ -152,6 +171,9 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     if (donor.org_name) {
       waitUntil(ensureOrgContact(env, constituentId, donor));
     }
+    // The ZIP the giver typed becomes the record's state, so the daily
+    // assignment rule can place a $1,000 partner with the RDD for their region.
+    waitUntil(ensureAddressFromForm(env, constituentId, typedAddress(body.donor)));
     waitUntil(
       notifyStaffGift(env, {
         amount: total,

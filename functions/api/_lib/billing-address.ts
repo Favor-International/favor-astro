@@ -1,12 +1,13 @@
 // A card gift's billing address, read from Blackbaud Payments and saved on the
 // giving record when that record has no address of its own.
 //
-// The giving form asks for name, email and phone only, so a new online partner
-// arrived in Raiser's Edge with a blank address. Without a state the daily
-// assignment rule cannot place a partner whose gift reaches $1,000 with the
-// RDD for their region (33 such partners sat with Partner Care on 2026-10-05),
-// and a year-end receipt has nowhere to go. Blackbaud Checkout already
-// collects the cardholder's billing address; this copies it over.
+// Before its ZIP step, the giving form asked for name, email and phone only,
+// so a new online partner arrived in Raiser's Edge with a blank address.
+// Without a state the daily assignment rule cannot place a partner whose gift
+// reaches $1,000 with the RDD for their region (33 such partners sat with
+// Partner Care on 2026-10-05), and a year-end receipt has nowhere to go.
+// Blackbaud Checkout holds a billing address for some card gifts; this copies
+// it over. The form's own ZIP step saves through the same rule (form-address.ts).
 //
 // Never overwrites: a record that holds any real address is left alone.
 // Failure-isolated: callers run it after the gift exists and it never throws.
