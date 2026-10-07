@@ -286,7 +286,7 @@ export const FIELD_STATS = {
     discipled: '119,182',
   },
   toDate: {
-    salvations: '524,673',
+    salvations: '615,780',
     pbsLocations: '3,635',
   },
   nationsServed: '14+',
