@@ -8,10 +8,10 @@ import RdCta from '../../components/redesign/RdCta.astro';
 import ExpenseSplit from '../../components/redesign/ExpenseSplit.astro';
 import directorsData from '../../data/directors.json';
 
-// Leadership shown on the Team page: founder + Africa Country Director + U.S. Executive Director.
+// Leadership shown on the Team page: founder + Africa Country Director.
 // Ministry order, not alphabetical: field leadership first, then U.S. (2026-08-07).
 // Full board lives on /about/board/. Source: Webflow CMS Directors collection.
-const leadershipSlugs = ['carole-ward', 'terry-lynne-goodman', 'stephanie-maier'];
+const leadershipSlugs = ['carole-ward', 'terry-lynne-goodman'];
 const leadership = leadershipSlugs
   .map(slug => directorsData.find(d => d.slug === slug))
   .filter(Boolean);
@@ -20,7 +20,7 @@ const personHref = (slug) => slug === 'carole-ward' ? '/about/our-story/founder/
 // The full U.S. roster. Source: Favor Staff Directory 2026 (Telephone List),
 // titles refreshed 2026-09-25. Names + titles only; the directory's phones,
 // home addresses, and birthdays are private and must never be published.
-// Carole Ward, Terry-Lynne Goodman, and Stephanie Maier are featured above.
+// Carole Ward and Terry-Lynne Goodman are featured above.
 const roster = [
   { name: 'Ava Maier', title: 'Administrative Assistant - RDD Support' },
   { name: 'Brian Carr', title: 'Regional Development Director' },

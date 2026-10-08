@@ -12,18 +12,6 @@
     "imagePath": "/images/team/carole-ward.png"
   },
   {
-    "slug": "stephanie-maier",
-    "fullName": "Stephanie Maier",
-    "firstName": "Stephanie",
-    "lastName": "Maier",
-    "type": "Country Director",
-    "position": "U.S. Executive Director",
-    "order": 2,
-    "location": "Florida",
-    "bioIntro": "Stephanie Maier is a seasoned leader with more than 25 years of experience advancing democratic institutions and empowering communities across 14+ countries in conflict and post-conflict regions. From Afghanistan and Tajikistan to Cambodia, Haiti, the Middle East...",
-    "imagePath": "/images/team/stephanie-maier.jpg"
-  },
-  {
     "slug": "terry-lynne-goodman",
     "fullName": "Terry-Lynne Goodman",
     "firstName": "Terry-Lynne",
