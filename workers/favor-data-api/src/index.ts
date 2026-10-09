@@ -217,6 +217,15 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 // These stubs use the real Blackbaud constituent id (the sync upserts that
 // PK) and a provisional email id prefixed "rt-" so it cannot collide with a
 // numeric Blackbaud email-address id.
+//
+// The stub is never the primary email. The sync later adds Blackbaud's own
+// row under its numeric id and never touches this one, so a primary stub
+// gave the record a second primary address until the sync worker's data
+// health run removed the stub (re-nxt-cloud-sync dropStandIns, which deletes
+// a stub once the real row for the same record and address is in). Readers
+// that take the primary email (favor-marketing reports.ts) could pick the
+// stub in that window. Lookups by address do not filter on is_primary, so
+// the portal still finds a new partner at once.
 async function upsertDonorLookup(env: Env, body: RealtimeGift, constituentId: string, now: string): Promise<void> {
   const email = String(body.email ?? '').trim().toLowerCase();
   if (!EMAIL_RE.test(email)) return;
@@ -246,7 +255,7 @@ async function upsertDonorLookup(env: Env, body: RealtimeGift, constituentId: st
   await env.DB.prepare(
     `INSERT INTO emails (id, date_added, date_modified, constituent_record_id, email_address,
                          is_primary, do_not_email, is_inactive, raw_json, synced_at)
-     VALUES (?1, ?2, ?2, ?3, ?4, 1, 0, 0, ?5, ?2)
+     VALUES (?1, ?2, ?2, ?3, ?4, 0, 0, 0, ?5, ?2)
      ON CONFLICT(id) DO NOTHING`
   )
     .bind(`rt-${constituentId}-${email.replace(/[^a-z0-9]+/g, '-')}`, now, constituentId, email, stubJson)
