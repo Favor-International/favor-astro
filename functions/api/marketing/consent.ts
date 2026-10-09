@@ -17,7 +17,7 @@
 //
 // Candidates: the constituent ids the caller found in the D1 mirror (any
 // email row with the address, so secondary addresses count) plus Blackbaud's
-// own strict email search. Calls per request: one search, one email list per
+// own email search. Calls per request: one search, one email list per
 // candidate (at most 10), one PATCH per email record that changes. A typical
 // unsubscribe costs 3; an address already flagged costs 2.
 //
@@ -87,19 +87,17 @@ async function sky(env: Env, path: string, init: RequestInit, counter: { calls: 
   return res;
 }
 
+// With search_field=email_address SKY accepts only search_text and
+// include_inactive; strict_search or limit answer 400 (checked live
+// 2026-10-09). The search matches secondary addresses too, but each hit's
+// `email` is the record's primary address, which is why the old filter on
+// that field dropped every secondary match.
 async function searchIds(env: Env, email: string, counter: { calls: number }): Promise<string[]> {
-  const e = encodeURIComponent(email);
-  for (const qs of [
-    `search_text=${e}&search_field=email_address&strict_search=true&limit=25`,
-    `search_text=${e}&search_field=email_address&limit=25`,
-  ]) {
-    const res = await sky(env, `/constituent/v1/constituents/search?${qs}`, { method: 'GET' }, counter);
-    if (res.status === 400) continue; // strict_search unsupported: fall back once
-    if (!res.ok) throw new Error(`constituent search failed (${res.status})`);
-    const found = (await res.json()) as { value?: Array<{ id: string | number }> };
-    return (found.value ?? []).map((r) => String(r.id));
-  }
-  return [];
+  const qs = `search_text=${encodeURIComponent(email)}&search_field=email_address&include_inactive=true`;
+  const res = await sky(env, `/constituent/v1/constituents/search?${qs}`, { method: 'GET' }, counter);
+  if (!res.ok) throw new Error(`constituent email search failed (${res.status})`);
+  const found = (await res.json()) as { value?: Array<{ id: string | number }> };
+  return (found.value ?? []).map((r) => String(r.id));
 }
 
 export const onRequestPost: PagesFunction<Env & { MARKETING_API_KEY?: string }> = async ({ request, env }) => {

@@ -55,7 +55,7 @@ function makeEnv(store) {
 }
 
 // A tiny SKY: constituents with email rows, a search index, scripted failures.
-function mockSky({ people, searchHits = [], strict400 = false, patchFail = new Set(), quota = false, listFail = new Set() }) {
+function mockSky({ people, searchHits = [], searchFail = false, patchFail = new Set(), quota = false, listFail = new Set() }) {
   const calls = [];
   globalThis.fetch = async (url, init = {}) => {
     const u = new URL(String(url));
@@ -64,7 +64,11 @@ function mockSky({ people, searchHits = [], strict400 = false, patchFail = new S
     assert.equal(u.origin, SKY, 'only the SKY API is called');
     if (quota) return new Response('{"message":"Out of call volume quota."}', { status: 403 });
     if (u.pathname === '/constituent/v1/constituents/search') {
-      if (strict400 && u.searchParams.get('strict_search') === 'true') return new Response('{}', { status: 400 });
+      // SKY's rule (checked live 2026-10-09): with search_field=email_address
+      // only search_text and include_inactive are accepted; anything else is 400.
+      const extra = [...u.searchParams.keys()].filter((k) => !['search_text', 'search_field', 'include_inactive'].includes(k));
+      if (extra.length) return new Response(JSON.stringify([{ message: `invalid filters ${extra}` }]), { status: 400 });
+      if (searchFail) return new Response('{}', { status: 500 });
       return Response.json({ count: searchHits.length, value: searchHits.map((id) => ({ id, email: 'primary-only@x.org' })) });
     }
     let m = u.pathname.match(/^\/constituent\/v1\/constituents\/(\d+)\/emailaddresses$/);
@@ -162,13 +166,22 @@ test('dry run reports what would change and writes nothing', async () => {
   assert.equal(people['101'][0].do_not_email, undefined);
 });
 
-test('strict search refused falls back to the plain email search', async () => {
+test('the email search sends only the filters SKY accepts, once', async () => {
   const people = { '101': [{ id: 11, address: 's@x.org' }] };
-  const calls = mockSky({ people, searchHits: ['101'], strict400: true });
+  const calls = mockSky({ people, searchHits: ['101'] });
   const r = await post({ email: 's@x.org', kind: 'email' });
   assert.equal(r.status, 200);
   assert.equal(r.body.updated.length, 1);
-  assert.equal(calls.filter((c) => c.includes('/search')).length, 2);
+  const searches = calls.filter((c) => c.includes('/search'));
+  assert.equal(searches.length, 1);
+  assert.match(searches[0], /search_field=email_address&include_inactive=true$/);
+});
+
+test('a failed email search is an error the caller retries, never not_found', async () => {
+  mockSky({ people: {}, searchFail: true });
+  const r = await post({ email: 's@x.org', kind: 'email', constituent_ids: ['101'] });
+  assert.ok(r.status >= 500);
+  assert.notEqual(r.body.not_found, true);
 });
 
 test('candidates are capped at 10 and ids must be numeric', async () => {
