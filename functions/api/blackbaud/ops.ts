@@ -74,13 +74,45 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['PATCH'], path: /^\/constituent\/v1\/primarynameformats\/[A-Za-z0-9_-]+$/ },
   { methods: ['POST'], path: /^\/constituent\/v1\/actions$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/\d+$/ },
+<<<<<<< HEAD
   // Action tags (Work Center): add one by category. Removal is checked in run().
+=======
+  // Tags on an action (Thanked, Texted, Scheduling, Stewardship and the rest
+  // are action custom fields). The hub's Work Center and its foundation list
+  // add them with each contact, and change or remove one set by mistake. The
+  // body keys are the ones Blackbaud's CustomFieldAdd and CustomFieldEdit take.
+>>>>>>> a15eba3 (Upkeep route: allow action tags, action notes and action attachments)
   {
     methods: ['POST'],
     path: /^\/constituent\/v1\/actions\/customfields$/,
     keys: ['parent_id', 'category', 'value', 'date', 'comment'],
+<<<<<<< HEAD
     categories: ACTION_TAG_CATEGORIES,
   },
+=======
+  },
+  {
+    methods: ['PATCH'],
+    path: /^\/constituent\/v1\/actions\/customfields\/\d+$/,
+    keys: ['value', 'date', 'comment'],
+  },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/customfields\/\d+$/ },
+  // A note on an action, added from the Work Center. No edit or delete here.
+  {
+    methods: ['POST'],
+    path: /^\/constituent\/v1\/actions\/notes$/,
+    keys: ['parent_id', 'date', 'type', 'summary', 'text', 'author'],
+  },
+  // An attachment on an action: a link, or a file already uploaded through
+  // Blackbaud's document route. Delete undoes one added by mistake.
+  // Attachment ids are GUIDs, not numbers.
+  {
+    methods: ['POST'],
+    path: /^\/constituent\/v1\/actions\/attachments$/,
+    keys: ['parent_id', 'type', 'name', 'url', 'date', 'tags', 'file_id', 'file_name', 'thumbnail_id'],
+  },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/attachments\/[0-9A-Fa-f-]{36}$/ },
+>>>>>>> a15eba3 (Upkeep route: allow action tags, action notes and action attachments)
   // Fundraiser assignments: add and end. No delete.
   { methods: ['POST'], path: /^\/fundraising\/v1\/fundraisers\/assignments$/ },
   { methods: ['PATCH'], path: /^\/fundraising\/v1\/fundraisers\/assignments\/\d+$/ },
