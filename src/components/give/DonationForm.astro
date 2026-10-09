@@ -329,6 +329,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
 <script>
   import { isUsZip, stateNameFromPostalCode } from '../../../functions/api/_lib/postal-state';
+  import { readGiveReply, type GiveReply } from '../../lib/give-reply';
 
   type Designation = { fund_id: string; label: string };
   type GiveConfig = {
@@ -412,6 +413,11 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     let turnstileWidget: string | undefined;
     let turnstileRendered = false;
     let submitting = false;
+    // After an attempt whose outcome is unknown (no answer, still running, or
+    // a charge the server could not confirm), the next press resends exactly
+    // this request so the server answers for the attempt already made.
+    let pending: { url: string; body: string } | null = null;
+    let unresolved = false;
 
     const params = new URLSearchParams(location.search);
 
@@ -600,12 +606,17 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
 
     const showStep = (step: StepId) => {
       qa<HTMLElement>('.dform__step').forEach((s) => (s.hidden = s.dataset.step !== step));
-      {
-        current = step;
-        // Leaving the last step invalidates a pending authorization, so a
-        // stale one is never resubmitted after the amount or details change.
+      current = step;
+      // Leaving the last step invalidates a pending authorization, so a stale
+      // one is never resubmitted after the amount or details change. Coming
+      // back to the last step after a failed attempt keeps it: "Try again"
+      // must resend the same authorization and key, or a first attempt that
+      // did charge could be followed by a second charge. While an attempt's
+      // outcome is unknown nothing is cleared at all.
+      if (step !== 'phone' && !unresolved) {
         checkoutToken = null;
         idempotencyKey = null;
+        pending = null;
       }
       const order = stepOrder();
       const idx = order.indexOf(step);
@@ -851,6 +862,13 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
     function startCheckout() {
       if (submitting) return;
       if (checkoutToken && idempotencyKey) {
+        // A retry of an attempt that charged nothing runs the gift again, so
+        // it needs a fresh human check; an unresolved one is answered from the
+        // server's record of the first attempt and does not.
+        if (!unresolved && config?.turnstile_site_key && window.turnstile && !window.turnstile.getResponse(turnstileWidget)) {
+          showError('phone', 'One second while we confirm you are human, then press the button again.');
+          return;
+        }
         void submitGift();
         return;
       }
@@ -923,6 +941,86 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
       showPanel('processing');
       alignCardTop();
 
+      const request = unresolved && pending ? resendPending() : buildRequest();
+      pending = request;
+      const monthly = request.url.endsWith('-recurring');
+
+      let status: number | null = null;
+      let reply: GiveReply | null = null;
+      try {
+        const res = await fetch(request.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: request.body,
+        });
+        status = res.status;
+        reply = (await res.json().catch(() => null)) as GiveReply | null;
+      } catch {
+        status = null;
+      }
+
+      const next = readGiveReply(status, reply);
+      if (next.kind === 'done') {
+        const data = next.reply;
+        pending = null;
+        unresolved = false;
+        // One-time dashboard sign-in for the thank-you page (kept out of the
+        // URL so the token never lands in history, logs, or referrers).
+        try {
+          if (data.portal_login_url) sessionStorage.setItem('favor:portal-login', data.portal_login_url);
+        } catch {
+          /* storage unavailable = skip the button */
+        }
+        // GTM: the gift is confirmed by the server at this point, so this is
+        // the one honest place to fire the conversion (GTM-MMMRL3S4 -> GA4).
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'donate',
+          value: Number(data.amount ?? total()),
+          currency: 'USD',
+          method: monthly ? 'monthly' : 'once',
+        });
+        const dest = new URLSearchParams({
+          amount: String(data.amount ?? total()),
+          frequency: monthly ? 'monthly' : 'once',
+          designation: data.designation ?? '',
+          name: field('first'),
+        });
+        location.assign('/give/thank-you/?' + dest.toString());
+        return;
+      }
+
+      submitting = false;
+      showPanel('form');
+      unresolved = next.kind === 'unresolved';
+      if (next.kind === 'retry_same') {
+        // Nothing was charged: the next press builds the request again (with
+        // any detail the giver corrects) under the same authorization and key.
+        pending = null;
+      } else if (next.kind === 'new_checkout') {
+        // Nothing was charged and the authorization is spent: the next press
+        // opens the card window for a new one under a new key.
+        pending = null;
+        checkoutToken = null;
+        idempotencyKey = null;
+      }
+      showStep('phone');
+      // Turnstile tokens are single-use; arm a fresh one for the retry.
+      if (window.turnstile && turnstileWidget) window.turnstile.reset(turnstileWidget);
+      showError('phone', next.message);
+      q('[data-pay-label]')!.textContent =
+        next.kind === 'unresolved' ? 'Check on my gift' : next.kind === 'new_checkout' ? 'Enter your card again' : 'Try again';
+    }
+
+    // The exact request of the unresolved attempt, with the current human
+    // check in case the server finds no record of it and runs it.
+    function resendPending(): { url: string; body: string } {
+      const again = JSON.parse(pending!.body) as Record<string, unknown>;
+      if (config?.turnstile_site_key && window.turnstile) again.turnstile_token = window.turnstile.getResponse(turnstileWidget);
+      return { url: pending!.url, body: JSON.stringify(again) };
+    }
+
+    function buildRequest(): { url: string; body: string } {
       const monthly = freq() === 'monthly';
       // A browser's autofill can fill fields the giver never opened. The street
       // and city are sent only when the giver opened that section and saw them.
@@ -958,60 +1056,7 @@ const MONTHLY_PRESETS = [25, 50, 100, 200, 500, 1200];
           config?.turnstile_site_key && window.turnstile ? window.turnstile.getResponse(turnstileWidget) : undefined,
       };
       if (monthly) body.card_token = cardToken;
-
-      try {
-        const res = await fetch(monthly ? '/api/give/donate-recurring' : '/api/give/donate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
-        const data = (await res.json()) as {
-          ok?: boolean;
-          message?: string;
-          amount?: number;
-          designation?: string;
-          portal_login_url?: string;
-        };
-        if (!res.ok || !data.ok) throw new Error(data.message || 'The gift could not be completed.');
-        // One-time dashboard sign-in for the thank-you page (kept out of the
-        // URL so the token never lands in history, logs, or referrers).
-        try {
-          if (data.portal_login_url) sessionStorage.setItem('favor:portal-login', data.portal_login_url);
-        } catch {
-          /* storage unavailable = skip the button */
-        }
-        // GTM: the gift is confirmed by the server at this point, so this is
-        // the one honest place to fire the conversion (GTM-MMMRL3S4 -> GA4).
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: 'donate',
-          value: Number(data.amount ?? total()),
-          currency: 'USD',
-          method: monthly ? 'monthly' : 'once',
-        });
-        const dest = new URLSearchParams({
-          amount: String(data.amount ?? total()),
-          frequency: monthly ? 'monthly' : 'once',
-          designation: data.designation ?? '',
-          name: field('first'),
-        });
-        location.assign('/give/thank-you/?' + dest.toString());
-      } catch (err) {
-        submitting = false;
-        showPanel('form');
-        // goTo(2) deliberately preserves checkoutToken and idempotencyKey (it
-        // only clears them below step 2), so pressing the button resubmits the
-        // same authorization instead of charging a second time.
-        showStep('phone');
-        // Turnstile tokens are single-use; arm a fresh one for the retry.
-        if (window.turnstile && turnstileWidget) window.turnstile.reset(turnstileWidget);
-        showError(
-          'phone',
-          (err instanceof Error ? err.message : 'The gift could not be completed.') +
-            ' Your card was not charged. Press the button to try again, or email info@favorintl.org and we will finish it with you.'
-        );
-        q('[data-pay-label]')!.textContent = 'Try again';
-      }
+      return { url: monthly ? '/api/give/donate-recurring' : '/api/give/donate', body: JSON.stringify(body) };
     }
 
     // ---- bootstrap -----------------------------------------------------------

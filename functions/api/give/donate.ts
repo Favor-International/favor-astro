@@ -31,9 +31,15 @@ import {
   asTrimmed,
   asUuid,
   errorJson,
-  handleError,
-  idempotencyHit,
+  chargeRefused,
+  chargeUnconfirmed,
+  giftError,
+  idempotencyCharging,
+  idempotencyCheck,
+  idempotencyClaim,
+  idempotencyRelease,
   idempotencyStore,
+  idempotencyUnconfirmed,
   json,
   readJsonBody,
   recordGiveError,
@@ -80,6 +86,15 @@ interface DonateBody {
   campaign_source?: unknown;
 }
 
+interface GiftResult {
+  ok: true;
+  gift_id: string;
+  amount: number;
+  frequency: 'once';
+  designation: string;
+  portal_login_url: string | undefined;
+}
+
 export function computeTotal(env: Env, amount: number, coverFees: boolean): number {
   if (!coverFees) return amount;
   const rate = Number(env.GIVE_FEE_RATE ?? '0.029');
@@ -88,12 +103,19 @@ export function computeTotal(env: Env, amount: number, coverFees: boolean): numb
 }
 
 export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, env, waitUntil }) => {
+  // How far this request got, so a failure is answered with what the form may
+  // safely do next (see GiftRetry in _lib/http.ts).
+  let stage: 'checks' | 'claimed' | 'charging' = 'checks';
+  let idem = '';
+  let checkoutToken = '';
+  let charged: GiftResult | null = null;
   try {
     const body = await readJsonBody<DonateBody>(request);
 
-    const idem = asUuid(body.idempotency_key, 'idempotency_key');
-    const replay = await idempotencyHit(env, idem);
-    if (replay) return replay;
+    idem = asUuid(body.idempotency_key, 'idempotency_key');
+    checkoutToken = asUuid(body.checkout?.transaction_token, 'checkout.transaction_token');
+    const earlier = await idempotencyCheck(env, idem, checkoutToken);
+    if (earlier) return earlier;
 
     await verifyTurnstile(env, body.turnstile_token, request.headers.get('CF-Connecting-IP'));
 
@@ -113,7 +135,10 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       org_name: asTrimmed(body.org_name, 'organization name', 120, false) || undefined,
     };
     const note = asTrimmed(body.note, 'note', 400, false);
-    const checkoutToken = asUuid(body.checkout?.transaction_token, 'checkout.transaction_token');
+
+    // From here a second request with this key waits instead of running.
+    await idempotencyClaim(env, idem, checkoutToken);
+    stage = 'claimed';
 
     const constituentId = await findOrCreateConstituent(env, donor);
 
@@ -135,6 +160,9 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
 
     // A gift on the Website appeal carries the credit of the partner's assigned
     // fundraisers from the start; a campaign or newsletter gift carries none.
+    // This call charges the card.
+    stage = 'charging';
+    await idempotencyCharging(env, idem);
     const gift = await createGiftWithCredit(env, {
       type: 'Donation',
       constituent_id: constituentId,
@@ -162,6 +190,14 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
         note && `Donor note: ${note}`,
       ]),
     }, !campaignCodes?.appeal_id);
+    charged = {
+      ok: true,
+      gift_id: gift.id,
+      amount: total,
+      frequency: 'once',
+      designation: designation.label,
+      portal_login_url: undefined,
+    };
 
     // Post-gift enrichment (Daniel, 2026-08-06), all after the response and
     // failure-isolated: web donors carry the "Partner" constituent code, and
@@ -223,18 +259,27 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       gift_date: giftDate,
     });
 
-    const result = {
-      ok: true,
-      gift_id: gift.id,
-      amount: total,
-      frequency: 'once' as const,
-      designation: designation.label,
-      portal_login_url: portalLoginUrl ?? undefined,
-    };
-    await idempotencyStore(env, idem, result);
-    return json(result);
+    charged.portal_login_url = portalLoginUrl ?? undefined;
+    await idempotencyStore(env, idem, charged);
+    return json(charged);
   } catch (err) {
     await recordGiveError(env, 'donate', err);
-    return handleError(err);
+    if (charged) {
+      // The card is charged and the gift is in Blackbaud. A later step that
+      // fails never turns that into an error the giver would retry.
+      await idempotencyStore(env, idem, charged);
+      return json(charged);
+    }
+    if (stage === 'charging') {
+      const retry = chargeRefused(err);
+      if (!retry) {
+        await idempotencyUnconfirmed(env, idem);
+        return chargeUnconfirmed(502);
+      }
+      await idempotencyRelease(env, idem, checkoutToken);
+      return giftError(err, retry);
+    }
+    if (stage === 'claimed') await idempotencyRelease(env, idem, checkoutToken);
+    return giftError(err, 'same');
   }
 };

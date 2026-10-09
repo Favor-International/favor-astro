@@ -11,8 +11,10 @@
 //   4. converts the recurring gift to automatic so Blackbaud charges the
 //      vaulted card on schedule from next month on
 //
-// If step 3 fails the recurring gift shell is deleted (best effort) and the
-// donor sees a clean retryable error. If step 4 fails the money and records
+// If Blackbaud refuses step 3 the recurring gift shell is deleted (best
+// effort) and the donor sees a clean retryable error. If step 3 gets no clear
+// answer the shell stays, the key is marked unconfirmed, and the donor is
+// asked to email instead of paying again. If step 4 fails the money and records
 // are still correct; the response carries a warning so the team can convert
 // manually in RE NXT.
 //
@@ -40,10 +42,16 @@ import {
   asEmail,
   asTrimmed,
   asUuid,
+  chargeRefused,
+  chargeUnconfirmed,
   errorJson,
-  handleError,
-  idempotencyHit,
+  giftError,
+  idempotencyCharging,
+  idempotencyCheck,
+  idempotencyClaim,
+  idempotencyRelease,
   idempotencyStore,
+  idempotencyUnconfirmed,
   json,
   readJsonBody,
   recordGiveError,
@@ -73,13 +81,33 @@ interface RecurringBody {
   campaign_source?: unknown;
 }
 
+interface MonthlyResult {
+  ok: true;
+  gift_id: string;
+  payment_gift_id: string;
+  amount: number;
+  frequency: 'monthly';
+  designation: string;
+  automated: boolean;
+  warning: string | undefined;
+  portal_login_url: string | undefined;
+}
+
 export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, env, waitUntil }) => {
+  // How far this request got, so a failure is answered with what the form may
+  // safely do next (see GiftRetry in _lib/http.ts).
+  let stage: 'checks' | 'claimed' | 'charging' = 'checks';
+  let idem = '';
+  let checkoutToken = '';
+  let scheduleId: string | null = null;
+  let charged: MonthlyResult | null = null;
   try {
     const body = await readJsonBody<RecurringBody>(request);
 
-    const idem = asUuid(body.idempotency_key, 'idempotency_key');
-    const replay = await idempotencyHit(env, idem);
-    if (replay) return replay;
+    idem = asUuid(body.idempotency_key, 'idempotency_key');
+    checkoutToken = asUuid(body.checkout?.transaction_token, 'checkout.transaction_token');
+    const earlier = await idempotencyCheck(env, idem, checkoutToken);
+    if (earlier) return earlier;
 
     await verifyTurnstile(env, body.turnstile_token, request.headers.get('CF-Connecting-IP'));
 
@@ -99,8 +127,11 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       org_name: asTrimmed(body.org_name, 'organization name', 120, false) || undefined,
     };
     const note = asTrimmed(body.note, 'note', 400, false);
-    const checkoutToken = asUuid(body.checkout?.transaction_token, 'checkout.transaction_token');
     const cardToken = asUuid(body.card_token, 'card_token');
+
+    // From here a second request with this key waits instead of running.
+    await idempotencyClaim(env, idem, checkoutToken);
+    stage = 'claimed';
 
     const payConfig = await getPaymentConfig(env);
     const constituentId = await findOrCreateConstituent(env, donor);
@@ -166,27 +197,39 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
     // (see createGiftWithCredit); campaign and newsletter gifts carry none.
     const credit = !campaignCodes?.appeal_id;
     const recurring: { id: string } = await createGiftWithCredit(env, recurringPayload, credit);
+    scheduleId = recurring.id;
 
     // 3. First installment: charge the checkout authorization and link it.
-    let payment: { id: string };
-    try {
-      payment = await createGiftWithCredit(env, {
-        ...baseGift,
-        type: 'RecurringGiftPayment',
-        amount: { value: total },
-        linked_gifts: [recurring.id],
-        payments: [
-          {
-            payment_method: 'CreditCard',
-            checkout_transaction_id: checkoutToken,
-            charge_transaction: true,
-          },
-        ],
-      }, credit);
-    } catch (err) {
-      await deleteGiftQuietly(env, recurring.id);
-      throw err;
-    }
+    // When Blackbaud refuses the charge, the catch below removes the schedule.
+    // When no clear answer comes back the schedule stays, because the payment
+    // may already be linked to it, and its id goes to the error log.
+    stage = 'charging';
+    await idempotencyCharging(env, idem);
+    const payment: { id: string } = await createGiftWithCredit(env, {
+      ...baseGift,
+      type: 'RecurringGiftPayment',
+      amount: { value: total },
+      linked_gifts: [recurring.id],
+      payments: [
+        {
+          payment_method: 'CreditCard',
+          checkout_transaction_id: checkoutToken,
+          charge_transaction: true,
+        },
+      ],
+    }, credit);
+    charged = {
+      ok: true,
+      gift_id: recurring.id,
+      payment_gift_id: payment.id,
+      amount: total,
+      frequency: 'monthly',
+      designation: designation.label,
+      automated: false,
+      // Replaced below once the conversion runs; it stands if a later step fails.
+      warning: `Recurring gift ${recurring.id} was created and the first month was charged, but the request stopped before automatic processing was confirmed. Check it in RE NXT.`,
+      portal_login_url: undefined,
+    };
 
     // 4. Automate future installments against the vaulted card.
     let automated = false;
@@ -202,6 +245,8 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       warning = `Recurring gift ${recurring.id} was created and the first month was charged, but the card was not vaulted (likely a digital wallet). Set up automatic processing manually in RE NXT.`;
     }
     if (warning) console.error('[give/recurring] ' + warning);
+    charged.automated = automated;
+    charged.warning = warning;
 
     // Post-gift enrichment (Daniel, 2026-08-06): Partner code on the giver,
     // and for org gifts the contact person is created and linked to the org.
@@ -281,21 +326,34 @@ export const onRequestPost: PagesFunction<Env & DataApiEnv> = async ({ request, 
       gift_date: nowIso,
     });
 
-    const result = {
-      ok: true,
-      gift_id: recurring.id,
-      payment_gift_id: payment.id,
-      amount: total,
-      frequency: 'monthly' as const,
-      designation: designation.label,
-      automated,
-      warning,
-      portal_login_url: portalLoginUrl ?? undefined,
-    };
-    await idempotencyStore(env, idem, result);
-    return json(result);
+    charged.portal_login_url = portalLoginUrl ?? undefined;
+    await idempotencyStore(env, idem, charged);
+    return json(charged);
   } catch (err) {
     await recordGiveError(env, 'donate-recurring', err);
-    return handleError(err);
+    if (charged) {
+      // The first month is charged and both gifts are in Blackbaud. A later
+      // step that fails never turns that into an error the giver would retry.
+      console.error('[give/recurring] ' + charged.warning);
+      await idempotencyStore(env, idem, charged);
+      return json(charged);
+    }
+    if (stage === 'charging') {
+      const retry = chargeRefused(err);
+      if (!retry) {
+        await recordGiveError(
+          env,
+          'donate-recurring',
+          new Error(`First payment unconfirmed; recurring gift ${scheduleId} kept for the team to check`)
+        );
+        await idempotencyUnconfirmed(env, idem);
+        return chargeUnconfirmed(502);
+      }
+      if (scheduleId) await deleteGiftQuietly(env, scheduleId);
+      await idempotencyRelease(env, idem, checkoutToken);
+      return giftError(err, retry);
+    }
+    if (stage === 'claimed') await idempotencyRelease(env, idem, checkoutToken);
+    return giftError(err, 'same');
   }
 };
