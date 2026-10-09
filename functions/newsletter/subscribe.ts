@@ -42,7 +42,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   try {
     const form = await request.formData();
     email = String(form.get('email') ?? '').trim().toLowerCase();
-    name = String(form.get('name') ?? '').trim().slice(0, 150);
+    const first = String(form.get('first') ?? '').trim();
+    const last = String(form.get('last') ?? '').trim();
+    // Older cached pages still post a single "name" field.
+    name = (first || last ? `${first} ${last}` : String(form.get('name') ?? '')).trim().replace(/\s+/g, ' ').slice(0, 150);
     honeypot = String(form.get('website') ?? '').trim();
   } catch {
     return fail();

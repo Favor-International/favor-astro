@@ -3,18 +3,25 @@ export interface Props { compact?: boolean; }
 const { compact = false } = Astro.props as Props;
 ---
 <form class="newsletter" action="/newsletter/subscribe" method="post" data-compact={compact}>
-  <label for="newsletter-name" class="sr-only">Your name</label>
+  <label for="newsletter-first" class="sr-only">First name</label>
   <input
-    id="newsletter-name"
-    class="newsletter__name"
+    id="newsletter-first"
     type="text"
-    name="name"
+    name="first"
     required
-    maxlength="150"
-    autocomplete="name"
-    placeholder="First and last name"
-    pattern="\s*\S+(\s+\S+)+\s*"
-    title="Please enter your first and last name"
+    maxlength="75"
+    autocomplete="given-name"
+    placeholder="First name"
+  />
+  <label for="newsletter-last" class="sr-only">Last name</label>
+  <input
+    id="newsletter-last"
+    type="text"
+    name="last"
+    required
+    maxlength="75"
+    autocomplete="family-name"
+    placeholder="Last name"
   />
   <label for="newsletter-email" class="sr-only">Your email address</label>
   <input
@@ -34,7 +41,7 @@ const { compact = false } = Astro.props as Props;
 <style>
   .newsletter {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-3);
     max-width: 560px;
   }
@@ -47,7 +54,8 @@ const { compact = false } = Astro.props as Props;
     color: var(--color-ink);
   }
   .newsletter input:focus { outline: 2px solid var(--color-gold); outline-offset: 1px; }
-  .newsletter__name { grid-column: 1 / -1; }
+  .newsletter input[name='email'] { grid-column: 1 / -1; }
+  .newsletter button { grid-column: 1 / -1; }
   .newsletter__hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .newsletter__privacy {
     grid-column: 1 / -1;
