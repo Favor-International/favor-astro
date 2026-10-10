@@ -82,6 +82,11 @@ const WRITE_RULES: WriteRule[] = [
     path: /^\/constituent\/v1\/constituents\/\d+$/,
     keys: ['title', 'first', 'middle', 'last', 'suffix', 'preferred_name', 'former_name', 'name', 'inactive'],
   },
+  // A new partner from the Work Center's Add a partner (Support only, behind the hub's duplicate check and its "none of these is the same
+  // person" tick): the record with its address, email and phone inline, and a spouse link for a household. The code and the holder use
+  // the constituent code and assignment rules below.
+  { methods: ['POST'], path: /^\/constituent\/v1\/constituents$/, keys: ['type', 'first', 'last', 'name', 'address', 'email', 'phone'] },
+  { methods: ['POST'], path: /^\/constituent\/v1\/relationships$/, keys: ['constituent_id', 'relation_id', 'type', 'reciprocal_type', 'is_spouse'] },
   { methods: ['POST'], path: /^\/constituent\/v1\/constituents\/customfields$/ },
   { methods: ['PATCH', 'DELETE'], path: /^\/constituent\/v1\/constituents\/customfields\/\d+$/ },
   { methods: ['POST'], path: /^\/constituent\/v1\/constituentcodes$/ },

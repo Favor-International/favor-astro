@@ -205,3 +205,26 @@ test('an opportunity is removed only with its own partner named and no gift link
     f.restore();
   }
 });
+
+test('a new partner can be created with its contact details inline, and a spouse link made, and nothing else rides along', async () => {
+  const env = makeEnv();
+  const f = sky();
+  try {
+    const body = { type: 'Individual', first: 'Test', last: 'Person', address: { type: 'Home', city: 'Tampa' }, email: { address: 'x@example.com', type: 'Email', primary: true }, phone: { number: '(813) 555-0100', type: 'Cell Phone' } };
+    const ok = await send(env, { method: 'POST', path: '/constituent/v1/constituents', body });
+    assert.equal(ok.body.ok, true);
+    assert.deepEqual(f.calls[0].body, body);
+    const rel = await send(env, { method: 'POST', path: '/constituent/v1/relationships', body: { constituent_id: '1', relation_id: '2', type: 'Spouse', reciprocal_type: 'Spouse', is_spouse: true } });
+    assert.equal(rel.body.ok, true);
+    const before = f.calls.length;
+    const bad = await send(env, { method: 'POST', path: '/constituent/v1/constituents', body: { type: 'Individual', last: 'X', lookup_id: '5' } });
+    assert.match(bad.body.results[0].body.refused, /body keys not allowed/);
+    const badRel = await send(env, { method: 'POST', path: '/constituent/v1/relationships', body: { constituent_id: '1', relation_id: '2', comment: 'x' } });
+    assert.match(badRel.body.results[0].body.refused, /body keys not allowed/);
+    const del = await send(env, { method: 'DELETE', path: '/constituent/v1/relationships/5' });
+    assert.match(del.body.results[0].body.refused, /no write rule/);
+    assert.equal(f.calls.length, before);
+  } finally {
+    f.restore();
+  }
+});
