@@ -131,6 +131,9 @@ const WRITE_RULES: WriteRule[] = [
   // Folding a duplicate record into the one already on file: carry its contact
   // rows and notes over, remove the copied actions from the duplicate.
   { methods: ['POST'], path: /^\/constituent\/v1\/(emailaddresses|phones|notes)$/ },
+  // A note on the partner record, changed or removed from the hub's partner view (and the Undo of one just added).
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/notes\/\d+$/, keys: ['date', 'summary', 'text', 'type'] },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/notes\/\d+$/ },
   { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/\d+$/ },
   // Import jobs (Blackbaud's Import API, in preview): set a job up, start it,
   // remove it. The file itself goes to the upload address the job returns.
