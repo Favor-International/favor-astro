@@ -133,7 +133,7 @@ test('action attachments: a link or an uploaded file, renamed, removed', async (
     assert.equal(doc.body.ok, true);
     const link = await send(env, { method: 'POST', path: '/constituent/v1/actions/attachments', body: { parent_id: '119186', name: 'Letter', type: 'Link', url: 'https://example.org/x' } });
     assert.equal(link.body.ok, true);
-    const ren = await send(env, { method: 'PATCH', path: '/constituent/v1/actions/attachments/9', body: { name: 'Thank-you letter' } });
+    const ren = await send(env, { method: 'PATCH', path: '/constituent/v1/actions/attachments/e8e5cf09-2ddb-4f5a-949d-9b824e0a6ba6', body: { name: 'Thank-you letter' } });
     assert.equal(ren.body.ok, true);
     const del = await send(env, { method: 'DELETE', path: '/constituent/v1/actions/attachments/9' });
     assert.equal(del.body.ok, true);

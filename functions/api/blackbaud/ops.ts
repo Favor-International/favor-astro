@@ -109,8 +109,9 @@ const WRITE_RULES: WriteRule[] = [
     path: /^\/constituent\/v1\/actions\/attachments$/,
     keys: ['parent_id', 'name', 'type', 'url', 'date', 'file_id', 'file_name', 'thumbnail_id', 'tags'],
   },
-  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/attachments\/\d+$/, keys: ['name', 'date', 'url', 'tags'] },
-  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/attachments\/\d+$/ },
+  // Attachment ids are GUIDs.
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/attachments\/[A-Za-z0-9-]{1,40}$/, keys: ['name', 'date', 'url', 'tags'] },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/attachments\/[A-Za-z0-9-]{1,40}$/ },
   // Opportunities (moves management): create and edit. No delete; an
   // opportunity is marked inactive instead.
   { methods: ['POST'], path: /^\/opportunity\/v1\/opportunities$/, keys: OPPORTUNITY_ADD_KEYS },
