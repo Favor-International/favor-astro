@@ -186,16 +186,21 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
   const why = check(method, path, call.body);
   if (why) return refusal(method, path, why);
 
+  let tagDelete: string | null = null;
   if (method === 'DELETE' && ACTION_TAG_DELETE.test(path.split('?')[0])) {
-    // Only a tag in an allowed category can be removed: read it first.
-    const read = await bbFetch(env, path.split('?')[0], { method: 'GET' });
-    const tag = read.ok ? ((await read.json().catch(() => null)) as { category?: string } | null) : null;
+    // Blackbaud cannot read one action tag by id, so the caller names the action (?action=<id>) and the route finds the tag in that action's list.
+    const tagId = ACTION_TAG_DELETE.exec(path.split('?')[0])![1];
+    const parent = new URLSearchParams(path.split('?')[1] ?? '').get('action');
+    const read = parent && /^\d+$/.test(parent) ? await bbFetch(env, `/constituent/v1/actions/${parent}/customfields`, { method: 'GET' }) : null;
+    const list = read && read.ok ? ((await read.json().catch(() => null)) as { value?: { id?: string; category?: string }[] } | null) : null;
+    const tag = list && Array.isArray(list.value) ? list.value.find((t) => String(t.id) === tagId) : null;
     if (!tag || !ACTION_TAG_CATEGORIES.includes(String(tag.category))) {
-      return refusal(method, path, 'only a Thanked, Texted, Stewardship, Scheduling or Amount of Ask tag can be removed here');
+      return refusal(method, path, 'a tag is removed with ?action=<its action id>, and only a Thanked, Texted, Stewardship, Scheduling or Amount of Ask tag can be removed here');
     }
+    tagDelete = `/constituent/v1/actions/customfields/${tagId}`;
   }
 
-  let forward = path;
+  let forward = tagDelete ?? path;
   const doomed = method === 'DELETE' ? DELETE_CONSTITUENT.exec(path.split('?')[0]) : null;
   if (doomed) {
     const lookup = new URLSearchParams(path.split('?')[1] ?? '').get('lookup');
