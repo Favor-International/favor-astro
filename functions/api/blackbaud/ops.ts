@@ -34,6 +34,7 @@ const READ_PREFIXES = [
   '/nxt-data-integration/v1/re/',
   '/query/',
   '/import/',
+  '/opportunity/v1/',
 ];
 
 interface WriteRule {
@@ -45,9 +46,27 @@ interface WriteRule {
   categories?: string[];
 }
 
-// Action tags the Work Center writes: custom fields on an action, by category.
-const ACTION_TAG_CATEGORIES = ['Thanked', 'Texted', 'Stewardship', 'Scheduling', 'Amount of Ask'];
+// Action tags (custom fields on an action). The Work Center edits every
+// category Blackbaud offers on an action, so the category is not limited here;
+// the body keys are.
 const ACTION_TAG_DELETE = /^\/constituent\/v1\/actions\/customfields\/(\d+)$/;
+
+// Every field Blackbaud's ActionEdit accepts (SKY constituent v1).
+const ACTION_EDIT_KEYS = [
+  'category', 'completed', 'completed_date', 'date', 'description', 'direction', 'end_time', 'fundraisers', 'location',
+  'opportunity_id', 'outcome', 'priority', 'start_time', 'status', 'summary', 'type', 'campaign_id', 'fund_id', 'appeal_id',
+  'issue', 'letter_code',
+];
+// ActionAdd: the same fields plus the partner and the author.
+const ACTION_ADD_KEYS = [...ACTION_EDIT_KEYS, 'constituent_id', 'author'];
+// OpportunityEdit (SKY opportunity v1). Funded amount is the opportunity's own
+// field; no gift is created, changed or linked through it.
+const OPPORTUNITY_EDIT_KEYS = [
+  'ask_amount', 'ask_date', 'campaign_id', 'deadline', 'expected_amount', 'expected_date', 'fund_id', 'funded_amount',
+  'funded_date', 'fundraisers', 'inactive', 'name', 'summary', 'purpose', 'status', 'likelihood', 'gift_type', 'reason',
+  'original_ask_amount', 'original_ask_date', 'instrument', 'org_contact_id', 'date_rated',
+];
+const OPPORTUNITY_ADD_KEYS = [...OPPORTUNITY_EDIT_KEYS, 'constituent_id'];
 
 const WRITE_RULES: WriteRule[] = [
   // Code table entries (monthly source codes).
@@ -72,21 +91,30 @@ const WRITE_RULES: WriteRule[] = [
   // Primary addressee and salutation. Records the giving form creates have none.
   { methods: ['POST'], path: /^\/constituent\/v1\/primarynameformats$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/primarynameformats\/[A-Za-z0-9_-]+$/ },
-  { methods: ['POST'], path: /^\/constituent\/v1\/actions$/ },
-  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/\d+$/ },
-  // Action tags (Work Center): add one by category. Removal is checked in run().
+  // Actions (Work Center): every field Blackbaud accepts on create and edit.
+  { methods: ['POST'], path: /^\/constituent\/v1\/actions$/, keys: ACTION_ADD_KEYS },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/\d+$/, keys: ACTION_EDIT_KEYS },
+  // Action tags: add, change and remove (removal names its action, checked in run()).
+  { methods: ['POST'], path: /^\/constituent\/v1\/actions\/customfields$/, keys: ['parent_id', 'category', 'value', 'date', 'comment'] },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/customfields\/\d+$/, keys: ['value', 'date', 'comment'] },
+  // Action notes: add, change, remove.
+  { methods: ['POST'], path: /^\/constituent\/v1\/actions\/notes$/, keys: ['parent_id', 'date', 'type', 'summary', 'text', 'author'] },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/notes\/\d+$/, keys: ['date', 'type', 'summary', 'text'] },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/notes\/\d+$/ },
+  // Action attachments: a link, or a file put first at the upload address
+  // POST /documents returns. Change the name or link, remove.
+  { methods: ['POST'], path: /^\/constituent\/v1\/documents$/, keys: ['file_name', 'upload_thumbnail'] },
   {
     methods: ['POST'],
-    path: /^\/constituent\/v1\/actions\/customfields$/,
-    keys: ['parent_id', 'category', 'value', 'date', 'comment'],
-    categories: ACTION_TAG_CATEGORIES,
+    path: /^\/constituent\/v1\/actions\/attachments$/,
+    keys: ['parent_id', 'name', 'type', 'url', 'date', 'file_id', 'file_name', 'thumbnail_id', 'tags'],
   },
-  // A note on an action, added from the Work Center. No edit or delete here.
-  {
-    methods: ['POST'],
-    path: /^\/constituent\/v1\/actions\/notes$/,
-    keys: ['parent_id', 'date', 'type', 'summary', 'text', 'author'],
-  },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/attachments\/\d+$/, keys: ['name', 'date', 'url', 'tags'] },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/attachments\/\d+$/ },
+  // Opportunities (moves management): create and edit. No delete; an
+  // opportunity is marked inactive instead.
+  { methods: ['POST'], path: /^\/opportunity\/v1\/opportunities$/, keys: OPPORTUNITY_ADD_KEYS },
+  { methods: ['PATCH'], path: /^\/opportunity\/v1\/opportunities\/\d+$/, keys: OPPORTUNITY_EDIT_KEYS },
   // Fundraiser assignments: add and end. No delete.
   { methods: ['POST'], path: /^\/fundraising\/v1\/fundraisers\/assignments$/ },
   { methods: ['PATCH'], path: /^\/fundraising\/v1\/fundraisers\/assignments\/\d+$/ },
@@ -200,8 +228,8 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
     const read = parent && /^\d+$/.test(parent) ? await bbFetch(env, `/constituent/v1/actions/${parent}/customfields`, { method: 'GET' }) : null;
     const list = read && read.ok ? ((await read.json().catch(() => null)) as { value?: { id?: string; category?: string }[] } | null) : null;
     const tag = list && Array.isArray(list.value) ? list.value.find((t) => String(t.id) === tagId) : null;
-    if (!tag || !ACTION_TAG_CATEGORIES.includes(String(tag.category))) {
-      return refusal(method, path, 'a tag is removed with ?action=<its action id>, and only a Thanked, Texted, Stewardship, Scheduling or Amount of Ask tag can be removed here');
+    if (!tag) {
+      return refusal(method, path, 'a tag is removed with ?action=<its action id>, and the tag must be on that action');
     }
     tagDelete = `/constituent/v1/actions/customfields/${tagId}`;
   }
