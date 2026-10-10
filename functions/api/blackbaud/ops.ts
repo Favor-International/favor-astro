@@ -144,6 +144,11 @@ const WRITE_RULES: WriteRule[] = [
 // Blackbaud before the delete is sent.
 const DELETE_CONSTITUENT = /^\/constituent\/v1\/constituents\/(\d+)$/;
 
+// An opportunity can be removed only when the caller restates its partner
+// (?constituent=<system id>) and no gift is linked to it: the Work Center's
+// Undo of an opportunity it just added. Checked against Blackbaud in run().
+const DELETE_OPPORTUNITY = /^\/opportunity\/v1\/opportunities\/(\d+)$/;
+
 // Blackbaud counts the allowance per UTC day. On 2026-10-02 the key this site
 // uses stopped at about 1,000 calls and the giving form went down until the
 // reset, so the default leaves giving and the portal most of that tier. KV key
@@ -177,6 +182,9 @@ function check(method: string, path: string, body: unknown): string | null {
   if (!READ_PREFIXES.some((p) => pathname.startsWith(p))) return 'path is outside the record APIs';
   if (method === 'GET') return null;
   if (method === 'DELETE' && ACTION_TAG_DELETE.test(pathname)) return null; // category verified in run()
+  if (method === 'DELETE' && DELETE_OPPORTUNITY.test(pathname)) {
+    return /[?&]constituent=\d+$/.test(path) ? null : 'removing an opportunity needs ?constituent=<its partner>';
+  }
   if (method === 'DELETE' && DELETE_CONSTITUENT.test(pathname)) {
     return /[?&]lookup=\d+$/.test(path) ? null : 'deleting a constituent needs ?lookup=<lookup id>';
   }
@@ -234,7 +242,18 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
     tagDelete = `/constituent/v1/actions/customfields/${tagId}`;
   }
 
-  let forward = tagDelete ?? path;
+  let oppDelete: string | null = null;
+  const opp = method === 'DELETE' ? DELETE_OPPORTUNITY.exec(path.split('?')[0]) : null;
+  if (opp) {
+    const owner = new URLSearchParams(path.split('?')[1] ?? '').get('constituent');
+    const read = await bbFetch(env, `/opportunity/v1/opportunities/${opp[1]}`, { method: 'GET' });
+    const o = read.ok ? ((await read.json().catch(() => null)) as { constituent_id?: string; linked_gifts?: unknown[] } | null) : null;
+    if (!o || String(o.constituent_id) !== owner) return refusal(method, path, 'the opportunity does not belong to that partner');
+    if (Array.isArray(o.linked_gifts) && o.linked_gifts.length) return refusal(method, path, 'a gift is linked to this opportunity; it cannot be removed here');
+    oppDelete = `/opportunity/v1/opportunities/${opp[1]}`;
+  }
+
+  let forward = oppDelete ?? tagDelete ?? path;
   const doomed = method === 'DELETE' ? DELETE_CONSTITUENT.exec(path.split('?')[0]) : null;
   if (doomed) {
     const lookup = new URLSearchParams(path.split('?')[1] ?? '').get('lookup');

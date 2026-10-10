@@ -156,7 +156,7 @@ test('opportunities can be read, created and edited, never deleted', async () =>
     const bad = await send(env, { method: 'PATCH', path: '/opportunity/v1/opportunities/1527', body: { constituent_id: '1' } });
     assert.match(bad.body.results[0].body.refused, /constituent_id/);
     const del = await send(env, { method: 'DELETE', path: '/opportunity/v1/opportunities/1527' });
-    assert.match(del.body.results[0].body.refused, /no write rule/);
+    assert.match(del.body.results[0].body.refused, /constituent=/);
     assert.equal(f.calls.length, 3);
   } finally {
     f.restore();
@@ -179,6 +179,28 @@ test('the daily cap still holds for the new writes', async () => {
     assert.equal(r.status, 429);
     assert.equal(r.body.error, 'daily_cap');
     assert.equal(f.calls.length, 0);
+  } finally {
+    f.restore();
+  }
+});
+
+test('an opportunity is removed only with its own partner named and no gift linked', async () => {
+  const env = makeEnv();
+  const f = stubFetch((method, path) => {
+    if (method === 'GET' && path.endsWith('/9')) return { status: 200, body: { id: '9', constituent_id: '27202', linked_gifts: [] } };
+    if (method === 'GET' && path.endsWith('/10')) return { status: 200, body: { id: '10', constituent_id: '27202', linked_gifts: ['55'] } };
+    return { status: 200 };
+  });
+  try {
+    const wrong = await send(env, { method: 'DELETE', path: '/opportunity/v1/opportunities/9?constituent=1' });
+    assert.match(wrong.body.results[0].body.refused, /does not belong/);
+    const gift = await send(env, { method: 'DELETE', path: '/opportunity/v1/opportunities/10?constituent=27202' });
+    assert.match(gift.body.results[0].body.refused, /gift is linked/);
+    const ok = await send(env, { method: 'DELETE', path: '/opportunity/v1/opportunities/9?constituent=27202' });
+    assert.equal(ok.body.ok, true);
+    const sent = f.calls.filter((c) => c.method === 'DELETE');
+    assert.equal(sent.length, 1);
+    assert.equal(sent[0].path, '/opportunity/v1/opportunities/9');
   } finally {
     f.restore();
   }
