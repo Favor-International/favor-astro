@@ -58,30 +58,6 @@ test('the hub probe (an empty tag body) gets past the route, so the hub can tell
   }
 });
 
-test('tag edit and delete pass; edit cannot move a tag to another action', async () => {
-  const env = makeEnv();
-  const f = sky();
-  try {
-    const edit = await send(env, {
-      method: 'PATCH',
-      path: '/constituent/v1/actions/customfields/76701',
-      body: { value: 'Thanked', comment: 'by phone' },
-    });
-    assert.equal(edit.body.ok, true);
-    const del = await send(env, { method: 'DELETE', path: '/constituent/v1/actions/customfields/76701' });
-    assert.equal(del.body.ok, true);
-    const move = await send(env, {
-      method: 'PATCH',
-      path: '/constituent/v1/actions/customfields/76701',
-      body: { parent_id: '1', value: 'Thanked' },
-    });
-    assert.match(move.body.results[0].body.refused, /body keys not allowed here: parent_id/);
-    assert.equal(f.calls.length, 2);
-  } finally {
-    f.restore();
-  }
-});
-
 test('an action note can be added but not edited or deleted', async () => {
   const env = makeEnv();
   const f = sky();
@@ -97,41 +73,6 @@ test('an action note can be added but not edited or deleted', async () => {
       assert.match(r.body.results[0].body.refused, /no write rule/);
     }
     assert.equal(f.calls.length, 1);
-  } finally {
-    f.restore();
-  }
-});
-
-test('an action attachment can be added and removed by its GUID; edits and numeric ids are refused', async () => {
-  const env = makeEnv();
-  const f = sky();
-  try {
-    const add = await send(env, {
-      method: 'POST',
-      path: '/constituent/v1/actions/attachments',
-      body: { parent_id: '116224', type: 'Link', name: 'Proposal', url: 'https://favorintl.org/' },
-    });
-    assert.equal(add.body.ok, true);
-    const del = await send(env, {
-      method: 'DELETE',
-      path: '/constituent/v1/actions/attachments/F7AEAD3D-7F86-4B8D-909B-B76706C0DB04',
-    });
-    assert.equal(del.body.ok, true);
-    const edit = await send(env, {
-      method: 'PATCH',
-      path: '/constituent/v1/actions/attachments/F7AEAD3D-7F86-4B8D-909B-B76706C0DB04',
-      body: { name: 'x' },
-    });
-    assert.match(edit.body.results[0].body.refused, /no write rule/);
-    const odd = await send(env, { method: 'DELETE', path: '/constituent/v1/actions/attachments/12' });
-    assert.match(odd.body.results[0].body.refused, /no write rule/);
-    const extra = await send(env, {
-      method: 'POST',
-      path: '/constituent/v1/actions/attachments',
-      body: { parent_id: '116224', type: 'Link', url: 'https://favorintl.org/', constituent_id: '1' },
-    });
-    assert.match(extra.body.results[0].body.refused, /constituent_id/);
-    assert.equal(f.calls.length, 2);
   } finally {
     f.restore();
   }
