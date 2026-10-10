@@ -41,7 +41,13 @@ interface WriteRule {
   path: RegExp;
   /** When set, the JSON body may carry only these top-level keys. */
   keys?: string[];
+  /** When set and the body names a category, it must be one of these. */
+  categories?: string[];
 }
+
+// Action tags the Work Center writes: custom fields on an action, by category.
+const ACTION_TAG_CATEGORIES = ['Thanked', 'Texted', 'Stewardship', 'Scheduling', 'Amount of Ask'];
+const ACTION_TAG_DELETE = /^\/constituent\/v1\/actions\/customfields\/(\d+)$/;
 
 const WRITE_RULES: WriteRule[] = [
   // Code table entries (monthly source codes).
@@ -68,6 +74,13 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['PATCH'], path: /^\/constituent\/v1\/primarynameformats\/[A-Za-z0-9_-]+$/ },
   { methods: ['POST'], path: /^\/constituent\/v1\/actions$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/\d+$/ },
+  // Action tags (Work Center): add one by category. Removal is checked in run().
+  {
+    methods: ['POST'],
+    path: /^\/constituent\/v1\/actions\/customfields$/,
+    keys: ['parent_id', 'category', 'value', 'date', 'comment'],
+    categories: ACTION_TAG_CATEGORIES,
+  },
   // Fundraiser assignments: add and end. No delete.
   { methods: ['POST'], path: /^\/fundraising\/v1\/fundraisers\/assignments$/ },
   { methods: ['PATCH'], path: /^\/fundraising\/v1\/fundraisers\/assignments\/\d+$/ },
@@ -129,6 +142,7 @@ function check(method: string, path: string, body: unknown): string | null {
   const pathname = path.split('?')[0];
   if (!READ_PREFIXES.some((p) => pathname.startsWith(p))) return 'path is outside the record APIs';
   if (method === 'GET') return null;
+  if (method === 'DELETE' && ACTION_TAG_DELETE.test(pathname)) return null; // category verified in run()
   if (method === 'DELETE' && DELETE_CONSTITUENT.test(pathname)) {
     return /[?&]lookup=\d+$/.test(path) ? null : 'deleting a constituent needs ?lookup=<lookup id>';
   }
@@ -138,6 +152,10 @@ function check(method: string, path: string, body: unknown): string | null {
     if (!body || typeof body !== 'object' || Array.isArray(body)) return 'body must be a JSON object';
     const extra = Object.keys(body as Record<string, unknown>).filter((k) => !rule.keys!.includes(k));
     if (extra.length > 0) return `body keys not allowed here: ${extra.join(', ')}`;
+  }
+  if (rule.categories) {
+    const category = (body as Record<string, unknown> | undefined)?.category;
+    if (category !== undefined && !rule.categories.includes(String(category))) return `tag category not allowed here: ${String(category)}`;
   }
   return null;
 }
@@ -167,6 +185,15 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
   const path = String(call.path ?? '');
   const why = check(method, path, call.body);
   if (why) return refusal(method, path, why);
+
+  if (method === 'DELETE' && ACTION_TAG_DELETE.test(path.split('?')[0])) {
+    // Only a tag in an allowed category can be removed: read it first.
+    const read = await bbFetch(env, path.split('?')[0], { method: 'GET' });
+    const tag = read.ok ? ((await read.json().catch(() => null)) as { category?: string } | null) : null;
+    if (!tag || !ACTION_TAG_CATEGORIES.includes(String(tag.category))) {
+      return refusal(method, path, 'only a Thanked, Texted, Stewardship, Scheduling or Amount of Ask tag can be removed here');
+    }
+  }
 
   let forward = path;
   const doomed = method === 'DELETE' ? DELETE_CONSTITUENT.exec(path.split('?')[0]) : null;
