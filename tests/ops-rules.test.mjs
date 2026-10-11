@@ -228,3 +228,75 @@ test('a new partner can be created with its contact details inline, and a spouse
     f.restore();
   }
 });
+
+test('the Contact tab writes: a new address with its dates, a narrowed address change, the record flags and the deceased mark', async () => {
+  const env = makeEnv();
+  const f = sky();
+  try {
+    const add = { constituent_id: '27202', type: 'Seasonal', address_lines: '1 Test Rd', city: 'Tampa', state: 'FL', postal_code: '33606', preferred: false, seasonal_start: '05/01', seasonal_end: '10/15' };
+    assert.equal((await send(env, { method: 'POST', path: '/constituent/v1/addresses', body: add })).body.ok, true);
+    assert.equal((await send(env, { method: 'PATCH', path: '/constituent/v1/addresses/55', body: { end: '2026-10-10', preferred: false } })).body.ok, true);
+    const noOwner = await send(env, { method: 'PATCH', path: '/constituent/v1/addresses/55', body: { constituent_id: '1' } });
+    assert.match(noOwner.body.results[0].body.refused, /constituent_id/);
+    const extra = await send(env, { method: 'POST', path: '/constituent/v1/addresses', body: { ...add, lookup_id: '5' } });
+    assert.match(extra.body.results[0].body.refused, /body keys not allowed/);
+    const flags = { gives_anonymously: true, requests_no_email: false, no_valid_address: false, deceased: true, deceased_date: { d: 10, m: 10, y: 2026 } };
+    assert.equal((await send(env, { method: 'PATCH', path: '/constituent/v1/constituents/27202', body: flags })).body.ok, true);
+    const bad = await send(env, { method: 'PATCH', path: '/constituent/v1/constituents/27202', body: { lookup_id: '1' } });
+    assert.match(bad.body.results[0].body.refused, /lookup_id/);
+    assert.equal(f.calls.length, 3);
+  } finally {
+    f.restore();
+  }
+});
+
+test('a contact row is removed only when it was added in the last 24 hours', async () => {
+  const env = makeEnv();
+  const fresh = new Date(Date.now() - 3600000).toISOString();
+  const old = new Date(Date.now() - 3 * 86400000).toISOString();
+  const f = stubFetch((method, path) => {
+    if (method === 'GET' && path.endsWith('/phones/1')) return { status: 200, body: { id: '1', date_added: fresh } };
+    if (method === 'GET' && path.endsWith('/phones/2')) return { status: 200, body: { id: '2', date_added: old } };
+    if (method === 'GET' && path.endsWith('/addresses/3')) return { status: 200, body: { id: '3' } };
+    return { status: 200 };
+  });
+  try {
+    assert.equal((await send(env, { method: 'DELETE', path: '/constituent/v1/phones/1' })).body.ok, true);
+    const stale = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/2' });
+    assert.match(stale.body.results[0].body.refused, /last 24 hours/);
+    const unknown = await send(env, { method: 'DELETE', path: '/constituent/v1/addresses/3' });
+    assert.match(unknown.body.results[0].body.refused, /last 24 hours/);
+    assert.equal(f.calls.filter((c) => c.method === 'DELETE').length, 1);
+  } finally {
+    f.restore();
+  }
+});
+
+test('solicit codes: read and add pass, only an end date or comment can be changed, no delete', async () => {
+  const env = makeEnv();
+  const f = sky();
+  try {
+    assert.equal((await send(env, { method: 'GET', path: '/commpref/v1/solicitcodes?constituent_id=27202' })).body.ok, true);
+    assert.equal((await send(env, { method: 'POST', path: '/commpref/v1/solicitcodes', body: { constituent_id: '27202', solicit_code: 'Do Not Solicit', start_date: '2026-10-10', comment: 'test' } })).body.ok, true);
+    assert.equal((await send(env, { method: 'PATCH', path: '/commpref/v1/solicitcodes/9', body: { end_date: '2026-10-10' } })).body.ok, true);
+    const bad = await send(env, { method: 'POST', path: '/commpref/v1/solicitcodes', body: { constituent_id: '27202', solicit_code: 'x', channel: 'y' } });
+    assert.match(bad.body.results[0].body.refused, /body keys not allowed/);
+    const del = await send(env, { method: 'DELETE', path: '/commpref/v1/solicitcodes/9' });
+    assert.match(del.body.results[0].body.refused, /no write rule/);
+  } finally {
+    f.restore();
+  }
+});
+
+test('an organization contact link and a titled person can be created', async () => {
+  const env = makeEnv();
+  const f = sky();
+  try {
+    const p = await send(env, { method: 'POST', path: '/constituent/v1/constituents', body: { type: 'Individual', title: 'Dr.', first: 'A', middle: 'B', last: 'C', suffix: 'Jr.' } });
+    assert.equal(p.body.ok, true);
+    const rel = await send(env, { method: 'POST', path: '/constituent/v1/relationships', body: { constituent_id: '1', relation_id: '2', type: 'Contact', reciprocal_type: 'Organization', is_organization_contact: true, position: 'Pastor', organization_contact_type: 'Primary' } });
+    assert.equal(rel.body.ok, true);
+  } finally {
+    f.restore();
+  }
+});

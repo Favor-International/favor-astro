@@ -35,6 +35,7 @@ const READ_PREFIXES = [
   '/query/',
   '/import/',
   '/opportunity/v1/',
+  '/commpref/v1/',
 ];
 
 interface WriteRule {
@@ -68,6 +69,12 @@ const OPPORTUNITY_EDIT_KEYS = [
 ];
 const OPPORTUNITY_ADD_KEYS = [...OPPORTUNITY_EDIT_KEYS, 'constituent_id'];
 
+// Address body keys (SKY AddressAdd and AddressEdit). The partner is named on create only.
+const ADDRESS_KEYS = [
+  'address_lines', 'city', 'state', 'postal_code', 'country', 'county', 'type', 'preferred', 'do_not_mail', 'start', 'end',
+  'seasonal_start', 'seasonal_end', 'inactive',
+];
+
 const WRITE_RULES: WriteRule[] = [
   // Code table entries (monthly source codes).
   { methods: ['POST'], path: /^\/nxt-data-integration\/v1\/re\/codetables\/\d+\/tableentries$/ },
@@ -80,19 +87,33 @@ const WRITE_RULES: WriteRule[] = [
   {
     methods: ['PATCH'],
     path: /^\/constituent\/v1\/constituents\/\d+$/,
-    keys: ['title', 'first', 'middle', 'last', 'suffix', 'preferred_name', 'former_name', 'name', 'inactive'],
+    keys: [
+      'title', 'first', 'middle', 'last', 'suffix', 'preferred_name', 'former_name', 'name', 'inactive',
+      // The Work Center's Record tab: the deceased mark and date, and the three record flags.
+      'deceased', 'deceased_date', 'gives_anonymously', 'requests_no_email', 'no_valid_address',
+    ],
   },
   // A new partner from the Work Center's Add a partner (Support only, behind the hub's duplicate check and its "none of these is the same
   // person" tick): the record with its address, email and phone inline, and a spouse link for a household. The code and the holder use
   // the constituent code and assignment rules below.
-  { methods: ['POST'], path: /^\/constituent\/v1\/constituents$/, keys: ['type', 'first', 'last', 'name', 'address', 'email', 'phone'] },
-  { methods: ['POST'], path: /^\/constituent\/v1\/relationships$/, keys: ['constituent_id', 'relation_id', 'type', 'reciprocal_type', 'is_spouse'] },
+  { methods: ['POST'], path: /^\/constituent\/v1\/constituents$/, keys: ['type', 'first', 'last', 'name', 'address', 'email', 'phone', 'middle', 'title', 'suffix'] },
+  {
+    methods: ['POST'],
+    path: /^\/constituent\/v1\/relationships$/,
+    keys: ['constituent_id', 'relation_id', 'type', 'reciprocal_type', 'is_spouse', 'is_organization_contact', 'position', 'organization_contact_type'],
+  },
   { methods: ['POST'], path: /^\/constituent\/v1\/constituents\/customfields$/ },
   { methods: ['PATCH', 'DELETE'], path: /^\/constituent\/v1\/constituents\/customfields\/\d+$/ },
   { methods: ['POST'], path: /^\/constituent\/v1\/constituentcodes$/ },
   { methods: ['PATCH', 'DELETE'], path: /^\/constituent\/v1\/constituentcodes\/\d+$/ },
-  { methods: ['PATCH', 'DELETE'], path: /^\/constituent\/v1\/addresses\/\d+$/ },
+  // Addresses (the Work Center's Contact tab): add, change, end. A delete passes only for a row added in the last 24 hours (the Undo of
+  // an add); checked in run().
+  { methods: ['POST'], path: /^\/constituent\/v1\/addresses$/, keys: ADDRESS_KEYS.concat('constituent_id') },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/addresses\/\d+$/, keys: ADDRESS_KEYS },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/(emailaddresses|phones)\/\d+$/ },
+  // Solicit codes (Communication Preference API): add one, and end one when the probe on record 27202 showed the PATCH works.
+  { methods: ['POST'], path: /^\/commpref\/v1\/solicitcodes$/, keys: ['constituent_id', 'solicit_code', 'start_date', 'end_date', 'comment'] },
+  { methods: ['PATCH'], path: /^\/commpref\/v1\/solicitcodes\/\d+$/, keys: ['end_date', 'comment'] },
   // Primary addressee and salutation. Records the giving form creates have none.
   { methods: ['POST'], path: /^\/constituent\/v1\/primarynameformats$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/primarynameformats\/[A-Za-z0-9_-]+$/ },
@@ -151,6 +172,10 @@ const WRITE_RULES: WriteRule[] = [
 // The duplicate itself can then be deleted. The caller restates the lookup ID
 // (?lookup=) and the record must hold no gifts; both are checked here against
 // Blackbaud before the delete is sent.
+// A contact row (address, phone, email) can be removed only within 24 hours of being added: the Undo of an add from the hub. Older rows
+// are ended or marked inactive, never deleted. Checked against Blackbaud in run().
+const DELETE_CONTACT = /^\/constituent\/v1\/(addresses|phones|emailaddresses)\/(\d+)$/;
+
 const DELETE_CONSTITUENT = /^\/constituent\/v1\/constituents\/(\d+)$/;
 
 // An opportunity can be removed only when the caller restates its partner
@@ -191,6 +216,7 @@ function check(method: string, path: string, body: unknown): string | null {
   if (!READ_PREFIXES.some((p) => pathname.startsWith(p))) return 'path is outside the record APIs';
   if (method === 'GET') return null;
   if (method === 'DELETE' && ACTION_TAG_DELETE.test(pathname)) return null; // category verified in run()
+  if (method === 'DELETE' && DELETE_CONTACT.test(pathname)) return null; // age verified in run()
   if (method === 'DELETE' && DELETE_OPPORTUNITY.test(pathname)) {
     return /[?&]constituent=\d+$/.test(path) ? null : 'removing an opportunity needs ?constituent=<its partner>';
   }
@@ -260,6 +286,16 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
     if (!o || String(o.constituent_id) !== owner) return refusal(method, path, 'the opportunity does not belong to that partner');
     if (Array.isArray(o.linked_gifts) && o.linked_gifts.length) return refusal(method, path, 'a gift is linked to this opportunity; it cannot be removed here');
     oppDelete = `/opportunity/v1/opportunities/${opp[1]}`;
+  }
+
+  const contactDel = method === 'DELETE' ? DELETE_CONTACT.exec(path.split('?')[0]) : null;
+  if (contactDel) {
+    const read = await bbFetch(env, `/constituent/v1/${contactDel[1]}/${contactDel[2]}`, { method: 'GET' });
+    const row = read.ok ? ((await read.json().catch(() => null)) as { date_added?: string } | null) : null;
+    const added = row && row.date_added ? Date.parse(row.date_added) : NaN;
+    if (!Number.isFinite(added) || Math.abs(Date.now() - added) > 24 * 3600000) {
+      return refusal(method, path, 'only a contact row added in the last 24 hours can be removed here; end or deactivate older ones');
+    }
   }
 
   let forward = oppDelete ?? tagDelete ?? path;
