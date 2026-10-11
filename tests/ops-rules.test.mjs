@@ -250,23 +250,41 @@ test('the Contact tab writes: a new address with its dates, a narrowed address c
   }
 });
 
-test('a contact row is removed only when it was added in the last 24 hours', async () => {
+test('a contact row or solicit code is removed only when it was added in the last day or two, on the partner named', async () => {
   const env = makeEnv();
   const fresh = new Date(Date.now() - 3600000).toISOString();
-  const old = new Date(Date.now() - 3 * 86400000).toISOString();
+  const old = new Date(Date.now() - 9 * 86400000).toISOString();
   const f = stubFetch((method, path) => {
-    if (method === 'GET' && path.endsWith('/phones/1')) return { status: 200, body: { id: '1', date_added: fresh } };
-    if (method === 'GET' && path.endsWith('/phones/2')) return { status: 200, body: { id: '2', date_added: old } };
-    if (method === 'GET' && path.endsWith('/addresses/3')) return { status: 200, body: { id: '3' } };
+    if (method === 'GET' && path.includes('/27202/phones')) return { status: 200, body: { value: [{ id: '1', date_added: fresh }, { id: '2', date_added: old }] } };
+    if (method === 'GET' && path.includes('/27202/addresses')) return { status: 200, body: { value: [{ id: '3' }] } };
+    if (method === 'GET' && path.includes('/27202/communicationpreferences')) return { status: 200, body: { value: [{ id: '8', start: fresh }, { id: '9', start: old }] } };
     return { status: 200 };
   });
   try {
-    assert.equal((await send(env, { method: 'DELETE', path: '/constituent/v1/phones/1' })).body.ok, true);
-    const stale = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/2' });
-    assert.match(stale.body.results[0].body.refused, /last 24 hours/);
-    const unknown = await send(env, { method: 'DELETE', path: '/constituent/v1/addresses/3' });
-    assert.match(unknown.body.results[0].body.refused, /last 24 hours/);
-    assert.equal(f.calls.filter((c) => c.method === 'DELETE').length, 1);
+    assert.equal((await send(env, { method: 'DELETE', path: '/constituent/v1/phones/1?constituent=27202' })).body.ok, true);
+    const stale = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/2?constituent=27202' });
+    assert.match(stale.body.results[0].body.refused, /last day or two/);
+    const unknown = await send(env, { method: 'DELETE', path: '/constituent/v1/addresses/3?constituent=27202' });
+    assert.match(unknown.body.results[0].body.refused, /last day or two/);
+    const noOwner = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/1' });
+    assert.match(noOwner.body.results[0].body.refused, /constituent=/);
+    assert.equal((await send(env, { method: 'DELETE', path: '/constituent/v1/communicationpreferences/8?constituent=27202' })).body.ok, true);
+    const oldCode = await send(env, { method: 'DELETE', path: '/constituent/v1/communicationpreferences/9?constituent=27202' });
+    assert.match(oldCode.body.results[0].body.refused, /last day or two/);
+    assert.equal(f.calls.filter((c) => c.method === 'DELETE').length, 2);
+  } finally {
+    f.restore();
+  }
+});
+
+test('communication preferences: a code is added and ended through the Constituent API', async () => {
+  const env = makeEnv();
+  const f = sky();
+  try {
+    assert.equal((await send(env, { method: 'POST', path: '/constituent/v1/communicationpreferences', body: { constituent_id: '27202', solicit_code: 'Do Not Call', start: '2026-10-10T00:00:00' } })).body.ok, true);
+    assert.equal((await send(env, { method: 'PATCH', path: '/constituent/v1/communicationpreferences/4', body: { end: '2026-10-10T00:00:00' } })).body.ok, true);
+    const bad = await send(env, { method: 'PATCH', path: '/constituent/v1/communicationpreferences/4', body: { constituent_id: '1' } });
+    assert.match(bad.body.results[0].body.refused, /constituent_id/);
   } finally {
     f.restore();
   }

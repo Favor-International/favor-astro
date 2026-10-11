@@ -114,6 +114,9 @@ const WRITE_RULES: WriteRule[] = [
   // Solicit codes (Communication Preference API): add one, and end one when the probe on record 27202 showed the PATCH works.
   { methods: ['POST'], path: /^\/commpref\/v1\/solicitcodes$/, keys: ['constituent_id', 'solicit_code', 'start_date', 'end_date', 'comment'] },
   { methods: ['PATCH'], path: /^\/commpref\/v1\/solicitcodes\/\d+$/, keys: ['end_date', 'comment'] },
+  // The Constituent API's communication preferences are the same solicit codes, readable per partner (GET /constituents/{id}/communicationpreferences).
+  { methods: ['POST'], path: /^\/constituent\/v1\/communicationpreferences$/, keys: ['constituent_id', 'solicit_code', 'start', 'end'] },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/communicationpreferences\/\d+$/, keys: ['solicit_code', 'start', 'end'] },
   // Primary addressee and salutation. Records the giving form creates have none.
   { methods: ['POST'], path: /^\/constituent\/v1\/primarynameformats$/ },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/primarynameformats\/[A-Za-z0-9_-]+$/ },
@@ -176,6 +179,10 @@ const WRITE_RULES: WriteRule[] = [
 // are ended or marked inactive, never deleted. Checked against Blackbaud in run().
 const DELETE_CONTACT = /^\/constituent\/v1\/(addresses|phones|emailaddresses)\/(\d+)$/;
 
+// A solicit code can be removed only as the Undo of one just added: the caller names its partner (?constituent=) and the code must have
+// started in the last day or two. Checked against Blackbaud in run().
+const DELETE_COMMPREF = /^\/constituent\/v1\/communicationpreferences\/(\d+)$/;
+
 const DELETE_CONSTITUENT = /^\/constituent\/v1\/constituents\/(\d+)$/;
 
 // An opportunity can be removed only when the caller restates its partner
@@ -216,7 +223,12 @@ function check(method: string, path: string, body: unknown): string | null {
   if (!READ_PREFIXES.some((p) => pathname.startsWith(p))) return 'path is outside the record APIs';
   if (method === 'GET') return null;
   if (method === 'DELETE' && ACTION_TAG_DELETE.test(pathname)) return null; // category verified in run()
-  if (method === 'DELETE' && DELETE_CONTACT.test(pathname)) return null; // age verified in run()
+  if (method === 'DELETE' && DELETE_CONTACT.test(pathname)) {
+    return /[?&]constituent=\d+$/.test(path) ? null : 'removing a contact row needs ?constituent=<its partner>';
+  }
+  if (method === 'DELETE' && DELETE_COMMPREF.test(pathname)) {
+    return /[?&]constituent=\d+$/.test(path) ? null : 'removing a solicit code needs ?constituent=<its partner>';
+  }
   if (method === 'DELETE' && DELETE_OPPORTUNITY.test(pathname)) {
     return /[?&]constituent=\d+$/.test(path) ? null : 'removing an opportunity needs ?constituent=<its partner>';
   }
@@ -288,17 +300,27 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
     oppDelete = `/opportunity/v1/opportunities/${opp[1]}`;
   }
 
+  // A contact row or solicit code is removed only as the Undo of one just added, named with its partner. The partner's own list is read
+  // (a single email cannot be read by id) and the row must be there and recent.
+  let contactForward: string | null = null;
   const contactDel = method === 'DELETE' ? DELETE_CONTACT.exec(path.split('?')[0]) : null;
-  if (contactDel) {
-    const read = await bbFetch(env, `/constituent/v1/${contactDel[1]}/${contactDel[2]}`, { method: 'GET' });
-    const row = read.ok ? ((await read.json().catch(() => null)) as { date_added?: string } | null) : null;
-    const added = row && row.date_added ? Date.parse(row.date_added) : NaN;
-    if (!Number.isFinite(added) || Math.abs(Date.now() - added) > 24 * 3600000) {
-      return refusal(method, path, 'only a contact row added in the last 24 hours can be removed here; end or deactivate older ones');
+  const prefDel = method === 'DELETE' ? DELETE_COMMPREF.exec(path.split('?')[0]) : null;
+  if (contactDel || prefDel) {
+    const owner = new URLSearchParams(path.split('?')[1] ?? '').get('constituent') ?? '';
+    const kind = contactDel ? contactDel[1] : 'communicationpreferences';
+    const id = contactDel ? contactDel[2] : prefDel![1];
+    const read = await bbFetch(env, `/constituent/v1/constituents/${owner}/${kind}?include_inactive=true&limit=500`, { method: 'GET' });
+    const list = read.ok ? ((await read.json().catch(() => null)) as { value?: { id?: string; date_added?: string; start?: string }[] } | null) : null;
+    const row = list && Array.isArray(list.value) ? list.value.find((x) => String(x.id) === id) : null;
+    const stamp = row ? row.date_added || row.start : undefined;
+    const added = stamp ? Date.parse(stamp) : NaN;
+    if (!row || !Number.isFinite(added) || Math.abs(Date.now() - added) > 48 * 3600000) {
+      return refusal(method, path, 'only a row added in the last day or two, on the partner named, can be removed here; end or deactivate older ones');
     }
+    contactForward = `/constituent/v1/${kind}/${id}`;
   }
 
-  let forward = oppDelete ?? tagDelete ?? path;
+  let forward = oppDelete ?? tagDelete ?? contactForward ?? path;
   const doomed = method === 'DELETE' ? DELETE_CONSTITUENT.exec(path.split('?')[0]) : null;
   if (doomed) {
     const lookup = new URLSearchParams(path.split('?')[1] ?? '').get('lookup');
