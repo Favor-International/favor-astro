@@ -290,22 +290,6 @@ test('communication preferences: a code is added and ended through the Constitue
   }
 });
 
-test('solicit codes: read and add pass, only an end date or comment can be changed, no delete', async () => {
-  const env = makeEnv();
-  const f = sky();
-  try {
-    assert.equal((await send(env, { method: 'GET', path: '/commpref/v1/solicitcodes?constituent_id=27202' })).body.ok, true);
-    assert.equal((await send(env, { method: 'POST', path: '/commpref/v1/solicitcodes', body: { constituent_id: '27202', solicit_code: 'Do Not Solicit', start_date: '2026-10-10', comment: 'test' } })).body.ok, true);
-    assert.equal((await send(env, { method: 'PATCH', path: '/commpref/v1/solicitcodes/9', body: { end_date: '2026-10-10' } })).body.ok, true);
-    const bad = await send(env, { method: 'POST', path: '/commpref/v1/solicitcodes', body: { constituent_id: '27202', solicit_code: 'x', channel: 'y' } });
-    assert.match(bad.body.results[0].body.refused, /body keys not allowed/);
-    const del = await send(env, { method: 'DELETE', path: '/commpref/v1/solicitcodes/9' });
-    assert.match(del.body.results[0].body.refused, /no write rule/);
-  } finally {
-    f.restore();
-  }
-});
-
 test('an organization contact link and a titled person can be created', async () => {
   const env = makeEnv();
   const f = sky();

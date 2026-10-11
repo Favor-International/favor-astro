@@ -35,7 +35,6 @@ const READ_PREFIXES = [
   '/query/',
   '/import/',
   '/opportunity/v1/',
-  '/commpref/v1/',
 ];
 
 interface WriteRule {
@@ -111,10 +110,7 @@ const WRITE_RULES: WriteRule[] = [
   { methods: ['POST'], path: /^\/constituent\/v1\/addresses$/, keys: ADDRESS_KEYS.concat('constituent_id') },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/addresses\/\d+$/, keys: ADDRESS_KEYS },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/(emailaddresses|phones)\/\d+$/ },
-  // Solicit codes (Communication Preference API): add one, and end one when the probe on record 27202 showed the PATCH works.
-  { methods: ['POST'], path: /^\/commpref\/v1\/solicitcodes$/, keys: ['constituent_id', 'solicit_code', 'start_date', 'end_date', 'comment'] },
-  { methods: ['PATCH'], path: /^\/commpref\/v1\/solicitcodes\/\d+$/, keys: ['end_date', 'comment'] },
-  // The Constituent API's communication preferences are the same solicit codes, readable per partner (GET /constituents/{id}/communicationpreferences).
+  // Solicit codes are the Constituent API's communication preferences, readable per partner. (The Communication Preference API's own /commpref/v1/solicitcodes route lists the code table only, and its POST answers 404; probed 2026-10-10.)
   { methods: ['POST'], path: /^\/constituent\/v1\/communicationpreferences$/, keys: ['constituent_id', 'solicit_code', 'start', 'end'] },
   { methods: ['PATCH'], path: /^\/constituent\/v1\/communicationpreferences\/\d+$/, keys: ['solicit_code', 'start', 'end'] },
   // Primary addressee and salutation. Records the giving form creates have none.
