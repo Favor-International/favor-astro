@@ -250,27 +250,25 @@ test('the Contact tab writes: a new address with its dates, a narrowed address c
   }
 });
 
-test('a contact row or solicit code is removed only when it was added in the last day or two, on the partner named', async () => {
+test('a contact row or solicit code is removed only when this route made it for the partner named', async () => {
   const env = makeEnv();
-  const fresh = new Date(Date.now() - 3600000).toISOString();
-  const old = new Date(Date.now() - 9 * 86400000).toISOString();
-  const f = stubFetch((method, path) => {
-    if (method === 'GET' && path.includes('/27202/phones')) return { status: 200, body: { value: [{ id: '1', date_added: fresh }, { id: '2', date_added: old }] } };
-    if (method === 'GET' && path.includes('/27202/addresses')) return { status: 200, body: { value: [{ id: '3' }] } };
-    if (method === 'GET' && path.includes('/27202/communicationpreferences')) return { status: 200, body: { value: [{ id: '8', start: fresh }, { id: '9', start: old }] } };
-    return { status: 200 };
-  });
+  let n = 100;
+  const f = stubFetch((method) => (method === 'POST' ? { status: 200, body: { id: String(++n) } } : { status: 200 }));
   try {
-    assert.equal((await send(env, { method: 'DELETE', path: '/constituent/v1/phones/1?constituent=27202' })).body.ok, true);
-    const stale = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/2?constituent=27202' });
-    assert.match(stale.body.results[0].body.refused, /last day or two/);
-    const unknown = await send(env, { method: 'DELETE', path: '/constituent/v1/addresses/3?constituent=27202' });
-    assert.match(unknown.body.results[0].body.refused, /last day or two/);
-    const noOwner = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/1' });
+    const phone = await send(env, { method: 'POST', path: '/constituent/v1/phones', body: { constituent_id: '27202', type: 'Cell Phone', number: '(813) 555-0100' } });
+    const phoneId = phone.body.results[0].body.id;
+    const code = await send(env, { method: 'POST', path: '/constituent/v1/communicationpreferences', body: { constituent_id: '27202', solicit_code: 'Do Not Call' } });
+    const codeId = code.body.results[0].body.id;
+    assert.equal((await send(env, { method: 'DELETE', path: `/constituent/v1/phones/${phoneId}?constituent=27202` })).body.ok, true);
+    assert.equal((await send(env, { method: 'DELETE', path: `/constituent/v1/communicationpreferences/${codeId}?constituent=27202` })).body.ok, true);
+    const other = await send(env, { method: 'DELETE', path: '/constituent/v1/phones/55?constituent=27202' });
+    assert.match(other.body.results[0].body.refused, /this route made/);
+    const wrongOwner = await send(env, { method: 'POST', path: '/constituent/v1/emailaddresses', body: { constituent_id: '27202', type: 'Email', address: 'a@b.co' } });
+    const emailId = wrongOwner.body.results[0].body.id;
+    const mismatch = await send(env, { method: 'DELETE', path: `/constituent/v1/emailaddresses/${emailId}?constituent=999` });
+    assert.match(mismatch.body.results[0].body.refused, /this route made/);
+    const noOwner = await send(env, { method: 'DELETE', path: `/constituent/v1/emailaddresses/${emailId}` });
     assert.match(noOwner.body.results[0].body.refused, /constituent=/);
-    assert.equal((await send(env, { method: 'DELETE', path: '/constituent/v1/communicationpreferences/8?constituent=27202' })).body.ok, true);
-    const oldCode = await send(env, { method: 'DELETE', path: '/constituent/v1/communicationpreferences/9?constituent=27202' });
-    assert.match(oldCode.body.results[0].body.refused, /last day or two/);
     assert.equal(f.calls.filter((c) => c.method === 'DELETE').length, 2);
   } finally {
     f.restore();

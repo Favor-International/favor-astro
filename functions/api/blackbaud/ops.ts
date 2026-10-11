@@ -171,13 +171,16 @@ const WRITE_RULES: WriteRule[] = [
 // The duplicate itself can then be deleted. The caller restates the lookup ID
 // (?lookup=) and the record must hold no gifts; both are checked here against
 // Blackbaud before the delete is sent.
-// A contact row (address, phone, email) can be removed only within 24 hours of being added: the Undo of an add from the hub. Older rows
-// are ended or marked inactive, never deleted. Checked against Blackbaud in run().
+// A contact row (address, phone, email) can be removed only when this route made it in the last 48 hours: the Undo of an add from the hub.
+// Older rows, and rows made any other way, are ended or marked inactive, never deleted. Blackbaud does not stamp a new row at once, so the
+// route keeps its own note of each row it creates (KV bb:ops:made:<kind>:<id>, the partner it was made for) and checks that note.
 const DELETE_CONTACT = /^\/constituent\/v1\/(addresses|phones|emailaddresses)\/(\d+)$/;
 
-// A solicit code can be removed only as the Undo of one just added: the caller names its partner (?constituent=) and the code must have
-// started in the last day or two. Checked against Blackbaud in run().
+// A solicit code is removed on the same terms: only one this route made in the last 48 hours, for the partner the caller names.
 const DELETE_COMMPREF = /^\/constituent\/v1\/communicationpreferences\/(\d+)$/;
+
+const MADE_CONTACT = /^\/constituent\/v1\/(addresses|phones|emailaddresses|communicationpreferences)$/;
+const MADE_TTL_SECONDS = 2 * 86400;
 
 const DELETE_CONSTITUENT = /^\/constituent\/v1\/constituents\/(\d+)$/;
 
@@ -296,8 +299,7 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
     oppDelete = `/opportunity/v1/opportunities/${opp[1]}`;
   }
 
-  // A contact row or solicit code is removed only as the Undo of one just added, named with its partner. The partner's own list is read
-  // (a single email cannot be read by id) and the row must be there and recent.
+  // A contact row or solicit code is removed only as the Undo of one this route just made, named with its partner.
   let contactForward: string | null = null;
   const contactDel = method === 'DELETE' ? DELETE_CONTACT.exec(path.split('?')[0]) : null;
   const prefDel = method === 'DELETE' ? DELETE_COMMPREF.exec(path.split('?')[0]) : null;
@@ -305,13 +307,9 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
     const owner = new URLSearchParams(path.split('?')[1] ?? '').get('constituent') ?? '';
     const kind = contactDel ? contactDel[1] : 'communicationpreferences';
     const id = contactDel ? contactDel[2] : prefDel![1];
-    const read = await bbFetch(env, `/constituent/v1/constituents/${owner}/${kind}?include_inactive=true&limit=500`, { method: 'GET' });
-    const list = read.ok ? ((await read.json().catch(() => null)) as { value?: { id?: string; date_added?: string; start?: string }[] } | null) : null;
-    const row = list && Array.isArray(list.value) ? list.value.find((x) => String(x.id) === id) : null;
-    const stamp = row ? row.date_added || row.start : undefined;
-    const added = stamp ? Date.parse(stamp) : NaN;
-    if (!row || !Number.isFinite(added) || Math.abs(Date.now() - added) > 48 * 3600000) {
-      return refusal(method, path, 'only a row added in the last day or two, on the partner named, can be removed here; end or deactivate older ones');
+    const made = await env.BLACKBAUD_TOKENS.get(`bb:ops:made:${kind}:${id}`);
+    if (!made || made !== owner) {
+      return refusal(method, path, 'only a row this route made in the last two days, on the partner named, can be removed here; end or deactivate older ones');
     }
     contactForward = `/constituent/v1/${kind}/${id}`;
   }
@@ -343,6 +341,14 @@ async function run(env: Env, day: string, call: OpsCall): Promise<OpsResult> {
       body = JSON.parse(text);
     } catch {
       body = text.slice(0, 2000);
+    }
+  }
+  if (method === 'POST' && res.ok && body && typeof body === 'object') {
+    const kind = MADE_CONTACT.exec(path.split('?')[0]);
+    const id = (body as { id?: unknown }).id;
+    const owner = (call.body as { constituent_id?: unknown } | undefined)?.constituent_id;
+    if (kind && id && owner) {
+      await env.BLACKBAUD_TOKENS.put(`bb:ops:made:${kind[1]}:${String(id)}`, String(owner), { expirationTtl: MADE_TTL_SECONDS }).catch(() => {});
     }
   }
   if (method !== 'GET') {
