@@ -2,7 +2,7 @@
 //
 // Newsletter signups go INTO Blackbaud (Will, 2026-08-06: "that's how we do
 // things now"). The flow:
-//   1. bot checks: honeypot field + per-IP rate limit (this endpoint creates
+//   1. bot checks: honeypot field, Turnstile, per-IP rate limit (this endpoint creates
 //      real RE NXT records, so it cannot be a free-for-all)
 //   2. find-or-create the constituent by email; brand-new records get the
 //      "Prospect" constituent code (the standard code for not-yet-donors;
@@ -12,7 +12,7 @@
 //      export until the marketing stack takes over sends
 //
 // Blackbaud being down never loses a signup: the KV capture happens first and
-// the BB write is failure-isolated. Plain form POST, no JavaScript required.
+// the BB write is failure-isolated. Plain form POST; the Turnstile widget needs JavaScript.
 
 import {
   ensureConstituentCode,
@@ -20,6 +20,7 @@ import {
   searchConstituentByEmail,
   type Env,
 } from '../api/_lib/blackbaud';
+import { verifyTurnstile } from '../api/_lib/turnstile';
 
 const emailOk = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && e.length <= 254;
 
@@ -39,6 +40,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   let email = '';
   let name = '';
   let honeypot = '';
+  let turnstileToken = '';
   try {
     const form = await request.formData();
     email = String(form.get('email') ?? '').trim().toLowerCase();
@@ -47,6 +49,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     // Older cached pages still post a single "name" field.
     name = (first || last ? `${first} ${last}` : String(form.get('name') ?? '')).trim().replace(/\s+/g, ' ').slice(0, 150);
     honeypot = String(form.get('website') ?? '').trim();
+    turnstileToken = String(form.get('cf-turnstile-response') ?? '');
   } catch {
     return fail();
   }
@@ -55,6 +58,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // bot moves on, write nothing.
   if (honeypot) return ok();
   if (!emailOk(email) || !name) return fail();
+  // Bots passed the honeypot from 2026-10-11 (real people's emails under Latin
+  // word names, six records in two days), so a Turnstile pass is required too.
+  try {
+    await verifyTurnstile(env, turnstileToken, request.headers.get('CF-Connecting-IP'));
+  } catch {
+    return fail();
+  }
   // Full name required, same standard as the giving form. A single word used
   // to become a last-name-only constituent through the API, which RE NXT's
   // own screens never allow; Daniel caught one ("Cornelia", 2026-08-09).

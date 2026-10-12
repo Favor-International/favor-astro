@@ -2,7 +2,7 @@
 export interface Props { compact?: boolean; }
 const { compact = false } = Astro.props as Props;
 ---
-<form class="newsletter" action="/newsletter/subscribe" method="post" data-compact={compact}>
+<form class="newsletter" action="/newsletter/subscribe" method="post" data-compact={compact} data-newsletter>
   <label for="newsletter-first" class="sr-only">First name</label>
   <input
     id="newsletter-first"
@@ -32,12 +32,55 @@ const { compact = false } = Astro.props as Props;
     autocomplete="email"
     placeholder="you@example.com"
   />
+  <!-- Cloudflare Turnstile. Bots got past the honeypot from 2026-10-11 and
+       signed real people's emails up under made-up Latin names, each one a new
+       Blackbaud record. The widget loads on the first touch of the form. -->
+  <div class="newsletter__check" data-newsletter-check></div>
   <button type="submit" class="btn btn--primary">Send Me the Field Report</button>
+  <p class="newsletter__wait" data-newsletter-wait hidden>One moment while we confirm you are not a robot, then press the button again.</p>
   <!-- Honeypot: signups create Blackbaud records, so bots must be filtered.
        Humans never see this field; anything typed here voids the submission. -->
   <input class="newsletter__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <p class="newsletter__privacy">No spam. Unsubscribe anytime. We never sell your address.</p>
 </form>
+<script>
+  const SITE_KEY = '0x4AAAAAAD6sdTlzx7HFVKVC';
+  type TurnstileApi = { render: (el: Element, opts: Record<string, unknown>) => string };
+  const w = window as unknown as { turnstile?: TurnstileApi; __nlTurnstile?: Promise<TurnstileApi> };
+  const loadTurnstile = () =>
+    (w.__nlTurnstile ??= new Promise<TurnstileApi>((resolve, reject) => {
+      if (w.turnstile) return resolve(w.turnstile);
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = () => (w.turnstile ? resolve(w.turnstile) : reject(new Error('turnstile missing')));
+      s.onerror = reject;
+      document.head.appendChild(s);
+    }));
+
+  document.querySelectorAll<HTMLFormElement>('form[data-newsletter]').forEach((form) => {
+    const box = form.querySelector('[data-newsletter-check]')!;
+    const wait = form.querySelector<HTMLElement>('[data-newsletter-wait]')!;
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      loadTurnstile()
+        .then((t) => t.render(box, { sitekey: SITE_KEY, size: 'flexible', 'response-field-name': 'cf-turnstile-response' }))
+        .catch(() => { started = false; });
+    };
+    form.addEventListener('focusin', start);
+    form.addEventListener('pointerenter', start);
+    form.addEventListener('submit', (e) => {
+      const token = form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]')?.value;
+      if (!token) {
+        e.preventDefault();
+        start();
+        wait.hidden = false;
+      }
+    });
+  });
+</script>
 <style>
   .newsletter {
     display: grid;
@@ -57,6 +100,9 @@ const { compact = false } = Astro.props as Props;
   .newsletter input[name='email'] { grid-column: 1 / -1; }
   .newsletter button { grid-column: 1 / -1; }
   .newsletter__hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .newsletter__check { grid-column: 1 / -1; }
+  .newsletter__check:empty { display: none; }
+  .newsletter__wait { grid-column: 1 / -1; margin: 0; font-size: 0.85rem; color: var(--color-ink); }
   .newsletter__privacy {
     grid-column: 1 / -1;
     font-size: 0.8rem;
