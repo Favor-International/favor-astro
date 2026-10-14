@@ -8,7 +8,7 @@ compensation: Commensurate with experience
 applyEmail: info@favorintl.org
 applySubject: Administrative Assistant (RDD Support) application
 applyNote: This is a U.S.-based opportunity only. Please only reach out or apply to this position if you live in and/or are legally authorized to work in the United States.
-status: open
+status: closed
 visibility: everywhere
 posted: 2026-09-14
 image: /images/field-2026/prayer-1.webp
