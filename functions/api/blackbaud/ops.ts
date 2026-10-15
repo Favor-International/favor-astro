@@ -137,6 +137,15 @@ const WRITE_RULES: WriteRule[] = [
   // Attachment ids are GUIDs.
   { methods: ['PATCH'], path: /^\/constituent\/v1\/actions\/attachments\/[A-Za-z0-9-]{1,40}$/, keys: ['name', 'date', 'url', 'tags'] },
   { methods: ['DELETE'], path: /^\/constituent\/v1\/actions\/attachments\/[A-Za-z0-9-]{1,40}$/ },
+  // Partner-record documents (FavorOS partner page): a file put first at the upload address POST /documents returns, then attached to the
+  // constituent. Attachment ids are GUIDs. The delete is the Undo of an attachment FavorOS made and the Remove button on the document.
+  {
+    methods: ['POST'],
+    path: /^\/constituent\/v1\/constituents\/attachments$/,
+    keys: ['parent_id', 'name', 'type', 'url', 'date', 'file_id', 'file_name', 'thumbnail_id', 'tags'],
+  },
+  { methods: ['PATCH'], path: /^\/constituent\/v1\/constituents\/attachments\/[A-Za-z0-9-]{1,40}$/, keys: ['name', 'date', 'url', 'tags'] },
+  { methods: ['DELETE'], path: /^\/constituent\/v1\/constituents\/attachments\/[A-Za-z0-9-]{1,40}$/ },
   // Opportunities (moves management): create and edit. No delete; an
   // opportunity is marked inactive instead.
   { methods: ['POST'], path: /^\/opportunity\/v1\/opportunities$/, keys: OPPORTUNITY_ADD_KEYS },
