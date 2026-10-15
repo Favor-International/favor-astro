@@ -300,3 +300,21 @@ test('an organization contact link and a titled person can be created', async ()
     f.restore();
   }
 });
+
+test('partner-record attachments: a file attached to a constituent, renamed, removed; an unlisted key is refused', async () => {
+  const env = makeEnv();
+  const f = sky();
+  try {
+    const add = await send(env, { method: 'POST', path: '/constituent/v1/constituents/attachments', body: { parent_id: '9001', name: 'W-9', type: 'Physical', file_id: 'f1', file_name: 'w9.pdf', date: '2026-10-15T00:00:00' } });
+    assert.equal(add.body.ok, true);
+    const ren = await send(env, { method: 'PATCH', path: '/constituent/v1/constituents/attachments/e8e5cf09-2ddb-4f5a-949d-9b824e0a6ba6', body: { name: 'W-9 2026' } });
+    assert.equal(ren.body.ok, true);
+    const del = await send(env, { method: 'DELETE', path: '/constituent/v1/constituents/attachments/e8e5cf09-2ddb-4f5a-949d-9b824e0a6ba6' });
+    assert.equal(del.body.ok, true);
+    const bad = await send(env, { method: 'POST', path: '/constituent/v1/constituents/attachments', body: { parent_id: '9001', type: 'Link', url: 'https://example.org', surprise: 1 } });
+    assert.notEqual(bad.body.ok, true);
+    assert.equal(f.calls.length, 3);
+  } finally {
+    f.restore();
+  }
+});
