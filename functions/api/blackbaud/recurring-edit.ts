@@ -1,5 +1,5 @@
 // POST /api/blackbaud/recurring-edit?key=<BLACKBAUD_SETUP_KEY>
-// Body: { "id": "39792", "op": "amount", "amount": 35 } | { "id": "...", "op": "frequency", "frequency": "QUARTERLY" } | { "id": "...", "op": "status", "status": "Held" }
+// Body: { "id": "39792", "op": "amount", "amount": 35 } | { "id": "...", "op": "frequency", "frequency": "QUARTERLY" } | { "id": "...", "op": "status", "status": "Held" } | { "id": "...", "op": "skip" } | { "id": "...", "op": "next_date", "date": "2026-11-07" }
 //
 // FavorOS's Recurring gifts tool changes a schedule through this route. One schedule per call. The route has its own allowance
 // (150 Blackbaud calls a day, KV bb:rec:count:<utc day>) so it never spends the giving form's or the upkeep route's share. KV

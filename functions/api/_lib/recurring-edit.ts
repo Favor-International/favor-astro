@@ -11,7 +11,7 @@ import { isRecurringStatus, setRecurringGiftStatus, type RecurringStatus } from 
 
 export const FREQUENCIES = ['WEEKLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY'] as const;
 export type Frequency = (typeof FREQUENCIES)[number];
-export const EDIT_OPS = ['amount', 'frequency', 'status'] as const;
+export const EDIT_OPS = ['amount', 'frequency', 'status', 'skip', 'next_date'] as const;
 export type EditOp = (typeof EDIT_OPS)[number];
 
 export interface Snapshot {
@@ -43,6 +43,8 @@ export interface EditInput {
   amount?: unknown;
   frequency?: unknown;
   status?: unknown;
+  /** next_date only: YYYY-MM-DD, used to put a skipped charge back. */
+  date?: unknown;
 }
 
 export interface EditResult {
@@ -73,6 +75,32 @@ async function patch(env: Env, id: string, body: unknown): Promise<{ ok: boolean
   return { ok: res.ok, status: res.status };
 }
 
+const MONTHS_PER: Record<string, number> = { MONTHLY: 1, QUARTERLY: 3, ANNUALLY: 12 };
+
+/** The date one cycle after `ymd` for this frequency. A month end stays a month end (Jan 31 + 1 month = Feb 28). */
+export function addCycle(ymd: string, frequency: string): string | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ymd);
+  if (!m) return null;
+  const f = frequency.toUpperCase();
+  const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  if (f === 'WEEKLY') return new Date(Date.UTC(y, mo - 1, d + 7)).toISOString().slice(0, 10);
+  const add = MONTHS_PER[f];
+  if (!add) return null;
+  const last = new Date(Date.UTC(y, mo - 1 + add + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(y, mo - 1 + add, Math.min(d, last))).toISOString().slice(0, 10);
+}
+
+/** Body that moves the next charge date. Keeps the frequency, start and end dates, DoNotPost and the payments. */
+export function buildDateBody(g: GiftRead, date: string): { full: Record<string, unknown>; minimal: Record<string, unknown> } {
+  const guard: Record<string, unknown> = { post_status: 'DoNotPost' };
+  if (Array.isArray(g.payments) && g.payments.length) guard.payments = g.payments;
+  const sched = g.recurring_gift_schedule ?? {};
+  const schedule: Record<string, unknown> = { frequency: sched.frequency, next_transaction_date: date };
+  if (sched.start_date) schedule.start_date = sched.start_date;
+  if (sched.end_date) schedule.end_date = sched.end_date;
+  return { full: { recurring_gift_schedule: schedule, ...guard }, minimal: { recurring_gift_schedule: schedule } };
+}
+
 /** The two bodies for one edit: the full one (DoNotPost and payments) and the older minimal one, used only if the full one is refused with a 400. */
 export function buildBodies(g: GiftRead, op: 'amount' | 'frequency', value: number | Frequency): { full: Record<string, unknown>; minimal: Record<string, unknown> } {
   const guard: Record<string, unknown> = { post_status: 'DoNotPost' };
@@ -95,10 +123,11 @@ export function buildBodies(g: GiftRead, op: 'amount' | 'frequency', value: numb
  * Apply one edit. `only` is the test lock: when set, the schedule must belong to that constituent.
  * `calls` counts every Blackbaud request made, for the day's ledger.
  */
-export async function applyRecurringEdit(env: Env, input: EditInput, only = ''): Promise<EditResult> {
+export async function applyRecurringEdit(env: Env, inputIn: EditInput, only = ''): Promise<EditResult> {
+  let input = inputIn;
   const id = String(input.id ?? '').trim();
   if (!/^\d{1,12}$/.test(id)) throw new BlackbaudError('bad_id', 'id must be a Blackbaud gift id', 400);
-  if (!(EDIT_OPS as readonly string[]).includes(input.op)) throw new BlackbaudError('bad_op', 'op must be amount, frequency or status', 400);
+  if (!(EDIT_OPS as readonly string[]).includes(input.op)) throw new BlackbaudError('bad_op', 'op must be amount, frequency, status, skip or next_date', 400);
   let calls = 1;
   const g = await read(env, id);
   if (g.type !== 'RecurringGift') throw new BlackbaudError('not_recurring', 'That gift is not a recurring gift schedule.', 409);
@@ -113,6 +142,24 @@ export async function applyRecurringEdit(env: Env, input: EditInput, only = ''):
       const out = await setRecurringGiftStatus(env, id, wanted as RecurringStatus);
       calls += out.attempts.length * 2;
     }
+  } else if (input.op === 'skip' || input.op === 'next_date') {
+    if (before.status !== 'Active') throw new BlackbaudError('not_active', 'Only an active schedule can skip a charge.', 409);
+    if (!before.next_date || !before.frequency) throw new BlackbaudError('no_next', 'This schedule has no next charge date to move.', 409);
+    const wantedDate = input.op === 'skip' ? addCycle(before.next_date, before.frequency) : String(input.date ?? '').slice(0, 10);
+    if (!wantedDate || !/^\d{4}-\d{2}-\d{2}$/.test(wantedDate) || Number.isNaN(Date.parse(wantedDate + 'T12:00:00Z'))) throw new BlackbaudError('bad_date', 'That is not a usable date.', 400);
+    if (before.end_date && wantedDate > before.end_date) throw new BlackbaudError('past_end', 'That would pass the end date. Stop the schedule instead.', 409);
+    if (Math.abs(Date.parse(wantedDate + 'T12:00:00Z') - Date.parse(before.next_date + 'T12:00:00Z')) > 400 * 86400000) throw new BlackbaudError('bad_date', 'That date is too far from the next charge.', 400);
+    if (wantedDate !== before.next_date) {
+      const bodies = buildDateBody(g, wantedDate);
+      let sent = await patch(env, id, bodies.full);
+      calls++;
+      if (!sent.ok && sent.status === 400) {
+        sent = await patch(env, id, bodies.minimal);
+        calls++;
+      }
+      if (!sent.ok) throw new BlackbaudError('sky_api_error', `Blackbaud refused the change (${sent.status}).`, sent.status >= 500 ? 502 : sent.status);
+    }
+    input = { ...input, date: wantedDate };
   } else {
     if (before.status !== 'Active' && before.status !== 'Held') throw new BlackbaudError('not_active', 'Only an active or held schedule can be changed.', 409);
     let value: number | Frequency;
@@ -146,6 +193,7 @@ export async function applyRecurringEdit(env: Env, input: EditInput, only = ''):
   const landed =
     input.op === 'amount' ? after.amount === Math.round(Number(input.amount) * 100) / 100
     : input.op === 'frequency' ? after.frequency === String(input.frequency).toUpperCase()
+    : input.op === 'skip' || input.op === 'next_date' ? after.next_date === input.date
     : after.status === input.status;
   if (!landed) {
     throw new BlackbaudError('not_applied', 'Blackbaud accepted the change but the schedule still reads the old value. It has to be changed in Raisers Edge.', 502, { before, after });

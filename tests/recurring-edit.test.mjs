@@ -173,3 +173,65 @@ test('the setup key is required and the daily cap stops writes', async () => {
     f.restore();
   }
 });
+
+test('skip one charge moves the next charge date one cycle, with DoNotPost and the payments, and reads it back', async () => {
+  const env = makeEnv();
+  const { f } = bb(schedule());
+  try {
+    const r = await send(env, { id: '9001', op: 'skip' });
+    assert.equal(r.status, 200);
+    assert.equal(r.body.before.next_date, '2026-11-05');
+    assert.equal(r.body.after.next_date, '2026-12-05');
+    const w = writes(f);
+    assert.equal(w.length, 1);
+    assert.equal(w[0].body.post_status, 'DoNotPost');
+    assert.equal(w[0].body.payments.length, 1);
+    assert.equal(w[0].body.recurring_gift_schedule.frequency, 'MONTHLY');
+    assert.equal(w[0].body.recurring_gift_schedule.start_date, '2025-01-05T00:00:00');
+    // the way back is next_date with the old date
+    const back = await send(env, { id: '9001', op: 'next_date', date: '2026-11-05' });
+    assert.equal(back.status, 200);
+    assert.equal(back.body.after.next_date, '2026-11-05');
+  } finally {
+    f.restore();
+  }
+});
+
+test('skip handles month ends, other frequencies, an end date and a Blackbaud that ignores the date', async () => {
+  const { addCycle } = await import('../functions/api/_lib/recurring-edit.ts');
+  assert.equal(addCycle('2026-01-31', 'MONTHLY'), '2026-02-28');
+  assert.equal(addCycle('2026-11-30', 'QUARTERLY'), '2027-02-28');
+  assert.equal(addCycle('2026-03-10', 'ANNUALLY'), '2027-03-10');
+  assert.equal(addCycle('2026-12-28', 'WEEKLY'), '2027-01-04');
+  assert.equal(addCycle('nope', 'MONTHLY'), null);
+  const env = makeEnv();
+  const ended = bb(schedule({ recurring_gift_schedule: { frequency: 'MONTHLY', next_transaction_date: '2026-11-05T00:00:00', end_date: '2026-11-20T00:00:00' } }));
+  try {
+    const r = await send(env, { id: '9001', op: 'skip' });
+    assert.equal(r.status, 409);
+    assert.equal(writes(ended.f).length, 0);
+  } finally {
+    ended.f.restore();
+  }
+  const held = bb(schedule({ gift_status: 'Held' }));
+  try {
+    assert.equal((await send(env, { id: '9001', op: 'skip' })).status, 409);
+  } finally {
+    held.f.restore();
+  }
+  const ignored = bb(schedule(), { ignore: true });
+  try {
+    const r = await send(env, { id: '9001', op: 'skip' });
+    assert.equal(r.status, 502);
+    assert.equal(r.body.error, 'not_applied');
+  } finally {
+    ignored.f.restore();
+  }
+  const far = bb(schedule());
+  try {
+    assert.equal((await send(env, { id: '9001', op: 'next_date', date: '2030-01-01' })).status, 400);
+    assert.equal((await send(env, { id: '9001', op: 'next_date', date: 'x' })).status, 400);
+  } finally {
+    far.f.restore();
+  }
+});
