@@ -2,8 +2,12 @@
 // Setup-key guarded, like /api/blackbaud/ops, but with its own allowance (400 calls a day, KV bb:ge:count:<utc day>) so
 // gift entry can never spend the upkeep allowance or the giving form's share. The route does what P0 proved
 // (2026-10-10): create a batch, add gifts to it, read it back, make an attachment after Jennifer commits the batch, and
-// delete a batch this route created while it is still unapproved. It cannot approve a batch (Blackbaud has no such route),
-// cannot create a gift outside a batch, and cannot touch the Payments API.
+// delete a batch this route created while it is still unapproved. It cannot approve a batch (Blackbaud has no such route)
+// and cannot touch the Payments API.
+//
+// Since 2026-10-15 it also creates one gift directly (POST /gift/v1/gifts) for FavorOS's Other gifts: DAF, foundation, wire, stock and
+// phone gifts that a second person approved in FavorOS. That write allows a Donation to a real partner with an Other, Cash or check
+// payment (never a card or a bank debit), the same keys a batch gift takes, and the same test lock and daily lane.
 //
 // POST  ?key=<BLACKBAUD_SETUP_KEY>   { "calls": [ { "method": "POST", "path": "/gift-batch/v1/giftbatches", "body": {...} } ] }   up to 5
 // GET   ?key=...&log=YYYY-MM-DD      the day's write ledger and the call count
@@ -37,6 +41,8 @@ const BATCH_KEYS = ['batch_number', 'batch_description', 'expected_batch_total',
 const GIFT_KEYS = ['type', 'constituent_id', 'amount', 'date', 'gift_splits', 'payments', 'reference', 'soft_credits', 'constituency', 'fundraisers', 'default_fundraiser_credits', 'is_anonymous'];
 const ATTACH_KEYS = ['parent_id', 'type', 'file_id', 'file_name', 'name', 'date'];
 const DOC_KEYS = ['file_name', 'upload_thumbnail'];
+
+const DIRECT_PAYMENTS = ['Other', 'Cash', 'PersonalCheck'];
 
 const READS: RegExp[] = [
   /^\/gift-batch\/v1\/giftbatches$/,
@@ -79,12 +85,33 @@ function checkGifts(body: unknown, only: string): string | null {
   return null;
 }
 
+/** One gift created outside a batch: a Donation with a non-card payment, to a real partner, honoring the test lock. */
+function checkDirectGift(body: unknown, only: string): string | null {
+  const bad = onlyKeys(body, GIFT_KEYS);
+  if (bad) return bad;
+  const gift = body as Record<string, any>;
+  if (gift.type !== 'Donation') return 'only Donation gifts';
+  if (!/^\d{1,12}$/.test(String(gift.constituent_id ?? ''))) return 'constituent_id missing';
+  if (typeof gift.reference === 'string' && gift.reference.length > 255) return 'reference is over 255 characters';
+  const pays = Array.isArray(gift.payments) ? gift.payments : [];
+  if (pays.length !== 1 || !DIRECT_PAYMENTS.includes(String((pays[0] as any)?.payment_method))) return 'payment method must be Other, Cash or PersonalCheck';
+  if (!Array.isArray(gift.gift_splits) || gift.gift_splits.length < 1 || gift.gift_splits.length > 10) return 'gift_splits missing';
+  if (only) {
+    if (String(gift.constituent_id) !== only) return `test lock: gifts go to ${only} only`;
+    for (const s of Array.isArray(gift.soft_credits) ? gift.soft_credits : []) {
+      if (String((s as any)?.constituent_id) !== only) return `test lock: soft credits go to ${only} only`;
+    }
+  }
+  return null;
+}
+
 async function check(env: Env, method: string, path: string, body: unknown, only: string): Promise<string | null> {
   if (!path.startsWith('/') || path.includes('..') || path.includes('//')) return 'bad path';
   const pathname = path.split('?')[0];
   if (method === 'GET') return READS.some((r) => r.test(pathname)) ? null : 'path is outside gift entry reads';
   if (method === 'POST' && pathname === '/gift-batch/v1/giftbatches') return onlyKeys(body, BATCH_KEYS);
   if (method === 'POST' && /^\/gift\/v1\/giftbatches\/\d+\/gifts$/.test(pathname)) return checkGifts(body, only);
+  if (method === 'POST' && pathname === '/gift/v1/gifts') return checkDirectGift(body, only);
   if (method === 'POST' && pathname === '/gift/v1/documents') return onlyKeys(body, DOC_KEYS);
   if (method === 'POST' && pathname === '/gift/v1/gifts/attachments') return onlyKeys(body, ATTACH_KEYS);
   const doomed = method === 'DELETE' ? /^\/gift-batch\/v1\/giftbatches\/(\d+)$/.exec(pathname) : null;
